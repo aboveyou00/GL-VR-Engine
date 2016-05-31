@@ -14,7 +14,7 @@ namespace GlEngine
 
     bool GlController::Initialize()
     {
-        return false;
+        return true;
     }
     void GlController::Shutdown()
     {

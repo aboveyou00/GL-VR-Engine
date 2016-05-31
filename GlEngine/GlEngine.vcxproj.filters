@@ -69,6 +69,12 @@
     <ClInclude Include="Matrix.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
+    <ClInclude Include="GlRenderTargetImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="GlRenderTarget.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -97,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="GlControllerImpl.cpp">
       <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GlRenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GlRenderTarget.cpp">
+      <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

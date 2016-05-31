@@ -146,6 +146,8 @@
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="GlController.h" />
     <ClInclude Include="GlControllerImpl.h" />
+    <ClInclude Include="GlRenderTarget.h" />
+    <ClInclude Include="GlRenderTargetImpl.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IGameComponent.h" />
     <ClInclude Include="Matrix.h" />
@@ -162,6 +164,8 @@
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="GlController.cpp" />
     <ClCompile Include="GlControllerImpl.cpp" />
+    <ClCompile Include="GlRenderTarget.cpp" />
+    <ClCompile Include="GlRenderTargetImpl.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="Window.cpp" />
