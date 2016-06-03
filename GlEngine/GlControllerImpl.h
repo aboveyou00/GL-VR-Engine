@@ -6,7 +6,7 @@ namespace GlEngine
 {
     namespace Impl
     {
-        class GlControllerImpl : public IGameComponent
+        class GlControllerImpl : public IComponent
         {
         public:
             GlControllerImpl();
