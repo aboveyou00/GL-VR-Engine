@@ -10,6 +10,7 @@ namespace GlEngine
     }
     GlController::~GlController()
     {
+        Shutdown();
         if (pimpl != nullptr)
         {
             delete pimpl;
