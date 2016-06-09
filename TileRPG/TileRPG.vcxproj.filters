@@ -36,6 +36,12 @@
     <ClInclude Include="WorldLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ICPSelector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskChunkProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -57,6 +63,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorldLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ICPSelector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DiskChunkProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
