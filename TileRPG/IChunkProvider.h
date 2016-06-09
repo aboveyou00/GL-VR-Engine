@@ -4,7 +4,7 @@
 
 namespace TileRPG
 {
-    class IChunkProvider
+    class IChunkProvider //: public GlEngine::IService
     {
     public:
         virtual Chunk *Get(int x, int z) = 0;

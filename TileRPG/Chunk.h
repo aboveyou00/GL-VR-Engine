@@ -2,22 +2,34 @@
 
 namespace TileRPG
 {
-    class Tile;
+    class ITile;
 
     class Chunk
     {
     public:
-        Chunk(int offX, int offY);
-        ~Chunk();
+        Chunk(int offx, int offz)
+            : x(offx), z(offz), _dirty(false)
+        {
+        }
+        ~Chunk()
+        {
+        }
 
         inline bool IsDirty()
         {
             return _dirty;
         }
 
-        Tile *GetTileInfo(int tileX, int tileY, int tileZ);
+        virtual ITile *GetTileInfo(int tileX, int tileY, int tileZ) = 0;
+
+    protected:
+        void SetDirty()
+        {
+            _dirty = true;
+        }
 
     private:
+        int x, z;
         bool _dirty;
     };
 }

@@ -75,6 +75,12 @@
     <ClInclude Include="GlRenderTarget.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
+    <ClInclude Include="ServiceProvider.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="IService.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -108,6 +114,9 @@
       <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="GlRenderTarget.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceProvider.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
   </ItemGroup>
