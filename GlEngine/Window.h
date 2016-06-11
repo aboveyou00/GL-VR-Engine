@@ -10,7 +10,7 @@
 
 namespace GlEngine
 {
-    class Window : public IComponent
+    class ENGINE_SHARED Window : public IComponent
     {
     public:
         Window();

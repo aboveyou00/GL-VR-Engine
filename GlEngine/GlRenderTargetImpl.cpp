@@ -34,9 +34,9 @@ namespace GlEngine
 			wglMakeCurrent(_window->GetDeviceContext(), contextHandle);
 		}
 
-		void GlRenderTargetImpl::SetGraphicsContext(GraphicsContext * graphicsContext)
+		void GlRenderTargetImpl::SetGraphicsContext(GraphicsContext *graphicsContext)
 		{
-
+            graphicsContext;
 		}
 
 		bool GlRenderTargetImpl::CreateContext()
@@ -46,17 +46,17 @@ namespace GlEngine
 			{
 				sizeof(PIXELFORMATDESCRIPTOR),
 				1,
-				PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | pixelFormatAdditionalFlags,    //Flags
-				frameBufferType,          //The kind of framebuffer. RGBA or palette.
-				frameBufferColorBits,    //Colordepth of the framebuffer.
+				(DWORD)(PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | pixelFormatAdditionalFlags),    //Flags
+				(BYTE)frameBufferType,          //The kind of framebuffer. RGBA or palette.
+				(BYTE)frameBufferColorBits,    //Colordepth of the framebuffer.
 				0, 0, 0, 0, 0, 0,
 				0,
 				0,
 				0,
 				0, 0, 0, 0,
-				depthBufferBits,         //Number of bits for the depthbuffer
-				stencilBufferBits,       //Number of bits for the stencilbuffer
-				auxFrameBufferCount,     //Number of Aux buffers in the framebuffer.
+				(BYTE)depthBufferBits,         //Number of bits for the depthbuffer
+				(BYTE)stencilBufferBits,       //Number of bits for the stencilbuffer
+				(BYTE)auxFrameBufferCount,     //Number of Aux buffers in the framebuffer.
 				PFD_MAIN_PLANE,
 				0,
 				0, 0, 0
@@ -65,7 +65,7 @@ namespace GlEngine
 			/* Find closest pixel format and device context with it */
 			HDC dc = _window->GetDeviceContext();
 			int format = ChoosePixelFormat(dc, &pfd);
-			auto x = SetPixelFormat(dc, format, &pfd);
+			SetPixelFormat(dc, format, &pfd);
 
 			/* Create the opengl context */
 			contextHandle = wglCreateContext(dc);

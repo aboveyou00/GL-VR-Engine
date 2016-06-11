@@ -11,7 +11,7 @@ namespace GlEngine
 
     class Window;
 
-    class GlRenderTarget : public IComponent
+    class ENGINE_SHARED GlRenderTarget : public IComponent
     {
     public:
         GlRenderTarget(Window *wnd);

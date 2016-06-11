@@ -2,7 +2,7 @@
 
 namespace GlEngine
 {
-    class ScopedLock
+    class ENGINE_SHARED ScopedLock
     {
     public:
         ScopedLock(std::mutex &mutex);

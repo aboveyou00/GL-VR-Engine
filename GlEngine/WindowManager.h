@@ -6,7 +6,7 @@ namespace GlEngine
 {
     class Window;
 
-    class WindowManager : public IComponent
+    class ENGINE_SHARED WindowManager : public IComponent
     {
     private:
         WindowManager();

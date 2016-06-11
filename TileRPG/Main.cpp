@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv)
 {
-    argc; argv; //Don't complain!
+    argc; argv;
 
     int result = -1;
     auto &engine = GlEngine::Engine::GetInstance();
@@ -19,10 +19,10 @@ int main(int argc, char **argv)
             GlEngine::GlRenderTarget renderTarget(window);
             if (renderTarget.Initialize())
             {
-                window->Show();
-
-				glClearColor(1, 0, 0, 1);
+				glClearColor(1.f, 0.f, 0.f, 1.f);
 				glClear(GL_COLOR_BUFFER_BIT);
+
+                window->Show();
 				renderTarget.Flip();
 
                 engine.MessageLoop();

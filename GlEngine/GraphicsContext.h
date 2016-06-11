@@ -10,6 +10,6 @@ namespace GlEngine
 		// AddGraphicsObject(GraphicsObject)
 		// RemoveGraphicsObject(GraphicsObject)
 
-		Update();
+		void Update();
 	};
 }
