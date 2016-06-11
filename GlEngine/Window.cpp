@@ -169,6 +169,11 @@ namespace GlEngine
         return _windowHandle;
     }
 
+	HDC Window::GetDeviceContext()
+	{
+		return GetDC(GetHandle());
+	}
+
     void Window::CenterCoords(unsigned &posX, unsigned &posY)
     {
         auto screenWidth = GetSystemMetrics(SM_CXSCREEN);

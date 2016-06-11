@@ -12,6 +12,8 @@ namespace GlEngine
             GlControllerImpl();
             ~GlControllerImpl();
 
+			std::mutex renderTargetMutex;
+
             bool Initialize();
             void Shutdown();
         };

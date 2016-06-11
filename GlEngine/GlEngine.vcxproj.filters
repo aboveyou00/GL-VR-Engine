@@ -75,6 +75,15 @@
     <ClInclude Include="GlRenderTarget.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsContext.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformedGraphicsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

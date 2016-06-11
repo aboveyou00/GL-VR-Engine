@@ -20,6 +20,9 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
+		void SetCurrent();
+		void Flip();
+
         inline Impl::GlRenderTargetImpl &GetImpl()
         {
             return *pimpl;

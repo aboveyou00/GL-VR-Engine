@@ -10,7 +10,7 @@
 #include <iostream>
 #include <assert.h>
 
-namespace GfnEngine
+namespace GlEngine
 {
     template <unsigned dimension>//, typename = std::enable_if_t<(dimension > 0)>>
     struct Vector

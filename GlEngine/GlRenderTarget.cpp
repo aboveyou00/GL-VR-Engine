@@ -26,4 +26,13 @@ namespace GlEngine
     {
         pimpl->Shutdown();
     }
+
+	void GlRenderTarget::SetCurrent()
+	{
+		pimpl->MakeCurrentTarget();
+	}
+	void GlRenderTarget::Flip()
+	{
+		pimpl->Flip();
+	}
 }

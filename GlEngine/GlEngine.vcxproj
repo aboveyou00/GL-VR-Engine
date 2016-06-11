@@ -148,6 +148,8 @@
     <ClInclude Include="GlControllerImpl.h" />
     <ClInclude Include="GlRenderTarget.h" />
     <ClInclude Include="GlRenderTargetImpl.h" />
+    <ClInclude Include="GraphicsContext.h" />
+    <ClInclude Include="GraphicsObject.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IGameComponent.h" />
     <ClInclude Include="Matrix.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Threading.h" />
+    <ClInclude Include="TransformedGraphicsObject.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />

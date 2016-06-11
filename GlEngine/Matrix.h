@@ -3,7 +3,7 @@
 #include "Vector.h"
 #include <iomanip>
 
-namespace GfnEngine
+namespace GlEngine
 {
     template <int rows, int cols>
     struct Matrix

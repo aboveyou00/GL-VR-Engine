@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "WindowManager.h"
 #include "GlRenderTarget.h"
+#include "OpenGl.h"
 
 int main(int argc, char **argv)
 {
@@ -14,11 +15,15 @@ int main(int argc, char **argv)
         auto window = engine.GetWindowManager().Create();
         if (window != nullptr)
         {
-            window->SetFullscreen(true);
+            //window->SetFullscreen(true);
             GlEngine::GlRenderTarget renderTarget(window);
             if (renderTarget.Initialize())
             {
                 window->Show();
+
+				glClearColor(1, 0, 0, 1);
+				glClear(GL_COLOR_BUFFER_BIT);
+				renderTarget.Flip();
 
                 engine.MessageLoop();
 
