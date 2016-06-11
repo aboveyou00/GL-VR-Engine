@@ -3,5 +3,11 @@
 
 namespace TileRPG
 {
-
+    RockTile::RockTile()
+        : ITile(0x11, true, true)
+    {
+    }
+    RockTile::~RockTile()
+    {
+    }
 }

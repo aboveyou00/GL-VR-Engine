@@ -54,9 +54,6 @@
     <ClInclude Include="CastleStairsTile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
-    <ClInclude Include="CastleTile.h">
-      <Filter>Header Files\Tiles</Filter>
-    </ClInclude>
     <ClInclude Include="DirtTile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
@@ -88,6 +85,12 @@
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="RoadStairsTile.h">
+      <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CastleWallTile.h">
+      <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CastleSpireTile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,13 +155,16 @@
     <ClCompile Include="DockTile.cpp">
       <Filter>Source Files\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="CastleTile.cpp">
-      <Filter>Source Files\Tiles</Filter>
-    </ClCompile>
     <ClCompile Include="CastleStairsTile.cpp">
       <Filter>Source Files\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="IStairsTile.cpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="CastleWallTile.cpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="CastleSpireTile.cpp">
       <Filter>Source Files\Tiles</Filter>
     </ClCompile>
   </ItemGroup>

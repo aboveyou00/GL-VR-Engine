@@ -3,5 +3,11 @@
 
 namespace TileRPG
 {
-
+    DockTile::DockTile()
+        : ITile(0x17, true, false)
+    {
+    }
+    DockTile::~DockTile()
+    {
+    }
 }

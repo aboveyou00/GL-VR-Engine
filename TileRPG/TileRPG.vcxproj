@@ -147,8 +147,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AirTile.h" />
+    <ClInclude Include="CastleSpireTile.h" />
     <ClInclude Include="CastleStairsTile.h" />
-    <ClInclude Include="CastleTile.h" />
+    <ClInclude Include="CastleWallTile.h" />
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="DirtTile.h" />
     <ClInclude Include="DiskChunkProvider.h" />
@@ -172,8 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AirTile.cpp" />
+    <ClCompile Include="CastleSpireTile.cpp" />
     <ClCompile Include="CastleStairsTile.cpp" />
-    <ClCompile Include="CastleTile.cpp" />
+    <ClCompile Include="CastleWallTile.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="DirtTile.cpp" />
     <ClCompile Include="DiskChunkProvider.cpp" />

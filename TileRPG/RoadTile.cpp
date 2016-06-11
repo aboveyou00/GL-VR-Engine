@@ -3,5 +3,11 @@
 
 namespace TileRPG
 {
-
+    RoadTile::RoadTile()
+        : ITile(0x15, true, false)
+    {
+    }
+    RoadTile::~RoadTile()
+    {
+    }
 }

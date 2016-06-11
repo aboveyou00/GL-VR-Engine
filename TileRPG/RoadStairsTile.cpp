@@ -3,5 +3,11 @@
 
 namespace TileRPG
 {
-
+    RoadStairsTile::RoadStairsTile()
+        : IStairsTile(0x16)
+    {
+    }
+    RoadStairsTile::~RoadStairsTile()
+    {
+    }
 }

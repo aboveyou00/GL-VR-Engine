@@ -3,5 +3,11 @@
 
 namespace TileRPG
 {
-
+    CastleStairsTile::CastleStairsTile()
+        : IStairsTile(0x18)
+    {
+    }
+    CastleStairsTile::~CastleStairsTile()
+    {
+    }
 }
