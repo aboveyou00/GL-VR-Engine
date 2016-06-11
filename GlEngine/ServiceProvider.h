@@ -4,7 +4,7 @@ namespace GlEngine
 {
     class IService;
 
-    class ServiceProvider
+    class ENGINE_SHARED ServiceProvider
     {
     public:
         ServiceProvider();

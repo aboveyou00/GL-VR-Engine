@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-    class IGameComponent : public IComponent
+    class ENGINE_SHARED IGameComponent : public IComponent
     {
         virtual void Tick(float delta) = 0;
     };

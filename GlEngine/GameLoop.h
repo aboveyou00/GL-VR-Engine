@@ -2,7 +2,7 @@
 
 namespace GlEngine
 {
-    class GameLoop
+    class ENGINE_SHARED GameLoop
     {
     public:
         GameLoop(std::function<void(float)> updateFn, unsigned targetFPS = 60u);

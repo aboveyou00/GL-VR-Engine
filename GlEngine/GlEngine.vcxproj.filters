@@ -81,11 +81,11 @@
     <ClInclude Include="IService.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
+    <ClInclude Include="EngineShared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>

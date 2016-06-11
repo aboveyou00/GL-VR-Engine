@@ -2,7 +2,7 @@
 
 namespace GlEngine
 {
-    class IComponent
+    class ENGINE_SHARED IComponent
     {
         virtual bool Initialize() = 0;
         virtual void Shutdown() = 0;

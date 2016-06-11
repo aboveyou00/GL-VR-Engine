@@ -1,8 +1,10 @@
 #pragma once
 
+#include "EngineShared.h"
+
 namespace GlEngine
 {
-    class IService
+    class ENGINE_SHARED IService
     {
     public:
 

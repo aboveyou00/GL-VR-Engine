@@ -8,7 +8,7 @@ namespace GlEngine
     class WindowManager;
     class GlController;
 
-    class Engine : public IComponent
+    class ENGINE_SHARED Engine : public IComponent
     {
     private:
         Engine();

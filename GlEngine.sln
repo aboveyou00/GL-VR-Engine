@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GlEngine", "GlEngine\GlEngine.vcxproj", "{4794401D-FE6C-46F1-9AE7-FA393E3E4750}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TileRPG", "TileRPG\TileRPG.vcxproj", "{676DD8BE-1B2E-4F3D-89E4-54BBC56A15EA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4794401D-FE6C-46F1-9AE7-FA393E3E4750} = {4794401D-FE6C-46F1-9AE7-FA393E3E4750}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

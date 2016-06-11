@@ -9,7 +9,7 @@ namespace GlEngine
         class GlControllerImpl;
     }
 
-    class GlController : public IComponent
+    class ENGINE_SHARED GlController : public IComponent
     {
     private:
         GlController();
