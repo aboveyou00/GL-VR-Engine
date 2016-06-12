@@ -173,6 +173,7 @@
     <ClCompile Include="GlControllerImpl.cpp" />
     <ClCompile Include="GlRenderTarget.cpp" />
     <ClCompile Include="GlRenderTargetImpl.cpp" />
+    <ClCompile Include="IService.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
     <ClCompile Include="Window.cpp" />

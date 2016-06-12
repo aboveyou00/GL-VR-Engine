@@ -126,7 +126,10 @@
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="ServiceProvider.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="IService.cpp">
+      <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

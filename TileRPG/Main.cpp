@@ -3,6 +3,7 @@
 #include "WindowManager.h"
 #include "GlRenderTarget.h"
 #include "OpenGl.h"
+#include "GameLogic.h"
 
 int main(int argc, char **argv)
 {
@@ -25,10 +26,17 @@ int main(int argc, char **argv)
                 window->Show();
 				renderTarget.Flip();
 
-                engine.MessageLoop();
+                TileRPG::GameLogic logic;
+                if (logic.Initialize())
+                {
+                    engine.MessageLoop();
 
-                renderTarget.Shutdown();
-                result = 0;
+                    result = 0;
+
+                    logic.Shutdown();
+                    renderTarget.Shutdown();
+                }
+
             }
         }
 

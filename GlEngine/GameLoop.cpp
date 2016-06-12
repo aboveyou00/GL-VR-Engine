@@ -17,9 +17,10 @@ namespace GlEngine
         if (!TestSetLock(running, mutex, [&] { stopping = false; })) return; //The loop is already running on a different thread
         loopThread = std::thread(GetThreadEntryPoint());
     }
-    void GameLoop::StopLoop()
+    void GameLoop::StopLoop(bool async)
     {
         LockSet(stopping, true, mutex);
+        if (!async) Join();
     }
 
     bool GameLoop::IsRunning()
@@ -33,6 +34,11 @@ namespace GlEngine
     bool GameLoop::IsStopped()
     {
         return !IsRunning();
+    }
+
+    void GameLoop::Join()
+    {
+        if (loopThread.joinable()) loopThread.join();
     }
 
     unsigned GameLoop::GetTargetFPS()

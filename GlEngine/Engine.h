@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IComponent.h"
+#include "ServiceProvider.h"
 #include "Window.h"
 
 namespace GlEngine
@@ -27,8 +28,15 @@ namespace GlEngine
 
         WindowManager &GetWindowManager();
         GlController &GetGlController();
+        inline ServiceProvider &GetServiceProvider()
+        {
+            return _services;
+        }
 
         void MessageLoop();
         void RenderFrame();
+
+    private:
+        ServiceProvider _services;
     };
 }

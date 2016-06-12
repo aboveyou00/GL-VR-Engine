@@ -17,6 +17,7 @@ namespace GlEngine
             DeregisterService<TService>();
             RegisterService((IService*)svc);
         }
+        void DeregisterService(IService *svc);
         template <typename TService>
         void DeregisterService()
         {
