@@ -145,6 +145,8 @@
   <ItemGroup>
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineShared.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="GlController.h" />
     <ClInclude Include="GlControllerImpl.h" />
@@ -155,7 +157,12 @@
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IGameComponent.h" />
     <ClInclude Include="IService.h" />
+    <ClInclude Include="KeyboardEvent.h" />
+    <ClInclude Include="KeyboardEventType.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="MouseButton.h" />
+    <ClInclude Include="MouseEvent.h" />
+    <ClInclude Include="MouseEventType.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
@@ -168,11 +175,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="GlController.cpp" />
     <ClCompile Include="GlControllerImpl.cpp" />
     <ClCompile Include="GlRenderTarget.cpp" />
     <ClCompile Include="GlRenderTargetImpl.cpp" />
+    <ClCompile Include="KeyboardEvent.cpp" />
+    <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
     <ClCompile Include="Window.cpp" />

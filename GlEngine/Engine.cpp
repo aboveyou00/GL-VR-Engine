@@ -38,18 +38,21 @@ namespace GlEngine
     {
         return GlController::GetInstance();
     }
+    Events::EventQueue &Engine::GetEventQueue()
+    {
+        return _events;
+    }
 
     void Engine::MessageLoop()
     {
         MSG msg = { };
         for (;;)
         {
-            if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+            while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
             {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
-                if (msg.message == WM_QUIT) break;
-                continue;
+                if (msg.message == WM_QUIT) return;
             }
             std::this_thread::sleep_for(1ms);
         }

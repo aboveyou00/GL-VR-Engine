@@ -25,6 +25,12 @@
     <Filter Include="Source Files\GlEngine\Impl">
       <UniqueIdentifier>{6adad3ce-caf6-4aee-b200-ff3fc742c3e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Events">
+      <UniqueIdentifier>{bb844dd7-4045-43e2-b9b3-3e04f68e997a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Events">
+      <UniqueIdentifier>{717aa156-75c6-4bc9-9e4b-5a56037cd64a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -78,20 +84,41 @@
     <ClInclude Include="GraphicsContext.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformedGraphicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EngineShared.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsObject.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
     <ClInclude Include="IService.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="ServiceProvider.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformedGraphicsObject.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEvent.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseEvent.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEventType.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseButton.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseEventType.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +153,16 @@
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="ServiceProvider.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardEvent.cpp">
+      <Filter>Source Files\GlEngine\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseEvent.cpp">
+      <Filter>Source Files\GlEngine\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Source Files\GlEngine\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
