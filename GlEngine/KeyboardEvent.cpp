@@ -15,8 +15,7 @@ namespace GlEngine
 
         std::ostream &KeyboardEvent::stringify(std::ostream &stream) const
         {
-            stream << "TODO(Impl KeyboardEvent::stringify)";
-            return stream;
+            return stream << _type << ": " << _vkCode;
         }
     }
 }

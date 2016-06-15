@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "GlController.h"
 #include "WindowManager.h"
+//#include "Threading.h"
 
 namespace GlEngine
 {
@@ -46,15 +47,15 @@ namespace GlEngine
     void Engine::MessageLoop()
     {
         MSG msg = { };
-        for (;;)
+        for (;; std::this_thread::sleep_for(1ms))
         {
+            ScopedLock _lock(GetWindowManager().GetMutex());
             while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
             {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
                 if (msg.message == WM_QUIT) return;
             }
-            std::this_thread::sleep_for(1ms);
         }
     }
     void Engine::RenderFrame()

@@ -33,8 +33,23 @@ namespace GlEngine
 
         inline std::ostream &operator<<(std::ostream &stream, MouseButton btn)
         {
-            btn;
-            return stream << "TODO(Impl operator<<(ostream, MouseButton))";
+            switch (btn)
+            {
+            case GlEngine::Events::MouseButton::None:
+                return stream << "None";
+            case GlEngine::Events::MouseButton::Left:
+                return stream << "Left";
+            case GlEngine::Events::MouseButton::Right:
+                return stream << "Right";
+            case GlEngine::Events::MouseButton::Middle:
+                return stream << "Middle";
+            case GlEngine::Events::MouseButton::X1:
+                return stream << "X1";
+            case GlEngine::Events::MouseButton::X2:
+                return stream << "X2";
+            default:
+                return stream << "ERROR(MouseButton)";
+            }
         }
     }
 }

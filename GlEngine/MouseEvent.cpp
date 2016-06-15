@@ -15,7 +15,10 @@ namespace GlEngine
 
         std::ostream &MouseEvent::stringify(std::ostream &stream) const
         {
-            stream << "TODO(Impl MouseEvent::stringify)";
+            stream << _type << ": " << _btn << " " << _mousePos;
+            if (_ctrl) stream << " +ctrl";
+            if (_alt) stream << " +alt";
+            if (_shift) stream << " +shift";
             return stream;
         }
     }
