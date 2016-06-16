@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IComponent.h"
+#include "Threading.h"
 
 namespace GlEngine
 {
@@ -27,5 +28,13 @@ namespace GlEngine
         Window *Find(HWND handle);
         void Destroy(Window *window);
         void Destroy(HWND handle);
+
+        inline std::mutex &GetMutex()
+        {
+            return _mutex;
+        }
+
+    private:
+        std::mutex _mutex;
     };
 }

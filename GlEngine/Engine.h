@@ -2,6 +2,7 @@
 
 #include "IComponent.h"
 #include "Window.h"
+#include "EventQueue.h"
 
 namespace GlEngine
 {
@@ -27,8 +28,12 @@ namespace GlEngine
 
         WindowManager &GetWindowManager();
         GlController &GetGlController();
+        Events::EventQueue &GetEventQueue();
 
         void MessageLoop();
         void RenderFrame();
+
+    private:
+        Events::EventQueue _events;
     };
 }
