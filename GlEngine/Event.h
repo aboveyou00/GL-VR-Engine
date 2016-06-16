@@ -4,7 +4,7 @@ namespace GlEngine
 {
     namespace Events
     {
-        class Event
+        class ENGINE_SHARED Event
         {
         public:
             Event(void *sender = nullptr)

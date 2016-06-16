@@ -4,14 +4,14 @@ namespace GlEngine
 {
     namespace Events
     {
-        enum class KeyboardEventType
+        enum class ENGINE_SHARED KeyboardEventType
         {
             KeyPressed = 0,
             KeyReleased = 1,
             KeyTyped = 2
         };
 
-        inline std::ostream &operator<<(std::ostream &stream, KeyboardEventType type)
+        inline ENGINE_SHARED std::ostream &operator<<(std::ostream &stream, KeyboardEventType type)
         {
             switch (type)
             {

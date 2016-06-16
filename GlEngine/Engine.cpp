@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Engine.h"
 #include "GlController.h"
+#include "AlController.h"
 #include "WindowManager.h"
-//#include "Threading.h"
 
 namespace GlEngine
 {
@@ -23,10 +23,17 @@ namespace GlEngine
             GetWindowManager().Shutdown();
             return false;
         }
+        if (!GetAlController().Initialize())
+        {
+            GetGlController().Shutdown();
+            GetWindowManager().Shutdown();
+            return false;
+        }
         return true;
     }
     void Engine::Shutdown()
     {
+        GetAlController().Shutdown();
         GetGlController().Shutdown();
         GetWindowManager().Shutdown();
     }
@@ -38,6 +45,10 @@ namespace GlEngine
     GlController &Engine::GetGlController()
     {
         return GlController::GetInstance();
+    }
+    AlController &Engine::GetAlController()
+    {
+        return AlController::GetInstance();
     }
     Events::EventQueue &Engine::GetEventQueue()
     {
@@ -57,9 +68,5 @@ namespace GlEngine
                 if (msg.message == WM_QUIT) return;
             }
         }
-    }
-    void Engine::RenderFrame()
-    {
-
     }
 }

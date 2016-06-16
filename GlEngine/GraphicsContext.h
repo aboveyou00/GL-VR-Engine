@@ -2,7 +2,7 @@
 
 namespace GlEngine
 {
-	class GraphicsContext
+	class ENGINE_SHARED GraphicsContext
 	{
 		GraphicsContext();
 		~GraphicsContext();

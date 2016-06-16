@@ -2,7 +2,7 @@
 
 namespace GlEngine
 {
-	class GraphicsObject
+	class ENGINE_SHARED GraphicsObject
 	{
 		GraphicsObject();
 		~GraphicsObject();

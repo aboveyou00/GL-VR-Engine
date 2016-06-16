@@ -6,7 +6,7 @@ namespace GlEngine
     {
         class Event;
 
-        class EventQueue
+        class ENGINE_SHARED EventQueue
         {
         public:
             EventQueue();

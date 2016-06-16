@@ -8,6 +8,7 @@ namespace GlEngine
 {
     class WindowManager;
     class GlController;
+    class AlController;
 
     class ENGINE_SHARED Engine : public IComponent
     {
@@ -28,10 +29,10 @@ namespace GlEngine
 
         WindowManager &GetWindowManager();
         GlController &GetGlController();
+        AlController &GetAlController();
         Events::EventQueue &GetEventQueue();
 
         void MessageLoop();
-        void RenderFrame();
 
     private:
         Events::EventQueue _events;

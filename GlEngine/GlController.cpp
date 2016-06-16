@@ -10,9 +10,9 @@ namespace GlEngine
     }
     GlController::~GlController()
     {
-        Shutdown();
         if (pimpl != nullptr)
         {
+            Shutdown();
             delete pimpl;
             pimpl = nullptr;
         }
@@ -27,5 +27,10 @@ namespace GlEngine
     void GlController::Shutdown()
     {
         pimpl->Shutdown();
+    }
+
+    std::mutex &GlController::GetMutex()
+    {
+        return pimpl->GetMutex();
     }
 }

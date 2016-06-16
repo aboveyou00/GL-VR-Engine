@@ -26,6 +26,8 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
+        std::mutex &GetMutex();
+
         inline Impl::GlControllerImpl *GetImpl()
         {
             return pimpl;
