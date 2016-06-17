@@ -40,12 +40,17 @@ namespace GlEngine
         return GlController::GetInstance();
     }
     
+    std::mutex &Engine::GetMutex()
+    {
+        return GetWindowManager().GetMutex();
+    }
+
     void Engine::MessageLoop()
     {
         MSG msg = { };
         for (;; std::this_thread::sleep_for(1ms))
         {
-            ScopedLock _lock(GetWindowManager().GetMutex());
+            ScopedLock _lock(GetMutex());
             while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
             {
                 TranslateMessage(&msg);

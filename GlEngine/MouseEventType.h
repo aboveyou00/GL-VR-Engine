@@ -4,14 +4,14 @@ namespace GlEngine
 {
     namespace Events
     {
-        enum class MouseEventType
+        enum class ENGINE_SHARED MouseEventType
         {
             Pressed,
             Released,
             Moved,
         };
 
-        inline std::ostream &operator<<(std::ostream &stream, MouseEventType type)
+        inline ENGINE_SHARED std::ostream &operator<<(std::ostream &stream, MouseEventType type)
         {
             switch (type)
             {

@@ -155,6 +155,7 @@
     <ClInclude Include="GraphicsContext.h" />
     <ClInclude Include="GraphicsObject.h" />
     <ClInclude Include="IComponent.h" />
+    <ClInclude Include="IEventSender.h" />
     <ClInclude Include="IGameComponent.h" />
     <ClInclude Include="IService.h" />
     <ClInclude Include="KeyboardEvent.h" />

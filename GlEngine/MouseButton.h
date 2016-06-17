@@ -4,7 +4,7 @@ namespace GlEngine
 {
     namespace Events
     {
-        enum class MouseButton : unsigned
+        enum class ENGINE_SHARED MouseButton : unsigned
         {
             None   = 0b00000,
             Left   = 0b00001,
@@ -14,24 +14,24 @@ namespace GlEngine
             X2     = 0b10000
         };
 
-        inline MouseButton operator|(MouseButton one, MouseButton two)
+        inline ENGINE_SHARED MouseButton operator|(MouseButton one, MouseButton two)
         {
             return static_cast<MouseButton>(static_cast<unsigned>(one) | static_cast<unsigned>(two));
         }
-        inline MouseButton operator|=(MouseButton &one, MouseButton two)
+        inline ENGINE_SHARED MouseButton operator|=(MouseButton &one, MouseButton two)
         {
             return one = one | two;
         }
-        inline MouseButton operator&(MouseButton one, MouseButton two)
+        inline ENGINE_SHARED MouseButton operator&(MouseButton one, MouseButton two)
         {
             return static_cast<MouseButton>(static_cast<unsigned>(one) & static_cast<unsigned>(two));
         }
-        inline MouseButton operator&=(MouseButton &one, MouseButton two)
+        inline ENGINE_SHARED MouseButton operator&=(MouseButton &one, MouseButton two)
         {
             return one = one & two;
         }
 
-        inline std::ostream &operator<<(std::ostream &stream, MouseButton btn)
+        inline ENGINE_SHARED std::ostream &operator<<(std::ostream &stream, MouseButton btn)
         {
             switch (btn)
             {

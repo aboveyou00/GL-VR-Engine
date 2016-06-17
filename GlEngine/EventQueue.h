@@ -6,7 +6,7 @@ namespace GlEngine
     {
         class Event;
 
-        class EventQueue
+        class ENGINE_SHARED EventQueue
         {
         public:
             EventQueue();
@@ -21,7 +21,7 @@ namespace GlEngine
         private:
             static const int MAX_EVENTS = 256;
             Event *_queue[MAX_EVENTS];
-            int _bottom, _top;
+            int _bottom = 0, _top = 0;
         };
     }
 }

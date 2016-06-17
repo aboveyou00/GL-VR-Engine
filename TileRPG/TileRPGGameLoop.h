@@ -2,6 +2,7 @@
 
 #include "GameLoop.h"
 #include "IComponent.h"
+#include "EventQueue.h"
 
 namespace TileRPG
 {
@@ -17,6 +18,11 @@ namespace TileRPG
         int frameIdx = 0;
 
     private:
-        void LoopBody(float delta);
+        void loopBody(float delta);
+
+        GlEngine::Events::EventQueue localQueue;
+        void copyRemoteQueue();
+        void handleEvents();
+        void dispatchEvent(GlEngine::Events::Event *evt);
     };
 }

@@ -38,6 +38,8 @@ namespace GlEngine
             return _services;
         }
 
+        std::mutex &GetMutex();
+
         void MessageLoop();
 
     private:

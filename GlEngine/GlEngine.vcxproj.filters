@@ -129,6 +129,9 @@
     <ClInclude Include="WindowManager.h">
       <Filter>Header Files\GlEngine\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="IEventSender.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
