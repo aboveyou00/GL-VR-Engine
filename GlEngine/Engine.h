@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IComponent.h"
+#include "ServiceProvider.h"
 #include "Window.h"
 #include "EventQueue.h"
 
@@ -30,11 +31,19 @@ namespace GlEngine
         WindowManager &GetWindowManager();
         GlController &GetGlController();
         AlController &GetAlController();
-        Events::EventQueue &GetEventQueue();
+        inline Events::EventQueue &GetEventQueue()
+        {
+            return _events;
+        }
+        inline ServiceProvider &GetServiceProvider()
+        {
+            return _services;
+        }
 
         void MessageLoop();
 
     private:
+        ServiceProvider _services;
         Events::EventQueue _events;
     };
 }

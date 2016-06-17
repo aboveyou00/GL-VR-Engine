@@ -50,10 +50,6 @@ namespace GlEngine
     {
         return AlController::GetInstance();
     }
-    Events::EventQueue &Engine::GetEventQueue()
-    {
-        return _events;
-    }
 
     void Engine::MessageLoop()
     {

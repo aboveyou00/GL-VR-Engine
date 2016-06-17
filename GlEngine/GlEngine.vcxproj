@@ -166,6 +166,7 @@
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="MouseEventType.h" />
+    <ClInclude Include="OpenAl.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="GlRenderTargetImpl.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
+    <ClCompile Include="IService.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
     <ClCompile Include="Window.cpp" />

@@ -21,4 +21,15 @@ namespace GlEngine
             }
         }
     }
+    void ServiceProvider::DeregisterService(IService *svc)
+    {
+        for (size_t q = 0; q < MAX_SVCS; q++)
+        {
+            if (_svcs[q] == svc)
+            {
+                _svcs[q] = nullptr;
+                return;
+            }
+        }
+    }
 }

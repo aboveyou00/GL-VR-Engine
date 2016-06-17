@@ -43,6 +43,12 @@
     <Filter Include="Source Files\GlEngine\Audio">
       <UniqueIdentifier>{e9033444-9915-4675-87ab-e2ccc9d15dc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GlEngine\Windows">
+      <UniqueIdentifier>{fa63737f-2204-46b5-a6f0-f913dbf9b23b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Windows">
+      <UniqueIdentifier>{43272050-ac70-4702-916c-822129272cc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -67,12 +73,6 @@
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="ScopedLock.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowManager.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="GlControllerImpl.h">
@@ -120,6 +120,15 @@
     <ClInclude Include="MouseEventType.h">
       <Filter>Header Files\GlEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="OpenAl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\GlEngine\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header Files\GlEngine\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="GraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
@@ -150,15 +159,6 @@
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="ScopedLock.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Window_WndProc.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="GlControllerImpl.cpp">
@@ -193,6 +193,18 @@
     </ClCompile>
     <ClCompile Include="IAudioSource.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="IService.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Window_WndProc.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
