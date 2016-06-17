@@ -102,6 +102,12 @@
     <ClInclude Include="World.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
+    <ClInclude Include="TileRPGGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileRPGGameLoop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -174,6 +180,12 @@
       <Filter>Source Files\World</Filter>
     </ClCompile>
     <ClCompile Include="GameLogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileRPGGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TileRPGGameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

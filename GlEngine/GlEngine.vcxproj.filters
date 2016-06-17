@@ -31,6 +31,12 @@
     <Filter Include="Source Files\GlEngine\Events">
       <UniqueIdentifier>{717aa156-75c6-4bc9-9e4b-5a56037cd64a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GlEngine\Windows">
+      <UniqueIdentifier>{fa63737f-2204-46b5-a6f0-f913dbf9b23b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Windows">
+      <UniqueIdentifier>{43272050-ac70-4702-916c-822129272cc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -55,12 +61,6 @@
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="ScopedLock.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowManager.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="GlController.h">
@@ -120,6 +120,15 @@
     <ClInclude Include="MouseEventType.h">
       <Filter>Header Files\GlEngine\Events</Filter>
     </ClInclude>
+    <ClInclude Include="OpenAl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\GlEngine\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header Files\GlEngine\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -129,15 +138,6 @@
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="ScopedLock.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Window_WndProc.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="GlController.cpp">
@@ -166,6 +166,15 @@
     </ClCompile>
     <ClCompile Include="IService.cpp">
       <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Window_WndProc.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

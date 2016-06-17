@@ -163,6 +163,7 @@
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="MouseEventType.h" />
+    <ClInclude Include="OpenAl.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />

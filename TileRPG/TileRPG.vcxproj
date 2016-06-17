@@ -168,6 +168,8 @@
     <ClInclude Include="IStairsTile.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TileManager.h" />
+    <ClInclude Include="TileRPGGame.h" />
+    <ClInclude Include="TileRPGGameLoop.h" />
     <ClInclude Include="WaterTile.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldLoader.h" />
@@ -194,6 +196,8 @@
     <ClCompile Include="RockTile.cpp" />
     <ClCompile Include="IStairsTile.cpp" />
     <ClCompile Include="TileManager.cpp" />
+    <ClCompile Include="TileRPGGame.cpp" />
+    <ClCompile Include="TileRPGGameLoop.cpp" />
     <ClCompile Include="WaterTile.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldLoader.cpp" />
