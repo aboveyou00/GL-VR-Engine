@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameLoop.h"
+#include "GameLogic.h"
 #include "IComponent.h"
 #include "EventQueue.h"
 
@@ -15,7 +16,10 @@ namespace TileRPG
         bool Initialize();
         void Shutdown();
 
-        int frameIdx = 0;
+        inline GameLogic &GetGameLogic()
+        {
+            return _logic;
+        }
 
     private:
         void loopBody(float delta);
@@ -24,5 +28,7 @@ namespace TileRPG
         void copyRemoteQueue();
         void handleEvents();
         void dispatchEvent(GlEngine::Events::Event *evt);
+
+        GameLogic _logic;
     };
 }

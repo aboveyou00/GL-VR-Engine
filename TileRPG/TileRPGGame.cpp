@@ -59,7 +59,6 @@ namespace TileRPG
 
     bool TileRPGGame::Initialize()
     {
-        if (!_logic.Initialize()) { Shutdown(); return false; }
         if (!_loop.Initialize()) { Shutdown(); return false; }
         if (!createWindow()) { Shutdown(); return false; }
         return true;
@@ -68,9 +67,6 @@ namespace TileRPG
     {
         destroyWindow();
         _loop.Shutdown();
-        _logic.Shutdown();
-
-        std::cout << "Ran " << _loop.frameIdx << " frames." << std::endl;
     }
 
     void TileRPGGame::MessageLoop()

@@ -27,10 +27,6 @@ namespace TileRPG
         {
             return _loop;
         }
-        inline GameLogic &GetGameLogic()
-        {
-            return _logic;
-        }
 
         inline GlEngine::Window &GetWindow()
         {
@@ -42,7 +38,6 @@ namespace TileRPG
         }
 
     private:
-        GameLogic _logic;
         TileRPGGameLoop _loop;
 
         bool createWindow();

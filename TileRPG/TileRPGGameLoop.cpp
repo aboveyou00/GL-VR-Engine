@@ -18,6 +18,7 @@ namespace TileRPG
 
     bool TileRPGGameLoop::Initialize()
     {
+        if (!_logic.Initialize()) return false;
         RunLoop();
         return true;
     }
@@ -25,6 +26,7 @@ namespace TileRPG
     {
         StopLoop();
         Join();
+        _logic.Shutdown();
     }
 
     void TileRPGGameLoop::loopBody(float delta)
