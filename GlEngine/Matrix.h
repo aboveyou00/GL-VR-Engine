@@ -17,13 +17,18 @@ namespace GlEngine
                     values[q][w] = 0;
             initialize(vals...);
         }
+		Matrix(float * vals)
+		{
+			for (auto i = 0; i < rows * cols; i++)
+				values[i / cols][i%cols] = vals[i];
+		}
         ~Matrix()
         {
         }
 
-        template <typename = std::enable_if<rows == cols>::type>
         static Matrix<rows, cols> Identity()
         {
+			static_assert(rows == cols, "Identity cannot be called for a non-square matrix");
             Matrix<rows, rows> result;
             for (auto q = 0; q < rows; q++)
                 result.values[q][q] = 1;
@@ -296,6 +301,39 @@ namespace GlEngine
             return values[0];
         }
 
+		template <typename... Args>
+		static Matrix<rows, cols> FromRows(Args... rowVectors)
+		{
+			float arr[cols * rows];
+			PopulateFromRows(arr, 0, rowVectors...);
+			return Matrix<rows, cols>(arr);
+		}
+
+		template <typename... Args>
+		static Matrix<rows, cols> FromCols(Args... colVectors)
+		{
+			float arr[cols * rows];
+			PopulateFromRows(arr, 0, colVectors...);
+			return Matrix<rows, cols>(arr);
+		}
+
+		Matrix<rows + 1, cols + 1> ToTransformMatrix()
+		{
+			return Matrix<rows + 1, cols + 1>::CreateTransformMatrix(*this);
+		}
+
+		static Matrix<rows, cols> CreateTransformMatrix(Matrix<rows - 1, cols - 1>& from)
+		{
+			static_assert(rows == cols, "ToTransformationMatrix cannot be called on non-square matrix");
+			auto result = Matrix<rows, cols>::Identity();
+
+			for (int i = 0; i < rows - 1; i++)
+				for (int j = 0; j < cols - 1; j++)
+					result.values[i][j] = from[i][j];
+
+			return result;
+		}
+
     private:
         float values[rows][cols]; //TODO: Find some way to make this private!
 
@@ -350,6 +388,42 @@ namespace GlEngine
         inline void initialize()
         {
         }
+
+		template <typename... Args, int rowSize>
+		static void PopulateFromRows(float * out, int rowIndex, Vector<rowSize> row, Args... rowVectors)
+		{
+			static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
+
+			for (int c = 0; c < rowSize; c++)
+				out[rowIndex * cols + c] = row[c];
+			PopulateFromRows(out, rowIndex + 1, rowVectors...);
+		}
+		template <int rowSize>
+		static void PopulateFromRows(float * out, int rowIndex, Vector<rowSize> row)
+		{
+			static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
+
+			for (int c = 0; c < rowSize; c++)
+				out[rowIndex * cols + c] = row[c];
+		}
+
+		template <typename... Args, int colSize>
+		static void PopulateFromCols(float * out, int colIndex, Vector<colSize> col, Args... colVectors)
+		{
+			static_assert(colSize <= rows, "Vector colSize cannot be greater than Matrix rows")
+
+			for (int c = 0; c < colSize; c++)
+				out[c * cols + colIndex] = row[c];
+			PopulateFromRows(out, rowIndex + 1, rowVectors...);
+		}
+		template <int colSize>
+		static void PopulateFromCols(float * out, int colIndex, Vector<colSize> col)
+		{
+			static_assert(colSize <= rows, "Vector colSize cannot be greater than Matrix rows")
+
+			for (int c = 0; c < colSize; c++)
+				out[c * cols + colIndex] = row[c];
+		}
     };
 
     template <int rows, int cols>

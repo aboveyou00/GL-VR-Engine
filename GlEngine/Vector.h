@@ -72,13 +72,17 @@ namespace GlEngine
             return sum;
         }
 
-        template <typename = std::enable_if<dimension == 2>::type>
-        inline float Cross(const Vector<dimension> &right) const
+        template <typename = std::enable_if_t<dimension == 3>>
+        inline Vector<dimension> Cross(const Vector<dimension> &right) const
         {
-            return values[0] * right[1] - values[1] * right[0];
+			return Vector<3> {
+				values[1] * right[2] - values[2] * right[1],
+					values[2] * right[0] - values[0] * right[2],
+					values[0] * right[1] - values[1] * right[0]
+			};
         }
 
-        template <typename = std::enable_if<dimension == 2>::type>
+        template <typename = std::enable_if_t<dimension == 2>>
         Vector<dimension> Perpendicular(bool cw = true) const
         {
             if (cw) return Vector<2> { values[1], -values[0] };

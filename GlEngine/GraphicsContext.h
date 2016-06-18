@@ -1,15 +1,31 @@
 #pragma once
 
+#include "EngineShared.h"
+#include "IComponent.h"
+#include "TransformedGraphicsObject.h"
+
 namespace GlEngine
 {
-	class GraphicsContext
+	namespace Impl
 	{
+		class GraphicsContextImpl;
+	}
+
+	class ENGINE_SHARED GraphicsContext : public IComponent 
+	{
+	public:
 		GraphicsContext();
 		~GraphicsContext();
 
-		// AddGraphicsObject(GraphicsObject)
-		// RemoveGraphicsObject(GraphicsObject)
+		bool Initialize();
+		void Shutdown();
 
-		void Update();
+		void AddGraphicsObject(TransformedGraphicsObject * graphicsObject);
+		void RemoveGraphicsObject(TransformedGraphicsObject * graphicsObject);
+		
+		void Render();
+
+	private:
+		Impl::GraphicsContextImpl * pimpl;
 	};
 }

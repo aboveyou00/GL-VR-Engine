@@ -27,6 +27,11 @@ namespace GlEngine
         pimpl->Shutdown();
     }
 
+	void GlRenderTarget::SetGraphicsContext(GraphicsContext * graphicsContext)
+	{
+		this->GetImpl().graphicsContext = graphicsContext;
+	}
+
 	void GlRenderTarget::SetCurrent()
 	{
 		pimpl->MakeCurrentTarget();
@@ -34,5 +39,14 @@ namespace GlEngine
 	void GlRenderTarget::Flip()
 	{
 		pimpl->Flip();
+	}
+
+	void GlRenderTarget::Render()
+	{
+		pimpl->Render();
+	}
+	void GlRenderTarget::Loop(double dt)
+	{
+		pimpl->Loop(dt);
 	}
 }

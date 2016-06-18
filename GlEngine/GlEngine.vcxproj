@@ -143,6 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraImpl.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineShared.h" />
     <ClInclude Include="GameLoop.h" />
@@ -151,7 +153,9 @@
     <ClInclude Include="GlRenderTarget.h" />
     <ClInclude Include="GlRenderTargetImpl.h" />
     <ClInclude Include="GraphicsContext.h" />
+    <ClInclude Include="GraphicsContextImpl.h" />
     <ClInclude Include="GraphicsObject.h" />
+    <ClInclude Include="GraphicsObjectImpl.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IGameComponent.h" />
     <ClInclude Include="IService.h" />
@@ -162,19 +166,28 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Threading.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
+    <ClInclude Include="TransformedGraphicsObjectImpl.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraImpl.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="GlController.cpp" />
     <ClCompile Include="GlControllerImpl.cpp" />
     <ClCompile Include="GlRenderTarget.cpp" />
     <ClCompile Include="GlRenderTargetImpl.cpp" />
+    <ClCompile Include="GraphicsContext.cpp" />
+    <ClCompile Include="GraphicsContextImpl.cpp" />
+    <ClCompile Include="GraphicsObject.cpp" />
+    <ClCompile Include="GraphicsObjectImpl.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
+    <ClCompile Include="TransformedGraphicsObject.cpp" />
+    <ClCompile Include="TransformedGraphicsObjectImpl.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />

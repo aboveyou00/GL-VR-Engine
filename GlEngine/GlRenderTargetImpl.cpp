@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GlRenderTargetImpl.h"
+
 #include "Window.h"
+#include <chrono>
 
 namespace GlEngine
 {
@@ -20,12 +22,16 @@ namespace GlEngine
 			if (!LoadGlewExtensions()) return false;
 			MakeCurrentTarget();
 
+			camera.SetEye({ 0, 0, 0 });
+			camera.SetUp({ 0, 1, 0 });
+			camera.SetCenter({ 0, 0, 1 });
+
             return true;
         }
 
         void GlRenderTargetImpl::Shutdown()
         {
-			wglMakeCurrent(_window->GetDeviceContext(), nullptr);
+			wglMakeCurrent(nullptr, nullptr);
 			wglDeleteContext(contextHandle);
         }
 
@@ -34,9 +40,9 @@ namespace GlEngine
 			wglMakeCurrent(_window->GetDeviceContext(), contextHandle);
 		}
 
-		void GlRenderTargetImpl::SetGraphicsContext(GraphicsContext *graphicsContext)
+		void GlRenderTargetImpl::SetGraphicsContext(GraphicsContext * context)
 		{
-            graphicsContext;
+            graphicsContext = context;
 		}
 
 		bool GlRenderTargetImpl::CreateContext()
@@ -87,6 +93,34 @@ namespace GlEngine
 			*/
 
 			return true;
+		}
+
+		void GlRenderTargetImpl::Loop(double fps)
+		{
+			auto frame_duration = 1000ms / fps;
+
+			while (alive)
+			{
+				auto start = std::chrono::high_resolution_clock::now();
+				Render();
+				auto end = std::chrono::high_resolution_clock::now();
+				
+				auto duration = end - start;
+				std::this_thread::sleep_for(frame_duration - duration);
+			}
+		}
+
+		void GlRenderTargetImpl::Render()
+		{
+			if (graphicsContext == nullptr)
+				return;
+			MakeCurrentTarget();
+			
+			glLoadIdentity();
+			camera.ApplyView();
+			camera.ApplyProjection();
+			
+			graphicsContext->Render();
 		}
 
 		void GlRenderTargetImpl::Flip()
