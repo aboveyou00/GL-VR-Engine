@@ -147,6 +147,8 @@
     <ClInclude Include="CameraImpl.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineShared.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="GlController.h" />
     <ClInclude Include="GlControllerImpl.h" />
@@ -157,9 +159,16 @@
     <ClInclude Include="GraphicsObject.h" />
     <ClInclude Include="GraphicsObjectImpl.h" />
     <ClInclude Include="IComponent.h" />
+    <ClInclude Include="IEventSender.h" />
     <ClInclude Include="IGameComponent.h" />
     <ClInclude Include="IService.h" />
+    <ClInclude Include="KeyboardEvent.h" />
+    <ClInclude Include="KeyboardEventType.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="MouseButton.h" />
+    <ClInclude Include="MouseEvent.h" />
+    <ClInclude Include="MouseEventType.h" />
+    <ClInclude Include="OpenAl.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
@@ -175,6 +184,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="GlController.cpp" />
     <ClCompile Include="GlControllerImpl.cpp" />
@@ -184,6 +194,9 @@
     <ClCompile Include="GraphicsContextImpl.cpp" />
     <ClCompile Include="GraphicsObject.cpp" />
     <ClCompile Include="GraphicsObjectImpl.cpp" />
+    <ClCompile Include="KeyboardEvent.cpp" />
+    <ClCompile Include="MouseEvent.cpp" />
+    <ClCompile Include="IService.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
     <ClCompile Include="TransformedGraphicsObject.cpp" />

@@ -9,11 +9,13 @@ namespace GlEngine
         ~GameLoop();
 
         void RunLoop();
-        void StopLoop();
+        void StopLoop(bool async = true);
 
         bool IsRunning();
         bool IsStopping();
         bool IsStopped();
+
+        void Join();
 
         unsigned GetTargetFPS();
         void SetTargetFPS(unsigned target);
