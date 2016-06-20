@@ -116,11 +116,35 @@ namespace GlEngine
 				return;
 			MakeCurrentTarget();
 			
-			glLoadIdentity();
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_CULL_FACE);
+			glDepthFunc(GL_LEQUAL);
+			
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
 			camera.ApplyView();
 			camera.ApplyProjection();
+
+			glBegin(GL_TRIANGLES);
 			
-			graphicsContext->Render();
+			glColor3d(1.0, 1.0, 1.0);
+			glVertex3d(0.5, 0.5, 1);
+			glVertex3d(0.5, 0, 1);
+			glVertex3d(0, 0.5, 1);
+
+			glColor3d(0.0, 1.0, 0.0);
+			glVertex3d(0.4, 0.4, 0.5);
+			glVertex3d(0.4, 0, 0.5);
+			glVertex3d(0, 0.4, 0.5);
+
+			glColor3d(0.0, 0.0, 1.0);
+			glVertex3d(0.3, 0.3, 2);
+			glVertex3d(0.3, 0, 2);
+			glVertex3d(0, 0.3, 2);
+
+			glEnd();
+
+			//graphicsContext->Render();
 		}
 
 		void GlRenderTargetImpl::Flip()
