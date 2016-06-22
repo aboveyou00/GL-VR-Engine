@@ -34,7 +34,6 @@ namespace TileRPG
         delta;
 
         handleEvents();
-        frameIdx++;
     }
     void TileRPGGameLoop::copyRemoteQueue()
     {

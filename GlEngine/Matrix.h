@@ -299,7 +299,7 @@ namespace GlEngine
     private:
         float values[rows][cols]; //TODO: Find some way to make this private!
 
-                                  //Constructor helpers:
+        //Constructor helpers:
         template <int ridx = 0, int cidx = 0, typename T, typename... Args>
         inline void initialize(T val, Args... args)
         {

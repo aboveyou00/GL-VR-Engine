@@ -7,9 +7,13 @@
 #include <windows.h>
 #include <windowsx.h>
 
+#include "FixWindows.h"
+
 #include <chrono>
 using namespace std::chrono_literals;
 #include <functional>
 #include <iostream>
+#include <assert.h>
 
 #include "Threading.h"
+
