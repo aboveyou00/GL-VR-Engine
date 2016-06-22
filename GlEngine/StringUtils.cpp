@@ -84,15 +84,6 @@ namespace GlEngine
             return true;
         }
 
-        //IMPORTANT: The return value of this method is invalidated when you call it again, unless it doesn't find another token
-        //This method makes the assumption that pos is a valid index in this string; str + pos should never be after the terminating \0 on str
-        template <size_t buffSize = KeyValuePair::MAX_VALUE_SIZE>
-        const char *const extractToken(const char *&ptr)
-        {
-            static thread_local char tokenBuff[buffSize];
-            if (!extractToken(tokenBuff, sizeof(tokenBuff), ptr)) return nullptr;
-            return tokenBuff;
-        }
         //This method makes the assumption that pos is a valid index in this string; str + pos should never be after the terminating \0 on str
         bool extractToken(char *buff, int buffSize, const char *&ptr)
         {

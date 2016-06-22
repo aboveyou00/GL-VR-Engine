@@ -2,14 +2,10 @@
 
 #include "IConfigProvider.h"
 #include "IComponent.h"
+#include "KeyValuePair.h"
 
 namespace GlEngine
 {
-    namespace Impl
-    {
-        class FileConfigProviderImpl;
-    }
-
     class FileConfigProvider : public IConfigProvider, public IComponent
     {
     public:
@@ -25,6 +21,10 @@ namespace GlEngine
         bool AddUnique(const char *const key, const char *const value) override;
 
     private:
-        Impl::FileConfigProviderImpl *pimpl;
+        const char *const _path,
+                   *const _filename;
+
+        static const size_t MAX_KVPS = 32;
+        GlEngine::Util::KeyValuePair _pairs[MAX_KVPS];
     };
 }

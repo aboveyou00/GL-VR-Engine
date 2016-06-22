@@ -174,9 +174,6 @@
     <ClInclude Include="KeyValuePair.h">
       <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="FileConfigProviderImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="FixWindows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -269,14 +266,8 @@
     <ClCompile Include="StringUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="FileConfigProvider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IConfigProvider.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
-    </ClCompile>
-    <ClCompile Include="FileConfigProviderImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="KeyValuePair.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
@@ -307,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="GraphicsObject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileConfigProvider.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
