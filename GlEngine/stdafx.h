@@ -16,4 +16,3 @@ using namespace std::chrono_literals;
 #include <assert.h>
 
 #include "Threading.h"
-

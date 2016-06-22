@@ -1,14 +1,25 @@
 #pragma once
 
-#include "Vector.h"
+#include "EngineShared.h"
+#include "GraphicsObject.h"
 
 namespace GlEngine
 {
-	class TranformedGraphicsObject
+	namespace Impl
 	{
-		TranformedGraphicsObject();
-		~TranformedGraphicsObject();
+		class TransformedGraphicsObjectImpl;
+	}
 
-		Vector<3> position;
+	class ENGINE_SHARED TransformedGraphicsObject 
+	{
+	public:
+		TransformedGraphicsObject(GraphicsObject & obj);
+		TransformedGraphicsObject(GraphicsObject * obj);
+		~TransformedGraphicsObject();
+
+		void Render();
+
+	private:
+		Impl::TransformedGraphicsObjectImpl * pimpl;
 	};
 }

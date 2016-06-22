@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IComponent.h"
+#include "GraphicsContext.h"
 
 namespace GlEngine
 {
@@ -20,8 +21,13 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
+		void SetGraphicsContext(GraphicsContext * graphicsContext);
+
 		void SetCurrent();
 		void Flip();
+		
+		void Render();
+		void Loop(double dt);
 
         inline Impl::GlRenderTargetImpl &GetImpl()
         {

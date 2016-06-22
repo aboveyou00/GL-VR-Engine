@@ -40,6 +40,7 @@ namespace TileRPG
         glClear(GL_COLOR_BUFFER_BIT);
 
         _window->Show();
+		_renderTarget->Render();
         _renderTarget->Flip();
 
         return true;

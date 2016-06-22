@@ -180,6 +180,30 @@
     <ClInclude Include="FixWindows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CameraImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsContextImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformedGraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsContext.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformedGraphicsObject.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsObject.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -259,6 +283,30 @@
     </ClCompile>
     <ClCompile Include="LogType.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsContextImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformedGraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsContext.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformedGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

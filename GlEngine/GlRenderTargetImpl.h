@@ -3,6 +3,7 @@
 #include "IComponent.h"
 #include "OpenGl.h"
 #include "GraphicsContext.h"
+#include "Camera.h"
 
 namespace GlEngine
 {
@@ -19,9 +20,16 @@ namespace GlEngine
             bool Initialize();
             void Shutdown();
 
+			bool alive = true;
+
 			void MakeCurrentTarget();
 			void SetGraphicsContext(GraphicsContext * graphicsContext);
 
+			Camera camera;
+
+			GraphicsContext * graphicsContext;
+
+			void Loop(double fps);
 			void Render();
 			void Flip();
 
