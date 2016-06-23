@@ -8,6 +8,7 @@ namespace GlEngine
 {
     class Window;
     class GlRenderTarget;
+    class ILogger;
 }
 
 namespace TileRPG
@@ -39,6 +40,8 @@ namespace TileRPG
 
     private:
         TileRPGGameLoop _loop;
+
+        GlEngine::ILogger *logger;
 
         bool createWindow();
         void destroyWindow();

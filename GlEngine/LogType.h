@@ -49,11 +49,11 @@ namespace GlEngine
 
     inline ENGINE_SHARED LogType operator|=(LogType &one, LogType two)
     {
-        return one = static_cast<LogType>(static_cast<unsigned>(one) ^ static_cast<unsigned>(two));
+        return one = static_cast<LogType>(static_cast<unsigned>(one) | static_cast<unsigned>(two));
     }
     inline ENGINE_SHARED LogType operator&=(LogType &one, LogType two)
     {
-        return one = static_cast<LogType>(static_cast<unsigned>(one) ^ static_cast<unsigned>(two));
+        return one = static_cast<LogType>(static_cast<unsigned>(one) & static_cast<unsigned>(two));
     }
     inline ENGINE_SHARED LogType operator^=(LogType &one, LogType two)
     {

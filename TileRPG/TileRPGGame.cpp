@@ -63,13 +63,14 @@ namespace TileRPG
     bool TileRPGGame::Initialize()
     {
         auto &serviceProvider = GlEngine::Engine::GetInstance().GetServiceProvider();
-        auto logger = new GlEngine::FileLogger("", "TileRPG.log");
-        if (!logger->Initialize())
+        auto f_logger = new GlEngine::FileLogger("", "TileRPG.log");
+        logger = f_logger;
+        if (!f_logger->Initialize())
         {
-            logger->Log(GlEngine::LogType::Console, "Could not initialize file logger.");
+            f_logger->Log(GlEngine::LogType::Console, "Could not initialize file logger. Aborting");
             return false;
         }
-        serviceProvider.RegisterService<GlEngine::ILogger>(logger);
+        serviceProvider.RegisterService<GlEngine::ILogger>(f_logger);
 
         logger->Log(GlEngine::LogType::InfoC, "Welcome to TileRPG! Beginning game initialization...");
 
@@ -91,12 +92,16 @@ namespace TileRPG
     }
     void TileRPGGame::Shutdown()
     {
+        logger->Log(GlEngine::LogType::Info, "~Shutting down TileRPGGame...");
+
         destroyWindow();
         _loop.Shutdown();
     }
 
     void TileRPGGame::MessageLoop()
     {
+        logger->Log(GlEngine::LogType::Info, "Beginning TileRPGGame MessageLoop...");
+
         auto &engine = GlEngine::Engine::GetInstance();
         engine.MessageLoop();
     }

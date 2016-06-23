@@ -5,6 +5,8 @@ namespace GlEngine
 {
     const char *const MakeReadableLogType(LogType type)
     {
+        if (type == LogType::Console) return "Console";
+
         if ((type & LogType::Console) != LogType::Ignore) type &= ~LogType::Console;
 
         switch (type)

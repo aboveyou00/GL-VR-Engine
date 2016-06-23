@@ -21,6 +21,10 @@ namespace GlEngine
         {
             ScopedLock _lock(_mutex);
             assert(GetService<TService>() == nullptr);
+
+            auto logger = GetService<ILogger>();
+            if (logger != nullptr) logger->Log(LogType::Info, "Registering service for %s", typeid(TService).name());
+
             RegisterService((IService*)svc);
         }
         template <typename TService>
