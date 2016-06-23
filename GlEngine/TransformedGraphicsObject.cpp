@@ -4,14 +4,23 @@
 
 namespace GlEngine
 {
-	TransformedGraphicsObject::TransformedGraphicsObject(GraphicsObject & obj)
-		: pimpl(new Impl::TransformedGraphicsObjectImpl(obj))
-	{
-	}
 	TransformedGraphicsObject::TransformedGraphicsObject(GraphicsObject * obj)
 		: pimpl(new Impl::TransformedGraphicsObjectImpl(obj))
 	{
 	}
+	TransformedGraphicsObject::TransformedGraphicsObject(GraphicsObject & obj)
+		: pimpl(new Impl::TransformedGraphicsObjectImpl(obj))
+	{
+	}
+	TransformedGraphicsObject::TransformedGraphicsObject(GraphicsObject * obj, Vector<3> position, Matrix<4, 4> orientation)
+		: pimpl(new Impl::TransformedGraphicsObjectImpl(obj, position, orientation))
+	{
+	}
+	TransformedGraphicsObject::TransformedGraphicsObject(GraphicsObject & obj, Vector<3> position, Matrix<4, 4> orientation)
+		: pimpl(new Impl::TransformedGraphicsObjectImpl(obj, position, orientation))
+	{
+	}
+
 	TransformedGraphicsObject::~TransformedGraphicsObject()
 	{
 		if (pimpl != nullptr)
@@ -21,7 +30,7 @@ namespace GlEngine
 		}
 	}
 
-	void TransformedGraphicsObject::Render()
+	void TransformedGraphicsObject::Render() const
 	{
 		pimpl->Render();
 	}

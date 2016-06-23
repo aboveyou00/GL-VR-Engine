@@ -138,9 +138,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsContextImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsObjectImpl.h">
       <Filter>Header Files\GlEngine\Impl</Filter>
     </ClInclude>
@@ -154,6 +151,9 @@
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsObject.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -209,9 +209,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsContextImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsObjectImpl.cpp">
       <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
@@ -226,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="GraphicsObject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

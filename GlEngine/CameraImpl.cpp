@@ -6,13 +6,13 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		CameraImpl::CameraImpl() {}
+		CameraImpl::CameraImpl() : eye({ 0, 0, 0 }), target({ 0, 0, 1 }), up({ 0, 1, 0 }) {}
 		CameraImpl::~CameraImpl() {}
 
-		void CameraImpl::ApplyView()
+		void CameraImpl::Apply()
 		{
-			Vector<3> forward = (center - eye).Normalized();
-			Vector<3> side = forward.Cross(up).Normalized();
+			Vector<3> forward = (target - eye).Normalized();
+			auto side = forward.Cross(up).Normalized();
 			up = side.Cross(forward);
 
 			view = Matrix<3, 3>::FromCols(-side, -up, -forward).ToTransformMatrix();
@@ -20,22 +20,18 @@ namespace GlEngine
 			glMatrixMode(GL_MODELVIEW);
 			glMultMatrixf(view.getAddr());
 			
-			float mat[16];
-			glGetFloatv(GL_MODELVIEW_MATRIX, mat);
-			auto Mat = Matrix<4, 4>(mat);
-			
 			glTranslatef(-eye[0], -eye[1], -eye[2]);
 		}
 
-		void CameraImpl::ApplyProjection()
+		void CameraImpl::Push()
 		{
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			glOrtho(left, right, bottom, top, nearVal, farVal);
-			
-			float p[16];
-			glGetFloatv(GL_PROJECTION_MATRIX, p);
-			Matrix<4, 4> mat(p);
+			glPushMatrix();
+			Apply();
+		}
+
+		void CameraImpl::Pop()
+		{
+			glPopMatrix();
 		}
 	}
 }

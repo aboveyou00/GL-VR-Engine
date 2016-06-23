@@ -7,8 +7,10 @@ namespace GlEngine
 		class GraphicsObjectImpl
 		{
 		public:
-			GraphicsObjectImpl() {}
-			~GraphicsObjectImpl() {}
+			GraphicsObjectImpl();
+			~GraphicsObjectImpl();
+
+			int magic = 0xDEADBEEF;
 
 			void Render();
 		};

@@ -14,7 +14,7 @@ namespace GlEngine
         class GlRenderTargetImpl : public IComponent
         {
         public:
-            GlRenderTargetImpl(Window *window);
+			GlRenderTargetImpl(Window * window);
             ~GlRenderTargetImpl();
 
             bool Initialize();
@@ -23,14 +23,11 @@ namespace GlEngine
 			bool alive = true;
 
 			void MakeCurrentTarget();
-			void SetGraphicsContext(GraphicsContext * graphicsContext);
+			
+			Camera * camera = nullptr;
 
-			Camera camera;
-
-			GraphicsContext * graphicsContext;
-
-			void Loop(double fps);
-			void Render();
+			void Push();
+			void Pop();
 			void Flip();
 
 			int depthBufferBits = 24;
@@ -40,6 +37,19 @@ namespace GlEngine
 			int frameBufferType = PFD_TYPE_RGBA;
 
 			int pixelFormatAdditionalFlags = 0;
+
+			class ViewPort
+			{
+			public:
+				Camera relativeCamera;
+
+				double left = -1, right = 1, top = 1, bottom = -1, nearVal = 0, farVal = 100;
+				void ApplyProjection();
+				void Apply();
+
+				void Push();
+				void Pop();
+			} viewPort;
 
         private:
             Window *_window;

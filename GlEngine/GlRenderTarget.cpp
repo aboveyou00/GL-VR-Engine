@@ -27,9 +27,14 @@ namespace GlEngine
         pimpl->Shutdown();
     }
 
-	void GlRenderTarget::SetGraphicsContext(GraphicsContext * graphicsContext)
+	Camera * GlRenderTarget::GetCamera()
 	{
-		this->GetImpl().graphicsContext = graphicsContext;
+		return pimpl->camera;
+	}
+
+	void GlRenderTarget::SetCamera(Camera * cam)
+	{
+		pimpl->camera = cam;
 	}
 
 	void GlRenderTarget::SetCurrent()
@@ -41,12 +46,12 @@ namespace GlEngine
 		pimpl->Flip();
 	}
 
-	void GlRenderTarget::Render()
+	void GlRenderTarget::Push()
 	{
-		pimpl->Render();
+		pimpl->Push();
 	}
-	void GlRenderTarget::Loop(double dt)
+	void GlRenderTarget::Pop()
 	{
-		pimpl->Loop(dt);
+		pimpl->Pop();
 	}
 }

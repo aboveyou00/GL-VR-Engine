@@ -4,22 +4,24 @@
 
 namespace GlEngine
 {
-	class Camera
+	class ENGINE_SHARED Camera
 	{
 	public:
 		Camera();
 		~Camera();
 
-		void ApplyView();
-		void ApplyProjection();
+		void Apply();
+		
+		void Push();
+		void Pop();
 
 		Vector<3> GetEye();
 		Vector<3> GetUp();
-		Vector<3> GetCenter();
+		Vector<3> GetTarget();
 
 		void SetEye(Vector<3> eye);
 		void SetUp(Vector<3> up);
-		void SetCenter(Vector<3> center);
+		void SetTarget(Vector<3> target);
 
 		inline Impl::CameraImpl &GetImpl()
 		{

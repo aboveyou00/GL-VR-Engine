@@ -16,14 +16,19 @@ namespace GlEngine
 		}
 	}
 
-	void Camera::ApplyView()
+	void Camera::Apply()
 	{
-		pimpl->ApplyView();
+		pimpl->Apply();
 	}
-	
-	void Camera::ApplyProjection()
+
+	void Camera::Push()
 	{
-		pimpl->ApplyProjection();
+		pimpl->Push();
+	}
+
+	void Camera::Pop()
+	{
+		pimpl->Pop();
 	}
 
 	Vector<3> Camera::GetEye()
@@ -34,9 +39,9 @@ namespace GlEngine
 	{
 		return pimpl->up;
 	}
-	Vector<3> Camera::GetCenter()
+	Vector<3> Camera::GetTarget()
 	{
-		return pimpl->center;
+		return pimpl->target;
 	}
 
 	void Camera::SetEye(Vector<3> eye)
@@ -47,8 +52,8 @@ namespace GlEngine
 	{
 		pimpl->up = up;
 	}
-	void Camera::SetCenter(Vector<3> center)
+	void Camera::SetTarget(Vector<3> target)
 	{
-		pimpl->center = center;
+		pimpl->target = target;
 	}
 }

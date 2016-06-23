@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IComponent.h"
-#include "GraphicsContext.h"
+#include "Camera.h"
 
 namespace GlEngine
 {
@@ -21,13 +21,14 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
-		void SetGraphicsContext(GraphicsContext * graphicsContext);
+		Camera * GetCamera();
+		void SetCamera(Camera * cam);
 
 		void SetCurrent();
 		void Flip();
 		
-		void Render();
-		void Loop(double dt);
+		void Push();
+		void Pop();
 
         inline Impl::GlRenderTargetImpl &GetImpl()
         {

@@ -6,7 +6,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		void TransformedGraphicsObjectImpl::Render()
+		void TransformedGraphicsObjectImpl::Render() const
 		{
 			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();

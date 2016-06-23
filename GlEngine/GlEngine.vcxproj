@@ -150,12 +150,12 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="GameLoop.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlController.h" />
     <ClInclude Include="GlControllerImpl.h" />
     <ClInclude Include="GlRenderTarget.h" />
     <ClInclude Include="GlRenderTargetImpl.h" />
     <ClInclude Include="GraphicsContext.h" />
-    <ClInclude Include="GraphicsContextImpl.h" />
     <ClInclude Include="GraphicsObject.h" />
     <ClInclude Include="GraphicsObjectImpl.h" />
     <ClInclude Include="IComponent.h" />
@@ -186,12 +186,12 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="GameLoop.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlController.cpp" />
     <ClCompile Include="GlControllerImpl.cpp" />
     <ClCompile Include="GlRenderTarget.cpp" />
     <ClCompile Include="GlRenderTargetImpl.cpp" />
     <ClCompile Include="GraphicsContext.cpp" />
-    <ClCompile Include="GraphicsContextImpl.cpp" />
     <ClCompile Include="GraphicsObject.cpp" />
     <ClCompile Include="GraphicsObjectImpl.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />

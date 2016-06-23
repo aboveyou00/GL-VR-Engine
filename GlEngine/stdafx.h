@@ -13,3 +13,5 @@ using namespace std::chrono_literals;
 #include <iostream>
 
 #include "Threading.h"
+
+#pragma warning (disable: 4239)

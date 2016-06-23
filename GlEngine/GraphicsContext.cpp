@@ -1,45 +1,62 @@
 #include "stdafx.h"
 #include "GraphicsContext.h"
-#include "GraphicsContextImpl.h"
+#include "OpenGl.h"
 
 namespace GlEngine
 {
-	GraphicsContext::GraphicsContext() 
-		: pimpl(new Impl::GraphicsContextImpl())
-	{
-	}
-	GraphicsContext::~GraphicsContext() 
-	{
-		Shutdown();
-		if (pimpl != nullptr)
-		{
-			delete pimpl;
-			pimpl = nullptr;
-		}
-	}
-	
+	GraphicsContext::GraphicsContext() {}
+	GraphicsContext::~GraphicsContext() {}
+
 	bool GraphicsContext::Initialize()
 	{
-		return pimpl->Initialize();
+		return true;
 	}
 
 	void GraphicsContext::Shutdown()
 	{
-		pimpl->Shutdown();
 	}
 
-	void GraphicsContext::AddGraphicsObject(TransformedGraphicsObject * graphicsObject)
+	void GraphicsContext::Register(GameObject * gameObject, GraphicsObject * graphicsObject)
 	{
-		pimpl->AddGraphicsObject(graphicsObject);
+		ScopedLock slock(_lock);
+
+		objs[gameObject] = graphicsObject;
 	}
 
-	void GraphicsContext::RemoveGraphicsObject(TransformedGraphicsObject * graphicsObject)
+	void GraphicsContext::UnRegister(GameObject * gameObject)
 	{
-		pimpl->RemoveGraphicsObject(graphicsObject);
+		ScopedLock slock(_lock);
+
+		objs[gameObject] = nullptr;
+	}
+
+	void GraphicsContext::Update()
+	{
+		ScopedLock slock(_lock);
+
+		transformedCount = 0;
+		for (auto kv : objs)
+			transformed[transformedCount++] = TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation);
+	}
+
+	void GraphicsContext::AddRenderTarget(GlRenderTarget * renderTarget)
+	{
+		renderTargets[renderTargetCount++] = renderTarget;
 	}
 
 	void GraphicsContext::Render()
 	{
-		pimpl->Render();
+		camera.Push();
+		for (int i = 0; i < renderTargetCount; i++)
+		{
+			renderTargets[i]->Push();
+			for (int j = 0; j < transformedCount; j++)
+				transformed[j].Render();
+			renderTargets[i]->Pop();
+		}
+		camera.Pop();
+
+		for (int i = 0; i < renderTargetCount; i++)
+			renderTargets[i]->Flip();
 	}
 }

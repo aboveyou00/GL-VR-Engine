@@ -8,10 +8,10 @@ namespace GlEngine
 {
     namespace Impl
     {
-        GlRenderTargetImpl::GlRenderTargetImpl(Window *window)
-            : _window(window)
+		GlRenderTargetImpl::GlRenderTargetImpl(Window *window)
+			: _window(window)
         {
-        }
+		}
         GlRenderTargetImpl::~GlRenderTargetImpl()
         {
         }
@@ -21,11 +21,6 @@ namespace GlEngine
 			if (!CreateContext()) return false;
 			if (!LoadGlewExtensions()) return false;
 			MakeCurrentTarget();
-
-			camera.SetEye({ 0, 0, 0 });
-			camera.SetUp({ 0, 1, 0 });
-			camera.SetCenter({ 0, 0, 1 });
-
             return true;
         }
 
@@ -40,14 +35,9 @@ namespace GlEngine
 			wglMakeCurrent(_window->GetDeviceContext(), contextHandle);
 		}
 
-		void GlRenderTargetImpl::SetGraphicsContext(GraphicsContext * context)
-		{
-            graphicsContext = context;
-		}
-
 		bool GlRenderTargetImpl::CreateContext()
 		{
-			/* Pixel format ptions we would like (NOT guaranteed) to have */
+			/* Pixel format options we would like (NOT guaranteed) to have */
 			PIXELFORMATDESCRIPTOR pfd =
 			{
 				sizeof(PIXELFORMATDESCRIPTOR),
@@ -95,61 +85,51 @@ namespace GlEngine
 			return true;
 		}
 
-		void GlRenderTargetImpl::Loop(double fps)
+		void GlRenderTargetImpl::Push()
 		{
-			auto frame_duration = 1000ms / fps;
-
-			while (alive)
-			{
-				auto start = std::chrono::high_resolution_clock::now();
-				Render();
-				auto end = std::chrono::high_resolution_clock::now();
-				
-				auto duration = end - start;
-				std::this_thread::sleep_for(frame_duration - duration);
-			}
-		}
-
-		void GlRenderTargetImpl::Render()
-		{
-			if (graphicsContext == nullptr)
-				return;
 			MakeCurrentTarget();
-			
+
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
 			glDepthFunc(GL_LEQUAL);
-			
+
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			
-			camera.ApplyView();
-			camera.ApplyProjection();
 
-			glBegin(GL_TRIANGLES);
-			
-			glColor3d(1.0, 1.0, 1.0);
-			glVertex3d(0.5, 0.5, 1);
-			glVertex3d(0.5, 0, 1);
-			glVertex3d(0, 0.5, 1);
+			viewPort.Push();
+		}
 
-			glColor3d(0.0, 1.0, 0.0);
-			glVertex3d(0.4, 0.4, 0.5);
-			glVertex3d(0.4, 0, 0.5);
-			glVertex3d(0, 0.4, 0.5);
-
-			glColor3d(0.0, 0.0, 1.0);
-			glVertex3d(0.3, 0.3, 2);
-			glVertex3d(0.3, 0, 2);
-			glVertex3d(0, 0.3, 2);
-
-			glEnd();
-
-			//graphicsContext->Render();
+		void GlRenderTargetImpl::Pop()
+		{
+			viewPort.Pop();
 		}
 
 		void GlRenderTargetImpl::Flip()
 		{
 			SwapBuffers(_window->GetDeviceContext());
+		}
+
+		void GlRenderTargetImpl::ViewPort::ApplyProjection()
+		{
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(left, right, bottom, top, nearVal, farVal);
+		}
+
+		void GlRenderTargetImpl::ViewPort::Apply()
+		{
+			//relativeCamera.Apply();
+			ApplyProjection();
+		}
+
+		void GlRenderTargetImpl::ViewPort::Push()
+		{
+			glPushMatrix();
+			Apply();
+		}
+
+		void GlRenderTargetImpl::ViewPort::Pop()
+		{
+			glPopMatrix();
 		}
     }
 }

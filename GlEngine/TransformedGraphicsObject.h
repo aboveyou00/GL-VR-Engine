@@ -2,6 +2,8 @@
 
 #include "EngineShared.h"
 #include "GraphicsObject.h"
+#include "Vector.h"
+#include "Matrix.h"
 
 namespace GlEngine
 {
@@ -13,11 +15,14 @@ namespace GlEngine
 	class ENGINE_SHARED TransformedGraphicsObject 
 	{
 	public:
-		TransformedGraphicsObject(GraphicsObject & obj);
+		TransformedGraphicsObject() : TransformedGraphicsObject(nullptr) {}
 		TransformedGraphicsObject(GraphicsObject * obj);
+		TransformedGraphicsObject(GraphicsObject & obj);
+		TransformedGraphicsObject(GraphicsObject * obj, Vector<3> position, Matrix<4, 4> orientation);
+		TransformedGraphicsObject(GraphicsObject & obj, Vector<3> position, Matrix<4, 4> orientation);
 		~TransformedGraphicsObject();
 
-		void Render();
+		void Render() const;
 
 	private:
 		Impl::TransformedGraphicsObjectImpl * pimpl;

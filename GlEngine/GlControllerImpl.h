@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGameComponent.h"
+#include "Camera.h"
 
 namespace GlEngine
 {

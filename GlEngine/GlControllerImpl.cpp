@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "GlControllerImpl.h"
+#include "Matrix.h"
+#include "OpenGl.h"
 
 namespace GlEngine
 {
