@@ -8,7 +8,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class TransformedGraphicsObjectImpl
+		class ENGINE_SHARED TransformedGraphicsObjectImpl
 		{
 		public:
 			TransformedGraphicsObjectImpl(GraphicsObject* graphicsObject) : graphicsObject(graphicsObject) {}

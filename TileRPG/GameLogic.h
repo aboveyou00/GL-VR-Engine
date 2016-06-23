@@ -1,6 +1,5 @@
 #pragma once
 
-#include "TileManager.h"
 #include "World.h"
 #include "IGameComponent.h"
 
@@ -11,6 +10,8 @@ namespace GlEngine
 
 namespace TileRPG
 {
+    class TileManager;
+
     class GameLogic : public GlEngine::IGameComponent
     {
     public:
@@ -22,8 +23,8 @@ namespace TileRPG
         void Shutdown();
 
     private:
-        TileManager tiles;
         World world;
+        TileManager *tiles;
         GlEngine::GameLoop *loop;
     };
 }

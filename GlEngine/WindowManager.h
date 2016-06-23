@@ -29,12 +29,12 @@ namespace GlEngine
         void Destroy(Window *window);
         void Destroy(HWND handle);
 
-        inline std::mutex &GetMutex()
+        inline rt_mutex &GetMutex()
         {
             return _mutex;
         }
 
     private:
-        std::mutex _mutex;
+        rt_mutex _mutex;
     };
 }
