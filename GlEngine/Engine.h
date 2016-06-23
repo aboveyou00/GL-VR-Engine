@@ -38,7 +38,7 @@ namespace GlEngine
             return _services;
         }
 
-        std::mutex &GetMutex();
+        rt_mutex &GetMutex();
 
         void MessageLoop();
 

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ServiceProvider.h"
+#include "IService.h"
 
 namespace GlEngine
 {
@@ -8,26 +9,24 @@ namespace GlEngine
     }
     ServiceProvider::~ServiceProvider()
     {
+        for (size_t q = 0; q < MAX_SVCS; q++)
+        {
+            if (_svcs[q] != nullptr)
+            {
+                delete _svcs[q];
+                _svcs[q] = nullptr;
+            }
+        }
     }
 
     void ServiceProvider::RegisterService(IService *svc)
     {
+        ScopedLock _lock(_mutex);
         for (size_t q = 0; q < MAX_SVCS; q++)
         {
             if (_svcs[q] == nullptr)
             {
                 _svcs[q] = svc;
-                return;
-            }
-        }
-    }
-    void ServiceProvider::DeregisterService(IService *svc)
-    {
-        for (size_t q = 0; q < MAX_SVCS; q++)
-        {
-            if (_svcs[q] == svc)
-            {
-                _svcs[q] = nullptr;
                 return;
             }
         }

@@ -5,10 +5,10 @@ namespace GlEngine
     class ENGINE_SHARED ScopedLock
     {
     public:
-        ScopedLock(std::mutex &mutex);
+        ScopedLock(rt_mutex &mutex);
         ~ScopedLock();
 
     private:
-        std::mutex *_mutex;
+        rt_mutex *_mutex;
     };
 }

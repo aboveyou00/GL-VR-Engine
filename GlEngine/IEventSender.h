@@ -4,7 +4,7 @@ namespace GlEngine
 {
     namespace Events
     {
-        class IEventSender
+        class ENGINE_SHARED IEventSender
         {
         public:
 

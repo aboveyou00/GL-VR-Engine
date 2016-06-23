@@ -11,7 +11,7 @@ namespace GlEngine
 
     namespace Impl
     {
-        class GlRenderTargetImpl : public IComponent
+        class ENGINE_SHARED GlRenderTargetImpl : public IComponent
         {
         public:
 			GlRenderTargetImpl(Window * window);

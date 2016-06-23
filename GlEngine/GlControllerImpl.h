@@ -7,7 +7,7 @@ namespace GlEngine
 {
     namespace Impl
     {
-        class GlControllerImpl : public IComponent
+        class ENGINE_SHARED GlControllerImpl : public IComponent
         {
         public:
             GlControllerImpl();
