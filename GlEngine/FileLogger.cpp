@@ -23,13 +23,12 @@ namespace GlEngine
         _logStream.open(fullPath, std::ios::trunc);
         if (_logStream.fail() || !_logStream)
         {
-            Log(LogType::FatalErrorC, "FileLogger.Initialize() failed to open log file [%s]\n", fullPath);
+            Log(LogType::FatalError, "FileLogger.Initialize() failed to open log file [%s]", fullPath);
             return false;
         }
-        Log(LogType::InfoC, "FileLogger.Initialize() opened log file [%s] for writing\n", fullPath);
+        Log(LogType::Info, "FileLogger.Initialize() opened log file [%s] for writing", fullPath);
 
-        Log(LogType::InfoC, "FileLogger.Initialize() successful\n");
-        LogImpl(LogType::Info, "Hello, World!");
+        Log(LogType::Info, "FileLogger.Initialize() successful");
         return true;
     }
     void FileLogger::Shutdown()

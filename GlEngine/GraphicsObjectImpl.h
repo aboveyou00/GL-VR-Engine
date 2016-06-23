@@ -4,7 +4,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class GraphicsObjectImpl
+		class ENGINE_SHARED GraphicsObjectImpl
 		{
 		public:
 			GraphicsObjectImpl() {}

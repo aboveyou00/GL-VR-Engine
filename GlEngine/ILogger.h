@@ -6,7 +6,7 @@
 
 namespace GlEngine
 {
-    class ILogger : public IService
+    class ENGINE_SHARED ILogger : public IService
     {
     public:
         ILogger();
@@ -40,7 +40,7 @@ namespace GlEngine
             return LogImpl(type, buff2);
         }
 
-        inline static std::mutex &GetConsoleMutex()
+        inline static rt_mutex &GetConsoleMutex()
         {
             return _consoleMutex;
         }
@@ -50,7 +50,7 @@ namespace GlEngine
         virtual bool LogImpl(LogType type, const char *const message) = 0;
 
     private:
-        static std::mutex _consoleMutex;
+        static rt_mutex _consoleMutex;
         const char *const getTimestamp();
     };
 }

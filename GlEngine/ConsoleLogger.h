@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-    class ConsoleLogger : public ILogger
+    class ENGINE_SHARED ConsoleLogger : public ILogger
     {
     public:
         ConsoleLogger();

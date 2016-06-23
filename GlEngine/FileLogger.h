@@ -6,7 +6,7 @@
 
 namespace GlEngine
 {
-    class FileLogger : public ILogger, public IComponent
+    class ENGINE_SHARED FileLogger : public ILogger, public IComponent
     {
     public:
         FileLogger(const char *const filename);
@@ -16,7 +16,7 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
-        inline std::mutex &GetMutex()
+        inline rt_mutex &GetMutex()
         {
             return _mutex;
         }
@@ -25,7 +25,7 @@ namespace GlEngine
         const char *const _path,
                    *const _filename;
         std::ofstream _logStream;
-        std::mutex _mutex;
+        rt_mutex _mutex;
 
         bool LogImpl(LogType type, const char *const message) override;
     };

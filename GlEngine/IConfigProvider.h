@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-    class IConfigProvider : public IService
+    class ENGINE_SHARED IConfigProvider : public IService
     {
     public:
         IConfigProvider();

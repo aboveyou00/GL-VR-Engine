@@ -7,7 +7,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class CameraImpl
+		class ENGINE_SHARED CameraImpl
 		{
 		public:
 			CameraImpl();

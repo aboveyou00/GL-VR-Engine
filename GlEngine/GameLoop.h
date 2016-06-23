@@ -24,7 +24,7 @@ namespace GlEngine
         std::function<void(float)> updateFn;
         unsigned targetFPS = 60;
         bool running = false, stopping = false;
-        std::mutex mutex;
+        rt_mutex mutex;
         std::thread loopThread;
 
         std::function<void()> GetThreadEntryPoint();

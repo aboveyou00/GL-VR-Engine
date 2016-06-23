@@ -10,20 +10,15 @@ namespace TileRPG
     }
     TileManager::~TileManager()
     {
+        Shutdown();
     }
 
     bool TileManager::Initialize()
     {
-        auto &engine = GlEngine::Engine::GetInstance();
-        auto &services = engine.GetServiceProvider();
-        services.RegisterService<TileManager>(this);
         return true;
     }
     void TileManager::Shutdown()
     {
-        auto &engine = GlEngine::Engine::GetInstance();
-        auto &services = engine.GetServiceProvider();
-        services.DeregisterService(this);
     }
 
     bool TileManager::RegisterTile(ITile *tile)

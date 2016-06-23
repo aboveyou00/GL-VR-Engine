@@ -6,6 +6,8 @@
 #include "GlRenderTarget.h"
 #include "OpenGl.h"
 
+#include "FileLogger.h"
+
 namespace TileRPG
 {
     TileRPGGame::TileRPGGame()
@@ -32,7 +34,7 @@ namespace TileRPG
         _renderTarget = new GlEngine::GlRenderTarget(_window);
         if (!_renderTarget->Initialize())
         {
-            engine.Shutdown(); //This will call _window.Shutdown(), we don't have to
+            engine.Shutdown(); //This will call _window.Shutdown(), we don't have to do it
             return false;
         }
 
@@ -60,8 +62,31 @@ namespace TileRPG
 
     bool TileRPGGame::Initialize()
     {
-        if (!_loop.Initialize()) { Shutdown(); return false; }
-        if (!createWindow()) { Shutdown(); return false; }
+        auto &serviceProvider = GlEngine::Engine::GetInstance().GetServiceProvider();
+        auto logger = new GlEngine::FileLogger("", "TileRPG.log");
+        if (!logger->Initialize())
+        {
+            logger->Log(GlEngine::LogType::Console, "Could not initialize file logger.");
+            return false;
+        }
+        serviceProvider.RegisterService<GlEngine::ILogger>(logger);
+
+        logger->Log(GlEngine::LogType::InfoC, "Welcome to TileRPG! Beginning game initialization...");
+
+        if (!_loop.Initialize())
+        {
+            logger->Log(GlEngine::LogType::FatalErrorC, "Could not initialize TileRPG. Aborting...");
+            Shutdown();
+            return false;
+        }
+        if (!createWindow())
+        {
+            logger->Log(GlEngine::LogType::FatalErrorC, "Could not initialize TileRPG. Aborting...");
+            Shutdown();
+            return false;
+        }
+
+        logger->Log(GlEngine::LogType::InfoC, "TileRPG initialization successful. Beginning game.");
         return true;
     }
     void TileRPGGame::Shutdown()

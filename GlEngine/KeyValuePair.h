@@ -4,7 +4,7 @@ namespace GlEngine
 {
     namespace Util
     {
-        class KeyValuePair
+        class ENGINE_SHARED KeyValuePair
         {
         public:
             KeyValuePair();

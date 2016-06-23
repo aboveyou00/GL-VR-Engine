@@ -6,7 +6,7 @@
 
 namespace GlEngine
 {
-    class FileConfigProvider : public IConfigProvider, public IComponent
+    class ENGINE_SHARED FileConfigProvider : public IConfigProvider, public IComponent
     {
     public:
         FileConfigProvider(const char *const path, const char *const filename);

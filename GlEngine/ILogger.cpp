@@ -12,7 +12,7 @@ namespace GlEngine
     {
     }
 
-    std::mutex ILogger::_consoleMutex;
+    rt_mutex ILogger::_consoleMutex;
 
     bool ILogger::HandleConsoleFlag()
     {

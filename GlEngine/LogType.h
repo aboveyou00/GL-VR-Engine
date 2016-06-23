@@ -14,7 +14,7 @@ namespace GlEngine
     inline ENGINE_SHARED LogType operator&=(LogType &one, LogType two);
     inline ENGINE_SHARED LogType operator^=(LogType &one, LogType two);
 
-    enum class LogType
+    enum class ENGINE_SHARED LogType
     {
         Ignore      = 0,
         Console     = 0b000001,
@@ -60,5 +60,5 @@ namespace GlEngine
         return one = static_cast<LogType>(static_cast<unsigned>(one) ^ static_cast<unsigned>(two));
     }
 
-    const char *const MakeReadableLogType(LogType type);
+    ENGINE_SHARED const char *const MakeReadableLogType(LogType type);
 }

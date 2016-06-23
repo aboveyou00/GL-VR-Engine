@@ -9,13 +9,13 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class GraphicsContextImpl
+		class ENGINE_SHARED GraphicsContextImpl
 		{
 		public:
 			GraphicsContextImpl();
 			~GraphicsContextImpl();
 
-			std::mutex _lock;
+            rt_mutex _lock;
 			std::set<TransformedGraphicsObject*> objects;
 
 			bool Initialize();

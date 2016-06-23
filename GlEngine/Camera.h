@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-	class Camera
+	class ENGINE_SHARED Camera
 	{
 	public:
 		Camera();
