@@ -35,10 +35,6 @@ namespace TileRPG
         {
             return *_window;
         }
-        inline GlEngine::GlRenderTarget &GetRenderTarget()
-        {
-            return *_renderTarget;
-        }
 
     private:
         TileRPGGameLoop _loop;
@@ -49,7 +45,6 @@ namespace TileRPG
         bool createWindow();
         void destroyWindow();
         GlEngine::Window *_window = nullptr;
-        GlEngine::GlRenderTarget *_renderTarget = nullptr;
         GlEngine::GraphicsContext *_gfxContext = nullptr;
 
         GlEngine::ILogger *registerLogger();

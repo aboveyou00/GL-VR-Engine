@@ -38,14 +38,10 @@ namespace TileRPG
         }
 
         if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
-        _renderTarget = new GlEngine::GlRenderTarget(_window);
-        if (!_renderTarget->Initialize())
-        {
-            engine.Shutdown(); //This will call _window.Shutdown(), we don't have to do it
-            return false;
-        }
 
         _gfxContext = new GlEngine::GraphicsContext();
+
+        auto _renderTarget = new GlEngine::GlRenderTarget(_window);
         _gfxContext->AddRenderTarget(_renderTarget);
 
         _gfxContext->camera.SetEye({ 0, 0, 0 });
@@ -70,13 +66,6 @@ namespace TileRPG
             _gfxContext->Shutdown();
             delete _gfxContext;
             _gfxContext = nullptr;
-        }
-
-        if (_renderTarget != nullptr)
-        {
-            _renderTarget->Shutdown();
-            delete _renderTarget;
-            _renderTarget = nullptr;
         }
 
         auto &engine = GlEngine::Engine::GetInstance();

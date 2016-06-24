@@ -5,7 +5,7 @@
 namespace GlEngine
 {
     GraphicsContext::GraphicsContext()
-        : _loop([&](float delta) { this->Tick(delta); })
+        : _loop([&] { return this->InitializeRenderTargets(); }, [&](float delta) { this->Tick(delta); }, [&] { this->ShutdownRenderTargets(); })
     {
     }
     GraphicsContext::~GraphicsContext()
@@ -54,7 +54,7 @@ namespace GlEngine
 	void GraphicsContext::Render()
 	{
 		camera.Push();
-		for (int i = 0; i < renderTargetCount; i++)
+		for (size_t i = 0; i < renderTargetCount; i++)
 		{
 			renderTargets[i]->Push();
 			for (int j = 0; j < transformedCount; j++)
@@ -63,13 +63,24 @@ namespace GlEngine
 		}
 		camera.Pop();
 
-		for (int i = 0; i < renderTargetCount; i++)
+		for (size_t i = 0; i < renderTargetCount; i++)
 			renderTargets[i]->Flip();
 	}
 
+    bool GraphicsContext::InitializeRenderTargets()
+    {
+        for (size_t q = 0; q < renderTargetCount; q++)
+            if (!renderTargets[q]->Initialize()) return false;
+        return true;
+    }
     void GraphicsContext::Tick(float)
     {
         Update();
         Render();
+    }
+    void GraphicsContext::ShutdownRenderTargets()
+    {
+        for (size_t q = 0; q < renderTargetCount; q++)
+            renderTargets[q]->Shutdown();
     }
 }

@@ -48,9 +48,11 @@ namespace GlEngine
 
 		static const int maxRenderTargets = 256;
 		GlRenderTarget * renderTargets[maxRenderTargets];
-		int renderTargetCount = 0;
+		size_t renderTargetCount = 0;
         GameLoop _loop;
 
+        bool InitializeRenderTargets();
         void Tick(float delta);
+        void ShutdownRenderTargets();
 	};
 }

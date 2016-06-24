@@ -6,6 +6,7 @@ namespace TileRPG
     TestGameObject::TestGameObject()
     {
         RequireTick(true);
+        timePassed = 0;
     }
     TestGameObject::~TestGameObject()
     {
