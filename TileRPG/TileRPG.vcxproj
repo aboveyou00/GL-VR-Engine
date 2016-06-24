@@ -167,6 +167,7 @@
     <ClInclude Include="RockTile.h" />
     <ClInclude Include="IStairsTile.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TestGameObject.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="TileRPGGame.h" />
     <ClInclude Include="TileRPGGameLoop.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="RockStairsTile.cpp" />
     <ClCompile Include="RockTile.cpp" />
     <ClCompile Include="IStairsTile.cpp" />
+    <ClCompile Include="TestGameObject.cpp" />
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TileRPGGame.cpp" />
     <ClCompile Include="TileRPGGameLoop.cpp" />

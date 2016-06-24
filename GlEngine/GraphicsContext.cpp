@@ -4,16 +4,23 @@
 
 namespace GlEngine
 {
-	GraphicsContext::GraphicsContext() {}
-	GraphicsContext::~GraphicsContext() {}
+    GraphicsContext::GraphicsContext()
+        : _loop([&](float delta) { this->Tick(delta); })
+    {
+    }
+    GraphicsContext::~GraphicsContext()
+    {
+        Shutdown();
+    }
 
 	bool GraphicsContext::Initialize()
 	{
+        _loop.RunLoop();
 		return true;
 	}
-
 	void GraphicsContext::Shutdown()
 	{
+        _loop.StopLoop(false);
 	}
 
 	void GraphicsContext::Register(GameObject * gameObject, GraphicsObject * graphicsObject)
@@ -59,4 +66,10 @@ namespace GlEngine
 		for (int i = 0; i < renderTargetCount; i++)
 			renderTargets[i]->Flip();
 	}
+
+    void GraphicsContext::Tick(float)
+    {
+        Update();
+        Render();
+    }
 }

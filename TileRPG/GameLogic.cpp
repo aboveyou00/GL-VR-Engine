@@ -34,11 +34,30 @@ namespace TileRPG
     }
     void GameLogic::Tick(float delta)
     {
-        delta;
+        for (size_t q = 0; q < _gameObjects.size(); q++)
+            if (_gameObjects[q]->RequiresTick()) _gameObjects[q]->Tick(delta);
     }
     void GameLogic::Shutdown()
     {
         loop->StopLoop(false);
         tiles->Shutdown();
+    }
+
+    void GameLogic::AddGameObject(GlEngine::GameObject *obj)
+    {
+        for (size_t q = 0; q < _gameObjects.size(); q++)
+            if (_gameObjects[q] == obj) return;
+        _gameObjects.push_back(obj);
+    }
+    void GameLogic::RemoveGameObject(GlEngine::GameObject *obj)
+    {
+        auto idx = std::find(_gameObjects.begin(), _gameObjects.end(), obj);
+        if (idx != _gameObjects.end()) _gameObjects.erase(idx);
+    }
+
+    void GameLogic::DispatchEvent(GlEngine::Events::Event *evt)
+    {
+        for (size_t q = 0; q < _gameObjects.size(); q++)
+            _gameObjects[q]->HandleEvent(*evt);
     }
 }

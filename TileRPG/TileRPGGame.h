@@ -8,6 +8,7 @@ namespace GlEngine
 {
     class Window;
     class GlRenderTarget;
+    class GraphicsContext;
     class ILogger;
     class IConfigProvider;
 }
@@ -49,6 +50,7 @@ namespace TileRPG
         void destroyWindow();
         GlEngine::Window *_window = nullptr;
         GlEngine::GlRenderTarget *_renderTarget = nullptr;
+        GlEngine::GraphicsContext *_gfxContext = nullptr;
 
         GlEngine::ILogger *registerLogger();
         GlEngine::IConfigProvider *registerConfig();

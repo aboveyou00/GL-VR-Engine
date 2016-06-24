@@ -18,6 +18,6 @@ namespace GlEngine
 		void Render();
 
 	private:
-		Impl::GraphicsObjectImpl * pimpl;
+		Impl::GraphicsObjectImpl *pimpl;
 	};
 }

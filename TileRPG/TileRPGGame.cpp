@@ -10,6 +10,8 @@
 #include "GlRenderTarget.h"
 #include "OpenGl.h"
 
+#include "TestGameObject.h"
+
 #include "FileLogger.h"
 #include "FileConfigProvider.h"
 
@@ -43,31 +45,33 @@ namespace TileRPG
             return false;
         }
 
-        auto & graphicsContext = *new GlEngine::GraphicsContext();
-        graphicsContext.AddRenderTarget(_renderTarget);
+        _gfxContext = new GlEngine::GraphicsContext();
+        _gfxContext->AddRenderTarget(_renderTarget);
 
-		GlEngine::GameObject gameObject;
-        GlEngine::GraphicsObject graphicsObject;
-		graphicsContext.Register(&gameObject, &graphicsObject);
+        _gfxContext->camera.SetEye({ 0, 0, 0 });
+        _gfxContext->camera.SetTarget({ 0, 0, 1 });
+        _gfxContext->camera.SetUp({ 0, 1, 0 });
 
-		GlEngine::Camera camera;
+        if (!_gfxContext->Initialize())
+        {
+            _renderTarget->Shutdown();
+            engine.Shutdown(); //This will call _window.Shutdown(), we don't have to do it
+            return false;
+        }
 
-		camera.SetEye({ 0, 0, 0 });
-		camera.SetTarget({ 0, 0, 1 });
-		camera.SetUp({ 0, 1, 0 });
-
-		graphicsContext.camera = camera;
-
-        glClearColor(1.f, 0.f, 0.f, 1.f);
-        
         _window->Show();
-		graphicsContext.Update();
-		graphicsContext.Render();
 		
         return true;
     }
     void TileRPGGame::destroyWindow()
     {
+        if (_gfxContext != nullptr)
+        {
+            _gfxContext->Shutdown();
+            delete _gfxContext;
+            _gfxContext = nullptr;
+        }
+
         if (_renderTarget != nullptr)
         {
             _renderTarget->Shutdown();
@@ -100,6 +104,14 @@ namespace TileRPG
             Shutdown();
             return false;
         }
+
+        auto gameObject = new TestGameObject();
+        auto graphicsObject = new GlEngine::GraphicsObject();
+        _gfxContext->Register(gameObject, graphicsObject);
+        _loop.GetGameLogic().AddGameObject(gameObject);
+
+        //_gfxContext->Update();
+        //_gfxContext->Render();
 
         logger->Log(GlEngine::LogType::InfoC, "TileRPG initialization successful. Beginning game.");
         return true;

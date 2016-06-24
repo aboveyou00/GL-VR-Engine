@@ -27,7 +27,6 @@ namespace TileRPG
         GlEngine::Events::EventQueue localQueue;
         void copyRemoteQueue();
         void handleEvents();
-        void dispatchEvent(GlEngine::Events::Event *evt);
 
         GameLogic _logic;
     };

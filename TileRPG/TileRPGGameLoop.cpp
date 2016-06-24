@@ -4,7 +4,6 @@
 #include "Threading.h"
 
 #include "Engine.h"
-#include "Event.h"
 
 namespace TileRPG
 {
@@ -31,10 +30,8 @@ namespace TileRPG
 
     void TileRPGGameLoop::loopBody(float delta)
     {
-        delta;
-
         handleEvents();
-        
+        _logic.Tick(delta);
     }
     void TileRPGGameLoop::copyRemoteQueue()
     {
@@ -51,11 +48,9 @@ namespace TileRPG
         copyRemoteQueue();
         GlEngine::Events::Event *evt;
         while ((evt = localQueue.RemoveEvent()) != nullptr)
-            dispatchEvent(evt);
-    }
-    void TileRPGGameLoop::dispatchEvent(GlEngine::Events::Event *evt)
-    {
-        
-        delete evt;
+        {
+            _logic.DispatchEvent(evt);
+            delete evt;
+        }
     }
 }

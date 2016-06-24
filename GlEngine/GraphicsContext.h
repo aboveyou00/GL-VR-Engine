@@ -9,6 +9,8 @@
 #include "GameObject.h"
 #include "GlRenderTarget.h"
 
+#include "GameLoop.h"
+
 namespace GlEngine
 {
 	class ENGINE_SHARED GraphicsContext : public IComponent 
@@ -17,7 +19,6 @@ namespace GlEngine
 		GraphicsContext();
 		~GraphicsContext();
 
-		rt_mutex _lock;
 		std::unordered_map<GameObject *, GraphicsObject *> objs;
 		
 		static const int maxGraphicsObjects = 100000;
@@ -36,11 +37,20 @@ namespace GlEngine
 		void AddRenderTarget(GlRenderTarget * renderTarget);
 
 		void Render();
+
+        inline rt_mutex &GetMutex()
+        {
+            return _lock;
+        }
 	
 	private:
+        rt_mutex _lock;
 
 		static const int maxRenderTargets = 256;
 		GlRenderTarget * renderTargets[maxRenderTargets];
 		int renderTargetCount = 0;
+        GameLoop _loop;
+
+        void Tick(float delta);
 	};
 }
