@@ -50,7 +50,7 @@ namespace GlEngine
             return true;
         }
 
-        logger.Log(LogType::FatalError, "FileConfigProvider.Initialize() successful.");
+        logger.Log(LogType::Info, "FileConfigProvider.Initialize() successful.");
         return true;
     }
     void FileConfigProvider::Shutdown()

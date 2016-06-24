@@ -99,9 +99,6 @@ namespace TileRPG
         _gfxContext->Register(gameObject, graphicsObject);
         _loop.GetGameLogic().AddGameObject(gameObject);
 
-        //_gfxContext->Update();
-        //_gfxContext->Render();
-
         logger->Log(GlEngine::LogType::InfoC, "TileRPG initialization successful. Beginning game.");
         return true;
     }

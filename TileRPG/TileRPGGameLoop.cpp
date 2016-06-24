@@ -8,7 +8,7 @@
 namespace TileRPG
 {
     TileRPGGameLoop::TileRPGGameLoop(unsigned targetFPS)
-        : GlEngine::GameLoop([&](float delta) { this->loopBody(delta); }, targetFPS)
+        : GlEngine::GameLoop([] { this_thread_name() = "gameloop"; return true; }, [&](float delta) { this->loopBody(delta); }, nullptr, targetFPS)
     {
     }
     TileRPGGameLoop::~TileRPGGameLoop()

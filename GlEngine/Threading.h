@@ -35,3 +35,5 @@ static inline void LockSet(T &val, T newVal, rt_mutex &mutex)
     GlEngine::ScopedLock _lock(mutex);
     val = newVal;
 }
+
+ENGINE_SHARED const char *&this_thread_name();

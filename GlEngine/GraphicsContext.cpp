@@ -5,7 +5,7 @@
 namespace GlEngine
 {
     GraphicsContext::GraphicsContext()
-        : _loop([&] { return this->InitializeRenderTargets(); }, [&](float delta) { this->Tick(delta); }, [&] { this->ShutdownRenderTargets(); })
+        : _loop([&] { this_thread_name() = "graphics"; return this->InitializeRenderTargets(); }, [&](float delta) { this->Tick(delta); }, [&] { this->ShutdownRenderTargets(); })
     {
     }
     GraphicsContext::~GraphicsContext()

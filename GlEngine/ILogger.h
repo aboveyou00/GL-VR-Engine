@@ -28,7 +28,7 @@ namespace GlEngine
             static thread_local char buff1[BUFFER_SIZE];
             static thread_local char buff2[BUFFER_SIZE];
             sprintf_s(buff1, BUFFER_SIZE, format, args...);
-            sprintf_s(buff2, BUFFER_SIZE, "%s [%-8s] %s", getTimestamp(), MakeReadableLogType(type), buff1);
+            sprintf_s(buff2, BUFFER_SIZE, "%s [%-8s] [THREAD: %-8s] %s", getTimestamp(), MakeReadableLogType(type), this_thread_name(), buff1);
 
             if (logConsole)
             {

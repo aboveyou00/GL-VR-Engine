@@ -217,6 +217,7 @@
     <ClCompile Include="PathUtils.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
+    <ClCompile Include="Threading.cpp" />
     <ClCompile Include="TransformedGraphicsObject.cpp" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
