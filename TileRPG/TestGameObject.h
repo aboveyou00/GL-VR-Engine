@@ -13,7 +13,10 @@ namespace TileRPG
         bool Initialize() override;
         void Tick(float delta) override;
 
+        void HandleEvent(GlEngine::Events::Event &evt) override;
+
     private:
         float timePassed;
+        bool leftPressed, rightPressed, upPressed, downPressed;
     };
 }

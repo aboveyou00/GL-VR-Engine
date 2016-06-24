@@ -30,7 +30,7 @@ namespace GlEngine
         virtual void Shutdown();
         virtual void Tick(float delta);
 
-        void HandleEvent(Events::Event &evt);
+        virtual void HandleEvent(Events::Event &evt);
 
 		Vector<3> position;
 		Matrix<4, 4> orientation;
