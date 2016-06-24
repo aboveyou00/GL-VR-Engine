@@ -22,7 +22,9 @@ namespace TileRPG
         }
 
     private:
+        bool initLoop();
         void loopBody(float delta);
+        void shutdownLoop();
 
         GlEngine::Events::EventQueue localQueue;
         void copyRemoteQueue();

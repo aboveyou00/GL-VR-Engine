@@ -4,11 +4,16 @@
 #include "Threading.h"
 
 #include "Engine.h"
+#include "ServiceProvider.h"
+#include "ILogger.h"
 
 namespace TileRPG
 {
     TileRPGGameLoop::TileRPGGameLoop(unsigned targetFPS)
-        : GlEngine::GameLoop([] { this_thread_name() = "gameloop"; return true; }, [&](float delta) { this->loopBody(delta); }, nullptr, targetFPS)
+        : GlEngine::GameLoop(
+            [&] { return this->initLoop(); },
+            [&](float delta) { this->loopBody(delta); },
+            [&] { this->shutdownLoop(); }, targetFPS)
     {
     }
     TileRPGGameLoop::~TileRPGGameLoop()
@@ -28,10 +33,22 @@ namespace TileRPG
         _logic.Shutdown();
     }
 
+    bool TileRPGGameLoop::initLoop()
+    {
+        this_thread_name() = "gameloop";
+        auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+        logger->Log(GlEngine::LogType::Info, "Beginning game loop thread");
+        return true;
+    }
     void TileRPGGameLoop::loopBody(float delta)
     {
         handleEvents();
         _logic.Tick(delta);
+    }
+    void TileRPGGameLoop::shutdownLoop()
+    {
+        auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+        logger->Log(GlEngine::LogType::Info, "Terminating game loop thread");
     }
     void TileRPGGameLoop::copyRemoteQueue()
     {

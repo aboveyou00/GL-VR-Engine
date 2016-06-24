@@ -6,7 +6,7 @@
 namespace TileRPG
 {
     GameLogic::GameLogic()
-        : loop(new GlEngine::GameLoop([&](float delta) { this->Tick(delta); }, 300)),
+        : loop(new GlEngine::GameLoop([&](float delta) { this->Tick(delta); }, 60)),
           tiles(new TileManager())
     {
     }

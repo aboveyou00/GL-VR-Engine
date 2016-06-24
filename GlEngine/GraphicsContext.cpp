@@ -2,10 +2,18 @@
 #include "GraphicsContext.h"
 #include "OpenGl.h"
 
+#include "Engine.h"
+#include "ServiceProvider.h"
+#include "ILogger.h"
+
 namespace GlEngine
 {
     GraphicsContext::GraphicsContext()
-        : _loop([&] { this_thread_name() = "graphics"; return this->InitializeRenderTargets(); }, [&](float delta) { this->Tick(delta); }, [&] { this->ShutdownRenderTargets(); })
+        : _loop(
+            [&] { return this->InitializeRenderTargets(); },
+            [&](float delta) { this->Tick(delta); },
+            [&] { this->ShutdownRenderTargets(); }
+        )
     {
     }
     GraphicsContext::~GraphicsContext()
@@ -69,6 +77,9 @@ namespace GlEngine
 
     bool GraphicsContext::InitializeRenderTargets()
     {
+        this_thread_name() = "graphics";
+        auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+        logger->Log(GlEngine::LogType::Info, "Beginning OpenGL graphics thread");
         for (size_t q = 0; q < renderTargetCount; q++)
             if (!renderTargets[q]->Initialize()) return false;
         return true;
@@ -80,6 +91,8 @@ namespace GlEngine
     }
     void GraphicsContext::ShutdownRenderTargets()
     {
+        auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+        logger->Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");
         for (size_t q = 0; q < renderTargetCount; q++)
             renderTargets[q]->Shutdown();
     }
