@@ -9,6 +9,7 @@ namespace GlEngine
     class Window;
     class GlRenderTarget;
     class ILogger;
+    class IConfigProvider;
 }
 
 namespace TileRPG
@@ -41,11 +42,15 @@ namespace TileRPG
     private:
         TileRPGGameLoop _loop;
 
-        GlEngine::ILogger *logger;
+        GlEngine::ILogger *logger = nullptr;
+        GlEngine::IConfigProvider *config = nullptr;
 
         bool createWindow();
         void destroyWindow();
-        GlEngine::Window *_window;
-        GlEngine::GlRenderTarget *_renderTarget;
+        GlEngine::Window *_window = nullptr;
+        GlEngine::GlRenderTarget *_renderTarget = nullptr;
+
+        GlEngine::ILogger *registerLogger();
+        GlEngine::IConfigProvider *registerConfig();
     };
 }

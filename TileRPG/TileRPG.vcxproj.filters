@@ -189,4 +189,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="TileRPG.config">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

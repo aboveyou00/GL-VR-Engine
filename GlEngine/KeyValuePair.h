@@ -24,8 +24,8 @@ namespace GlEngine
             static const size_t MAX_VALUE_SIZE = 64;
 
         private:
-            char _key[MAX_KEY_SIZE],
-                 _value[MAX_VALUE_SIZE];
+            char _key[MAX_KEY_SIZE] = { '\0' },
+                 _value[MAX_VALUE_SIZE] = { '\0' };
         };
     }
 }

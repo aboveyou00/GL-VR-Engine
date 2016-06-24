@@ -11,6 +11,7 @@
 #include "OpenGl.h"
 
 #include "FileLogger.h"
+#include "FileConfigProvider.h"
 
 namespace TileRPG
 {
@@ -34,15 +35,16 @@ namespace TileRPG
             return false;
         }
 
-		auto & graphicsContext = * new GlEngine::GraphicsContext();
-		
-        //_window->SetFullscreen(true);
+        if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
         _renderTarget = new GlEngine::GlRenderTarget(_window);
         if (!_renderTarget->Initialize())
         {
             engine.Shutdown(); //This will call _window.Shutdown(), we don't have to do it
             return false;
         }
+
+        auto & graphicsContext = *new GlEngine::GraphicsContext();
+        graphicsContext.AddRenderTarget(_renderTarget);
 
 		GlEngine::GameObject gameObject;
         GlEngine::GraphicsObject graphicsObject;
@@ -58,8 +60,6 @@ namespace TileRPG
 
         glClearColor(1.f, 0.f, 0.f, 1.f);
         
-		graphicsContext.AddRenderTarget(_renderTarget);
-
         _window->Show();
 		graphicsContext.Update();
 		graphicsContext.Render();
@@ -81,15 +81,10 @@ namespace TileRPG
 
     bool TileRPGGame::Initialize()
     {
-        auto &serviceProvider = GlEngine::Engine::GetInstance().GetServiceProvider();
-        auto f_logger = new GlEngine::FileLogger("", "TileRPG.log");
-        logger = f_logger;
-        if (!f_logger->Initialize())
-        {
-            f_logger->Log(GlEngine::LogType::Console, "Could not initialize file logger. Aborting");
-            return false;
-        }
-        serviceProvider.RegisterService<GlEngine::ILogger>(f_logger);
+        logger = registerLogger();
+        if (logger == nullptr) return false;
+        config = registerConfig();
+        if (config == nullptr) return false;
 
         logger->Log(GlEngine::LogType::InfoC, "Welcome to TileRPG! Beginning game initialization...");
 
@@ -123,5 +118,32 @@ namespace TileRPG
 
         auto &engine = GlEngine::Engine::GetInstance();
         engine.MessageLoop();
+    }
+
+    GlEngine::ILogger *TileRPGGame::registerLogger()
+    {
+        auto f_logger = new GlEngine::FileLogger("", "TileRPG.log");
+        if (!f_logger->Initialize())
+        {
+            f_logger->Log(GlEngine::LogType::FatalErrorC, "Could not initialize file logger. Aborting");
+            return nullptr;
+        }
+
+        auto &serviceProvider = GlEngine::Engine::GetInstance().GetServiceProvider();
+        serviceProvider.RegisterService<GlEngine::ILogger>(f_logger);
+        return f_logger;
+    }
+    GlEngine::IConfigProvider *TileRPGGame::registerConfig()
+    {
+        auto f_config = new GlEngine::FileConfigProvider("", "TileRPG.config");
+        if (!f_config->Initialize())
+        {
+            logger->Log(GlEngine::LogType::FatalErrorC, "Could not initialize file config provider. Aborting");
+            return nullptr;
+        }
+
+        auto &serviceProvider = GlEngine::Engine::GetInstance().GetServiceProvider();
+        serviceProvider.RegisterService<GlEngine::IConfigProvider>(f_config);
+        return f_config;
     }
 }

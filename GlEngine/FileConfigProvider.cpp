@@ -2,6 +2,10 @@
 #include "FileConfigProvider.h"
 #include "StringUtils.h"
 
+#include "Engine.h"
+#include "ServiceProvider.h"
+#include "ILogger.h"
+
 namespace GlEngine
 {
     FileConfigProvider::FileConfigProvider(const char *const path, const char *const filename)
@@ -25,34 +29,34 @@ namespace GlEngine
 
     bool FileConfigProvider::Initialize()
     {
+        auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+        logger.Log(LogType::Info, "Initializing FileConfigProvider...");
+
         std::ifstream file;
         if (!openFile(&file, _filename))
         {
-            //TODO: Log initialize failed
-            //GameLogger::Current()->Log(LogType::FatalError, "ConfigReader.Initialize() failed.\n");
-            return false;
+            logger.Log(LogType::Warning, "FileConfigProvider.Initialize() exited with no configuration values.");
+            return true;
         }
         if (!readKeys(&file, *this))
         {
-            //TODO: Log initialize failed
-            //GameLogger::Current()->Log(LogType::FatalError, "ConfigReader.Initialize() failed.\n");
+            logger.Log(LogType::FatalError, "FileConfigProvider.Initialize() failed to read configuration file.");
             file.close();
             return false;
         }
         if (!closeFile(&file))
         {
-            //TODO: Log initialize failed
-            //GameLogger::Current()->Log(LogType::FatalError, "ConfigReader.Initialize() failed.\n");
-            return false;
+            logger.Log(LogType::Warning, "FileConfigProvider.Initialize() exited without releasing file handle.");
+            return true;
         }
-        //TODO: Log initialize successful
-        //GameLogger::Current()->Log(LogType::Process, "ConfigReader.Initialize() successful.\n");
+
+        logger.Log(LogType::FatalError, "FileConfigProvider.Initialize() successful.");
         return true;
     }
     void FileConfigProvider::Shutdown()
     {
-        //TODO: Log shutdown
-        //GameLogger::Current()->Log(LogType::Process, "ConfigReader.Shutdown() successful.\n");
+        auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+        logger.Log(LogType::FatalError, "~Shutting down FileConfigProvider...");
     }
 
     bool FileConfigProvider::IsFull() const
@@ -85,13 +89,15 @@ namespace GlEngine
             }
             if (strcmp(key, _pairs[q].GetKey()) == 0)
             {
-                //TODO: Log attempt at duplicate key.
+                auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+                logger.Log(LogType::Warning, "Tried to add duplicate key to FileConfigProvider: {%s: %s}", key, value);
                 return false;
             }
         }
         if (firstAvailableIndex == -1)
         {
-            //TODO: Log failed attempt because there was no space
+            auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger.Log(LogType::Warning, "Tried to add key/value pair to a full FileConfigProvider: {%s: %s}", key, value);
             return false;
         }
         _pairs[firstAvailableIndex] = Util::KeyValuePair(key, value);
@@ -103,8 +109,8 @@ namespace GlEngine
         file->open(filename, std::ios::in);
         if (file->fail() || !file)
         {
-            //TODO: log config file open failure
-            //GameLogger::Current()->Log(LogType::FatalError, "Could not open configuration file [%s]. Aborting...\n", filename);
+            auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger.Log(LogType::Warning, "Could not open configuration file [%s]", filename);
             return false;
         }
         return true;
@@ -151,9 +157,8 @@ namespace GlEngine
         static char buff[Util::KeyValuePair::MAX_VALUE_SIZE];
         if (!Util::extractToken(buff, sizeof(buff), ptr))
         {
-            key;
-            //TODO: Log invalid-value configuration key error
-            //GameLogger::Current()->Log(LogType::Error, "Found configuration key with an invalid value/no value: [%s]\n", key);
+            auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger.Log(LogType::Error, "Found configuration key with an invalid value/no value: [%s]", key);
             return nullptr;
         }
         return buff;
@@ -163,11 +168,11 @@ namespace GlEngine
         auto err = Util::extractToken(ptr);
         if (err != nullptr)
         {
-            key; val;
-            //TODO: Log multi-value configuration key error
-            //GameLogger::Current()->Log(LogType::Error, "Found configuration key with several values: [%s]. First value: [%s]\n", key, val);
+            auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger.Log(LogType::Error, "Found configuration key with several values: [%s]. First value: [%s]", key, val);
+            return false;
         }
-        return (err == nullptr);
+        return true;
     }
 
     bool closeFile(std::ifstream *file)
@@ -175,8 +180,8 @@ namespace GlEngine
         file->close();
         if (file->is_open())
         {
-            //TODO: Log could-not-close-file error
-            //GameLogger::Current()->Log(LogType::Error, "Could not close configuration file. Continuing...\n");
+            auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger.Log(LogType::Error, "Could not close configuration file after reading it. Continuing...");
             return false;
         }
         return true;
