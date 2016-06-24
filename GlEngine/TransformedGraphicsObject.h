@@ -7,24 +7,19 @@
 
 namespace GlEngine
 {
-	namespace Impl
-	{
-		class TransformedGraphicsObjectImpl;
-	}
-
 	class ENGINE_SHARED TransformedGraphicsObject 
 	{
 	public:
-		TransformedGraphicsObject() : TransformedGraphicsObject(nullptr) {}
-		TransformedGraphicsObject(GraphicsObject * obj);
-		TransformedGraphicsObject(GraphicsObject & obj);
-		TransformedGraphicsObject(GraphicsObject * obj, Vector<3> position, Matrix<4, 4> orientation);
-		TransformedGraphicsObject(GraphicsObject & obj, Vector<3> position, Matrix<4, 4> orientation);
+        TransformedGraphicsObject();
+		TransformedGraphicsObject(GraphicsObject & obj, Vector<3> position = Vector<3> { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
+		TransformedGraphicsObject(GraphicsObject * obj, Vector<3> position = Vector<3> { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
 		~TransformedGraphicsObject();
 
-		void Render() const;
+        void Render() const;
 
-	private:
-		Impl::TransformedGraphicsObjectImpl * pimpl;
+        GraphicsObject * graphicsObject;
+
+        Vector<3> position;
+        Matrix<4, 4> orientation;
 	};
 }

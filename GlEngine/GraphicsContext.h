@@ -17,7 +17,7 @@ namespace GlEngine
 		GraphicsContext();
 		~GraphicsContext();
 
-		std::mutex _lock;
+		rt_mutex _lock;
 		std::unordered_map<GameObject *, GraphicsObject *> objs;
 		
 		static const int maxGraphicsObjects = 100000;

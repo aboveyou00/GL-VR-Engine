@@ -8,7 +8,7 @@ namespace GlEngine
 	class ENGINE_SHARED GameObject
 	{
 	public:
-		GameObject();
+        GameObject(Vector<3> position = Vector<3> { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
 		~GameObject();
 
 		Vector<3> position;

@@ -45,8 +45,8 @@ namespace TileRPG
         }
 
 		GlEngine::GameObject gameObject;
-		auto graphicsObject = new GlEngine::GraphicsObject();
-		graphicsContext.Register(&gameObject, graphicsObject);
+        GlEngine::GraphicsObject graphicsObject;
+		graphicsContext.Register(&gameObject, &graphicsObject);
 
 		GlEngine::Camera camera;
 

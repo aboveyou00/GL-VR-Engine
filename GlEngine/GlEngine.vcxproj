@@ -186,7 +186,6 @@
     <ClInclude Include="Threading.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
-    <ClInclude Include="TransformedGraphicsObjectImpl.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
@@ -219,7 +218,6 @@
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
     <ClCompile Include="TransformedGraphicsObject.cpp" />
-    <ClCompile Include="TransformedGraphicsObjectImpl.cpp" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="Window.cpp" />

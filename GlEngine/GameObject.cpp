@@ -3,11 +3,11 @@
 
 namespace GlEngine
 {
-	GameObject::GameObject()
-	{
-	}
-
-	GameObject::~GameObject()
+    GameObject::GameObject(Vector<3> position, Matrix<4, 4> orientation)
+        : position(position), orientation(orientation)
+    {
+    }
+    GameObject::~GameObject()
 	{
 	}
 
