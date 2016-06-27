@@ -20,8 +20,8 @@ namespace GlEngine
 			glBegin(GL_TRIANGLES);
 
 			glColor3d(0.0, 1.0, 0.0);
-			glVertex3d(0.4, 0.4, 0.5);
 			glVertex3d(0.4, 0, 0.5);
+			glVertex3d(0.4, 0.4, 0.5);
 			glVertex3d(0, 0.4, 0.5);
 
 			glEnd();

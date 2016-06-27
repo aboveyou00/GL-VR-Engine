@@ -9,7 +9,7 @@ namespace GlEngine
     namespace Impl
     {
 		GlRenderTargetImpl::GlRenderTargetImpl(Window *window)
-			: _window(window)
+			: _window(window), deviceContext(_window->GetDeviceContext())
         {
 		}
         GlRenderTargetImpl::~GlRenderTargetImpl()
@@ -32,7 +32,7 @@ namespace GlEngine
 
 		void GlRenderTargetImpl::MakeCurrentTarget()
 		{
-			wglMakeCurrent(_window->GetDeviceContext(), contextHandle);
+			wglMakeCurrent(deviceContext, contextHandle);
 		}
 
 		bool GlRenderTargetImpl::CreateContext()
@@ -80,15 +80,13 @@ namespace GlEngine
 			
 			/* TODO: Load any glew extensions
 			glewGetExtension();
-			*/
+			*/	
 
 			return true;
 		}
 
 		void GlRenderTargetImpl::Push()
 		{
-			MakeCurrentTarget();
-
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
 			glDepthFunc(GL_LEQUAL);
@@ -106,13 +104,13 @@ namespace GlEngine
 
 		void GlRenderTargetImpl::Flip()
 		{
-			SwapBuffers(_window->GetDeviceContext());
+			SwapBuffers(deviceContext);
 		}
 
 		void GlRenderTargetImpl::ViewPort::ApplyProjection()
 		{
-			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
+			//glFrustum()
 			glOrtho(left, right, bottom, top, nearVal, farVal);
 		}
 
@@ -124,12 +122,14 @@ namespace GlEngine
 
 		void GlRenderTargetImpl::ViewPort::Push()
 		{
+			glMatrixMode(GL_PROJECTION);
 			glPushMatrix();
 			Apply();
 		}
 
 		void GlRenderTargetImpl::ViewPort::Pop()
 		{
+			glMatrixMode(GL_PROJECTION);
 			glPopMatrix();
 		}
     }

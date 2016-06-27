@@ -53,6 +53,7 @@ namespace GlEngine
 
         private:
             Window *_window;
+			HDC deviceContext;
 			HGLRC contextHandle;
 
 			bool CreateContext();

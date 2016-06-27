@@ -39,30 +39,30 @@ public:
         auto result = Matrix<rows, cols>::Identity();
         for (auto q = 0; q < rows - 1; q++)
         {
-            result.values[q][cols - 1] = translateVec[q];
+            result.values[rows - 1][q] = translateVec[q];
         }
         return result;
     }
     template <typename = std::enable_if<rows == 3 && cols == 3>::type>
     static Matrix<3, 3> TranslateMatrix(float x, float y)
     {
-        return Matrix<3, 3> { 1, 0, x,
-                              0, 1, y,
-                              0, 0, 1 };
+        return Matrix<3, 3> { 1, 0, 0,
+                              0, 1, 0,
+                              x, y, 1 };
     }
     template <typename = std::enable_if<rows == 4 && cols == 4>::type>
     static Matrix<4, 4> TranslateMatrix(float x, float y, float z)
     {
-        return Matrix<4, 4> { 1, 0, 0, x,
-                              0, 1, 0, y,
-                              0, 0, 1, z,
-                              0, 0, 0, 1 };
+        return Matrix<4, 4> { 1, 0, 0, 0,
+                              0, 1, 0, 0,
+                              0, 0, 1, 0,
+                              x, y, z, 1 };
     }
     template <typename = std::enable_if<rows == 3 && cols == 3>::type>
     static Matrix<rows, cols> RotateMatrix(float theta)
     {
-        return Matrix<3, 3> { cos(theta), sin(theta), 0,
-                             -sin(theta), cos(theta), 0,
+        return Matrix<3, 3> { cos(theta), -sin(theta), 0,
+                              sin(theta),  cos(theta), 0,
                               0, 0, 1 };
     }
     template <typename = std::enable_if_t<rows == cols && (rows >= 2)>>
@@ -118,7 +118,7 @@ public:
         Matrix<cols, rows> result;
         for (auto q = 0; q < rows; q++)
             for (auto w = 0; w < cols; w++)
-                result.values[w][q] = left.values[q][w] * right;
+                result.values[w][q] = values[q][w];
         return result;
     }
 
