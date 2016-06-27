@@ -31,6 +31,9 @@
     <Filter Include="Source Files\GameObjects">
       <UniqueIdentifier>{eadfcd90-a391-47a4-882f-26cf69ab31da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{44993ca8-569f-4285-be7e-6a74baae508e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -204,6 +207,12 @@
   <ItemGroup>
     <None Include="TileRPG.config">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\std.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\std.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

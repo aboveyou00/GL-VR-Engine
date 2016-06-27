@@ -107,7 +107,7 @@ namespace GlEngine
     bool openFile(std::ifstream *file, const char *const filename)
     {
         file->open(filename, std::ios::in);
-        if (file->fail() || !file)
+        if (file->fail() || !*file)
         {
             auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
             logger.Log(LogType::Warning, "Could not open configuration file [%s]", filename);

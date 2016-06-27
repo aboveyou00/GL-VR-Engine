@@ -10,3 +10,14 @@
 #ifdef max
 #undef max
 #endif
+
+template <typename T>
+inline T max(T one, T two)
+{
+    return (one > two ? one : two);
+}
+template <typename T>
+inline T min(T one, T two)
+{
+    return (one < two ? one : two);
+}

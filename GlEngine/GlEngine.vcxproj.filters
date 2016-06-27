@@ -49,6 +49,9 @@
     <Filter Include="Source Files\GlEngine\Util">
       <UniqueIdentifier>{17200439-e160-47f6-aae9-306f63bd6d33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Middleware">
+      <UniqueIdentifier>{e187a317-925d-4065-9aa3-6979671133c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -298,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="Threading.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
