@@ -71,6 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>$(SolutionDir)GlEngine\Middleware\dlls\;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -88,11 +89,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,32 +149,49 @@
     <ClInclude Include="AlController.h" />
     <ClInclude Include="AlControllerImpl.h" />
     <ClInclude Include="IAudioSource.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraImpl.h" />
+    <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineShared.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventQueue.h" />
+    <ClInclude Include="FileConfigProvider.h" />
+    <ClInclude Include="FileLogger.h" />
+    <ClInclude Include="FixWindows.h" />
     <ClInclude Include="GameLoop.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GlController.h" />
     <ClInclude Include="GlControllerImpl.h" />
     <ClInclude Include="GlRenderTarget.h" />
     <ClInclude Include="GlRenderTargetImpl.h" />
     <ClInclude Include="GraphicsContext.h" />
     <ClInclude Include="GraphicsObject.h" />
+    <ClInclude Include="GraphicsObjectImpl.h" />
     <ClInclude Include="IComponent.h" />
+    <ClInclude Include="IConfigProvider.h" />
+    <ClInclude Include="IEventSender.h" />
     <ClInclude Include="IGameComponent.h" />
+    <ClInclude Include="ILogger.h" />
     <ClInclude Include="IService.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="KeyboardEventType.h" />
+    <ClInclude Include="KeyValuePair.h" />
+    <ClInclude Include="LogType.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="MouseEventType.h" />
     <ClInclude Include="OpenAl.h" />
     <ClInclude Include="OpenGl.h" />
+    <ClInclude Include="PathUtils.h" />
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Threading.h" />
+    <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
@@ -181,35 +201,41 @@
     <ClCompile Include="AlController.cpp" />
     <ClCompile Include="AlControllerImpl.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraImpl.cpp" />
+    <ClCompile Include="ConsoleLogger.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EventQueue.cpp" />
+    <ClCompile Include="FileConfigProvider.cpp" />
+    <ClCompile Include="FileLogger.cpp" />
     <ClCompile Include="GameLoop.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GlController.cpp" />
     <ClCompile Include="GlControllerImpl.cpp" />
     <ClCompile Include="GlRenderTarget.cpp" />
     <ClCompile Include="GlRenderTargetImpl.cpp" />
+    <ClCompile Include="GraphicsContext.cpp" />
+    <ClCompile Include="GraphicsObject.cpp" />
+    <ClCompile Include="GraphicsObjectImpl.cpp" />
+    <ClCompile Include="IConfigProvider.cpp" />
+    <ClCompile Include="ILogger.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
+    <ClCompile Include="KeyValuePair.cpp" />
+    <ClCompile Include="LogType.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="IService.cpp" />
+    <ClCompile Include="PathUtils.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Threading.cpp" />
+    <ClCompile Include="TransformedGraphicsObject.cpp" />
+    <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\glew.redist.1.9.0.1\build\native\glew.redist.targets" Condition="Exists('..\packages\glew.redist.1.9.0.1\build\native\glew.redist.targets')" />
-    <Import Project="..\packages\glew.1.9.0.1\build\native\glew.targets" Condition="Exists('..\packages\glew.1.9.0.1\build\native\glew.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\glew.redist.1.9.0.1\build\native\glew.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glew.redist.1.9.0.1\build\native\glew.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\glew.1.9.0.1\build\native\glew.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glew.1.9.0.1\build\native\glew.targets'))" />
-  </Target>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

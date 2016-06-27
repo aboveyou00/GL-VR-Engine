@@ -49,6 +49,18 @@
     <Filter Include="Header Files\GlEngine\Windows">
       <UniqueIdentifier>{43272050-ac70-4702-916c-822129272cc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Util">
+      <UniqueIdentifier>{fe693c86-ba32-46f9-b002-bac435c34aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Services">
+      <UniqueIdentifier>{79c48e22-527f-4b50-b830-f9901c1ba1f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Services">
+      <UniqueIdentifier>{dc740f92-cc55-4fd8-b62e-153d0d99345b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Util">
+      <UniqueIdentifier>{99dda5cd-531e-4e7b-8481-d54dfb601336}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -90,15 +102,6 @@
     <ClInclude Include="EngineShared.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IService.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ServiceProvider.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformedGraphicsObject.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\GlEngine\Events</Filter>
     </ClInclude>
@@ -119,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="MouseEventType.h">
       <Filter>Header Files\GlEngine\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenAl.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Header Files\GlEngine\Windows</Filter>
@@ -150,6 +150,69 @@
     <ClInclude Include="IAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="FixWindows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyValuePair.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IConfigProvider.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="FileLogger.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="FileConfigProvider.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleLogger.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="IEventSender.h">
+      <Filter>Header Files\GlEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenAl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogType.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="ILogger.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="PathUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IService.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceProvider.h">
+      <Filter>Header Files\GlEngine\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformedGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -163,9 +226,6 @@
     </ClCompile>
     <ClCompile Include="GlControllerImpl.cpp">
       <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="ServiceProvider.cpp">
-      <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardEvent.cpp">
       <Filter>Source Files\GlEngine\Events</Filter>
@@ -194,9 +254,6 @@
     <ClCompile Include="IAudioSource.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="IService.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\GlEngine\Windows</Filter>
     </ClCompile>
@@ -206,8 +263,68 @@
     <ClCompile Include="WindowManager.cpp">
       <Filter>Source Files\GlEngine\Windows</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="Threading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyValuePair.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeUtils.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="FileLogger.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="ILogger.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsContext.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformedGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="LogType.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="FileConfigProvider.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleLogger.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="IConfigProvider.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="PathUtils.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtils.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="IService.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceProvider.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

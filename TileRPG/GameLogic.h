@@ -1,8 +1,12 @@
 #pragma once
 
-#include "TileManager.h"
 #include "World.h"
 #include "IGameComponent.h"
+
+#include "Event.h"
+
+#include "GameObject.h"
+#include <vector>
 
 namespace GlEngine
 {
@@ -11,6 +15,8 @@ namespace GlEngine
 
 namespace TileRPG
 {
+    class TileManager;
+
     class GameLogic : public GlEngine::IGameComponent
     {
     public:
@@ -21,9 +27,15 @@ namespace TileRPG
         void Tick(float delta);
         void Shutdown();
 
+        void AddGameObject(GlEngine::GameObject *obj);
+        void RemoveGameObject(GlEngine::GameObject *obj);
+
+        void DispatchEvent(GlEngine::Events::Event *evt);
+
     private:
-        TileManager tiles;
         World world;
+        TileManager *tiles;
         GlEngine::GameLoop *loop;
+        std::vector<GlEngine::GameObject*> _gameObjects;
     };
 }

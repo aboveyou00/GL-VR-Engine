@@ -1,7 +1,9 @@
 #pragma once
 
 #include "GameLoop.h"
+#include "GameLogic.h"
 #include "IComponent.h"
+#include "EventQueue.h"
 
 namespace TileRPG
 {
@@ -14,9 +16,20 @@ namespace TileRPG
         bool Initialize();
         void Shutdown();
 
-        int frameIdx = 0;
+        inline GameLogic &GetGameLogic()
+        {
+            return _logic;
+        }
 
     private:
-        void LoopBody(float delta);
+        bool initLoop();
+        void loopBody(float delta);
+        void shutdownLoop();
+
+        GlEngine::Events::EventQueue localQueue;
+        void copyRemoteQueue();
+        void handleEvents();
+
+        GameLogic _logic;
     };
 }

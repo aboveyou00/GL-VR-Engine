@@ -10,7 +10,7 @@ namespace GlEngine
         class ENGINE_SHARED KeyboardEvent : public Event
         {
         public:
-            KeyboardEvent(unsigned int vkCode, KeyboardEventType type, void *sender = nullptr);
+            KeyboardEvent(unsigned int vkCode, KeyboardEventType type, IEventSender *sender = nullptr);
             ~KeyboardEvent();
             
             inline unsigned int GetVirtualKeyCode()

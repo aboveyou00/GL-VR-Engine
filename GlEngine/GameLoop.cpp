@@ -4,8 +4,14 @@
 namespace GlEngine
 {
     GameLoop::GameLoop(std::function<void(float)> updateFn, unsigned targetFPS)
+        : GameLoop(nullptr, updateFn, nullptr, targetFPS)
     {
+    }
+    GameLoop::GameLoop(std::function<bool()> initializeFn, std::function<void(float)> updateFn, std::function<void()> shutdownFn, unsigned targetFPS)
+    {
+        this->initializeFn = initializeFn;
         this->updateFn = updateFn;
+        this->shutdownFn = shutdownFn;
         this->targetFPS = targetFPS;
     }
     GameLoop::~GameLoop()
@@ -60,6 +66,12 @@ namespace GlEngine
         auto lastTickStart = std::chrono::high_resolution_clock::now();
         auto deltaCorrection = 0ns;
 
+        if (initializeFn != nullptr && !initializeFn())
+        {
+            ReleaseLock(running, mutex);
+            return;
+        }
+
         while (!LockGet(stopping, mutex))
         {
             auto thisTickStart = std::chrono::high_resolution_clock::now();
@@ -76,6 +88,8 @@ namespace GlEngine
             }
             lastTickStart = thisTickStart;
         }
+
+        if (shutdownFn != nullptr) shutdownFn();
 
         ReleaseLock(running, mutex);
     }

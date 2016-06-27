@@ -3,7 +3,7 @@
 
 namespace GlEngine
 {
-    ScopedLock::ScopedLock(std::mutex &mutex)
+    ScopedLock::ScopedLock(rt_mutex &mutex)
     {
         _mutex = &mutex;
         _mutex->lock();

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "IEventSender.h"
+
 namespace GlEngine
 {
     namespace Events
@@ -7,7 +9,7 @@ namespace GlEngine
         class ENGINE_SHARED Event
         {
         public:
-            Event(void *sender = nullptr)
+            Event(IEventSender *sender = nullptr)
                 : _sender(sender)
             {
             }
@@ -24,7 +26,7 @@ namespace GlEngine
                 _handled = true;
             }
 
-            inline void *GetSender()
+            inline IEventSender *GetSender()
             {
                 return _sender;
             }
@@ -42,7 +44,7 @@ namespace GlEngine
 
         private:
             bool _handled;
-            void *_sender;
+            IEventSender *_sender;
         };
     }
 }

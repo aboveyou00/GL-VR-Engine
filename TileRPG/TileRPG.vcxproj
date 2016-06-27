@@ -167,6 +167,7 @@
     <ClInclude Include="RockTile.h" />
     <ClInclude Include="IStairsTile.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TestGameObject.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="TileRPGGame.h" />
     <ClInclude Include="TileRPGGameLoop.h" />
@@ -195,12 +196,18 @@
     <ClCompile Include="RockStairsTile.cpp" />
     <ClCompile Include="RockTile.cpp" />
     <ClCompile Include="IStairsTile.cpp" />
+    <ClCompile Include="TestGameObject.cpp" />
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TileRPGGame.cpp" />
     <ClCompile Include="TileRPGGameLoop.cpp" />
     <ClCompile Include="WaterTile.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldLoader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\std.frag.shader" />
+    <None Include="Shaders\std.vert.shader" />
+    <None Include="TileRPG.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

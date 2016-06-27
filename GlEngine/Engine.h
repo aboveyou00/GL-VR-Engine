@@ -40,6 +40,8 @@ namespace GlEngine
             return _services;
         }
 
+        rt_mutex &GetMutex();
+
         void MessageLoop();
 
     private:

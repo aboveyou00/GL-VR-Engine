@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "GameLogic.h"
 
 #include "TileRPGGame.h"
 
@@ -7,6 +6,8 @@ int main(int argc, char **argv)
 {
     argc; argv;
     //TODO: Parse arguments
+
+    this_thread_name() = "main";
 
     TileRPG::TileRPGGame game;
     

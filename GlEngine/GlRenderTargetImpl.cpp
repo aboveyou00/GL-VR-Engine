@@ -1,15 +1,17 @@
 #include "stdafx.h"
 #include "GlRenderTargetImpl.h"
+
 #include "Window.h"
+#include <chrono>
 
 namespace GlEngine
 {
     namespace Impl
     {
-        GlRenderTargetImpl::GlRenderTargetImpl(Window *window)
-            : _window(window)
+		GlRenderTargetImpl::GlRenderTargetImpl(Window *window)
+			: _window(window), deviceContext(_window->GetDeviceContext())
         {
-        }
+		}
         GlRenderTargetImpl::~GlRenderTargetImpl()
         {
         }
@@ -19,29 +21,23 @@ namespace GlEngine
 			if (!CreateContext()) return false;
 			if (!LoadGlewExtensions()) return false;
 			MakeCurrentTarget();
-
             return true;
         }
 
         void GlRenderTargetImpl::Shutdown()
         {
-			wglMakeCurrent(_window->GetDeviceContext(), nullptr);
+			wglMakeCurrent(nullptr, nullptr);
 			wglDeleteContext(contextHandle);
         }
 
 		void GlRenderTargetImpl::MakeCurrentTarget()
 		{
-			wglMakeCurrent(_window->GetDeviceContext(), contextHandle);
-		}
-
-		void GlRenderTargetImpl::SetGraphicsContext(GraphicsContext *graphicsContext)
-		{
-            graphicsContext;
+			wglMakeCurrent(deviceContext, contextHandle);
 		}
 
 		bool GlRenderTargetImpl::CreateContext()
 		{
-			/* Pixel format ptions we would like (NOT guaranteed) to have */
+			/* Pixel format options we would like (NOT guaranteed) to have */
 			PIXELFORMATDESCRIPTOR pfd =
 			{
 				sizeof(PIXELFORMATDESCRIPTOR),
@@ -84,14 +80,57 @@ namespace GlEngine
 			
 			/* TODO: Load any glew extensions
 			glewGetExtension();
-			*/
+			*/	
 
 			return true;
 		}
 
+		void GlRenderTargetImpl::Push()
+		{
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_CULL_FACE);
+			glDepthFunc(GL_LEQUAL);
+
+            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			viewPort.Push();
+		}
+
+		void GlRenderTargetImpl::Pop()
+		{
+			viewPort.Pop();
+		}
+
 		void GlRenderTargetImpl::Flip()
 		{
-			SwapBuffers(_window->GetDeviceContext());
+			SwapBuffers(deviceContext);
+		}
+
+		void GlRenderTargetImpl::ViewPort::ApplyProjection()
+		{
+			glLoadIdentity();
+			//glFrustum()
+			glOrtho(left, right, bottom, top, nearVal, farVal);
+		}
+
+		void GlRenderTargetImpl::ViewPort::Apply()
+		{
+			//relativeCamera.Apply();
+			ApplyProjection();
+		}
+
+		void GlRenderTargetImpl::ViewPort::Push()
+		{
+			glMatrixMode(GL_PROJECTION);
+			glPushMatrix();
+			Apply();
+		}
+
+		void GlRenderTargetImpl::ViewPort::Pop()
+		{
+			glMatrixMode(GL_PROJECTION);
+			glPopMatrix();
 		}
     }
 }

@@ -6,6 +6,7 @@ namespace GlEngine
     {
     public:
         GameLoop(std::function<void(float)> updateFn, unsigned targetFPS = 60u);
+        GameLoop(std::function<bool()> initializeFn, std::function<void(float)> updateFn, std::function<void()> shutdownFn = nullptr, unsigned targetFPS = 60u);
         ~GameLoop();
 
         void RunLoop();
@@ -21,10 +22,12 @@ namespace GlEngine
         void SetTargetFPS(unsigned target);
 
     private:
+        std::function<bool()> initializeFn;
         std::function<void(float)> updateFn;
+        std::function<void()> shutdownFn;
         unsigned targetFPS = 60;
         bool running = false, stopping = false;
-        std::mutex mutex;
+        rt_mutex mutex;
         std::thread loopThread;
 
         std::function<void()> GetThreadEntryPoint();

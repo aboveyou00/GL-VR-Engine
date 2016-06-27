@@ -8,6 +8,9 @@ namespace GlEngine
 {
     class Window;
     class GlRenderTarget;
+    class GraphicsContext;
+    class ILogger;
+    class IConfigProvider;
 }
 
 namespace TileRPG
@@ -27,27 +30,24 @@ namespace TileRPG
         {
             return _loop;
         }
-        inline GameLogic &GetGameLogic()
-        {
-            return _logic;
-        }
 
         inline GlEngine::Window &GetWindow()
         {
             return *_window;
         }
-        inline GlEngine::GlRenderTarget &GetRenderTarget()
-        {
-            return *_renderTarget;
-        }
 
     private:
-        GameLogic _logic;
         TileRPGGameLoop _loop;
+
+        GlEngine::ILogger *logger = nullptr;
+        GlEngine::IConfigProvider *config = nullptr;
 
         bool createWindow();
         void destroyWindow();
-        GlEngine::Window *_window;
-        GlEngine::GlRenderTarget *_renderTarget;
+        GlEngine::Window *_window = nullptr;
+        GlEngine::GraphicsContext *_gfxContext = nullptr;
+
+        GlEngine::ILogger *registerLogger();
+        GlEngine::IConfigProvider *registerConfig();
     };
 }

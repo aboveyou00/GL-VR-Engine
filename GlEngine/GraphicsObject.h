@@ -2,11 +2,20 @@
 
 namespace GlEngine
 {
+	namespace Impl
+	{
+		class GraphicsObjectImpl;
+	}
+
 	class ENGINE_SHARED GraphicsObject
 	{
+	public:
 		GraphicsObject();
 		~GraphicsObject();
 
-		void Draw();
+		void Render();
+
+	private:
+		Impl::GraphicsObjectImpl *pimpl;
 	};
 }

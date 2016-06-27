@@ -31,7 +31,7 @@ namespace GlEngine
             if ((_bottom == 0 && _top == MAX_EVENTS - 1) || (_bottom == _top + 1)) return false;
             _queue[_top++] = evt;
             if (_top >= MAX_EVENTS) _top = 0;
-            std::cout << "Pushing event: " << *evt << std::endl;
+            //std::cout << "Pushing event: " << *evt << std::endl;
             return true;
         }
 

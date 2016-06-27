@@ -3,6 +3,7 @@
 #include "IComponent.h"
 #include "OpenGl.h"
 #include "GraphicsContext.h"
+#include "Camera.h"
 
 namespace GlEngine
 {
@@ -10,19 +11,23 @@ namespace GlEngine
 
     namespace Impl
     {
-        class GlRenderTargetImpl : public IComponent
+        class ENGINE_SHARED GlRenderTargetImpl : public IComponent
         {
         public:
-            GlRenderTargetImpl(Window *window);
+			GlRenderTargetImpl(Window * window);
             ~GlRenderTargetImpl();
 
             bool Initialize();
             void Shutdown();
 
-			void MakeCurrentTarget();
-			void SetGraphicsContext(GraphicsContext * graphicsContext);
+			bool alive = true;
 
-			void Render();
+			void MakeCurrentTarget();
+			
+			Camera * camera = nullptr;
+
+			void Push();
+			void Pop();
 			void Flip();
 
 			int depthBufferBits = 24;
@@ -33,8 +38,22 @@ namespace GlEngine
 
 			int pixelFormatAdditionalFlags = 0;
 
+			class ViewPort
+			{
+			public:
+				Camera relativeCamera;
+
+				double left = -1, right = 1, top = 1, bottom = -1, nearVal = 0, farVal = 100;
+				void ApplyProjection();
+				void Apply();
+
+				void Push();
+				void Pop();
+			} viewPort;
+
         private:
             Window *_window;
+			HDC deviceContext;
 			HGLRC contextHandle;
 
 			bool CreateContext();

@@ -27,6 +27,16 @@ namespace GlEngine
         pimpl->Shutdown();
     }
 
+	Camera * GlRenderTarget::GetCamera()
+	{
+		return pimpl->camera;
+	}
+
+	void GlRenderTarget::SetCamera(Camera * cam)
+	{
+		pimpl->camera = cam;
+	}
+
 	void GlRenderTarget::SetCurrent()
 	{
 		pimpl->MakeCurrentTarget();
@@ -34,5 +44,14 @@ namespace GlEngine
 	void GlRenderTarget::Flip()
 	{
 		pimpl->Flip();
+	}
+
+	void GlRenderTarget::Push()
+	{
+		pimpl->Push();
+	}
+	void GlRenderTarget::Pop()
+	{
+		pimpl->Pop();
 	}
 }
