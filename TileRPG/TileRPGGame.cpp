@@ -19,6 +19,7 @@ namespace TileRPG
 {
     TileRPGGame::TileRPGGame()
     {
+		
     }
     TileRPGGame::~TileRPGGame()
     {

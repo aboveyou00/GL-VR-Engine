@@ -9,6 +9,7 @@ namespace TileRPG
         : upPressed(0), downPressed(0), leftPressed(0), rightPressed(0)
     {
         RequireTick(true);
+		timePassed = 0;
     }
     TestGameObject::~TestGameObject()
     {

@@ -11,13 +11,11 @@ namespace GlEngine
 
 		void CameraImpl::Apply()
 		{
-			Vector<3> forward = (target - eye).Normalized();
-			auto side = forward.Cross(up).Normalized();
-			up = side.Cross(forward);
+			Vector<3> forward = (eye - target).Normalized();
+			auto side = up.Cross(forward).Normalized();
+			up = forward.Cross(side);
 
-			view = Matrix<3, 3>::FromCols(-side, -up, -forward).ToTransformMatrix();
-
-			glMatrixMode(GL_MODELVIEW);
+			view = Matrix<3, 3>::FromCols(-side, up, forward).ToTransformMatrix();
 			glMultMatrixf(view.getAddr());
 			
 			glTranslatef(-eye[0], -eye[1], -eye[2]);
@@ -25,12 +23,14 @@ namespace GlEngine
 
 		void CameraImpl::Push()
 		{
+			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
 			Apply();
 		}
 
 		void CameraImpl::Pop()
 		{
+			glMatrixMode(GL_MODELVIEW);
 			glPopMatrix();
 		}
 	}
