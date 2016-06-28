@@ -12,7 +12,6 @@ namespace GlEngine
     {
         if (pimpl != nullptr)
         {
-            Shutdown();
             delete pimpl;
             pimpl = nullptr;
         }

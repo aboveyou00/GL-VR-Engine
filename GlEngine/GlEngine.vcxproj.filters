@@ -141,12 +141,6 @@
     <ClInclude Include="GraphicsContext.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="AlController.h">
-      <Filter>Header Files\GlEngine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="AlControllerImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="IAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
     </ClInclude>
@@ -180,9 +174,6 @@
     <ClInclude Include="IEventSender.h">
       <Filter>Header Files\GlEngine\Events</Filter>
     </ClInclude>
-    <ClInclude Include="OpenAl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LogType.h">
       <Filter>Header Files\GlEngine\Services</Filter>
     </ClInclude>
@@ -213,6 +204,18 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioController.h">
+      <Filter>Header Files\GlEngine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioControllerImpl.h">
+      <Filter>Header Files\GlEngine\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -235,12 +238,6 @@
     </ClCompile>
     <ClCompile Include="EventQueue.cpp">
       <Filter>Source Files\GlEngine\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="AlControllerImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="AlController.cpp">
-      <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
     <ClCompile Include="GlController.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -325,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="ServiceProvider.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioController.cpp">
+      <Filter>Source Files\GlEngine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioControllerImpl.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

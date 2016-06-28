@@ -9,7 +9,7 @@ namespace GlEngine
 {
     class WindowManager;
     class GlController;
-    class AlController;
+    class AudioController;
 
     class ENGINE_SHARED Engine : public IComponent
     {
@@ -30,7 +30,7 @@ namespace GlEngine
 
         WindowManager &GetWindowManager();
         GlController &GetGlController();
-        AlController &GetAlController();
+        AudioController &GetAudioController();
         inline Events::EventQueue &GetEventQueue()
         {
             return _events;

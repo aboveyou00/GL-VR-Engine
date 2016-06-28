@@ -89,13 +89,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\glew\include;$(SolutionDir)GlEngine\Middleware\yse\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32\;$(SolutionDir)GlEngine\Middleware\yse\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,8 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AlController.h" />
-    <ClInclude Include="AlControllerImpl.h" />
+    <ClInclude Include="AudioController.h" />
+    <ClInclude Include="AudioControllerImpl.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraImpl.h" />
@@ -179,10 +179,11 @@
     <ClInclude Include="KeyValuePair.h" />
     <ClInclude Include="LogType.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Memory.h" />
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="MouseEventType.h" />
-    <ClInclude Include="OpenAl.h" />
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="PathUtils.h" />
     <ClInclude Include="ScopedLock.h" />
@@ -198,8 +199,8 @@
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AlController.cpp" />
-    <ClCompile Include="AlControllerImpl.cpp" />
+    <ClCompile Include="AudioController.cpp" />
+    <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />

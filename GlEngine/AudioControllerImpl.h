@@ -8,25 +8,27 @@ namespace GlEngine
 
     namespace Impl
     {
-        class AlControllerImpl : public IComponent
+        class AudioControllerImpl : public IGameComponent
         {
         public:
-            AlControllerImpl();
-            ~AlControllerImpl();
+            AudioControllerImpl();
+            ~AudioControllerImpl();
 
             bool Initialize();
             void Shutdown();
 
+            void Tick(float delta);
+
             IAudioSource *CreateAudioSource();
             void ReleaseAudioSource(IAudioSource *source);
 
-            inline std::mutex &GetMutex()
+            inline rt_mutex &GetMutex()
             {
                 return audioMutex;
             }
 
         private:
-            std::mutex audioMutex;
+            rt_mutex audioMutex;
         };
     }
 }

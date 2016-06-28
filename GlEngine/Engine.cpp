@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Engine.h"
 #include "GlController.h"
-#include "AlController.h"
+#include "AudioController.h"
 #include "WindowManager.h"
 
 #include "ConsoleLogger.h"
@@ -37,7 +37,7 @@ namespace GlEngine
             GetWindowManager().Shutdown();
             return false;
         }
-        if (!GetAlController().Initialize())
+        if (!GetAudioController().Initialize())
         {
             logger.Log(LogType::FatalError, "GlEngine AlController failed to initialize, aborting!");
             GetGlController().Shutdown();
@@ -53,7 +53,7 @@ namespace GlEngine
 
         logger.Log(LogType::Info, "~Shutting down GlEngine");
 
-        GetAlController().Shutdown();
+        GetAudioController().Shutdown();
         GetGlController().Shutdown();
         GetWindowManager().Shutdown();
     }
@@ -66,9 +66,9 @@ namespace GlEngine
     {
         return GlController::GetInstance();
     }
-    AlController &Engine::GetAlController()
+    AudioController &Engine::GetAudioController()
     {
-        return AlController::GetInstance();
+        return AudioController::GetInstance();
     }
     
     rt_mutex &Engine::GetMutex()
@@ -88,6 +88,7 @@ namespace GlEngine
                 DispatchMessage(&msg);
                 if (msg.message == WM_QUIT) return;
             }
+            GetAudioController().Tick(0); //We don't need a delta here, YSE worries about its own timing
         }
     }
 
