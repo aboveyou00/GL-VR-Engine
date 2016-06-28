@@ -8,7 +8,7 @@ namespace GlEngine
 	{
 		GraphicsObjectImpl::GraphicsObjectImpl() 
 		{
-			magic = 54321;
+			vbo = 0;
 		}
 		
 		GraphicsObjectImpl::~GraphicsObjectImpl() 
@@ -17,16 +17,10 @@ namespace GlEngine
 
 		void GraphicsObjectImpl::Render()
 		{
-			glBegin(GL_TRIANGLES);
-
-			glColor3d(0.0, 1.0, 0.0);
-			glVertex3d(0.4, 0, 0.5);
-			glVertex3d(0.4, 0.4, 0.5);
-			glVertex3d(0, 0.4, 0.5);
-
-			glEnd();
-
-			//TODO: actual things
+			if (vbo != 0)
+			{
+				glBindBuffer(GL_VERTEX_ARRAY, vbo);
+			}
 		}
 	}
 }

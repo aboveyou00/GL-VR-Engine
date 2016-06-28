@@ -190,6 +190,7 @@
     <ClInclude Include="Threading.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
+    <ClInclude Include="VBOFactory.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="TransformedGraphicsObject.cpp" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
+    <ClCompile Include="VBOFactory.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "OpenGl.h"
+
 namespace GlEngine
 {
 	namespace Impl
@@ -10,7 +12,7 @@ namespace GlEngine
 			GraphicsObjectImpl();
 			~GraphicsObjectImpl();
 
-			int magic = 0xDEADBEEF;
+			GLuint vbo;
 
 			void Render();
 		};

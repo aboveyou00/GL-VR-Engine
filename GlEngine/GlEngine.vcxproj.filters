@@ -52,6 +52,12 @@
     <Filter Include="Resource Files\Middleware">
       <UniqueIdentifier>{e187a317-925d-4065-9aa3-6979671133c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Resources">
+      <UniqueIdentifier>{9ff0739e-ed4b-4eee-9755-ec1536dbbf7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Resources">
+      <UniqueIdentifier>{b4a1e2cb-4395-4977-8054-1bffbe7b0418}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -204,6 +210,9 @@
     <ClInclude Include="Shader.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
+    <ClInclude Include="VBOFactory.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -307,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="VBOFactory.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
