@@ -1,32 +1,36 @@
 #pragma once
 
-#include "OpenGl.h"
-#include "Vector.h"
-
-#include <vector>
+#include "UnsafeVboFactory.h"
+#include "vbo_attribs.h"
 
 namespace GlEngine
 {
-	class VboFactory
-	{
-	public:
-		void Create(unsigned vertexSize);
-		void SetMode(GLuint mode);
-		void AddVertex(float * attribs, int count);
-		void AddVertex(float * attribs);
-		void AddAttrib(int attrib, int start, int size);
-		GLuint Compile();
+    template <VboType type, typename... TArgs>
+    class VboFactory : private UnsafeVboFactory<type, compound_vbo_attribs<type, TArgs...>::attrib_count>
+    {
+    public:
+        VboFactory(BufferMode mode)
+            : UnsafeVboFactory(compound_vbo_attribs<type, TArgs>::element_count, mode)
+        {
+            compound_vbo_attribs<type, TArgs...>::add_attribs(*this);
+        }
+        ~VboFactory()
+        {
+        }
 
-	private:
-		bool creating = false;
-		unsigned vertexSize = 0;
+        void Allocate(unsigned vertexCount)
+        {
+            UnsafeVboFactory::Allocate(vertexCount);
+        }
 
-		GLuint currentVbo;
-		GLuint currentMode;
+        void AddVertex(TArgs... args)
+        {
+            compound_vbo_attribs<type, TArgs...>::push(args..., data);
+        }
 
-		static const int maxAttribs = 32;
-		int attribs[3 * maxAttribs];
-		int attribCount = 0;
-		std::vector<float> data;
-	};
+        VbObject Compile()
+        {
+            return UnsafeVboFactory::Compile();
+        }
+    };
 }

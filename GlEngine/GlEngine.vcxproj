@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BufferMode.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraImpl.h" />
     <ClInclude Include="ConsoleLogger.h" />
@@ -193,12 +194,17 @@
     <ClInclude Include="Threading.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
+    <ClInclude Include="UnsafeVboFactory.h" />
+    <ClInclude Include="VbObject.h" />
     <ClInclude Include="VBOFactory.h" />
+    <ClInclude Include="VboType.h" />
+    <ClInclude Include="vbo_attribs.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />
     <ClCompile Include="ConsoleLogger.cpp" />
@@ -230,7 +236,8 @@
     <ClCompile Include="TransformedGraphicsObject.cpp" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
-    <ClCompile Include="VBOFactory.cpp" />
+    <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
+    <ClCompile Include="VboFactory.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />

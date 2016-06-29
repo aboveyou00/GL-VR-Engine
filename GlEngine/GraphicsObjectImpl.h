@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OpenGl.h"
+#include "VbObject.h"
 
 namespace GlEngine
 {
@@ -12,7 +13,8 @@ namespace GlEngine
 			GraphicsObjectImpl();
 			~GraphicsObjectImpl();
 
-			GLuint vbo;
+			VbObject arrayVbo;
+            VbObject elementVbo;
 
 			void Render();
 		};
