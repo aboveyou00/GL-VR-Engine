@@ -17,7 +17,23 @@ namespace GlEngine
             for (unsigned i = 0; i < attributeCount; i++)
             {
                 auto attr = attrs[i];
-                glVertexAttribPointer(attr.name, attr.size, static_cast<GLenum>(type), GL_FALSE, vertexSizeInBytes, front + attr.start);
+                switch (type)
+                {
+                case VboType::Float:
+                    glVertexAttribPointer(attr.name, attr.size, static_cast<GLenum>(type), GL_FALSE, vertexSizeInBytes, front + attr.start);
+                    break;
+                case VboType::Double:
+                    glVertexAttribLPointer(attr.name, attr.size, static_cast<GLenum>(type), vertexSizeInBytes, front + attr.start);
+                    break;
+                case VboType::Int:
+                case VboType::UnsignedInt:
+                case VboType::Short:
+                case VboType::UnsignedShort:
+                case VboType::Byte:
+                case VboType::UnsignedByte:
+                    glVertexAttribIPointer(attr.name, attr.size, static_cast<GLenum>(type), vertexSizeInBytes, front + attr.start);
+                    break;
+                }
             }
 
             return VbObject(static_cast<unsigned>(currentVbo), mode);

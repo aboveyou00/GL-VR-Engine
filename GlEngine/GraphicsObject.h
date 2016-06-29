@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EngineShared.h"
+#include "IComponent.h"
 
 namespace GlEngine
 {
@@ -9,11 +10,14 @@ namespace GlEngine
 		class GraphicsObjectImpl;
 	}
 
-	class ENGINE_SHARED GraphicsObject
+	class ENGINE_SHARED GraphicsObject : IComponent
 	{
 	public:
 		GraphicsObject();
 		~GraphicsObject();
+
+        bool Initialize();
+        void Shutdown();
 
 		void Render();
 

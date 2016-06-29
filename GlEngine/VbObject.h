@@ -17,6 +17,11 @@ namespace GlEngine
 
         void MakeCurrent();
 
+        inline operator bool()
+        {
+            return _buffer != 0;
+        }
+
     private:
         unsigned _buffer;
         BufferMode _mode;
