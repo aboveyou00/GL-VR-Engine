@@ -222,7 +222,22 @@
     <ClInclude Include="Middleware\glew\include\GL\wglew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObjLoader.h">
+    <ClInclude Include="VbObject.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="vbo_attribs.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferMode.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="UnsafeVboFactory.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VboType.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VboFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
@@ -329,11 +344,14 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
-    <ClCompile Include="VBOFactory.cpp">
+    <ClCompile Include="VbObject.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
     <ClCompile Include="ObjLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
