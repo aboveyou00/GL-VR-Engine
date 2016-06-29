@@ -10,7 +10,7 @@ namespace GlEngine
     {
     public:
         VboFactory(BufferMode mode)
-            : UnsafeVboFactory(compound_vbo_attribs<type, TArgs>::element_count, mode)
+            : UnsafeVboFactory(compound_vbo_attribs<type, TArgs...>::element_count, mode)
         {
             compound_vbo_attribs<type, TArgs...>::add_attribs(*this);
         }
