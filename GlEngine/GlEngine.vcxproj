@@ -182,6 +182,7 @@
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="MouseEventType.h" />
+    <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="OpenAl.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="PathUtils.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="LogType.cpp" />
     <ClCompile Include="MouseEvent.cpp" />
     <ClCompile Include="IService.cpp" />
+    <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="PathUtils.cpp" />
     <ClCompile Include="ScopedLock.cpp" />
     <ClCompile Include="ServiceProvider.cpp" />
