@@ -231,10 +231,10 @@
     <ClInclude Include="UnsafeVboFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VBOFactory.h">
+    <ClInclude Include="VboType.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VboType.h">
+    <ClInclude Include="VboFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
@@ -342,9 +342,6 @@
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="VbObject.cpp">
-      <Filter>Source Files\GlEngine\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="VboFactory.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
