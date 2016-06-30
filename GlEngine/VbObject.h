@@ -9,7 +9,7 @@ namespace GlEngine
     {
     public:
         VbObject();
-        VbObject(unsigned buff, BufferMode mode);
+        VbObject(unsigned vao, unsigned buff, BufferMode mode);
         ~VbObject();
 
         bool Initialize();
@@ -19,10 +19,11 @@ namespace GlEngine
 
         inline operator bool()
         {
-            return _buffer != 0;
+            return _vao != 0 && _buffer != 0;
         }
 
     private:
+        unsigned _vao;
         unsigned _buffer;
         BufferMode _mode;
     };

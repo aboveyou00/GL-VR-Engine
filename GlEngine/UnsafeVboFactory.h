@@ -9,7 +9,7 @@ namespace GlEngine
     namespace Impl
     {
         typedef struct { unsigned name, start, size; } attribute_descriptor;
-        VbObject CompileVbo(BufferMode mode, unsigned bufferSizeInBytes, unsigned vertexSizeInBytes, char *front, attribute_descriptor *attrs, unsigned attributeCount, VboType type);
+        VbObject CompileVbo(BufferMode mode, unsigned bufferSizeInBytes, unsigned vertexSizeInBytes, void *front, attribute_descriptor *attrs, unsigned attributeCount, VboType type);
     }
 
     template <VboType type = VboType::Float, unsigned attribCount = 1>
@@ -62,7 +62,7 @@ namespace GlEngine
         VbObject Compile()
         {
             assert(attribIdx == attribCount);
-            return Impl::CompileVbo(currentMode, data.size() * sizeof(el_type), vertexSizeInElements * sizeof(el_type), (char*)&data[0], attribs, attribCount, type);
+            return Impl::CompileVbo(currentMode, data.size() * sizeof(el_type), vertexSizeInElements * sizeof(el_type), &data[0], attribs, attribCount, type);
         }
 
     protected:
