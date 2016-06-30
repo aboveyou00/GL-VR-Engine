@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <assert.h>
+#include "vbo_attribs.h"
 
 template <unsigned dimension>//, typename = std::enable_if_t<(dimension > 0)>>
 struct Vector
@@ -108,6 +109,14 @@ public:
         proj = Projection(onto);
         rej = onto - proj;
     }
+
+	bool operator==(const Vector<dimension>& other) const
+	{
+		for (int i = 0; i < dimension; i++)
+			if (other[i] != values[i])
+				return false;
+		return true;
+	}
 
     friend Vector<dimension> operator-(Vector<dimension> &operand)
     {
@@ -228,6 +237,7 @@ private:
     inline void initialize()
     {
     }
+
 };
 
 #endif //ndef VECTOR_H

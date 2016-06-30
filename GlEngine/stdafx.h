@@ -15,9 +15,14 @@
 #include <chrono>
 using namespace std::chrono_literals;
 #include <functional>
+#include <vector>
 #include <assert.h>
+
+#include "VectorVboAttribs.h"
+#include "Matrix.h"
 
 #include "Threading.h"
 #include "Memory.h"
 
-#pragma warning (disable: 4239)
+//#pragma warning (disable: 4239)
+#pragma warning (disable: 4458) //declaration of 'x' hides class member

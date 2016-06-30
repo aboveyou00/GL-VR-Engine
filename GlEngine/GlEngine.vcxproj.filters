@@ -61,6 +61,15 @@
     <Filter Include="Source Files\GlEngine\Util">
       <UniqueIdentifier>{99dda5cd-531e-4e7b-8481-d54dfb601336}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Middleware">
+      <UniqueIdentifier>{e187a317-925d-4065-9aa3-6979671133c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Resources">
+      <UniqueIdentifier>{9ff0739e-ed4b-4eee-9755-ec1536dbbf7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Resources">
+      <UniqueIdentifier>{b4a1e2cb-4395-4977-8054-1bffbe7b0418}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -89,12 +98,6 @@
     </ClInclude>
     <ClInclude Include="GlControllerImpl.h">
       <Filter>Header Files\GlEngine\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="GlRenderTargetImpl.h">
       <Filter>Header Files\GlEngine\Impl</Filter>
@@ -204,8 +207,11 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="VBOFactory.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
     <ClInclude Include="AudioController.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
@@ -215,6 +221,39 @@
     </ClInclude>
     <ClInclude Include="Memory.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VbObject.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="vbo_attribs.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferMode.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="UnsafeVboFactory.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VboType.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VboFactory.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorVboAttribs.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files\GlEngine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjLoader.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,14 +359,26 @@
     <ClCompile Include="IService.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
     </ClCompile>
-    <ClCompile Include="ServiceProvider.cpp">
-      <Filter>Source Files\GlEngine\Services</Filter>
+    <ClCompile Include="Threading.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioController.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
     <ClCompile Include="AudioControllerImpl.cpp">
       <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="VbObject.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLoader.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
+      <Filter>Source Files\GlEngine\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceProvider.cpp">
+      <Filter>Source Files\GlEngine\Services</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

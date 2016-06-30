@@ -19,8 +19,8 @@ namespace GlEngine
         bool GlRenderTargetImpl::Initialize()
         {
 			if (!CreateContext()) return false;
-			if (!LoadGlewExtensions()) return false;
 			MakeCurrentTarget();
+			if (!LoadGlewExtensions()) return false;
             return true;
         }
 
@@ -72,11 +72,14 @@ namespace GlEngine
 		bool GlRenderTargetImpl::LoadGlewExtensions()
 		{
 			// TODO: helpful errors
-			
-			//glewExperimental = TRUE;
-			//GLenum err = glewInit();
-			//if (err != GLEW_OK)
-			//	return false;
+
+			glewExperimental = TRUE;
+			GLenum err = glewInit();
+            if (err != GLEW_OK)
+            {
+                std::cout << "GLEW error: " << glewGetErrorString(err) << std::endl;
+                return false;
+            }
 			
 			/* TODO: Load any glew extensions
 			glewGetExtension();

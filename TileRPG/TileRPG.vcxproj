@@ -207,7 +207,11 @@
   <ItemGroup>
     <None Include="Shaders\std.frag.shader" />
     <None Include="Shaders\std.vert.shader" />
-    <None Include="TileRPG.config" />
+    <None Include="Shaders\simple.frag.shader" />
+    <None Include="Shaders\simple.vert.shader" />
+    <None Include="TileRPG.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

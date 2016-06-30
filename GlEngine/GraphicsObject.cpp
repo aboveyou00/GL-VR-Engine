@@ -17,6 +17,15 @@ namespace GlEngine
 		}
 	}
 
+    bool GraphicsObject::Initialize()
+    {
+        return pimpl->Initialize();
+    }
+    void GraphicsObject::Shutdown()
+    {
+        pimpl->Shutdown();
+    }
+
 	void GraphicsObject::Render()
 	{
 		pimpl->Render();
