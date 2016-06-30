@@ -24,7 +24,7 @@ namespace GlEngine
                 logConsole = true;
             }
 
-            static const size_t BUFFER_SIZE = 512;
+            static const size_t BUFFER_SIZE = 4086;
             static thread_local char buff1[BUFFER_SIZE];
             static thread_local char buff2[BUFFER_SIZE];
             sprintf_s(buff1, BUFFER_SIZE, format, args...);

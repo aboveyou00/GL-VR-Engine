@@ -4,6 +4,7 @@
 #include "VbObject.h"
 
 #include "IComponent.h"
+#include "Shader.h"
 
 namespace GlEngine
 {
@@ -20,6 +21,7 @@ namespace GlEngine
 
 			VbObject arrayVbo;
             VbObject elementVbo;
+            Shader shader;
 
 			void Render();
 		};

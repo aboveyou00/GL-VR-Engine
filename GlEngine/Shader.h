@@ -7,6 +7,7 @@ namespace GlEngine
     class Shader : public IComponent
     {
     public:
+        Shader();
         Shader(const char *name);
         Shader(const char *path, const char *name);
         ~Shader();
@@ -16,9 +17,12 @@ namespace GlEngine
 
         void MakeCurrent();
 
+        operator bool();
+        //void operator=(Shader &other);
+
     private:
-        const char *const _path,
-                   *const _name;
+        const char *_path,
+                   *_name;
         unsigned _vert, _frag, _prog;
         bool _compiled;
 

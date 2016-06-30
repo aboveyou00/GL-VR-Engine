@@ -214,5 +214,11 @@
     <None Include="Shaders\std.frag.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="Shaders\simple.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\simple.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
