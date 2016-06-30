@@ -54,7 +54,7 @@ namespace GlEngine
     struct vbo_attribs<VboType::Int, int32_t>
     {
         static const unsigned element_count = 1;
-        inline static void push(const int32_t &val, std::vector<int> &values)
+        inline static void push(const int32_t &val, std::vector<int32_t> &values)
         {
             values.push_back(val);
         }
@@ -68,6 +68,44 @@ namespace GlEngine
             values.push_back(val);
         }
     };
+
+	template <>
+	struct vbo_attribs<VboType::Short, int16_t>
+	{
+		static const unsigned element_count = 1;
+		inline static void push(const int16_t &val, std::vector<int16_t> &values)
+		{
+			values.push_back(val);
+		}
+	};
+	template <>
+	struct vbo_attribs<VboType::UnsignedShort, uint16_t>
+	{
+		static const unsigned element_count = 1;
+		inline static void push(const uint16_t &val, std::vector<uint16_t> &values)
+		{
+			values.push_back(val);
+		}
+	};
+
+	template <>
+	struct vbo_attribs<VboType::Byte, int8_t>
+	{
+		static const unsigned element_count = 1;
+		inline static void push(const int8_t &val, std::vector<int8_t> &values)
+		{
+			values.push_back(val);
+		}
+	};
+	template <>
+	struct vbo_attribs<VboType::UnsignedByte, uint8_t>
+	{
+		static const unsigned element_count = 1;
+		inline static void push(const uint8_t &val, std::vector<uint8_t> &values)
+		{
+			values.push_back(val);
+		}
+	};
 
     template <>
     struct vbo_attribs<VboType::Float, float>

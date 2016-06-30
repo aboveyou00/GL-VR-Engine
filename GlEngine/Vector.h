@@ -110,6 +110,14 @@ public:
         rej = onto - proj;
     }
 
+	bool operator==(const Vector<dimension>& other) const
+	{
+		for (int i = 0; i < dimension; i++)
+			if (other[i] != values[i])
+				return false;
+		return true;
+	}
+
     friend Vector<dimension> operator-(Vector<dimension> &operand)
     {
         auto result = Vector<dimension>();
