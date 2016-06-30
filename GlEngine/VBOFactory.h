@@ -33,4 +33,6 @@ namespace GlEngine
             return UnsafeVboFactory::Compile();
         }
     };
+
+    using ElementVboFactory = VboFactory<VboType::UnsignedShort, uint16_t, uint16_t, uint16_t>;
 }

@@ -9,6 +9,8 @@ namespace GlEngine
     {
     public:
         VbObject();
+        VbObject(unsigned vao, unsigned buff);
+        VbObject(unsigned buff, BufferMode mode);
         VbObject(unsigned vao, unsigned buff, BufferMode mode);
         ~VbObject();
 
@@ -17,10 +19,7 @@ namespace GlEngine
 
         void MakeCurrent();
 
-        inline operator bool()
-        {
-            return _vao != 0 && _buffer != 0;
-        }
+        operator bool();
 
     private:
         unsigned _vao;

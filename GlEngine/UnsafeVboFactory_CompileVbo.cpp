@@ -22,31 +22,34 @@ namespace GlEngine
             glBindBuffer(static_cast<GLenum>(mode), currentVbo);
             glBufferData(static_cast<GLuint>(mode), bufferSizeInBytes, front, GL_STATIC_DRAW);
 
-            unsigned vao;
-            glGenVertexArrays(1, &vao);
-            glBindVertexArray(vao);
-
-            for (unsigned i = 0; i < attributeCount; i++)
+            unsigned vao = 0;
+            if (mode == BufferMode::Array)
             {
-                auto attr = attrs[i];
-                switch (type)
+                glGenVertexArrays(1, &vao);
+                glBindVertexArray(vao);
+
+                for (unsigned i = 0; i < attributeCount; i++)
                 {
-                case VboType::Float:
-                    glVertexAttribPointer(attr.name, attr.size, static_cast<GLenum>(type), GL_FALSE, vertexSizeInBytes, (void*)attr.start);
-                    break;
-                case VboType::Double:
-                    glVertexAttribLPointer(attr.name, attr.size, static_cast<GLenum>(type), vertexSizeInBytes, (void*)attr.start);
-                    break;
-                case VboType::Int:
-                case VboType::UnsignedInt:
-                case VboType::Short:
-                case VboType::UnsignedShort:
-                case VboType::Byte:
-                case VboType::UnsignedByte:
-                    glVertexAttribIPointer(attr.name, attr.size, static_cast<GLenum>(type), vertexSizeInBytes, (void*)attr.start);
-                    break;
+                    auto attr = attrs[i];
+                    switch (type)
+                    {
+                    case VboType::Float:
+                        glVertexAttribPointer(attr.name, attr.size, static_cast<GLenum>(type), GL_FALSE, vertexSizeInBytes, (void*)attr.start);
+                        break;
+                    case VboType::Double:
+                        glVertexAttribLPointer(attr.name, attr.size, static_cast<GLenum>(type), vertexSizeInBytes, (void*)attr.start);
+                        break;
+                    case VboType::Int:
+                    case VboType::UnsignedInt:
+                    case VboType::Short:
+                    case VboType::UnsignedShort:
+                    case VboType::Byte:
+                    case VboType::UnsignedByte:
+                        glVertexAttribIPointer(attr.name, attr.size, static_cast<GLenum>(type), vertexSizeInBytes, (void*)attr.start);
+                        break;
+                    }
+                    glEnableVertexAttribArray(attr.name);
                 }
-                glEnableVertexAttribArray(attr.name);
             }
 
             return VbObject(vao, currentVbo, mode);

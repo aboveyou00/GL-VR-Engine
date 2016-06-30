@@ -40,16 +40,16 @@ namespace GlEngine
                 if (!shader.Initialize()) return false;
             }
 
-            //if (!elementVbo)
-            //{
-            //    VboFactory<VboType::UnsignedInt, unsigned, unsigned, unsigned> elFactory(BufferMode::ElementArray);
+            if (!elementVbo)
+            {
+                VboFactory<VboType::UnsignedShort, uint16_t, uint16_t, uint16_t> elFactory(BufferMode::ElementArray);
 
-            //    elFactory.AddVertex(0, 1, 2);
-            //    elFactory.AddVertex(3, 4, 5);
+                elFactory.AddVertex(0, 1, 2);
+                elFactory.AddVertex(3, 4, 5);
 
-            //    elementVbo = elFactory.Compile();
-            //    if (!elementVbo.Initialize()) return false;
-            //}
+                elementVbo = elFactory.Compile();
+                if (!elementVbo.Initialize()) return false;
+            }
 
             return true;
         }
@@ -71,7 +71,7 @@ namespace GlEngine
                 if (elementVbo)
                 {
                     elementVbo.MakeCurrent();
-                    glDrawElements(GL_TRIANGLES, 6, static_cast<GLenum>(VboType::UnsignedInt), nullptr);
+                    glDrawElements(GL_TRIANGLES, 6, static_cast<GLenum>(VboType::UnsignedShort), nullptr);
                 }
                 else glDrawArrays(GL_TRIANGLES, 0, 6);
             }
