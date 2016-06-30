@@ -6,11 +6,11 @@
 namespace GlEngine
 {
     VbObject::VbObject()
-        : VbObject(0, BufferMode::Array)
+        : VbObject(0, 0, BufferMode::Array)
     {
     }
-    VbObject::VbObject(unsigned buff, BufferMode mode)
-        : _buffer(buff), _mode(mode)
+    VbObject::VbObject(unsigned vao, unsigned buff, BufferMode mode)
+        : _vao(vao), _buffer(buff), _mode(mode)
     {
     }
     VbObject::~VbObject()
@@ -19,17 +19,23 @@ namespace GlEngine
 
     bool VbObject::Initialize()
     {
-        return _buffer != 0;
+        return !!*this;
     }
     void VbObject::Shutdown()
     {
-        glDeleteBuffers(1, static_cast<GLuint*>(&_buffer));
-        _buffer = 0;
+        if (_vao != 0)
+        {
+            glDeleteVertexArrays(1, static_cast<GLuint*>(&_vao));
+            _vao = 0;
+        }
+        if (_buffer != 0)
+        {            glDeleteBuffers(1, static_cast<GLuint*>(&_buffer));            _buffer = 0;        }
     }
 
     void VbObject::MakeCurrent()
     {
-        assert(_buffer != 0);
+        assert(!!*this);
+        glBindVertexArray(static_cast<GLuint>(_vao));
         glBindBuffer(static_cast<GLenum>(_mode), static_cast<GLuint>(_buffer));
     }
 }
