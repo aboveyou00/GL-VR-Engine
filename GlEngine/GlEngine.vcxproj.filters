@@ -249,11 +249,11 @@
     <ClInclude Include="VectorVboAttribs.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Header Files\GlEngine\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="ObjLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,7 @@ namespace GlEngine
             }
 
             sound = new YSE::sound();
-            sound->create("..\\Debug\\overworld-main.ogg", nullptr, true);
+            sound->create("Audio\\overworld-main.ogg", nullptr, true);
             logger->Log(LogType::Error, "Sound file 'overworld-main.ogg' not found.");
             startedPlaying = false;
 
