@@ -205,10 +205,13 @@
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="VBOFactory.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Middleware\glew\include\GL\glew.h">
       <Filter>Header Files</Filter>
@@ -326,22 +329,25 @@
     <ClCompile Include="TransformedGraphicsObject.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FileConfigProvider.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Threading.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsObject.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="VbObject.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
