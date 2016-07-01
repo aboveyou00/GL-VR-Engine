@@ -18,15 +18,23 @@ namespace TileRPG
         if (!GameObject::Initialize()) return false;
 
         auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
-        audio = audioCtrl.CreateAudioSource();
+        intro = audioCtrl.CreateAudioSource();
+        loop = audioCtrl.CreateAudioSource();
 
-        audio->SetSource("Audio\\overworld-main.ogg", true);
-        audio->Play();
+        intro->SetSource("Audio\\overworld-start.ogg");
+        loop->SetSource("Audio\\overworld-main.ogg");
+
+        intro->Play(false);
+        intro->SetTerminationCallback([&](GlEngine::IAudioSource*) {
+            loop->Play(true);
+            //loop->Stop(5000);
+        });
 
         return true;
     }
     void TestMusicObject::Shutdown()
     {
-        audio->Release();
+        intro->Release();
+        loop->Release();
     }
 }

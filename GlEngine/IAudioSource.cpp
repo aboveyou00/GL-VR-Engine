@@ -8,6 +8,7 @@ namespace GlEngine
 {
     IAudioSource::IAudioSource()
     {
+        _cb = nullptr;
     }
     IAudioSource::~IAudioSource()
     {

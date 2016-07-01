@@ -43,19 +43,25 @@ namespace GlEngine
 
         void AudioControllerImpl::Tick(float)
         {
+            for (size_t q = 0; q < sources.size(); q++)
+            {
+                auto &src = *sources.at(q);
+                src.Update();
+            }
             YSE::System().update();
         }
 
         IAudioSource *AudioControllerImpl::CreateAudioSource()
         {
-            //TODO: keep a list of audio sources so that we can be sure to release them all...
-            return new YseAudioSource();
+            auto new_source = new YseAudioSource();
+            sources.push_back(new_source);
+            return new_source;
         }
         void AudioControllerImpl::ReleaseAudioSource(IAudioSource *source)
         {
-            //TODO: release this audio source
             source->Stop();
-            source;
+            auto idx = std::find(sources.begin(), sources.end(), source);
+            if (idx != sources.end()) sources.erase(idx);
         }
 
         void AudioControllerImpl::SetListenerPosition(Vector<3> position)

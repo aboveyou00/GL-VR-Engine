@@ -11,13 +11,16 @@ namespace GlEngine
         YseAudioSource();
         ~YseAudioSource();
 
-        void SetSource(const char *const filename, bool loop) override;
+        void SetSource(const char *const filename) override;
         void SetPosition(Vector<3> &position) override;
         void SetSpeed(Vector<3> &speed) override;
-        bool Play() override;
-        void Stop() override;
+        bool Play(bool loop = false) override;
+        void Stop(unsigned millis = 0) override;
+
+        void Update() override;
 
     private:
         YSE::sound sound;
+        bool isPlaying, soundStarted;
     };
 }

@@ -15,6 +15,7 @@ namespace TileRPG
         void Shutdown() override;
 
     private:
-        GlEngine::IAudioSource *audio;
+        GlEngine::IAudioSource *intro;
+        GlEngine::IAudioSource *loop;
     };
 }

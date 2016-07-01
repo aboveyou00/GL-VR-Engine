@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGameComponent.h"
+#include "YseAudioSource.h"
 
 namespace GlEngine
 {
@@ -31,6 +32,7 @@ namespace GlEngine
 
         private:
             rt_mutex audioMutex;
+            std::vector<YseAudioSource*> sources;
         };
     }
 }
