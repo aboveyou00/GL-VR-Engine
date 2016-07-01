@@ -6,6 +6,8 @@
 #include "ServiceProvider.h"
 #include "ILogger.h"
 
+#include "YseAudioSource.h"
+
 namespace GlEngine
 {
     namespace Impl
@@ -17,9 +19,6 @@ namespace GlEngine
         {
         }
 
-        static YSE::sound *sound = nullptr;
-        static bool startedPlaying = false;
-
         bool AudioControllerImpl::Initialize()
         {
             auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
@@ -30,11 +29,6 @@ namespace GlEngine
                 logger->Log(LogType::FatalErrorC, "Failed to initialize AudioController.");
                 return false;
             }
-
-            sound = new YSE::sound();
-            sound->create("Audio\\overworld-main.ogg", nullptr, true);
-            logger->Log(LogType::Error, "Sound file 'overworld-main.ogg' not found.");
-            startedPlaying = false;
 
             logger->Log(LogType::Info, "AudioController initialization successful.");
             return true;
@@ -50,20 +44,23 @@ namespace GlEngine
         void AudioControllerImpl::Tick(float)
         {
             YSE::System().update();
-            if (sound->isReady() && !startedPlaying)
-            {
-                startedPlaying = true;
-                sound->play();
-            }
         }
 
         IAudioSource *AudioControllerImpl::CreateAudioSource()
         {
-            return nullptr;
+            //TODO: keep a list of audio sources so that we can be sure to release them all...
+            return new YseAudioSource();
         }
         void AudioControllerImpl::ReleaseAudioSource(IAudioSource *source)
         {
+            //TODO: release this audio source
+            source->Stop();
             source;
+        }
+
+        void AudioControllerImpl::SetListenerPosition(Vector<3> position)
+        {
+            YSE::Listener().setPosition(YSE::Vec(position[0], position[1], position[2]));
         }
     }
 }

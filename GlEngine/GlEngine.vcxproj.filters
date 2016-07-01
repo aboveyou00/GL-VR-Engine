@@ -255,6 +255,9 @@
     <ClInclude Include="Audio.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
+    <ClInclude Include="YseAudioSource.h">
+      <Filter>Header Files\GlEngine\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -379,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="ServiceProvider.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="YseAudioSource.cpp">
+      <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -22,6 +22,8 @@ namespace GlEngine
             IAudioSource *CreateAudioSource();
             void ReleaseAudioSource(IAudioSource *source);
 
+            void SetListenerPosition(Vector<3> position);
+
             inline rt_mutex &GetMutex()
             {
                 return audioMutex;

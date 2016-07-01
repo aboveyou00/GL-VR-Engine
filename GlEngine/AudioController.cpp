@@ -42,6 +42,11 @@ namespace GlEngine
         pimpl->ReleaseAudioSource(source);
     }
 
+    void AudioController::SetListenerPosition(Vector<3> position)
+    {
+        pimpl->SetListenerPosition(position);
+    }
+
     rt_mutex &AudioController::GetMutex()
     {
         return pimpl->GetMutex();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGameComponent.h"
+#include "IAudioSource.h"
 
 namespace GlEngine
 {
@@ -8,8 +9,6 @@ namespace GlEngine
     {
         class AudioControllerImpl;
     }
-
-    class IAudioSource;
 
     class ENGINE_SHARED AudioController : public IGameComponent
     {
@@ -32,6 +31,8 @@ namespace GlEngine
 
         IAudioSource *CreateAudioSource();
         void ReleaseAudioSource(IAudioSource *source);
+
+        void SetListenerPosition(Vector<3> position);
 
         rt_mutex &GetMutex();
 

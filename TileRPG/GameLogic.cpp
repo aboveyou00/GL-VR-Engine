@@ -39,6 +39,7 @@ namespace TileRPG
     }
     void GameLogic::Shutdown()
     {
+        //TODO: Shutdown game objects when the loop ends
         loop->StopLoop(false);
         tiles->Shutdown();
     }
@@ -48,11 +49,16 @@ namespace TileRPG
         for (size_t q = 0; q < _gameObjects.size(); q++)
             if (_gameObjects[q] == obj) return;
         _gameObjects.push_back(obj);
+        if (!obj->Initialize()) _gameObjects.pop_back(); //TODO: Log error message
     }
     void GameLogic::RemoveGameObject(GlEngine::GameObject *obj)
     {
         auto idx = std::find(_gameObjects.begin(), _gameObjects.end(), obj);
-        if (idx != _gameObjects.end()) _gameObjects.erase(idx);
+        if (idx != _gameObjects.end())
+        {
+            _gameObjects.erase(idx);
+            obj->Shutdown();
+        }
     }
 
     void GameLogic::DispatchEvent(GlEngine::Events::Event *evt)

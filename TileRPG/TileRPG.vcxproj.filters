@@ -117,7 +117,10 @@
     <ClInclude Include="TileRPGGameLoop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestGameObject.h">
+    <ClInclude Include="TestEventObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMusicObject.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -200,7 +203,10 @@
     <ClCompile Include="TileRPGGameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestGameObject.cpp">
+    <ClCompile Include="TestMusicObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TestEventObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -218,6 +224,12 @@
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Shaders\simple.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\direct_light.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\direct_light.vert.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
