@@ -61,12 +61,21 @@ namespace GlEngine
 
 	void GraphicsContext::Render()
 	{
+        {
+            ScopedLock _lock(GlEngine::Engine::GetInstance().GetMutex());
+            for (size_t i = 0; i < renderTargetCount; i++)
+                renderTargets[i]->Prepare();
+        }
+
 		camera.Push();
 		for (size_t i = 0; i < renderTargetCount; i++)
 		{
 			renderTargets[i]->Push();
-			for (int j = 0; j < transformedCount; j++)
-				transformed[j].Render();
+            if (renderTargets[i]->GetShouldRender())
+            {
+			    for (int j = 0; j < transformedCount; j++)
+				    transformed[j].Render();
+            }
 			renderTargets[i]->Pop();
 		}
 		camera.Pop();

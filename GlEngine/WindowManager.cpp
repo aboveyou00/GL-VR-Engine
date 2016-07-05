@@ -35,8 +35,8 @@ namespace GlEngine
         wcex.cbWndExtra     = 0;
         wcex.hInstance      = GetModuleHandle(nullptr);
         wcex.hIcon          = nullptr;
-        wcex.hCursor        = nullptr;// LoadCursor(nullptr, IDC_ARROW);
-        wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW + 1);
+        wcex.hCursor        = nullptr;
+        wcex.hbrBackground  = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wcex.lpszMenuName   = nullptr;
         wcex.lpszClassName  = WINDOW_CLASS_NAME;
         wcex.hIconSm        = nullptr;

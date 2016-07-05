@@ -260,9 +260,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
     <ClCompile Include="GameLoop.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
@@ -385,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="YseAudioSource.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
