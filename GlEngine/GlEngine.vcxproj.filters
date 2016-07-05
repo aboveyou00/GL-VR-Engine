@@ -19,9 +19,6 @@
     <Filter Include="Source Files\GlEngine">
       <UniqueIdentifier>{44dcc902-aeb1-44dc-8b6c-a0fa76e0ff05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GlEngine\Impl">
-      <UniqueIdentifier>{1c82b25c-0973-4f8a-89a7-e756faffa44d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GlEngine\Impl">
       <UniqueIdentifier>{6adad3ce-caf6-4aee-b200-ff3fc742c3e7}</UniqueIdentifier>
     </Filter>
@@ -70,6 +67,9 @@
     <Filter Include="Source Files\GlEngine\Resources">
       <UniqueIdentifier>{b4a1e2cb-4395-4977-8054-1bffbe7b0418}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\Impl">
+      <UniqueIdentifier>{1c82b25c-0973-4f8a-89a7-e756faffa44d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -97,10 +97,10 @@
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="GlControllerImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
     <ClInclude Include="GlRenderTargetImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
     <ClInclude Include="EngineShared.h">
       <Filter>Header Files</Filter>
@@ -150,9 +150,6 @@
     <ClInclude Include="FixWindows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsObjectImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="KeyValuePair.h">
       <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
@@ -172,7 +169,7 @@
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="CameraImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
     <ClInclude Include="IEventSender.h">
       <Filter>Header Files\GlEngine\Events</Filter>
@@ -217,7 +214,7 @@
       <Filter>Header Files\GlEngine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="AudioControllerImpl.h">
-      <Filter>Header Files\GlEngine\Impl</Filter>
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
     <ClInclude Include="Memory.h">
       <Filter>Header Files</Filter>
@@ -254,6 +251,15 @@
     </ClInclude>
     <ClInclude Include="Audio.h">
       <Filter>Header Files\GlEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VboGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxLoader.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,9 +329,6 @@
     <ClCompile Include="GraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsObjectImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
@@ -379,6 +382,15 @@
     </ClCompile>
     <ClCompile Include="ServiceProvider.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxLoader.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

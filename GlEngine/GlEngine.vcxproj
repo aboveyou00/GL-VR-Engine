@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
+    <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="BufferMode.h" />
     <ClInclude Include="Camera.h" />
@@ -168,7 +169,6 @@
     <ClInclude Include="GlRenderTargetImpl.h" />
     <ClInclude Include="GraphicsContext.h" />
     <ClInclude Include="GraphicsObject.h" />
-    <ClInclude Include="GraphicsObjectImpl.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IConfigProvider.h" />
     <ClInclude Include="IEventSender.h" />
@@ -191,6 +191,7 @@
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderGraphicsObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Threading.h" />
@@ -199,6 +200,7 @@
     <ClInclude Include="UnsafeVboFactory.h" />
     <ClInclude Include="VbObject.h" />
     <ClInclude Include="VboFactory.h" />
+    <ClInclude Include="VboGraphicsObject.h" />
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
     <ClInclude Include="Vector.h" />
@@ -209,7 +211,9 @@
   <ItemGroup>
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
+    <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
+    <ClCompile Include="ShaderGraphicsObject.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />
@@ -226,7 +230,6 @@
     <ClCompile Include="GlRenderTargetImpl.cpp" />
     <ClCompile Include="GraphicsContext.cpp" />
     <ClCompile Include="GraphicsObject.cpp" />
-    <ClCompile Include="GraphicsObjectImpl.cpp" />
     <ClCompile Include="IConfigProvider.cpp" />
     <ClCompile Include="ILogger.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
@@ -244,6 +247,7 @@
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
+    <ClCompile Include="VboGraphicsObject.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />

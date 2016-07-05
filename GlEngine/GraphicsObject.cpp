@@ -1,33 +1,32 @@
 #include "stdafx.h"
 #include "GraphicsObject.h"
-#include "GraphicsObjectImpl.h"
+
+#include "OpenGl.h"
+#include "VBOFactory.h"
 
 namespace GlEngine
 {
 	GraphicsObject::GraphicsObject()
-		: pimpl(new Impl::GraphicsObjectImpl())
 	{
 	}
 	GraphicsObject::~GraphicsObject()
 	{
-		if (pimpl != nullptr)
-		{
-			delete pimpl;
-			pimpl = nullptr;
-		}
 	}
 
-    bool GraphicsObject::Initialize()
-    {
-        return pimpl->Initialize();
-    }
+	bool GraphicsObject::Initialize()
+	{
+		return true;
+	}
+
     void GraphicsObject::Shutdown()
     {
-        pimpl->Shutdown();
-    }
+	}
+
+	void GraphicsObject::PreRender()
+	{
+	}
 
 	void GraphicsObject::Render()
 	{
-		pimpl->Render();
 	}
 }
