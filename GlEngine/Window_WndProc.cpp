@@ -19,8 +19,21 @@ namespace GlEngine
             PostQuitMessage(0);
             break;
 
+        case WM_SETCURSOR:
+            if (LOWORD(lParam) == HTCLIENT)
+            {
+                SetCursor(nullptr);
+                break;
+            }
+            goto default_wnd_proc;
+
         case WM_KEYDOWN:
             vkCode = (unsigned)wParam;
+            if (vkCode == VK_F11)
+            {
+                SetFullscreen(!GetFullscreen());
+                break;
+            }
             if ((lParam & (1 << 30)) == 0) events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyPressed));
             events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyTyped));
             break;
@@ -58,6 +71,7 @@ namespace GlEngine
 
         //    break;
 
+        default_wnd_proc:
         default:
             return DefWindowProc(_windowHandle, message, wParam, lParam);
         }
