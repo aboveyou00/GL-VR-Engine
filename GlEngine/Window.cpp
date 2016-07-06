@@ -15,10 +15,13 @@ namespace GlEngine
         unsigned posX, posY;
         CenterCoords(posX, posY);
 
+        DWORD style = WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP;
+        if (!_fullscreen) style |= WS_OVERLAPPEDWINDOW;
+
         _windowHandle = CreateWindowEx(WS_EX_APPWINDOW,
                                        WINDOW_CLASS_NAME,
                                        WINDOW_INITIAL_TITLE,
-                                       WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP,
+                                       style,
                                        posX,
                                        posY,
                                        _width,
@@ -35,16 +38,12 @@ namespace GlEngine
         }
 
         _visible = false;
-        //Show();
-        ShowCursor(false);
 
         return true;
     }
     void Window::Shutdown()
     {
         if (_windowHandle == nullptr) return;
-
-        ShowCursor(true);
 
         SetFullscreen(false);
         if (_fullscreen) ChangeDisplaySettings(nullptr, 0);
@@ -58,7 +57,7 @@ namespace GlEngine
         unsigned posX, posY;
         CenterCoords(posX, posY);
 
-        SetWindowPos(_windowHandle, nullptr, posX, posY, _width, _height, SWP_NOZORDER);
+        SetWindowPos(_windowHandle, nullptr, posX, posY, _width, _height, SWP_NOZORDER | SWP_FRAMECHANGED);
     }
 
     bool Window::SetFullscreen(bool fullscreen, unsigned width, unsigned height)
@@ -88,9 +87,20 @@ namespace GlEngine
                         width = (width == 0) ? _width : width;
                         height = (height == 0) ? _height : height;
                     }
-                    else CenterWindow();
+                    else
+                    {
+                        auto style = GetWindowLong(_windowHandle, GWL_STYLE);
+                        SetWindowLong(_windowHandle, GWL_STYLE, style & ~WS_OVERLAPPEDWINDOW);
+                        CenterWindow();
+                    }
                 }
-                else ChangeDisplaySettings(nullptr, 0);
+                else
+                {
+                    ChangeDisplaySettings(nullptr, 0);
+                    auto style = GetWindowLong(_windowHandle, GWL_STYLE);
+                    SetWindowLong(_windowHandle, GWL_STYLE, style | WS_OVERLAPPEDWINDOW);
+                    SetWindowPos(_windowHandle, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
+                }
                 _fullscreen = fullscreen;
             }
 

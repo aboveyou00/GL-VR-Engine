@@ -9,7 +9,8 @@
 
 #include "GlRenderTarget.h"
 
-#include "TestGameObject.h"
+#include "TestMusicObject.h"
+#include "TestEventObject.h"
 
 #include "FileLogger.h"
 #include "FileConfigProvider.h"
@@ -94,10 +95,16 @@ namespace TileRPG
             return false;
         }
 
-        auto gameObject = new TestGameObject();
         auto graphicsObject = new GlEngine::GraphicsObject();
+
+        auto gameObject = new TestEventObject();
+        auto audioObject = new TestMusicObject();
+
         _gfxContext->Register(gameObject, graphicsObject);
+        _gfxContext->Register(audioObject, graphicsObject);
+
         _loop.GetGameLogic().AddGameObject(gameObject);
+        _loop.GetGameLogic().AddGameObject(audioObject);
 
         logger->Log(GlEngine::LogType::InfoC, "TileRPG initialization successful. Beginning game.");
         return true;

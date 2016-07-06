@@ -6,6 +6,8 @@
 #include "ServiceProvider.h"
 #include "ILogger.h"
 
+#include "YseAudioSource.h"
+
 namespace GlEngine
 {
     namespace Impl
@@ -17,9 +19,6 @@ namespace GlEngine
         {
         }
 
-        static YSE::sound *sound = nullptr;
-        static bool startedPlaying = false;
-
         bool AudioControllerImpl::Initialize()
         {
             auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
@@ -30,11 +29,6 @@ namespace GlEngine
                 logger->Log(LogType::FatalErrorC, "Failed to initialize AudioController.");
                 return false;
             }
-
-            sound = new YSE::sound();
-            sound->create("Audio\\overworld-main.ogg", nullptr, true);
-            logger->Log(LogType::Error, "Sound file 'overworld-main.ogg' not found.");
-            startedPlaying = false;
 
             logger->Log(LogType::Info, "AudioController initialization successful.");
             return true;
@@ -49,21 +43,30 @@ namespace GlEngine
 
         void AudioControllerImpl::Tick(float)
         {
-            YSE::System().update();
-            if (sound->isReady() && !startedPlaying)
+            for (size_t q = 0; q < sources.size(); q++)
             {
-                startedPlaying = true;
-                sound->play();
+                auto &src = *sources.at(q);
+                src.Update();
             }
+            YSE::System().update();
         }
 
         IAudioSource *AudioControllerImpl::CreateAudioSource()
         {
-            return nullptr;
+            auto new_source = new YseAudioSource();
+            sources.push_back(new_source);
+            return new_source;
         }
         void AudioControllerImpl::ReleaseAudioSource(IAudioSource *source)
         {
-            source;
+            source->Stop();
+            auto idx = std::find(sources.begin(), sources.end(), source);
+            if (idx != sources.end()) sources.erase(idx);
+        }
+
+        void AudioControllerImpl::SetListenerPosition(Vector<3> position)
+        {
+            YSE::Listener().setPosition(YSE::Vec(position[0], position[1], position[2]));
         }
     }
 }

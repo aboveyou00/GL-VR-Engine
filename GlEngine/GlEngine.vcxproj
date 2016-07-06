@@ -207,6 +207,7 @@
     <ClInclude Include="VectorVboAttribs.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
+    <ClInclude Include="YseAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioController.cpp" />
@@ -251,6 +252,7 @@
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />
+    <ClCompile Include="YseAudioSource.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

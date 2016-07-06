@@ -4,13 +4,12 @@
 
 namespace TileRPG
 {
-    class TestGameObject : public GlEngine::GameObject
+    class TestEventObject : public GlEngine::GameObject
     {
     public:
-        TestGameObject();
-        ~TestGameObject();
+        TestEventObject();
+        ~TestEventObject();
 
-        bool Initialize() override;
         void Tick(float delta) override;
 
         void HandleEvent(GlEngine::Events::Event &evt) override;

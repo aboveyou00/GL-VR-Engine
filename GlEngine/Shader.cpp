@@ -109,11 +109,12 @@ namespace GlEngine
         if (len + 1 > STATIC_BUFFER_SIZE) buff = new char[len + 1];
         file.read(buff, len);
         buff[len] = '\0';
-        if (len + 1 > STATIC_BUFFER_SIZE) delete[] buff;
 
         auto shader = glCreateShader(type);
         glShaderSource(shader, 1, (const GLchar**)&buff, &len);
         glCompileShader(shader);
+
+        if (len + 1 > STATIC_BUFFER_SIZE) delete[] buff;
 
         return shader;
     }

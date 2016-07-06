@@ -1,27 +1,24 @@
 #include "stdafx.h"
-#include "TestGameObject.h"
+#include "TestEventObject.h"
 
 #include "KeyboardEvent.h"
 
+#include "Engine.h"
+#include "AudioController.h"
+
 namespace TileRPG
 {
-    TestGameObject::TestGameObject()
+    TestEventObject::TestEventObject()
         : upPressed(0), downPressed(0), leftPressed(0), rightPressed(0)
     {
         RequireTick(true);
 		timePassed = 0;
     }
-    TestGameObject::~TestGameObject()
+    TestEventObject::~TestEventObject()
     {
     }
 
-    bool TestGameObject::Initialize()
-    {
-        if (!GameObject::Initialize()) return false;
-
-        return true;
-    }
-    void TestGameObject::Tick(float delta)
+    void TestEventObject::Tick(float delta)
     {
         timePassed += delta;
         auto motionVector = Vector<3> { (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), (upPressed ? 1 : 0) + (downPressed ? -1 : 0), 0 };
@@ -29,9 +26,12 @@ namespace TileRPG
         position += motionVector * delta;
         //auto theta = timePassed;
         //position = Vector<3> { sin(theta) / 2, cos(theta) / 2, 1 };
+
+        auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
+        audioCtrl.SetListenerPosition(position);
     }
 
-    void TestGameObject::HandleEvent(GlEngine::Events::Event &evt)
+    void TestEventObject::HandleEvent(GlEngine::Events::Event &evt)
     {
         auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
         if (kbevt == nullptr) return;
