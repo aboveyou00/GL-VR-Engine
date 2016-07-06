@@ -4,6 +4,7 @@
 namespace GlEngine
 {
     Window::Window()
+        : _lastResizeTime(std::chrono::high_resolution_clock::now())
     {
     }
     Window::~Window()
@@ -62,12 +63,17 @@ namespace GlEngine
 
     bool Window::SetFullscreen(bool fullscreen, unsigned width, unsigned height)
     {
+        auto origWidth = _width,
+             origHeight = _height;
         if (_windowHandle != nullptr)
         {
             if (_fullscreen != fullscreen)
             {
+                auto style = GetWindowLong(_windowHandle, GWL_STYLE);
                 if (fullscreen)
                 {
+                    SetWindowLong(_windowHandle, GWL_STYLE, style & ~WS_OVERLAPPEDWINDOW);
+
                     auto screenWidth = GetSystemMetrics(SM_CXSCREEN);
                     auto screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
@@ -84,28 +90,23 @@ namespace GlEngine
                     if (ChangeDisplaySettings(&screenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
                     {
                         fullscreen = false;
-                        width = (width == 0) ? _width : width;
-                        height = (height == 0) ? _height : height;
                     }
-                    else
-                    {
-                        auto style = GetWindowLong(_windowHandle, GWL_STYLE);
-                        SetWindowLong(_windowHandle, GWL_STYLE, style & ~WS_OVERLAPPEDWINDOW);
-                        CenterWindow();
-                    }
+                    else CenterWindow();
                 }
-                else
+                if (!fullscreen)
                 {
                     ChangeDisplaySettings(nullptr, 0);
-                    auto style = GetWindowLong(_windowHandle, GWL_STYLE);
                     SetWindowLong(_windowHandle, GWL_STYLE, style | WS_OVERLAPPEDWINDOW);
                     SetWindowPos(_windowHandle, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
+                    width = (width == 0) ? _width : width;
+                    height = (height == 0) ? _height : height;
                 }
                 _fullscreen = fullscreen;
             }
 
-            if (!_fullscreen && (width != _width || height != _height))
+            if (!_fullscreen && (width != origWidth || height != origHeight))
             {
+                _lastResizeTime = std::chrono::high_resolution_clock::now();
                 SetWindowPos(_windowHandle, nullptr, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
             }
         }
@@ -149,6 +150,11 @@ namespace GlEngine
     unsigned Window::GetTargetFPS()
     {
         return _targetFPS;
+    }
+
+    time_point Window::GetLastResizeTime()
+    {
+        return _lastResizeTime;
     }
 
     bool Window::GetVisible()

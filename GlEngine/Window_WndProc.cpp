@@ -9,6 +9,7 @@ namespace GlEngine
     {
         auto &events = Engine::GetInstance().GetEventQueue();
         unsigned vkCode;
+        Vector<2> size;
         switch (message)
         {
         case WM_DESTROY:
@@ -24,6 +25,16 @@ namespace GlEngine
             {
                 SetCursor(nullptr);
                 break;
+            }
+            goto default_wnd_proc;
+
+        case WM_SIZE:
+            size = Vector<2>(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+            if ((unsigned)size[0] != _width || (unsigned)size[1] != _height)
+            {
+                _width = (unsigned)size[0];
+                _height = (unsigned)size[1];
+                _lastResizeTime = std::chrono::high_resolution_clock::now();
             }
             goto default_wnd_proc;
 
@@ -51,7 +62,7 @@ namespace GlEngine
         case WM_RBUTTONDOWN:
         case WM_RBUTTONUP:
             {
-                auto mousePos = Vector<2>(LOWORD(lParam), HIWORD(lParam));
+                auto mousePos = Vector<2>(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
                 bool shift = (wParam & MK_SHIFT) > 0,
                      control = (wParam & MK_CONTROL) > 0,
                      alt = (GetKeyState(VK_MENU) & ~1) > 0;

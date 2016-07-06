@@ -25,10 +25,14 @@ namespace GlEngine
 		void SetCamera(Camera * cam);
 
 		void SetCurrent();
-		void Flip();
 		
-		void Push();
+        bool GetShouldRender();
+		
+        void Prepare();
+        void Push();
 		void Pop();
+
+		void Flip();
 
         inline Impl::GlRenderTargetImpl &GetImpl()
         {

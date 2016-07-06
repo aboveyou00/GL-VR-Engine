@@ -41,17 +41,27 @@ namespace GlEngine
 	{
 		pimpl->MakeCurrentTarget();
 	}
-	void GlRenderTarget::Flip()
-	{
-		pimpl->Flip();
-	}
 
-	void GlRenderTarget::Push()
+    bool GlRenderTarget::GetShouldRender()
+    {
+        return pimpl->GetShouldRender();
+    }
+
+    void GlRenderTarget::Prepare()
+    {
+        pimpl->Prepare();
+    }
+    void GlRenderTarget::Push()
 	{
 		pimpl->Push();
 	}
 	void GlRenderTarget::Pop()
 	{
 		pimpl->Pop();
+	}
+
+	void GlRenderTarget::Flip()
+	{
+		pimpl->Flip();
 	}
 }

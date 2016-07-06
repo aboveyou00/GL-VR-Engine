@@ -5,6 +5,8 @@
 #include "Window.h"
 #include "EventQueue.h"
 
+#define THIS_ENGINE (GlEngine::Engine::GetInstance())
+
 namespace GlEngine
 {
     class WindowManager;

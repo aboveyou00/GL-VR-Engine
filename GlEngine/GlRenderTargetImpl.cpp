@@ -71,8 +71,6 @@ namespace GlEngine
 
 		bool GlRenderTargetImpl::LoadGlewExtensions()
 		{
-			// TODO: helpful errors
-
 			glewExperimental = TRUE;
 			GLenum err = glewInit();
             if (err != GLEW_OK)
@@ -81,14 +79,30 @@ namespace GlEngine
                 return false;
             }
 			
-			/* TODO: Load any glew extensions
-			glewGetExtension();
-			*/	
+			//TODO: Load any glew extensions
+			//glewGetExtension();
 
 			return true;
 		}
 
-		void GlRenderTargetImpl::Push()
+        void GlRenderTargetImpl::Prepare()
+        {
+            if (_window->GetWidth() != this->lastWidth || _window->GetHeight() != this->lastHeight)
+            {
+                shouldRender = false;
+                this->lastWidth = _window->GetWidth();
+                this->lastHeight = _window->GetHeight();
+            }
+            else if (!shouldRender)
+            {
+                if (_window->GetLastResizeTime() < std::chrono::high_resolution_clock::now() - 50ms)
+                {
+                    glViewport(0, 0, this->lastWidth, this->lastHeight);
+                    shouldRender = true;
+                }
+            }
+        }
+        void GlRenderTargetImpl::Push()
 		{
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
@@ -99,7 +113,6 @@ namespace GlEngine
 
 			viewPort.Push();
 		}
-
 		void GlRenderTargetImpl::Pop()
 		{
 			viewPort.Pop();

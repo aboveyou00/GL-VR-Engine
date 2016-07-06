@@ -26,8 +26,15 @@ namespace GlEngine
 			
 			Camera * camera = nullptr;
 
+            inline bool GetShouldRender()
+            {
+                return shouldRender;
+            }
+
+            void Prepare();
 			void Push();
 			void Pop();
+
 			void Flip();
 
 			int depthBufferBits = 24;
@@ -39,7 +46,7 @@ namespace GlEngine
 			int pixelFormatAdditionalFlags = 0;
 
 			class ViewPort
-			{
+            {
 			public:
 				Camera relativeCamera;
 
@@ -55,6 +62,8 @@ namespace GlEngine
             Window *_window;
 			HDC deviceContext;
 			HGLRC contextHandle;
+            unsigned lastWidth, lastHeight;
+            bool shouldRender;
 
 			bool CreateContext();
 			bool LoadGlewExtensions();

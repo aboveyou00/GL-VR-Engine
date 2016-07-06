@@ -2,11 +2,13 @@
 
 #include "IComponent.h"
 
-#define WINDOW_CLASS_NAME L"GlEngine::Window"
-#define WINDOW_INITIAL_TITLE L"GlEngine"
+static const wchar_t *const WINDOW_CLASS_NAME = L"GlEngine::Window";
+static const wchar_t *const WINDOW_INITIAL_TITLE = L"GlEngine";
 
-#define DEFAULT_WINDOW_WIDTH 800
-#define DEFAULT_WINDOW_HEIGHT 600
+static const unsigned DEFAULT_WINDOW_WIDTH = 800;
+static const unsigned DEFAULT_WINDOW_HEIGHT = 600;
+
+using time_point = std::chrono::high_resolution_clock::time_point;
 
 namespace GlEngine
 {
@@ -31,6 +33,7 @@ namespace GlEngine
         unsigned GetWidth();
         unsigned GetHeight();
         unsigned GetTargetFPS();
+        time_point GetLastResizeTime();
 
         bool GetVisible();
         void SetVisible(bool visible);
@@ -48,6 +51,8 @@ namespace GlEngine
 
         bool _fullscreen = false;
         unsigned _width = DEFAULT_WINDOW_WIDTH, _height = DEFAULT_WINDOW_HEIGHT;
+
+        std::chrono::high_resolution_clock::time_point _lastResizeTime;
 
         void CenterCoords(unsigned &posX, unsigned &posY);
     };
