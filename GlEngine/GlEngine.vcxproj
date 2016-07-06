@@ -184,6 +184,7 @@
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="MouseEventType.h" />
+    <ClInclude Include="ObjGraphicsObject.h" />
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="OpenGl.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
+    <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ShaderGraphicsObject.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />

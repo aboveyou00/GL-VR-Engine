@@ -3,7 +3,8 @@
 
 namespace GlEngine
 {
-	ShaderGraphicsObject::ShaderGraphicsObject()
+	ShaderGraphicsObject::ShaderGraphicsObject(Shader shader)
+		: shader(shader)
 	{
 	}
 	ShaderGraphicsObject::~ShaderGraphicsObject()

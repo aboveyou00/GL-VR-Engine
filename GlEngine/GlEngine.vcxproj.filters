@@ -22,9 +22,6 @@
     <Filter Include="Source Files\GlEngine\Impl">
       <UniqueIdentifier>{6adad3ce-caf6-4aee-b200-ff3fc742c3e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GlEngine\Events">
-      <UniqueIdentifier>{bb844dd7-4045-43e2-b9b3-3e04f68e997a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GlEngine\Events">
       <UniqueIdentifier>{717aa156-75c6-4bc9-9e4b-5a56037cd64a}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Header Files\GlEngine\Graphics\Impl">
       <UniqueIdentifier>{1c82b25c-0973-4f8a-89a7-e756faffa44d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Events">
+      <UniqueIdentifier>{bb844dd7-4045-43e2-b9b3-3e04f68e997a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +264,9 @@
     <ClInclude Include="FbxLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="ObjGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -397,6 +400,9 @@
     </ClCompile>
     <ClCompile Include="FbxLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

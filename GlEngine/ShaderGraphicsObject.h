@@ -9,7 +9,8 @@ namespace GlEngine
 	class ENGINE_SHARED ShaderGraphicsObject : public GraphicsObject
 	{
 	public:
-		ShaderGraphicsObject();
+		ShaderGraphicsObject() : ShaderGraphicsObject(Shader("Shaders", "simple")) {};
+		ShaderGraphicsObject(Shader shader);
 		~ShaderGraphicsObject();
 
 		bool Initialize() override;

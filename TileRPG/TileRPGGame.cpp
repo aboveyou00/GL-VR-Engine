@@ -15,6 +15,8 @@
 #include "FileLogger.h"
 #include "FileConfigProvider.h"
 
+#include "ObjLoader.h"
+
 namespace TileRPG
 {
     TileRPGGame::TileRPGGame()
@@ -95,7 +97,7 @@ namespace TileRPG
             return false;
         }
 
-        auto graphicsObject = new GlEngine::GraphicsObject();
+        auto graphicsObject = new GlEngine::ObjGraphicsObject("../Debug/suzanne.obj");
 
         auto gameObject = new TestEventObject();
         auto audioObject = new TestMusicObject();

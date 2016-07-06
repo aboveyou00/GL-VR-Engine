@@ -5,14 +5,20 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED VboGraphicsObject : public ShaderGraphicsObject
+	class ENGINE_SHARED VboGraphicsObject : public GraphicsObject
 	{
 	public:
 		VboGraphicsObject();
+		VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo);
+		VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader shader);
 		~VboGraphicsObject();
 
 		VbObject arrayVbo;
 		VbObject elementVbo;
+		Shader shader;
+
+		int triCount;
+		int quadCount;
 
 		bool Initialize() override;
 		void Shutdown() override;

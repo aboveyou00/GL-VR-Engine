@@ -28,5 +28,6 @@ namespace GlEngine
 
 	void GraphicsObject::Render()
 	{
+		PreRender();
 	}
 }
