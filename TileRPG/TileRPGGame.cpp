@@ -40,7 +40,7 @@ namespace TileRPG
 
         if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
 
-        _gfxContext = new GlEngine::GraphicsContext();
+        _gfxContext = new GlEngine::GraphicsContext(&_loop.GetGameLogic());
 
         auto _renderTarget = new GlEngine::GlRenderTarget(_window);
         _gfxContext->AddRenderTarget(_renderTarget);
@@ -94,17 +94,6 @@ namespace TileRPG
             Shutdown();
             return false;
         }
-
-        auto graphicsObject = new GlEngine::GraphicsObject();
-
-        auto gameObject = new TestEventObject();
-        auto audioObject = new TestMusicObject();
-
-        _gfxContext->Register(gameObject, graphicsObject);
-        _gfxContext->Register(audioObject, graphicsObject);
-
-        _loop.GetGameLogic().AddGameObject(gameObject);
-        _loop.GetGameLogic().AddGameObject(audioObject);
 
         logger->Log(GlEngine::LogType::InfoC, "TileRPG initialization successful. Beginning game.");
         return true;

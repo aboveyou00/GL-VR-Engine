@@ -3,6 +3,8 @@
 
 #include "Engine.h"
 #include "AudioController.h"
+#include "GraphicsObject.h"
+#include "GraphicsContext.h"
 
 namespace TileRPG
 {
@@ -21,14 +23,14 @@ namespace TileRPG
         intro = audioCtrl.CreateAudioSource();
         loop = audioCtrl.CreateAudioSource();
 
-        intro->SetSource("Audio\\overworld-start.ogg");
-        loop->SetSource("Audio\\overworld-main.ogg");
+        //intro->SetSource("Audio\\overworld-start.ogg");
+        //loop->SetSource("Audio\\overworld-main.ogg");
 
-        intro->Play(false);
-        intro->SetTerminationCallback([&](GlEngine::IAudioSource*) {
-            loop->Play(true);
-            //loop->Stop(5000);
-        });
+        //intro->Play(false);
+        //intro->SetTerminationCallback([&](GlEngine::IAudioSource*) {
+        //    loop->Play(true);
+        //    //loop->Stop(5000);
+        //});
 
         return true;
     }
@@ -36,5 +38,10 @@ namespace TileRPG
     {
         intro->Release();
         loop->Release();
+    }
+
+    GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    {
+        return nullptr;
     }
 }

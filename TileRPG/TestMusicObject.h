@@ -14,6 +14,8 @@ namespace TileRPG
         bool Initialize() override;
         void Shutdown() override;
 
+        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+
     private:
         GlEngine::IAudioSource *intro;
         GlEngine::IAudioSource *loop;

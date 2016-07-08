@@ -148,6 +148,8 @@
   <ItemGroup>
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="FrameStack.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="BufferMode.h" />
     <ClInclude Include="Camera.h" />
@@ -210,6 +212,8 @@
   <ItemGroup>
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />

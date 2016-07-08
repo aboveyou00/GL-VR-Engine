@@ -70,6 +70,12 @@
     <Filter Include="Source Files\GlEngine\Resources">
       <UniqueIdentifier>{b4a1e2cb-4395-4977-8054-1bffbe7b0418}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GlEngine\Frames">
+      <UniqueIdentifier>{95ae692a-414c-4c92-884c-94ad5598f8c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Frames">
+      <UniqueIdentifier>{ea8e9fcf-f78c-49e7-8d04-600aabbb5f21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -258,6 +264,12 @@
     <ClInclude Include="YseAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files\GlEngine\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameStack.h">
+      <Filter>Header Files\GlEngine\Frames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLoop.cpp">
@@ -385,6 +397,12 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files\GlEngine\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameStack.cpp">
+      <Filter>Source Files\GlEngine\Frames</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

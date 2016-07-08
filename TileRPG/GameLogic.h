@@ -7,6 +7,7 @@
 
 #include "GameObject.h"
 #include <vector>
+#include "FrameStack.h"
 
 namespace GlEngine
 {
@@ -17,25 +18,17 @@ namespace TileRPG
 {
     class TileManager;
 
-    class GameLogic : public GlEngine::IGameComponent
+    class GameLogic : public GlEngine::FrameStack
     {
     public:
         GameLogic();
         ~GameLogic();
 
-        bool Initialize();
-        void Tick(float delta);
-        void Shutdown();
-
-        void AddGameObject(GlEngine::GameObject *obj);
-        void RemoveGameObject(GlEngine::GameObject *obj);
-
-        void DispatchEvent(GlEngine::Events::Event *evt);
+        bool Initialize() override;
+        void Shutdown() override;
 
     private:
         World world;
         TileManager *tiles;
-        GlEngine::GameLoop *loop;
-        std::vector<GlEngine::GameObject*> _gameObjects;
     };
 }

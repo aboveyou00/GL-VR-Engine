@@ -5,6 +5,8 @@
 
 #include "Engine.h"
 #include "AudioController.h"
+#include "GraphicsObject.h"
+#include "GraphicsContext.h"
 
 namespace TileRPG
 {
@@ -52,5 +54,10 @@ namespace TileRPG
             rightPressed = pressed;
             break;
         }
+    }
+
+    GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    {
+        return nullptr;
     }
 }

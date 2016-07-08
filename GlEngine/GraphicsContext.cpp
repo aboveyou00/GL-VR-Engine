@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GraphicsContext.h"
 #include "OpenGl.h"
+#include "FrameStack.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -8,12 +9,13 @@
 
 namespace GlEngine
 {
-    GraphicsContext::GraphicsContext()
-        : _loop(
+    GraphicsContext::GraphicsContext(FrameStack *frames)
+        : frames(frames),
+          _loop(
             [&] { return this->InitializeRenderTargets(); },
             [&](float delta) { this->Tick(delta); },
             [&] { this->ShutdownRenderTargets(); }
-        )
+          )
     {
     }
     GraphicsContext::~GraphicsContext()
@@ -31,23 +33,9 @@ namespace GlEngine
         _loop.StopLoop(false);
 	}
 
-	void GraphicsContext::Register(GameObject * gameObject, GraphicsObject * graphicsObject)
+	void GraphicsContext::Update(const graphics_object_map &objs)
 	{
-		ScopedLock slock(_lock);
-
-		objs[gameObject] = graphicsObject;
-	}
-
-	void GraphicsContext::UnRegister(GameObject * gameObject)
-	{
-		ScopedLock slock(_lock);
-
-		objs[gameObject] = nullptr;
-	}
-
-	void GraphicsContext::Update()
-	{
-		ScopedLock slock(_lock);
+        ScopedLock slock(_lock);
 
 		transformedCount = 0;
 		for (auto kv : objs)
@@ -81,7 +69,8 @@ namespace GlEngine
 		camera.Pop();
 
 		for (size_t i = 0; i < renderTargetCount; i++)
-			renderTargets[i]->Flip();
+            if (renderTargets[i]->GetShouldRender())
+                renderTargets[i]->Flip();
 	}
 
     bool GraphicsContext::InitializeRenderTargets()
@@ -95,7 +84,7 @@ namespace GlEngine
     }
     void GraphicsContext::Tick(float)
     {
-        Update();
+        frames->Update(*this);
         Render();
     }
     void GraphicsContext::ShutdownRenderTargets()

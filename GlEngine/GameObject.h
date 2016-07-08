@@ -6,6 +6,9 @@
 
 namespace GlEngine
 {
+    class Frame;
+    class GraphicsContext;
+    class GraphicsObject;
     namespace Events
     {
         class Event;
@@ -25,17 +28,32 @@ namespace GlEngine
         {
             return _requiresTick;
         }
+        inline void RequireGraphicsTick(bool require = true)
+        {
+            _requiresGraphicsTick = require;
+        }
+        inline bool RequiresGraphicsTick()
+        {
+            return _requiresGraphicsTick;
+        }
 
         virtual bool Initialize();
         virtual void Shutdown();
         virtual void Tick(float delta);
 
+        virtual void AddToFrame(Frame *frame);
+        virtual void RemoveFromFrame(Frame *frame);
+
         virtual void HandleEvent(Events::Event &evt);
+
+        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext &ctx) = 0;
+        virtual void UpdateGraphicsObject(GraphicsContext &ctx, GraphicsObject *object);
 
 		Vector<3> position;
 		Matrix<4, 4> orientation;
 
     private:
-        bool _requiresTick;
+        bool _requiresTick, _requiresGraphicsTick;
+        Frame *_frame;
 	};
 }
