@@ -10,7 +10,12 @@
 
 namespace TileRPG
 {
-    TestMusicObject::TestMusicObject()
+    TestMusicObject::TestMusicObject(const char *loop)
+        : TestMusicObject(nullptr, loop)
+    {
+    }
+    TestMusicObject::TestMusicObject(const char *start, const char *loop)
+        : startPath(start), loopPath(loop)
     {
     }
     TestMusicObject::~TestMusicObject()
@@ -25,14 +30,22 @@ namespace TileRPG
         intro = audioCtrl.CreateAudioSource();
         loop = audioCtrl.CreateAudioSource();
 
-        //intro->SetSource("Audio\\overworld-start.ogg");
-        //loop->SetSource("Audio\\overworld-main.ogg");
+        //if (startPath != nullptr)
+        //{
+        //    intro->SetSource(startPath);
+        //    loop->SetSource(loopPath);
 
-        //intro->Play(false);
-        //intro->SetTerminationCallback([&](GlEngine::IAudioSource*) {
+        //    intro->Play(false);
+        //    intro->SetTerminationCallback([&](GlEngine::IAudioSource*) {
+        //        loop->Play(true);
+        //    });
+        //}
+        //else
+        //{
+        //    loop->SetSource(loopPath);
+
         //    loop->Play(true);
-        //    //loop->Stop(5000);
-        //});
+        //}
 
         return true;
     }

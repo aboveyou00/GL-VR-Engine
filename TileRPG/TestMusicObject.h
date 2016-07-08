@@ -8,7 +8,8 @@ namespace TileRPG
     class TestMusicObject : public GlEngine::GameObject
     {
     public:
-        TestMusicObject();
+        TestMusicObject(const char *loop);
+        TestMusicObject(const char *start, const char *loop);
         ~TestMusicObject();
 
         bool Initialize() override;
@@ -17,6 +18,7 @@ namespace TileRPG
         GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
 
     private:
+        const char *startPath, *loopPath;
         GlEngine::IAudioSource *intro;
         GlEngine::IAudioSource *loop;
     };

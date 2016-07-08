@@ -18,8 +18,11 @@ namespace TileRPG
     {
         if (!Frame::Initialize()) return false;
 
-        this->CreateGameObject<TestEventObject>();
-        this->CreateGameObject<TestMusicObject>();
+        this->CreateGameObject<TestEventObject>()->position = Vector<3>(0, 0, 20.f);
+
+        this->CreateGameObject<TestMusicObject>("Audio\\overworld-start.ogg", "Audio\\overworld-main.ogg")->position = Vector<3>(20.f, 5.f, 2.f);
+        this->CreateGameObject<TestMusicObject>("Audio\\happy-start.ogg", "Audio\\happy-main.ogg")->position = Vector<3>(-15.f, 10.f, 2.f);
+        this->CreateGameObject<TestMusicObject>("Audio\\friendly-start.ogg", "Audio\\friendly-main.ogg")->position = Vector<3>(-15.f, -10.f, 2.f);
 
         return true;
     }
