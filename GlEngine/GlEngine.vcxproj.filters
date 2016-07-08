@@ -267,8 +267,17 @@
     <ClInclude Include="ObjGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="FbxGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxParser.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files\GlEngine</Filter>
+    </ClCompile>
     <ClCompile Include="GameLoop.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
@@ -401,8 +410,11 @@
     <ClCompile Include="ObjGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files\GlEngine</Filter>
+    <ClCompile Include="FbxGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxParser.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

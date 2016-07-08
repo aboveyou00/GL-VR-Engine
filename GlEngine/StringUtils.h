@@ -4,8 +4,15 @@ namespace GlEngine
 {
     namespace Util
     {
+		ENGINE_SHARED bool isWhitespace(char c);
+		ENGINE_SHARED bool isNumeric(char c);
+		ENGINE_SHARED void eatWhitespace(std::istream& in);
+		ENGINE_SHARED const char * const eatWhitespace(const char * const str);
+
         ENGINE_SHARED bool stoi(const char *const str, int &value);
+		ENGINE_SHARED bool geti(std::istream& in, int &value);
         ENGINE_SHARED bool stof(const char *const str, float &value);
+		ENGINE_SHARED bool getf(std::istream& in, float &value);
         ENGINE_SHARED int strcmp(const char *const lhs, const char *const rhs);
 
         //IMPORTANT: The return value of this method is invalidated when you call it again, unless it doesn't find another token

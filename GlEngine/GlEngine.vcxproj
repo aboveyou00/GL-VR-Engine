@@ -148,7 +148,9 @@
   <ItemGroup>
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
+    <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxLoader.h" />
+    <ClInclude Include="FbxParser.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="BufferMode.h" />
     <ClInclude Include="Camera.h" />
@@ -213,7 +215,9 @@
   <ItemGroup>
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
+    <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
+    <ClCompile Include="FbxParser.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ShaderGraphicsObject.cpp" />
