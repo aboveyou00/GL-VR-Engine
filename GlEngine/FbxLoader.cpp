@@ -62,25 +62,26 @@ namespace GlEngine
 			// TODO: switch above to resource thread and below to graphics thread
 
 			VboFactory<VboType::Float, Vector<3>/*, Vector<2>, Vector<3>*/> verticesFactory(BufferMode::Array);
-			for (int i = 0; i < vertices.size() / 3; i++)
+			for (size_t i = 0; i < vertices.size() / 3; i++)
 			{
 				verticesFactory.AddVertex({ vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2] });
 			}
 			out->subObjects.push_back(VboGraphicsObject());
 		}
+		return true;
 	}
 
 	void FbxLoader::ConvertIndeces(std::vector<int32_t> indeces, int& t_size, int32_t * triangulated)
 	{
 		// CONCAVE N-GONS NOT SUPPORTED!!
 
-		int t_size = 0;
+		t_size = 0;
 
-		int polyFirst;
-		int polyRecent;
+		int polyFirst = 0;
+		int polyRecent = 0;
 
 		int i_count = 0;
-		for (int i = 0; i < indeces.size(); i++)
+		for (size_t i = 0; i < indeces.size(); i++)
 		{
 			if (indeces[i] < 0)
 			{
@@ -100,6 +101,7 @@ namespace GlEngine
 			}
 			triangulated[t_size++] = indeces[i];
 			polyRecent = indeces[i];
+			i_count++;
 		}
 	}
 

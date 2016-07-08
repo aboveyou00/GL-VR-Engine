@@ -50,12 +50,21 @@ namespace GlEngine
 			public:
 				Camera relativeCamera;
 
-				double left = -1, right = 1, top = 1, bottom = -1, nearVal = 0, farVal = 100;
 				void ApplyProjection();
 				void Apply();
 
 				void Push();
 				void Pop();
+
+				void SetSize(int width, int height);
+				void SetWidth(int width);
+				void SetHeight(int height);
+				int GetWidth();
+				int GetHeight();
+			
+			private:
+				int width, height;
+			
 			} viewPort;
 
         private:

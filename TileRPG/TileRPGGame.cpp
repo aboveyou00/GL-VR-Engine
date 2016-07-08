@@ -15,6 +15,7 @@
 #include "FileLogger.h"
 #include "FileConfigProvider.h"
 
+#include "ObjGraphicsObject.h"
 #include "FbxGraphicsObject.h"
 
 namespace TileRPG
@@ -98,7 +99,7 @@ namespace TileRPG
         }
 
         //auto graphicsObject = new GlEngine::ObjGraphicsObject("suzanne.obj");
-		auto graphicsObject = new GlEngine::FbxGraphicsObject("test.fbx");
+		auto graphicsObject = new GlEngine::ObjGraphicsObject("suzanne.obj");
 
         auto gameObject = new TestEventObject();
         auto audioObject = new TestMusicObject();

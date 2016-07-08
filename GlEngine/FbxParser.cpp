@@ -53,12 +53,13 @@ namespace GlEngine
 
 		Property * Node::PropertyWithName(std::string name)
 		{
-			auto p = *PropertiesWithName(name);
+			return &*PropertiesWithName(name);
 		}
 
 		NodePropertyIterator::NodePropertyIterator(Node * node, std::string name)
 			: node(node), name(name)
 		{
+			index = 0;
 			while (!MatchName(index) && index < node->properties.size())
 				index++;
 		}
@@ -73,12 +74,12 @@ namespace GlEngine
 			return name == "" || node->properties[i].name == name;
 		}
 
-		const Property& NodePropertyIterator::operator*() const
+		Property& NodePropertyIterator::operator*() const
 		{
 			return node->properties[index];
 		}
 
-		const Property* NodePropertyIterator::operator->() const
+		Property* NodePropertyIterator::operator->() const
 		{
 			return &node->properties[index];
 		}
@@ -108,7 +109,7 @@ namespace GlEngine
 
 		bool operator==(NodePropertyIterator & left, NodePropertyIterator & right)
 		{
-			return (left.node == right.node) && (left.name == right.name) && (left.index = right.index);
+			return (left.node == right.node) && (left.name == right.name) && (left.index == right.index);
 		}
 
 		bool NodePropertyIterator::ended()
@@ -119,56 +120,56 @@ namespace GlEngine
 		std::vector<Node*> Property::NodeValues() const
 		{
 			std::vector<Node*> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsNode());
 			return result;
 		}
 		std::vector<bool> Property::BoolValues() const
 		{
 			std::vector<bool> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsBool());
 			return result;
 		}
 		std::vector<int16_t> Property::Int16Values() const
 		{
 			std::vector<int16_t> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsInt16());
 			return result;
 		}
 		std::vector<int32_t> Property::Int32Values() const
 		{
 			std::vector<int32_t> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsInt32());
 			return result;
 		}
 		std::vector<int64_t> Property::Int64Values() const
 		{
 			std::vector<int64_t> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsInt64());
 			return result;
 		}
 		std::vector<float> Property::Float32Values() const
 		{
 			std::vector<float> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsFloat32());
 			return result;
 		}
 		std::vector<double> Property::Float64Values() const
 		{
 			std::vector<double> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsFloat64());
 			return result;
 		}
 		std::vector<std::string*> Property::StringValues() const
 		{
 			std::vector<std::string*> result;
-			for (int i = 0; i < values.size(); i++)
+			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsString());
 			return result;
 		}

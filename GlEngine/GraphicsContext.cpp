@@ -15,7 +15,7 @@ namespace GlEngine
             [&] { this->ShutdownRenderTargets(); }
         )
     {
-    }
+	}
     GraphicsContext::~GraphicsContext()
     {
         Shutdown();
@@ -23,6 +23,9 @@ namespace GlEngine
 
 	bool GraphicsContext::Initialize()
 	{
+		camera.SetEye({ 0, 0, 5 });
+		camera.SetTarget({ 0, 0, -1 });
+
         _loop.RunLoop();
 		return true;
 	}

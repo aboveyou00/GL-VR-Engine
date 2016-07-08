@@ -87,8 +87,8 @@ namespace GlEngine
 			NodePropertyIterator(Node * node, std::string name);
 			NodePropertyIterator(Node * node);
 
-			const Property& operator*() const;
-			const Property* operator->() const;
+			Property& operator*() const;
+			Property* operator->() const;
 			NodePropertyIterator& operator++();
 			NodePropertyIterator operator++(int);
 			friend bool operator==(NodePropertyIterator & left, NodePropertyIterator & right);
@@ -99,7 +99,7 @@ namespace GlEngine
 			bool MatchName(int i);
 			std::string name;
 			Node * node;
-			int index = 0;
+			unsigned index;
 		};
 	}
 }

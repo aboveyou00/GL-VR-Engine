@@ -98,7 +98,8 @@ namespace GlEngine
                 if (_window->GetLastResizeTime() < std::chrono::high_resolution_clock::now() - 50ms)
                 {
                     glViewport(0, 0, this->lastWidth, this->lastHeight);
-                    shouldRender = true;
+					viewPort.SetSize(this->lastWidth, this->lastHeight);
+					shouldRender = true;
                 }
             }
         }
@@ -108,7 +109,7 @@ namespace GlEngine
 			glEnable(GL_CULL_FACE);
 			glDepthFunc(GL_LEQUAL);
 
-            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+            //glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			viewPort.Push();
@@ -125,9 +126,24 @@ namespace GlEngine
 
 		void GlRenderTargetImpl::ViewPort::ApplyProjection()
 		{
+			float viewWidth, viewHeight;
+			if (width > height)
+			{
+				viewHeight = 1.0;
+				viewWidth = (float)width / height;
+			}
+			else
+			{
+				viewWidth = 1.0;
+				viewHeight = (float)height / width;
+			}
+
+			float nearVal = 1.f;
+			float farVal = 100.f;
+
 			glLoadIdentity();
-			//glFrustum()
-			glOrtho(left, right, bottom, top, nearVal, farVal);
+			glFrustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight /2 , nearVal, farVal);
+			//glOrtho(left, right, bottom, top, nearVal, farVal);
 		}
 
 		void GlRenderTargetImpl::ViewPort::Apply()
@@ -147,6 +163,30 @@ namespace GlEngine
 		{
 			glMatrixMode(GL_PROJECTION);
 			glPopMatrix();
+		}
+
+		void GlRenderTargetImpl::ViewPort::SetSize(int width, int height)
+		{
+			this->width = width;
+			this->height = height;
+		}
+		void GlRenderTargetImpl::ViewPort::SetWidth(int width)
+		{
+			this->width = width;
+		}
+		void GlRenderTargetImpl::ViewPort::SetHeight(int height)
+		{
+			this->height = height;
+		}
+
+		int GlRenderTargetImpl::ViewPort::GetWidth()
+		{
+			return width;
+		}
+
+		int GlRenderTargetImpl::ViewPort::GetHeight()
+		{
+			return height;
 		}
     }
 }

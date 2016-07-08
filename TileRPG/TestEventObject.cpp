@@ -9,7 +9,7 @@
 namespace TileRPG
 {
     TestEventObject::TestEventObject()
-        : upPressed(0), downPressed(0), leftPressed(0), rightPressed(0)
+        : upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0)
     {
         RequireTick(true);
 		timePassed = 0;
@@ -21,7 +21,7 @@ namespace TileRPG
     void TestEventObject::Tick(float delta)
     {
         timePassed += delta;
-        auto motionVector = Vector<3> { (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), (upPressed ? 1 : 0) + (downPressed ? -1 : 0), 0 };
+        auto motionVector = Vector<3> { (leftPressed ? 1 : 0) + (rightPressed ? -1 : 0), (upPressed ? 1 : 0) + (downPressed ? -1 : 0), (outPressed ? 1 : 0) + (inPressed ? -1 : 0) };
         if (motionVector.LengthSquared() > 1) motionVector = motionVector.Normalized();
         position += motionVector * delta;
         //auto theta = timePassed;
@@ -51,6 +51,11 @@ namespace TileRPG
         case VK_RIGHT:
             rightPressed = pressed;
             break;
+		case VK_LETTER<'a'>():
+			inPressed = pressed;
+			break;
+		case VK_LETTER<'q'>():
+			outPressed = pressed;
         }
     }
 }

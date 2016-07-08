@@ -16,6 +16,6 @@ namespace TileRPG
 
     private:
         float timePassed;
-        bool leftPressed, rightPressed, upPressed, downPressed;
+        bool leftPressed, rightPressed, upPressed, downPressed, inPressed, outPressed;
     };
 }

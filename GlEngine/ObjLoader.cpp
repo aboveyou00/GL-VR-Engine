@@ -108,7 +108,7 @@ namespace GlEngine
 		trianglesFactory.Allocate(triangleIndeces.size() / 3);
 		for (unsigned i = 0; i < triangleIndeces.size(); i += 3)
 		{
-			trianglesFactory.AddVertex((uint16_t)triangleIndeces[i], (uint16_t)triangleIndeces[i + 1], (uint16_t)triangleIndeces[i + 2]);
+			trianglesFactory.AddVertex((uint16_t)triangleIndeces[i + 2], (uint16_t)triangleIndeces[i + 1], (uint16_t)triangleIndeces[i]);
 		}
 
 		out->arrayVbo = verticesFactory.Compile();

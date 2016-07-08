@@ -64,11 +64,11 @@
     <Filter Include="Source Files\GlEngine\Resources">
       <UniqueIdentifier>{b4a1e2cb-4395-4977-8054-1bffbe7b0418}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GlEngine\Graphics\Impl">
-      <UniqueIdentifier>{1c82b25c-0973-4f8a-89a7-e756faffa44d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GlEngine\Events">
       <UniqueIdentifier>{bb844dd7-4045-43e2-b9b3-3e04f68e997a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\Impl">
+      <UniqueIdentifier>{1c82b25c-0973-4f8a-89a7-e756faffa44d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

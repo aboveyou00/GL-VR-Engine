@@ -20,7 +20,7 @@ namespace GlEngine
 
 	void FbxGraphicsObject::Render()
 	{
-		for (int i = 0; i < subObjects.size(); i++)
+		for (size_t i = 0; i < subObjects.size(); i++)
 			subObjects[i].Render();
 	}
 }
