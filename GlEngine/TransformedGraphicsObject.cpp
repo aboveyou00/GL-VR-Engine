@@ -27,7 +27,10 @@ namespace GlEngine
         glMultMatrixf(Matrix<4, 4>::TranslateMatrix(position).getAddr());
         glMultMatrixf(orientation.getAddr());
 
-        if (graphicsObject->Initialize()) graphicsObject->Render();
+		static bool init = false;
+		if (!init++)
+			graphicsObject->Initialize();
+        graphicsObject->Render();
 
         glPopMatrix();
 	}

@@ -10,7 +10,7 @@ namespace GlEngine
         {
         public:
             Event(IEventSender *sender = nullptr)
-                : _sender(sender)
+                : _sender(sender), _handled(false)
             {
             }
             ~Event()

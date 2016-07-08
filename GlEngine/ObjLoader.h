@@ -1,6 +1,7 @@
 #pragma once
 
-#include "GraphicsObject.h"
+#include "VboGraphicsObject.h"
+#include "ObjGraphicsObject.h"
 #include <fstream>
 #include <vector>
 #include <unordered_map>
@@ -9,7 +10,7 @@
 
 namespace GlEngine
 {
-	class ObjLoader
+	class ENGINE_SHARED ObjLoader
 	{
 	public:
 		static std::vector<Vector<3>> positions;
@@ -21,13 +22,13 @@ namespace GlEngine
 		static std::vector<int> triangleIndeces;
 		static std::vector<int> quadIndeces;
 
-		static GraphicsObject Load(const char * const filename);
-		static GraphicsObject Load(std::istream & in);
+		static bool Load(const char * const filename, ObjGraphicsObject * out);
+		static bool Load(std::istream & in, ObjGraphicsObject * out);
 
 	private:
 		static int ParseVertex(std::string faceString);
 		static int ObjLoader::FindOrAddGlVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
-		static GraphicsObject CreateFromData();
+		static bool CreateFromData(ObjGraphicsObject * out);
 
 	};
 }

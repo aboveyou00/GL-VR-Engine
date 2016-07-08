@@ -39,7 +39,8 @@ namespace GlEngine
 
 		transformedCount = 0;
 		for (auto kv : objs)
-			transformed[transformedCount++] = TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation);
+            if (kv.second != nullptr)
+                transformed[transformedCount++] = TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation);
 	}
 
 	void GraphicsContext::AddRenderTarget(GlRenderTarget * renderTarget)

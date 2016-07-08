@@ -54,12 +54,14 @@ namespace GlEngine
 
     void FrameStack::Update(GraphicsContext &ctx)
     {
-        CurrentFrame()->Update(ctx);
+        if (stackIdx == -1) return;
+        _frameStack[stackIdx]->Update(ctx);
     }
 
     void FrameStack::HandleEvent(Events::Event &evt)
     {
         if (evt.IsHandled()) return;
-        if (stackIdx != -1) _frameStack[stackIdx]->HandleEvent(evt);
+        if (stackIdx == -1) return;
+        _frameStack[stackIdx]->HandleEvent(evt);
     }
 }

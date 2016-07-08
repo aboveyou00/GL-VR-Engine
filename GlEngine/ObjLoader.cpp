@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "ObjLoader.h"
+
 #include <sstream>
 #include <algorithm>
 #include "StringUtils.h"
-
+#include "ObjGraphicsObject.h"
 #include "VboFactory.h"
 
 namespace GlEngine
@@ -27,26 +28,30 @@ namespace GlEngine
 		return c == '\n' || c == '\r';
 	}
 
-	GraphicsObject ObjLoader::Load(const char * const filename)
+	bool ObjLoader::Load(const char * const filename, ObjGraphicsObject * out)
 	{
 		std::ifstream in;
-		in.open(filename, std::ifstream::in);
-		auto result = Load(in);
+		in.open(filename);
+		if (!in)
+			return false;
+		if (!Load(in, out))
+			return false;
 		in.close();
-		return result;
+		return true;
 	}
 
-	GraphicsObject ObjLoader::Load(std::istream & in)
+	bool ObjLoader::Load(std::istream & in, ObjGraphicsObject * out)
 	{
 		std::string line;
 		while (std::getline(in, line))
 		{
 			std::istringstream iss(line);
-			
+
 			std::string first;
 			iss >> first;
-			if (first == "p") //point
-			{ } 
+			if (first == "p")
+			{
+			}
 			else if (first == "v")
 			{
 				float x, y, z;
@@ -63,19 +68,19 @@ namespace GlEngine
 			{
 				float nx, ny, nz;
 				iss >> nx >> ny >> nz;
-				normals.push_back({nx, ny ,nz});
+				normals.push_back({ nx, ny ,nz });
 			}
 			else if (first == "f")
 			{
 				std::string s0, s1, s2, s3;
 				iss >> s0 >> s1 >> s2;
-				if (!(iss >> s3))		// tri
+				if (!(iss >> s3))
 				{
 					triangleIndeces.push_back(ParseVertex(s0));
 					triangleIndeces.push_back(ParseVertex(s1));
 					triangleIndeces.push_back(ParseVertex(s2));
 				}
-				else					// quad
+				else
 				{
 					quadIndeces.push_back(ParseVertex(s0));
 					quadIndeces.push_back(ParseVertex(s1));
@@ -84,11 +89,10 @@ namespace GlEngine
 				}
 			}
 		}
-
-		return CreateFromData();
+		return CreateFromData(out);
 	}
 
-	GraphicsObject ObjLoader::CreateFromData()
+	bool ObjLoader::CreateFromData(ObjGraphicsObject * out)
 	{
 		VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>> verticesFactory(BufferMode::Array);
 		verticesFactory.Allocate(glVertices.size());
@@ -104,13 +108,13 @@ namespace GlEngine
 		trianglesFactory.Allocate(triangleIndeces.size() / 3);
 		for (unsigned i = 0; i < triangleIndeces.size(); i += 3)
 		{
-			trianglesFactory.AddVertex((uint16_t)triangleIndeces[i], (uint16_t)triangleIndeces[i + 1], (uint16_t)triangleIndeces[i + 1]);
+			trianglesFactory.AddVertex((uint16_t)triangleIndeces[i], (uint16_t)triangleIndeces[i + 1], (uint16_t)triangleIndeces[i + 2]);
 		}
 
-		verticesFactory.Compile();
-		trianglesFactory.Compile();
-
-		return GraphicsObject();
+		out->arrayVbo = verticesFactory.Compile();
+		out->elementVbo = trianglesFactory.Compile();
+		out->triCount = triangleIndeces.size() / 3;
+		return true;
 	}
 
 	int ObjLoader::ParseVertex(std::string faceString)
@@ -125,7 +129,6 @@ namespace GlEngine
 		{
 			if (faceString[i] == '/' || i == faceString.length())
 			{
-				idx++;
 				if (current.empty())
 					continue;
 
@@ -137,19 +140,24 @@ namespace GlEngine
 						positionIndex = 0;
 					positionIndex += positionIndex < 0 ? positions.size() : -1;
 					position = positions[positionIndex];
+					break;
 				case 1:
 					int texCoordIndex;
 					if (!Util::stoi(current.c_str(), texCoordIndex))
 						texCoordIndex = 0;
 					texCoordIndex += texCoordIndex < 0 ? texCoords.size() : -1;
 					texCoord = texCoords[texCoordIndex];
+					break;
 				case 2:
 					int normalIndex;
 					if (!Util::stoi(current.c_str(), normalIndex))
 						normalIndex = 0;
 					normalIndex += normalIndex < 0 ? normals.size() : -1;
 					normal = normals[normalIndex];
+					break;
 				}
+				current = "";
+				idx++;
 			}
 			else
 				current += faceString[i];
@@ -160,7 +168,7 @@ namespace GlEngine
 
 	int ObjLoader::FindOrAddGlVertex(Vector<3> vertex, Vector<2> texCoord, Vector<3> normal)
 	{
-		std::tuple<Vector<3>, Vector<2>, Vector<3>> glVertex;
+		std::tuple<Vector<3>, Vector<2>, Vector<3>> glVertex(vertex, texCoord, normal);
 		
 		auto index = std::find(glVertices.begin(), glVertices.end(), glVertex);
 		if (index == glVertices.end())

@@ -8,6 +8,8 @@
 #include "GraphicsObject.h"
 #include "GraphicsContext.h"
 
+#include "ObjGraphicsObject.h"
+
 namespace TileRPG
 {
     TestEventObject::TestEventObject()
@@ -58,6 +60,6 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        return nullptr;
+        return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
     }
 }

@@ -6,6 +6,8 @@
 #include "GraphicsObject.h"
 #include "GraphicsContext.h"
 
+#include "ObjGraphicsObject.h"
+
 namespace TileRPG
 {
     TestMusicObject::TestMusicObject()
@@ -42,6 +44,6 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        return nullptr;
+        return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
     }
 }
