@@ -13,6 +13,7 @@ namespace TileRPG
         ~TestMusicObject();
 
         bool Initialize() override;
+        void Tick(float delta) override;
         void Shutdown() override;
 
         GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;

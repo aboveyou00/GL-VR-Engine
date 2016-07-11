@@ -207,7 +207,7 @@ namespace GlEngine
 		if (c == '"')
 			return ParseAsciiValueString(in);
 		else if (c == '*')
-			return parseAsciiValueQuantifier(in);
+			return ParseAsciiValueQuantifier(in);
 		else if (Util::isNumeric(c))
 			return ParseAsciiValueNumeric(in);
 		else if (c == nodeDelimLeft)
@@ -280,6 +280,7 @@ namespace GlEngine
 
 	Fbx::Value * FbxLoader::ParseAsciiValueQuantifier(std::istream& in)
 	{
+        in;
 		return new Fbx::Value;
 	}
 }

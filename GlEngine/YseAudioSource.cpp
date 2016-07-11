@@ -4,71 +4,90 @@
 namespace GlEngine
 {
     YseAudioSource::YseAudioSource()
+        : sound(nullptr), isPlaying(false), soundStarted(false)
     {
-        isPlaying = false;
-        soundStarted = false;
     }
     YseAudioSource::~YseAudioSource()
     {
+        if (sound != nullptr)
+        {
+            Stop();
+            delete sound;
+            sound = nullptr;
+        }
     }
 
     void YseAudioSource::SetSource(const char *const filename)
     {
-        sound.create(filename);
+        if (sound != nullptr)
+        {
+            Stop();
+            delete sound;
+            sound = nullptr;
+        }
+        sound = new YSE::sound();
+        sound->create(filename);
     }
     void YseAudioSource::SetPosition(Vector<3> &position)
     {
-        sound.setPosition(YSE::Vec(position[0], position[1], position[2]));
+        pos = position;
     }
-    void YseAudioSource::SetSpeed(Vector<3> &)
+    void YseAudioSource::SetSpeed(Vector<3> &velocity)
     {
-        //TODO: set the sound velocity
-        //sound.setSpeed(YSE::Vec(speed[0], speed[1], speed[2]));
+        vel = velocity;
     }
     bool YseAudioSource::Play(bool loop)
     {
-        if (!sound.isValid()) return false;
-        sound.play();
-        sound.setLooping(loop);
-        isPlaying = true;
-        soundStarted = false;
-        return true;
+        if (sound != nullptr && sound->isValid())
+        {
+            sound->play();
+            sound->setLooping(loop);
+            isPlaying = true;
+            soundStarted = false;
+            return true;
+        }
+        return false;
     }
     void YseAudioSource::Stop(unsigned millis)
     {
-        if (sound.isPlaying())
+        if (sound != nullptr && sound->isPlaying())
         {
-            if (millis > 0) sound.fadeAndStop(millis);
-            else sound.stop();
+            if (millis > 0) sound->fadeAndStop(millis);
+            else sound->stop();
             isPlaying = false;
         }
     }
 
     void YseAudioSource::Update()
     {
-        if (isPlaying)
+        if (sound != nullptr)
         {
-            if (!soundStarted)
+            sound->setPosition(YSE::Vec(pos[0], pos[1], pos[2]));
+            //TODO: set the sound velocity
+            if (isPlaying)
             {
-                if (sound.isPlaying()) soundStarted = true;
+                if (!soundStarted)
+                {
+                    if (sound->isPlaying()) soundStarted = true;
+                }
+                else
+                {
+                    if (!sound->isPlaying())
+                    {
+                        isPlaying = false;
+                        soundStarted = false;
+                        auto cb = GetTerminationCallback();
+                        if (cb) cb(this);
+                    }
+                }
             }
             else
             {
-                if (!sound.isPlaying())
+                if (sound->isPlaying())
                 {
-                    isPlaying = false;
-                    soundStarted = false;
-                    auto cb = GetTerminationCallback();
-                    if (cb) cb(this);
+                    isPlaying = true;
+                    soundStarted = true;
                 }
-            }
-        }
-        else
-        {
-            if (sound.isPlaying())
-            {
-                isPlaying = true;
-                soundStarted = true;
             }
         }
     }
