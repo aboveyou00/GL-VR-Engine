@@ -63,10 +63,6 @@ namespace GlEngine
             elementVbo = VbObject();
         }
 
-        //uniform vec3 direct_light_direction;
-        //uniform vec3 direct_light_color;
-        //uniform vec3 ambient_light_color;
-
 		void GraphicsObjectImpl::Render()
 		{
             if (arrayVbo)

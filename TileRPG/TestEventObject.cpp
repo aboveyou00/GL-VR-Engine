@@ -5,6 +5,10 @@
 
 #include "Engine.h"
 #include "AudioController.h"
+#include "GraphicsObject.h"
+#include "GraphicsContext.h"
+
+#include "ObjGraphicsObject.h"
 
 namespace TileRPG
 {
@@ -57,5 +61,10 @@ namespace TileRPG
 		case VK_LETTER<'q'>():
 			outPressed = pressed;
         }
+    }
+
+    GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    {
+        return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
     }
 }

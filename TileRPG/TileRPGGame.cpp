@@ -43,7 +43,7 @@ namespace TileRPG
 
         if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
 
-        _gfxContext = new GlEngine::GraphicsContext();
+        _gfxContext = new GlEngine::GraphicsContext(&_loop.GetGameLogic());
 
         auto _renderTarget = new GlEngine::GlRenderTarget(_window);
         _gfxContext->AddRenderTarget(_renderTarget);
@@ -98,8 +98,7 @@ namespace TileRPG
             return false;
         }
 
-        //auto graphicsObject = new GlEngine::ObjGraphicsObject("suzanne.obj");
-		auto graphicsObject = new GlEngine::ObjGraphicsObject("suzanne.obj");
+        auto graphicsObject = new GlEngine::ObjGraphicsObject("../Debug/suzanne.obj");
 
         auto gameObject = new TestEventObject();
         auto audioObject = new TestMusicObject();

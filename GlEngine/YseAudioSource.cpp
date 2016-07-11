@@ -36,8 +36,12 @@ namespace GlEngine
     }
     void YseAudioSource::Stop(unsigned millis)
     {
-        if (millis > 0) sound.fadeAndStop(millis);
-        else sound.stop();
+        if (sound.isPlaying())
+        {
+            if (millis > 0) sound.fadeAndStop(millis);
+            else sound.stop();
+            isPlaying = false;
+        }
     }
 
     void YseAudioSource::Update()

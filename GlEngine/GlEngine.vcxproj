@@ -150,6 +150,8 @@
     <ClInclude Include="AudioControllerImpl.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxLoader.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="FrameStack.h" />
     <ClInclude Include="FbxParser.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="BufferMode.h" />
@@ -218,6 +220,8 @@
     <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="FbxParser.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ShaderGraphicsObject.cpp" />

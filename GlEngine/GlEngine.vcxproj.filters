@@ -70,6 +70,15 @@
     <Filter Include="Header Files\GlEngine\Graphics\Impl">
       <UniqueIdentifier>{1c82b25c-0973-4f8a-89a7-e756faffa44d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Events">
+      <UniqueIdentifier>{bb844dd7-4045-43e2-b9b3-3e04f68e997a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Frames">
+      <UniqueIdentifier>{95ae692a-414c-4c92-884c-94ad5598f8c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Frames">
+      <UniqueIdentifier>{ea8e9fcf-f78c-49e7-8d04-600aabbb5f21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -273,6 +282,12 @@
     <ClInclude Include="FbxParser.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>Header Files\GlEngine\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameStack.h">
+      <Filter>Header Files\GlEngine\Frames</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -415,6 +430,12 @@
     </ClCompile>
     <ClCompile Include="FbxParser.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files\GlEngine\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameStack.cpp">
+      <Filter>Source Files\GlEngine\Frames</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

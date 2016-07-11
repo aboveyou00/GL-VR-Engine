@@ -66,7 +66,7 @@ namespace TileRPG
         GlEngine::Events::Event *evt;
         while ((evt = localQueue.RemoveEvent()) != nullptr)
         {
-            _logic.DispatchEvent(evt);
+            _logic.HandleEvent(*evt);
             delete evt;
         }
     }

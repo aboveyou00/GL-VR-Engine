@@ -3,25 +3,25 @@
 #include "EngineShared.h"
 #include "IComponent.h"
 #include "TransformedGraphicsObject.h"
-#include <set>
-#include <unordered_map>
 #include "Camera.h"
 #include "GameObject.h"
 #include "GlRenderTarget.h"
-
 #include "GameLoop.h"
+#include <unordered_map>
 
 namespace GlEngine
 {
-	class ENGINE_SHARED GraphicsContext : public IComponent 
+    class GraphicsObject;
+    class FrameStack;
+    using graphics_object_map = std::unordered_map<GameObject*, GraphicsObject*>;
+
+	class ENGINE_SHARED GraphicsContext : public IComponent
 	{
 	public:
-		GraphicsContext();
+		GraphicsContext(FrameStack *frames);
 		~GraphicsContext();
 
-		std::unordered_map<GameObject *, GraphicsObject *> objs;
-		
-		static const int maxGraphicsObjects = 100000;
+		static const int maxGraphicsObjects = 1024;
 		TransformedGraphicsObject transformed[maxGraphicsObjects];
 		int transformedCount = 0;
 		
@@ -30,12 +30,9 @@ namespace GlEngine
 		bool Initialize();
 		void Shutdown();
 
-		void Update();
-		void Register(GameObject * gameObject, GraphicsObject * graphicsObject);
-		void UnRegister(GameObject * gameObject);
-
 		void AddRenderTarget(GlRenderTarget * renderTarget);
 
+		void Update(const graphics_object_map &objs);
 		void Render();
 
         inline rt_mutex &GetMutex()
@@ -50,6 +47,7 @@ namespace GlEngine
 		GlRenderTarget * renderTargets[maxRenderTargets];
 		size_t renderTargetCount = 0;
         GameLoop _loop;
+        FrameStack *frames;
 
         bool InitializeRenderTargets();
         void Tick(float delta);

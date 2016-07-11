@@ -10,6 +10,8 @@ namespace GlEngine
 		ObjGraphicsObject() : VboGraphicsObject() {}
 		ObjGraphicsObject(const char * const filename);
 
+        static ObjGraphicsObject *Create(const char *name);
+
 		bool Initialize() override;
 
 	private:
