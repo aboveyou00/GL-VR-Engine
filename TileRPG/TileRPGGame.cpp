@@ -98,17 +98,6 @@ namespace TileRPG
             return false;
         }
 
-        auto graphicsObject = new GlEngine::ObjGraphicsObject("../Debug/suzanne.obj");
-
-        auto gameObject = new TestEventObject();
-        auto audioObject = new TestMusicObject();
-
-        _gfxContext->Register(gameObject, graphicsObject);
-        _gfxContext->Register(audioObject, graphicsObject);
-
-        _loop.GetGameLogic().AddGameObject(gameObject);
-        _loop.GetGameLogic().AddGameObject(audioObject);
-
         logger->Log(GlEngine::LogType::InfoC, "TileRPG initialization successful. Beginning game.");
         return true;
     }

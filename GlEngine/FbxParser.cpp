@@ -40,6 +40,11 @@ namespace GlEngine
 			assert(type == Type::FLOAT_64);
 			return _value._float64_v;
 		}
+		int32_t Value::AsQuantifier() const
+		{
+			assert(type == Type::QUANTIFIER);
+			return _value._int32_v;
+		}
 		std::string * Value::AsString() const
 		{
 			assert(type == Type::STRING);
@@ -166,12 +171,65 @@ namespace GlEngine
 				result.push_back(values[i].AsFloat64());
 			return result;
 		}
+		std::vector<int32_t> Property::QuantifierValues() const
+		{
+			std::vector<int32_t> result;
+			for (unsigned i = 0; i < values.size(); i++)
+				result.push_back(values[i].AsQuantifier());
+			return result;
+		}
 		std::vector<std::string*> Property::StringValues() const
 		{
 			std::vector<std::string*> result;
 			for (unsigned i = 0; i < values.size(); i++)
 				result.push_back(values[i].AsString());
 			return result;
+		}
+
+		Node * Property::AsNode() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsNode();
+		}
+		bool Property::AsBool() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsBool();
+		}
+		int16_t Property::AsInt16() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsInt16();
+		}
+		int32_t Property::AsInt32() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsInt32();
+		}
+		int64_t Property::AsInt64() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsInt64();
+		}
+		float Property::AsFloat32() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsFloat32();
+		}
+		double Property::AsFloat64() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsFloat64();
+		}
+		int32_t Property::AsQuantifier() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsQuantifier();
+		}
+		std::string * Property::AsString() const
+		{
+			assert(values.size() == 1);
+			return values[0].AsString();
 		}
 	}
 }

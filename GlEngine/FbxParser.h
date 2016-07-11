@@ -23,6 +23,7 @@ namespace GlEngine
 			ARRAY_FLOAT_32,
 			ARRAY_FLOAT_64,
 
+			QUANTIFIER,
 			STRING,
 			BINARY,
 		};
@@ -52,6 +53,7 @@ namespace GlEngine
 			int64_t AsInt64() const;
 			float AsFloat32() const;
 			double AsFloat64() const;
+			int32_t AsQuantifier() const;
 			std::string * AsString() const;
 		};
 
@@ -68,7 +70,18 @@ namespace GlEngine
 			std::vector<int64_t> Int64Values() const;
 			std::vector<float> Float32Values() const;
 			std::vector<double> Float64Values() const;
+			std::vector<int32_t> QuantifierValues() const;
 			std::vector<std::string*> StringValues() const;
+
+			Node * AsNode() const;
+			bool AsBool() const;
+			int16_t AsInt16() const;
+			int32_t AsInt32() const;
+			int64_t AsInt64() const;
+			float AsFloat32() const;
+			double AsFloat64() const;
+			int32_t AsQuantifier() const;
+			std::string * AsString() const;
 		};
 
 		class NodePropertyIterator;

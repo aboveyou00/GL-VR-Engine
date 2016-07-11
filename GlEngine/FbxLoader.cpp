@@ -48,16 +48,22 @@ namespace GlEngine
 
 	bool FbxLoader::Convert(Fbx::Node * node, FbxGraphicsObject * out)
 	{
-		auto objectNode = node->PropertyWithName("Objects")->values[0].AsNode();
+		auto objectNode = node->PropertyWithName("Objects")->AsNode();
 		for (auto modelNode_it = objectNode->PropertiesWithName("Model"); !modelNode_it.ended(); modelNode_it++)
 		{
-			auto modelNode = modelNode_it->values[0].AsNode();
+			auto modelNode = modelNode_it->AsNode();
 			auto vertices = modelNode->PropertyWithName("Vertices")->Float32Values();
 			
-			auto rawVertexIndeces = modelNode->PropertyWithName("vertexIndeces")->Int32Values();
+			auto rawVertexIndeces = modelNode->PropertyWithName("PolygonVertexIndex")->Int32Values();
 			int * vertexIndeces = new int[rawVertexIndeces.size() * 3];
 			int vertexIndecesCount;
 			ConvertIndeces(rawVertexIndeces, vertexIndecesCount, vertexIndeces);
+
+			auto normalsNode = modelNode->PropertyWithName("LayerElementNormal")->AsNode();
+			auto normals = normalsNode->PropertyWithName("Normals")->Float32Values();
+			std::string * normalMappingType = normalsNode->PropertyWithName("MappingInformationType")->AsString();
+
+			normalMappingType;
 
 			// TODO: switch above to resource thread and below to graphics thread
 
@@ -200,6 +206,8 @@ namespace GlEngine
 		char c = (char)in.peek();
 		if (c == '"')
 			return ParseAsciiValueString(in);
+		else if (c == '*')
+			return parseAsciiValueQuantifier(in);
 		else if (Util::isNumeric(c))
 			return ParseAsciiValueNumeric(in);
 		else if (c == nodeDelimLeft)
@@ -268,5 +276,10 @@ namespace GlEngine
 			return nullptr;
 		}
 		return result;
+	}
+
+	Fbx::Value * FbxLoader::ParseAsciiValueQuantifier(std::istream& in)
+	{
+		return new Fbx::Value;
 	}
 }

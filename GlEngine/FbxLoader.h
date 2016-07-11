@@ -33,6 +33,7 @@ namespace GlEngine
 		static Fbx::Value * ParseAsciiValue(std::istream & in);
 		static Fbx::Value * ParseAsciiValueString(std::istream & in);
 		static Fbx::Value * ParseAsciiValueNumeric(std::istream & in);
+		static Fbx::Value * ParseAsciiValueQuantifier(std::istream & in);
 
 	};
 }

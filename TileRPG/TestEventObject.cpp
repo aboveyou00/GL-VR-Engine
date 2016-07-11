@@ -26,7 +26,7 @@ namespace TileRPG
     {
         timePassed += delta;
         auto motionVector = Vector<3> { (leftPressed ? 1 : 0) + (rightPressed ? -1 : 0), (upPressed ? 1 : 0) + (downPressed ? -1 : 0), (outPressed ? 1 : 0) + (inPressed ? -1 : 0) };
-        if (motionVector.LengthSquared() > 1) motionVector = motionVector.Normalized();
+        if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(5);
         position += motionVector * delta;
         //auto theta = timePassed;
         //position = Vector<3> { sin(theta) / 2, cos(theta) / 2, 1 };
@@ -55,10 +55,10 @@ namespace TileRPG
         case VK_RIGHT:
             rightPressed = pressed;
             break;
-		case VK_LETTER<'a'>():
+		case VK_LETTER<'q'>():
 			inPressed = pressed;
 			break;
-		case VK_LETTER<'q'>():
+		case VK_LETTER<'a'>():
 			outPressed = pressed;
         }
     }
