@@ -34,6 +34,12 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{44993ca8-569f-4285-be7e-6a74baae508e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\CFB">
+      <UniqueIdentifier>{78434184-eeef-417c-b7cf-6545f493b82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CFB">
+      <UniqueIdentifier>{3ec9b96b-0ebf-4863-b71a-001326243d66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -126,6 +132,24 @@
     <ClInclude Include="TestSceneFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CfbFile.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbStream.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="Sector.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbHeader.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbFATSector.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbDIFATSector.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -214,6 +238,24 @@
     </ClCompile>
     <ClCompile Include="TestSceneFrame.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbStream.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_DIFAT.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_FAT.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_MiniFAT.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_SectorCache.cpp">
+      <Filter>Source Files\CFB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -150,6 +150,11 @@
     <ClInclude Include="CastleSpireTile.h" />
     <ClInclude Include="CastleStairsTile.h" />
     <ClInclude Include="CastleWallTile.h" />
+    <ClInclude Include="CfbDIFATSector.h" />
+    <ClInclude Include="CfbFATSector.h" />
+    <ClInclude Include="CfbFile.h" />
+    <ClInclude Include="CfbHeader.h" />
+    <ClInclude Include="CfbStream.h" />
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="DirtTile.h" />
     <ClInclude Include="DiskChunkProvider.h" />
@@ -166,6 +171,7 @@
     <ClInclude Include="RockStairsTile.h" />
     <ClInclude Include="RockTile.h" />
     <ClInclude Include="IStairsTile.h" />
+    <ClInclude Include="Sector.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestEventObject.h" />
     <ClInclude Include="TestMusicObject.h" />
@@ -182,6 +188,12 @@
     <ClCompile Include="CastleSpireTile.cpp" />
     <ClCompile Include="CastleStairsTile.cpp" />
     <ClCompile Include="CastleWallTile.cpp" />
+    <ClCompile Include="CfbFile.cpp" />
+    <ClCompile Include="CfbFile_DIFAT.cpp" />
+    <ClCompile Include="CfbFile_FAT.cpp" />
+    <ClCompile Include="CfbFile_MiniFAT.cpp" />
+    <ClCompile Include="CfbFile_SectorCache.cpp" />
+    <ClCompile Include="CfbStream.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="DirtTile.cpp" />
     <ClCompile Include="DiskChunkProvider.cpp" />

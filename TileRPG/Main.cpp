@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "TileRPGGame.h"
 
 int main(int argc, char **argv)
@@ -16,3 +15,12 @@ int main(int argc, char **argv)
     game.Shutdown();
     return 0;
 }
+
+//#include "CfbFile.h"
+//
+//int main()
+//{
+//    const char *file_path = "test_cfb.cfb";
+//
+//
+//}
