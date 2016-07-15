@@ -17,6 +17,7 @@ namespace TileRPG
     TestMusicObject::TestMusicObject(const char *start, const char *loop)
         : startPath(start), loopPath(loop)
     {
+        RequireTick(true);
     }
     TestMusicObject::~TestMusicObject()
     {
@@ -48,6 +49,11 @@ namespace TileRPG
         //}
 
         return true;
+    }
+    void TestMusicObject::Tick(float delta)
+    {
+        delta;
+        //intro->SetPosition(position);
     }
     void TestMusicObject::Shutdown()
     {

@@ -12,7 +12,6 @@ layout(location = 0) varying vec4 fg_color;
 void main(void)
 {
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * vec4(vt_position, 1);
-    gl_Position.y *= 2;
 
     fg_color = vec4(vt_color, 1);
 }

@@ -20,7 +20,8 @@ namespace GlEngine
         void Update() override;
 
     private:
-        YSE::sound sound;
+        YSE::sound *sound;
+        Vector<3> pos, vel;
         bool isPlaying, soundStarted;
     };
 }

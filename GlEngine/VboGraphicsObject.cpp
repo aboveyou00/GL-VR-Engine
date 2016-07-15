@@ -6,14 +6,14 @@
 
 namespace GlEngine
 {
-	VboGraphicsObject::VboGraphicsObject()
+    VboGraphicsObject::VboGraphicsObject()
+        : VboGraphicsObject(VbObject(), VbObject())
 	{
-		shader = Shader("Shaders", "simple");
 	}
 	VboGraphicsObject::VboGraphicsObject(VbObject arryaVbo, VbObject elementVbo)
 		: arrayVbo(arrayVbo), elementVbo(elementVbo)
 	{
-		shader = Shader("Shaders", "simple");
+		shader = Shader("Shaders", "direct_light");
 	}
 	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader shader)
 		: shader(shader), arrayVbo(arrayVbo), elementVbo(elementVbo)
