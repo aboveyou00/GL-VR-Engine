@@ -5,6 +5,7 @@
 #include "WindowManager.h"
 
 #include "ConsoleLogger.h"
+#include "ResourceLoader.h"
 
 namespace GlEngine
 {
@@ -22,8 +23,9 @@ namespace GlEngine
     bool Engine::Initialize()
     {
         auto &serviceProvider = GetServiceProvider();
-        createDefaultServices(GetServiceProvider());
+        createDefaultServices(serviceProvider);
         auto &logger = *serviceProvider.GetService<ILogger>();
+        auto &resources = *serviceProvider.GetService<ResourceLoader>();
 
         logger.Log(LogType::Info, "Beginning GlEngine initialization.");
         if (!GetWindowManager().Initialize())
@@ -44,6 +46,14 @@ namespace GlEngine
             GetWindowManager().Shutdown();
             return false;
         }
+        if (!resources.Initialize())
+        {
+            logger.Log(LogType::FatalError, "GlEngine ResourceLoader failed to initialize, aborting!");
+            GetAudioController().Shutdown();
+            GetGlController().Shutdown();
+            GetWindowManager().Shutdown();
+            return false;
+        }
         return true;
     }
     void Engine::Shutdown()
@@ -53,6 +63,8 @@ namespace GlEngine
 
         logger.Log(LogType::Info, "~Shutting down GlEngine");
 
+        auto &resources = *serviceProvider.GetService<ResourceLoader>();
+        resources.Shutdown();
         GetAudioController().Shutdown();
         GetGlController().Shutdown();
         GetWindowManager().Shutdown();
@@ -96,5 +108,7 @@ namespace GlEngine
     {
         auto logger = serviceProvider.GetService<ILogger>();
         if (logger == nullptr) serviceProvider.RegisterService<ILogger>(logger = new ConsoleLogger());
+
+        serviceProvider.RegisterService(new ResourceLoader());
     }
 }

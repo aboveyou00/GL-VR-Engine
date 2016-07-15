@@ -177,11 +177,14 @@
     <ClInclude Include="IConfigProvider.h" />
     <ClInclude Include="IEventSender.h" />
     <ClInclude Include="IGameComponent.h" />
+    <ClInclude Include="IGraphicsComponent.h" />
     <ClInclude Include="ILogger.h" />
     <ClInclude Include="IService.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="KeyboardEventType.h" />
     <ClInclude Include="KeyValuePair.h" />
+    <ClInclude Include="LodePNG\lodepng.h" />
+    <ClInclude Include="LodePNG\lodepng_util.h" />
     <ClInclude Include="LogType.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Memory.h" />
@@ -193,12 +196,14 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="PathUtils.h" />
+    <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderGraphicsObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Threading.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
@@ -223,8 +228,13 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
+    <ClCompile Include="LodePNG\lodepng.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ObjGraphicsObject.cpp" />
+    <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="ShaderGraphicsObject.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />

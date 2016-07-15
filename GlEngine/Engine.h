@@ -1,9 +1,9 @@
 #pragma once
 
 #include "IComponent.h"
+#include "EventQueue.h"
 #include "ServiceProvider.h"
 #include "Window.h"
-#include "EventQueue.h"
 
 #define THIS_ENGINE (GlEngine::Engine::GetInstance())
 
@@ -47,7 +47,7 @@ namespace GlEngine
         void MessageLoop();
 
     private:
-        ServiceProvider _services;
         Events::EventQueue _events;
+        ServiceProvider _services;
     };
 }

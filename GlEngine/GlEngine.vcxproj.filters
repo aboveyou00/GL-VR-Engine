@@ -79,6 +79,12 @@
     <Filter Include="Header Files\GlEngine\Frames">
       <UniqueIdentifier>{ea8e9fcf-f78c-49e7-8d04-600aabbb5f21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\LodePNG">
+      <UniqueIdentifier>{2bb393ba-02ac-4fd1-b5b0-8f320652fa45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LodePNG">
+      <UniqueIdentifier>{cb1f8797-b71f-4822-bed4-e2eea0dea8ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -288,6 +294,21 @@
     <ClInclude Include="FrameStack.h">
       <Filter>Header Files\GlEngine\Frames</Filter>
     </ClInclude>
+    <ClInclude Include="LodePNG\lodepng.h">
+      <Filter>Header Files\LodePNG</Filter>
+    </ClInclude>
+    <ClInclude Include="LodePNG\lodepng_util.h">
+      <Filter>Header Files\LodePNG</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceLoader.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphicsComponent.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -436,6 +457,15 @@
     </ClCompile>
     <ClCompile Include="FrameStack.cpp">
       <Filter>Source Files\GlEngine\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="LodePNG\lodepng.cpp">
+      <Filter>Source Files\LodePNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceLoader.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

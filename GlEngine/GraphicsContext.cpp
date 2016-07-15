@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
+#include "ResourceLoader.h"
 
 namespace GlEngine
 {
@@ -88,11 +89,17 @@ namespace GlEngine
     }
     void GraphicsContext::Tick(float)
     {
+        auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+        resources.InitializeResourceGraphics();
+
         frames->Update(*this);
         Render();
     }
     void GraphicsContext::ShutdownRenderTargets()
     {
+        auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+        resources.ShutdownResourceGraphics();
+
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
         logger->Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");
         for (size_t q = 0; q < renderTargetCount; q++)

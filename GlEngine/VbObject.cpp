@@ -27,9 +27,16 @@ namespace GlEngine
 
     bool VbObject::Initialize()
     {
-        return !!*this;
+        return true;
     }
     void VbObject::Shutdown()
+    {
+    }
+    bool VbObject::InitializeGraphics()
+    {
+        return !!*this;
+    }
+    void VbObject::ShutdownGraphics()
     {
         if (_mode == BufferMode::Array && _vao != 0)
         {

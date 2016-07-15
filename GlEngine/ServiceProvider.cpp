@@ -9,7 +9,7 @@ namespace GlEngine
     }
     ServiceProvider::~ServiceProvider()
     {
-        for (size_t q = 0; q < MAX_SVCS; q++)
+        for (size_t q = MAX_SVCS - 1; q >= 0; q--)
         {
             if (_svcs[q] != nullptr)
             {

@@ -22,16 +22,16 @@ namespace GlEngine
 
 	void TransformedGraphicsObject::Render() const
 	{
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glMultMatrixf(Matrix<4, 4>::TranslateMatrix(position).getAddr());
-        glMultMatrixf(orientation.getAddr());
+        if (graphicsObject)
+        {
+            glMatrixMode(GL_MODELVIEW);
+            glPushMatrix();
+            glMultMatrixf(Matrix<4, 4>::TranslateMatrix(position).getAddr());
+            glMultMatrixf(orientation.getAddr());
 
-		static bool init = false;
-		if (!init++)
-			graphicsObject->Initialize();
-        graphicsObject->Render();
+            graphicsObject->Render();
 
-        glPopMatrix();
+            glPopMatrix();
+        }
 	}
 }
