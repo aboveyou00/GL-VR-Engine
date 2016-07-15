@@ -25,7 +25,7 @@ namespace GlEngine
 
 	bool GraphicsContext::Initialize()
 	{
-		camera.SetEye({ 0, 0, 20 });
+		camera.SetEye({ 0, 0, -10 });
 		camera.SetTarget({ 0, 0, 0 });
 
         _loop.RunLoop();

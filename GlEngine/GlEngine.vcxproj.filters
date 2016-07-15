@@ -270,23 +270,20 @@
     <ClInclude Include="VboGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="FbxLoader.h">
-      <Filter>Header Files\GlEngine\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="ObjGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="FbxGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="FbxParser.h">
-      <Filter>Header Files\GlEngine\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Frame.h">
       <Filter>Header Files\GlEngine\Frames</Filter>
     </ClInclude>
     <ClInclude Include="FrameStack.h">
       <Filter>Header Files\GlEngine\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxLoader.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -419,23 +416,20 @@
     <ClCompile Include="VboGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="FbxLoader.cpp">
-      <Filter>Source Files\GlEngine\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="ObjGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="FbxGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="FbxParser.cpp">
-      <Filter>Source Files\GlEngine\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Frame.cpp">
       <Filter>Source Files\GlEngine\Frames</Filter>
     </ClCompile>
     <ClCompile Include="FrameStack.cpp">
       <Filter>Source Files\GlEngine\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxLoader.cpp">
+      <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

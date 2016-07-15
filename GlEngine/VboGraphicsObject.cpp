@@ -46,6 +46,7 @@ namespace GlEngine
 
 	void VboGraphicsObject::PreRender()
 	{
+		GraphicsObject::PreRender();
 		if (arrayVbo)
 		{
 			arrayVbo.MakeCurrent();

@@ -76,7 +76,12 @@ namespace GlEngine
         for (size_t q = 0; q < objects.size(); q++)
         {
             auto obj = objects[q];
-            if (map.find(obj) == map.end()) map[obj] = obj->CreateGraphicsObject(ctx);
+			if (map.find(obj) == map.end()) 
+			{
+				map[obj] = obj->CreateGraphicsObject(ctx);
+				if (initialized)
+					obj->Initialize();
+			}
         }
         ctx.Update(map);
     }

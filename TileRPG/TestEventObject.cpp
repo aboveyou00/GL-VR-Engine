@@ -9,6 +9,7 @@
 #include "GraphicsContext.h"
 
 #include "ObjGraphicsObject.h"
+#include "FbxGraphicsObject.h"
 
 namespace TileRPG
 {
@@ -65,6 +66,7 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
+		//return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
+        return GlEngine::FbxGraphicsObject::Create("test.fbx");
     }
 }
