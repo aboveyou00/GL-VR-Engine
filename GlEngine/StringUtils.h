@@ -4,16 +4,16 @@ namespace GlEngine
 {
     namespace Util
     {
-		ENGINE_SHARED bool isWhitespace(char c);
-		ENGINE_SHARED bool isNumeric(char c);
-		ENGINE_SHARED void eatWhitespace(std::istream& in);
-		ENGINE_SHARED const char * const eatWhitespace(const char * const str);
+		ENGINE_SHARED bool isWhitespace(char c) noexcept;
+		ENGINE_SHARED bool isNumeric(char c) noexcept;
+		ENGINE_SHARED void eatWhitespace(std::istream& in) noexcept;
+		ENGINE_SHARED const char * const eatWhitespace(const char * const str) noexcept;
 
-        ENGINE_SHARED bool stoi(const char *const str, int &value);
-		ENGINE_SHARED bool geti(std::istream& in, int &value);
-        ENGINE_SHARED bool stof(const char *const str, float &value);
-		ENGINE_SHARED bool getf(std::istream& in, float &value);
-        ENGINE_SHARED int strcmp(const char *const lhs, const char *const rhs);
+        ENGINE_SHARED bool stoi(const char *const str, int &value) noexcept;
+		ENGINE_SHARED bool geti(std::istream& in, int &value) noexcept;
+        ENGINE_SHARED bool stof(const char *const str, float &value) noexcept;
+		ENGINE_SHARED bool getf(std::istream& in, float &value) noexcept;
+        ENGINE_SHARED int strcmp(const char *const lhs, const char *const rhs) noexcept;
 
         //IMPORTANT: The return value of this method is invalidated when you call it again, unless it doesn't find another token
         //This method makes the assumption that pos is a valid index in this string; str + pos should never be after the terminating \0 on str
@@ -25,6 +25,6 @@ namespace GlEngine
             return tokenBuff;
         }
         //This method makes the assumption that pos is a valid index in this string; str + pos should never be after the terminating \0 on str
-        ENGINE_SHARED bool extractToken(char* buff, int buffSize, const char *&ptr);
+        ENGINE_SHARED bool extractToken(char* buff, int buffSize, const char *&ptr) noexcept;
     }
 }

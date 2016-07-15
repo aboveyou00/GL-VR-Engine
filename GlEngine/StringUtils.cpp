@@ -8,17 +8,17 @@ namespace GlEngine
 {
     namespace Util
     {
-		inline bool isWhitespace(char c)
+		inline bool isWhitespace(char c) noexcept
 		{
 			return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\r');
 		}
 
-		inline bool isNumeric(char c)
+		inline bool isNumeric(char c) noexcept
 		{
 			return ('0' <= c && c <= '9' || c == '-' || c == '+' || c == '.');
 		}
 
-		void eatWhitespace(std::istream& in)
+		void eatWhitespace(std::istream& in) noexcept
 		{
 			while (isWhitespace((char)in.peek()))
 			{
@@ -27,7 +27,7 @@ namespace GlEngine
 			char c = (char)in.peek(); c;
 		}
 
-		const char * const eatWhitespace(const char * const str)
+		const char * const eatWhitespace(const char * const str) noexcept
 		{
 			int i = 0;
 			while (str[i++] != 0)
@@ -38,7 +38,7 @@ namespace GlEngine
 			return str;
 		}
 
-		bool stoi(const char *const str, int &value)
+		bool stoi(const char *const str, int &value) noexcept
 		{
 			//This function only supports base 10, will allow leading zeros, and will allow one sign upfront.
 			//Strip spaces first, it will not do so.
@@ -65,7 +65,7 @@ namespace GlEngine
 			value = (negative ? -1 : 1) * (int)tmpVal;
 			return true;
 		}
-		bool geti(std::istream& in, int &value)
+		bool geti(std::istream& in, int &value) noexcept
 		{
 			auto start = in.tellg();
 
@@ -110,21 +110,21 @@ namespace GlEngine
 			value = (negative ? -1 : 1) * (int)tmpVal;
 			return true;
 		}
-        bool stof(const char *const str, float &value)
+        bool stof(const char *const str, float &value) noexcept
         {
 			std::stringstream in(str);
 			return getf(in, value);
         }
-		bool getf(std::istream& in, float& value)
+		bool getf(std::istream& in, float& value) noexcept
 		{
 			return (bool)(in >> value);
 		}
-        int strcmp(const char *const lhs, const char *const rhs)
+        int strcmp(const char *const lhs, const char *const rhs) noexcept
         {
             return std::strcmp(lhs, rhs);
         }
 
-        inline char interpretEscapeCharacter(char chr)
+        inline char interpretEscapeCharacter(char chr) noexcept
         {
             switch (chr)
             {
@@ -142,7 +142,7 @@ namespace GlEngine
                 break;
             }
         }
-        inline bool collectCharacter(int &tokenLen, int buffSize, const char *&ptr, char *tokenBuff)
+        inline bool collectCharacter(int &tokenLen, int buffSize, const char *&ptr, char *tokenBuff) noexcept
         {
             if (tokenLen >= buffSize) return false; //Too long!
             if (*ptr == '\\')
@@ -155,7 +155,7 @@ namespace GlEngine
         }
 
         //This method makes the assumption that pos is a valid index in this string; str + pos should never be after the terminating \0 on str
-        bool extractToken(char *buff, int buffSize, const char *&ptr)
+        bool extractToken(char *buff, int buffSize, const char *&ptr) noexcept
         {
             if (ptr == nullptr) return false;
             while (isWhitespace(*ptr))
