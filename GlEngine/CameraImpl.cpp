@@ -18,16 +18,12 @@ namespace GlEngine
 
             view = Matrix<3, 3>::FromCols(-side, up, forward).ToTransformMatrix();
             
-            ModelViewMatrixStack.push(
-                ModelViewMatrixStack.head() * view * Mat3T<float>::TranslateMatrix(-eye)
-            );
-            ModelViewMatrixStack.tell_gl();
+            MatrixStack::ModelView.mult(view * Mat3T<float>::TranslateMatrix(-eye));
 		}
 
 		void CameraImpl::Pop()
 		{
-            ModelViewMatrixStack.pop();
-            ModelViewMatrixStack.tell_gl();
+            MatrixStack::ModelView.pop();
 		}
 	}
 }

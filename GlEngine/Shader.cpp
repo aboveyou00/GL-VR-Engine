@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "PathUtils.h"
+#include "MatrixStack.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -107,6 +108,9 @@ namespace GlEngine
     {
         assert(!!*this);
         glUseProgram(_prog);
+
+        MatrixStack::Projection.tell_gl();
+        MatrixStack::ModelView.tell_gl();
     }
 
     Shader::operator bool()

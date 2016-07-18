@@ -44,7 +44,10 @@ namespace GlEngine
             _vao = 0;
         }
         if (_buffer != 0)
-        {            glDeleteBuffers(1, static_cast<GLuint*>(&_buffer));            _buffer = 0;        }
+        {
+            glDeleteBuffers(1, static_cast<GLuint*>(&_buffer));
+            _buffer = 0;
+        }
     }
 
     VbObject::operator bool()

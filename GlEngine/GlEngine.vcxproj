@@ -231,6 +231,7 @@
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="Texture.cpp" />

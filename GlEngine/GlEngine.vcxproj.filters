@@ -464,5 +464,8 @@
     <ClCompile Include="Window_WndProc.cpp">
       <Filter>Source Files\GlEngine\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="MatrixStack.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

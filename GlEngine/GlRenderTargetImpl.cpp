@@ -137,10 +137,6 @@ namespace GlEngine
 
 		void GlRenderTargetImpl::ViewPort::Push()
 		{
-			//glMatrixMode(GL_PROJECTION);
-			//glPushMatrix();
-			//Apply();
-
             //relativeCamera.Apply();
 
             float viewWidth, viewHeight;
@@ -158,18 +154,16 @@ namespace GlEngine
             float nearVal = 1.f;
             float farVal = 100.f;
 
-            ProjectionMatrixStack.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
-            ProjectionMatrixStack.tell_gl();
+            MatrixStack::Projection.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
+            MatrixStack::Projection.tell_gl();
             //glOrtho(left, right, bottom, top, nearVal, farVal);
             //ProjectionMatrixStack.push(Mat3T<float>::Ortho(left, right, bottom, top, nearVal, farVal));
 		}
 
 		void GlRenderTargetImpl::ViewPort::Pop()
 		{
-			//glMatrixMode(GL_PROJECTION);
-			//glPopMatrix();
-            ProjectionMatrixStack.pop();
-            ProjectionMatrixStack.tell_gl();
+            MatrixStack::Projection.pop();
+            MatrixStack::Projection.tell_gl();
 		}
 
 		void GlRenderTargetImpl::ViewPort::SetSize(int width, int height)
