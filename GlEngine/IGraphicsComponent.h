@@ -9,5 +9,7 @@ namespace GlEngine
     public:
         virtual bool InitializeGraphics() = 0;
         virtual void ShutdownGraphics() = 0;
+
+		virtual operator bool() = 0;
     };
 }

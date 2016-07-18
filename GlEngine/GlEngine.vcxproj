@@ -185,8 +185,6 @@
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="KeyboardEventType.h" />
     <ClInclude Include="KeyValuePair.h" />
-    <ClInclude Include="LodePNG\lodepng.h" />
-    <ClInclude Include="LodePNG\lodepng_util.h" />
     <ClInclude Include="LogType.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Memory.h" />
@@ -229,9 +227,6 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
-    <ClCompile Include="LodePNG\lodepng.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="ShaderGraphicsObject.cpp" />

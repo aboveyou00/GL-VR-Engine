@@ -11,6 +11,7 @@ namespace fbxsdk
 {
 	class FbxNode;
 	class FbxMesh;
+	class FbxSurfaceMaterial;
 }
 
 namespace GlEngine
@@ -28,6 +29,7 @@ namespace GlEngine
 		
 		static bool Convert(fbxsdk::FbxNode* rootNode, FbxGraphicsObject * out);
 		static bool ConvertMesh(fbxsdk::FbxMesh* mesh, FbxGraphicsObject * out);
+		static bool ConvertMaterial(fbxsdk::FbxSurfaceMaterial* mat, FbxGraphicsObject * out);
 
 	};
 }

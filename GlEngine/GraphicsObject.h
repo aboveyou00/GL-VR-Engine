@@ -25,8 +25,6 @@ namespace GlEngine
 		virtual void PreRender();
 		virtual void Render();
 
-        virtual operator bool() = 0;
-
     protected:
         bool initialized, graphicsInitialized;
 	};

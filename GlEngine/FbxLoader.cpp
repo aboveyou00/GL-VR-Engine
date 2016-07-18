@@ -60,32 +60,54 @@ namespace GlEngine
 
 		//Below for Gl thread
 
-		VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>> verticesFactory(BufferMode::Array);
-		verticesFactory.Allocate(glVertices.size());
+		auto verticesFactory = new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array);
+		verticesFactory->Allocate(glVertices.size());
 		for (auto vertex : glVertices)
 		{
 			Vector<3> position; Vector<2> texCoord; Vector<3> normal;
 			std::tie(position, texCoord, normal) = vertex;
-			verticesFactory.AddVertex(position, texCoord, normal);
+			verticesFactory->AddVertex(position, texCoord, normal);
 		}
 
-		VboFactory<VboType::UnsignedShort, uint16_t, uint16_t, uint16_t> trianglesFactory(BufferMode::ElementArray);
-		trianglesFactory.Allocate(mesh->GetPolygonCount());
+		auto trianglesFactory = new VboFactory<VboType::UnsignedShort, Vector<3, uint16_t>>(BufferMode::ElementArray);
+		trianglesFactory->Allocate(mesh->GetPolygonCount());
 		for (unsigned i = 0; i < triangleIndeces.size() / 3; i++)
 		{
-			trianglesFactory.AddVertex((uint16_t)triangleIndeces[3 * i + 2], (uint16_t)triangleIndeces[3 * i + 1], (uint16_t)triangleIndeces[3 * i]);
+			trianglesFactory->AddVertex({ (uint16_t)triangleIndeces[3 * i + 2], (uint16_t)triangleIndeces[3 * i + 1], (uint16_t)triangleIndeces[3 * i] });
 		}
 
 		VboGraphicsObject sub;
-		sub.arrayVbo = verticesFactory.Compile();
-		sub.elementVbo = trianglesFactory.Compile();
+		sub.verticesFactory = verticesFactory;
+		sub.trianglesFactory = trianglesFactory;
 		sub.triCount = triangleIndeces.size() / 3;
-		sub.shader = Shader("Shaders", "simple");
 
 		out->AddSubObject(sub);
 
-
 		std::cout << "Finished mesh: " << mesh->GetName() << std::endl;
+		return true;
+	}
+
+	bool FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial* mat, FbxGraphicsObject * out)
+	{
+		mat; out;
+		//auto diffuseProp = mat->FindProperty(fbxsdk::FbxSurfaceMaterial::sDiffuse);
+		//int layeredCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxLayeredTexture>();
+
+		//if (layeredCount > 0)
+		//{
+		//	// layered textures
+		//}
+		//else
+		//{
+		//	int textureCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxTexture>();
+		//	for (int i = 0; i < textureCount; i++)
+		//	{
+		//		auto texture = fbxsdk::FbxCast<fbxsdk::FbxTexture>(diffuseProp.GetSrcObject<fbxsdk::FbxTexture>(i));
+		//		auto fileTexture = (fbxsdk::FbxFileTexture*)texture;
+		//		fileTexture->GetFileName();
+		//		// TODO: get texture instance from filename;
+		//	}
+		//}
 		return true;
 	}
 

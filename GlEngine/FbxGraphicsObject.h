@@ -15,9 +15,15 @@ namespace GlEngine
 		rt_mutex pendingMutex;
 
 		static FbxGraphicsObject* Create(const char* name);
-		bool Initialize() override;
 		void Render() override;
 		void AddSubObject(VboGraphicsObject graphicsObject);
+
+		bool Initialize() override;
+		void Shutdown() override;
+		bool InitializeGraphics() override;
+		void ShutdownGraphics() override;
+
+		operator bool() override;
 
 	private:
 		const char * filename;

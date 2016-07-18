@@ -25,12 +25,35 @@ namespace GlEngine
 	{
 		if (!GlEngine::FbxLoader::Load(filename, this))
 			return false;
+
+		for (unsigned i = 0; i < subObjects.size(); i++)
+			if (!subObjects[i].Initialize())
+				return false;
+		
+		return GraphicsObject::Initialize();
+	}
+
+	void FbxGraphicsObject::Shutdown()
+	{
+	}
+
+	bool FbxGraphicsObject::InitializeGraphics()
+	{
 		ProcessPending();
 		for (size_t i = 0; i < subObjects.size(); i++)
-			subObjects[i].Initialize();
+			subObjects[i].InitializeGraphics();
 
 		initialized = true;
-		return GraphicsObject::Initialize();
+		return GraphicsObject::InitializeGraphics();
+	}
+
+	void FbxGraphicsObject::ShutdownGraphics()
+	{
+	}
+
+	FbxGraphicsObject::operator bool()
+	{
+		return subObjects.size() > 0;
 	}
 
 	void FbxGraphicsObject::AddSubObject(VboGraphicsObject graphicsObject)
