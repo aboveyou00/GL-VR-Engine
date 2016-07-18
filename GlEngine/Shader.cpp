@@ -21,7 +21,7 @@ namespace GlEngine
     {
     }
     Shader::Shader(const char *path, const char *name)
-        : _path(path), _name(name), _vert(0), _frag(0), _prog(0)
+        : _path(path), _name(name), _vert_text(nullptr), _frag_text(nullptr), _vert(0), _frag(0), _prog(0)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);

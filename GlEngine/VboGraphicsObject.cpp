@@ -10,7 +10,7 @@ namespace GlEngine
         : VboGraphicsObject(VbObject(), VbObject())
 	{
 	}
-	VboGraphicsObject::VboGraphicsObject(VbObject arryaVbo, VbObject elementVbo)
+	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
 		: arrayVbo(arrayVbo), elementVbo(elementVbo), shader("Shaders", "direct_light"), verticesFactory(nullptr), trianglesFactory(nullptr)
 	{
 	}
