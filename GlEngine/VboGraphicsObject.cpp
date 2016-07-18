@@ -80,8 +80,8 @@ namespace GlEngine
 		{
 			arrayVbo.MakeCurrent();
 			elementVbo.MakeCurrent();
-			if (*shader) shader->MakeCurrent();
-            if (*texture) texture->MakeCurrent();
+			if (shader != nullptr && *shader) shader->MakeCurrent();
+            if (texture != nullptr && *texture) texture->MakeCurrent();
 		}
 	}
 

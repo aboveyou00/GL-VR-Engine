@@ -68,6 +68,6 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        return GlEngine::ObjGraphicsObject::Create("suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
+        return GlEngine::ObjGraphicsObject::Create("suzanne.obj", "Shaders", "direct_light"/*, "Textures/checkers.png"*/);
     }
 }

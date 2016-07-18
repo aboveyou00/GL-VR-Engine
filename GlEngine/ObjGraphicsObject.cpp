@@ -24,16 +24,18 @@ namespace GlEngine
 
     ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, const char *shader_path, const char *shader_name, const char *texture_filename)
     {
-        auto hashed = ([](const char *str) {
-            int h = 0;
-            while (*str)
-                h = h << 1 ^ *str++;
-            return h;
-        })(name);
-
         Shader *shader = Shader::Create(shader_path, shader_name);
         Texture *texture = texture_filename == nullptr || texture_filename[0] == '\0' ? nullptr :
                            Texture::FromFile(texture_filename);
+
+        auto hashed = ([](const char *str, void *shader, void *texture) {
+            int h = 0;
+            while (*str)
+                h = h << 1 ^ *str++;
+            h = h << 1 ^ std::hash<void*>()(shader);
+            h = h << 1 ^ std::hash<void*>()(texture);
+            return h;
+        })(name, shader, texture);
 
         static std::unordered_map<int, ObjGraphicsObject*> cache;
         auto ptr = cache[hashed];

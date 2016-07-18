@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GlRenderTargetImpl.h"
-
+#include "MatrixStack.h"
 #include "Window.h"
 #include <chrono>
 
@@ -135,45 +135,41 @@ namespace GlEngine
 			SwapBuffers(deviceContext);
 		}
 
-		void GlRenderTargetImpl::ViewPort::ApplyProjection()
-		{
-			float viewWidth, viewHeight;
-			if (width > height)
-			{
-				viewHeight = 1.0;
-				viewWidth = (float)width / height;
-			}
-			else
-			{
-				viewWidth = 1.0;
-				viewHeight = (float)height / width;
-			}
-
-			float nearVal = 1.f;
-			float farVal = 100.f;
-
-			glLoadIdentity();
-			glFrustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight /2 , nearVal, farVal);
-			//glOrtho(left, right, bottom, top, nearVal, farVal);
-		}
-
-		void GlRenderTargetImpl::ViewPort::Apply()
-		{
-			//relativeCamera.Apply();
-			ApplyProjection();
-		}
-
 		void GlRenderTargetImpl::ViewPort::Push()
 		{
-			glMatrixMode(GL_PROJECTION);
-			glPushMatrix();
-			Apply();
+			//glMatrixMode(GL_PROJECTION);
+			//glPushMatrix();
+			//Apply();
+
+            //relativeCamera.Apply();
+
+            float viewWidth, viewHeight;
+            if (width > height)
+            {
+                viewHeight = 1.0;
+                viewWidth = (float)width / height;
+            }
+            else
+            {
+                viewWidth = 1.0;
+                viewHeight = (float)height / width;
+            }
+
+            float nearVal = 1.f;
+            float farVal = 100.f;
+
+            ProjectionMatrixStack.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
+            ProjectionMatrixStack.tell_gl();
+            //glOrtho(left, right, bottom, top, nearVal, farVal);
+            //ProjectionMatrixStack.push(Mat3T<float>::Ortho(left, right, bottom, top, nearVal, farVal));
 		}
 
 		void GlRenderTargetImpl::ViewPort::Pop()
 		{
-			glMatrixMode(GL_PROJECTION);
-			glPopMatrix();
+			//glMatrixMode(GL_PROJECTION);
+			//glPopMatrix();
+            ProjectionMatrixStack.pop();
+            ProjectionMatrixStack.tell_gl();
 		}
 
 		void GlRenderTargetImpl::ViewPort::SetSize(int width, int height)

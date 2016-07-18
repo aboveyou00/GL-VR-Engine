@@ -187,6 +187,7 @@
     <ClInclude Include="LodePNG\lodepng_util.h" />
     <ClInclude Include="LogType.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="MatrixStack.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />

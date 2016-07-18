@@ -306,6 +306,9 @@
     <ClInclude Include="IGraphicsComponent.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="MatrixStack.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
