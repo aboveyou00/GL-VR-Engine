@@ -15,7 +15,7 @@ public:
                 values[q][w] = 0;
         initialize(vals...);
     }
-	Matrix(float * vals)
+	Matrix(ElemT *vals)
 	{
 		for (auto i = 0; i < rows * cols; i++)
 			values[i / cols][i%cols] = vals[i];
@@ -133,15 +133,15 @@ public:
         }
         return Vector<rows, ElemT>(vals);
     }
-    //template <typename = std::enable_if_t<rows == 1 && (cols >= 2)>>
-    //Vector<cols - 1> AsTranslatedVector() const
+    //Vector<cols - 1, ElemT> AsTranslatedVector() const
     //{
-    //    float vals[cols - 1];
+    //    static_assert(rows == 1 && cols >= 2, "Matrix::AsTranslatedVector called with invalid template parameters");
+    //    ElemT vals[cols - 1];
     //    for (auto q = 0; q < cols - 1; q++)
     //    {
     //        vals[q] = values[0][q];
     //    }
-    //    return Vector<cols - 1>(vals);
+    //    return Vector<cols - 1, ElemT>(vals);
     //}
     Vector<rows - 1, ElemT> AsTranslatedVector() const
     {
@@ -171,7 +171,7 @@ public:
                 result.values[q][w] = left.values[q][w] * right;
         return result;
     }
-    inline friend Matrix<rows, cols> operator*(float left, const Matrix<rows, cols> &right)
+    inline friend Matrix<rows, cols> operator*(ElemT left, const Matrix<rows, cols> &right)
     {
         Matrix<rows, cols> result;
         for (auto q = 0; q < rows; q++)
@@ -217,7 +217,7 @@ public:
         for (auto q = 0; q < rows; q++)
             for (auto w = 0; w < cols; w++)
             {
-                float sum = 0.f;
+                ElemT sum = 0.f;
                 for (auto e = 0; e < innerDim; e++)
                     sum += left[q][e] * right[e][w];
                 result.values[q][w] = sum;
@@ -350,9 +350,9 @@ private:
     {
         values[ridx][cidx] = (ElemT)val;
     }
-    //template <typename = std::enable_if_t<rows == 1 && (cols >= 2)>>
-    //inline void initialize(Vector<cols - 1> vec)
+    //inline void initialize(Vector<cols - 1, ElemT> vec)
     //{
+    //    static_assert(rows == 1 && cols >= 2, "A matrix was initialized with an invalid vector parameter.");
     //    for (auto q = 0; q < cols - 1; q++)
     //    {
     //        values[0][q] = vec[q];
@@ -368,9 +368,9 @@ private:
         }
         values[rows - 1][0] = 1;
     }
-    //template <typename = std::enable_if_t<rows == 1>>
-    //inline void initialize(Vector<rows> vec)
+    //inline void initialize(Vector<rows, ElemT> vec)
     //{
+    //    static_assert(rows == 1, "A matrix was initialized with an invalid vector parameter.");
     //    for (auto q = 0; q < rows - 1; q++)
     //    {
     //        values[0][q] = vec[q];
@@ -389,7 +389,7 @@ private:
     }
 
 	template <typename... Args, int rowSize>
-	static void PopulateFromRows(float * out, int rowIndex, Vector<rowSize, ElemT> row, Args... rowVectors)
+	static void PopulateFromRows(ElemT * out, int rowIndex, Vector<rowSize, ElemT> row, Args... rowVectors)
 	{
 		static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
 		for (int c = 0; c < rowSize; c++)
@@ -397,7 +397,7 @@ private:
 		PopulateFromRows(out, rowIndex + 1, rowVectors...);
 	}
 	template <int rowSize>
-	static void PopulateFromRows(float * out, int rowIndex, Vector<rowSize, ElemT> row)
+	static void PopulateFromRows(ElemT * out, int rowIndex, Vector<rowSize, ElemT> row)
 	{
 		static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
 		for (int c = 0; c < rowSize; c++)
@@ -405,7 +405,7 @@ private:
 	}
 
 	template <typename... Args, int colSize>
-	static void PopulateFromCols(float * out, int colIndex, Vector<colSize, ElemT> col, Args... colVectors)
+	static void PopulateFromCols(ElemT * out, int colIndex, Vector<colSize, ElemT> col, Args... colVectors)
 	{
         static_assert(colSize <= rows, "Vector colSize cannot be greater than Matrix rows");
 		for (int c = 0; c < colSize; c++)
@@ -413,7 +413,7 @@ private:
 		PopulateFromRows(out, rowIndex + 1, rowVectors...);
 	}
 	template <int colSize>
-	static void PopulateFromCols(float * out, int colIndex, Vector<colSize, ElemT> col)
+	static void PopulateFromCols(ElemT * out, int colIndex, Vector<colSize, ElemT> col)
 	{
         static_assert(colSize <= rows, "Vector colSize cannot be greater than Matrix rows");
 		for (int c = 0; c < colSize; c++)
@@ -421,22 +421,30 @@ private:
 	}
 };
 
-template <int rows, int cols>
-using Mat = Matrix<rows, cols>;
+template <int rows, int cols, typename ElemT = float>
+using Mat = Matrix<rows, cols, ElemT>;
 
-using Mat2 = Matrix<2, 2>;
+template <typename ElemT = float>
+using Mat2 = Matrix<2, 2, ElemT>;
 
-using Mat3 = Matrix<3, 3>;
-using Mat2T = Matrix<3, 3>;
+template <typename ElemT = float>
+using Mat3 = Matrix<3, 3, ElemT>;
+template <typename ElemT = float>
+using Mat2T = Matrix<3, 3, ElemT>;
 
-using Mat4 = Matrix<4, 4>;
-using Mat3T = Matrix<4, 4>;
+template <typename ElemT = float>
+using Mat4 = Matrix<4, 4, ElemT>;
+template <typename ElemT = float>
+using Mat3T = Matrix<4, 4, ElemT>;
 
-template <int rows>
-using MatV = Matrix<rows, 1>;
-using Mat2V = Matrix<2, 1>;
-using Mat3V = Matrix<3, 1>;
-using Mat4V = Matrix<4, 1>;
+template <int rows, typename ElemT = float>
+using MatV = Matrix<rows, 1, ElemT>;
+template <typename ElemT = float>
+using Mat2V = Matrix<2, 1, ElemT>;
+template <typename ElemT = float>
+using Mat3V = Matrix<3, 1, ElemT>;
+template <typename ElemT = float>
+using Mat4V = Matrix<4, 1, ElemT>;
 
 template <int dim, typename ElemT = float>
 Matrix<dim, 1, ElemT> MakeMatrix(Vector<dim, ElemT> vec)

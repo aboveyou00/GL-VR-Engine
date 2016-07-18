@@ -9,8 +9,4 @@ namespace GlEngine
     IService::~IService()
     {
     }
-
-    void IService::__NoOp__()
-    {
-    }
 }

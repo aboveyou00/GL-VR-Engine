@@ -56,7 +56,7 @@ namespace GlEngine
     void FileConfigProvider::Shutdown()
     {
         auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-        logger.Log(LogType::FatalError, "~Shutting down FileConfigProvider...");
+        logger.Log(LogType::Info, "~Shutting down FileConfigProvider...");
     }
 
     bool FileConfigProvider::IsFull() const

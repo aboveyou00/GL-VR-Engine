@@ -5,7 +5,7 @@
 // Brandon Slade
 // 5/20/2016
 // Vector.h
-// A templated variable-length vector structure with float components
+// A templated variable-length vector structure. Defaults to using float components
 
 #include <iostream>
 #include <assert.h>
@@ -22,7 +22,7 @@ public:
             values[q] = 0;
         initialize(vals...);
     }
-    Vector(float *vals, int valn = dimension)
+    Vector(ElemT *vals, int valn = dimension)
     {
         assert(valn <= dimension && valn >= 0);
         for (auto q = 0; q < valn; q++)
@@ -36,7 +36,7 @@ public:
 
     ElemT LengthSquared() const
     {
-        float sum = 0.f;
+        ElemT sum = 0.f;
         for (auto q = 0; q < dimension; q++)
             sum += values[q] * values[q];
         return sum;
@@ -51,7 +51,7 @@ public:
         return atan2(values[1], values[0]);
     }
 
-    Vector<dimension, ElemT> Normalized(float len = 1) const
+    Vector<dimension, ElemT> Normalized(ElemT len = 1) const
     {
         auto length = Length();
         if (length == 0)
@@ -63,9 +63,9 @@ public:
         }
         return (*this / length) * len;
     }
-    float Dot(const Vector<dimension, ElemT> &right) const
+    ElemT Dot(const Vector<dimension, ElemT> &right) const
     {
-        float sum = 0.f;
+        ElemT sum = 0.f;
         for (auto q = 0; q < dimension; q++)
             sum += values[q] * right[q];
         return sum;
@@ -126,21 +126,21 @@ public:
         return result;
     }
 
-    friend Vector<dimension, ElemT> operator*(float left, const Vector<dimension, ElemT> &right)
+    friend Vector<dimension, ElemT> operator*(ElemT left, const Vector<dimension, ElemT> &right)
     {
         auto result = Vector<dimension, ElemT>();
         for (auto q = 0; q < dimension; q++)
             result.values[q] = left * right[q];
         return result;
     }
-    friend Vector<dimension, ElemT> operator*(const Vector<dimension, ElemT> &left, float right)
+    friend Vector<dimension, ElemT> operator*(const Vector<dimension, ElemT> &left, ElemT right)
     {
         auto result = Vector<dimension, ElemT>();
         for (auto q = 0; q < dimension; q++)
             result.values[q] = left[q] * right;
         return result;
     }
-    friend Vector<dimension, ElemT> operator/(const Vector<dimension, ElemT> &left, float right)
+    friend Vector<dimension, ElemT> operator/(const Vector<dimension, ElemT> &left, ElemT right)
     {
         if (right == 0)
         {
@@ -178,7 +178,7 @@ public:
             values[q] = right[q];
         return *this;
     }
-    friend Vector<dimension, ElemT> &operator*=(Vector<dimension, ElemT> &left, float right)
+    friend Vector<dimension, ElemT> &operator*=(Vector<dimension, ElemT> &left, ElemT right)
     {
         for (auto q = 0; q < dimension; q++)
             left.values[q] *= right;
@@ -209,12 +209,12 @@ public:
         return stream << ")";
     }
 
-    inline float operator[](int idx) const
+    inline ElemT operator[](int idx) const
     {
         return values[idx];
     }
 
-    inline const float *getAddr() const
+    inline const ElemT *getAddr() const
     {
         return values;
     }
@@ -226,7 +226,7 @@ private:
     template <int idx = 0, typename T, typename... Args>
     inline void initialize(T val, Args... args)
     {
-        values[idx] = (float)val;
+        values[idx] = (ElemT)val;
         initialize<idx + 1>(args...);
     }
     template <int idx = 0, typename T>
