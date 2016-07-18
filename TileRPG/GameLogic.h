@@ -27,6 +27,8 @@ namespace TileRPG
         bool Initialize() override;
         void Shutdown() override;
 
+        const char *name() override;
+
     private:
         World world;
         TileManager *tiles;

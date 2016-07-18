@@ -200,7 +200,6 @@
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderGraphicsObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Texture.h" />
@@ -233,7 +232,6 @@
     </ClCompile>
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
-    <ClCompile Include="ShaderGraphicsObject.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />

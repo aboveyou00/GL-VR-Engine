@@ -33,6 +33,11 @@ namespace TileRPG
         _logic.Shutdown();
     }
 
+    const char *TileRPGGameLoop::name()
+    {
+        return "TileRPGGameLoop";
+    }
+
     bool TileRPGGameLoop::initLoop()
     {
         this_thread_name() = "gameloop";

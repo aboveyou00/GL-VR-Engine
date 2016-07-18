@@ -15,6 +15,8 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
+        const char *name() override;
+
         bool IsFull() const override;
         const char *const operator[](const char *const key) const override;
 

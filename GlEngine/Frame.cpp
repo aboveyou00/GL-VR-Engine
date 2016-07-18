@@ -40,6 +40,11 @@ namespace GlEngine
             }
     }
 
+    const char *Frame::name()
+    {
+        return "Frame";
+    }
+
     void Frame::FramePushed(FrameStack&)
     {
     }

@@ -28,6 +28,11 @@ namespace GlEngine
         complete_resources.clear();
     }
 
+    const char *ResourceLoader::name()
+    {
+        return "ResourceLoader";
+    }
+
     void ResourceLoader::QueueResource(IComponent *c)
     {
         ScopedLock _lock(_mutex);
@@ -48,7 +53,7 @@ namespace GlEngine
             if (!c->InitializeGraphics())
             {
                 auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize graphics resource %s", c);
+                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IGraphicsComponent)", c->name());
                 worked = false;
                 continue;
             }
@@ -85,7 +90,7 @@ namespace GlEngine
             if (!c->Initialize())
             {
                 auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize resource %s", c);
+                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c);
                 continue;
             }
             {

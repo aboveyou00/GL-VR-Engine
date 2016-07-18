@@ -44,6 +44,8 @@ namespace GlEngine
 
         rt_mutex &GetMutex();
 
+        const char *name() override;
+
         void MessageLoop();
 
     private:

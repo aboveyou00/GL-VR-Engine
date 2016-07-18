@@ -28,6 +28,8 @@ namespace GlEngine
 
         std::mutex &GetMutex();
 
+        const char *name() override;
+
         inline Impl::GlControllerImpl *GetImpl()
         {
             return pimpl;

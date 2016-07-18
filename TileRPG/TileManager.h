@@ -16,6 +16,8 @@ namespace TileRPG
         bool Initialize();
         void Shutdown();
 
+        const char *name() override;
+
         bool RegisterTile(ITile *tile);
         ITile *GetTile(int tileId);
         inline ITile *operator[](int tileId)

@@ -24,6 +24,8 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
+        const char *name() override;
+
         Window *Create(unsigned targetFPS = 60u);
         Window *Find(HWND handle);
         void Destroy(Window *window);

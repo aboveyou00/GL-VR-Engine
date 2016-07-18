@@ -109,6 +109,11 @@ namespace TileRPG
         _loop.Shutdown();
     }
 
+    const char *TileRPGGame::name()
+    {
+        return "TileRPGGame";
+    }
+
     void TileRPGGame::MessageLoop()
     {
         logger->Log(GlEngine::LogType::Info, "Beginning TileRPGGame MessageLoop...");

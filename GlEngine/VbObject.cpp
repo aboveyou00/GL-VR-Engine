@@ -53,6 +53,11 @@ namespace GlEngine
         else return _buffer != 0;
     }
 
+    const char *VbObject::name()
+    {
+        return "VbObject";
+    }
+
     void VbObject::MakeCurrent()
     {
         assert(!!*this);

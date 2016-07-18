@@ -21,6 +21,11 @@ namespace TileRPG
     {
     }
 
+    const char *TileManager::name()
+    {
+        return "TileManager";
+    }
+
     bool TileManager::RegisterTile(ITile *tile)
     {
         auto id = tile->GetTileId();

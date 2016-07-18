@@ -37,6 +37,11 @@ namespace GlEngine
         _loop.StopLoop(false);
 	}
 
+    const char *GraphicsContext::name()
+    {
+        return "GraphicsContext";
+    }
+
 	void GraphicsContext::Update(const graphics_object_map &objs)
 	{
         ScopedLock slock(_lock);

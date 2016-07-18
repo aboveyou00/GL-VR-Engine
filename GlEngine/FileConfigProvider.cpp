@@ -59,6 +59,11 @@ namespace GlEngine
         logger.Log(LogType::Info, "~Shutting down FileConfigProvider...");
     }
 
+    const char *FileConfigProvider::name()
+    {
+        return "FileConfigProvider";
+    }
+
     bool FileConfigProvider::IsFull() const
     {
         for (size_t q = 0; q < MAX_KVPS; q++)

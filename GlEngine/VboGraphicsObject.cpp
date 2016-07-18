@@ -2,6 +2,8 @@
 #include "VboGraphicsObject.h"
 #include "VboFactory.h"
 
+#include "Shader.h"
+#include "Texture.h"
 #include "OpenGl.h"
 
 namespace GlEngine
@@ -10,12 +12,12 @@ namespace GlEngine
         : VboGraphicsObject(VbObject(), VbObject())
 	{
 	}
-	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
-		: arrayVbo(arrayVbo), elementVbo(elementVbo), shader("Shaders", "direct_light"), verticesFactory(nullptr), trianglesFactory(nullptr)
+    VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
+        : VboGraphicsObject(arrayVbo, elementVbo, nullptr, nullptr)
 	{
 	}
-	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader shader)
-		: shader(shader), arrayVbo(arrayVbo), elementVbo(elementVbo), verticesFactory(nullptr), trianglesFactory(nullptr)
+	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
+		: arrayVbo(arrayVbo), elementVbo(elementVbo), shader(shader), texture(texture), verticesFactory(nullptr), trianglesFactory(nullptr)
 	{
 	}
 	VboGraphicsObject::~VboGraphicsObject()
@@ -44,7 +46,9 @@ namespace GlEngine
             delete trianglesFactory;
         }
 
-        if (!shader.InitializeGraphics())
+        if (shader != nullptr && !shader->InitializeGraphics())
+            return false;
+        if (texture != nullptr && !texture->InitializeGraphics())
             return false;
         if (!arrayVbo.InitializeGraphics())
             return false;
@@ -55,11 +59,19 @@ namespace GlEngine
     }
     void VboGraphicsObject::ShutdownGraphics()
     {
+        shader->ShutdownGraphics();
+        if (texture != nullptr) texture->ShutdownGraphics();
+
         arrayVbo.ShutdownGraphics();
         arrayVbo = VbObject();
 
         elementVbo.ShutdownGraphics();
         elementVbo = VbObject();
+    }
+
+    const char *VboGraphicsObject::name()
+    {
+        return "VboGraphicsObject";
     }
 
 	void VboGraphicsObject::PreRender()
@@ -68,7 +80,8 @@ namespace GlEngine
 		{
 			arrayVbo.MakeCurrent();
 			elementVbo.MakeCurrent();
-			if (shader) shader.MakeCurrent();
+			if (*shader) shader->MakeCurrent();
+            if (*texture) texture->MakeCurrent();
 		}
 	}
 

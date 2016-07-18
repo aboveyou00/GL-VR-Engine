@@ -36,6 +36,8 @@ namespace GlEngine
 
         rt_mutex &GetMutex();
 
+        const char *name() override;
+
         inline Impl::AudioControllerImpl *GetImpl()
         {
             return pimpl;

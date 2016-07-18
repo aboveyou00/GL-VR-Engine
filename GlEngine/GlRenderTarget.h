@@ -21,6 +21,8 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
+        const char *name() override;
+
 		Camera * GetCamera();
 		void SetCamera(Camera * cam);
 

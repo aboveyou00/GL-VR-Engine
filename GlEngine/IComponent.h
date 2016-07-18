@@ -7,5 +7,7 @@ namespace GlEngine
     public:
         virtual bool Initialize() = 0;
         virtual void Shutdown() = 0;
+
+        virtual const char *name() = 0;
     };
 }
