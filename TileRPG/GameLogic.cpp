@@ -36,4 +36,9 @@ namespace TileRPG
 
         FrameStack::Shutdown();
     }
+
+    const char *GameLogic::name()
+    {
+        return "GameLogic";
+    }
 }

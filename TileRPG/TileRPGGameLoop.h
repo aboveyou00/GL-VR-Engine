@@ -16,6 +16,8 @@ namespace TileRPG
         bool Initialize();
         void Shutdown();
 
+        const char *name() override;
+
         inline GameLogic &GetGameLogic()
         {
             return _logic;

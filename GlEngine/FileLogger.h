@@ -16,6 +16,8 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
+        const char *name() override;
+
         inline rt_mutex &GetMutex()
         {
             return _mutex;

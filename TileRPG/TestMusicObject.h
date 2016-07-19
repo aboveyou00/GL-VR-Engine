@@ -16,6 +16,8 @@ namespace TileRPG
         void Tick(float delta) override;
         void Shutdown() override;
 
+        const char *name() override;
+
         GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
 
     private:

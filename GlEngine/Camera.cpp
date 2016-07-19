@@ -16,16 +16,10 @@ namespace GlEngine
 		}
 	}
 
-	void Camera::Apply()
-	{
-		pimpl->Apply();
-	}
-
 	void Camera::Push()
 	{
 		pimpl->Push();
 	}
-
 	void Camera::Pop()
 	{
 		pimpl->Pop();

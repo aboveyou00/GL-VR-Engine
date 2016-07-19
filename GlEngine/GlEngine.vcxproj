@@ -187,6 +187,7 @@
     <ClInclude Include="KeyValuePair.h" />
     <ClInclude Include="LogType.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="MatrixStack.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="MouseButton.h" />
     <ClInclude Include="MouseEvent.h" />
@@ -200,7 +201,6 @@
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderGraphicsObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Texture.h" />
@@ -227,9 +227,12 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
+    <ClCompile Include="LodePNG\lodepng.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
-    <ClCompile Include="ShaderGraphicsObject.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />

@@ -88,6 +88,11 @@ namespace GlEngine
         return GetWindowManager().GetMutex();
     }
 
+    const char *Engine::name()
+    {
+        return "Engine";
+    }
+
     void Engine::MessageLoop()
     {
         MSG msg = { };

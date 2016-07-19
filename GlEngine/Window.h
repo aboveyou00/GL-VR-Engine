@@ -21,6 +21,8 @@ namespace GlEngine
         bool Initialize() override;
         void Shutdown() override;
 
+        const char *name() override;
+
         void CenterWindow();
 
         bool SetFullscreen(bool fullscreen, unsigned width = DEFAULT_WINDOW_WIDTH, unsigned height = DEFAULT_WINDOW_HEIGHT);

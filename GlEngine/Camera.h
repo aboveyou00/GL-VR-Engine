@@ -10,8 +10,6 @@ namespace GlEngine
 		Camera();
 		~Camera();
 
-		void Apply();
-		
 		void Push();
 		void Pop();
 

@@ -24,6 +24,8 @@ namespace TileRPG
         bool Initialize();
         void Shutdown();
 
+        const char *name() override;
+
         void MessageLoop();
 
         inline TileRPGGameLoop &GetGameLoop()

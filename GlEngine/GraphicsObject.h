@@ -1,8 +1,6 @@
 #pragma once
 
 #include "IGraphicsComponent.h"
-#include "VbObject.h"
-#include "Shader.h"
 
 namespace GlEngine
 {

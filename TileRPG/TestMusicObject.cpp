@@ -61,8 +61,13 @@ namespace TileRPG
         loop->Release();
     }
 
+    const char *TestMusicObject::name()
+    {
+        return "TestMusicObject";
+    }
+
     GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
+        return GlEngine::ObjGraphicsObject::Create("suzanne.obj", "Shaders", "direct_light"/*, "Textures/checkers.png"*/);
     }
 }

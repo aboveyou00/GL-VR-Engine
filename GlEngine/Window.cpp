@@ -53,6 +53,11 @@ namespace GlEngine
         _windowHandle = nullptr;
     }
 
+    const char *Window::name()
+    {
+        return "Window";
+    }
+
     void Window::CenterWindow()
     {
         unsigned posX, posY;

@@ -21,5 +21,10 @@ namespace GlEngine
         void GlControllerImpl::Shutdown()
         {
         }
+
+        const char *GlControllerImpl::name()
+        {
+            return "GlControllerImpl";
+        }
     }
 }

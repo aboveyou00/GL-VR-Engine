@@ -51,4 +51,8 @@ namespace GlEngine
     {
         return pimpl->GetMutex();
     }
+    const char *AudioController::name()
+    {
+        return "AudioController";
+    }
 }

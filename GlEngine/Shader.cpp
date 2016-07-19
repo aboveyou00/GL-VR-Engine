@@ -2,8 +2,10 @@
 #include "Shader.h"
 #include "OpenGl.h"
 #include <fstream>
+#include <unordered_map>
 
 #include "PathUtils.h"
+#include "MatrixStack.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -29,6 +31,24 @@ namespace GlEngine
     Shader::~Shader()
     {
         Shutdown();
+    }
+
+    Shader *Shader::Create(const char *shader_path, const char *shader_name)
+    {
+        auto hashed = ([](const char *str1, const char *str2) {
+            int h = 2;
+            while (*str1)
+                h = h << 1 ^ *str1++;
+            h = h << 2;
+            while (*str2)
+                h = h << 1 ^ *str2++;
+            return h;
+        })(shader_path, shader_name);
+
+        static std::unordered_map<int, Shader*> shaders;
+        auto cached = shaders[hashed];
+        if (cached != nullptr) return cached;
+        return shaders[hashed] = new Shader(shader_path, shader_name);
     }
 
     bool Shader::Initialize()
@@ -79,10 +99,18 @@ namespace GlEngine
         _frag = 0;
     }
 
+    const char *Shader::name()
+    {
+        return "Shader";
+    }
+
     void Shader::MakeCurrent()
     {
         assert(!!*this);
         glUseProgram(_prog);
+
+        MatrixStack::Projection.tell_gl();
+        MatrixStack::ModelView.tell_gl();
     }
 
     Shader::operator bool()

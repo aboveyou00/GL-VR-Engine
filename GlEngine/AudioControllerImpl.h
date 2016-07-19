@@ -30,6 +30,8 @@ namespace GlEngine
                 return audioMutex;
             }
 
+            const char *name() override;
+
         private:
             rt_mutex audioMutex;
             std::vector<YseAudioSource*> sources;

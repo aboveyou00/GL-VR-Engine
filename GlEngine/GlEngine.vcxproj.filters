@@ -37,9 +37,6 @@
     <Filter Include="Source Files\GlEngine\Audio">
       <UniqueIdentifier>{e9033444-9915-4675-87ab-e2ccc9d15dc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GlEngine\Windows">
-      <UniqueIdentifier>{fa63737f-2204-46b5-a6f0-f913dbf9b23b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GlEngine\Windows">
       <UniqueIdentifier>{43272050-ac70-4702-916c-822129272cc1}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,15 @@
     </Filter>
     <Filter Include="Header Files\GlEngine\Frames">
       <UniqueIdentifier>{ea8e9fcf-f78c-49e7-8d04-600aabbb5f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LodePNG">
+      <UniqueIdentifier>{2bb393ba-02ac-4fd1-b5b0-8f320652fa45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LodePNG">
+      <UniqueIdentifier>{cb1f8797-b71f-4822-bed4-e2eea0dea8ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Windows">
+      <UniqueIdentifier>{bbf75802-e1db-42c7-b3da-3d85cf9e2725}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -264,9 +270,6 @@
     <ClInclude Include="YseAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderGraphicsObject.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="VboGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
@@ -293,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixStack.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -328,15 +334,6 @@
     </ClCompile>
     <ClCompile Include="IAudioSource.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files\GlEngine\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Window_WndProc.cpp">
-      <Filter>Source Files\GlEngine\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
-      <Filter>Source Files\GlEngine\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Threading.cpp">
       <Filter>Source Files</Filter>
@@ -419,9 +416,6 @@
     <ClCompile Include="YseAudioSource.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderGraphicsObject.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="VboGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
@@ -445,6 +439,18 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Window_WndProc.cpp">
+      <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixStack.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

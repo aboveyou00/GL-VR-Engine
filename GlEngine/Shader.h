@@ -13,10 +13,18 @@ namespace GlEngine
         Shader(const char *path, const char *name);
         ~Shader();
 
+        inline static Shader *Create(const char *shader_name)
+        {
+            return Create("", shader_name);
+        }
+        static Shader *Create(const char *shader_path, const char *shader_name);
+
         bool Initialize() override;
         void Shutdown() override;
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
+
+        const char *name() override;
 
         void MakeCurrent();
 

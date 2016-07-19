@@ -22,6 +22,7 @@ namespace GlEngine
         void MakeCurrent();
 
         operator bool();
+        const char *name() override;
 
     private:
         unsigned _vao;

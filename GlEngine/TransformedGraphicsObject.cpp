@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TransformedGraphicsObject.h"
 #include "OpenGl.h"
+#include "MatrixStack.h"
 
 namespace GlEngine
 {
@@ -24,14 +25,11 @@ namespace GlEngine
 	{
         if (graphicsObject)
         {
-            glMatrixMode(GL_MODELVIEW);
-            glPushMatrix();
-            glMultMatrixf(Matrix<4, 4>::TranslateMatrix(position).getAddr());
-            glMultMatrixf(orientation.getAddr());
+            MatrixStack::ModelView.mult(Mat3T<float>::TranslateMatrix(position) * orientation);
 
             graphicsObject->Render();
 
-            glPopMatrix();
+            MatrixStack::ModelView.pop();
         }
 	}
 }

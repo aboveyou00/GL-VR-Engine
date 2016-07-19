@@ -20,6 +20,8 @@ namespace GlEngine
             bool Initialize();
             void Shutdown();
 
+            const char *name() override;
+
 			bool alive = true;
 
 			void MakeCurrentTarget();

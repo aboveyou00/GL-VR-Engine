@@ -19,10 +19,16 @@ namespace GlEngine
         bool InitializeGraphics();
         void ShutdownGraphics();
 
+        const char *name() override;
+
+        operator bool();
+
+        void MakeCurrent();
+
     private:
         bool initialized;
         const char *const path;
         unsigned char *image;
-        unsigned width, height;
+        unsigned width, height, gl_tex, gl_sampler;
     };
 }

@@ -21,6 +21,8 @@ namespace GlEngine
                 return renderTargetMutex;
             }
 
+            const char *name() override;
+
         private:
             std::mutex renderTargetMutex;
         };

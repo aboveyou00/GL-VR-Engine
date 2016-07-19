@@ -37,6 +37,11 @@ namespace GlEngine
         _logStream.close();
     }
 
+    const char *FileLogger::name()
+    {
+        return "FileLogger";
+    }
+
     bool FileLogger::LogImpl(LogType, const char *const message)
     {
         if (!_logStream)

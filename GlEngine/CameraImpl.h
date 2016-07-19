@@ -19,8 +19,6 @@ namespace GlEngine
 
 			Matrix<4, 4> view;
 
-			void Apply();
-			
 			void Push();
 			void Pop();
 		};

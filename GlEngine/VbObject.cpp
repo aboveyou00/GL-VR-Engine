@@ -44,13 +44,21 @@ namespace GlEngine
             _vao = 0;
         }
         if (_buffer != 0)
-        {            glDeleteBuffers(1, static_cast<GLuint*>(&_buffer));            _buffer = 0;        }
+        {
+            glDeleteBuffers(1, static_cast<GLuint*>(&_buffer));
+            _buffer = 0;
+        }
     }
 
     VbObject::operator bool()
     {
         if (_mode == BufferMode::Array) return _vao != 0 && _buffer != 0;
         else return _buffer != 0;
+    }
+
+    const char *VbObject::name()
+    {
+        return "VbObject";
     }
 
     void VbObject::MakeCurrent()

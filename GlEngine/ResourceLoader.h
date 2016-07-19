@@ -17,6 +17,8 @@ namespace GlEngine
         bool Initialize() override;
         void Shutdown() override;
 
+        const char *name() override;
+
         void QueueResource(IComponent *c);
         bool InitializeResourceGraphics();
         void ShutdownResourceGraphics();

@@ -27,6 +27,11 @@ namespace GlEngine
         pimpl->Shutdown();
     }
 
+    const char *GlRenderTarget::name()
+    {
+        return "GlRenderTarget";
+    }
+
 	Camera * GlRenderTarget::GetCamera()
 	{
 		return pimpl->camera;

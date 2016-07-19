@@ -333,6 +333,35 @@ public:
 		return result;
 	}
 
+    static Matrix<rows, cols, ElemT> Frustum(ElemT left, ElemT right, ElemT bottom, ElemT top, ElemT nearVal, ElemT farVal)
+    {
+        static_assert(rows == 4 && cols == 4, "Frustum can only be called on a 4 by 4 matrix");
+        ElemT X = (2 * nearVal) / (right - left),
+              Y = (2 * nearVal) / (top - bottom),
+              A = (right + left) / (right - left),
+              B = (top + bottom) / (top - bottom),
+              C = -(farVal + nearVal) / (farVal - nearVal),
+              D = -(2 * farVal * nearVal) / (farVal - nearVal);
+        return Matrix<rows, cols, ElemT> { X, 0, A, 0,
+                                           0, Y, B, 0,
+                                           0, 0, C, D,
+                                           0, 0,-1, 0 };
+    }
+    static Matrix<rows, cols, ElemT> Ortho(ElemT left, ElemT right, ElemT bottom, ElemT top, ElemT nearVal, ElemT farVal)
+    {
+        static_assert(rows == 4 && cols == 4, "Ortho can only be called on a 4 by 4 matrix");
+        ElemT X = 2 / (right - left),
+              Y = 2 / (top - bottom),
+              Z = -2 / (farVal - nearVal),
+              Tx = -(right + left) / (right - left),
+              Ty = -(top + bottom) / (top - bottom),
+              Tz = -(farVal + nearVal) / (farVal - nearVal);
+        return Matrix<rows, cols, ElemT> { X, 0, 0, Tx,
+                                           0, Y, 0, Ty,
+                                           0, 0, Z, Tz,
+                                           0, 0, 0, 1 };
+    }
+
 private:
     ElemT values[rows][cols]; //TODO: Find some way to make this private!
 

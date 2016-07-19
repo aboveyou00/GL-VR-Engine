@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GlRenderTargetImpl.h"
-
+#include "MatrixStack.h"
 #include "Window.h"
 #include <chrono>
 
@@ -28,6 +28,11 @@ namespace GlEngine
         {
 			wglMakeCurrent(nullptr, nullptr);
 			wglDeleteContext(contextHandle);
+        }
+
+        const char *GlRenderTargetImpl::name()
+        {
+            return "GlRenderTargetImpl";
         }
 
 		void GlRenderTargetImpl::MakeCurrentTarget()
@@ -106,14 +111,15 @@ namespace GlEngine
         void GlRenderTargetImpl::Push()
 		{
 			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_CULL_FACE);
+            glEnable(GL_CULL_FACE);
+            glEnable(GL_TEXTURE_2D);
 			glDepthFunc(GL_LEQUAL);
 
             static float theta = .5f;
             theta += .01f;
-            glUniform3f(0, sin(theta), -.5f, cos(theta));
-            glUniform3f(1, .4f, .6f, 1.f);
-            glUniform3f(2, .1f, .1f, .1f);
+            glUniform3f(2, sin(theta), -.5f, cos(theta));
+            glUniform3f(3, .4f, .6f, 1.f);
+            glUniform3f(4, .1f, .1f, .1f);
 
             //glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -130,45 +136,35 @@ namespace GlEngine
 			SwapBuffers(deviceContext);
 		}
 
-		void GlRenderTargetImpl::ViewPort::ApplyProjection()
-		{
-			float viewWidth, viewHeight;
-			if (width > height)
-			{
-				viewHeight = 1.0;
-				viewWidth = (float)width / height;
-			}
-			else
-			{
-				viewWidth = 1.0;
-				viewHeight = (float)height / width;
-			}
-
-			float nearVal = 1.f;
-			float farVal = 100.f;
-
-			glLoadIdentity();
-			glFrustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight /2 , nearVal, farVal);
-			//glOrtho(left, right, bottom, top, nearVal, farVal);
-		}
-
-		void GlRenderTargetImpl::ViewPort::Apply()
-		{
-			//relativeCamera.Apply();
-			ApplyProjection();
-		}
-
 		void GlRenderTargetImpl::ViewPort::Push()
 		{
-			glMatrixMode(GL_PROJECTION);
-			glPushMatrix();
-			Apply();
+            //relativeCamera.Apply();
+
+            float viewWidth, viewHeight;
+            if (width > height)
+            {
+                viewHeight = 1.0;
+                viewWidth = (float)width / height;
+            }
+            else
+            {
+                viewWidth = 1.0;
+                viewHeight = (float)height / width;
+            }
+
+            float nearVal = 1.f;
+            float farVal = 100.f;
+
+            MatrixStack::Projection.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
+            MatrixStack::Projection.tell_gl();
+            //glOrtho(left, right, bottom, top, nearVal, farVal);
+            //ProjectionMatrixStack.push(Mat3T<float>::Ortho(left, right, bottom, top, nearVal, farVal));
 		}
 
 		void GlRenderTargetImpl::ViewPort::Pop()
 		{
-			glMatrixMode(GL_PROJECTION);
-			glPopMatrix();
+            MatrixStack::Projection.pop();
+            MatrixStack::Projection.tell_gl();
 		}
 
 		void GlRenderTargetImpl::ViewPort::SetSize(int width, int height)
