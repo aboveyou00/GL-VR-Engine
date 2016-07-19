@@ -25,6 +25,8 @@ namespace GlEngine
 
 		operator bool() override;
 
+		const char * name() override;
+
 	private:
 		const char * filename;
 		bool initialized;

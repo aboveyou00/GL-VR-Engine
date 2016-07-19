@@ -55,6 +55,11 @@ namespace GlEngine
 		return subObjects.size() > 0;
 	}
 
+	const char * FbxGraphicsObject::name()
+	{
+		return "FbxGraphicsObject";
+	}
+
 	void FbxGraphicsObject::AddSubObject(VboGraphicsObject* graphicsObject)
 	{
 		ScopedLock _lock(pendingMutex);

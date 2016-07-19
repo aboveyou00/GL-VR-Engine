@@ -90,7 +90,7 @@ namespace GlEngine
             if (!c->Initialize())
             {
                 auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c);
+                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c->name());
                 continue;
             }
             {

@@ -71,8 +71,7 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-		//return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
         //return GlEngine::FbxGraphicsObject::Create("test.fbx");
-        return GlEngine::ObjGraphicsObject::Create("suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
+        return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
     }
 }
