@@ -46,7 +46,7 @@ namespace GlEngine
     }
 
     Texture::Texture(const char * const path)
-        : path(path), image(nullptr), gl_tex(0), gl_sampler(0)
+        : path(path), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);
@@ -63,19 +63,25 @@ namespace GlEngine
     void Texture::Shutdown()
     {
         if (initialized) freePng(image);
+        image = nullptr;
         initialized = false;
     }
     bool Texture::InitializeGraphics()
     {
         glGenTextures(1, &gl_tex);
         glBindTexture(GL_TEXTURE_2D, gl_tex);
-        glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, width, height);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA8, GL_FLOAT, image);
+        glTexStorage2D(GL_TEXTURE_2D, 4, GL_RGBA8, width, height);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
         //glGenSamplers(1, &gl_sampler);
         //glBindSampler(0, gl_sampler);
 
-        return false;
+        return true;
     }
     void Texture::ShutdownGraphics()
     {
@@ -90,15 +96,14 @@ namespace GlEngine
 
     Texture::operator bool()
     {
-        return gl_tex != 0 && gl_sampler != 0;
+        return gl_tex != 0;// && gl_sampler != 0;
     }
 
     void Texture::MakeCurrent()
     {
         assert(!!*this);
-        glUniform1i(3, 0);
+        glUniform1i(5, 0);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gl_tex);
-
     }
 }

@@ -111,7 +111,8 @@ namespace GlEngine
         void GlRenderTargetImpl::Push()
 		{
 			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_CULL_FACE);
+            glEnable(GL_CULL_FACE);
+            glEnable(GL_TEXTURE_2D);
 			glDepthFunc(GL_LEQUAL);
 
             static float theta = .5f;
