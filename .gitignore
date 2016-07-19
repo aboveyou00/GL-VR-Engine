@@ -246,5 +246,5 @@ ModelManifest.xml
 /GlEngine/Middleware
 /TileRPG/YSElog.txt
 /TileRPG/Audio
-/GlEngine/LodePNG/
 /TileRPG/Textures
+/GlEngine/LodePNG/examples
