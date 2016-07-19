@@ -1,11 +1,18 @@
 #pragma once
-
-#include "EngineShared.h"
+#include "VboGraphicsObject.h"
 #include "FbxGraphicsObject.h"
-#include "FbxParser.h"
 #include <fstream>
 #include <vector>
-#include <string>
+#include <unordered_map>
+#include "Vector.h"
+#include <array>
+
+namespace fbxsdk
+{
+	class FbxNode;
+	class FbxMesh;
+	class FbxSurfaceMaterial;
+}
 
 namespace GlEngine
 {
@@ -13,27 +20,16 @@ namespace GlEngine
 	{
 	public:
 		static bool Load(const char * const filename, FbxGraphicsObject * out);
-		static bool Load(std::istream & in, FbxGraphicsObject * out);
 
-		static char * currentFilename;
-
-		static const char nodeDelimLeft = '{';
-		static const char nodeDelimRight = '}';
-		static const char propertySeperator = ':';
-		static const char propertyArraySeperator = ',';
 
 	private:
-		
-		static bool Convert(Fbx::Node * node, FbxGraphicsObject * out);
-		static void ConvertIndeces(std::vector<int32_t> indeces, int& triangulatedSize, int32_t * triangulated);
+		static std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> glVertices;
 
-		static Fbx::Node * ParseAsciiNode(std::istream & in);
-		static Fbx::Property * ParseAsciiProperty(std::istream & in);
-		static std::vector<Fbx::Value> ParseAsciiValueArray(std::istream & in);
-		static Fbx::Value * ParseAsciiValue(std::istream & in);
-		static Fbx::Value * ParseAsciiValueString(std::istream & in);
-		static Fbx::Value * ParseAsciiValueNumeric(std::istream & in);
-		static Fbx::Value * ParseAsciiValueQuantifier(std::istream & in);
+		static int FindOrAddGlVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
+		
+		static bool Convert(fbxsdk::FbxNode* rootNode, FbxGraphicsObject * out);
+		static bool ConvertMesh(fbxsdk::FbxMesh* mesh, FbxGraphicsObject * out);
+		static bool ConvertMaterial(fbxsdk::FbxSurfaceMaterial* mat, FbxGraphicsObject * out);
 
 	};
 }

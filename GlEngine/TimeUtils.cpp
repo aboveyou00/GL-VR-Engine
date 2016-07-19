@@ -9,13 +9,13 @@ namespace GlEngine
 		long long high_resolution_offset = 0;
         
 		//IMPORTANT: Each time you call this method, the strings returned by previous calls are invalidated.
-        const char *const getTimestamp()
+        const char *const getTimestamp() noexcept
         {
             static thread_local char buff[32];
             if (!getTimestamp(buff, sizeof(buff))) return nullptr;
             return buff;
         }
-        bool getTimestamp(char *buff, int buffSize)
+        bool getTimestamp(char *buff, int buffSize) noexcept
         {
 			if (high_resolution_offset == 0) {
 				auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());

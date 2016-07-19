@@ -1,12 +1,12 @@
 
 
-#version 120
-#extension GL_ARB_separate_shader_objects : enable
-#extension GL_ARB_explicit_attrib_location : enable
+#version 430
 
-layout(location = 0) varying vec4 fg_color;
+layout(location = 0) in vec4 in_color;
+
+layout(location = 0) out vec4 out_color;
 
 void main(void)
 {
-    gl_FragColor = fg_color;
+    out_color = in_color;
 }

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "IComponent.h"
-#include "VbObject.h"
-#include "Shader.h"
+#include "IGraphicsComponent.h"
 
 namespace GlEngine
 {
@@ -11,7 +9,7 @@ namespace GlEngine
 		class GraphicsObjectImpl;
 	}
 
-	class ENGINE_SHARED GraphicsObject : public IComponent
+	class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
 	{
 	public:
 		GraphicsObject();
@@ -19,9 +17,13 @@ namespace GlEngine
 
         bool Initialize() override;
         void Shutdown() override;
+        bool InitializeGraphics() override;
+        void ShutdownGraphics() override;
 		
 		virtual void PreRender();
 		virtual void Render();
 
+    protected:
+        bool initialized, graphicsInitialized;
 	};
 }

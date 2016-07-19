@@ -1,11 +1,11 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IGraphicsComponent.h"
 #include "BufferMode.h"
 
 namespace GlEngine
 {
-    struct ENGINE_SHARED VbObject : IComponent
+    struct ENGINE_SHARED VbObject : IGraphicsComponent
     {
     public:
         VbObject();
@@ -16,10 +16,13 @@ namespace GlEngine
 
         bool Initialize();
         void Shutdown();
+        bool InitializeGraphics();
+        void ShutdownGraphics();
 
         void MakeCurrent();
 
         operator bool();
+        const char *name() override;
 
     private:
         unsigned _vao;

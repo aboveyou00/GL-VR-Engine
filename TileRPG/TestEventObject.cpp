@@ -9,6 +9,7 @@
 #include "GraphicsContext.h"
 
 #include "ObjGraphicsObject.h"
+#include "FbxGraphicsObject.h"
 
 namespace TileRPG
 {
@@ -33,6 +34,11 @@ namespace TileRPG
 
         auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
         audioCtrl.SetListenerPosition(position);
+    }
+
+    const char *TestEventObject::name()
+    {
+        return "TestEventObject";
     }
 
     void TestEventObject::HandleEvent(GlEngine::Events::Event &evt)
@@ -65,6 +71,7 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        return GlEngine::ObjGraphicsObject::Create("suzanne.obj");
+        //return GlEngine::FbxGraphicsObject::Create("test.fbx");
+        return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
     }
 }

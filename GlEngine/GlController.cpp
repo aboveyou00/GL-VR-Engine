@@ -32,4 +32,9 @@ namespace GlEngine
     {
         return pimpl->GetMutex();
     }
+
+    const char *GlController::name()
+    {
+        return "GlController";
+    }
 }

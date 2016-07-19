@@ -12,6 +12,8 @@ namespace TileRPG
 
         void Tick(float delta) override;
 
+        const char *name() override;
+
         void HandleEvent(GlEngine::Events::Event &evt) override;
 
         GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;

@@ -3,20 +3,43 @@
 
 #include "ObjLoader.h"
 
+#include "Shader.h"
+#include "Texture.h"
 #include <unordered_map>
 
 namespace GlEngine
 {
 	ObjGraphicsObject::ObjGraphicsObject(const char *const filename)
+        : filename(filename)
 	{
-		this->filename = filename;
 	}
-
-    ObjGraphicsObject *ObjGraphicsObject::Create(const char *name)
+    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VbObject arrayVbo, VbObject elementVbo)
+        : VboGraphicsObject(arrayVbo, elementVbo), filename(filename)
     {
-        static std::unordered_map<const char*, ObjGraphicsObject*> cache;
-        auto ptr = cache[name];
-        if (ptr == nullptr) ptr = cache[name] = new ObjGraphicsObject(name);
+    }
+    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
+        : VboGraphicsObject(arrayVbo, elementVbo, shader, texture), filename(filename)
+    {
+    }
+
+    ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, const char *shader_path, const char *shader_name, const char *texture_filename)
+    {
+        Shader *shader = Shader::Create(shader_path, shader_name);
+        Texture *texture = texture_filename == nullptr || texture_filename[0] == '\0' ? nullptr :
+                           Texture::FromFile(texture_filename);
+
+        auto hashed = ([](const char *str, void *shader, void *texture) {
+            int h = 0;
+            while (*str)
+                h = h << 1 ^ *str++;
+            h = h << 1 ^ std::hash<void*>()(shader);
+            h = h << 1 ^ std::hash<void*>()(texture);
+            return h;
+        })(name, shader, texture);
+
+        static std::unordered_map<int, ObjGraphicsObject*> cache;
+        auto ptr = cache[hashed];
+        if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VbObject(), VbObject(), shader, texture);
         return ptr;
     }
 
@@ -26,4 +49,9 @@ namespace GlEngine
 			return false;
 		return VboGraphicsObject::Initialize();
 	}
+
+    const char *ObjGraphicsObject::name()
+    {
+        return "ObjGraphicsObject";
+    }
 }

@@ -39,6 +39,8 @@ namespace GlEngine
         {
             return _lock;
         }
+
+        const char *name() override;
 	
 	private:
         rt_mutex _lock;

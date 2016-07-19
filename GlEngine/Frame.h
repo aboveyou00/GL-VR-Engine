@@ -27,6 +27,8 @@ namespace GlEngine
         void Shutdown();
         void Tick(float delta);
 
+        const char *name() override;
+
         virtual void FramePushed(FrameStack &machine);
         virtual void FramePopped(FrameStack &machine);
         virtual void FrameMasked(FrameStack &machine);

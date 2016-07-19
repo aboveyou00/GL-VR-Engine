@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
+#include "ResourceLoader.h"
 
 namespace GlEngine
 {
@@ -25,7 +26,7 @@ namespace GlEngine
 
 	bool GraphicsContext::Initialize()
 	{
-		camera.SetEye({ 0, 0, 20 });
+		camera.SetEye({ 0, 0, 10 });
 		camera.SetTarget({ 0, 0, 0 });
 
         _loop.RunLoop();
@@ -35,6 +36,11 @@ namespace GlEngine
 	{
         _loop.StopLoop(false);
 	}
+
+    const char *GraphicsContext::name()
+    {
+        return "GraphicsContext";
+    }
 
 	void GraphicsContext::Update(const graphics_object_map &objs)
 	{
@@ -88,11 +94,17 @@ namespace GlEngine
     }
     void GraphicsContext::Tick(float)
     {
+        auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+        resources.InitializeResourceGraphics();
+
         frames->Update(*this);
         Render();
     }
     void GraphicsContext::ShutdownRenderTargets()
     {
+        auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+        resources.ShutdownResourceGraphics();
+
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
         logger->Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");
         for (size_t q = 0; q < renderTargetCount; q++)

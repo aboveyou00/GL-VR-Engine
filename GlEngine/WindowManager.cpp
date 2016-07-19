@@ -51,6 +51,11 @@ namespace GlEngine
         UnregisterClass(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
     }
 
+    const char *WindowManager::name()
+    {
+        return "WindowManager";
+    }
+
     Window *WindowManager::Create(unsigned targetFPS)
     {
         for (auto q = 0; q < MAX_WINDOWS; q++)

@@ -221,8 +221,12 @@
     <ClCompile Include="WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Audio\overworld-main.ogg" />
+    <None Include="Audio\overworld-start.ogg" />
     <None Include="Shaders\direct_light.frag.shader" />
     <None Include="Shaders\direct_light.vert.shader" />
+    <None Include="Shaders\direct_light_tex.frag.shader" />
+    <None Include="Shaders\direct_light_tex.vert.shader" />
     <None Include="Shaders\std.frag.shader" />
     <None Include="Shaders\std.vert.shader" />
     <None Include="Shaders\simple.frag.shader" />
@@ -230,6 +234,9 @@
     <None Include="TileRPG.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\checkers.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

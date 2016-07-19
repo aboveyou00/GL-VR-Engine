@@ -2,12 +2,15 @@
 #include "Shader.h"
 #include "OpenGl.h"
 #include <fstream>
+#include <unordered_map>
 
 #include "PathUtils.h"
+#include "MatrixStack.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
+#include "ResourceLoader.h"
 
 namespace GlEngine
 {
@@ -20,28 +23,60 @@ namespace GlEngine
     {
     }
     Shader::Shader(const char *path, const char *name)
-        : _path(path), _name(name), _vert(0), _frag(0), _prog(0)
+        : _path(path), _name(name), _vert_text(nullptr), _frag_text(nullptr), _vert(0), _frag(0), _prog(0)
     {
+        auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+        resources->QueueResource(this);
     }
     Shader::~Shader()
     {
         Shutdown();
     }
 
+    Shader *Shader::Create(const char *shader_path, const char *shader_name)
+    {
+        auto hashed = ([](const char *str1, const char *str2) {
+            int h = 2;
+            while (*str1)
+                h = h << 1 ^ *str1++;
+            h = h << 2;
+            while (*str2)
+                h = h << 1 ^ *str2++;
+            return h;
+        })(shader_path, shader_name);
+
+        static std::unordered_map<int, Shader*> shaders;
+        auto cached = shaders[hashed];
+        if (cached != nullptr) return cached;
+        return shaders[hashed] = new Shader(shader_path, shader_name);
+    }
+
     bool Shader::Initialize()
     {
         if (_name == nullptr) return false;
 
+        if (!loadShaderText(_vert_text, _vert_text_length, "vert")) return false;
+        if (!loadShaderText(_frag_text, _frag_text_length, "frag")) return false;
+
+        return true;
+    }
+    void Shader::Shutdown()
+    {
+    }
+    bool Shader::InitializeGraphics()
+    {
         if (!_vert)
         {
-            _vert = compileShader(GL_VERTEX_SHADER, "vert");
+            _vert = compileShader(GL_VERTEX_SHADER, _vert_text, _vert_text_length);
             if (!ensureShaderCompiled(_vert, "vert")) return false;
+            delete[] _vert_text;
         }
 
         if (!_frag)
         {
-            _frag = compileShader(GL_FRAGMENT_SHADER, "frag");
+            _frag = compileShader(GL_FRAGMENT_SHADER, _frag_text, _frag_text_length);
             if (!ensureShaderCompiled(_frag, "frag")) return false;
+            delete[] _frag_text;
         }
 
         if (!_prog)
@@ -52,7 +87,7 @@ namespace GlEngine
 
         return true;
     }
-    void Shader::Shutdown()
+    void Shader::ShutdownGraphics()
     {
         if (_prog) glDeleteProgram(_prog);
         _prog = 0;
@@ -64,27 +99,26 @@ namespace GlEngine
         _frag = 0;
     }
 
+    const char *Shader::name()
+    {
+        return "Shader";
+    }
+
     void Shader::MakeCurrent()
     {
         assert(!!*this);
         glUseProgram(_prog);
+
+        MatrixStack::Projection.tell_gl();
+        MatrixStack::ModelView.tell_gl();
     }
 
     Shader::operator bool()
     {
         return _prog && _vert && _frag;
     }
-    //void Shader::operator=(Shader &other)
-    //{
-    //    assert(!*this);
-    //    _path = other._path;
-    //    _name = other._name;
-    //    _vert = other._vert;
-    //    _frag = other._frag;
-    //    _prog = other._prog;
-    //}
 
-    unsigned Shader::compileShader(unsigned type, const char *suffix)
+    bool Shader::loadShaderText(const char *&text, int &text_length, const char *suffix)
     {
         static const int NAME_BUFFER_SIZE = 64;
         static thread_local char nameBuff[NAME_BUFFER_SIZE];
@@ -96,25 +130,26 @@ namespace GlEngine
         {
             auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
             logger.Log(LogType::Warning, "Could not open shader file [%s]", fullPath);
-            return 0;
+            return false;
         }
 
-        //file.seekg(0, std::ios::end);
         auto len = (int)file.tellg();
         file.seekg(0);
 
-        static const int STATIC_BUFFER_SIZE = 512;
-        static thread_local char tlSource[STATIC_BUFFER_SIZE];
-        char *buff = tlSource;
-        if (len + 1 > STATIC_BUFFER_SIZE) buff = new char[len + 1];
+        char *buff = new char[len + 1];
         file.read(buff, len);
         buff[len] = '\0';
+        text = buff;
 
+        text_length = len;
+        return true;
+    }
+
+    unsigned Shader::compileShader(unsigned type, const char *text, int text_length)
+    {
         auto shader = glCreateShader(type);
-        glShaderSource(shader, 1, (const GLchar**)&buff, &len);
+        glShaderSource(shader, 1, (const GLchar**)&text, &text_length);
         glCompileShader(shader);
-
-        if (len + 1 > STATIC_BUFFER_SIZE) delete[] buff;
 
         return shader;
     }

@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "VboGraphicsObject.h"
+#include "VboFactory.h"
 
+#include "Shader.h"
+#include "Texture.h"
 #include "OpenGl.h"
-#include "VBOFactory.h"
 
 namespace GlEngine
 {
@@ -10,13 +12,12 @@ namespace GlEngine
         : VboGraphicsObject(VbObject(), VbObject())
 	{
 	}
-	VboGraphicsObject::VboGraphicsObject(VbObject arryaVbo, VbObject elementVbo)
-		: arrayVbo(arrayVbo), elementVbo(elementVbo)
+    VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
+        : VboGraphicsObject(arrayVbo, elementVbo, nullptr, nullptr)
 	{
-		shader = Shader("Shaders", "direct_light");
 	}
-	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader shader)
-		: shader(shader), arrayVbo(arrayVbo), elementVbo(elementVbo)
+	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
+		: arrayVbo(arrayVbo), elementVbo(elementVbo), shader(shader), texture(texture), verticesFactory(nullptr), trianglesFactory(nullptr)
 	{
 	}
 	VboGraphicsObject::~VboGraphicsObject()
@@ -25,43 +26,74 @@ namespace GlEngine
 
 	bool VboGraphicsObject::Initialize()
 	{
-		if (!shader.Initialize())
-			return false;
-		if (!arrayVbo.Initialize())
-			return false;
-		if (!elementVbo.Initialize())
-			return false;
-
 		return true;
 	}
+    void VboGraphicsObject::Shutdown()
+    {
+    }
+    bool VboGraphicsObject::InitializeGraphics()
+    {
+        if (!arrayVbo)
+        {
+            if (verticesFactory == nullptr) return false;
+            arrayVbo = verticesFactory->Compile();
+            delete verticesFactory;
+        }
+        if (!elementVbo)
+        {
+            if (trianglesFactory == nullptr) return false;
+            elementVbo = trianglesFactory->Compile();
+            delete trianglesFactory;
+        }
 
-	void VboGraphicsObject::Shutdown()
-	{
-		arrayVbo.Shutdown();
-		arrayVbo = VbObject();
+        if (shader != nullptr && !shader->InitializeGraphics())
+            return false;
+        if (texture != nullptr && !texture->InitializeGraphics())
+            return false;
+        if (!arrayVbo.InitializeGraphics())
+            return false;
+        if (!elementVbo.InitializeGraphics())
+            return false;
 
-		elementVbo.Shutdown();
-		elementVbo = VbObject();
-	}
+        return true;
+    }
+    void VboGraphicsObject::ShutdownGraphics()
+    {
+        shader->ShutdownGraphics();
+        if (texture != nullptr) texture->ShutdownGraphics();
+
+        arrayVbo.ShutdownGraphics();
+        arrayVbo = VbObject();
+
+        elementVbo.ShutdownGraphics();
+        elementVbo = VbObject();
+    }
+
+    const char *VboGraphicsObject::name()
+    {
+        return "VboGraphicsObject";
+    }
 
 	void VboGraphicsObject::PreRender()
 	{
-		if (arrayVbo)
+		GraphicsObject::PreRender();
+		if (*this)
 		{
 			arrayVbo.MakeCurrent();
-			if (shader)
-				shader.MakeCurrent();
-			if (elementVbo)
-				elementVbo.MakeCurrent();
+			elementVbo.MakeCurrent();
+			if (shader != nullptr && *shader) shader->MakeCurrent();
+            if (texture != nullptr && *texture) texture->MakeCurrent();
 		}
 	}
 
 	void VboGraphicsObject::Render()
 	{
 		GraphicsObject::Render();
-		if (arrayVbo && elementVbo)
-		{
-			glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), nullptr);
-		}
+		if (*this) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), nullptr);
 	}
+
+    VboGraphicsObject::operator bool()
+    {
+        return arrayVbo && elementVbo;
+    }
 }
