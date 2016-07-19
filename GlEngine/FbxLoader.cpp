@@ -76,11 +76,11 @@ namespace GlEngine
 			trianglesFactory->AddVertex({ (uint16_t)triangleIndeces[3 * i + 2], (uint16_t)triangleIndeces[3 * i + 1], (uint16_t)triangleIndeces[3 * i] });
 		}
 
-		VboGraphicsObject sub;
-		sub.verticesFactory = verticesFactory;
-		sub.trianglesFactory = trianglesFactory;
-		sub.triCount = triangleIndeces.size() / 3;
-
+		auto sub = new VboGraphicsObject();
+		sub->verticesFactory = verticesFactory;
+		sub->trianglesFactory = trianglesFactory;
+		sub->triCount = triangleIndeces.size() / 3;
+		
 		out->AddSubObject(sub);
 
 		std::cout << "Finished mesh: " << mesh->GetName() << std::endl;

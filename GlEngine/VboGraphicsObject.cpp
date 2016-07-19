@@ -44,8 +44,6 @@ namespace GlEngine
             delete trianglesFactory;
         }
 
-        if (!shader.InitializeGraphics())
-            return false;
         if (!arrayVbo.InitializeGraphics())
             return false;
         if (!elementVbo.InitializeGraphics())

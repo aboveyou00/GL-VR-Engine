@@ -9,7 +9,6 @@ namespace GlEngine
 	FbxGraphicsObject::FbxGraphicsObject(const char * const filename)
 	{
 		this->filename = filename;
-		subObjects = std::vector<VboGraphicsObject>(10);
 		initialized = false;
 	}
 
@@ -27,7 +26,7 @@ namespace GlEngine
 			return false;
 
 		for (unsigned i = 0; i < subObjects.size(); i++)
-			if (!subObjects[i].Initialize())
+			if (!subObjects[i]->Initialize())
 				return false;
 		
 		return GraphicsObject::Initialize();
@@ -41,7 +40,7 @@ namespace GlEngine
 	{
 		ProcessPending();
 		for (size_t i = 0; i < subObjects.size(); i++)
-			subObjects[i].InitializeGraphics();
+			subObjects[i]->InitializeGraphics();
 
 		initialized = true;
 		return GraphicsObject::InitializeGraphics();
@@ -56,7 +55,7 @@ namespace GlEngine
 		return subObjects.size() > 0;
 	}
 
-	void FbxGraphicsObject::AddSubObject(VboGraphicsObject graphicsObject)
+	void FbxGraphicsObject::AddSubObject(VboGraphicsObject* graphicsObject)
 	{
 		ScopedLock _lock(pendingMutex);
 		pending.push_back(graphicsObject);
@@ -69,7 +68,7 @@ namespace GlEngine
 		{
 			subObjects.push_back(pending[i]);
 			if (initialized)
-				pending[i].Initialize();
+				pending[i]->Initialize();
 		}
 		pending.clear();
 	}
@@ -78,6 +77,6 @@ namespace GlEngine
 	{
 		ProcessPending();
 		for (size_t i = 0; i < subObjects.size(); i++)
-			subObjects[i].Render();
+			subObjects[i]->Render();
 	}
 }
