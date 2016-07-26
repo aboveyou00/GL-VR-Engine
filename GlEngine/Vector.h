@@ -201,6 +201,23 @@ public:
         left = left * right;
     }
 
+    friend bool operator==(Vector<dimension, ElemT> &left, Vector<dimension, ElemT> &right)
+    {
+        for (size_t q = 0; q < dimension; q++)
+        {
+            if (!(left[q] == right[q])) return false;
+        }
+        return true;
+    }
+    friend bool operator!=(Vector<dimension, ElemT> &left, Vector<dimension, ElemT> &right)
+    {
+        for (size_t q = 0; q < dimension; q++)
+        {
+            if (left[q] != right[q]) return true;
+        }
+        return false;
+    }
+
     inline friend std::ostream &operator<<(std::ostream &stream, const Vector<dimension, ElemT> &vec)
     {
         stream << "(" << vec[0];
