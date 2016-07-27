@@ -10,6 +10,11 @@ namespace TileRPG
         DiskChunkProvider(const char *const path, bool readonly = false);
         ~DiskChunkProvider();
 
+        bool Initialize() override;
+        void Shutdown() override;
+
+        virtual const char * name() override;
+
         Chunk *Get(int x, int z) override;
         void Put(Chunk *chunk) override;
 
@@ -17,6 +22,7 @@ namespace TileRPG
 
     private:
         bool _readonly;
+        const char *const path;
         std::fstream *_file;
     };
 }

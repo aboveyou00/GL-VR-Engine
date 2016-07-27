@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "TileRPGGameLoop.h"
+#include "World.h"
+#include "DiskChunkProvider.h"
 
 #include "Threading.h"
 
@@ -13,7 +15,9 @@ namespace TileRPG
         : GlEngine::GameLoop(
             [&] { return this->initLoop(); },
             [&](float delta) { this->loopBody(delta); },
-            [&] { this->shutdownLoop(); }, targetFPS)
+            [&] { this->shutdownLoop(); }, targetFPS
+          ),
+          _logic(new World(new DiskChunkProvider("world")))
     {
     }
     TileRPGGameLoop::~TileRPGGameLoop()

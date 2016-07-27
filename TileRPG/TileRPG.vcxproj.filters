@@ -40,6 +40,15 @@
     <Filter Include="Source Files\CFB">
       <UniqueIdentifier>{3ec9b96b-0ebf-4863-b71a-001326243d66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Audio">
+      <UniqueIdentifier>{5edb6786-ec23-415f-9359-de15925da960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{ae85fe52-964a-4ccf-a989-bc2b791b9469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Resources">
+      <UniqueIdentifier>{b5ab7c28-d32b-42c4-b7a7-c9c1164b5fb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -150,6 +159,15 @@
     <ClInclude Include="CfbDIFATSector.h">
       <Filter>Header Files\CFB</Filter>
     </ClInclude>
+    <ClInclude Include="World_SelectorY.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World_SelectorZ.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkLoadHint.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -257,6 +275,12 @@
     <ClCompile Include="CfbFile_SectorCache.cpp">
       <Filter>Source Files\CFB</Filter>
     </ClCompile>
+    <ClCompile Include="World_SelectorY.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World_SelectorZ.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TileRPG.config">
@@ -280,18 +304,30 @@
     <None Include="Shaders\direct_light.vert.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="Audio\overworld-main.ogg" />
-    <None Include="Audio\overworld-start.ogg" />
     <None Include="Shaders\direct_light_tex.frag.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Shaders\direct_light_tex.vert.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="Audio\overworld-main.ogg">
+      <Filter>Resource Files\Audio</Filter>
+    </None>
+    <None Include="Audio\overworld-start.ogg">
+      <Filter>Resource Files\Audio</Filter>
+    </None>
+    <None Include="Resources\test.fbx">
+      <Filter>Resource Files\Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\checkers.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Textures</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Resources\suzanne.obj">
+      <Filter>Resource Files\Resources</Filter>
+    </Object>
   </ItemGroup>
 </Project>

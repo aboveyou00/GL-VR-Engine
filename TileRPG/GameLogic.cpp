@@ -1,14 +1,13 @@
 #include "stdafx.h"
 #include "GameLogic.h"
-#include "GameLoop.h"
+#include "World.h"
 #include "TileManager.h"
-
 #include "TestSceneFrame.h"
 
 namespace TileRPG
 {
-    GameLogic::GameLogic()
-        : tiles(new TileManager())
+    GameLogic::GameLogic(World *world)
+        : tiles(new TileManager()), world(world)
     {
     }
     GameLogic::~GameLogic()
@@ -27,11 +26,17 @@ namespace TileRPG
         this->PushNewFrame<TestSceneFrame>();
 
         if (!tiles->Initialize()) return false;
+        if (!world->Initialize())
+        {
+            tiles->Shutdown();
+            return false;
+        }
 
         return true;
     }
     void GameLogic::Shutdown()
     {
+        world->Shutdown();
         tiles->Shutdown();
 
         FrameStack::Shutdown();

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "World.h"
 #include "IGameComponent.h"
 
 #include "Event.h"
@@ -17,11 +16,12 @@ namespace GlEngine
 namespace TileRPG
 {
     class TileManager;
+    class World;
 
     class GameLogic : public GlEngine::FrameStack
     {
     public:
-        GameLogic();
+        GameLogic(World *world);
         ~GameLogic();
 
         bool Initialize() override;
@@ -30,7 +30,7 @@ namespace TileRPG
         const char *name() override;
 
     private:
-        World world;
+        World *world;
         TileManager *tiles;
     };
 }

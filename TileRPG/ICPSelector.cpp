@@ -3,10 +3,13 @@
 
 namespace TileRPG
 {
-    ICPSelector::ICPSelector(IChunkProvider * provider, int row)
+    ICPSelector::ICPSelector(IChunkProvider *provider, int row)
     {
         _provider = provider;
         _row = row;
+    }
+    ICPSelector::~ICPSelector()
+    {
     }
 
     Chunk *ICPSelector::operator[](int z)
