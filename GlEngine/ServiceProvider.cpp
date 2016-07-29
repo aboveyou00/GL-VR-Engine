@@ -19,7 +19,7 @@ namespace GlEngine
         }
     }
 
-    void ServiceProvider::RegisterService(IService *svc)
+    bool ServiceProvider::RegisterService(IService *svc)
     {
         ScopedLock _lock(_mutex);
         for (size_t q = 0; q < MAX_SVCS; q++)
@@ -27,8 +27,12 @@ namespace GlEngine
             if (_svcs[q] == nullptr)
             {
                 _svcs[q] = svc;
-                return;
+                return true;
             }
         }
+
+        auto logger = GetService<ILogger>();
+        if (logger != nullptr) logger->Log(LogType::Error, "Tried to register more services than the ServiceProvider can contain.");
+        return false;
     }
 }

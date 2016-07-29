@@ -11,7 +11,7 @@ namespace TileRPG
 {
     class WorldLoader;
 
-    class World : GlEngine::GameObject
+    class World : public GlEngine::GameObject
     {
     public:
         World(IChunkProvider *provider);
@@ -34,7 +34,7 @@ namespace TileRPG
 
     private:
         IChunkProvider *provider;
-        bool removedWorldLoader;
+        bool wlVectorDirty;
         std::vector<WorldLoader*> worldLoaders;
         std::vector<Chunk*> loadedChunks;
 
@@ -54,16 +54,14 @@ namespace TileRPG
         void updateWorldLoaderChunks_direct();
         void updateWorldLoaderChunks_rect(int minx, int maxx, int minz, int maxz);
         void updateWorldLoaderChunk(int x, int z);
+        void loadWorldLoaderChunk(int x, int z);
+        void saveWorldLoaderChunk(int x, int z);
         bool requiresWorldLoaderUpdate();
         bool getMinMaxChunkCoords(int &minx, int &maxx, int &minz, int &maxz, int &directPrice);
 
         inline ChunkLoadHint getChunkLoadHint(Vector<2, int> xz)
         {
             return getChunkLoadHint(xz[0], xz[1]);
-        }
-        inline Vector<2, int> getChunkCoordsFromTileCoords(Vector<2, int> xz)
-        {
-            return getChunkCoordsFromTileCoords(xz[0], xz[1]);
         }
         inline Chunk *getChunkFromTileCoords(Vector<2, int> xz)
         {
@@ -75,7 +73,6 @@ namespace TileRPG
         }
 
         ChunkLoadHint getChunkLoadHint(int x, int z);
-        Vector<2, int> getChunkCoordsFromTileCoords(int x, int z);
         Chunk *getChunkFromTileCoords(int x, int z);
         Chunk *getChunk(int chunkX, int chunkZ);
     };

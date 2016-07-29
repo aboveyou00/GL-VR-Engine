@@ -160,8 +160,8 @@
     <ClInclude Include="DirtTile.h" />
     <ClInclude Include="DiskChunkProvider.h" />
     <ClInclude Include="DockTile.h" />
+    <ClInclude Include="DummyChunkProvider.h" />
     <ClInclude Include="FlowingWaterTile.h" />
-    <ClInclude Include="GameLogic.h" />
     <ClInclude Include="IChunkProvider.h" />
     <ClInclude Include="ICPSelector.h" />
     <ClInclude Include="ITile.h" />
@@ -201,8 +201,8 @@
     <ClCompile Include="DirtTile.cpp" />
     <ClCompile Include="DiskChunkProvider.cpp" />
     <ClCompile Include="DockTile.cpp" />
+    <ClCompile Include="DummyChunkProvider.cpp" />
     <ClCompile Include="FlowingWaterTile.cpp" />
-    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="IChunkProvider.cpp" />
     <ClCompile Include="ICPSelector.cpp" />
     <ClCompile Include="Main.cpp" />

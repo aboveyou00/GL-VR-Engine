@@ -3,6 +3,10 @@
 #include "WorldLoader.h"
 #include "Chunk.h"
 
+#include "Engine.h"
+#include "ServiceProvider.h"
+#include "ILogger.h"
+
 namespace TileRPG
 {
     World::World(IChunkProvider *provider)
@@ -12,7 +16,7 @@ namespace TileRPG
               [&](float delta) { tickLoop(delta); },
               [&]() { shutdownLoop(); }
           ),
-          removedWorldLoader(false)
+          wlVectorDirty(false)
     {
         RequireTick();
     }
@@ -23,6 +27,7 @@ namespace TileRPG
     void World::RegisterWorldLoader(WorldLoader *loader)
     {
         worldLoaders.push_back(loader);
+        if (loader->GetWidth() * loader->GetDepth() != 0) wlVectorDirty = true;
     }
     void World::ReleaseWorldLoader(WorldLoader *loader)
     {
@@ -30,7 +35,7 @@ namespace TileRPG
         if (idx != worldLoaders.end())
         {
             worldLoaders.erase(idx);
-            removedWorldLoader = true;
+            if (loader->GetWidth() * loader->GetDepth() != 0) wlVectorDirty = true;
         }
     }
 
@@ -48,7 +53,7 @@ namespace TileRPG
     {
         //Stop keeping chunks loaded!
         worldLoaders.clear();
-        removedWorldLoader = true;
+        wlVectorDirty = true;
         //Force save all chunks, because now there is nothing keeping them alive!
         Tick(0);
 
@@ -86,6 +91,7 @@ namespace TileRPG
 
     bool World::initializeLoop()
     {
+        this_thread_name() = "chunkldr";
         return provider->Initialize();
     }
     void World::tickLoop(float)
@@ -108,12 +114,23 @@ namespace TileRPG
             chunkRequests.erase(chunkRequests.begin(), chunkRequests.begin() + numRequests);
         }
 
+        auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+
         static thread_local Chunk *fulfillments[MAX_REQUESTS];
         for (size_t q = 0; q < numSaveRequests; q++)
-            provider->Put(save_requests[q]);
+        {
+            auto chunk = save_requests[q];
+            logger->Log(GlEngine::LogType::Info, "Saving and releasing chunk (%d, %d)", chunk->GetX(), chunk->GetZ());
+            provider->Put(chunk);
+        }
         for (size_t q = 0; q < numRequests; q++)
-            fulfillments[q] = provider->Get(requests[q]);
+        {
+            auto rvec = requests[q];
+            logger->Log(GlEngine::LogType::Info, "Loading chunk (%d, %d)", rvec[0], rvec[1]);
+            fulfillments[q] = provider->Get(rvec);
+        }
 
+        if (numRequests > 0)
         {
             GlEngine::ScopedLock _lock(mutex);
             for (size_t q = 0; q < numRequests; q++)
@@ -144,13 +161,13 @@ namespace TileRPG
     void World::updateWorldLoaderChunks()
     {
         if (!requiresWorldLoaderUpdate()) return;
-        removedWorldLoader = false;
+        wlVectorDirty = false;
 
-        int minx, minz, maxx, maxz, directPrice;
-        if (!getMinMaxChunkCoords(minx, minz, maxx, maxz, directPrice)) return;
+        int minx, maxx, minz, maxz, directPrice;
+        if (!getMinMaxChunkCoords(minx, maxx, minz, maxz, directPrice)) return;
 
         GlEngine::ScopedLock _lock(mutex);
-        if ((maxx - minx) * (maxz - minz) > directPrice) updateWorldLoaderChunks_direct();
+        if ((maxx - minx - 1) * (maxz - minz - 1) > directPrice) updateWorldLoaderChunks_direct();
         else updateWorldLoaderChunks_rect(minx, maxx, minz, maxz);
     }
     void World::updateWorldLoaderChunks_direct()
@@ -162,7 +179,7 @@ namespace TileRPG
                  toz = wl->GetZ() + wl->GetDepth() + 1;
             for (int w = wl->GetX() - wl->GetWidth(); w < tox; w++)
                 for (int e = wl->GetZ() - wl->GetDepth(); e < toz; e++)
-                    updateWorldLoaderChunk(w, e);
+                    loadWorldLoaderChunk(w, e);
         }
         for (size_t q = 0; q < loadedChunks.size(); q++)
         {
@@ -179,24 +196,26 @@ namespace TileRPG
     void World::updateWorldLoaderChunk(int x, int z)
     {
         auto hint = getChunkLoadHint(x, z);
-        if (hint == ChunkLoadHint::LoadAndAdd)
-        {
-            if (getChunk(x, z) != nullptr) return;
-            if (std::find(chunkRequests.begin(), chunkRequests.end(), Vector<2, int> { x, z }) != chunkRequests.end()) return;
-            chunkRequests.push_back({ x, z });
-        }
-        else if (hint == ChunkLoadHint::SaveAndRemove)
-        {
-            auto chunk = getChunk(x, z);
-            if (chunk == nullptr) return;
-            auto idx = std::find(loadedChunks.begin(), loadedChunks.end(), chunk);
-            if (idx != loadedChunks.end()) loadedChunks.erase(idx);
-            chunkSaveRequests.push_back(chunk);
-        }
+        if (hint == ChunkLoadHint::LoadAndAdd) loadWorldLoaderChunk(x, z);
+        else if (hint == ChunkLoadHint::SaveAndRemove) saveWorldLoaderChunk(x, z);
+    }
+    void World::loadWorldLoaderChunk(int x, int z)
+    {
+        if (getChunk(x, z) != nullptr) return;
+        if (std::find(chunkRequests.begin(), chunkRequests.end(), Vector<2, int> { x, z }) != chunkRequests.end()) return;
+        chunkRequests.push_back({ x, z });
+    }
+    void World::saveWorldLoaderChunk(int x, int z)
+    {
+        auto chunk = getChunk(x, z);
+        if (chunk == nullptr) return;
+        auto idx = std::find(loadedChunks.begin(), loadedChunks.end(), chunk);
+        if (idx != loadedChunks.end()) loadedChunks.erase(idx);
+        chunkSaveRequests.push_back(chunk);
     }
     bool World::requiresWorldLoaderUpdate()
     {
-        if (removedWorldLoader) return true;
+        if (wlVectorDirty) return true;
         for (size_t q = 0; q < worldLoaders.size(); q++)
         {
             if (worldLoaders[q]->IsDirty()) return true;
@@ -227,11 +246,12 @@ namespace TileRPG
         for (size_t q = 0; q < worldLoaders.size(); q++)
         {
             auto wl = worldLoaders[0];
+            wl->ClearDirty();
             minx = min(minx, wl->GetX() - wl->GetWidth());
             maxx = max(maxx, wl->GetX() + wl->GetWidth() + 1);
             minz = min(minz, wl->GetZ() - wl->GetDepth());
             maxz = max(maxz, wl->GetZ() + wl->GetDepth() + 1);
-            directPrice += wl->GetWidth() * wl->GetDepth() * 4;
+            directPrice += (wl->GetWidth() * 2 + 1) * (wl->GetDepth() * 2 + 1);
         }
         for (size_t q = 0; q < loadedChunks.size(); q++)
         {
@@ -255,19 +275,9 @@ namespace TileRPG
         }
         return hint;
     }
-    Vector<2, int> World::getChunkCoordsFromTileCoords(int x, int z)
-    {
-        auto int_divide_floor = [](int a, int b) {
-            return (a / b) - (a < 0 ? 1 : 0);
-        };
-        return {
-            int_divide_floor(x, Chunk::TILES_PER_CHUNK_X),
-            int_divide_floor(z, Chunk::TILES_PER_CHUNK_Z)
-        };
-    }
     Chunk *World::getChunkFromTileCoords(int x, int z)
     {
-        return getChunk(getChunkCoordsFromTileCoords(x, z));
+        return getChunk(Chunk::getChunkCoordsFromTileCoords(x, z));
     }
     Chunk *World::getChunk(int chunkX, int chunkZ)
     {

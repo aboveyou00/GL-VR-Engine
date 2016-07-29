@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "DiskChunkProvider.h"
 #include <assert.h>
+#include "PathUtils.h"
+#include "Chunk.h"
 
 namespace TileRPG
 {
@@ -15,19 +17,10 @@ namespace TileRPG
 
     bool DiskChunkProvider::Initialize()
     {
-        int mode = std::fstream::in;
-        if (!_readonly) mode |= std::fstream::out;
-        _file = new std::fstream(path, mode);
-        return !!*_file;
+        return true;
     }
     void DiskChunkProvider::Shutdown()
     {
-        if (_file != nullptr)
-        {
-            _file->close();
-            delete _file;
-            _file = nullptr;
-        }
     }
 
     const char *DiskChunkProvider::name()
@@ -37,22 +30,52 @@ namespace TileRPG
 
     Chunk *DiskChunkProvider::Get(int x, int z)
     {
-        assert(_file && !!*_file);
+        Chunk *cachedChunk = getCache(x, z);
+        if (cachedChunk != nullptr) return cachedChunk;
 
-        x; z;
-        assert(false);
-        return nullptr;
+        int mode = std::fstream::in;
+        std::ifstream file(getChunkPath(x, z), mode);
+        if (!file || file.fail()) return putCache(createDefaultChunk(x, z));
+
+        Chunk *chunk = readChunk(file);
+        if (chunk == nullptr) chunk = createDefaultChunk(x, z);
+        return putCache(chunk);
     }
-    void DiskChunkProvider::Put(Chunk *chunk)
+    bool DiskChunkProvider::Put(Chunk *chunk)
     {
-        assert(_file && !!*_file);
+        if (_readonly) return false;
 
-        chunk;
-        assert(false);
+        int x = chunk->GetX(),
+            z = chunk->GetZ();
+
+        int mode = std::fstream::out;
+        std::ofstream file(getChunkPath(x, z), mode);
+        if (!file || file.fail()) return false;
+
+        return writeChunk(putCache(chunk), file);
     }
 
     bool DiskChunkProvider::IsReadOnly()
     {
         return _readonly;
+    }
+
+    const char *const DiskChunkProvider::getChunkPath(int x, int z)
+    {
+        static const int MAX_FNAME_BUFF = 64;
+        static thread_local char fname_buff[MAX_FNAME_BUFF];
+        sprintf_s(fname_buff, "chunk_%d_%d.txt", x, z);
+        return GlEngine::Util::combinePath(path, fname_buff);
+    }
+
+    Chunk *DiskChunkProvider::readChunk(std::istream &stream)
+    {
+        stream;
+        return nullptr;
+    }
+    bool DiskChunkProvider::writeChunk(Chunk *chunk, std::ostream &stream)
+    {
+        chunk, stream;
+        return false;
     }
 }

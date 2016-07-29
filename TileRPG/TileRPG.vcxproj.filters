@@ -49,6 +49,12 @@
     <Filter Include="Resource Files\Resources">
       <UniqueIdentifier>{b5ab7c28-d32b-42c4-b7a7-c9c1164b5fb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\World\ChunkProviders">
+      <UniqueIdentifier>{5285cc94-293f-46d7-9f20-ddb376d2fc97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\ChunkProviders">
+      <UniqueIdentifier>{29e31a92-12bb-43b2-b47e-9f0ff99fb444}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -105,16 +111,7 @@
     <ClInclude Include="CastleSpireTile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
-    <ClInclude Include="GameLogic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Chunk.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="DiskChunkProvider.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="IChunkProvider.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
     <ClInclude Include="ICPSelector.h">
@@ -167,6 +164,15 @@
     </ClInclude>
     <ClInclude Include="ChunkLoadHint.h">
       <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="IChunkProvider.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskChunkProvider.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyChunkProvider.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,20 +233,11 @@
     <ClCompile Include="Chunk.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="DiskChunkProvider.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="IChunkProvider.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
     <ClCompile Include="WorldLoader.cpp">
       <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileRPGGame.cpp">
       <Filter>Source Files</Filter>
@@ -280,6 +277,15 @@
     </ClCompile>
     <ClCompile Include="World_SelectorZ.cpp">
       <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="DiskChunkProvider.cpp">
+      <Filter>Source Files\World\ChunkProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="IChunkProvider.cpp">
+      <Filter>Source Files\World\ChunkProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyChunkProvider.cpp">
+      <Filter>Source Files\World\ChunkProviders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

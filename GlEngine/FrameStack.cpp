@@ -36,6 +36,11 @@ namespace GlEngine
         if (stackIdx != -1) _frameStack[stackIdx]->Tick(delta);
     }
 
+    const char *FrameStack::name()
+    {
+        return "FrameStack";
+    }
+
     void FrameStack::PopFrame()
     {
         //TODO: Log helpful error messages, don't crash program

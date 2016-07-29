@@ -27,6 +27,6 @@ namespace TileRPG
 
     private:
         static const int MAX_TILE_ID = 0xFF;
-        ITile *baseTiles[MAX_TILE_ID] = { nullptr };
+        ITile *baseTiles[MAX_TILE_ID];
     };
 };

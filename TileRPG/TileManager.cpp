@@ -3,10 +3,19 @@
 #include "Engine.h"
 #include "ITile.h"
 
+#include "AirTile.h"
+#include "DirtTile.h"
+
+#include "Engine.h"
+#include "ServiceProvider.h"
+#include "ILogger.h"
+
 namespace TileRPG
 {
     TileManager::TileManager()
     {
+        for (size_t q = 0; q < 0xFF; q++)
+            baseTiles[q] = nullptr;
     }
     TileManager::~TileManager()
     {
@@ -15,6 +24,9 @@ namespace TileRPG
 
     bool TileManager::Initialize()
     {
+        RegisterTile(new AirTile());
+        RegisterTile(new DirtTile());
+
         return true;
     }
     void TileManager::Shutdown()
@@ -31,12 +43,14 @@ namespace TileRPG
         auto id = tile->GetTileId();
         if ((*this)[id] != nullptr)
         {
-            //TODO: Log warning
+            auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger->Log(GlEngine::LogType::Error, "Tried to register multiple tiles with the ID %d", id);
             return false;
         }
         if (id >= MAX_TILE_ID || id < 0)
         {
-            //TODO: Log warning
+            auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger->Log(GlEngine::LogType::Error, "Tried to register a tile with ID out of bounds: %d", id);
             return false;
         }
         baseTiles[id] = tile;

@@ -23,7 +23,7 @@ namespace TileRPG
     {
         if (this->position != pos)
         {
-            if (this->size[0] * this->size[1] != 0) dirty = true;
+            if ((this->size[0] * this->size[1]) != 0) dirty = true;
             position = pos;
         }
     }
@@ -35,21 +35,21 @@ namespace TileRPG
     {
         if (this->size != size)
         {
-            if (size[0] * size[1] != 0 || this->size[0] * this->size[1] != 0) dirty = true;
+            if ((size[0] * size[1]) != 0 || (this->size[0] * this->size[1]) != 0) dirty = true;
             this->size = size;
         }
     }
 
     ChunkLoadHint WorldLoader::GetChunkLoadHint(int x, int z)
     {
-        if (x <= position[0] - (size[0] * 2)) return ChunkLoadHint::SaveAndRemove;
-        if (x >= position[0] + (size[0] * 2)) return ChunkLoadHint::SaveAndRemove;
-        if (z <= position[1] - (size[1] * 2)) return ChunkLoadHint::SaveAndRemove;
-        if (z <= position[1] + (size[1] * 2)) return ChunkLoadHint::SaveAndRemove;
+        if (x < position[0] - (size[0] * 2)) return ChunkLoadHint::SaveAndRemove;
+        if (x > position[0] + (size[0] * 2)) return ChunkLoadHint::SaveAndRemove;
+        if (z < position[1] - (size[1] * 2)) return ChunkLoadHint::SaveAndRemove;
+        if (z > position[1] + (size[1] * 2)) return ChunkLoadHint::SaveAndRemove;
         if (x < position[0] - size[0]) return ChunkLoadHint::Indeterminate;
         if (x > position[0] + size[0]) return ChunkLoadHint::Indeterminate;
         if (z < position[1] - size[1]) return ChunkLoadHint::Indeterminate;
-        if (z < position[1] + size[1]) return ChunkLoadHint::Indeterminate;
+        if (z > position[1] + size[1]) return ChunkLoadHint::Indeterminate;
         return ChunkLoadHint::LoadAndAdd;
     }
 }

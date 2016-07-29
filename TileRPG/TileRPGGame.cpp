@@ -43,7 +43,7 @@ namespace TileRPG
 
         if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
 
-        _gfxContext = new GlEngine::GraphicsContext(&_loop.GetGameLogic());
+        _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
         auto _renderTarget = new GlEngine::GlRenderTarget(_window);
         _gfxContext->AddRenderTarget(_renderTarget);

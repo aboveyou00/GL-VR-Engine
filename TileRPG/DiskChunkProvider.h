@@ -4,6 +4,11 @@
 
 namespace TileRPG
 {
+    namespace Impl
+    {
+        class DCPChunkImpl;
+    }
+
     class DiskChunkProvider : public IChunkProvider
     {
     public:
@@ -13,16 +18,19 @@ namespace TileRPG
         bool Initialize() override;
         void Shutdown() override;
 
-        virtual const char * name() override;
+        const char *name() override;
 
         Chunk *Get(int x, int z) override;
-        void Put(Chunk *chunk) override;
+        bool Put(Chunk *chunk) override;
 
         bool IsReadOnly() override;
 
     private:
         bool _readonly;
         const char *const path;
-        std::fstream *_file;
+
+        const char *const getChunkPath(int x, int z);
+        Chunk *readChunk(std::istream &stream);
+        bool writeChunk(Chunk *chunk, std::ostream &stream);
     };
 }
