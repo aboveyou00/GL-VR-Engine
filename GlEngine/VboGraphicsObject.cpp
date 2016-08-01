@@ -59,9 +59,6 @@ namespace GlEngine
     }
     void VboGraphicsObject::ShutdownGraphics()
     {
-        shader->ShutdownGraphics();
-        if (texture != nullptr) texture->ShutdownGraphics();
-
         arrayVbo.ShutdownGraphics();
         arrayVbo = VbObject();
 

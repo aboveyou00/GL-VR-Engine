@@ -33,7 +33,7 @@ namespace TileRPG
 
     int Chunk::GetMaxY()
     {
-        return (TILES_PER_MINICHUNK_Y * miniChunks.size()) - 1;
+        return TILES_PER_MINICHUNK_Y * miniChunks.size();
     }
 
     Vector<2, int> Chunk::getChunkCoordsFromTileCoords(int x, int z)
