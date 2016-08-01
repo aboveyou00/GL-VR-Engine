@@ -80,18 +80,19 @@ namespace TileRPG
     {
         logger = registerLogger();
         if (logger == nullptr) return false;
+        
+        logger->Log(GlEngine::LogType::InfoC, "Welcome to TileRPG! Beginning game initialization...");
+
         config = registerConfig();
         if (config == nullptr) return false;
 
-        logger->Log(GlEngine::LogType::InfoC, "Welcome to TileRPG! Beginning game initialization...");
-
-        if (!_loop.Initialize())
+        if (!createWindow())
         {
             logger->Log(GlEngine::LogType::FatalErrorC, "Could not initialize TileRPG. Aborting...");
             Shutdown();
             return false;
         }
-        if (!createWindow())
+        if (!_loop.Initialize())
         {
             logger->Log(GlEngine::LogType::FatalErrorC, "Could not initialize TileRPG. Aborting...");
             Shutdown();
@@ -105,8 +106,8 @@ namespace TileRPG
     {
         logger->Log(GlEngine::LogType::Info, "~Shutting down TileRPGGame...");
 
-        destroyWindow();
         _loop.Shutdown();
+        destroyWindow();
     }
 
     const char *TileRPGGame::name()
@@ -116,10 +117,12 @@ namespace TileRPG
 
     void TileRPGGame::MessageLoop()
     {
-        logger->Log(GlEngine::LogType::Info, "Beginning TileRPGGame MessageLoop...");
+        logger->Log(GlEngine::LogType::Info, "Beginning MessageLoop on thread [%s]...", this_thread_name());
 
         auto &engine = GlEngine::Engine::GetInstance();
         engine.MessageLoop();
+
+        logger->Log(GlEngine::LogType::Info, "~Terminating MessageLoop...");
     }
 
     GlEngine::ILogger *TileRPGGame::registerLogger()

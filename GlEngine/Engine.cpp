@@ -39,13 +39,13 @@ namespace GlEngine
             GetWindowManager().Shutdown();
             return false;
         }
-        if (!GetAudioController().Initialize())
-        {
-            logger.Log(LogType::FatalError, "GlEngine AlController failed to initialize, aborting!");
-            GetGlController().Shutdown();
-            GetWindowManager().Shutdown();
-            return false;
-        }
+        //if (!GetAudioController().Initialize())
+        //{
+        //    logger.Log(LogType::FatalError, "GlEngine AlController failed to initialize, aborting!");
+        //    GetGlController().Shutdown();
+        //    GetWindowManager().Shutdown();
+        //    return false;
+        //}
         if (!resources.Initialize())
         {
             logger.Log(LogType::FatalError, "GlEngine ResourceLoader failed to initialize, aborting!");
@@ -65,7 +65,7 @@ namespace GlEngine
 
         auto &resources = *serviceProvider.GetService<ResourceLoader>();
         resources.Shutdown();
-        GetAudioController().Shutdown();
+        //GetAudioController().Shutdown();
         GetGlController().Shutdown();
         GetWindowManager().Shutdown();
     }
@@ -105,7 +105,7 @@ namespace GlEngine
                 DispatchMessage(&msg);
                 if (msg.message == WM_QUIT) return;
             }
-            GetAudioController().Tick(0); //We don't need a delta here, YSE worries about its own timing
+            //GetAudioController().Tick(0); //We don't need a delta here, YSE worries about its own timing
         }
     }
 

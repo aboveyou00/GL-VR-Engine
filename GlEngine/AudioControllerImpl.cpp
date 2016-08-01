@@ -48,6 +48,7 @@ namespace GlEngine
                 auto &src = *sources.at(q);
                 src.Update();
             }
+
             YSE::System().update();
         }
 

@@ -29,7 +29,9 @@ namespace GlEngine
         std::deque<IComponent*> c_queue, complete_resources, c_shutdown_queue;
         std::deque<IGraphicsComponent*> graphics_queue, graphics_shutdown_queue;
         GameLoop _gameLoop;
+        bool initLoop();
         void loop(float delta);
+        void shutdownLoop();
 
         void clearShutdownGraphicsQueue();
         void clearShutdownQueue();

@@ -8,7 +8,12 @@
 namespace GlEngine
 {
     ResourceLoader::ResourceLoader()
-        : _gameLoop([&](float delta) { this->loop(delta); }, 15)
+        : _gameLoop(
+            [&]() { return this->initLoop(); },
+            [&](float delta) { this->loop(delta); },
+            [&]() { this->shutdownLoop(); },
+            15
+          )
     {
     }
     ResourceLoader::~ResourceLoader()
@@ -118,6 +123,13 @@ namespace GlEngine
         }
     }
 
+    bool ResourceLoader::initLoop()
+    {
+        this_thread_name() = "rscloadr";
+        auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
+        logger->Log(LogType::Info, "Beginning resource loader thread...");
+        return true;
+    }
     void ResourceLoader::loop(float)
     {
         IComponent *c;
@@ -144,6 +156,12 @@ namespace GlEngine
         }
         clearShutdownQueue();
     }
+    void ResourceLoader::shutdownLoop()
+    {
+        auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
+        logger->Log(LogType::Info, "~Terminating resource loader thread...");
+    }
+
     void ResourceLoader::clearShutdownQueue()
     {
         IComponent *c;

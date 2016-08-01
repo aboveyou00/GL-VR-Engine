@@ -8,6 +8,7 @@
 #include "Threading.h"
 
 #include "Engine.h"
+#include "AudioController.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
 
@@ -40,7 +41,6 @@ namespace TileRPG
         }
 
         RunLoop();
-        frames.PushNewFrame<TestSceneFrame>();
         return true;
     }
     void TileRPGGameLoop::Shutdown()
@@ -56,22 +56,30 @@ namespace TileRPG
 
     bool TileRPGGameLoop::initLoop()
     {
-        if (!frames.Initialize()) return false;
         this_thread_name() = "gameloop";
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
         logger->Log(GlEngine::LogType::Info, "Beginning game loop thread");
+
+        if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
+
+        if (!frames.Initialize()) return false;
+        frames.PushNewFrame<TestSceneFrame>();
+
         return true;
     }
     void TileRPGGameLoop::loopBody(float delta)
     {
         handleEvents();
         frames.Tick(delta);
+        GlEngine::Engine::GetInstance().GetAudioController().Tick(0); //We don't need a delta here, YSE worries about its own timing
     }
     void TileRPGGameLoop::shutdownLoop()
     {
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-        logger->Log(GlEngine::LogType::Info, "Terminating game loop thread");
+        logger->Log(GlEngine::LogType::Info, "~Terminating game loop thread");
+
         frames.Shutdown();
+        GlEngine::Engine::GetInstance().GetAudioController().Shutdown();
     }
     void TileRPGGameLoop::copyRemoteQueue()
     {

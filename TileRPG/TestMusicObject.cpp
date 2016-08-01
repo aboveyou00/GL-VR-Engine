@@ -31,29 +31,29 @@ namespace TileRPG
         intro = audioCtrl.CreateAudioSource();
         loop = audioCtrl.CreateAudioSource();
 
-        //if (startPath != nullptr)
-        //{
-        //    intro->SetSource(startPath);
-        //    loop->SetSource(loopPath);
+        if (startPath != nullptr)
+        {
+            intro->SetSource(startPath);
+            loop->SetSource(loopPath);
 
-        //    intro->Play(false);
-        //    intro->SetTerminationCallback([&](GlEngine::IAudioSource*) {
-        //        loop->Play(true);
-        //    });
-        //}
-        //else
-        //{
-        //    loop->SetSource(loopPath);
+            intro->Play(false);
+            intro->SetTerminationCallback([&](GlEngine::IAudioSource*) {
+                loop->Play(true);
+            });
+        }
+        else
+        {
+            loop->SetSource(loopPath);
 
-        //    loop->Play(true);
-        //}
+            loop->Play(true);
+        }
 
         return true;
     }
-    void TestMusicObject::Tick(float delta)
+    void TestMusicObject::Tick(float)
     {
-        delta;
-        //intro->SetPosition(position);
+        intro->SetPosition(position);
+        loop->SetPosition(position);
     }
     void TestMusicObject::Shutdown()
     {

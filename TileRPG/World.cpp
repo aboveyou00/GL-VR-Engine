@@ -88,7 +88,11 @@ namespace TileRPG
     {
         GameObject::UpdateGraphicsObject(ctx, object);
         auto wgo = dynamic_cast<WorldGraphicsObject*>(object);
-        if (wgo != nullptr) wgo->UpdateChunks(&loadedChunks);
+        if (wgo != nullptr)
+        {
+            GlEngine::ScopedLock _lock(mutex);
+            wgo->UpdateChunks(&loadedChunks);
+        }
     }
 
     bool World::initializeLoop()
