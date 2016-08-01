@@ -12,16 +12,26 @@
 #include "ObjGraphicsObject.h"
 #include "FbxGraphicsObject.h"
 
+#include "World.h"
+#include "WorldLoader.h"
+#include "Chunk.h"
+
 namespace TileRPG
 {
-	PlayerObject::PlayerObject()
-		: GameObject(GlEngine::GameObjectType::Object3d), upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0)
+	PlayerObject::PlayerObject(World* world)
+		: GameObject(GlEngine::GameObjectType::Object3d), upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0),
+		loader(new WorldLoader(world))
 	{
 		RequireTick(true);
 		timePassed = 0;
 	}
 	PlayerObject::~PlayerObject()
 	{
+		if (loader != nullptr)
+		{
+			delete loader;
+			loader = nullptr;
+		}
 	}
 
 	void PlayerObject::Tick(float delta)
@@ -33,6 +43,9 @@ namespace TileRPG
 		
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
 		audioCtrl.SetListenerPosition(position);
+
+		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[1]));
+		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
 	}
 	
 	const char *PlayerObject::name()

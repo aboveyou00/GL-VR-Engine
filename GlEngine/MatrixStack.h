@@ -10,7 +10,7 @@ namespace GlEngine
         MatrixStack(int gl_enum = -1);
         ~MatrixStack();
 
-        static MatrixStack &Projection;
+		static MatrixStack &Projection;
         static MatrixStack &ModelView;
 
     public:

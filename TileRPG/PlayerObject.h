@@ -4,10 +4,13 @@
 
 namespace TileRPG
 {
+	class World;
+	class WorldLoader;
+
 	class PlayerObject : public GlEngine::GameObject
 	{
 	public:
-		PlayerObject();
+		PlayerObject(World *world);
 		~PlayerObject();
 		
 		void Tick(float delta) override;
@@ -19,6 +22,8 @@ namespace TileRPG
 		GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
 	
 	private:
+		
+		WorldLoader* loader;
 		float timePassed;
 		float direction = 0;
 		bool leftPressed, rightPressed, upPressed, downPressed, inPressed, outPressed;

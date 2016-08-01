@@ -5,6 +5,10 @@
 
 namespace GlEngine
 {
+	GameObject::GameObject()
+		: GameObject(GameObjectType::Object3d)
+	{
+	}
     GameObject::GameObject(GameObjectType type, Vector<3> position, Matrix<4, 4> orientation)
         : type(type), position(position), orientation(orientation), _frame(nullptr)
     {
