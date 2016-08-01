@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Frame.h"
 #include "GameObject.h"
+#include "CameraGameObject.h"
 #include "GraphicsContext.h"
 #include "Event.h"
 

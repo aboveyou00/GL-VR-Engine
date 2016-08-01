@@ -14,7 +14,7 @@
 namespace TileRPG
 {
     TestEventObject::TestEventObject()
-        : upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0)
+        : GameObject(GlEngine::GameObjectType::Object3d), upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0)
     {
         RequireTick(true);
 		timePassed = 0;
@@ -71,7 +71,7 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        //return GlEngine::FbxGraphicsObject::Create("test.fbx");
-        return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
+        return GlEngine::FbxGraphicsObject::Create("test.fbx");
+        //return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
     }
 }

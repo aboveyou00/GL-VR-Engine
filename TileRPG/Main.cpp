@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     this_thread_name() = "main";
 
     TileRPG::TileRPGGame game;
-    
+
     if (!game.Initialize()) return -1;
     game.MessageLoop();
     game.Shutdown();

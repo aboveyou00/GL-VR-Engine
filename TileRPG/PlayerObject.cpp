@@ -1,0 +1,76 @@
+#include "stdafx.h"
+#include "PlayerObject.h"
+
+#include "Engine.h"
+
+#include "AudioController.h"
+#include "GraphicsObject.h"
+#include "GraphicsContext.h"
+
+#include "KeyboardEvent.h"
+
+#include "ObjGraphicsObject.h"
+#include "FbxGraphicsObject.h"
+
+namespace TileRPG
+{
+	PlayerObject::PlayerObject()
+		: GameObject(GlEngine::GameObjectType::Object3d), upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0)
+	{
+		RequireTick(true);
+		timePassed = 0;
+	}
+	PlayerObject::~PlayerObject()
+	{
+	}
+
+	void PlayerObject::Tick(float delta)
+	{
+		timePassed += delta;
+		auto motionVector = Vector<3>{ (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), (upPressed ? 1 : 0) + (downPressed ? -1 : 0), (outPressed ? 1 : 0) + (inPressed ? -1 : 0) };
+		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(5);
+		position += motionVector * delta;
+		
+		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
+		audioCtrl.SetListenerPosition(position);
+	}
+	
+	const char *PlayerObject::name()
+	{
+		return "PlayerObject";
+	}
+
+	void PlayerObject::HandleEvent(GlEngine::Events::Event &evt)
+	{
+		auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
+		if (kbevt == nullptr) return;
+		if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyPressed && kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyReleased) return;
+		auto pressed = kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyPressed;
+		switch (kbevt->GetVirtualKeyCode())
+		{
+		case VK_UP:
+			upPressed = pressed;
+			break;
+		case VK_DOWN:
+			downPressed = pressed;
+			break;
+		case VK_LEFT:
+			leftPressed = pressed;
+			break;
+		case VK_RIGHT:
+			rightPressed = pressed;
+			break;
+		case VK_LETTER<'q'>() :
+			inPressed = pressed;
+			break;
+		case VK_LETTER<'a'>() :
+			outPressed = pressed;
+		}
+	}
+
+	GlEngine::GraphicsObject *PlayerObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+	{
+		return GlEngine::FbxGraphicsObject::Create("test.fbx");
+		//return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
+	}
+}

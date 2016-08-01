@@ -14,7 +14,7 @@ namespace GlEngine
     class GraphicsObject;
     class FrameStack;
     using graphics_object_map = std::unordered_map<GameObject*, GraphicsObject*>;
-
+	
 	class ENGINE_SHARED GraphicsContext : public IComponent
 	{
 	public:
@@ -33,6 +33,7 @@ namespace GlEngine
 		void AddRenderTarget(GlRenderTarget * renderTarget);
 
 		void Update(const graphics_object_map &objs);
+		void UpdateCamera(GameObject*);
 		void Render();
 
         inline rt_mutex &GetMutex()

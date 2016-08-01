@@ -149,10 +149,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
+    <ClInclude Include="Body.h" />
+    <ClInclude Include="CameraGameObject.h" />
+    <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxLoader.h" />
+    <ClInclude Include="Force.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameStack.h" />
     <ClInclude Include="IAudioSource.h" />
@@ -186,6 +191,7 @@
     <ClInclude Include="KeyboardEventType.h" />
     <ClInclude Include="KeyValuePair.h" />
     <ClInclude Include="LogType.h" />
+    <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MatrixStack.h" />
     <ClInclude Include="Memory.h" />
@@ -195,12 +201,15 @@
     <ClInclude Include="ObjGraphicsObject.h" />
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="Octree.h" />
     <ClInclude Include="OpenGl.h" />
     <ClInclude Include="PathUtils.h" />
     <ClInclude Include="ResourceLoader.h" />
+    <ClInclude Include="RigidBody.h" />
     <ClInclude Include="ScopedLock.h" />
     <ClInclude Include="ServiceProvider.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Space.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Texture.h" />
@@ -220,19 +229,27 @@
     <ClInclude Include="YseAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
+    <ClCompile Include="Body.cpp" />
+    <ClCompile Include="CameraGameObject.cpp" />
+    <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
+    <ClCompile Include="Force.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />

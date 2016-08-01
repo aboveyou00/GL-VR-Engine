@@ -26,9 +26,6 @@ namespace GlEngine
 
 	bool GraphicsContext::Initialize()
 	{
-		camera.SetEye({ 0, 0, 10 });
-		camera.SetTarget({ 0, 0, 0 });
-
         _loop.RunLoop();
 		return true;
 	}
@@ -48,8 +45,20 @@ namespace GlEngine
 
 		transformedCount = 0;
 		for (auto kv : objs)
-            if (kv.second != nullptr)
-                transformed[transformedCount++] = TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation);
+		{
+			if (kv.first->type == GameObjectType::Object3d)
+			{
+				if (kv.second != nullptr)
+					transformed[transformedCount++] = TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation);
+			}
+			else if (kv.first->type == GameObjectType::Camera)
+				UpdateCamera(kv.first);
+		}
+	}
+
+	void GraphicsContext::UpdateCamera(GameObject* obj)
+	{
+		camera.SetGameObject(obj);
 	}
 
 	void GraphicsContext::AddRenderTarget(GlRenderTarget * renderTarget)

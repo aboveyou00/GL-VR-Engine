@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Camera.h"
+#include "GameObject.h"
 
 namespace GlEngine
 {
@@ -33,9 +34,9 @@ namespace GlEngine
 	{
 		return pimpl->up;
 	}
-	Vector<3> Camera::GetTarget()
+	Vector<3> Camera::GetForward()
 	{
-		return pimpl->target;
+		return pimpl->forward;
 	}
 
 	void Camera::SetEye(Vector<3> eye)
@@ -46,8 +47,13 @@ namespace GlEngine
 	{
 		pimpl->up = up;
 	}
-	void Camera::SetTarget(Vector<3> target)
+	void Camera::SetForward(Vector<3> forward)
 	{
-		pimpl->target = target;
+		pimpl->forward = forward;
+	}
+
+	void Camera::SetGameObject(GameObject* obj)
+	{
+		pimpl->gameObject = (CameraGameObject*)obj;
 	}
 }

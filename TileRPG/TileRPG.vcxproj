@@ -161,6 +161,7 @@
     <ClInclude Include="ITile.h" />
     <ClInclude Include="PathStairsTile.h" />
     <ClInclude Include="PathTile.h" />
+    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="RoadStairsTile.h" />
     <ClInclude Include="RoadTile.h" />
     <ClInclude Include="RockStairsTile.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PathStairsTile.cpp" />
     <ClCompile Include="PathTile.cpp" />
+    <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="RoadStairsTile.cpp" />
     <ClCompile Include="RoadTile.cpp" />
     <ClCompile Include="RockStairsTile.cpp" />

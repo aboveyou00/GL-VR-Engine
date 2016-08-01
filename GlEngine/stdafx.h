@@ -26,3 +26,4 @@ using namespace std::chrono_literals;
 
 //#pragma warning (disable: 4239)
 #pragma warning (disable: 4458) //declaration of 'x' hides class member
+#pragma warning (disable: 4455)

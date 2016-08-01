@@ -15,11 +15,13 @@ namespace GlEngine
 
 		Vector<3> GetEye();
 		Vector<3> GetUp();
-		Vector<3> GetTarget();
+		Vector<3> GetForward();
 
 		void SetEye(Vector<3> eye);
 		void SetUp(Vector<3> up);
-		void SetTarget(Vector<3> target);
+		void SetForward(Vector<3> forward);
+
+		void SetGameObject(GameObject* obj);
 
 		inline Impl::CameraImpl &GetImpl()
 		{

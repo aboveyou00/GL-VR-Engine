@@ -79,6 +79,18 @@
     <Filter Include="Header Files\GlEngine\Frames">
       <UniqueIdentifier>{ea8e9fcf-f78c-49e7-8d04-600aabbb5f21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GlEngine\Game">
+      <UniqueIdentifier>{6a4ed485-8900-4c58-a1e3-9b78d6f6910e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Game">
+      <UniqueIdentifier>{344937dd-b4cd-45fb-b518-9a007634337d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Physics">
+      <UniqueIdentifier>{5907d483-fcaa-49b3-96a7-6b2a29e148d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Physics">
+      <UniqueIdentifier>{f565155c-b0e2-4d92-84f1-7ee8f3b7e5ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -91,9 +103,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLoop.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
@@ -210,9 +219,6 @@
     <ClInclude Include="TransformedGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
@@ -294,12 +300,42 @@
     <ClInclude Include="ResourceLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="GameLoop.h">
+      <Filter>Header Files\GlEngine\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GlEngine\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraGameObject.h">
+      <Filter>Header Files\GlEngine\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Space.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Force.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Body.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyBody.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLoop.cpp">
       <Filter>Source Files\GlEngine</Filter>
     </ClCompile>
     <ClCompile Include="ScopedLock.cpp">
@@ -389,9 +425,6 @@
     <ClCompile Include="StringUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
     <ClCompile Include="IService.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
     </ClCompile>
@@ -448,6 +481,36 @@
     </ClCompile>
     <ClCompile Include="ResourceLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GlEngine\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLoop.cpp">
+      <Filter>Source Files\GlEngine\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraGameObject.cpp">
+      <Filter>Source Files\GlEngine\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MathUtils.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Space.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Force.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Body.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyBody.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

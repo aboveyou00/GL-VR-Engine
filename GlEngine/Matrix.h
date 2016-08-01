@@ -58,7 +58,7 @@ public:
                                      0, 0, 1, 0,
                                      x, y, z, 1 };
     }
-    static Matrix<rows, cols, ElemT> RotateMatrix(ElemT theta)
+    static Matrix<rows, cols, ElemT> Rotate2dMatrix(ElemT theta)
     {
         static_assert(rows == 3 && cols == 3, "Matrix::RotateMatrix(ElemT) can only be applied to 3*3 matrices");
         return Matrix<3, 3, ElemT> { cos(theta), -sin(theta), 0,
@@ -102,6 +102,59 @@ public:
         return result;
     }
 
+	static Matrix<rows, cols, ElemT> RotationMatrixNormalized(ElemT theta, Vector<rows - 1, ElemT> axis)
+	{
+		static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrixNormalized(ElemT) can only be applied to 4*4 matrices");
+		
+		auto u = axis[0], v = axis[1], w = axis[3];
+		auto u2 = u*u, v2 = v*v, w2 = w*w;
+		auto uv = u*v, uw = u*w, vw = v*w;
+		auto sinTheta = sin(theta);
+		auto cosTheta = cos(theta);
+		auto oneMinusCosTheta = 1 - cosTheta;
+
+		return Matrix<4, 4, ElemT> 
+		{
+			u2 + (1 - u2)*cosTheta,               uv * oneMinusCosTheta - w * sinTheta, uw * oneMinusCosTheta + v * sinTheta, 0,
+			uv * oneMinusCosTheta + w * sinTheta, v2 + (1 - v2) * cosTheta,             vw * oneMinusCosTheta - u * sinTheta, 0,
+			uw * oneMinusCosTheta - v * sinTheta, vw * oneMinusCosTheta + u * sinTheta, w2 + (1 - w2) * cosTheta,             0,
+			0,                                    0,                                    0,                                    1
+		};
+	}
+
+	static Matrix<rows, cols, ElemT> Rotate3dMatrix(ElemT radians, Vector<rows, ElemT> axis)
+	{
+		static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrix(ElemT) can only be applied to 4*4 matrices");
+		return RotationMatrixNormalized(radians, axis.Normalized());
+	}
+
+	static Matrix<rows, cols, ElemT> PitchMatrix(ElemT theta)
+	{
+		static_assert(rows == 4 && cols == 4, "Matrix::PitchMatrix(ElemT) can only be applied to 4*4 matrices");
+		return Matrix<4, 4, ElemT> { cos(theta), -sin(theta), 0, 0,
+			                         sin(theta), cos(theta),  0, 0,
+			                         0,          0,           1, 0,
+			                         0,          0,           0, 1 };
+	}
+
+	static Matrix<rows, cols, ElemT> YawMatrix(ElemT theta)
+	{
+		static_assert(rows == 4 && cols == 4, "Matrix::YawMatrix(ElemT) can only be applied to 4*4 matrices");
+		return Matrix<4, 4, ElemT> { cos(theta), 0, -sin(theta), 0,
+			                         0,          1,           0, 0,
+			                         sin(theta), 0,  cos(theta), 0,
+			                         0,          0,           0, 1 };
+	}
+
+	static Matrix<rows, cols, ElemT> RollMatrix(ElemT theta)
+	{
+		static_assert(rows == 4 && cols == 4, "Matrix::RollMatrix(ElemT) can only be applied to 4*4 matrices");
+		return Matrix<4, 4, ElemT> { 1,          0,           0, 0,
+			                         0, cos(theta), -sin(theta), 0,
+			                         0, sin(theta),  cos(theta), 0,
+			                         0,          0,           0, 1 };
+	}
+
     inline static Matrix<rows, cols, ElemT> FromVector(Vector<rows, ElemT> vec)
     {
         static_assert(cols == 1, "Matrix::FromVector cannot be called for matrices with more than one column");
@@ -122,14 +175,16 @@ public:
         return result;
     }
 
-    template <typename = std::enable_if_t<cols == 1 || rows == cols>>
+    template <typename = std::enable_if_t<rows == 1 || cols == 1 || rows == cols>>
     Vector<rows, ElemT> AsVector() const
     {
         static_assert(cols == 1 || rows == cols, "Matrix::FromVector cannot be applied for matrices unless they are square or they only have one column");
         ElemT vals[rows];
         for (auto q = 0; q < rows; q++)
         {
-            vals[q] = values[q][(rows == cols) ? q : 0];
+            vals[q] = (rows == 1) ? values[0][q] :
+				      (cols == 1) ? values[q][0] : 
+								    values[q][q];
         }
         return Vector<rows, ElemT>(vals);
     }
@@ -143,9 +198,10 @@ public:
     //    }
     //    return Vector<cols - 1, ElemT>(vals);
     //}
+
     Vector<rows - 1, ElemT> AsTranslatedVector() const
     {
-        static_assert(cols == 1, "Matrix::AsTranslatedVector cannot be called for matrices with more than one column");
+        static_assert(cols == 1, "Matrix::AsTranslatedVector cannot be called for matrices with more than one column and row");
         ElemT vals[rows - 1];
         for (auto q = 0; q < rows - 1; q++)
         {
@@ -482,7 +538,14 @@ Matrix<dim, 1, ElemT> MakeMatrix(Vector<dim, ElemT> vec)
 }
 
 template <int rows, int cols, typename ElemT = float>
-Vector<rows - 1, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<rows - 1, ElemT> &vec)
+Vector<cols, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<rows, ElemT> &vec)
+{
+	auto rhs = Matrix<cols, 1, ElemT>(vec);
+	return (mat * rhs).AsVector();
+}
+
+template <int rows, int cols, typename ElemT = float>
+Vector<cols - 1, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<rows - 1, ElemT> &vec)
 {
     auto rhs = Matrix<rows, 1, ElemT>(vec);
     auto result = mat * rhs;

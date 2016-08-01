@@ -15,7 +15,14 @@ template <unsigned dimension, typename ElemT = float>//, typename = std::enable_
 struct Vector
 {
 public:
-    template <typename... Args>
+	template <int dimension_other>
+	Vector(Vector<dimension_other> d)
+	{
+		for (auto q = 0; q < dimension_other; q++)
+			values[q] = d[q];
+	}
+	
+	template <typename... Args>
     Vector(Args... vals)
     {
         for (auto q = 0; q < dimension; q++)

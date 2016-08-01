@@ -49,7 +49,7 @@ namespace TileRPG
         _gfxContext->AddRenderTarget(_renderTarget);
 
         _gfxContext->camera.SetEye({ 0, 0, 0 });
-        _gfxContext->camera.SetTarget({ 0, 0, 1 });
+        _gfxContext->camera.SetForward({ 0, 0, 1 });
         _gfxContext->camera.SetUp({ 0, 1, 0 });
 
         if (!_gfxContext->Initialize())
