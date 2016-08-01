@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "TestSceneFrame.h"
+#include "World.h"
 
 #include "TestMusicObject.h"
 #include "PlayerObject.h"
 #include "GraphicsObject.h"
 #include "CameraGameObject.h"
+
+#include "DummyChunkProvider.h"
 
 namespace TileRPG
 {
@@ -19,7 +22,9 @@ namespace TileRPG
     {
         if (!Frame::Initialize()) return false;
 
-        auto testObject = this->CreateGameObject<PlayerObject>();
+		auto world = this->CreateGameObject<World>(new DummyChunkProvider()); //new DiskChunkProvider("world")		
+
+        auto testObject = this->CreateGameObject<PlayerObject>(world);
 		testObject->position = Vector<3>(0, 0, 0);
 
 		auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();

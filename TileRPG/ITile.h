@@ -27,6 +27,13 @@ namespace TileRPG
             return _fullBlock;
         }
 
+        virtual bool IsFlushXm();
+        virtual bool IsFlushXp();
+        virtual bool IsFlushYm();
+        virtual bool IsFlushYp();
+        virtual bool IsFlushZm();
+        virtual bool IsFlushZp();
+
     private:
         int _tileId;
         bool _solid, _fullBlock;

@@ -2,7 +2,6 @@
 
 #include "IComponent.h"
 #include "TileRPGGameLoop.h"
-#include "GameLogic.h"
 
 namespace GlEngine
 {

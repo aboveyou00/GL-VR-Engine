@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ILogger.h"
+
 namespace GlEngine
 {
     class IService;
@@ -15,17 +17,21 @@ namespace GlEngine
         ServiceProvider();
         ~ServiceProvider();
 
-        void RegisterService(IService *svc);
+        bool RegisterService(IService *svc);
         template <typename TService>
-        void RegisterService(TService *svc)
+        bool RegisterService(TService *svc)
         {
             ScopedLock _lock(_mutex);
-            assert(GetService<TService>() == nullptr);
-
             auto logger = GetService<ILogger>();
             if (logger != nullptr) logger->Log(LogType::Info, "Registering service for %s", typeid(TService).name());
+            auto previous = GetService<TService>();
+            if (previous != nullptr)
+            {
+                if (logger != nullptr) logger->Log(LogType::Error, "Attempted to register a duplicate service");
+                return false;
+            }
 
-            RegisterService((IService*)svc);
+            return RegisterService((IService*)svc);
         }
         template <typename TService>
         TService *GetService()

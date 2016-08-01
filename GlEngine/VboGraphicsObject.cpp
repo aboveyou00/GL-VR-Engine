@@ -14,8 +14,12 @@ namespace GlEngine
 	}
     VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
         : VboGraphicsObject(arrayVbo, elementVbo, nullptr, nullptr)
-	{
-	}
+    {
+    }
+    VboGraphicsObject::VboGraphicsObject(Shader *shader, Texture *texture)
+        : VboGraphicsObject(VbObject(), VbObject(), shader, texture)
+    {
+    }
 	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
 		: arrayVbo(arrayVbo), elementVbo(elementVbo), shader(shader), texture(texture), verticesFactory(nullptr), trianglesFactory(nullptr)
 	{
@@ -46,10 +50,6 @@ namespace GlEngine
             delete trianglesFactory;
         }
 
-        if (shader != nullptr && !shader->InitializeGraphics())
-            return false;
-        if (texture != nullptr && !texture->InitializeGraphics())
-            return false;
         if (!arrayVbo.InitializeGraphics())
             return false;
         if (!elementVbo.InitializeGraphics())

@@ -25,8 +25,8 @@ namespace GlEngine
         ~Frame();
 
         bool Initialize();
-        void Shutdown();
         void Tick(float delta);
+        void Shutdown();
 
         const char *name() override;
 

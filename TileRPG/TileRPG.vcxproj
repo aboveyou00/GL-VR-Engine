@@ -150,12 +150,19 @@
     <ClInclude Include="CastleSpireTile.h" />
     <ClInclude Include="CastleStairsTile.h" />
     <ClInclude Include="CastleWallTile.h" />
+    <ClInclude Include="CfbDIFATSector.h" />
+    <ClInclude Include="CfbFATSector.h" />
+    <ClInclude Include="CfbFile.h" />
+    <ClInclude Include="CfbHeader.h" />
+    <ClInclude Include="CfbStream.h" />
     <ClInclude Include="Chunk.h" />
+    <ClInclude Include="ChunkGraphicsObject.h" />
+    <ClInclude Include="ChunkLoadHint.h" />
     <ClInclude Include="DirtTile.h" />
     <ClInclude Include="DiskChunkProvider.h" />
     <ClInclude Include="DockTile.h" />
+    <ClInclude Include="DummyChunkProvider.h" />
     <ClInclude Include="FlowingWaterTile.h" />
-    <ClInclude Include="GameLogic.h" />
     <ClInclude Include="IChunkProvider.h" />
     <ClInclude Include="ICPSelector.h" />
     <ClInclude Include="ITile.h" />
@@ -167,6 +174,7 @@
     <ClInclude Include="RockStairsTile.h" />
     <ClInclude Include="RockTile.h" />
     <ClInclude Include="IStairsTile.h" />
+    <ClInclude Include="Sector.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestEventObject.h" />
     <ClInclude Include="TestMusicObject.h" />
@@ -176,21 +184,32 @@
     <ClInclude Include="TileRPGGameLoop.h" />
     <ClInclude Include="WaterTile.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="WorldGraphicsObject.h" />
     <ClInclude Include="WorldLoader.h" />
+    <ClInclude Include="World_SelectorZ.h" />
+    <ClInclude Include="World_SelectorY.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AirTile.cpp" />
     <ClCompile Include="CastleSpireTile.cpp" />
     <ClCompile Include="CastleStairsTile.cpp" />
     <ClCompile Include="CastleWallTile.cpp" />
+    <ClCompile Include="CfbFile.cpp" />
+    <ClCompile Include="CfbFile_DIFAT.cpp" />
+    <ClCompile Include="CfbFile_FAT.cpp" />
+    <ClCompile Include="CfbFile_MiniFAT.cpp" />
+    <ClCompile Include="CfbFile_SectorCache.cpp" />
+    <ClCompile Include="CfbStream.cpp" />
     <ClCompile Include="Chunk.cpp" />
+    <ClCompile Include="ChunkGraphicsObject.cpp" />
     <ClCompile Include="DirtTile.cpp" />
     <ClCompile Include="DiskChunkProvider.cpp" />
     <ClCompile Include="DockTile.cpp" />
+    <ClCompile Include="DummyChunkProvider.cpp" />
     <ClCompile Include="FlowingWaterTile.cpp" />
-    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="IChunkProvider.cpp" />
     <ClCompile Include="ICPSelector.cpp" />
+    <ClCompile Include="ITile.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PathStairsTile.cpp" />
     <ClCompile Include="PathTile.cpp" />
@@ -208,11 +227,17 @@
     <ClCompile Include="TileRPGGameLoop.cpp" />
     <ClCompile Include="WaterTile.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldGraphicsObject.cpp" />
     <ClCompile Include="WorldLoader.cpp" />
+    <ClCompile Include="World_SelectorY.cpp" />
+    <ClCompile Include="World_SelectorZ.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Audio\overworld-main.ogg" />
     <None Include="Audio\overworld-start.ogg" />
+    <None Include="Resources\test.fbx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
     <None Include="Shaders\direct_light.frag.shader" />
     <None Include="Shaders\direct_light.vert.shader" />
     <None Include="Shaders\direct_light_tex.frag.shader" />
@@ -227,6 +252,11 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\checkers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Resources\suzanne.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

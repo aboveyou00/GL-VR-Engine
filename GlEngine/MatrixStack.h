@@ -4,13 +4,14 @@
 
 namespace GlEngine
 {
-    class MatrixStack
+    class ENGINE_SHARED MatrixStack
     {
     public:
         MatrixStack(int gl_enum = -1);
         ~MatrixStack();
 
-        static MatrixStack &Projection, &ModelView;
+        static MatrixStack &Projection;
+        static MatrixStack &ModelView;
 
     public:
 

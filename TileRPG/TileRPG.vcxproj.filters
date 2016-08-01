@@ -34,11 +34,32 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{44993ca8-569f-4285-be7e-6a74baae508e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{9afbb7f3-d902-4645-9a21-6156ed0ead0e}</UniqueIdentifier>
+    <Filter Include="Header Files\CFB">
+      <UniqueIdentifier>{78434184-eeef-417c-b7cf-6545f493b82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CFB">
+      <UniqueIdentifier>{3ec9b96b-0ebf-4863-b71a-001326243d66}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Audio">
-      <UniqueIdentifier>{bdd3cd74-f7aa-4048-beba-8d9a15d38ffa}</UniqueIdentifier>
+      <UniqueIdentifier>{5edb6786-ec23-415f-9359-de15925da960}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{ae85fe52-964a-4ccf-a989-bc2b791b9469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Resources">
+      <UniqueIdentifier>{b5ab7c28-d32b-42c4-b7a7-c9c1164b5fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World\ChunkProviders">
+      <UniqueIdentifier>{5285cc94-293f-46d7-9f20-ddb376d2fc97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\ChunkProviders">
+      <UniqueIdentifier>{29e31a92-12bb-43b2-b47e-9f0ff99fb444}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World\Graphics">
+      <UniqueIdentifier>{2a04361a-99aa-4aac-a78e-5fb81229a661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Graphics">
+      <UniqueIdentifier>{88a0db7a-48f3-46fb-8763-ec7611bf710c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,16 +117,7 @@
     <ClInclude Include="CastleSpireTile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
-    <ClInclude Include="GameLogic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Chunk.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="DiskChunkProvider.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="IChunkProvider.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
     <ClInclude Include="ICPSelector.h">
@@ -134,6 +146,48 @@
     </ClInclude>
     <ClInclude Include="PlayerObject.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbFile.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbStream.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="Sector.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbHeader.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbFATSector.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="CfbDIFATSector.h">
+      <Filter>Header Files\CFB</Filter>
+    </ClInclude>
+    <ClInclude Include="World_SelectorY.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World_SelectorZ.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkLoadHint.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="IChunkProvider.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="DiskChunkProvider.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyChunkProvider.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldGraphicsObject.h">
+      <Filter>Header Files\World\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkGraphicsObject.h">
+      <Filter>Header Files\World\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -194,20 +248,11 @@
     <ClCompile Include="Chunk.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="DiskChunkProvider.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="IChunkProvider.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
     <ClCompile Include="WorldLoader.cpp">
       <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileRPGGame.cpp">
       <Filter>Source Files</Filter>
@@ -222,6 +267,48 @@
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="TestSceneFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbStream.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_DIFAT.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_FAT.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_MiniFAT.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="CfbFile_SectorCache.cpp">
+      <Filter>Source Files\CFB</Filter>
+    </ClCompile>
+    <ClCompile Include="World_SelectorY.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World_SelectorZ.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="DiskChunkProvider.cpp">
+      <Filter>Source Files\World\ChunkProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="IChunkProvider.cpp">
+      <Filter>Source Files\World\ChunkProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyChunkProvider.cpp">
+      <Filter>Source Files\World\ChunkProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldGraphicsObject.cpp">
+      <Filter>Source Files\World\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkGraphicsObject.cpp">
+      <Filter>Source Files\World\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ITile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerObject.cpp">
@@ -262,10 +349,18 @@
     <None Include="Audio\overworld-start.ogg">
       <Filter>Resource Files\Audio</Filter>
     </None>
+    <None Include="Resources\test.fbx">
+      <Filter>Resource Files\Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\checkers.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Resources\suzanne.obj">
+      <Filter>Resource Files\Resources</Filter>
+    </Object>
   </ItemGroup>
 </Project>

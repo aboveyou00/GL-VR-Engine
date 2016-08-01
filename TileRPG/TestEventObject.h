@@ -4,10 +4,13 @@
 
 namespace TileRPG
 {
+    class World;
+    class WorldLoader;
+
     class TestEventObject : public GlEngine::GameObject
     {
     public:
-        TestEventObject();
+        TestEventObject(World *world);
         ~TestEventObject();
 
         void Tick(float delta) override;
@@ -21,5 +24,6 @@ namespace TileRPG
     private:
         float timePassed;
         bool leftPressed, rightPressed, upPressed, downPressed, inPressed, outPressed;
+        WorldLoader *loader;
     };
 }

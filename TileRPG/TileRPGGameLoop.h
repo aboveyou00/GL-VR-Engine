@@ -1,8 +1,9 @@
 #pragma once
 
 #include "GameLoop.h"
-#include "GameLogic.h"
 #include "IComponent.h"
+#include "FrameStack.h"
+#include "TileManager.h"
 #include "EventQueue.h"
 
 namespace TileRPG
@@ -18,9 +19,9 @@ namespace TileRPG
 
         const char *name() override;
 
-        inline GameLogic &GetGameLogic()
+        inline GlEngine::FrameStack &GetFrameStack()
         {
-            return _logic;
+            return frames;
         }
 
     private:
@@ -32,6 +33,7 @@ namespace TileRPG
         void copyRemoteQueue();
         void handleEvents();
 
-        GameLogic _logic;
+        GlEngine::FrameStack frames;
+        TileManager *tiles;
     };
 }

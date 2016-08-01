@@ -1,9 +1,14 @@
 #include "stdafx.h"
 #include "TileRPGGameLoop.h"
+#include "World.h"
+#include "DiskChunkProvider.h"
+#include "Event.h"
+#include "TestSceneFrame.h"
 
 #include "Threading.h"
 
 #include "Engine.h"
+#include "AudioController.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
 
@@ -13,7 +18,8 @@ namespace TileRPG
         : GlEngine::GameLoop(
             [&] { return this->initLoop(); },
             [&](float delta) { this->loopBody(delta); },
-            [&] { this->shutdownLoop(); }, targetFPS)
+            [&] { this->shutdownLoop(); }, targetFPS
+          )
     {
     }
     TileRPGGameLoop::~TileRPGGameLoop()
@@ -22,7 +28,18 @@ namespace TileRPG
 
     bool TileRPGGameLoop::Initialize()
     {
-        if (!_logic.Initialize()) return false;
+        auto &services = GlEngine::Engine::GetInstance().GetServiceProvider();
+        if (services.GetService<TileManager>() == nullptr)
+        {
+            auto mgr = new TileManager();
+            if (!mgr->Initialize() || !services.RegisterService(mgr))
+            {
+                auto logger = services.GetService<GlEngine::ILogger>();
+                logger->Log(GlEngine::LogType::Error, "Failed to initialize/register a TileManager service.");
+                return false;
+            }
+        }
+
         RunLoop();
         return true;
     }
@@ -30,7 +47,6 @@ namespace TileRPG
     {
         StopLoop();
         Join();
-        _logic.Shutdown();
     }
 
     const char *TileRPGGameLoop::name()
@@ -43,17 +59,27 @@ namespace TileRPG
         this_thread_name() = "gameloop";
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
         logger->Log(GlEngine::LogType::Info, "Beginning game loop thread");
+
+        if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
+
+        if (!frames.Initialize()) return false;
+        frames.PushNewFrame<TestSceneFrame>();
+
         return true;
     }
     void TileRPGGameLoop::loopBody(float delta)
     {
         handleEvents();
-        _logic.Tick(delta);
+        frames.Tick(delta);
+        GlEngine::Engine::GetInstance().GetAudioController().Tick(0); //We don't need a delta here, YSE worries about its own timing
     }
     void TileRPGGameLoop::shutdownLoop()
     {
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-        logger->Log(GlEngine::LogType::Info, "Terminating game loop thread");
+        logger->Log(GlEngine::LogType::Info, "~Terminating game loop thread");
+
+        frames.Shutdown();
+        GlEngine::Engine::GetInstance().GetAudioController().Shutdown();
     }
     void TileRPGGameLoop::copyRemoteQueue()
     {
@@ -71,7 +97,7 @@ namespace TileRPG
         GlEngine::Events::Event *evt;
         while ((evt = localQueue.RemoveEvent()) != nullptr)
         {
-            _logic.HandleEvent(*evt);
+            frames.HandleEvent(*evt);
             delete evt;
         }
     }

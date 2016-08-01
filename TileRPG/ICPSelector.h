@@ -8,6 +8,7 @@ namespace TileRPG
     struct ICPSelector
     {
         ICPSelector(IChunkProvider *provider, int row);
+        ~ICPSelector();
 
         Chunk *operator[](int z);
 

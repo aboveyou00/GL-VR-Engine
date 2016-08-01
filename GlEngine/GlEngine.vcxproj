@@ -190,6 +190,8 @@
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="KeyboardEventType.h" />
     <ClInclude Include="KeyValuePair.h" />
+    <ClInclude Include="LodePNG\lodepng.h" />
+    <ClInclude Include="LodePNG\lodepng_util.h" />
     <ClInclude Include="LogType.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Matrix.h" />

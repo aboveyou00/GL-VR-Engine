@@ -14,7 +14,8 @@ namespace GlEngine
 	{
 	public:
 		VboGraphicsObject();
-		VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo);
+        VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo);
+        VboGraphicsObject(Shader *shader, Texture *texture);
 		VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture);
 		~VboGraphicsObject();
 

@@ -22,6 +22,8 @@ namespace GlEngine
         void Shutdown() override;
         void Tick(float delta) override;
 
+        const char *name() override;
+
         template <typename T, typename... TArgs>
         void PushNewFrame(TArgs... args)
         {

@@ -44,9 +44,9 @@ namespace GlEngine
             return _requiresGraphicsTick;
         }
 
-        virtual bool Initialize();
-        virtual void Shutdown();
-        virtual void Tick(float delta);
+        bool Initialize() override;
+        void Shutdown() override;
+        void Tick(float delta) override;
 
         virtual void AddToFrame(Frame *frame);
         virtual void RemoveFromFrame(Frame *frame);

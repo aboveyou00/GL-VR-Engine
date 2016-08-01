@@ -8,7 +8,12 @@
 namespace GlEngine
 {
     ResourceLoader::ResourceLoader()
-        : _gameLoop([&](float delta) { this->loop(delta); }, 15)
+        : _gameLoop(
+            [&]() { return this->initLoop(); },
+            [&](float delta) { this->loop(delta); },
+            [&]() { this->shutdownLoop(); },
+            15
+          )
     {
     }
     ResourceLoader::~ResourceLoader()
@@ -23,9 +28,16 @@ namespace GlEngine
     void ResourceLoader::Shutdown()
     {
         _gameLoop.StopLoop();
+
         for (size_t q = 0; q < complete_resources.size(); q++)
             complete_resources[q]->Shutdown();
         complete_resources.clear();
+
+        for (size_t q = 0; q < graphics_queue.size(); q++)
+            graphics_queue[q]->Shutdown();
+        graphics_queue.clear();
+
+        c_queue.clear();
     }
 
     const char *ResourceLoader::name()
@@ -38,6 +50,21 @@ namespace GlEngine
         ScopedLock _lock(_mutex);
         c_queue.push_back(c);
     }
+    void ResourceLoader::QueueShutdown(IComponent *c)
+    {
+        ScopedLock _lock(_mutex);
+        auto gfx = dynamic_cast<IGraphicsComponent*>(c);
+        if (gfx != nullptr)
+        {
+            graphics_shutdown_queue.push_back(gfx);
+            collection_remove(graphics_queue, gfx);
+        }
+        else c_shutdown_queue.push_back(c);
+
+        collection_remove(c_queue, c);
+        collection_remove(complete_resources, c);
+    }
+
     bool ResourceLoader::InitializeResourceGraphics()
     {
         bool worked = true;
@@ -62,6 +89,7 @@ namespace GlEngine
                 complete_resources.push_back(c);
             }
         }
+        clearShutdownGraphicsQueue();
         return worked;
     }
     void ResourceLoader::ShutdownResourceGraphics()
@@ -74,8 +102,34 @@ namespace GlEngine
             c = complete_resources.at(q);
             if ((g = dynamic_cast<IGraphicsComponent*>(c)) != nullptr) g->ShutdownGraphics();
         }
+        clearShutdownGraphicsQueue();
+    }
+    void ResourceLoader::clearShutdownGraphicsQueue()
+    {
+        for (;;)
+        {
+            IGraphicsComponent *c;
+            {
+                ScopedLock _lock(_mutex);
+                if (graphics_shutdown_queue.size() == 0) break;
+                c = graphics_shutdown_queue.at(0);
+                graphics_shutdown_queue.pop_front();
+            }
+            c->ShutdownGraphics();
+            {
+                ScopedLock _lock(_mutex);
+                c_shutdown_queue.push_back(c);
+            }
+        }
     }
 
+    bool ResourceLoader::initLoop()
+    {
+        this_thread_name() = "rscloadr";
+        auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
+        logger->Log(LogType::Info, "Beginning resource loader thread...");
+        return true;
+    }
     void ResourceLoader::loop(float)
     {
         IComponent *c;
@@ -99,6 +153,27 @@ namespace GlEngine
                 if (g != nullptr) graphics_queue.push_back(g);
                 else complete_resources.push_back(c);
             }
+        }
+        clearShutdownQueue();
+    }
+    void ResourceLoader::shutdownLoop()
+    {
+        auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
+        logger->Log(LogType::Info, "~Terminating resource loader thread...");
+    }
+
+    void ResourceLoader::clearShutdownQueue()
+    {
+        IComponent *c;
+        for (;;)
+        {
+            {
+                ScopedLock _lock(_mutex);
+                if (c_shutdown_queue.size() == 0) break;
+                c = c_shutdown_queue.at(0);
+                c_shutdown_queue.pop_front();
+            }
+            c->Shutdown();
         }
     }
 }
