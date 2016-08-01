@@ -47,8 +47,9 @@ namespace TileRPG
             z = chunk->GetZ();
 
         auto chunkPtr = &getCache(x, z);
-        if (chunkPtr == nullptr) chunkCache.push_back(chunk);
+        if (*chunkPtr == nullptr) chunkCache.push_back(chunk);
         else *chunkPtr = chunk;
+        //TODO: clean up previous chunk
 
         return chunk;
     }

@@ -11,7 +11,7 @@ namespace TileRPG
     {
     }
 
-    ITile *__SelectorZ::operator[](int z)
+    int __SelectorZ::operator[](int z)
     {
         return world->GetTileInfo(x, y, z);
     }

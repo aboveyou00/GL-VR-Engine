@@ -27,7 +27,7 @@ namespace TileRPG
         virtual const char *name() override;
 
         __SelectorY operator[](int x);
-        ITile *GetTileInfo(int tileX, int tileY, int tileZ);
+        int GetTileInfo(int tileX, int tileY, int tileZ);
 
         GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
         void UpdateGraphicsObject(GlEngine::GraphicsContext &ctx, GlEngine::GraphicsObject *object) override;

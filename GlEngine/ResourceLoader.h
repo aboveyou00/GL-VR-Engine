@@ -20,15 +20,18 @@ namespace GlEngine
         const char *name() override;
 
         void QueueResource(IComponent *c);
+        void QueueShutdown(IComponent *c);
         bool InitializeResourceGraphics();
         void ShutdownResourceGraphics();
 
     private:
         rt_mutex _mutex;
-        std::deque<IComponent*> c_queue;
-        std::deque<IGraphicsComponent*> graphics_queue;
-        std::vector<IComponent*> complete_resources;
+        std::deque<IComponent*> c_queue, complete_resources, c_shutdown_queue;
+        std::deque<IGraphicsComponent*> graphics_queue, graphics_shutdown_queue;
         GameLoop _gameLoop;
         void loop(float delta);
+
+        void clearShutdownGraphicsQueue();
+        void clearShutdownQueue();
     };
 }

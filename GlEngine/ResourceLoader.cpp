@@ -23,9 +23,16 @@ namespace GlEngine
     void ResourceLoader::Shutdown()
     {
         _gameLoop.StopLoop();
+
         for (size_t q = 0; q < complete_resources.size(); q++)
             complete_resources[q]->Shutdown();
         complete_resources.clear();
+
+        for (size_t q = 0; q < graphics_queue.size(); q++)
+            graphics_queue[q]->Shutdown();
+        graphics_queue.clear();
+
+        c_queue.clear();
     }
 
     const char *ResourceLoader::name()
@@ -38,6 +45,21 @@ namespace GlEngine
         ScopedLock _lock(_mutex);
         c_queue.push_back(c);
     }
+    void ResourceLoader::QueueShutdown(IComponent *c)
+    {
+        ScopedLock _lock(_mutex);
+        auto gfx = dynamic_cast<IGraphicsComponent*>(c);
+        if (gfx != nullptr)
+        {
+            graphics_shutdown_queue.push_back(gfx);
+            collection_remove(graphics_queue, gfx);
+        }
+        else c_shutdown_queue.push_back(c);
+
+        collection_remove(c_queue, c);
+        collection_remove(complete_resources, c);
+    }
+
     bool ResourceLoader::InitializeResourceGraphics()
     {
         bool worked = true;
@@ -62,6 +84,7 @@ namespace GlEngine
                 complete_resources.push_back(c);
             }
         }
+        clearShutdownGraphicsQueue();
         return worked;
     }
     void ResourceLoader::ShutdownResourceGraphics()
@@ -73,6 +96,25 @@ namespace GlEngine
             IGraphicsComponent *g;
             c = complete_resources.at(q);
             if ((g = dynamic_cast<IGraphicsComponent*>(c)) != nullptr) g->ShutdownGraphics();
+        }
+        clearShutdownGraphicsQueue();
+    }
+    void ResourceLoader::clearShutdownGraphicsQueue()
+    {
+        for (;;)
+        {
+            IGraphicsComponent *c;
+            {
+                ScopedLock _lock(_mutex);
+                if (graphics_shutdown_queue.size() == 0) break;
+                c = graphics_shutdown_queue.at(0);
+                graphics_shutdown_queue.pop_front();
+            }
+            c->ShutdownGraphics();
+            {
+                ScopedLock _lock(_mutex);
+                c_shutdown_queue.push_back(c);
+            }
         }
     }
 
@@ -99,6 +141,21 @@ namespace GlEngine
                 if (g != nullptr) graphics_queue.push_back(g);
                 else complete_resources.push_back(c);
             }
+        }
+        clearShutdownQueue();
+    }
+    void ResourceLoader::clearShutdownQueue()
+    {
+        IComponent *c;
+        for (;;)
+        {
+            {
+                ScopedLock _lock(_mutex);
+                if (c_shutdown_queue.size() == 0) break;
+                c = c_shutdown_queue.at(0);
+                c_shutdown_queue.pop_front();
+            }
+            c->Shutdown();
         }
     }
 }

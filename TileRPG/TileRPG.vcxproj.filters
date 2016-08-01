@@ -55,6 +55,12 @@
     <Filter Include="Source Files\World\ChunkProviders">
       <UniqueIdentifier>{29e31a92-12bb-43b2-b47e-9f0ff99fb444}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\World\Graphics">
+      <UniqueIdentifier>{2a04361a-99aa-4aac-a78e-5fb81229a661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Graphics">
+      <UniqueIdentifier>{88a0db7a-48f3-46fb-8763-ec7611bf710c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -174,6 +180,12 @@
     <ClInclude Include="DummyChunkProvider.h">
       <Filter>Header Files\World\ChunkProviders</Filter>
     </ClInclude>
+    <ClInclude Include="WorldGraphicsObject.h">
+      <Filter>Header Files\World\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ChunkGraphicsObject.h">
+      <Filter>Header Files\World\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -286,6 +298,15 @@
     </ClCompile>
     <ClCompile Include="DummyChunkProvider.cpp">
       <Filter>Source Files\World\ChunkProviders</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldGraphicsObject.cpp">
+      <Filter>Source Files\World\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ChunkGraphicsObject.cpp">
+      <Filter>Source Files\World\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ITile.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

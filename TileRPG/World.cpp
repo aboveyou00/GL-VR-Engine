@@ -2,6 +2,7 @@
 #include "World.h"
 #include "WorldLoader.h"
 #include "Chunk.h"
+#include "WorldGraphicsObject.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -72,21 +73,22 @@ namespace TileRPG
     {
         return { x, this };
     }
-    ITile *World::GetTileInfo(int tileX, int tileY, int tileZ)
+    int World::GetTileInfo(int tileX, int tileY, int tileZ)
     {
         auto chunk = getChunkFromTileCoords(tileX, tileZ);
-        if (chunk == nullptr) return nullptr;
-        return chunk->GetTileInfoGlobal(tileX, tileY, tileZ);
+        if (chunk == nullptr) return -1;
+        return (int)chunk->GetTileInfoGlobal(tileX, tileY, tileZ);
     }
 
-    GlEngine::GraphicsObject *World::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+    GlEngine::GraphicsObject *World::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        ctx;
-        return nullptr;
+        return new WorldGraphicsObject(this);
     }
     void World::UpdateGraphicsObject(GlEngine::GraphicsContext &ctx, GlEngine::GraphicsObject *object)
     {
         GameObject::UpdateGraphicsObject(ctx, object);
+        auto wgo = dynamic_cast<WorldGraphicsObject*>(object);
+        if (wgo != nullptr) wgo->UpdateChunks(&loadedChunks);
     }
 
     bool World::initializeLoop()
@@ -153,7 +155,7 @@ namespace TileRPG
             auto newChunk = chunkFulfillments[q];
             auto oldChunk = getChunk(newChunk->GetX(), newChunk->GetZ());
             assert(oldChunk == nullptr || oldChunk == newChunk);
-            loadedChunks.push_back(newChunk);
+            if (oldChunk != newChunk) loadedChunks.push_back(newChunk);
         }
         chunkFulfillments.clear();
     }

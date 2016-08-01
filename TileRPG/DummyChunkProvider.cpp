@@ -26,7 +26,7 @@ namespace TileRPG
 
     Chunk *DummyChunkProvider::Get(int x, int z)
     {
-        Chunk *cachedChunk = getCache(x, z);
+        auto &cachedChunk = getCache(x, z);
         if (cachedChunk != nullptr) return cachedChunk;
 
         return putCache(createDefaultChunk(x, z));

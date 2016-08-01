@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-    class Shader : public IGraphicsComponent
+    class ENGINE_SHARED Shader : public IGraphicsComponent
     {
     public:
         Shader();

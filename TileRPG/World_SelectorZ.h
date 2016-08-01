@@ -11,7 +11,7 @@ namespace TileRPG
         __SelectorZ(int x, int y, World *world);
         ~__SelectorZ();
 
-        ITile *operator[](int z);
+        int operator[](int z);
 
     private:
         int x, y;
