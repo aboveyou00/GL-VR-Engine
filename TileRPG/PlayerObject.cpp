@@ -44,7 +44,7 @@ namespace TileRPG
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
 		audioCtrl.SetListenerPosition(position);
 
-		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[1]));
+		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[2]));
 		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
 	}
 	
@@ -83,7 +83,7 @@ namespace TileRPG
 
 	GlEngine::GraphicsObject *PlayerObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
 	{
-		return GlEngine::FbxGraphicsObject::Create("test.fbx");
+		return GlEngine::FbxGraphicsObject::Create("Resources/test.fbx");
 		//return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
 	}
 }

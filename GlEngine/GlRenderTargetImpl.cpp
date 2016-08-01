@@ -117,9 +117,9 @@ namespace GlEngine
 
             static float theta = .5f;
             theta += .01f;
-            glUniform3f(2, sin(theta), -.5f, cos(theta));
+            glUniform3f(2, sin(theta), .5f, cos(theta));
             glUniform3f(3, .4f, .6f, 1.f);
-            glUniform3f(4, .1f, .1f, .1f);
+            glUniform3f(4, .4f, .4f, .4f);
 
             //glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
