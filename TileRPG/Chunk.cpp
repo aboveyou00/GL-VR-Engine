@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Chunk.h"
+#include "World.h"
 #include "ITile.h"
 
 namespace TileRPG
@@ -14,6 +15,14 @@ namespace TileRPG
 
     unsigned Chunk::GetTileInfo(int tileX, int tileY, int tileZ)
     {
+        auto miniChunkIdx = tileY / TILES_PER_MINICHUNK_Y;
+        return miniChunkOffset(miniChunkIdx, tileX, tileY, tileZ);
+    }
+    unsigned Chunk::GetTileInfo(World *world, int tileX, int tileY, int tileZ)
+    {
+        if (tileY < 0) return 0;
+        if (tileX < 0 || tileZ < 0 || tileX >= TILES_PER_CHUNK_X || tileZ >= TILES_PER_CHUNK_Z)
+            return world->GetTileInfo(tileX + (GetX() * TILES_PER_CHUNK_X), tileY, tileZ + (GetZ() * TILES_PER_CHUNK_Z));
         auto miniChunkIdx = tileY / TILES_PER_MINICHUNK_Y;
         return miniChunkOffset(miniChunkIdx, tileX, tileY, tileZ);
     }
@@ -39,7 +48,7 @@ namespace TileRPG
     Vector<2, int> Chunk::getChunkCoordsFromTileCoords(int x, int z)
     {
         auto int_divide_floor = [](int a, int b) {
-            return (a / b) - (a < 0 ? 1 : 0);
+            return (a < 0) ? ((a + 1) / b) - 1 : a / b;
         };
         return {
             int_divide_floor(x, Chunk::TILES_PER_CHUNK_X),

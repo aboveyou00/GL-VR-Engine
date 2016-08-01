@@ -2,6 +2,7 @@
 #include "WorldGraphicsObject.h"
 #include "ChunkGraphicsObject.h"
 #include "World.h"
+#include "Chunk.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -69,8 +70,11 @@ namespace TileRPG
             chunkGraphics.erase(toRemove[q].first);
             auto gobj = toRemove[q].second;
 
-            auto resources = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ResourceLoader>();
-            resources->QueueShutdown(gobj);
+            if (gobj != nullptr)
+            {
+                auto resources = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ResourceLoader>();
+                resources->QueueShutdown(gobj);
+            }
         }
     }
     void WorldGraphicsObject::addNewChunks(std::vector<Chunk*> &chunks)
@@ -79,11 +83,38 @@ namespace TileRPG
         {
             auto chunk = chunks[q];
             auto gobj = chunkGraphics[chunk];
-            if (gobj == nullptr) chunkGraphics[chunk] = new ChunkGraphicsObject(chunk, world);
+            if (gobj == nullptr)
+            {
+                if (!shouldRenderChunk(chunks, chunk)) continue;
+                chunkGraphics[chunk] = new ChunkGraphicsObject(chunk, world);
+            }
             else
             {
                 //TODO: Check for dirty chunks, refresh if necessary
             }
         }
+    }
+
+    bool WorldGraphicsObject::shouldRenderChunk(std::vector<Chunk*>& chunks, Chunk *chunk)
+    {
+        auto x = chunk->GetX(),
+             z = chunk->GetZ();
+        return hasChunkAt(chunks, x - 1, z - 1) &&
+               hasChunkAt(chunks, x,     z - 1) &&
+               hasChunkAt(chunks, x + 1, z - 1) &&
+               hasChunkAt(chunks, x - 1, z)     &&
+               hasChunkAt(chunks, x + 1, z)     &&
+               hasChunkAt(chunks, x - 1, z + 1) &&
+               hasChunkAt(chunks, x,     z + 1) &&
+               hasChunkAt(chunks, x + 1, z + 1);
+    }
+    bool WorldGraphicsObject::hasChunkAt(std::vector<Chunk*>& chunks, int x, int z)
+    {
+        for (size_t q = 0; q < chunks.size(); q++)
+        {
+            auto chunk = chunks[q];
+            if (chunk->GetX() == x && chunk->GetZ() == z) return true;
+        }
+        return false;
     }
 }
