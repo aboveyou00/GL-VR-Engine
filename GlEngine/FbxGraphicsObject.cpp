@@ -4,6 +4,8 @@
 #include "FbxLoader.h"
 #include <unordered_map>
 
+#include "Font.h"
+
 namespace GlEngine
 {
 	FbxGraphicsObject::FbxGraphicsObject(const char * const filename)
@@ -83,5 +85,8 @@ namespace GlEngine
 		ProcessPending();
 		for (size_t i = 0; i < subObjects.size(); i++)
 			subObjects[i]->Render();
+
+		//static auto font = Font("font.otf", 32);
+		//font.Render("Hello world!");
 	}
 }
