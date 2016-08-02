@@ -6,8 +6,6 @@ namespace TileRPG
 {
     class DockTile : public ITile
     {
-    public:
-        DockTile();
-        ~DockTile();
+        SINGLETON_TILE_H(DockTile);
     };
 }

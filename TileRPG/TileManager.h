@@ -1,22 +1,17 @@
 #pragma once
 
-#include "IService.h"
-#include "IComponent.h"
-
 namespace TileRPG
 {
     class ITile;
 
-    class TileManager : public GlEngine::IComponent, public GlEngine::IService
+    class TileManager
     {
-    public:
+    private:
         TileManager();
         ~TileManager();
 
-        bool Initialize();
-        void Shutdown();
-
-        const char *name() override;
+    public:
+        static TileManager &GetInstance();
 
         bool RegisterTile(ITile *tile);
         ITile *GetTile(int tileId);
@@ -26,6 +21,7 @@ namespace TileRPG
         }
 
     private:
+        bool initialized = false;
         static const int MAX_TILE_ID = 0xFF;
         ITile *baseTiles[MAX_TILE_ID];
     };

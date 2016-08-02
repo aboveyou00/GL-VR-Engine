@@ -6,8 +6,6 @@ namespace TileRPG
 {
     class CastleSpireTile : public ITile
     {
-    public:
-        CastleSpireTile();
-        ~CastleSpireTile();
+        SINGLETON_TILE_H(CastleSpireTile);
     };
 }

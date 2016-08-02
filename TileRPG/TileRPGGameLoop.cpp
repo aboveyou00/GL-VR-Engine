@@ -28,18 +28,6 @@ namespace TileRPG
 
     bool TileRPGGameLoop::Initialize()
     {
-        auto &services = GlEngine::Engine::GetInstance().GetServiceProvider();
-        if (services.GetService<TileManager>() == nullptr)
-        {
-            auto mgr = new TileManager();
-            if (!mgr->Initialize() || !services.RegisterService(mgr))
-            {
-                auto logger = services.GetService<GlEngine::ILogger>();
-                logger->Log(GlEngine::LogType::Error, "Failed to initialize/register a TileManager service.");
-                return false;
-            }
-        }
-
         RunLoop();
         return true;
     }

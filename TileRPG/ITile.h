@@ -1,12 +1,14 @@
 #pragma once
 
+#include "ITileMacros.h"
+
 namespace TileRPG
 {
     class ChunkGraphicsObject;
 
     class ITile
     {
-    public:
+    protected:
         ITile(int tileId, bool solid, bool fullBlock)
             : _tileId(tileId), _solid(solid), _fullBlock(fullBlock)
         {
@@ -15,31 +17,34 @@ namespace TileRPG
         {
         }
 
+    public:
         inline int GetTileId()
         {
             return _tileId;
         }
 
-        inline bool IsSolid()
+        inline bool IsSolid() const
         {
             return _solid;
         }
-        inline bool IsFullBlock()
+        inline bool IsFullBlock() const
         {
             return _fullBlock;
         }
 
-        virtual bool IsFlushXm();
-        virtual bool IsFlushXp();
-        virtual bool IsFlushYm();
-        virtual bool IsFlushYp();
-        virtual bool IsFlushZm();
-        virtual bool IsFlushZp();
+        virtual bool IsFlushXm() const;
+        virtual bool IsFlushXp() const;
+        virtual bool IsFlushYm() const;
+        virtual bool IsFlushYp() const;
+        virtual bool IsFlushZm() const;
+        virtual bool IsFlushZp() const;
 
         virtual void AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z);
 
     private:
         int _tileId;
         bool _solid, _fullBlock;
+
+        ITile *getTile(int tileId);
     };
 }

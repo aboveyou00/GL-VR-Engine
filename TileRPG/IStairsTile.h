@@ -6,7 +6,7 @@ namespace TileRPG
 {
     class IStairsTile : public ITile
     {
-    public:
+    protected:
         IStairsTile(int tileId);
         ~IStairsTile();
     };

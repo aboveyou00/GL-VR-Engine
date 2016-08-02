@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DirtTile.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
@@ -10,4 +11,6 @@ namespace TileRPG
     DirtTile::~DirtTile()
     {
     }
+
+    SINGLETON_TILE_CPP(DirtTile);
 }

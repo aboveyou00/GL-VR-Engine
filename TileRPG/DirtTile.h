@@ -6,8 +6,6 @@ namespace TileRPG
 {
     class DirtTile : public ITile
     {
-    public:
-        DirtTile();
-        ~DirtTile();
+        SINGLETON_TILE_H(DirtTile);
     };
 }

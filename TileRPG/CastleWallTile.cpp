@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CastleWallTile.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
@@ -10,4 +11,6 @@ namespace TileRPG
     CastleWallTile::~CastleWallTile()
     {
     }
+
+    SINGLETON_TILE_CPP(CastleWallTile);
 }

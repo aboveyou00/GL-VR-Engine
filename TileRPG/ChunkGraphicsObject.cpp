@@ -8,8 +8,6 @@
 #include "VBOFactory.h"
 #include "MatrixStack.h"
 
-#include "Engine.h"
-#include "ServiceProvider.h"
 #include "TileManager.h"
 
 namespace TileRPG
@@ -38,9 +36,8 @@ namespace TileRPG
         trianglesFactory = new GlEngine::VboFactory<GlEngine::VboType::UnsignedShort, Vector<3, uint16_t>>(GlEngine::BufferMode::ElementArray);
         triCount = 0;
 
-        auto tileManager = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<TileManager>();
-        assert(tileManager);
-
+        auto &tileManager = TileManager::GetInstance();
+        
         ITile *lastITile = nullptr;
         unsigned lastTile = 0;
 
@@ -54,7 +51,7 @@ namespace TileRPG
 
                     if (lastTile != tile)
                     {
-                        lastITile = tileManager->GetTile(tile);
+                        lastITile = tileManager.GetTile(tile);
                         lastTile = tile;
                     }
 

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "FlowingWaterTile.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
@@ -10,4 +11,6 @@ namespace TileRPG
     FlowingWaterTile::~FlowingWaterTile()
     {
     }
+
+    SINGLETON_TILE_CPP(FlowingWaterTile);
 }

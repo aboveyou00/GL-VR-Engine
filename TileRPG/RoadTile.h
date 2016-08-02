@@ -6,8 +6,6 @@ namespace TileRPG
 {
     class RoadTile : public ITile
     {
-    public:
-        RoadTile();
-        ~RoadTile();
+        SINGLETON_TILE_H(RoadTile);
     };
 }

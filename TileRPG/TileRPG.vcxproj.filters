@@ -66,9 +66,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TileManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ITile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
@@ -189,12 +186,15 @@
     <ClInclude Include="ChunkGraphicsObject.h">
       <Filter>Header Files\World\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="ITileMacros.h">
+      <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TileManager.h">
+      <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AirTile.cpp">
@@ -308,11 +308,14 @@
     <ClCompile Include="ChunkGraphicsObject.cpp">
       <Filter>Source Files\World\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ITile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ITile.cpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TileManager.cpp">
+      <Filter>Source Files\Tiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

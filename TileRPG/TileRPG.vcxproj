@@ -166,6 +166,7 @@
     <ClInclude Include="IChunkProvider.h" />
     <ClInclude Include="ICPSelector.h" />
     <ClInclude Include="ITile.h" />
+    <ClInclude Include="ITileMacros.h" />
     <ClInclude Include="PathStairsTile.h" />
     <ClInclude Include="PathTile.h" />
     <ClInclude Include="PlayerObject.h" />
