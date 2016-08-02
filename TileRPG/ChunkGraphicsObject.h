@@ -25,6 +25,15 @@ namespace TileRPG
         
         const char *name() override;
 
+        inline Chunk &GetChunk()
+        {
+            return *chunk;
+        }
+        inline World &GetWorld()
+        {
+            return *world;
+        }
+
     private:
         Matrix<4, 4> transformationMatrix;
         Chunk *chunk;

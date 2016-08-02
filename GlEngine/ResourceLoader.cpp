@@ -47,11 +47,15 @@ namespace GlEngine
 
     void ResourceLoader::QueueResource(IComponent *c)
     {
+        assert(c != nullptr);
+
         ScopedLock _lock(_mutex);
         c_queue.push_back(c);
     }
     void ResourceLoader::QueueShutdown(IComponent *c)
     {
+        assert(c != nullptr);
+
         ScopedLock _lock(_mutex);
         auto gfx = dynamic_cast<IGraphicsComponent*>(c);
         if (gfx != nullptr)

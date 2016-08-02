@@ -3,6 +3,7 @@
 namespace TileRPG
 {
     class ITile;
+    class World;
 
     class Chunk
     {
@@ -26,9 +27,10 @@ namespace TileRPG
             assert(tileX < TILES_PER_CHUNK_X * (GetX() + 1));
             assert(tileZ >= TILES_PER_CHUNK_Z * GetZ());
             assert(tileZ < TILES_PER_CHUNK_Z * (GetZ() + 1));
-            return GetTileInfo(tileX % TILES_PER_CHUNK_X, tileY, tileZ % TILES_PER_CHUNK_Z);
+            return GetTileInfo(tileX - (GetX() * TILES_PER_CHUNK_X), tileY, tileZ - (GetZ() * TILES_PER_CHUNK_Z));
         }
         unsigned GetTileInfo(int tileX, int tileY, int tileZ);
+        unsigned GetTileInfo(World *world, int tileX, int tileY, int tileZ);
         inline void SetTileInfoGlobal(int tileX, int tileY, int tileZ, ITile *tile)
         {
             assert(tileX >= TILES_PER_CHUNK_X * GetX());

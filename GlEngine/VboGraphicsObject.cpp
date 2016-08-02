@@ -21,12 +21,35 @@ namespace GlEngine
     {
     }
 	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
-		: arrayVbo(arrayVbo), elementVbo(elementVbo), shader(shader), texture(texture), verticesFactory(nullptr), trianglesFactory(nullptr)
+		: arrayVbo(arrayVbo),
+          elementVbo(elementVbo),
+          shader(shader),
+          texture(texture),
+          verticesFactory(nullptr),
+          trianglesFactory(nullptr),
+          triCount(0),
+          quadCount(0),
+          elemIdx(0)
 	{
 	}
 	VboGraphicsObject::~VboGraphicsObject()
 	{
 	}
+
+    int VboGraphicsObject::AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal)
+    {
+        //TODO: cache/check if this vertex already exists in the cache
+        verticesFactory->AddVertex(position, texCoord, normal);
+        return elemIdx++;
+    }
+    void VboGraphicsObject::AddTriangle(Vector<3, uint16_t> indices)
+    {
+        assert(indices[0] < elemIdx);
+        assert(indices[1] < elemIdx);
+        assert(indices[2] < elemIdx);
+        trianglesFactory->AddVertex(indices);
+        triCount++;
+    }
 
 	bool VboGraphicsObject::Initialize()
 	{
@@ -59,9 +82,6 @@ namespace GlEngine
     }
     void VboGraphicsObject::ShutdownGraphics()
     {
-        shader->ShutdownGraphics();
-        if (texture != nullptr) texture->ShutdownGraphics();
-
         arrayVbo.ShutdownGraphics();
         arrayVbo = VbObject();
 

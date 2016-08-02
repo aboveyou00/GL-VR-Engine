@@ -2,6 +2,8 @@
 
 namespace TileRPG
 {
+    class ChunkGraphicsObject;
+
     class ITile
     {
     public:
@@ -33,6 +35,8 @@ namespace TileRPG
         virtual bool IsFlushYp();
         virtual bool IsFlushZm();
         virtual bool IsFlushZp();
+
+        virtual void AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z);
 
     private:
         int _tileId;

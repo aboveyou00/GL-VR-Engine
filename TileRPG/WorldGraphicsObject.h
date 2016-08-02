@@ -34,5 +34,8 @@ namespace TileRPG
 
         void removeOldChunks(std::vector<Chunk*> &chunks);
         void addNewChunks(std::vector<Chunk*> &chunks);
+
+        bool shouldRenderChunk(std::vector<Chunk*> &chunks, Chunk *chunk);
+        bool hasChunkAt(std::vector<Chunk*> &chunks, int x, int z);
     };
 }
