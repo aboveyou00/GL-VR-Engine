@@ -187,27 +187,21 @@ public:
     }
     friend Vector<dimension, ElemT> &operator*=(Vector<dimension, ElemT> &left, ElemT right)
     {
-        for (auto q = 0; q < dimension; q++)
-            left.values[q] *= right;
-        return left;
+		return (left = left * right);
     }
+	friend Vector<dimension, ElemT> &operator/=(Vector<dimension, ElemT> &left, ElemT right)
+	{
+		return (left = left / right);
+	}
     friend Vector<dimension, ElemT> &operator+=(Vector<dimension, ElemT> &left, const Vector<dimension, ElemT> &right)
-    {
-        for (auto q = 0; q < dimension; q++)
-            left.values[q] += right[q];
-        return left;
+	{
+        return (left = left + right);
     }
     friend Vector<dimension, ElemT> &operator-=(Vector<dimension, ElemT> &left, const Vector<dimension, ElemT> &right)
     {
-        for (auto q = 0; q < dimension; q++)
-            left.values[q] -= right[q];
-        return left;
+        return (left = left - right);
     }
-    friend Vector<dimension, ElemT> &operator*=(Vector<dimension, ElemT> &left, const Vector<dimension, ElemT> &right)
-    {
-        left = left * right;
-    }
-
+    
     friend bool operator==(Vector<dimension, ElemT> &left, Vector<dimension, ElemT> &right)
     {
         for (size_t q = 0; q < dimension; q++)

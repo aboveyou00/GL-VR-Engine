@@ -4,6 +4,7 @@
 #include "EngineShared.h"
 #include "Actor.h"
 #include "Octree.h"
+#include "CollisionGroup.h"
 
 namespace GlEngine
 {
@@ -21,12 +22,12 @@ namespace GlEngine
 		void Tick(float delta);
 
 		static const int maxElement = 2048;
-		Actor elements[maxElement];
+		Actor * elements[maxElement];
 		int nextEmptyActor = 0;
 
-		Octree<Actor> octree;
+		std::vector<CollisionGroup*> collisionGroups;
 
-		void Add(Actor actor);
+		void Add(Actor * actor);
 		void ManageCollisions();
 	};
 }

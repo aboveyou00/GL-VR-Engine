@@ -39,7 +39,7 @@ namespace TileRPG
 		timePassed += delta;
 		auto motionVector = Vector<3>{ (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), (upPressed ? 1 : 0) + (downPressed ? -1 : 0), (outPressed ? 1 : 0) + (inPressed ? -1 : 0) };
 		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(5);
-		position += motionVector * delta;
+		position += motionVector * delta * 10;
 		
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
 		audioCtrl.SetListenerPosition(position);
