@@ -91,14 +91,20 @@
     <Filter Include="Source Files\GlEngine\Physics">
       <UniqueIdentifier>{f565155c-b0e2-4d92-84f1-7ee8f3b7e5ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\LodePNG">
+      <UniqueIdentifier>{57e54d08-c23a-44dd-b558-d4f75e4a9faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LodePNG">
+      <UniqueIdentifier>{bb927968-d7fd-4d3d-925a-f817b5be9a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\stdafx">
+      <UniqueIdentifier>{29dc3bc6-ad0b-4999-8c7e-490bcd067512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\stdafx">
+      <UniqueIdentifier>{1abaa9ed-59e1-43f0-ad71-1bbc549a1209}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Threading.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="GlRenderTargetImpl.h">
       <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineShared.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\GlEngine\Events</Filter>
@@ -164,9 +167,6 @@
     </ClInclude>
     <ClInclude Include="IAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="FixWindows.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyValuePair.h">
       <Filter>Header Files\GlEngine\Util</Filter>
@@ -231,9 +231,6 @@
     <ClInclude Include="AudioControllerImpl.h">
       <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
-    <ClInclude Include="Memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VbObject.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
@@ -257,9 +254,6 @@
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VectorVboAttribs.h">
-      <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
     <ClInclude Include="ObjLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
@@ -287,15 +281,6 @@
     </ClInclude>
     <ClInclude Include="FbxLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphicsComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MatrixStack.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
@@ -333,12 +318,6 @@
     <ClInclude Include="Octree.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="LodePNG\lodepng.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LodePNG\lodepng_util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
@@ -356,6 +335,39 @@
     </ClInclude>
     <ClInclude Include="BoxBody.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="LodePNG\lodepng.h">
+      <Filter>Header Files\LodePNG</Filter>
+    </ClInclude>
+    <ClInclude Include="LodePNG\lodepng_util.h">
+      <Filter>Header Files\LodePNG</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="FixWindows.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineShared.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphicsComponent.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixStack.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="vbo_attribs_Vector.h">
+      <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -397,9 +409,6 @@
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
       <Filter>Source Files\GlEngine\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Threading.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyValuePair.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
@@ -494,15 +503,6 @@
     <ClCompile Include="FbxLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LodePNG\lodepng.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MatrixStack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
@@ -550,6 +550,18 @@
     </ClCompile>
     <ClCompile Include="BoxBody.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="LodePNG\lodepng.cpp">
+      <Filter>Source Files\LodePNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Threading.cpp">
+      <Filter>Source Files\stdafx</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixStack.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

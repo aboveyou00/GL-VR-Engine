@@ -4,7 +4,7 @@
 namespace GlEngine
 {
     YseAudioSource::YseAudioSource()
-        : sound(nullptr), isPlaying(false), soundStarted(false)
+        : sound(nullptr), isPlaying(false), soundStarted(false), source(nullptr)
     {
     }
     YseAudioSource::~YseAudioSource()
@@ -19,14 +19,19 @@ namespace GlEngine
 
     void YseAudioSource::SetSource(const char *const filename)
     {
+        if (filename == source || (filename != nullptr && source != nullptr && strcmp(filename, source) == 0)) return;
         if (sound != nullptr)
         {
             Stop();
             delete sound;
             sound = nullptr;
         }
-        sound = new YSE::sound();
-        sound->create(filename);
+        source = filename;
+        if (filename != nullptr)
+        {
+            sound = new YSE::sound();
+            sound->create(filename);
+        }
     }
     void YseAudioSource::SetPosition(Vector<3> &position)
     {
@@ -36,6 +41,7 @@ namespace GlEngine
     {
         vel = velocity;
     }
+
     bool YseAudioSource::Play(bool loop)
     {
         if (sound != nullptr && sound->isValid())
@@ -56,6 +62,16 @@ namespace GlEngine
             else sound->stop();
             isPlaying = false;
         }
+    }
+    void YseAudioSource::SetLoop(bool loop)
+    {
+        assert(sound != nullptr);
+        sound->setLooping(loop);
+    }
+
+    bool YseAudioSource::IsPlaying()
+    {
+        return isPlaying;
     }
 
     void YseAudioSource::Update()

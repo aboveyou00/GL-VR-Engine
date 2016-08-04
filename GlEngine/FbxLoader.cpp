@@ -66,7 +66,7 @@ namespace GlEngine
 		{
 			Vector<3> position; Vector<2> texCoord; Vector<3> normal;
 			std::tie(position, texCoord, normal) = vertex;
-			verticesFactory->AddVertex(position, texCoord, normal);
+			verticesFactory->AddVertex(position, texCoord, normal, false);
 		}
 
 		auto trianglesFactory = new VboFactory<VboType::UnsignedShort, Vector<3, uint16_t>>(BufferMode::ElementArray);

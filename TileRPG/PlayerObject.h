@@ -2,6 +2,11 @@
 
 #include "GameObject.h"
 
+namespace GlEngine
+{
+    class IAudioSource;
+}
+
 namespace TileRPG
 {
 	class World;
@@ -13,6 +18,7 @@ namespace TileRPG
 		PlayerObject(World *world);
 		~PlayerObject();
 		
+        bool Initialize() override;
 		void Tick(float delta) override;
 
 		const char *name() override;
@@ -20,9 +26,9 @@ namespace TileRPG
 		void HandleEvent(GlEngine::Events::Event &evt) override;
 
 		GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
-	
+
 	private:
-		
+        GlEngine::IAudioSource *footsteps;
 		WorldLoader* loader;
 		float timePassed;
 		float direction = 0;

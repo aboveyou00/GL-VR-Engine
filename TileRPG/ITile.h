@@ -41,6 +41,8 @@ namespace TileRPG
 
         virtual void AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z);
 
+        virtual const char *footstep_sound();
+
     private:
         int _tileId;
         bool _solid, _fullBlock;

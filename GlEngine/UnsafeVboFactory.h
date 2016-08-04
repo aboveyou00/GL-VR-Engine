@@ -15,7 +15,7 @@ namespace GlEngine
     template <VboType type = VboType::Float, unsigned attribCount = 1>
     class UnsafeVboFactory
     {
-    private:
+    protected:
         typedef typename vbo_type_attribs<type>::type el_type;
 
     public:
@@ -43,20 +43,37 @@ namespace GlEngine
             data.reserve(vertexCount * attribCount);
         }
 
-        void AddVertex(el_type *elements, unsigned count)
+        int AddVertex(el_type *elements, unsigned count, bool checkCache = false)
         {
+            assert(!checkCache);
+            //if (checkCache)
+            //    for (size_t q = 0; q < elemIdx; q++)
+            //    {
+            //        for (size_t w = 0; w < min(count, vertexSize); w++)
+            //        {
+            //            if (data[(q * vertexSizeInElements) + w] != elements[w]) goto continue_cache;
+            //        }
+            //        for (size_t w = count; w < vertexSize; w++)
+            //        {
+            //            if (data[(q * vertexSizeInElements) + w] != 0) goto continue_cache;
+            //        }
+            //        return q;
+            //    continue_cache:
+            //    }
+
             for (size_t q = 0; q < min(count, vertexSize); q++)
             {
                 data.push_back(elements[q]);
             }
-            for (size_t q = min(count, vertexSize); q < vertexSize; q++)
+            for (size_t q = count; q < vertexSize; q++)
             {
                 data.push_back(0.f);
             }
+            return elemIdx++;
         }
-        void AddVertex(el_type *elements)
+        int AddVertex(el_type *elements, bool checkCache = false)
         {
-            AddVertex(elements, vertexSizeInElements);
+            return AddVertex(elements, vertexSizeInElements, checkCache);
         }
 
         VbObject Compile()
@@ -67,12 +84,12 @@ namespace GlEngine
 
     protected:
         std::vector<el_type> data;
-
-    private:
         unsigned vertexSizeInElements = 0;
         BufferMode currentMode;
 
+    private:
         unsigned attribIdx = 0;
+        int elemIdx = 0;
         Impl::attribute_descriptor attribs[attribCount];
     };
 }

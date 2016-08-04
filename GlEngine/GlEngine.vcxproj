@@ -231,7 +231,7 @@
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="VectorVboAttribs.h" />
+    <ClInclude Include="vbo_attribs_Vector.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
     <ClInclude Include="YseAudioSource.h" />

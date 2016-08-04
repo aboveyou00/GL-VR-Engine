@@ -38,6 +38,7 @@ namespace TileRPG
                 chunk->SetTileInfo(q, 8, w, (rand() % 10 < 2) ? dirt : air);
                 chunk->SetTileInfo(q, 9, w, (rand() % 10 < 1) ? dirt : air);
             }
+
         return chunk;
     }
     Chunk *&IChunkProvider::getCache(int x, int z)

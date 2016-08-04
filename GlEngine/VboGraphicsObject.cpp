@@ -38,8 +38,7 @@ namespace GlEngine
 
     int VboGraphicsObject::AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal)
     {
-        //TODO: cache/check if this vertex already exists in the cache
-        verticesFactory->AddVertex(position, texCoord, normal);
+        verticesFactory->AddVertex(position, texCoord, normal, false);
         return elemIdx++;
     }
     void VboGraphicsObject::AddTriangle(Vector<3, uint16_t> indices)

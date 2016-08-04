@@ -114,6 +114,11 @@ namespace TileRPG
         }
     }
 
+    const char *ITile::footstep_sound()
+    {
+        return "Audio/footstep-grass.wav";
+    }
+
     ITile *ITile::getTile(int tileId)
     {
         auto &tileManager = TileManager::GetInstance();

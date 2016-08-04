@@ -100,7 +100,7 @@ namespace GlEngine
 		{
 			Vector<3> position; Vector<2> texCoord; Vector<3> normal;
 			std::tie(position, texCoord, normal) = vertex;
-            out->verticesFactory->AddVertex(position, texCoord, normal);
+            out->verticesFactory->AddVertex(position, texCoord, normal, false);
 		}
 
 		//TODO: dynamically choose VboType based on size
