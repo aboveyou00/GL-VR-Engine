@@ -124,7 +124,8 @@ namespace TileRPG
 		case VK_LETTER<'a'>() :
 			outPressed = pressed;
 		case VK_SPACE:
-			Jump();
+			if (pressed)
+				Jump();
 		}
 	}
 
