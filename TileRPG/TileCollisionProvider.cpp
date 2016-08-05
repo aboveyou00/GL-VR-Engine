@@ -24,7 +24,7 @@ namespace TileRPG
 	GlEngine::Body * TileCollisionProvider::GetBody(int x, int y, int z)
 	{
 		int tile = world->GetTileInfo(x, y, z);
-		auto tileManager = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<TileManager>();
+        auto &tileManager = TileManager::GetInstance();
 
 		if (currentBody != nullptr)
 			delete currentBody;
