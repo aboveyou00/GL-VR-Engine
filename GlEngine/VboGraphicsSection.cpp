@@ -44,7 +44,7 @@ namespace GlEngine
             if (triCount > 0)
             {
                 auto vec = tris->at(0);
-                triOffset = OFFSET_PTR(uint16_t, face_factory->AddVertex(vec[0]));
+                triOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
                 face_factory->AddVertex(vec[1]);
                 face_factory->AddVertex(vec[2]);
                 for (int q = 1; q < triCount; q++)
@@ -58,7 +58,7 @@ namespace GlEngine
             if (quadCount > 0)
             {
                 auto vec = quads->at(0);
-                quadOffset = OFFSET_PTR(uint16_t, face_factory->AddVertex(vec[0]));
+                quadOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
                 face_factory->AddVertex(vec[1]);
                 face_factory->AddVertex(vec[2]);
                 face_factory->AddVertex(vec[3]);
@@ -86,8 +86,8 @@ namespace GlEngine
             GraphicsObject::Render();
             if (*this)
             {
-                if (triCount) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), triOffset);
-                if (quadCount) glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), quadOffset);
+                if (triCount) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                if (quadCount) glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
             }
         }
 
