@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "VboGraphicsObject.h"
 #include "VboFactory.h"
-
-#include "Shader.h"
-#include "Texture.h"
-#include "OpenGl.h"
+#include "VboGraphicsSection.h"
 
 namespace GlEngine
 {
@@ -12,44 +9,58 @@ namespace GlEngine
         : VboGraphicsObject(VbObject(), VbObject())
 	{
 	}
-    VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
-        : VboGraphicsObject(arrayVbo, elementVbo, nullptr, nullptr)
-    {
-    }
-    VboGraphicsObject::VboGraphicsObject(Shader *shader, Texture *texture)
-        : VboGraphicsObject(VbObject(), VbObject(), shader, texture)
-    {
-    }
-	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
+	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
 		: arrayVbo(arrayVbo),
           elementVbo(elementVbo),
-          shader(shader),
-          texture(texture),
-          verticesFactory(nullptr),
-          trianglesFactory(nullptr),
-          triCount(0),
-          quadCount(0),
-          elemIdx(0)
+          finalized(!!(arrayVbo && elementVbo)),
+          elemIdx(0),
+          currentGraphicsSection(nullptr),
+          verticesFactory(finalized ? nullptr : new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array)),
+          facesFactory(finalized ? nullptr : new VboFactory<VboType::UnsignedShort, uint16_t>(BufferMode::ElementArray))
 	{
 	}
 	VboGraphicsObject::~VboGraphicsObject()
 	{
 	}
 
+    void VboGraphicsObject::SetGraphics(Shader *shader, Texture *texture)
+    {
+        assert(!finalized);
+        if (currentGraphicsSection != nullptr && currentGraphicsSection->HasGraphics(shader, texture)) return;
+        for (size_t q = 0; q < graphicsSections.size(); q++)
+            if (graphicsSections[q]->HasGraphics(shader, texture))
+            {
+                currentGraphicsSection = graphicsSections[q];
+                return;
+            }
+        graphicsSections.push_back(currentGraphicsSection = new Impl::VboGraphicsSection(shader, texture));
+    }
+
     int VboGraphicsObject::AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal)
     {
+        assert(!finalized);
         verticesFactory->AddVertex(position, texCoord, normal, false);
         return elemIdx++;
     }
     void VboGraphicsObject::AddTriangle(Vector<3, uint16_t> indices)
     {
+        assert(!finalized);
+        assert(currentGraphicsSection != nullptr);
         assert(indices[0] < elemIdx);
         assert(indices[1] < elemIdx);
         assert(indices[2] < elemIdx);
-        trianglesFactory->AddVertex(indices);
-        triCount++;
+        currentGraphicsSection->AddTriangle(indices);
     }
-
+    void VboGraphicsObject::AddQuad(Vector<4, uint16_t> indices)
+    {
+        assert(!finalized);
+        assert(indices[0] < elemIdx);
+        assert(indices[1] < elemIdx);
+        assert(indices[2] < elemIdx);
+        assert(indices[3] < elemIdx);
+        currentGraphicsSection->AddQuad(indices);
+    }
+    
 	bool VboGraphicsObject::Initialize()
 	{
 		return true;
@@ -59,6 +70,9 @@ namespace GlEngine
     }
     bool VboGraphicsObject::InitializeGraphics()
     {
+        if (finalized) return false;
+        finalized = true;
+
         if (!arrayVbo)
         {
             if (verticesFactory == nullptr) return false;
@@ -67,17 +81,14 @@ namespace GlEngine
         }
         if (!elementVbo)
         {
-            if (trianglesFactory == nullptr) return false;
-            elementVbo = trianglesFactory->Compile();
-            delete trianglesFactory;
+            if (facesFactory == nullptr) return false;
+            for (size_t q = 0; q < graphicsSections.size(); q++)
+                graphicsSections[q]->Finalize(facesFactory);
+            elementVbo = facesFactory->Compile();
+            delete facesFactory;
         }
 
-        if (!arrayVbo.InitializeGraphics())
-            return false;
-        if (!elementVbo.InitializeGraphics())
-            return false;
-
-        return true;
+        return arrayVbo.InitializeGraphics() && elementVbo.InitializeGraphics();
     }
     void VboGraphicsObject::ShutdownGraphics()
     {
@@ -100,19 +111,18 @@ namespace GlEngine
 		{
 			arrayVbo.MakeCurrent();
 			elementVbo.MakeCurrent();
-			if (shader != nullptr && *shader) shader->MakeCurrent();
-            if (texture != nullptr && *texture) texture->MakeCurrent();
 		}
 	}
-
 	void VboGraphicsObject::Render()
 	{
 		GraphicsObject::Render();
-		if (*this) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), nullptr);
+        if (*this)
+            for (size_t q = 0; q < graphicsSections.size(); q++)
+                graphicsSections[q]->Render();
 	}
 
     VboGraphicsObject::operator bool()
     {
-        return arrayVbo && elementVbo;
+        return finalized && arrayVbo && elementVbo;
     }
 }

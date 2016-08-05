@@ -63,7 +63,7 @@ namespace TileRPG
         }
 
         tile = (y == 0) ? nullptr : getTile(chunk.GetTileInfo(world, x, y - 1, z));
-        if (tile == nullptr || !tile->IsFlushYp())
+        if (y != 0 && (tile == nullptr || !tile->IsFlushYp()))
         {
             //TODO: Do I really need Ym? Ever? This may just be wasted tris
             //Render face Ym

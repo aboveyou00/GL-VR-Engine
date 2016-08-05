@@ -35,6 +35,8 @@ namespace GlEngine
 
     Shader *Shader::Create(const char *shader_path, const char *shader_name)
     {
+        if (shader_name == nullptr || shader_name[0] == '\0') return nullptr;
+
         auto hashed = ([](const char *str1, const char *str2) {
             int h = 2;
             while (*str1)

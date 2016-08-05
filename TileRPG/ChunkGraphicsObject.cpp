@@ -13,11 +13,7 @@
 namespace TileRPG
 {
     ChunkGraphicsObject::ChunkGraphicsObject(Chunk *chunk, World *world)
-        : VboGraphicsObject(
-            GlEngine::Shader::Create("Shaders", "direct_light_tex"),
-            GlEngine::Texture::FromFile("Textures/dirt.png")
-          ),
-          chunk(chunk), world(world)
+        : chunk(chunk), world(world)
     {
     }
     ChunkGraphicsObject::~ChunkGraphicsObject()
@@ -32,9 +28,9 @@ namespace TileRPG
             chunk->GetZ() * Chunk::TILES_PER_CHUNK_Z
         });
 
-        verticesFactory = new GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>, Vector<2>, Vector<3>>(GlEngine::BufferMode::Array);
-        trianglesFactory = new GlEngine::VboFactory<GlEngine::VboType::UnsignedShort, Vector<3, uint16_t>>(GlEngine::BufferMode::ElementArray);
-        triCount = 0;
+        auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
+        auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
+        SetGraphics(shader, texture);
 
         auto &tileManager = TileManager::GetInstance();
         

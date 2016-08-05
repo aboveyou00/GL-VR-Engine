@@ -18,15 +18,15 @@ namespace GlEngine
     {
     }
     ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
-        : VboGraphicsObject(arrayVbo, elementVbo, shader, texture), filename(filename)
+        : ObjGraphicsObject(filename, arrayVbo, elementVbo)
     {
+        SetGraphics(shader, texture);
     }
 
     ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, const char *shader_path, const char *shader_name, const char *texture_filename)
     {
         Shader *shader = Shader::Create(shader_path, shader_name);
-        Texture *texture = texture_filename == nullptr || texture_filename[0] == '\0' ? nullptr :
-                           Texture::FromFile(texture_filename);
+        Texture *texture = Texture::FromFile(texture_filename);
 
         auto hashed = ([](const char *str, void *shader, void *texture) {
             int h = 0;

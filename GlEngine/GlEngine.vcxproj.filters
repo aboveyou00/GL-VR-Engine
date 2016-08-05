@@ -19,9 +19,6 @@
     <Filter Include="Source Files\GlEngine">
       <UniqueIdentifier>{44dcc902-aeb1-44dc-8b6c-a0fa76e0ff05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GlEngine\Impl">
-      <UniqueIdentifier>{6adad3ce-caf6-4aee-b200-ff3fc742c3e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GlEngine\Events">
       <UniqueIdentifier>{717aa156-75c6-4bc9-9e4b-5a56037cd64a}</UniqueIdentifier>
     </Filter>
@@ -102,6 +99,15 @@
     </Filter>
     <Filter Include="Source Files\stdafx">
       <UniqueIdentifier>{1abaa9ed-59e1-43f0-ad71-1bbc549a1209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\Impl">
+      <UniqueIdentifier>{1beb0586-4726-450d-8d4c-55acd085413b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Audio\Impl">
+      <UniqueIdentifier>{e860e09e-8c2b-43cf-8c2c-691c86f40142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Audio\Impl">
+      <UniqueIdentifier>{7d6b5f5b-781d-4320-bb0c-ea2877c544c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +233,6 @@
     </ClInclude>
     <ClInclude Include="AudioController.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioControllerImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
     <ClInclude Include="VbObject.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
@@ -369,6 +372,12 @@
     <ClInclude Include="vbo_attribs_Vector.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="VboGraphicsSection.h">
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioControllerImpl.h">
+      <Filter>Header Files\GlEngine\Audio\Impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -376,9 +385,6 @@
     </ClCompile>
     <ClCompile Include="ScopedLock.cpp">
       <Filter>Source Files\GlEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="GlControllerImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="KeyboardEvent.cpp">
       <Filter>Source Files\GlEngine\Events</Filter>
@@ -391,9 +397,6 @@
     </ClCompile>
     <ClCompile Include="GlController.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="GlRenderTargetImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="GlRenderTarget.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -434,9 +437,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="CameraImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="TransformedGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
@@ -467,17 +467,11 @@
     <ClCompile Include="AudioController.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="AudioControllerImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="VbObject.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
     <ClCompile Include="ObjLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="ServiceProvider.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
@@ -562,6 +556,24 @@
     </ClCompile>
     <ClCompile Include="MatrixStack.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioControllerImpl.cpp">
+      <Filter>Source Files\GlEngine\Audio\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GlControllerImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GlRenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsSection.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -61,6 +61,7 @@ namespace TileRPG
 
 		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[2]));
 		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
+        std::cout << "Loading chunks [" << (loader->GetX() - loader->GetWidth()) << ", " << (loader->GetX() + loader->GetWidth()) << ") -> [" << (loader->GetZ() - loader->GetDepth()) << ", " << (loader->GetZ() + loader->GetDepth()) << ")" << std::endl;
 	}
 	
 	const char *PlayerObject::name()

@@ -92,26 +92,19 @@ namespace GlEngine
 		return CreateFromData(out);
 	}
 
-	bool ObjLoader::CreateFromData(ObjGraphicsObject * out)
+	bool ObjLoader::CreateFromData(ObjGraphicsObject *out)
 	{
-		out->verticesFactory = new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array);
-        out->verticesFactory->Allocate(glVertices.size());
 		for (auto vertex : glVertices)
 		{
 			Vector<3> position; Vector<2> texCoord; Vector<3> normal;
 			std::tie(position, texCoord, normal) = vertex;
-            out->verticesFactory->AddVertex(position, texCoord, normal, false);
+            out->AddVertex(position, texCoord, normal);
 		}
 
 		//TODO: dynamically choose VboType based on size
-        out->trianglesFactory = new VboFactory<VboType::UnsignedShort, Vector<3, uint16_t>>(BufferMode::ElementArray);
-        out->trianglesFactory->Allocate(triangleIndeces.size() / 3);
-		for (unsigned i = 0; i < triangleIndeces.size(); i += 3)
-		{
-            out->trianglesFactory->AddVertex({ triangleIndeces[i + 2], triangleIndeces[i + 1], triangleIndeces[i] });
-		}
+        for (unsigned i = 0; i < triangleIndeces.size(); i += 3)
+            out->AddTriangle({ triangleIndeces[i + 2], triangleIndeces[i + 1], triangleIndeces[i] });
 
-        out->triCount = triangleIndeces.size() / 3;
 		return true;
 	}
 
