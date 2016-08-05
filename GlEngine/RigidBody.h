@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-	class RigidBody : public Body
+	class ENGINE_SHARED RigidBody : public Body
 	{
 	public:
 		RigidBody();

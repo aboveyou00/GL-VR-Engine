@@ -186,6 +186,9 @@
     <ClInclude Include="ChunkGraphicsObject.h">
       <Filter>Header Files\World\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="TileCollisionProvider.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
     <ClInclude Include="ITileMacros.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
@@ -316,6 +319,9 @@
     </ClCompile>
     <ClCompile Include="TileManager.cpp">
       <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCollisionProvider.cpp">
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 namespace GlEngine
 {
     class IAudioSource;
+	class Force;
 }
 
 namespace TileRPG
@@ -20,6 +21,7 @@ namespace TileRPG
 		
         bool Initialize() override;
 		void Tick(float delta) override;
+		void Jump();
 
 		const char *name() override;
 
@@ -29,6 +31,9 @@ namespace TileRPG
 
 	private:
         GlEngine::IAudioSource *footsteps;
+		
+		GlEngine::Force * gravity;
+
 		WorldLoader* loader;
 		float timePassed;
 		float direction = 0;

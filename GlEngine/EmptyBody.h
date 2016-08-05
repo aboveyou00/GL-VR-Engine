@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-	class EmptyBody : public Body
+	class ENGINE_SHARED EmptyBody : public Body
 	{
 	public:
 		EmptyBody();

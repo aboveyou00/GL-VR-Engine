@@ -5,6 +5,8 @@
 #include "Actor.h"
 #include "Octree.h"
 #include "CollisionGroup.h"
+#include "BasicCollisionGroup.h"
+#include "GameObject.h"
 
 namespace GlEngine
 {
@@ -25,9 +27,13 @@ namespace GlEngine
 		Actor * elements[maxElement];
 		int nextEmptyActor = 0;
 
+		BasicCollisionGroup * defaultGroup;
+
 		std::vector<CollisionGroup*> collisionGroups;
 
+		void Add(GameObject * gameObject);
 		void Add(Actor * actor);
+		void Add(CollisionGroup * collisionGroup);
 		void ManageCollisions();
 	};
 }

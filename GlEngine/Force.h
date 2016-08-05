@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-	class Force
+	class ENGINE_SHARED Force
 	{
 	public:
 		Force(Vector<3> component);

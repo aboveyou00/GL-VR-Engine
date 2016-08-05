@@ -27,11 +27,9 @@ namespace GlEngine
 		}
 	}
 
-	void BasicCollisionGroup::Collide(CollisionGroup * other)
+	void BasicCollisionGroup::Collide(CollisionGroup * other, bool)
 	{
 		for (Body * b : bodies)
-		{
 			other->Collide(b);
-		}
 	}
 }

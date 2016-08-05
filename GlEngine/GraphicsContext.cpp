@@ -46,12 +46,12 @@ namespace GlEngine
 		transformedCount = 0;
 		for (auto kv : objs)
 		{
-			if (kv.first->type == GameObjectType::Object3d)
+			if (strcmp(kv.first->type(), "Object3d") == 0)
 			{
 				if (kv.second != nullptr)
 					transformed[transformedCount++] = TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation);
 			}
-			else if (kv.first->type == GameObjectType::Camera)
+			else if (strcmp(kv.first->type(), "Camera") == 0)
 				UpdateCamera(kv.first);
 		}
 	}

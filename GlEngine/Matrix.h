@@ -130,6 +130,9 @@ public:
 
 	static Matrix<rows, cols, ElemT> PitchMatrix(ElemT theta)
 	{
+		/// <summary>Rotates about the Z axis
+		/// </summary>
+
 		static_assert(rows == 4 && cols == 4, "Matrix::PitchMatrix(ElemT) can only be applied to 4*4 matrices");
 		return Matrix<4, 4, ElemT> { cos(theta), -sin(theta), 0, 0,
 			                         sin(theta), cos(theta),  0, 0,
@@ -139,6 +142,9 @@ public:
 
 	static Matrix<rows, cols, ElemT> YawMatrix(ElemT theta)
 	{
+		/// <summary>Rotates about the Y axis
+		/// </summary>
+
 		static_assert(rows == 4 && cols == 4, "Matrix::YawMatrix(ElemT) can only be applied to 4*4 matrices");
 		return Matrix<4, 4, ElemT> { cos(theta), 0, -sin(theta), 0,
 			                         0,          1,           0, 0,
@@ -148,6 +154,9 @@ public:
 
 	static Matrix<rows, cols, ElemT> RollMatrix(ElemT theta)
 	{
+		/// <summary>Rotates about the X axis
+		/// </summary>
+
 		static_assert(rows == 4 && cols == 4, "Matrix::RollMatrix(ElemT) can only be applied to 4*4 matrices");
 		return Matrix<4, 4, ElemT> { 1,          0,           0, 0,
 			                         0, cos(theta), -sin(theta), 0,

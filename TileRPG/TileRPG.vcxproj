@@ -180,6 +180,7 @@
     <ClInclude Include="TestEventObject.h" />
     <ClInclude Include="TestMusicObject.h" />
     <ClInclude Include="TestSceneFrame.h" />
+    <ClInclude Include="TileCollisionProvider.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="TileRPGGame.h" />
     <ClInclude Include="TileRPGGameLoop.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="TestEventObject.cpp" />
     <ClCompile Include="TestMusicObject.cpp" />
     <ClCompile Include="TestSceneFrame.cpp" />
+    <ClCompile Include="TileCollisionProvider.cpp" />
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TileRPGGame.cpp" />
     <ClCompile Include="TileRPGGameLoop.cpp" />
