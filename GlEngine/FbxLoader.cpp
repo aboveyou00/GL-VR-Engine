@@ -5,6 +5,9 @@
 #include "VBOFactory.h"
 #include "VbObject.h"
 
+#include "Shader.h"
+#include "Texture.h"
+
 namespace GlEngine
 {
 	std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> FbxLoader::glVertices;
@@ -60,27 +63,21 @@ namespace GlEngine
 
 		//Below for Gl thread
 
-		auto verticesFactory = new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array);
-		verticesFactory->Allocate(glVertices.size());
+		auto sub = new VboGraphicsObject();
 		for (auto vertex : glVertices)
 		{
 			Vector<3> position; Vector<2> texCoord; Vector<3> normal;
 			std::tie(position, texCoord, normal) = vertex;
-			verticesFactory->AddVertex(position, texCoord, normal);
+			sub->AddVertex(position, texCoord, normal);
 		}
 
-		auto trianglesFactory = new VboFactory<VboType::UnsignedShort, Vector<3, uint16_t>>(BufferMode::ElementArray);
-		trianglesFactory->Allocate(mesh->GetPolygonCount());
-		for (unsigned i = 0; i < triangleIndeces.size() / 3; i++)
-		{
-			trianglesFactory->AddVertex({ (uint16_t)triangleIndeces[3 * i + 2], (uint16_t)triangleIndeces[3 * i + 1], (uint16_t)triangleIndeces[3 * i] });
-		}
+        //TODO: set the Shader and Texture before we add any faces
+        auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
+        auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
+        sub->SetGraphics(shader, texture);
+        for (unsigned i = 0; i < triangleIndeces.size() / 3; i++)
+            sub->AddTriangle({ triangleIndeces[3 * i + 2], triangleIndeces[3 * i + 1], triangleIndeces[3 * i] });
 
-		auto sub = new VboGraphicsObject();
-		sub->verticesFactory = verticesFactory;
-		sub->trianglesFactory = trianglesFactory;
-		sub->triCount = triangleIndeces.size() / 3;
-		
 		out->AddSubObject(sub);
 
 		std::cout << "Finished mesh: " << mesh->GetName() << std::endl;

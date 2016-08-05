@@ -3,30 +3,31 @@
 
 #include "Chunk.h"
 #include "ChunkGraphicsObject.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
-    bool ITile::IsFlushXm()
+    bool ITile::IsFlushXm() const
     {
         return IsFullBlock();
     }
-    bool ITile::IsFlushXp()
+    bool ITile::IsFlushXp() const
     {
         return IsFullBlock();
     }
-    bool ITile::IsFlushYm()
+    bool ITile::IsFlushYm() const
     {
         return IsFullBlock();
     }
-    bool ITile::IsFlushYp()
+    bool ITile::IsFlushYp() const
     {
         return IsFullBlock();
     }
-    bool ITile::IsFlushZm()
+    bool ITile::IsFlushZm() const
     {
         return IsFullBlock();
     }
-    bool ITile::IsFlushZp()
+    bool ITile::IsFlushZp() const
     {
         return IsFullBlock();
     }
@@ -35,7 +36,9 @@ namespace TileRPG
     {
         auto &chunk = chunkGobj.GetChunk();
         auto world = &chunkGobj.GetWorld();
-        if (chunk.GetTileInfo(world, x - 1, y, z) == 0)
+        ITile *tile;
+        tile = getTile(chunk.GetTileInfo(world, x - 1, y, z));
+        if (tile == nullptr || !tile->IsFlushXp())
         {
             //Render face Xm
             auto idx0 = chunkGobj.AddVertex({ x, y,     z },     { 0, 0 }, { -1, 0, 0 });
@@ -46,7 +49,8 @@ namespace TileRPG
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
         }
-        if (chunk.GetTileInfo(world, x + 1, y, z) == 0)
+        tile = getTile(chunk.GetTileInfo(world, x + 1, y, z));
+        if (tile == nullptr || !tile->IsFlushXm())
         {
             //Render face Xp
             auto idx0 = chunkGobj.AddVertex({ x + 1, y,     z },     { 0, 0 }, { 1, 0, 0 });
@@ -58,7 +62,8 @@ namespace TileRPG
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });
         }
 
-        if (y > 0 && chunk.GetTileInfo(world, x, y - 1, z) == 0)
+        tile = (y == 0) ? nullptr : getTile(chunk.GetTileInfo(world, x, y - 1, z));
+        if (y != 0 && (tile == nullptr || !tile->IsFlushYp()))
         {
             //TODO: Do I really need Ym? Ever? This may just be wasted tris
             //Render face Ym
@@ -70,7 +75,8 @@ namespace TileRPG
             chunkGobj.AddTriangle({ idx0, idx2, idx1 });
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });
         }
-        if (chunk.GetTileInfo(world, x, y + 1, z) == 0)
+        tile = getTile(chunk.GetTileInfo(world, x, y + 1, z));
+        if (tile == nullptr || !tile->IsFlushYm())
         {
             //Render face Yp
             auto idx0 = chunkGobj.AddVertex({ x,     y + 1, z },     { 0, 0 }, { 0, 1, 0 });
@@ -82,7 +88,8 @@ namespace TileRPG
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
         }
 
-        if (chunk.GetTileInfo(world, x, y, z - 1) == 0)
+        tile = getTile(chunk.GetTileInfo(world, x, y, z - 1));
+        if (tile == nullptr || !tile->IsFlushZp())
         {
             //Render face Zm
             auto idx0 = chunkGobj.AddVertex({ x,     y,     z }, { 0, 0 }, { 0, 0, -1 });
@@ -93,7 +100,8 @@ namespace TileRPG
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
         }
-        if (chunk.GetTileInfo(world, x, y, z + 1) == 0)
+        tile = getTile(chunk.GetTileInfo(world, x, y, z + 1));
+        if (tile == nullptr || !tile->IsFlushZm())
         {
             //Render face Zp
             auto idx0 = chunkGobj.AddVertex({ x,     y,     z + 1 }, { 0, 0 }, { 0, 0, 1 });
@@ -104,5 +112,16 @@ namespace TileRPG
             chunkGobj.AddTriangle({ idx0, idx2, idx1 });
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });
         }
+    }
+
+    const char *ITile::footstep_sound()
+    {
+        return "Audio/footstep-grass.wav";
+    }
+
+    ITile *ITile::getTile(int tileId)
+    {
+        auto &tileManager = TileManager::GetInstance();
+        return tileManager.GetTile(tileId);
     }
 }

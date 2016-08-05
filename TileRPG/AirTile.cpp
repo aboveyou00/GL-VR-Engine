@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "AirTile.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
@@ -10,4 +11,6 @@ namespace TileRPG
     AirTile::~AirTile()
     {
     }
+
+    SINGLETON_TILE_CPP(AirTile);
 }

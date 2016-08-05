@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DockTile.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
@@ -10,4 +11,6 @@ namespace TileRPG
     DockTile::~DockTile()
     {
     }
+
+    SINGLETON_TILE_CPP(DockTile);
 }

@@ -6,8 +6,6 @@ namespace TileRPG
 {
     class AirTile : public ITile
     {
-    public:
-        AirTile();
-        ~AirTile();
+        SINGLETON_TILE_H(AirTile);
     };
 }

@@ -6,6 +6,9 @@
 #include "ServiceProvider.h"
 #include "TileManager.h"
 
+#include "DirtTile.h"
+#include "AirTile.h"
+
 namespace TileRPG
 {
     IChunkProvider::IChunkProvider()
@@ -17,9 +20,8 @@ namespace TileRPG
 
     Chunk *IChunkProvider::createDefaultChunk(int x, int z)
     {
-        auto tiles = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<TileManager>();
-        auto air = tiles->GetTile(0x00);
-        auto dirt = tiles->GetTile(0x10);
+        ITile *air = &AirTile::GetInstance();
+        ITile *dirt = &DirtTile::GetInstance();
 
         auto chunk = new Chunk(x, z);
         for (size_t q = 0; q < Chunk::TILES_PER_CHUNK_X; q++)
@@ -36,6 +38,7 @@ namespace TileRPG
                 chunk->SetTileInfo(q, 8, w, (rand() % 10 < 2) ? dirt : air);
                 chunk->SetTileInfo(q, 9, w, (rand() % 10 < 1) ? dirt : air);
             }
+
         return chunk;
     }
     Chunk *&IChunkProvider::getCache(int x, int z)

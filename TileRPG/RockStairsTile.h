@@ -6,8 +6,6 @@ namespace TileRPG
 {
     class RockStairsTile : public IStairsTile
     {
-    public:
-        RockStairsTile();
-        ~RockStairsTile();
+        SINGLETON_TILE_H(RockStairsTile);
     };
 }

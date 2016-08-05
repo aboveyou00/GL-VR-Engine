@@ -4,6 +4,7 @@
 #include "Engine.h"
 
 #include "AudioController.h"
+#include "IAudioSource.h"
 #include "GraphicsObject.h"
 #include "GraphicsContext.h"
 
@@ -52,7 +53,16 @@ namespace TileRPG
 		}
 	}
 
-	void PlayerObject::Tick(float delta)
+    bool PlayerObject::Initialize()
+    {
+        auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
+        footsteps = audioCtrl.CreateAudioSource();
+
+        footsteps->SetSource("Audio/footstep-grass.wav");
+
+        return true;
+    }
+    void PlayerObject::Tick(float delta)
 	{
 		position = actor.body->position;
 		if (position[1] < -10) {
@@ -68,8 +78,14 @@ namespace TileRPG
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
 		audioCtrl.SetListenerPosition(position);
 
+        footsteps->SetPosition(position);
+        bool playFootsteps = Vector<3>(motionVector[0], 0, motionVector[2]).LengthSquared() > .5;
+        if (playFootsteps && !footsteps->IsPlaying()) footsteps->Play(true);
+        else if (!playFootsteps && footsteps->IsPlaying()) footsteps->SetLoop(false);
+
 		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[2]));
 		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
+        std::cout << "Loading chunks [" << (loader->GetX() - loader->GetWidth()) << ", " << (loader->GetX() + loader->GetWidth()) << ") -> [" << (loader->GetZ() - loader->GetDepth()) << ", " << (loader->GetZ() + loader->GetDepth()) << ")" << std::endl;
 	}
 
 	void PlayerObject::Jump()

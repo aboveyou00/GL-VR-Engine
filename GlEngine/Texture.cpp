@@ -32,6 +32,8 @@ namespace GlEngine
 {
     Texture *Texture::FromFile(const char *const path)
     {
+        if (path == nullptr || path[0] == '\0') return nullptr;
+
         auto hashed = ([](const char *str) {
             int h = 0;
             while (*str)

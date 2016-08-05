@@ -6,8 +6,6 @@ namespace TileRPG
 {
     class WaterTile : public ITile
     {
-    public:
-        WaterTile();
-        ~WaterTile();
+        SINGLETON_TILE_H(WaterTile);
     };
 }

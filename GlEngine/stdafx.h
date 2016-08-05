@@ -18,7 +18,7 @@ using namespace std::chrono_literals;
 #include <vector>
 #include <assert.h>
 
-#include "VectorVboAttribs.h"
+#include "vbo_attribs_Vector.h"
 #include "Matrix.h"
 
 #include "Threading.h"

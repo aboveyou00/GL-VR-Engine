@@ -23,15 +23,48 @@ namespace GlEngine
             UnsafeVboFactory::Allocate(vertexCount);
         }
 
-        void AddVertex(TArgs... args)
+        int AddVertex(TArgs... args)
         {
-            compound_vbo_attribs<type, TArgs...>::push(args..., data);
+            //return AddVertex(args..., currentMode == BufferMode::Array ? true : false);
+            return AddVertex(args..., false);
+        }
+        int AddVertex(TArgs... args, bool checkCache)
+        {
+            assert(!checkCache);
+            //if (checkCache)
+            //{
+            //    check_cache_data.clear();
+            //    compound_vbo_attribs<type, TArgs...>::push(args..., check_cache_data);
+
+            //    auto numElements = data.size() / vertexSizeInElements;
+            //    for (size_t q = 0; q < numElements; q++)
+            //    {
+            //        auto base_idx = q * vertexSizeInElements;
+            //        for (size_t w = 0; w < vertexSizeInElements; w++)
+            //            if (data[base_idx + w] != check_cache_data[w])
+            //                goto continue_cache;
+            //        return q;
+            //    continue_cache:;
+            //    }
+
+            //    for (size_t q = 0; q < vertexSizeInElements; q++)
+            //        data.push_back(check_cache_data[q]);
+            //    return numElements;
+            //}
+            //else
+            //{
+                compound_vbo_attribs<type, TArgs...>::push(args..., data);
+                return (data.size() / vertexSizeInElements) - 1;
+            //}
         }
 
         VbObject Compile()
         {
             return UnsafeVboFactory::Compile();
         }
+
+    private:
+        std::vector<el_type> check_cache_data;
     };
 
     using ElementVboFactory = VboFactory<VboType::UnsignedShort, uint16_t, uint16_t, uint16_t>;

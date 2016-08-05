@@ -228,10 +228,11 @@
     <ClInclude Include="VbObject.h" />
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboGraphicsObject.h" />
+    <ClInclude Include="VboGraphicsSection.h" />
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="VectorVboAttribs.h" />
+    <ClInclude Include="vbo_attribs_Vector.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
     <ClInclude Include="YseAudioSource.h" />
@@ -297,6 +298,7 @@
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
     <ClCompile Include="VboGraphicsObject.cpp" />
+    <ClCompile Include="VboGraphicsSection.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />

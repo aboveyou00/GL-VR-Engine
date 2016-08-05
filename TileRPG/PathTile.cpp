@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PathTile.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
@@ -10,4 +11,6 @@ namespace TileRPG
     PathTile::~PathTile()
     {
     }
+
+    SINGLETON_TILE_CPP(PathTile);
 }

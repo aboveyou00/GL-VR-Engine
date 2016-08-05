@@ -34,6 +34,5 @@ namespace TileRPG
         void handleEvents();
 
         GlEngine::FrameStack frames;
-        TileManager *tiles;
     };
 }

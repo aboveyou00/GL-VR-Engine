@@ -13,29 +13,17 @@
 namespace TileRPG
 {
     TileManager::TileManager()
+        : baseTiles { nullptr }
     {
-        for (size_t q = 0; q < 0xFF; q++)
-            baseTiles[q] = nullptr;
     }
     TileManager::~TileManager()
     {
-        Shutdown();
     }
 
-    bool TileManager::Initialize()
+    TileManager &TileManager::GetInstance()
     {
-        RegisterTile(new AirTile());
-        RegisterTile(new DirtTile());
-
-        return true;
-    }
-    void TileManager::Shutdown()
-    {
-    }
-
-    const char *TileManager::name()
-    {
-        return "TileManager";
+        static TileManager __instance;
+        return __instance;
     }
 
     bool TileManager::RegisterTile(ITile *tile)
@@ -44,13 +32,13 @@ namespace TileRPG
         if ((*this)[id] != nullptr)
         {
             auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-            logger->Log(GlEngine::LogType::Error, "Tried to register multiple tiles with the ID %d", id);
+            if (logger != nullptr) logger->Log(GlEngine::LogType::Error, "Tried to register multiple tiles with the ID %d", id);
             return false;
         }
         if (id >= MAX_TILE_ID || id < 0)
         {
             auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-            logger->Log(GlEngine::LogType::Error, "Tried to register a tile with ID out of bounds: %d", id);
+            if (logger != nullptr) logger->Log(GlEngine::LogType::Error, "Tried to register a tile with ID out of bounds: %d", id);
             return false;
         }
         baseTiles[id] = tile;
