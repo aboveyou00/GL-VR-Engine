@@ -5,12 +5,8 @@
 
 namespace GlEngine
 {
-	GameObject::GameObject()
-		: GameObject(GameObjectType::Object3d)
-	{
-	}
-    GameObject::GameObject(GameObjectType type, Vector<3> position, Matrix<4, 4> orientation)
-        : type(type), position(position), orientation(orientation), _frame(nullptr)
+    GameObject::GameObject(Vector<3> position, Matrix<4, 4> orientation)
+        : position(position), orientation(orientation), _frame(nullptr)
     {
         RequireTick(false);
     }
@@ -97,5 +93,10 @@ namespace GlEngine
 	void GameObject::RotateDegreesZ(float degrees)
 	{
 		RotateZ((float)Util::degToRad(degrees));
+	}
+
+	const char * GameObject::type()
+	{
+		return "Object3d";
 	}
 }

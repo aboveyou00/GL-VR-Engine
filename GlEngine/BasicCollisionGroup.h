@@ -6,7 +6,7 @@
 
 namespace GlEngine
 {
-	class BasicCollisionGroup : public CollisionGroup
+	class ENGINE_SHARED BasicCollisionGroup : public CollisionGroup
 	{
 	public:
 		BasicCollisionGroup();
@@ -16,7 +16,7 @@ namespace GlEngine
 		void Add(Actor *  actor);
 
 		virtual void Collide(Body * body) override;
-		virtual void Collide(CollisionGroup * other) override;
+		virtual void Collide(CollisionGroup * other, bool trySwitch = true) override;
 
 	private:
 		std::vector<Body*> bodies;

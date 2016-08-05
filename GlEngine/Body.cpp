@@ -5,6 +5,7 @@ namespace GlEngine
 {
 	Body::Body()
 	{
+		movable = false;
 	}
 	Body::~Body()
 	{

@@ -22,9 +22,6 @@
     <Filter Include="Source Files\GlEngine\Impl">
       <UniqueIdentifier>{6adad3ce-caf6-4aee-b200-ff3fc742c3e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GlEngine\Events">
-      <UniqueIdentifier>{717aa156-75c6-4bc9-9e4b-5a56037cd64a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GlEngine\Graphics">
       <UniqueIdentifier>{16f5dd40-0666-46a3-bed0-a229e8017a4a}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,9 @@
     </Filter>
     <Filter Include="Source Files\GlEngine\Physics">
       <UniqueIdentifier>{f565155c-b0e2-4d92-84f1-7ee8f3b7e5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Events">
+      <UniqueIdentifier>{717aa156-75c6-4bc9-9e4b-5a56037cd64a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -374,9 +374,6 @@
     <ClCompile Include="MouseEvent.cpp">
       <Filter>Source Files\GlEngine\Events</Filter>
     </ClCompile>
-    <ClCompile Include="EventQueue.cpp">
-      <Filter>Source Files\GlEngine\Events</Filter>
-    </ClCompile>
     <ClCompile Include="GlController.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
@@ -542,14 +539,14 @@
     <ClCompile Include="CollisionGroup.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="TileCollisionGroup.cpp">
-      <Filter>Source Files\GlEngine\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="BasicCollisionGroup.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="BoxBody.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Source Files\GlEngine\Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

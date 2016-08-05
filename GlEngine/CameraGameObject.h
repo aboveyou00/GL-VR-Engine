@@ -22,12 +22,15 @@ namespace GlEngine
 		void SetTargetObject(GameObject* gameObject);
 
 		virtual const char * name() override;
+		virtual const char * type() override;
 		virtual GraphicsObject * CreateGraphicsObject(GraphicsContext & ctx) override;
 		
 		virtual void Tick(float delta) override;
 
 		virtual void SetLock(int lockFlags);
 		virtual void Lock(int lockFlags);
+
+		virtual void FindOrientation();
 
 		GameObject* target;
 

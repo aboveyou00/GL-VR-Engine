@@ -39,7 +39,7 @@ namespace GlEngine
     }
     const Matrix<4, 4> &MatrixStack::mult(const Matrix<4, 4> &matrix)
     {
-        auto &retval = push(head() * matrix);
+        auto &retval = push(matrix * head());
         tell_gl();
         return retval;
     }

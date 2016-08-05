@@ -6,7 +6,7 @@ namespace GlEngine
 {
 	class Force;
 
-	class Actor
+	class ENGINE_SHARED Actor
 	{
 	public:
 		Actor();

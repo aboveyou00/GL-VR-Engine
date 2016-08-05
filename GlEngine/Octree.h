@@ -3,7 +3,7 @@
 namespace GlEngine
 {
 	template<typename ElemT>
-	class Octree
+	class ENGINE_SHARED Octree
 	{
 	public:
 		Octree(float minX, float maxX, float minY, float maxY, float minZ, float maxZ, unsigned maxDepth)

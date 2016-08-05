@@ -2,7 +2,7 @@
 
 namespace GlEngine
 {
-	class Body
+	class ENGINE_SHARED Body
 	{
 	public:
 		Body();

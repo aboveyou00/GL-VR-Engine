@@ -15,7 +15,7 @@ namespace TileRPG
     {
     }
     TestMusicObject::TestMusicObject(const char *start, const char *loop)
-        : GameObject(GlEngine::GameObjectType::Object3d), startPath(start), loopPath(loop)
+        : startPath(start), loopPath(loop)
     {
         RequireTick(true);
     }

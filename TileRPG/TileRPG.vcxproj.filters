@@ -189,6 +189,9 @@
     <ClInclude Include="ChunkGraphicsObject.h">
       <Filter>Header Files\World\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="TileCollisionProvider.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -313,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="PlayerObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCollisionProvider.cpp">
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

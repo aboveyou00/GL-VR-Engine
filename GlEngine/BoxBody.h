@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-	class BoxBody : public RigidBody
+	class ENGINE_SHARED BoxBody : public RigidBody
 	{
 	public:
 		BoxBody(float minX, float maxX, float minY, float maxY, float minZ, float maxZ);

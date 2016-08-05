@@ -17,8 +17,7 @@
 namespace TileRPG
 {
     TestEventObject::TestEventObject(World *world)
-        : GameObject(GlEngine::GameObjectType::Object3d),
-		upPressed(0), downPressed(0),
+		: upPressed(0), downPressed(0),
         leftPressed(0), rightPressed(0),
         inPressed(0), outPressed(0),
         loader(new WorldLoader(world))

@@ -3,6 +3,7 @@
 #include "Vector.h"
 #include "Matrix.h"
 #include "IGameComponent.h"
+#include "Actor.h"
 
 namespace GlEngine
 {
@@ -14,18 +15,10 @@ namespace GlEngine
         class Event;
     }
 
-	enum class GameObjectType
-	{
-		Object3d,
-		Object2d,
-		Camera,
-	};
-
 	class ENGINE_SHARED GameObject: public IGameComponent
 	{
 	public:
-		GameObject();
-        GameObject(GameObjectType type, Vector<3> position = Vector<3> { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
+        GameObject(Vector<3> position = Vector<3> { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
 		~GameObject();
 
         inline void RequireTick(bool require = true)
@@ -75,7 +68,9 @@ namespace GlEngine
 		void RotateDegreesY(float degrees);
 		void RotateDegreesZ(float degrees);
 
-		GameObjectType type;
+		virtual const char * type();
+
+		Actor actor;
 
     private:
         bool _requiresTick, _requiresGraphicsTick;

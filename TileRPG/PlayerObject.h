@@ -2,6 +2,11 @@
 
 #include "GameObject.h"
 
+namespace GlEngine
+{
+	class Force;
+}
+
 namespace TileRPG
 {
 	class World;
@@ -14,6 +19,7 @@ namespace TileRPG
 		~PlayerObject();
 		
 		void Tick(float delta) override;
+		void Jump();
 
 		const char *name() override;
 
@@ -23,6 +29,8 @@ namespace TileRPG
 	
 	private:
 		
+		GlEngine::Force * gravity;
+
 		WorldLoader* loader;
 		float timePassed;
 		float direction = 0;

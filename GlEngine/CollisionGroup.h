@@ -4,13 +4,13 @@ namespace GlEngine
 {
 	class Body;
 
-	class CollisionGroup
+	class ENGINE_SHARED CollisionGroup
 	{
 	public:
 		CollisionGroup();
 		~CollisionGroup();
 
 		virtual void Collide(Body * actor) = 0;
-		virtual void Collide(CollisionGroup * other) = 0;
+		virtual void Collide(CollisionGroup * other, bool trySwitch = true) = 0;
 	};
 }

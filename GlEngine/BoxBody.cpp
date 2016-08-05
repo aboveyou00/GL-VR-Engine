@@ -46,28 +46,36 @@ namespace GlEngine
 		if (!movable && !other->movable)
 			return false;
 
-		if (strcmp(other->name(), "BoxBody"))
+		if (strcmp(other->name(), "BoxBody") == 0)
 		{
 			auto boxOther = (BoxBody*)other;
+
+			//std::cout << (MinX() < boxOther->MaxX() && MaxX() > boxOther->MinX()) << " ";
+			//std::cout << (MinY() < boxOther->MaxY() && MaxY() > boxOther->MinY()) << " ";
+			//std::cout << (MinZ() < boxOther->MaxZ() && MaxZ() > boxOther->MinZ()) << std::endl;
+
+			//std::cout << MinX() << " " << MaxX() << " " << MinY() << " " << MaxY() << " " << MinZ() << " " << MaxZ() << std::endl;
+			//std::cout << boxOther->MinX() << " " << boxOther->MaxX() << " " << boxOther->MinY() << " " << boxOther->MaxY() << " " << boxOther->MinZ() << " " << boxOther->MaxZ() << std::endl;
+
 			if (MinX() < boxOther->MaxX() && MaxX() > boxOther->MinX() &&
 				MinY() < boxOther->MaxY() && MaxY() > boxOther->MinY() &&
 				MinZ() < boxOther->MaxZ() && MaxZ() > boxOther->MinZ())
 			{
-				if (movable)
+  				if (movable)
 				{
 					if (other->movable)
 						Backtrack(this, other);
 					else
-						BacktrackSingle(this, other);
+						BacktrackSingle(other, this);
 				}
 				else
-					BacktrackSingle(other, this);
+					BacktrackSingle(this, other);
 			}
 			return false;
 		}
 
 		if (trySwitch)
-			return other->Collide(this);
+			return other->Collide(this, false);
 		return false;
 	}
 
@@ -90,25 +98,21 @@ namespace GlEngine
 		else
 			dz = first->MaxZ() - second->MinZ();
 
-		float mag;
-		if (dx > dy && dx > dz)
+		if (abs(dx) < abs(dy) && abs(dx) < abs(dz))
 		{
-			mag = abs(dx);
-			second->velocity = { 0, second->velocity[1], second->velocity[2] };
+			second->velocity = { signbit(second->velocity[0]) == signbit(dx) ? second->velocity[0] : 0, second->velocity[1], second->velocity[2] };
+			second->position += { dx, 0, 0 };
 		}
-		else if (dy > dz)
+		else if (abs(dy) < abs(dz))
 		{
-			mag = abs(dy);
-			second->velocity = { second->velocity[0], 0, second->velocity[2] };
+			second->velocity = { second->velocity[0], signbit(second->velocity[1]) == signbit(dy) ? second->velocity[1] : 0, second->velocity[2] };
+			second->position += { 0, dy, 0 };
 		}
 		else
 		{
-			mag = abs(dz);
-			second->velocity = { second->velocity[0], second->velocity[1], 0 };
+			second->velocity = { second->velocity[0], second->velocity[1], signbit(second->velocity[2]) == signbit(dz) ? second->velocity[2] : 0 };
+			second->position += { 0, 0, dz };
 		}
-
-		Vector<3> diff = { dx > 0 ? mag : -mag, dy > 0 ? mag : -mag, dz > 0 ? mag : -mag };
-		second->position += diff;
 	}
 
 	void BoxBody::Backtrack(Body * first, Body * second)
