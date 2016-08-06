@@ -30,7 +30,7 @@ namespace TileRPG
 		timePassed = 0;
 		actor.body = new GlEngine::BoxBody(-0.2f, 0.2f, -0.2f, 0.2f, -0.2f, 0.2f);
 		actor.body->movable = true;
-		gravity = new GlEngine::Force({ 0, -3.0, 0 });
+		gravity = new GlEngine::Force({ 0, -9.0, 0 });
 		actor.AddForce(gravity);
 
 	}
@@ -72,7 +72,7 @@ namespace TileRPG
 		timePassed += delta;
 		
 		auto motionVector = Vector<3>{ (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), 0, (upPressed ? 1 : 0) + (downPressed ? -1 : 0) };
-		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(2);
+		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(3);
 		actor.body->velocity = {motionVector[0], actor.body->velocity[1], motionVector[2]};
 
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
@@ -85,12 +85,12 @@ namespace TileRPG
 
 		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[2]));
 		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
-        std::cout << "Loading chunks [" << (loader->GetX() - loader->GetWidth()) << ", " << (loader->GetX() + loader->GetWidth()) << ") -> [" << (loader->GetZ() - loader->GetDepth()) << ", " << (loader->GetZ() + loader->GetDepth()) << ")" << std::endl;
+        //std::cout << "Loading chunks [" << (loader->GetX() - loader->GetWidth()) << ", " << (loader->GetX() + loader->GetWidth()) << ") -> [" << (loader->GetZ() - loader->GetDepth()) << ", " << (loader->GetZ() + loader->GetDepth()) << ")" << std::endl;
 	}
 
 	void PlayerObject::Jump()
 	{
-		actor.body->velocity = { actor.body->velocity[0], 2.0, actor.body->velocity[2] };
+		actor.body->velocity = { actor.body->velocity[0], 4.0, actor.body->velocity[2] };
 	}
 	
 	const char *PlayerObject::name()
@@ -102,7 +102,8 @@ namespace TileRPG
 	{
 		auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
 		if (kbevt == nullptr) return;
-		if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyPressed && kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyReleased) return;
+		if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyPressed && kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyReleased) 
+			return;
 		auto pressed = kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyPressed;
 		switch (kbevt->GetVirtualKeyCode())
 		{
@@ -123,9 +124,11 @@ namespace TileRPG
 			break;
 		case VK_LETTER<'a'>() :
 			outPressed = pressed;
+			break;
 		case VK_SPACE:
-			if (pressed)
+			if (kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyPressed)
 				Jump();
+			break;
 		}
 	}
 

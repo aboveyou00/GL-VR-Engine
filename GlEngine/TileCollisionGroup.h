@@ -27,11 +27,7 @@ namespace GlEngine
 			for (int x = minX; x < maxX; x++)
 				for (int y = minY; y < maxY; y++)
 					for (int z = minZ; z < maxZ; z++)
-					{
-						std::cout << x << "," << y << "," << z << " | ";
 						body->Collide(provider->GetBody(x, y, z));
-					}
-			std::cout << std::endl;
 		}
 
 		virtual void Collide(CollisionGroup * other, bool trySwitch = true) override

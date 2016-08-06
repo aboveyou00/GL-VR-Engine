@@ -78,6 +78,8 @@ namespace GlEngine
     {
         if (sound != nullptr)
         {
+			if (!sound->isValid() || !sound->isReady())
+				return;
             sound->setPosition(YSE::Vec(pos[0], pos[1], pos[2]));
             //TODO: set the sound velocity
             if (isPlaying)
