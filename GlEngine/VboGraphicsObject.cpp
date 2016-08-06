@@ -46,18 +46,15 @@ namespace GlEngine
     {
         assert(!finalized);
         assert(currentGraphicsSection != nullptr);
-        assert(indices[0] < elemIdx);
-        assert(indices[1] < elemIdx);
-        assert(indices[2] < elemIdx);
+        for (size_t q = 0; q < 3; q++)
+            assert(indices[q] < elemIdx);
         currentGraphicsSection->AddTriangle(indices);
     }
     void VboGraphicsObject::AddQuad(Vector<4, uint16_t> indices)
     {
         assert(!finalized);
-        assert(indices[0] < elemIdx);
-        assert(indices[1] < elemIdx);
-        assert(indices[2] < elemIdx);
-        assert(indices[3] < elemIdx);
+        for (size_t q = 0; q < 4; q++)
+            assert(indices[q] < elemIdx);
         currentGraphicsSection->AddQuad(indices);
     }
     

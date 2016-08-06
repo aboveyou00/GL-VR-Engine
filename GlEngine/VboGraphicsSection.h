@@ -43,8 +43,7 @@ namespace GlEngine
             Texture *texture;
             std::vector<Vector<3, uint16_t>> *tris;
             std::vector<Vector<4, uint16_t>> *quads;
-            int triCount, quadCount;
-            uint16_t *triOffset, *quadOffset;
+            int triCount, quadCount, triOffset, quadOffset;
 
             virtual const char *name() override;
             virtual operator bool() override;
