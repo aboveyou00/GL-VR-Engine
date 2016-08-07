@@ -328,12 +328,6 @@
     <None Include="TileRPG.config">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Shaders\std.vert.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\std.frag.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
     <None Include="Shaders\simple.frag.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
@@ -360,6 +354,12 @@
     </None>
     <None Include="Resources\test.fbx">
       <Filter>Resource Files\Resources</Filter>
+    </None>
+    <None Include="Shaders\tex_2d.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\tex_2d.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
