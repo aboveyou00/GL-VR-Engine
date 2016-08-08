@@ -61,8 +61,8 @@ namespace TileRPG
         //Render face Zm
         idx0 = AddVertex({ x,     y,     z }, { 0, 0 }, { 0, 0, -1 });
         idx1 = AddVertex({ x + w, y,     z }, { 1, 0 }, { 0, 0, -1 });
-        idx2 = AddVertex({ x + w, y + h, z }, { 0, 1 }, { 0, 0, -1 });
-        idx3 = AddVertex({ x,     y + h, z }, { 1, 1 }, { 0, 0, -1 });
+        idx2 = AddVertex({ x + w, y + h, z }, { 1, 1 }, { 0, 0, -1 });
+        idx3 = AddVertex({ x,     y + h, z }, { 0, 1 }, { 0, 0, -1 });
 
         AddTriangle({ idx0, idx1, idx2 });
         AddTriangle({ idx0, idx2, idx3 });
@@ -70,8 +70,8 @@ namespace TileRPG
         //Render face Zp
         idx0 = AddVertex({ x,     y,     z + d }, { 0, 0 }, { 0, 0, 1 });
         idx1 = AddVertex({ x + w, y,     z + d }, { 1, 0 }, { 0, 0, 1 });
-        idx2 = AddVertex({ x + w, y + h, z + d }, { 0, 1 }, { 0, 0, 1 });
-        idx3 = AddVertex({ x,     y + h, z + d }, { 1, 1 }, { 0, 0, 1 });
+        idx2 = AddVertex({ x + w, y + h, z + d }, { 1, 1 }, { 0, 0, 1 });
+        idx3 = AddVertex({ x,     y + h, z + d }, { 0, 1 }, { 0, 0, 1 });
 
         AddTriangle({ idx0, idx2, idx1 });
         AddTriangle({ idx0, idx3, idx2 });
