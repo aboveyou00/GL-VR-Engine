@@ -8,7 +8,8 @@
 #include "GraphicsObject.h"
 #include "CameraGameObject.h"
 
-#include "DummyChunkProvider.h"
+//#include "DummyChunkProvider.h"
+#include "DiskChunkProvider.h"
 
 #include "Space.h"
 #include "BoxBody.h"
@@ -33,18 +34,18 @@ namespace TileRPG
         if (!Frame::Initialize()) return false;
 
 		space = new GlEngine::Space();
-		auto world = this->CreateGameObject<World>(new DummyChunkProvider()); //new DiskChunkProvider("world")		
+		auto world = this->CreateGameObject<World>(new DiskChunkProvider("world"));
 
-        //auto testObject = this->CreateGameObject<PlayerObject>(world);
-        auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
+        auto testObject = this->CreateGameObject<PlayerObject>(world);
+        //auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
 		testObject->position = Vector<3>(0, 0, 0);
 		space->Add(testObject);
 
 		auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
 		cameraObject->SetTargetObject(testObject);
 		cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-        //cameraObject->SetPosition({ 0, -1.5, 0.5 });
-        cameraObject->SetPosition({ 0, -7, 3.5 });
+        cameraObject->SetPosition({ 0, -1.5, 0.5 });
+        //cameraObject->SetPosition({ 0, -7, 3.5 });
 
 		tileCollisionProvider = new TileCollisionProvider(world);
 		tileCollisionGroup = new GlEngine::TileCollisionGroup<TileCollisionProvider>(tileCollisionProvider);
