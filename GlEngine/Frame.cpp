@@ -17,28 +17,26 @@ namespace GlEngine
 
     bool Frame::Initialize()
     {
+        if (initialized) return true;
+        initialized = true;
         for (size_t q = 0; q < objects.size(); q++)
         {
             if (!objects[q]->Initialize()) return false;
         }
-        initialized = true;
         return true;
     }
     void Frame::Shutdown()
     {
         if (!initialized) return;
+        initialized = false;
         for (size_t q = 0; q < objects.size(); q++)
-        {
             objects[q]->Shutdown();
-        }
     }
     void Frame::Tick(float delta)
     {
         for (size_t q = 0; q < objects.size(); q++)
             if (objects[q]->RequiresTick())
-            {
                 objects[q]->Tick(delta);
-            }
     }
 
     const char *Frame::name()

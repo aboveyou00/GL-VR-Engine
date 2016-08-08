@@ -123,9 +123,6 @@
     <ClInclude Include="Chunk.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="ICPSelector.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
     <ClInclude Include="WorldLoader.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
@@ -206,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="WorldEditorTargetGraphicsObject.h">
       <Filter>Header Files\GameObjects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ICPSelector.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

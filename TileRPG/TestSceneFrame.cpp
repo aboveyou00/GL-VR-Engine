@@ -44,7 +44,7 @@ namespace TileRPG
 		cameraObject->SetTargetObject(testObject);
 		cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
         //cameraObject->SetPosition({ 0, -1.5, 0.5 });
-        cameraObject->SetPosition({ 0.5, -7, 3.5 });
+        cameraObject->SetPosition({ 0, -7, 3.5 });
 
 		tileCollisionProvider = new TileCollisionProvider(world);
 		tileCollisionGroup = new GlEngine::TileCollisionGroup<TileCollisionProvider>(tileCollisionProvider);
@@ -59,6 +59,7 @@ namespace TileRPG
 
 	void TestSceneFrame::Shutdown()
 	{
+        Frame::Shutdown();
 		if (space != nullptr)
 			delete space;
 	}

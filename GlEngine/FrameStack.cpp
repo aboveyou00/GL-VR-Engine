@@ -26,6 +26,7 @@ namespace GlEngine
     void FrameStack::Shutdown()
     {
         if (!initialized) return;
+        initialized = false;
         for (auto q = stackIdx; q >= 0; q--)
         {
             _frameStack[q]->Shutdown();

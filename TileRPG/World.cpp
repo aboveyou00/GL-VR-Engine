@@ -257,7 +257,7 @@ namespace TileRPG
         directPrice = loadedChunks.size();
         for (size_t q = 0; q < worldLoaders.size(); q++)
         {
-            auto wl = worldLoaders[0];
+            auto wl = worldLoaders[q];
             wl->ClearDirty();
             minx = min(minx, wl->GetX() - wl->GetWidth());
             maxx = max(maxx, wl->GetX() + wl->GetWidth() + 1);
@@ -267,7 +267,7 @@ namespace TileRPG
         }
         for (size_t q = 0; q < loadedChunks.size(); q++)
         {
-            auto chunk = loadedChunks[0];
+            auto chunk = loadedChunks[q];
             minx = min(minx, chunk->GetX());
             maxx = max(maxx, chunk->GetX() + 1);
             minz = min(minz, chunk->GetZ());
