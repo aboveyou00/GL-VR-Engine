@@ -59,11 +59,15 @@ namespace TileRPG
         return true;
     }
 
-    void ChunkGraphicsObject::Render()
+    void ChunkGraphicsObject::PreRender()
     {
+        VboGraphicsObject::PreRender();
         GlEngine::MatrixStack::ModelView.mult(transformationMatrix);
-        VboGraphicsObject::Render();
+    }
+    void ChunkGraphicsObject::PostRender()
+    {
         GlEngine::MatrixStack::ModelView.pop();
+        VboGraphicsObject::PostRender();
     }
     
     const char *ChunkGraphicsObject::name()

@@ -15,7 +15,8 @@ namespace GlEngine
 		rt_mutex pendingMutex;
 
 		static FbxGraphicsObject* Create(const char* name);
-		void Render() override;
+        void PreRender() override;
+		void RenderImpl() override;
 		void AddSubObject(VboGraphicsObject* graphicsObject);
 
 		bool Initialize() override;

@@ -32,25 +32,12 @@ namespace TileRPG
 		actor.body->movable = true;
 		gravity = new GlEngine::Force({ 0, -3.0, 0 });
 		actor.AddForce(gravity);
-
 	}
 	PlayerObject::~PlayerObject()
 	{
-		if (loader != nullptr)
-		{
-			delete loader;
-			loader = nullptr;
-		}
-		if (actor.body != nullptr)
-		{
-			delete actor.body;
-			actor.body = nullptr;
-		}
-		if (gravity != nullptr)
-		{
-			delete gravity;
-			gravity = nullptr;
-		}
+        SafeDelete(loader);
+        SafeDelete(actor.body);
+        SafeDelete(gravity);
 	}
 
     bool PlayerObject::Initialize()
@@ -85,7 +72,6 @@ namespace TileRPG
 
 		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[2]));
 		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
-        std::cout << "Loading chunks [" << (loader->GetX() - loader->GetWidth()) << ", " << (loader->GetX() + loader->GetWidth()) << ") -> [" << (loader->GetZ() - loader->GetDepth()) << ", " << (loader->GetZ() + loader->GetDepth()) << ")" << std::endl;
 	}
 
 	void PlayerObject::Jump()
@@ -102,7 +88,9 @@ namespace TileRPG
 	{
 		auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
 		if (kbevt == nullptr) return;
-		if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyPressed && kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyReleased) return;
+		if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyPressed &&
+            kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyReleased) return;
+
 		auto pressed = kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyPressed;
 		switch (kbevt->GetVirtualKeyCode())
 		{
@@ -118,14 +106,16 @@ namespace TileRPG
 		case VK_RIGHT:
 			rightPressed = pressed;
 			break;
-		case VK_LETTER<'q'>() :
+		case VK_LETTER<'q'>():
 			inPressed = pressed;
 			break;
-		case VK_LETTER<'a'>() :
+		case VK_LETTER<'a'>():
 			outPressed = pressed;
+            break;
 		case VK_SPACE:
 			if (pressed)
 				Jump();
+            break;
 		}
 	}
 

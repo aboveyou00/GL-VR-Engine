@@ -186,6 +186,8 @@
     <ClInclude Include="TileRPGGameLoop.h" />
     <ClInclude Include="WaterTile.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="WorldEditorTargetGraphicsObject.h" />
+    <ClInclude Include="WorldEditorTargetObject.h" />
     <ClInclude Include="WorldGraphicsObject.h" />
     <ClInclude Include="WorldLoader.h" />
     <ClInclude Include="World_SelectorZ.h" />
@@ -230,6 +232,8 @@
     <ClCompile Include="TileRPGGameLoop.cpp" />
     <ClCompile Include="WaterTile.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldEditorTargetGraphicsObject.cpp" />
+    <ClCompile Include="WorldEditorTargetObject.cpp" />
     <ClCompile Include="WorldGraphicsObject.cpp" />
     <ClCompile Include="WorldLoader.cpp" />
     <ClCompile Include="World_SelectorY.cpp" />

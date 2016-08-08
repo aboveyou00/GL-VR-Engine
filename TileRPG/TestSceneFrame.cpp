@@ -4,6 +4,7 @@
 
 #include "TestMusicObject.h"
 #include "PlayerObject.h"
+#include "WorldEditorTargetObject.h"
 #include "GraphicsObject.h"
 #include "CameraGameObject.h"
 
@@ -34,7 +35,8 @@ namespace TileRPG
 		space = new GlEngine::Space();
 		auto world = this->CreateGameObject<World>(new DummyChunkProvider()); //new DiskChunkProvider("world")		
 
-        auto testObject = this->CreateGameObject<PlayerObject>(world);
+        //auto testObject = this->CreateGameObject<PlayerObject>(world);
+        auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
 		testObject->position = Vector<3>(0, 0, 0);
 		space->Add(testObject);
 

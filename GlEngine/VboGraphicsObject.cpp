@@ -110,9 +110,8 @@ namespace GlEngine
 			elementVbo.MakeCurrent();
 		}
 	}
-	void VboGraphicsObject::Render()
+	void VboGraphicsObject::RenderImpl()
 	{
-		GraphicsObject::Render();
         if (*this)
             for (size_t q = 0; q < graphicsSections.size(); q++)
                 graphicsSections[q]->Render();

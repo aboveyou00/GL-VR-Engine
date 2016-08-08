@@ -48,11 +48,16 @@ namespace GlEngine
         graphicsInitialized = false;
     }
 
+    void GraphicsObject::Render()
+    {
+        PreRender();
+        RenderImpl();
+        PostRender();
+    }
 	void GraphicsObject::PreRender()
 	{
 	}
-	void GraphicsObject::Render()
-	{
-		PreRender();
-	}
+    void GraphicsObject::PostRender()
+    {
+    }
 }

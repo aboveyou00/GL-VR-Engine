@@ -30,25 +30,25 @@ static void freePng(unsigned char *&image)
 
 namespace GlEngine
 {
-    Texture *Texture::FromFile(const char *const path)
+    Texture *Texture::FromFile(const char *const path, bool hasAlphaChannel)
     {
         if (path == nullptr || path[0] == '\0') return nullptr;
 
-        auto hashed = ([](const char *str) {
-            int h = 0;
+        auto hashed = ([](const char *str, bool alpha) {
+            int h = alpha ? 0xDEADBEEF : 0;
             while (*str)
                 h = h << 1 ^ *str++;
             return h;
-        })(path);
+        })(path, hasAlphaChannel);
 
         static std::unordered_map<int, Texture*> textures;
         auto cached = textures[hashed];
         if (cached != nullptr) return cached;
-        return textures[hashed] = new Texture(path);
+        return textures[hashed] = new Texture(path, hasAlphaChannel);
     }
 
-    Texture::Texture(const char * const path)
-        : path(path), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false)
+    Texture::Texture(const char * const path, bool hasAlphaChannel)
+        : path(path), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), alpha(hasAlphaChannel)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);
@@ -101,11 +101,20 @@ namespace GlEngine
         return gl_tex != 0;// && gl_sampler != 0;
     }
 
-    void Texture::MakeCurrent()
+    void Texture::Push()
     {
         assert(!!*this);
         glUniform1i(5, 0);
         glActiveTexture(GL_TEXTURE0);
+        if (alpha)
+        {
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
         glBindTexture(GL_TEXTURE_2D, gl_tex);
+    }
+    void Texture::Pop()
+    {
+        if (alpha) glDisable(GL_BLEND);
     }
 }

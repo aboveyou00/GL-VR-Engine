@@ -7,10 +7,10 @@ namespace GlEngine
     class ENGINE_SHARED Texture : public IGraphicsComponent
     {
     public:
-        static Texture *FromFile(const char *const path);
+        static Texture *FromFile(const char *const path, bool hasAlphaChannel = false);
 
     private:
-        Texture(const char *const path);
+        Texture(const char *const path, bool hasAlphaChannel);
         ~Texture();
 
     public:
@@ -23,10 +23,11 @@ namespace GlEngine
 
         operator bool();
 
-        void MakeCurrent();
+        void Push();
+        void Pop();
 
     private:
-        bool initialized;
+        bool initialized, alpha;
         const char *const path;
         unsigned char *image;
         unsigned width, height, gl_tex, gl_sampler;

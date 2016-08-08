@@ -39,7 +39,7 @@ namespace TileRPG
         addNewChunks(*chunks);
     }
 
-    void WorldGraphicsObject::Render()
+    void WorldGraphicsObject::RenderImpl()
     {
         for (auto ptr = chunkGraphics.begin(); ptr != chunkGraphics.end(); ptr++)
         {

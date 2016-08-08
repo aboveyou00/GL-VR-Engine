@@ -11,7 +11,7 @@ namespace GlEngine
 
     namespace Impl
     {
-        class VboGraphicsSection : GraphicsObject
+        class VboGraphicsSection : public GraphicsObject
         {
         public:
             VboGraphicsSection(Shader *shader, Texture *texture);
@@ -22,7 +22,8 @@ namespace GlEngine
             void Finalize(VboFactory<VboType::UnsignedShort, uint16_t> *face_factory);
 
             void PreRender() override;
-            void Render() override;
+            void RenderImpl() override;
+            void PostRender() override;
 
             inline bool HasGraphics(Shader *shader, Texture *texture)
             {

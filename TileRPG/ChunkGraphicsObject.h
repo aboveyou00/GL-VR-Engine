@@ -21,7 +21,8 @@ namespace TileRPG
 
         bool Initialize() override;
 
-        void Render() override;
+        void PreRender() override;
+        void PostRender() override;
         
         const char *name() override;
 
