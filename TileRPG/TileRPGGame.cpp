@@ -7,8 +7,6 @@
 #include "TransformedGraphicsObject.h"
 #include "Camera.h"
 
-#include "GlRenderTarget.h"
-
 #include "TestMusicObject.h"
 #include "TestEventObject.h"
 
@@ -45,7 +43,7 @@ namespace TileRPG
 
         _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
-        auto _renderTarget = new GlEngine::GlRenderTarget(_window);
+        GlEngine::RenderTarget* _renderTarget = new GlEngine::WindowRenderTarget(_window);
         _gfxContext->AddRenderTarget(_renderTarget);
 
         _gfxContext->camera.SetEye({ 0, 0, 0 });

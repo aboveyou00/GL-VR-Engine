@@ -25,6 +25,11 @@ namespace GlEngine
 
         void MakeCurrent();
 
+		unsigned GetWidth();
+		unsigned GetHeight();
+
+		unsigned GetGlTexture();
+
     private:
         bool initialized;
         const char *const path;

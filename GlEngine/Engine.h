@@ -10,7 +10,7 @@
 namespace GlEngine
 {
     class WindowManager;
-    class GlController;
+    class GraphicsController;
     class AudioController;
 
     class ENGINE_SHARED Engine : public IComponent
@@ -31,7 +31,7 @@ namespace GlEngine
         void Shutdown() override;
 
         WindowManager &GetWindowManager();
-        GlController &GetGlController();
+        GraphicsController &GetGlController();
         AudioController &GetAudioController();
         inline Events::EventQueue &GetEventQueue()
         {

@@ -61,7 +61,7 @@ namespace GlEngine
 		camera.SetGameObject(obj);
 	}
 
-	void GraphicsContext::AddRenderTarget(GlRenderTarget * renderTarget)
+	void GraphicsContext::AddRenderTarget(RenderTarget * renderTarget)
 	{
 		renderTargets[renderTargetCount++] = renderTarget;
 	}

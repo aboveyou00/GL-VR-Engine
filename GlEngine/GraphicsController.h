@@ -6,19 +6,19 @@ namespace GlEngine
 {
     namespace Impl
     {
-        class GlControllerImpl;
+        class GraphicsControllerImpl;
     }
 
-    class ENGINE_SHARED GlController : public IComponent
+    class ENGINE_SHARED GraphicsController : public IComponent
     {
     private:
-        GlController();
-        ~GlController();
+        GraphicsController();
+        ~GraphicsController();
 
-        static GlController _instance;
+        static GraphicsController _instance;
 
     public:
-        inline static GlController &GetInstance()
+        inline static GraphicsController &GetInstance()
         {
             return _instance;
         }
@@ -30,12 +30,12 @@ namespace GlEngine
 
         const char *name() override;
 
-        inline Impl::GlControllerImpl *GetImpl()
+        inline Impl::GraphicsControllerImpl *GetImpl()
         {
             return pimpl;
         }
 
     private:
-        Impl::GlControllerImpl *pimpl;
+        Impl::GraphicsControllerImpl *pimpl;
     };
 }

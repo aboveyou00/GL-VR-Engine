@@ -108,4 +108,19 @@ namespace GlEngine
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, gl_tex);
     }
+
+	unsigned Texture::GetWidth()
+	{
+		return width;
+	}
+
+	unsigned Texture::GetHeight()
+	{
+		return height;
+	}
+
+	unsigned Texture::GetGlTexture()
+	{
+		return gl_tex;
+	}
 }

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Engine.h"
-#include "GlController.h"
+#include "GraphicsController.h"
 #include "AudioController.h"
 #include "WindowManager.h"
 
@@ -74,9 +74,9 @@ namespace GlEngine
     {
         return WindowManager::GetInstance();
     }
-    GlController &Engine::GetGlController()
+    GraphicsController &Engine::GetGlController()
     {
-        return GlController::GetInstance();
+        return GraphicsController::GetInstance();
     }
     AudioController &Engine::GetAudioController()
     {

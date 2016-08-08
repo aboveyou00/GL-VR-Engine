@@ -1,22 +1,20 @@
 #include "stdafx.h"
-#include "GlRenderTargetImpl.h"
-#include "MatrixStack.h"
+#include "WindowRenderTargetImpl.h"
 #include "Window.h"
-#include <chrono>
 
 namespace GlEngine
 {
-    namespace Impl
-    {
-		GlRenderTargetImpl::GlRenderTargetImpl(Window *window)
+	namespace Impl
+	{
+		WindowRenderTargetImpl::WindowRenderTargetImpl(Window *window)
 			: _window(window), deviceContext(_window->GetDeviceContext())
         {
 		}
-        GlRenderTargetImpl::~GlRenderTargetImpl()
+		WindowRenderTargetImpl::~WindowRenderTargetImpl()
         {
         }
 
-        bool GlRenderTargetImpl::Initialize()
+        bool WindowRenderTargetImpl::Initialize()
         {
 			if (!CreateContext()) return false;
 			MakeCurrentTarget();
@@ -24,23 +22,24 @@ namespace GlEngine
             return true;
         }
 
-        void GlRenderTargetImpl::Shutdown()
+        void WindowRenderTargetImpl::Shutdown()
         {
 			wglMakeCurrent(nullptr, nullptr);
 			wglDeleteContext(contextHandle);
         }
 
-        const char *GlRenderTargetImpl::name()
+        const char *WindowRenderTargetImpl::name()
         {
-            return "GlRenderTargetImpl";
+            return "WindowRenderTargetImpl";
         }
 
-		void GlRenderTargetImpl::MakeCurrentTarget()
+		void WindowRenderTargetImpl::MakeCurrentTarget()
 		{
+			assert(false);
 			wglMakeCurrent(deviceContext, contextHandle);
 		}
 
-		bool GlRenderTargetImpl::CreateContext()
+		bool WindowRenderTargetImpl::CreateContext()
 		{
 			/* Pixel format options we would like (NOT guaranteed) to have */
 			PIXELFORMATDESCRIPTOR pfd =
@@ -74,7 +73,7 @@ namespace GlEngine
 			return true;
 		}
 
-		bool GlRenderTargetImpl::LoadGlewExtensions()
+		bool WindowRenderTargetImpl::LoadGlewExtensions()
 		{
 			glewExperimental = TRUE;
 			GLenum err = glewInit();
@@ -90,7 +89,7 @@ namespace GlEngine
 			return true;
 		}
 
-        void GlRenderTargetImpl::Prepare()
+        void WindowRenderTargetImpl::Prepare()
         {
             if (_window->GetWidth() != this->lastWidth || _window->GetHeight() != this->lastHeight)
             {
@@ -103,12 +102,12 @@ namespace GlEngine
                 if (_window->GetLastResizeTime() < std::chrono::high_resolution_clock::now() - 50ms)
                 {
                     glViewport(0, 0, this->lastWidth, this->lastHeight);
-					viewPort.SetSize(this->lastWidth, this->lastHeight);
+					viewPort->SetSize(this->lastWidth, this->lastHeight);
 					shouldRender = true;
                 }
             }
         }
-        void GlRenderTargetImpl::Push()
+        void WindowRenderTargetImpl::Push()
 		{
 			glEnable(GL_DEPTH_TEST);
             glEnable(GL_CULL_FACE);
@@ -124,71 +123,21 @@ namespace GlEngine
             //glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			viewPort.Push();
+			// TODO: this might be more efficient then :
+			// float currentFrameBuffer; glGet(GL_FRAME_BUFFER_BINDING, &currentFrameBuffer); 
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glViewport(0, 0, this->lastWidth, this->lastHeight);
+
+			viewPort->Push();
 		}
-		void GlRenderTargetImpl::Pop()
+		void WindowRenderTargetImpl::Pop()
 		{
-			viewPort.Pop();
+			viewPort->Pop();
 		}
 
-		void GlRenderTargetImpl::Flip()
+		void WindowRenderTargetImpl::Flip()
 		{
 			SwapBuffers(deviceContext);
 		}
-
-		void GlRenderTargetImpl::ViewPort::Push()
-		{
-            //relativeCamera.Apply();
-
-            float viewWidth, viewHeight;
-            if (width > height)
-            {
-                viewHeight = 1.0;
-                viewWidth = (float)width / height;
-            }
-            else
-            {
-                viewWidth = 1.0;
-                viewHeight = (float)height / width;
-            }
-
-            float nearVal = 1.f;
-            float farVal = 100.f;
-
-            MatrixStack::Projection.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
-            MatrixStack::Projection.tell_gl();
-            //glOrtho(left, right, bottom, top, nearVal, farVal);
-            //ProjectionMatrixStack.push(Mat3T<float>::Ortho(left, right, bottom, top, nearVal, farVal));
-		}
-
-		void GlRenderTargetImpl::ViewPort::Pop()
-		{
-            MatrixStack::Projection.pop();
-            MatrixStack::Projection.tell_gl();
-		}
-
-		void GlRenderTargetImpl::ViewPort::SetSize(int width, int height)
-		{
-			this->width = width;
-			this->height = height;
-		}
-		void GlRenderTargetImpl::ViewPort::SetWidth(int width)
-		{
-			this->width = width;
-		}
-		void GlRenderTargetImpl::ViewPort::SetHeight(int height)
-		{
-			this->height = height;
-		}
-
-		int GlRenderTargetImpl::ViewPort::GetWidth()
-		{
-			return width;
-		}
-
-		int GlRenderTargetImpl::ViewPort::GetHeight()
-		{
-			return height;
-		}
-    }
+	}
 }
