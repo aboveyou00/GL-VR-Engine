@@ -43,7 +43,7 @@ namespace GlEngine
         const char *name() override;
 
 		void PreRender() override;
-		void Render() override;
+		void RenderImpl() override;
 
         operator bool() override;
 

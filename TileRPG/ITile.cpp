@@ -94,8 +94,8 @@ namespace TileRPG
             //Render face Zm
             auto idx0 = chunkGobj.AddVertex({ x,     y,     z }, { 0, 0 }, { 0, 0, -1 });
             auto idx1 = chunkGobj.AddVertex({ x + 1, y,     z }, { 1, 0 }, { 0, 0, -1 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z }, { 0, 1 }, { 0, 0, -1 });
-            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z }, { 1, 1 }, { 0, 0, -1 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z }, { 1, 1 }, { 0, 0, -1 });
+            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z }, { 0, 1 }, { 0, 0, -1 });
 
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
@@ -106,8 +106,8 @@ namespace TileRPG
             //Render face Zp
             auto idx0 = chunkGobj.AddVertex({ x,     y,     z + 1 }, { 0, 0 }, { 0, 0, 1 });
             auto idx1 = chunkGobj.AddVertex({ x + 1, y,     z + 1 }, { 1, 0 }, { 0, 0, 1 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { 0, 1 }, { 0, 0, 1 });
-            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z + 1 }, { 1, 1 }, { 0, 0, 1 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { 1, 1 }, { 0, 0, 1 });
+            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z + 1 }, { 0, 1 }, { 0, 0, 1 });
 
             chunkGobj.AddTriangle({ idx0, idx2, idx1 });
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });

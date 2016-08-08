@@ -19,9 +19,11 @@ namespace GlEngine
         void Shutdown() override;
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
-		
+
+        virtual void Render();
 		virtual void PreRender();
-		virtual void Render();
+        virtual void RenderImpl() = 0;
+        virtual void PostRender();
 
     protected:
         bool initialized, graphicsInitialized;

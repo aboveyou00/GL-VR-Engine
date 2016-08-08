@@ -30,7 +30,7 @@ namespace TileRPG
         const char *const path;
 
         const char *const getChunkPath(int x, int z);
-        Chunk *readChunk(std::istream &stream);
+        Chunk *readChunk(int x, int z, std::istream &stream);
         bool writeChunk(Chunk *chunk, std::ostream &stream);
     };
 }

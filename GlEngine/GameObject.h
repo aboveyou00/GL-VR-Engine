@@ -18,7 +18,7 @@ namespace GlEngine
 	class ENGINE_SHARED GameObject: public IGameComponent
 	{
 	public:
-        GameObject(Vector<3> position = Vector<3> { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
+        GameObject(Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
 		~GameObject();
 
         inline void RequireTick(bool require = true)

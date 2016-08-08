@@ -79,16 +79,20 @@ namespace GlEngine
         void VboGraphicsSection::PreRender()
         {
             if (shader != nullptr && *shader) shader->MakeCurrent();
-            if (texture != nullptr && *texture) texture->MakeCurrent();
+            if (texture != nullptr && *texture) texture->Push();
         }
-        void VboGraphicsSection::Render()
+        void VboGraphicsSection::RenderImpl()
         {
-            GraphicsObject::Render();
             if (*this)
             {
                 if (triCount) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
                 if (quadCount) glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
             }
+        }
+        void VboGraphicsSection::PostRender()
+        {
+            if (texture != nullptr && *texture) texture->Pop();
+            //if (shader != nullptr && *shader) shader->Pop();
         }
 
         const char *VboGraphicsSection::name()

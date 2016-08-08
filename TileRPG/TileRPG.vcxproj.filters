@@ -61,6 +61,12 @@
     <Filter Include="Source Files\World\Graphics">
       <UniqueIdentifier>{88a0db7a-48f3-46fb-8763-ec7611bf710c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObjects\Graphics">
+      <UniqueIdentifier>{cf7ea5c6-a930-4db2-aad9-f9ced23e013e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Graphics">
+      <UniqueIdentifier>{1dfcb390-e0b2-4207-9ebd-fd293d9346c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -115,9 +121,6 @@
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Chunk.h">
-      <Filter>Header Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="ICPSelector.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
     <ClInclude Include="WorldLoader.h">
@@ -194,6 +197,15 @@
     </ClInclude>
     <ClInclude Include="TileManager.h">
       <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldEditorTargetObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldEditorTargetGraphicsObject.h">
+      <Filter>Header Files\GameObjects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ICPSelector.h">
+      <Filter>Header Files\World\ChunkProviders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +334,12 @@
     </ClCompile>
     <ClCompile Include="TileCollisionProvider.cpp">
       <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldEditorTargetObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldEditorTargetGraphicsObject.cpp">
+      <Filter>Source Files\GameObjects\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

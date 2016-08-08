@@ -79,6 +79,12 @@ namespace TileRPG
         if (chunk == nullptr) return -1;
         return (int)chunk->GetTileInfoGlobal(tileX, tileY, tileZ);
     }
+    void World::SetTileInfo(int tileX, int tileY, int tileZ, int tileId)
+    {
+        auto chunk = getChunkFromTileCoords(tileX, tileZ);
+        assert(chunk != nullptr);
+        chunk->SetTileInfoGlobal(tileX, tileY, tileZ, tileId);
+    }
 
     GlEngine::GraphicsObject *World::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
@@ -251,7 +257,7 @@ namespace TileRPG
         directPrice = loadedChunks.size();
         for (size_t q = 0; q < worldLoaders.size(); q++)
         {
-            auto wl = worldLoaders[0];
+            auto wl = worldLoaders[q];
             wl->ClearDirty();
             minx = min(minx, wl->GetX() - wl->GetWidth());
             maxx = max(maxx, wl->GetX() + wl->GetWidth() + 1);
@@ -261,7 +267,7 @@ namespace TileRPG
         }
         for (size_t q = 0; q < loadedChunks.size(); q++)
         {
-            auto chunk = loadedChunks[0];
+            auto chunk = loadedChunks[q];
             minx = min(minx, chunk->GetX());
             maxx = max(maxx, chunk->GetX() + 1);
             minz = min(minz, chunk->GetZ());

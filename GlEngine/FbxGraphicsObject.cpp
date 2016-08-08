@@ -80,9 +80,13 @@ namespace GlEngine
 		pending.clear();
 	}
 
-	void FbxGraphicsObject::Render()
+    void FbxGraphicsObject::PreRender()
+    {
+        GraphicsObject::PreRender();
+        ProcessPending();
+    }
+	void FbxGraphicsObject::RenderImpl()
 	{
-		ProcessPending();
 		for (size_t i = 0; i < subObjects.size(); i++)
 			subObjects[i]->Render();
 

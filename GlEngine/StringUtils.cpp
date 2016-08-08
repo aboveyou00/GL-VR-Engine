@@ -124,6 +124,21 @@ namespace GlEngine
             return std::strcmp(lhs, rhs);
         }
 
+        bool is_empty(const char *const str) noexcept
+        {
+            return str == nullptr || *str == '\0';
+        }
+        bool is_empty_or_ws(const char *const str) noexcept
+        {
+            if (str == nullptr) return true;
+            auto ptr = str;
+            char chr;
+            while ((chr = *ptr) != '\0')
+                if (!isWhitespace(chr))
+                    return false;
+            return true;
+        }
+
         inline char interpretEscapeCharacter(char chr) noexcept
         {
             switch (chr)

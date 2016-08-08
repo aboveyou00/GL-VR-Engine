@@ -20,7 +20,7 @@ namespace TileRPG
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
-        void Render() override;
+        void RenderImpl() override;
 
         operator bool() override;
 

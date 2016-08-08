@@ -11,6 +11,7 @@
 #include "ServiceProvider.h"
 #include "ILogger.h"
 #include "ResourceLoader.h"
+#include "StringUtils.h"
 
 namespace GlEngine
 {
@@ -175,7 +176,7 @@ namespace GlEngine
             if (logLength + 1 > STATIC_BUFFER_SIZE) buff = new char[logLength + 1];
             GLsizei length;
             glGetShaderInfoLog(shader, max(STATIC_BUFFER_SIZE, logLength + 1), &length, buff);
-            logger->Log(LogType::Info, "Shader info log for [%s.%s.shader]:\n%s", _name, suffix, buff);
+            if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader info log for [%s.%s.shader]:\n%s", _name, suffix, buff);
             if (logLength + 1 > STATIC_BUFFER_SIZE) delete[] buff;
         }
 
@@ -208,7 +209,7 @@ namespace GlEngine
             if (logLength + 1 > STATIC_BUFFER_SIZE) buff = new char[logLength + 1];
             GLsizei length;
             glGetProgramInfoLog(_prog, max(STATIC_BUFFER_SIZE, logLength + 1), &length, buff);
-            logger->Log(LogType::Info, "Shader program info log for [%s]:\n%s", _name, buff);
+            if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader program info log for [%s]:\n%s", _name, buff);
             if (logLength + 1 > STATIC_BUFFER_SIZE) delete[] buff;
         }
 

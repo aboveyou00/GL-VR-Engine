@@ -21,7 +21,8 @@ namespace TileRPG
 
         bool Initialize() override;
 
-        void Render() override;
+        void PreRender() override;
+        void PostRender() override;
         
         const char *name() override;
 
@@ -34,9 +35,15 @@ namespace TileRPG
             return *world;
         }
 
+        inline unsigned GetUpdateVersion()
+        {
+            return version;
+        }
+
     private:
         Matrix<4, 4> transformationMatrix;
         Chunk *chunk;
         World *world;
+        unsigned version;
     };
 }

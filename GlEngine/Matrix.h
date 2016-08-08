@@ -334,7 +334,7 @@ public:
     {
         return left = left * right;
     }
-    inline friend Vector<rows - 1, ElemT> &operator*=(Vector<rows - 1, ElemT> &vec, const Matrix<rows, cols, ElemT> &right)
+    inline friend Vector<rows - 1, ElemT> &operator*=(Vector<rows - 1, ElemT> &left, const Matrix<rows, cols, ElemT> &right)
     {
         static_assert(rows == cols && rows >= 2, "You can't multiply-assign a matrix unless it is a square matrix and it is being multiplied by a matrix of the same size");
         return left = left * right;
