@@ -32,14 +32,12 @@ namespace TileRPG
 		auto t = tileManager.GetTile(tile);
 		if (t != nullptr && t->IsSolid())
 		{
-			std::cout << " S | ";
-    		currentBody = new GlEngine::BoxBody(0, 1, 0, 1, 0, 1);
+			currentBody = new GlEngine::BoxBody(0, 1, 0, 1, 0, 1);
 			currentBody->position = { x, y, z };
 			return currentBody;
 		}
 		else
 		{
-			std::cout << " E | ";
 			currentBody = new GlEngine::EmptyBody();
 			return currentBody;
 		}

@@ -43,7 +43,8 @@ namespace TileRPG
 		auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
 		cameraObject->SetTargetObject(testObject);
 		cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-		cameraObject->SetPosition({ 0, -4, 2 });
+        //cameraObject->SetPosition({ 0, -1.5, 0.5 });
+        cameraObject->SetPosition({ 0.5, -7, 3.5 });
 
 		tileCollisionProvider = new TileCollisionProvider(world);
 		tileCollisionGroup = new GlEngine::TileCollisionGroup<TileCollisionProvider>(tileCollisionProvider);

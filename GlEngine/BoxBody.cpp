@@ -50,13 +50,6 @@ namespace GlEngine
 		{
 			auto boxOther = (BoxBody*)other;
 
-			//std::cout << (MinX() < boxOther->MaxX() && MaxX() > boxOther->MinX()) << " ";
-			//std::cout << (MinY() < boxOther->MaxY() && MaxY() > boxOther->MinY()) << " ";
-			//std::cout << (MinZ() < boxOther->MaxZ() && MaxZ() > boxOther->MinZ()) << std::endl;
-
-			//std::cout << MinX() << " " << MaxX() << " " << MinY() << " " << MaxY() << " " << MinZ() << " " << MaxZ() << std::endl;
-			//std::cout << boxOther->MinX() << " " << boxOther->MaxX() << " " << boxOther->MinY() << " " << boxOther->MaxY() << " " << boxOther->MinZ() << " " << boxOther->MaxZ() << std::endl;
-
 			if (MinX() < boxOther->MaxX() && MaxX() > boxOther->MinX() &&
 				MinY() < boxOther->MaxY() && MaxY() > boxOther->MinY() &&
 				MinZ() < boxOther->MaxZ() && MaxZ() > boxOther->MinZ())

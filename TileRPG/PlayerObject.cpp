@@ -30,7 +30,7 @@ namespace TileRPG
 		timePassed = 0;
 		actor.body = new GlEngine::BoxBody(-0.2f, 0.2f, -0.2f, 0.2f, -0.2f, 0.2f);
 		actor.body->movable = true;
-		gravity = new GlEngine::Force({ 0, -3.0, 0 });
+		gravity = new GlEngine::Force({ 0, -9.0, 0 });
 		actor.AddForce(gravity);
 	}
 	PlayerObject::~PlayerObject()
@@ -59,7 +59,7 @@ namespace TileRPG
 		timePassed += delta;
 		
 		auto motionVector = Vector<3>{ (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), 0, (upPressed ? 1 : 0) + (downPressed ? -1 : 0) };
-		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(2);
+		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(3);
 		actor.body->velocity = {motionVector[0], actor.body->velocity[1], motionVector[2]};
 
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
@@ -76,7 +76,7 @@ namespace TileRPG
 
 	void PlayerObject::Jump()
 	{
-		actor.body->velocity = { actor.body->velocity[0], 2.0, actor.body->velocity[2] };
+		actor.body->velocity = { actor.body->velocity[0], 4.0, actor.body->velocity[2] };
 	}
 	
 	const char *PlayerObject::name()
@@ -111,7 +111,7 @@ namespace TileRPG
 			break;
 		case VK_LETTER<'a'>():
 			outPressed = pressed;
-            break;
+			break;
 		case VK_SPACE:
 			if (pressed)
 				Jump();
