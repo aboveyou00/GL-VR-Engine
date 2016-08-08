@@ -8,10 +8,14 @@
 #include "Matrix.h"
 #include "Chunk.h"
 
+#include "AirTile.h"
+#include "DirtTile.h"
+#include "RockTile.h"
+
 namespace TileRPG
 {
     WorldEditorTargetObject::WorldEditorTargetObject(World *world)
-        : loader(new WorldLoader(world))
+        : loader(new WorldLoader(world)), world(world)
     {
     }
     WorldEditorTargetObject::~WorldEditorTargetObject()
@@ -23,6 +27,13 @@ namespace TileRPG
     {
         return "WorldEditorTargetObject";
     }
+
+    static const int TILE_IDS[] = {
+        AirTile::GetInstance().GetTileId(),
+        DirtTile::GetInstance().GetTileId(),
+        RockTile::GetInstance().GetTileId()
+    };
+    static const unsigned MAX_TILE_IDS = sizeof(TILE_IDS) / sizeof(int);
 
     void WorldEditorTargetObject::HandleEvent(GlEngine::Events::Event &evt)
     {
@@ -53,7 +64,18 @@ namespace TileRPG
             break;
 
         case VK_SPACE:
-
+        case VK_RETURN:
+            int info = world->GetTileInfo((int)position[0], (int)position[1], (int)position[2]);
+            int idx = -1;
+            for (size_t q = 0; q < MAX_TILE_IDS; q++)
+                if (TILE_IDS[q] == info)
+                {
+                    idx = q;
+                    break;
+                }
+            idx++;
+            if (idx >= MAX_TILE_IDS) idx = 0;
+            world->SetTileInfo((int)position[0], (int)position[1], (int)position[2], TILE_IDS[idx]);
             break;
         }
 

@@ -13,7 +13,7 @@
 namespace TileRPG
 {
     ChunkGraphicsObject::ChunkGraphicsObject(Chunk *chunk, World *world)
-        : chunk(chunk), world(world)
+        : chunk(chunk), world(world), version(chunk->GetUpdateVersion())
     {
     }
     ChunkGraphicsObject::~ChunkGraphicsObject()

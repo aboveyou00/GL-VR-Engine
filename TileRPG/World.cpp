@@ -79,6 +79,12 @@ namespace TileRPG
         if (chunk == nullptr) return -1;
         return (int)chunk->GetTileInfoGlobal(tileX, tileY, tileZ);
     }
+    void World::SetTileInfo(int tileX, int tileY, int tileZ, int tileId)
+    {
+        auto chunk = getChunkFromTileCoords(tileX, tileZ);
+        assert(chunk != nullptr);
+        chunk->SetTileInfoGlobal(tileX, tileY, tileZ, tileId);
+    }
 
     GlEngine::GraphicsObject *World::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {

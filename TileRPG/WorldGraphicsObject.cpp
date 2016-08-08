@@ -63,8 +63,11 @@ namespace TileRPG
     {
         std::vector<std::pair<Chunk*, ChunkGraphicsObject*>> toRemove;
         for (auto ptr = chunkGraphics.begin(); ptr != chunkGraphics.end(); ptr++)
-            if (std::find(chunks.begin(), chunks.end(), ptr->first) == chunks.end())
-                toRemove.push_back(*ptr);
+        {
+            auto differentVersions = ptr->second != nullptr && ptr->first->GetUpdateVersion() != ptr->second->GetUpdateVersion();
+            auto deloaded = differentVersions || std::find(chunks.begin(), chunks.end(), ptr->first) == chunks.end();
+            if (differentVersions || deloaded) toRemove.push_back(*ptr);
+        }
         for (size_t q = 0; q < toRemove.size(); q++)
         {
             chunkGraphics.erase(toRemove[q].first);

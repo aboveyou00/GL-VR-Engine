@@ -30,14 +30,15 @@ namespace TileRPG
     {
         SetTileInfo(tileX, tileY, tileZ, tile->GetTileId());
     }
-    void Chunk::SetTileInfo(int tileX, int tileY, int tileZ, unsigned tile)
+    void Chunk::SetTileInfo(int tileX, int tileY, int tileZ, int tile)
     {
         assert(tile >= 0 && tile <= 0xFF);
-        if (GetTileInfo(tileX, tileY, tileZ) == tile) return;
+        if (GetTileInfo(tileX, tileY, tileZ) == (unsigned)tile) return;
 
         auto miniChunkIdx = tileY / TILES_PER_MINICHUNK_Y;
         auto relativeTileY = tileY - (miniChunkIdx * TILES_PER_MINICHUNK_Y);
         miniChunkOffset(getOrCreateMiniChunk(miniChunkIdx), tileX, relativeTileY, tileZ) = (unsigned char)tile;
+        SetDirty();
     }
 
     int Chunk::GetMaxY()
@@ -57,7 +58,7 @@ namespace TileRPG
     }
     Vector<2, int> Chunk::getChunkDimensionsFromTileDimensions(int x, int z)
     {
-        //Not intended for uce with negative numbers
+        //Not intended for use with negative numbers
         auto int_divide_ceil = [](int a, int b) {
             return (a + b - 1) / b;
         };

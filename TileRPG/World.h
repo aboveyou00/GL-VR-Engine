@@ -28,6 +28,7 @@ namespace TileRPG
 
         __SelectorY operator[](int x);
         int GetTileInfo(int tileX, int tileY, int tileZ);
+        void SetTileInfo(int tileX, int tileY, int tileZ, int tileId);
 
         GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
         void UpdateGraphicsObject(GlEngine::GraphicsContext &ctx, GlEngine::GraphicsObject *object) override;

@@ -35,9 +35,15 @@ namespace TileRPG
             return *world;
         }
 
+        inline unsigned GetUpdateVersion()
+        {
+            return version;
+        }
+
     private:
         Matrix<4, 4> transformationMatrix;
         Chunk *chunk;
         World *world;
+        unsigned version;
     };
 }

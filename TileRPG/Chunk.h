@@ -39,16 +39,16 @@ namespace TileRPG
             assert(tileZ < TILES_PER_CHUNK_Z * (GetZ() + 1));
             SetTileInfo(tileX % TILES_PER_CHUNK_X, tileY, tileZ % TILES_PER_CHUNK_Z, tile);
         }
-        inline void SetTileInfoGlobal(int tileX, int tileY, int tileZ, unsigned tile)
+        inline void SetTileInfoGlobal(int tileX, int tileY, int tileZ, int tile)
         {
             assert(tileX >= TILES_PER_CHUNK_X * GetX());
             assert(tileX < TILES_PER_CHUNK_X * (GetX() + 1));
             assert(tileZ >= TILES_PER_CHUNK_Z * GetZ());
             assert(tileZ < TILES_PER_CHUNK_Z * (GetZ() + 1));
-            SetTileInfo(tileX % TILES_PER_CHUNK_X, tileY, tileZ % TILES_PER_CHUNK_Z, tile);
+            SetTileInfo(tileX - (GetX() * TILES_PER_CHUNK_X), tileY, tileZ - (GetZ() * TILES_PER_CHUNK_Z), tile);
         }
         void SetTileInfo(int tileX, int tileY, int tileZ, ITile *tile);
-        void SetTileInfo(int tileX, int tileY, int tileZ, unsigned tile);
+        void SetTileInfo(int tileX, int tileY, int tileZ, int tile);
 
         inline int GetX()
         {
@@ -71,14 +71,21 @@ namespace TileRPG
         }
         static Vector<2, int> getChunkDimensionsFromTileDimensions(int x, int z);
 
+        inline unsigned GetUpdateVersion()
+        {
+            return version;
+        }
+
     protected:
         void SetDirty()
         {
             _dirty = true;
+            version++;
         }
 
     private:
         int x, z;
+        unsigned version;
         std::vector<unsigned char*> miniChunks;
         bool _dirty;
 
