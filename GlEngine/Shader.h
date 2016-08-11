@@ -28,17 +28,20 @@ namespace GlEngine
 
         void MakeCurrent();
 
+        bool UsesTesselation();
+
         operator bool();
 
     private:
         const char *_path, *_name;
+        float theta;
         
-        const char *_vert_text, *_frag_text;
-        int _vert_text_length, _frag_text_length;
+        const char *_vert_text, *_frag_text, *_tessc_text, *_tesse_text;
+        int _vert_text_length, _frag_text_length, _tessc_text_length, _tesse_text_length;
 
-        unsigned _vert, _frag, _prog;
+        unsigned _vert, _frag, _tessc, _tesse, _prog;
 
-        bool loadShaderText(const char *&text, int &text_length, const char *suffix);
+        bool loadShaderText(const char *&text, int &text_length, const char *suffix, bool required = true);
 
         unsigned compileShader(unsigned type, const char *text, int text_length);
         bool ensureShaderCompiled(unsigned shader, const char *suffix);

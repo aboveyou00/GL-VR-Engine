@@ -34,6 +34,9 @@ namespace TileRPG
 
     void ITile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
+        static const float TILES_PER_TEXTURE_U = 16;
+        static const float TILES_PER_TEXTURE_V = 16;
+
         auto &chunk = chunkGobj.GetChunk();
         auto world = &chunkGobj.GetWorld();
         ITile *tile;
@@ -41,10 +44,10 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushXp())
         {
             //Render face Xm
-            auto idx0 = chunkGobj.AddVertex({ x, y,     z },     { 0, 0 }, { -1, 0, 0 });
-            auto idx1 = chunkGobj.AddVertex({ x, y + 1, z },     { 1, 0 }, { -1, 0, 0 });
-            auto idx2 = chunkGobj.AddVertex({ x, y + 1, z + 1 }, { 1, 1 }, { -1, 0, 0 });
-            auto idx3 = chunkGobj.AddVertex({ x, y,     z + 1 }, { 0, 1 }, { -1, 0, 0 });
+            auto idx0 = chunkGobj.AddVertex({ x, y,     z },     { y       / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
+            auto idx1 = chunkGobj.AddVertex({ x, y + 1, z },     { (y + 1) / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
+            auto idx2 = chunkGobj.AddVertex({ x, y + 1, z + 1 }, { (y + 1) / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
+            auto idx3 = chunkGobj.AddVertex({ x, y,     z + 1 }, { y       / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
 
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
@@ -53,10 +56,10 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushXm())
         {
             //Render face Xp
-            auto idx0 = chunkGobj.AddVertex({ x + 1, y,     z },     { 0, 0 }, { 1, 0, 0 });
-            auto idx1 = chunkGobj.AddVertex({ x + 1, y + 1, z },     { 1, 0 }, { 1, 0, 0 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { 1, 1 }, { 1, 0, 0 });
-            auto idx3 = chunkGobj.AddVertex({ x + 1, y,     z + 1 }, { 0, 1 }, { 1, 0, 0 });
+            auto idx0 = chunkGobj.AddVertex({ x + 1, y,     z },     { y       / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
+            auto idx1 = chunkGobj.AddVertex({ x + 1, y + 1, z },     { (y + 1) / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { (y + 1) / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
+            auto idx3 = chunkGobj.AddVertex({ x + 1, y,     z + 1 }, { y       / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
 
             chunkGobj.AddTriangle({ idx0, idx2, idx1 });
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });
@@ -67,10 +70,10 @@ namespace TileRPG
         {
             //TODO: Do I really need Ym? Ever? This may just be wasted tris
             //Render face Ym
-            auto idx0 = chunkGobj.AddVertex({ x,     y, z },     { 0, 0 }, { 0, -1, 0 });
-            auto idx1 = chunkGobj.AddVertex({ x + 1, y, z },     { 1, 0 }, { 0, -1, 0 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y, z + 1 }, { 1, 1 }, { 0, -1, 0 });
-            auto idx3 = chunkGobj.AddVertex({ x,     y, z + 1 }, { 0, 1 }, { 0, -1, 0 });
+            auto idx0 = chunkGobj.AddVertex({ x,     y, z },     { x       / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 0, -1, 0 });
+            auto idx1 = chunkGobj.AddVertex({ x + 1, y, z },     { (x + 1) / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 0, -1, 0 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y, z + 1 }, { (x + 1) / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 0, -1, 0 });
+            auto idx3 = chunkGobj.AddVertex({ x,     y, z + 1 }, { x       / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 0, -1, 0 });
 
             chunkGobj.AddTriangle({ idx0, idx2, idx1 });
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });
@@ -79,10 +82,10 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushYm())
         {
             //Render face Yp
-            auto idx0 = chunkGobj.AddVertex({ x,     y + 1, z },     { 0, 0 }, { 0, 1, 0 });
-            auto idx1 = chunkGobj.AddVertex({ x + 1, y + 1, z },     { 1, 0 }, { 0, 1, 0 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { 1, 1 }, { 0, 1, 0 });
-            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z + 1 }, { 0, 1 }, { 0, 1, 0 });
+            auto idx0 = chunkGobj.AddVertex({ x,     y + 1, z },     { x       / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
+            auto idx1 = chunkGobj.AddVertex({ x + 1, y + 1, z },     { (x + 1) / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { (x + 1) / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
+            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z + 1 }, { x       / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
 
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
@@ -92,10 +95,10 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushZp())
         {
             //Render face Zm
-            auto idx0 = chunkGobj.AddVertex({ x,     y,     z }, { 0, 0 }, { 0, 0, -1 });
-            auto idx1 = chunkGobj.AddVertex({ x + 1, y,     z }, { 1, 0 }, { 0, 0, -1 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z }, { 1, 1 }, { 0, 0, -1 });
-            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z }, { 0, 1 }, { 0, 0, -1 });
+            auto idx0 = chunkGobj.AddVertex({ x,     y,     z }, { x       / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { 0, 0, -1 });
+            auto idx1 = chunkGobj.AddVertex({ x + 1, y,     z }, { (x + 1) / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { 0, 0, -1 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z }, { (x + 1) / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { 0, 0, -1 });
+            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z }, { x       / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { 0, 0, -1 });
 
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
@@ -104,10 +107,10 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushZm())
         {
             //Render face Zp
-            auto idx0 = chunkGobj.AddVertex({ x,     y,     z + 1 }, { 0, 0 }, { 0, 0, 1 });
-            auto idx1 = chunkGobj.AddVertex({ x + 1, y,     z + 1 }, { 1, 0 }, { 0, 0, 1 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { 1, 1 }, { 0, 0, 1 });
-            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z + 1 }, { 0, 1 }, { 0, 0, 1 });
+            auto idx0 = chunkGobj.AddVertex({ x,     y,     z + 1 }, { x       / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { 0, 0, 1 });
+            auto idx1 = chunkGobj.AddVertex({ x + 1, y,     z + 1 }, { (x + 1) / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { 0, 0, 1 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { (x + 1) / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { 0, 0, 1 });
+            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z + 1 }, { x       / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { 0, 0, 1 });
 
             chunkGobj.AddTriangle({ idx0, idx2, idx1 });
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });

@@ -27,27 +27,24 @@ namespace GlEngine
 		if (!GlEngine::FbxLoader::Load(filename, this))
 			return false;
 
-		for (unsigned i = 0; i < subObjects.size(); i++)
-			if (!subObjects[i]->Initialize())
-				return false;
+		//for (unsigned i = 0; i < subObjects.size(); i++)
+		//	if (!subObjects[i]->Initialize())
+		//		return false;
 		
 		return GraphicsObject::Initialize();
 	}
-
 	void FbxGraphicsObject::Shutdown()
 	{
 	}
-
 	bool FbxGraphicsObject::InitializeGraphics()
 	{
 		ProcessPending();
-		for (size_t i = 0; i < subObjects.size(); i++)
-			subObjects[i]->InitializeGraphics();
+		//for (size_t i = 0; i < subObjects.size(); i++)
+		//	subObjects[i]->InitializeGraphics();
 
 		initialized = true;
 		return GraphicsObject::InitializeGraphics();
 	}
-
 	void FbxGraphicsObject::ShutdownGraphics()
 	{
 	}
@@ -74,8 +71,8 @@ namespace GlEngine
 		for (size_t i = 0; i < pending.size(); i++)
 		{
 			subObjects.push_back(pending[i]);
-			if (initialized)
-				pending[i]->Initialize();
+			//if (initialized)
+			//	pending[i]->Initialize();
 		}
 		pending.clear();
 	}

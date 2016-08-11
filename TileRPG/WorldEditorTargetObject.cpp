@@ -9,6 +9,7 @@
 #include "Chunk.h"
 
 #include "AirTile.h"
+#include "WaterTile.h"
 #include "DirtTile.h"
 #include "RockTile.h"
 
@@ -31,7 +32,8 @@ namespace TileRPG
     static const int TILE_IDS[] = {
         AirTile::GetInstance().GetTileId(),
         DirtTile::GetInstance().GetTileId(),
-        RockTile::GetInstance().GetTileId()
+        RockTile::GetInstance().GetTileId(),
+        WaterTile::GetInstance().GetTileId()
     };
     static const unsigned MAX_TILE_IDS = sizeof(TILE_IDS) / sizeof(int);
 

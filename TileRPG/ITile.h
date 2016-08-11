@@ -43,10 +43,11 @@ namespace TileRPG
 
         virtual const char *footstep_sound();
 
+    protected:
+        ITile *getTile(int tileId);
+
     private:
         int _tileId;
         bool _solid, _fullBlock;
-
-        ITile *getTile(int tileId);
     };
 }

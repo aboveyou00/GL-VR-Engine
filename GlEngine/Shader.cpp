@@ -24,7 +24,11 @@ namespace GlEngine
     {
     }
     Shader::Shader(const char *path, const char *name)
-        : _path(path), _name(name), _vert_text(nullptr), _frag_text(nullptr), _vert(0), _frag(0), _prog(0)
+        : _path(path), _name(name),
+          _vert_text(nullptr), _frag_text(nullptr), _vert(0), _frag(0),
+          _tessc_text(nullptr), _tesse_text(nullptr), _tessc(0), _tesse(0),
+          _prog(0),
+          theta(0)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);
@@ -60,6 +64,8 @@ namespace GlEngine
 
         if (!loadShaderText(_vert_text, _vert_text_length, "vert")) return false;
         if (!loadShaderText(_frag_text, _frag_text_length, "frag")) return false;
+        loadShaderText(_tessc_text, _tessc_text_length, "tessc", false);
+        loadShaderText(_tesse_text, _tesse_text_length, "tesse", false);
 
         return true;
     }
@@ -71,15 +77,29 @@ namespace GlEngine
         if (!_vert)
         {
             _vert = compileShader(GL_VERTEX_SHADER, _vert_text, _vert_text_length);
-            if (!ensureShaderCompiled(_vert, "vert")) return false;
             delete[] _vert_text;
+            if (!ensureShaderCompiled(_vert, "vert")) return false;
         }
 
         if (!_frag)
         {
             _frag = compileShader(GL_FRAGMENT_SHADER, _frag_text, _frag_text_length);
-            if (!ensureShaderCompiled(_frag, "frag")) return false;
             delete[] _frag_text;
+            if (!ensureShaderCompiled(_frag, "frag")) return false;
+        }
+
+        if (!_tessc && _tessc_text != nullptr)
+        {
+            _tessc = compileShader(GL_TESS_CONTROL_SHADER, _tessc_text, _tessc_text_length);
+            delete[] _tessc_text;
+            if (!ensureShaderCompiled(_tessc, "tessc")) _tessc = 0;
+        }
+
+        if (!_tesse && _tesse_text != nullptr)
+        {
+            _tesse = compileShader(GL_TESS_EVALUATION_SHADER, _tesse_text, _tesse_text_length);
+            delete[] _tesse_text;
+            if (!ensureShaderCompiled(_tesse, "tesse")) _tesse = 0;
         }
 
         if (!_prog)
@@ -100,6 +120,12 @@ namespace GlEngine
 
         if (_frag) glDeleteShader(_frag);
         _frag = 0;
+
+        if (_tessc) glDeleteShader(_tessc);
+        _tessc = 0;
+
+        if (_tesse) glDeleteShader(_tesse);
+        _tesse = 0;
     }
 
     const char *Shader::name()
@@ -114,6 +140,18 @@ namespace GlEngine
 
         MatrixStack::Projection.tell_gl();
         MatrixStack::ModelView.tell_gl();
+
+        theta += .01f;
+        glUniform3f(2, sin(theta), .5f, cos(theta));
+        glUniform3f(3, .4f, .6f, 1.f);
+        glUniform3f(4, .4f, .4f, .4f);
+
+        glUniform1f(6, theta);
+    }
+
+    bool Shader::UsesTesselation()
+    {
+        return !!_tesse;
     }
 
     Shader::operator bool()
@@ -121,7 +159,7 @@ namespace GlEngine
         return _prog && _vert && _frag;
     }
 
-    bool Shader::loadShaderText(const char *&text, int &text_length, const char *suffix)
+    bool Shader::loadShaderText(const char *&text, int &text_length, const char *suffix, bool required)
     {
         static const int NAME_BUFFER_SIZE = 64;
         static thread_local char nameBuff[NAME_BUFFER_SIZE];
@@ -131,8 +169,11 @@ namespace GlEngine
         std::ifstream file(fullPath, std::ios::in | std::ifstream::ate | std::ifstream::binary);
         if (file.fail() || !file)
         {
-            auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-            logger.Log(LogType::Warning, "Could not open shader file [%s]", fullPath);
+            if (required)
+            {
+                auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+                logger.Log(LogType::Warning, "Could not open shader file [%s]", fullPath);
+            }
             return false;
         }
 
@@ -188,6 +229,8 @@ namespace GlEngine
         auto program = glCreateProgram();
         glAttachShader(program, _vert);
         glAttachShader(program, _frag);
+        if (_tessc != 0) glAttachShader(program, _tessc);
+        if (_tesse != 0) glAttachShader(program, _tesse);
         glLinkProgram(program);
         return program;
     }

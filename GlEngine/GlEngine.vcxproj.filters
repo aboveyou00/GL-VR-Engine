@@ -384,6 +384,9 @@
     <ClInclude Include="AudioControllerImpl.h">
       <Filter>Header Files\GlEngine\Audio\Impl</Filter>
     </ClInclude>
+    <ClInclude Include="FbxSectionGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -577,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="EventQueue.cpp">
       <Filter>Source Files\GlEngine\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxSectionGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

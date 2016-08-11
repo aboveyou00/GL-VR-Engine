@@ -8,7 +8,6 @@
 #include "GraphicsObject.h"
 #include "CameraGameObject.h"
 
-//#include "DummyChunkProvider.h"
 #include "DiskChunkProvider.h"
 
 #include "Space.h"

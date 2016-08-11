@@ -12,7 +12,7 @@ namespace GlEngine
 	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
 		: arrayVbo(arrayVbo),
           elementVbo(elementVbo),
-          finalized(!!(arrayVbo && elementVbo)),
+          finalized(!!arrayVbo && !!elementVbo),
           elemIdx(0),
           currentGraphicsSection(nullptr),
           verticesFactory(finalized ? nullptr : new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array)),

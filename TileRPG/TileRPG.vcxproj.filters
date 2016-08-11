@@ -379,6 +379,18 @@
     <None Include="Resources\test.fbx">
       <Filter>Resource Files\Resources</Filter>
     </None>
+    <None Include="Shaders\water.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\water.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\water.tessc.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\water.tesse.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\checkers.png">

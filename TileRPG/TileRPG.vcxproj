@@ -253,6 +253,10 @@
     <None Include="Shaders\std.vert.shader" />
     <None Include="Shaders\simple.frag.shader" />
     <None Include="Shaders\simple.vert.shader" />
+    <None Include="Shaders\water.frag.shader" />
+    <None Include="Shaders\water.tessc.shader" />
+    <None Include="Shaders\water.tesse.shader" />
+    <None Include="Shaders\water.vert.shader" />
     <None Include="TileRPG.config">
       <SubType>Designer</SubType>
     </None>

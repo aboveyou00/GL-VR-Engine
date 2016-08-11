@@ -85,8 +85,24 @@ namespace GlEngine
         {
             if (*this)
             {
-                if (triCount) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
-                if (quadCount) glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
+                if (shader != nullptr && *shader && shader->UsesTesselation())
+                {
+                    if (triCount)
+                    {
+                        glPatchParameteri(GL_PATCH_VERTICES, 3);
+                        glDrawElements(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    }
+                    if (quadCount)
+                    {
+                        glPatchParameteri(GL_PATCH_VERTICES, 4);
+                        glDrawElements(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    }
+                }
+                else
+                {
+                    if (triCount) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    if (quadCount) glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
+                }
             }
         }
         void VboGraphicsSection::PostRender()
