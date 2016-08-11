@@ -5,7 +5,7 @@
 #include "TransformedGraphicsObject.h"
 #include "Camera.h"
 #include "GameObject.h"
-#include "GlRenderTarget.h"
+#include "RenderTarget.h"
 #include "GameLoop.h"
 #include <unordered_map>
 
@@ -30,7 +30,7 @@ namespace GlEngine
 		bool Initialize();
 		void Shutdown();
 
-		void AddRenderTarget(GlRenderTarget * renderTarget);
+		void AddRenderTarget(RenderTarget * renderTarget);
 
 		void Update(const graphics_object_map &objs);
 		void UpdateCamera(GameObject*);
@@ -47,7 +47,7 @@ namespace GlEngine
         rt_mutex _lock;
 
 		static const int maxRenderTargets = 256;
-		GlRenderTarget * renderTargets[maxRenderTargets];
+		RenderTarget * renderTargets[maxRenderTargets];
 		size_t renderTargetCount = 0;
         GameLoop _loop;
         FrameStack *frames;

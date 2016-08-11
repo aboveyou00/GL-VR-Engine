@@ -180,10 +180,12 @@
     <ClInclude Include="FixWindows.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GlController.h" />
-    <ClInclude Include="GlControllerImpl.h" />
-    <ClInclude Include="GlRenderTarget.h" />
-    <ClInclude Include="GlRenderTargetImpl.h" />
+    <ClInclude Include="GraphicsController.h" />
+    <ClInclude Include="GraphicsControllerImpl.h" />
+    <ClInclude Include="OrthoViewPort.h" />
+    <ClInclude Include="PerspectiveViewPort.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="RenderTargetImpl.h" />
     <ClInclude Include="GraphicsContext.h" />
     <ClInclude Include="GraphicsObject.h" />
     <ClInclude Include="IComponent.h" />
@@ -221,6 +223,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureRenderTargetImpl.h" />
     <ClInclude Include="Threading.h" />
     <ClInclude Include="TileCollisionGroup.h" />
     <ClInclude Include="TimeUtils.h" />
@@ -234,8 +237,11 @@
     <ClInclude Include="vbo_attribs.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="vbo_attribs_Vector.h" />
+    <ClInclude Include="ViewPort.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
+    <ClInclude Include="WindowRenderTarget.h" />
+    <ClInclude Include="WindowRenderTargetImpl.h" />
     <ClInclude Include="YseAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -262,10 +268,14 @@
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
+    <ClCompile Include="OrthoViewPort.cpp" />
+    <ClCompile Include="PersperctiveViewPort.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureRenderTargetImpl.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />
@@ -276,10 +286,9 @@
     <ClCompile Include="FileLogger.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GlController.cpp" />
-    <ClCompile Include="GlControllerImpl.cpp" />
-    <ClCompile Include="GlRenderTarget.cpp" />
-    <ClCompile Include="GlRenderTargetImpl.cpp" />
+    <ClCompile Include="GraphicsController.cpp" />
+    <ClCompile Include="GraphicsControllerImpl.cpp" />
+    <ClCompile Include="RenderTargetImpl.cpp" />
     <ClCompile Include="GraphicsContext.cpp" />
     <ClCompile Include="GraphicsObject.cpp" />
     <ClCompile Include="IConfigProvider.cpp" />
@@ -301,8 +310,11 @@
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
     <ClCompile Include="VboGraphicsObject.cpp" />
     <ClCompile Include="VboGraphicsSection.cpp" />
+    <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
+    <ClCompile Include="WindowRenderTarget.cpp" />
+    <ClCompile Include="WindowRenderTargetImpl.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />
     <ClCompile Include="YseAudioSource.cpp" />
   </ItemGroup>

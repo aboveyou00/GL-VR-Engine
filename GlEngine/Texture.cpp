@@ -117,4 +117,19 @@ namespace GlEngine
     {
         if (alpha) glDisable(GL_BLEND);
     }
+
+	unsigned Texture::GetWidth()
+	{
+		return width;
+	}
+
+	unsigned Texture::GetHeight()
+	{
+		return height;
+	}
+
+	unsigned Texture::GetGlTexture()
+	{
+		return gl_tex;
+	}
 }

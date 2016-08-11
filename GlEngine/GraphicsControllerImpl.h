@@ -7,11 +7,11 @@ namespace GlEngine
 {
     namespace Impl
     {
-        class ENGINE_SHARED GlControllerImpl : public IComponent
+        class ENGINE_SHARED GraphicsControllerImpl : public IComponent
         {
         public:
-            GlControllerImpl();
-            ~GlControllerImpl();
+            GraphicsControllerImpl();
+            ~GraphicsControllerImpl();
 
             bool Initialize();
             void Shutdown();

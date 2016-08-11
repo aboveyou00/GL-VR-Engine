@@ -26,6 +26,11 @@ namespace GlEngine
         void Push();
         void Pop();
 
+		unsigned GetWidth();
+		unsigned GetHeight();
+
+		unsigned GetGlTexture();
+
     private:
         bool initialized, alpha;
         const char *const path;

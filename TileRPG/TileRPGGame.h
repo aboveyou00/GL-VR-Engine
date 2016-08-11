@@ -6,7 +6,7 @@
 namespace GlEngine
 {
     class Window;
-    class GlRenderTarget;
+    class RenderTarget;
     class GraphicsContext;
     class ILogger;
     class IConfigProvider;
