@@ -2,7 +2,6 @@
 
 #include "IComponent.h"
 #include "Camera.h"
-#include "RenderTargetImpl.h"
 
 namespace GlEngine
 {
@@ -18,7 +17,7 @@ namespace GlEngine
 	class ENGINE_SHARED RenderTarget : public IComponent
     {
     public:
-		RenderTarget();
+		RenderTarget(Impl::RenderTargetImpl *impl);
 		~RenderTarget();
 
 		bool Initialize();

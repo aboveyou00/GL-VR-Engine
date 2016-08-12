@@ -7,7 +7,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class ENGINE_SHARED TextureRenderTargetImpl : RenderTargetImpl
+		class TextureRenderTargetImpl : public RenderTargetImpl
 		{
 		public:
 			TextureRenderTargetImpl(Texture * texture);

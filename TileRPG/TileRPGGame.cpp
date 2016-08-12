@@ -4,11 +4,10 @@
 #include "Engine.h"
 #include "WindowManager.h"
 #include "GraphicsContext.h"
+#include "WindowRenderTarget.h"
 #include "TransformedGraphicsObject.h"
 #include "Camera.h"
-
-#include "TestMusicObject.h"
-#include "TestEventObject.h"
+#include "PerspectiveViewPort.h"
 
 #include "FileLogger.h"
 #include "FileConfigProvider.h"
@@ -44,6 +43,7 @@ namespace TileRPG
         _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
         GlEngine::RenderTarget* _renderTarget = new GlEngine::WindowRenderTarget(_window);
+        _renderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
         _gfxContext->AddRenderTarget(_renderTarget);
 
         _gfxContext->camera.SetEye({ 0, 0, 0 });

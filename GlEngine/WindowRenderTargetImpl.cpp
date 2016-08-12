@@ -35,7 +35,7 @@ namespace GlEngine
 
 		void WindowRenderTargetImpl::MakeCurrentTarget()
 		{
-			assert(false);
+			//assert(false);
 			wglMakeCurrent(deviceContext, contextHandle);
 		}
 

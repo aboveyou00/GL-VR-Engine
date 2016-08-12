@@ -10,7 +10,7 @@ namespace GlEngine
 
     namespace Impl
     {
-        class ENGINE_SHARED RenderTargetImpl : public IComponent
+        class RenderTargetImpl : public IComponent
         {
         public:
 			RenderTargetImpl();

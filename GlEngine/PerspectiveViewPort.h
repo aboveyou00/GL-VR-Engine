@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED PerspectiveViewPort : ViewPort
+	class ENGINE_SHARED PerspectiveViewPort : public ViewPort
 	{
 	public:
 		PerspectiveViewPort();

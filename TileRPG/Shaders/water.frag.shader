@@ -5,15 +5,15 @@
 layout(location = 0) in vec3 in_light_color;
 layout(location = 1) in vec2 in_uv_coords;
 
-layout(location = 0) uniform mat4 projection_matrix;
-layout(location = 1) uniform mat4 model_view_matrix;
-layout(location = 2) uniform vec3 direct_light_direction;
-layout(location = 3) uniform vec3 direct_light_color;
-layout(location = 4) uniform vec3 ambient_light_color;
-layout(location = 5) uniform sampler2D texture_sampler;
-layout(location = 6) uniform float in_game_time;
-
 layout(location = 0) out vec4 out_color;
+
+//layout(location = 0) uniform mat4 projection_matrix;
+//layout(location = 1) uniform mat4 model_view_matrix;
+//layout(location = 2) uniform vec3 direct_light_direction;
+//layout(location = 3) uniform vec3 direct_light_color;
+//layout(location = 4) uniform vec3 ambient_light_color;
+layout(location = 5) uniform sampler2D texture_sampler;
+//layout(location = 6) uniform float in_game_time;
 
 void main(void)
 {

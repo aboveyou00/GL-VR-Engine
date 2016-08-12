@@ -10,8 +10,9 @@ namespace GlEngine
 		class WindowRenderTargetImpl;
 	}
 
-	class WindowRenderTarget : public RenderTarget
+	class ENGINE_SHARED WindowRenderTarget : public RenderTarget
 	{
+    public:
 		WindowRenderTarget(Window * window);
 		~WindowRenderTarget();
 	};
