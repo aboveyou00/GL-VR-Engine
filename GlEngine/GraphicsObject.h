@@ -12,7 +12,7 @@ namespace GlEngine
 	class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
 	{
 	public:
-		GraphicsObject();
+		GraphicsObject(bool autoinit = true);
 		~GraphicsObject();
 
         bool Initialize() override;
@@ -20,10 +20,15 @@ namespace GlEngine
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
-        virtual void Render();
+        void Render();
 		virtual void PreRender();
         virtual void RenderImpl() = 0;
         virtual void PostRender();
+
+        void RenderInstanced();
+        virtual void PreRenderInstanced();
+        virtual void RenderInstancedImpl();
+        virtual void PostRenderInstanced();
 
     protected:
         bool initialized, graphicsInitialized;

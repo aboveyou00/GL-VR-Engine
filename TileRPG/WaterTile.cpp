@@ -25,8 +25,6 @@ namespace TileRPG
         static auto texture = GlEngine::Texture::FromFile("Textures/water.png", true);
         chunkGobj.SetGraphics(shader, texture);
         
-        //ITile::AddToChunkGraphicsObject(chunkGobj, x, y, z);
-
         static const float TILES_PER_TEXTURE_U = 16;
         static const float TILES_PER_TEXTURE_V = 16;
 
@@ -45,7 +43,5 @@ namespace TileRPG
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
         }
-
-
     }
 }

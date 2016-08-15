@@ -96,7 +96,7 @@ namespace TileRPG
         auto wgo = dynamic_cast<WorldGraphicsObject*>(object);
         if (wgo != nullptr)
         {
-            GlEngine::ScopedLock _lock(mutex);
+            ScopedLock _lock(mutex);
             wgo->UpdateChunks(&loadedChunks);
         }
     }
@@ -113,7 +113,7 @@ namespace TileRPG
         static thread_local Chunk *save_requests[MAX_REQUESTS];
         unsigned numRequests = 0, numSaveRequests = 0;
         {
-            GlEngine::ScopedLock _lock(mutex);
+            ScopedLock _lock(mutex);
 
             numSaveRequests = min(MAX_REQUESTS, chunkSaveRequests.size());
             for (size_t q = 0; q < numSaveRequests; q++)
@@ -144,14 +144,14 @@ namespace TileRPG
 
         if (numRequests > 0)
         {
-            GlEngine::ScopedLock _lock(mutex);
+            ScopedLock _lock(mutex);
             for (size_t q = 0; q < numRequests; q++)
                 chunkFulfillments.push_back(fulfillments[q]);
         }
     }
     void World::shutdownLoop()
     {
-        GlEngine::ScopedLock _lock(mutex);
+        ScopedLock _lock(mutex);
         while (chunkSaveRequests.size() != 0 || chunkRequests.size() != 0)
             tickLoop(0);
         provider->Shutdown();
@@ -159,7 +159,7 @@ namespace TileRPG
 
     void World::collectFulfilledChunkRequests()
     {
-        GlEngine::ScopedLock _lock(mutex);
+        ScopedLock _lock(mutex);
         for (size_t q = 0; q < chunkFulfillments.size(); q++)
         {
             auto newChunk = chunkFulfillments[q];
@@ -178,7 +178,7 @@ namespace TileRPG
         int minx, maxx, minz, maxz, directPrice;
         if (!getMinMaxChunkCoords(minx, maxx, minz, maxz, directPrice)) return;
 
-        GlEngine::ScopedLock _lock(mutex);
+        ScopedLock _lock(mutex);
         if ((maxx - minx - 1) * (maxz - minz - 1) > directPrice) updateWorldLoaderChunks_direct();
         else updateWorldLoaderChunks_rect(minx, maxx, minz, maxz);
     }
@@ -293,6 +293,7 @@ namespace TileRPG
     }
     Chunk *World::getChunk(int chunkX, int chunkZ)
     {
+        ScopedLock _lock(mutex);
         for (size_t q = 0; q < loadedChunks.size(); q++)
         {
             auto chunk = loadedChunks[q];

@@ -19,7 +19,7 @@ using namespace std::chrono_literals;
 #include <assert.h>
 
 #include "vbo_attribs_Vector.h"
-#include "Matrix.h"
+#include "vbo_attribs_Matrix.h"
 
 #include "Threading.h"
 #include "Memory.h"

@@ -44,10 +44,10 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushXp())
         {
             //Render face Xm
-            auto idx0 = chunkGobj.AddVertex({ x, y,     z },     { y       / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
-            auto idx1 = chunkGobj.AddVertex({ x, y + 1, z },     { (y + 1) / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
-            auto idx2 = chunkGobj.AddVertex({ x, y + 1, z + 1 }, { (y + 1) / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
-            auto idx3 = chunkGobj.AddVertex({ x, y,     z + 1 }, { y       / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
+            auto idx0 = chunkGobj.AddVertex({ x, y,     z },     { z       / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
+            auto idx1 = chunkGobj.AddVertex({ x, y + 1, z },     { z       / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
+            auto idx2 = chunkGobj.AddVertex({ x, y + 1, z + 1 }, { (z + 1) / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
+            auto idx3 = chunkGobj.AddVertex({ x, y,     z + 1 }, { (z + 1) / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { -1, 0, 0 });
 
             chunkGobj.AddTriangle({ idx0, idx1, idx2 });
             chunkGobj.AddTriangle({ idx0, idx2, idx3 });
@@ -56,10 +56,10 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushXm())
         {
             //Render face Xp
-            auto idx0 = chunkGobj.AddVertex({ x + 1, y,     z },     { y       / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
-            auto idx1 = chunkGobj.AddVertex({ x + 1, y + 1, z },     { (y + 1) / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { (y + 1) / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
-            auto idx3 = chunkGobj.AddVertex({ x + 1, y,     z + 1 }, { y       / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
+            auto idx0 = chunkGobj.AddVertex({ x + 1, y,     z },     { z       / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
+            auto idx1 = chunkGobj.AddVertex({ x + 1, y + 1, z },     { z       / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
+            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { (z + 1) / TILES_PER_TEXTURE_U, (y + 1) / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
+            auto idx3 = chunkGobj.AddVertex({ x + 1, y,     z + 1 }, { (z + 1) / TILES_PER_TEXTURE_U, y       / TILES_PER_TEXTURE_V }, { 1, 0, 0 });
 
             chunkGobj.AddTriangle({ idx0, idx2, idx1 });
             chunkGobj.AddTriangle({ idx0, idx3, idx2 });

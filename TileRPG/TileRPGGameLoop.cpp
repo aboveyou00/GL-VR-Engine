@@ -73,7 +73,7 @@ namespace TileRPG
     {
         GlEngine::Events::Event *evt;
         auto &engine = GlEngine::Engine::GetInstance();
-        GlEngine::ScopedLock _lock(engine.GetMutex());
+        ScopedLock _lock(engine.GetMutex());
 
         auto &remoteQueue = engine.GetEventQueue();
         while ((evt = remoteQueue.RemoveEvent()) != nullptr)

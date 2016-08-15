@@ -2,17 +2,19 @@
 #include "VboGraphicsObject.h"
 #include "VboFactory.h"
 #include "VboGraphicsSection.h"
+#include "VaoFactory.h"
+
+#include "OpenGl.h"
 
 namespace GlEngine
 {
     VboGraphicsObject::VboGraphicsObject()
-        : VboGraphicsObject(VbObject(), VbObject())
+        : VboGraphicsObject(VaObject())
 	{
 	}
-	VboGraphicsObject::VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo)
-		: arrayVbo(arrayVbo),
-          elementVbo(elementVbo),
-          finalized(!!arrayVbo && !!elementVbo),
+	VboGraphicsObject::VboGraphicsObject(VaObject vao)
+		: _vao(vao),
+          finalized(!!vao),
           elemIdx(0),
           currentGraphicsSection(nullptr),
           verticesFactory(finalized ? nullptr : new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array)),
@@ -57,7 +59,7 @@ namespace GlEngine
             assert(indices[q] < elemIdx);
         currentGraphicsSection->AddQuad(indices);
     }
-    
+
 	bool VboGraphicsObject::Initialize()
 	{
 		return true;
@@ -70,30 +72,28 @@ namespace GlEngine
         if (finalized) return false;
         finalized = true;
 
-        if (!arrayVbo)
-        {
-            if (verticesFactory == nullptr) return false;
-            arrayVbo = verticesFactory->Compile();
-            delete verticesFactory;
-        }
-        if (!elementVbo)
-        {
-            if (facesFactory == nullptr) return false;
-            for (size_t q = 0; q < graphicsSections.size(); q++)
-                graphicsSections[q]->Finalize(facesFactory);
-            elementVbo = facesFactory->Compile();
-            delete facesFactory;
-        }
+        if (verticesFactory == nullptr) return false;
+        if (facesFactory == nullptr) return false;
 
-        return arrayVbo.InitializeGraphics() && elementVbo.InitializeGraphics();
+        for (size_t q = 0; q < graphicsSections.size(); q++)
+            graphicsSections[q]->Finalize(facesFactory);
+
+        _vao = VaoFactory::Begin()
+            ->Add(verticesFactory)
+            ->Add(facesFactory)
+            ->Compile();
+
+        delete verticesFactory;
+        verticesFactory = nullptr;
+        delete facesFactory;
+        facesFactory = nullptr;
+
+        return _vao.InitializeGraphics();
     }
     void VboGraphicsObject::ShutdownGraphics()
     {
-        arrayVbo.ShutdownGraphics();
-        arrayVbo = VbObject();
-
-        elementVbo.ShutdownGraphics();
-        elementVbo = VbObject();
+        _vao.ShutdownGraphics();
+        _vao = VaObject();
     }
 
     const char *VboGraphicsObject::name()
@@ -104,21 +104,19 @@ namespace GlEngine
 	void VboGraphicsObject::PreRender()
 	{
 		GraphicsObject::PreRender();
-		if (*this)
-		{
-			arrayVbo.MakeCurrent();
-			elementVbo.MakeCurrent();
-		}
+        if (*this) _vao.MakeCurrent();
 	}
 	void VboGraphicsObject::RenderImpl()
 	{
         if (*this)
+        {
             for (size_t q = 0; q < graphicsSections.size(); q++)
                 graphicsSections[q]->Render();
+        }
 	}
 
     VboGraphicsObject::operator bool()
     {
-        return finalized && arrayVbo && elementVbo;
+        return finalized && _vao;
     }
 }

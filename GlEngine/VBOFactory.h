@@ -58,9 +58,9 @@ namespace GlEngine
             //}
         }
 
-        VbObject Compile()
+        VbObject Compile(VaoFactory *vao, bool instanced = false)
         {
-            return UnsafeVboFactory::Compile();
+            return UnsafeVboFactory::Compile(vao, instanced);
         }
 
     private:

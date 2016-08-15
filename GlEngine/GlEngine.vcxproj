@@ -229,12 +229,15 @@
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
     <ClInclude Include="UnsafeVboFactory.h" />
+    <ClInclude Include="VaObject.h" />
+    <ClInclude Include="VaoFactory.h" />
     <ClInclude Include="VbObject.h" />
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboGraphicsObject.h" />
     <ClInclude Include="VboGraphicsSection.h" />
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
+    <ClInclude Include="vbo_attribs_Matrix.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="vbo_attribs_Vector.h" />
     <ClInclude Include="ViewPort.h" />
@@ -276,6 +279,8 @@
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureRenderTargetImpl.cpp" />
+    <ClCompile Include="VaObject.cpp" />
+    <ClCompile Include="VaoFactory.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />

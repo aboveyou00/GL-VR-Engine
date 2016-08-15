@@ -6,10 +6,11 @@
 
 namespace GlEngine
 {
+    class VaoFactory;
     namespace Impl
     {
         typedef struct { unsigned name, start, size; } attribute_descriptor;
-        VbObject CompileVbo(BufferMode mode, unsigned bufferSizeInBytes, unsigned vertexSizeInBytes, void *front, attribute_descriptor *attrs, unsigned attributeCount, VboType type);
+        VbObject CompileVbo(VaoFactory *vao, bool instanced, BufferMode mode, unsigned bufferSizeInBytes, unsigned vertexSizeInBytes, void *front, attribute_descriptor *attrs, unsigned attributeCount, VboType type);
     }
 
     template <VboType type = VboType::Float, unsigned attribCount = 1>
@@ -76,10 +77,10 @@ namespace GlEngine
             return AddVertex(elements, vertexSizeInElements, checkCache);
         }
 
-        VbObject Compile()
+        VbObject Compile(VaoFactory *vao, bool instanced = false)
         {
             assert(attribIdx == attribCount);
-            return Impl::CompileVbo(currentMode, data.size() * sizeof(el_type), vertexSizeInElements * sizeof(el_type), &data[0], attribs, attribCount, type);
+            return Impl::CompileVbo(vao, instanced, currentMode, data.size() * sizeof(el_type), vertexSizeInElements * sizeof(el_type), &data[0], attribs, attribCount, type);
         }
 
     protected:

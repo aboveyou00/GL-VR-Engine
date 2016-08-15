@@ -21,16 +21,20 @@ namespace GlEngine
         {
             std::cout << "Loading mesh: " << mesh->GetName() << std::endl;
 
-            std::vector<int> triangleIndeces;
+            std::vector<int> triangleIndices;
+            std::vector<int> quadIndices;
+
+            auto uvs = mesh->GetLayer(0)->GetUVs();
 
             for (int p = 0; p < mesh->GetPolygonCount(); p++)
             {
-                if (mesh->GetPolygonSize(p) != 3)
+                auto polySize = mesh->GetPolygonSize(p);
+                if (polySize != 3 && polySize != 4)
                 {
-                    // Non-tris not supported
+                    // N-gons not supported
                     assert(false);
                 }
-                for (int pi = 0; pi < mesh->GetPolygonSize(p); pi++)
+                for (int pi = 0; pi < polySize; pi++)
                 {
                     fbxsdk::FbxVector4 vertex = mesh->GetControlPointAt(mesh->GetPolygonVertex(p, pi));
 
@@ -38,7 +42,6 @@ namespace GlEngine
                     mesh->GetPolygonVertexNormal(p, pi, normal);
 
                     fbxsdk::FbxVector2 texCoord;
-                    auto uvs = mesh->GetLayer(0)->GetUVs();
                     if (uvs)
                     {
                         auto uvName = uvs->GetName();
@@ -46,7 +49,8 @@ namespace GlEngine
                         mesh->GetPolygonVertexUV(p, pi, uvName, texCoord, unMapped);
                     }
                     int vIndex = findOrAddGlVertex({ vertex[0], vertex[1], vertex[2] }, { texCoord[0], texCoord[1] }, { normal[0], normal[1], normal[2] });
-                    triangleIndeces.push_back(vIndex);
+                    if (polySize == 3) triangleIndices.push_back(vIndex);
+                    else if (polySize == 4) quadIndices.push_back(vIndex);
                 }
             }
 
@@ -61,8 +65,10 @@ namespace GlEngine
             auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
             auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
             SetGraphics(shader, texture);
-            for (unsigned i = 0; i < triangleIndeces.size() / 3; i++)
-                AddTriangle({ triangleIndeces[3 * i + 2], triangleIndeces[3 * i + 1], triangleIndeces[3 * i] });
+            for (unsigned i = 0; i < triangleIndices.size() / 3; i++)
+                AddTriangle({ triangleIndices[3 * i + 2], triangleIndices[3 * i + 1], triangleIndices[3 * i] });
+            for (unsigned i = 0; i < quadIndices.size() / 4; i++)
+                AddQuad({ quadIndices[4 * i + 3], quadIndices[4 * i + 2], quadIndices[4 * i + 1], quadIndices[4 * i] });
 
             delete glVertices;
 

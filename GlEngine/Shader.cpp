@@ -141,11 +141,13 @@ namespace GlEngine
         MatrixStack::Projection.tell_gl();
         MatrixStack::ModelView.tell_gl();
 
-        theta += .01f;
-        glUniform3f(2, sin(theta), .5f, cos(theta));
+        Vector<3> lightDir = { 1, 1.5, 1 };
+        lightDir = lightDir.Normalized();
+        glUniform3f(2, lightDir[0], lightDir[1], lightDir[2]);
         glUniform3f(3, .4f, .6f, 1.f);
         glUniform3f(4, .4f, .4f, .4f);
 
+        theta += .01f;
         glUniform1f(6, theta);
     }
 

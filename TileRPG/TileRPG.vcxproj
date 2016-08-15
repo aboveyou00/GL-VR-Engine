@@ -248,6 +248,8 @@
     <None Include="Shaders\direct_light.frag.shader" />
     <None Include="Shaders\direct_light.vert.shader" />
     <None Include="Shaders\direct_light_tex.frag.shader" />
+    <None Include="Shaders\direct_light_tex.inst.frag.shader" />
+    <None Include="Shaders\direct_light_tex.inst.vert.shader" />
     <None Include="Shaders\direct_light_tex.vert.shader" />
     <None Include="Shaders\std.frag.shader" />
     <None Include="Shaders\std.vert.shader" />

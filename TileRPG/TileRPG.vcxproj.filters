@@ -391,6 +391,12 @@
     <None Include="Shaders\water.tesse.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="Shaders\direct_light_tex.inst.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\direct_light_tex.inst.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\checkers.png">

@@ -1,16 +1,17 @@
 #pragma once
 
 #include "IGraphicsComponent.h"
-#include "BufferMode.h"
+#include "VbObject.h"
 
 namespace GlEngine
 {
-    struct ENGINE_SHARED VbObject : IGraphicsComponent
+    class VaObject : public IGraphicsComponent
     {
     public:
-        VbObject();
-        VbObject(unsigned buff, BufferMode mode);
-        ~VbObject();
+        VaObject();
+        VaObject(unsigned vao);
+        VaObject(unsigned vao, std::vector<VbObject> *vbos);
+        ~VaObject();
 
         bool Initialize();
         void Shutdown();
@@ -23,7 +24,8 @@ namespace GlEngine
         const char *name() override;
 
     private:
-        unsigned _buffer;
+        unsigned _vao;
+        std::vector<VbObject> *_vbos;
         BufferMode _mode;
     };
 }

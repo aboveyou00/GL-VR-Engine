@@ -111,6 +111,31 @@ namespace GlEngine
             //if (shader != nullptr && *shader) shader->Pop();
         }
 
+        //void VboGraphicsSection::RenderInstancedImpl(const std::vector<Matrix<4, 4>> &vec)
+        //{
+        //    if (*this)
+        //    {
+        //        if (shader != nullptr && *shader && shader->UsesTesselation())
+        //        {
+        //            if (triCount)
+        //            {
+        //                glPatchParameteri(GL_PATCH_VERTICES, 3);
+        //                glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), );
+        //            }
+        //            if (quadCount)
+        //            {
+        //                glPatchParameteri(GL_PATCH_VERTICES, 4);
+        //                glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), );
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (triCount) glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), );
+        //            if (quadCount) glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset), );
+        //        }
+        //    }
+        //}
+
         const char *VboGraphicsSection::name()
         {
             return "VboGraphicsSection";

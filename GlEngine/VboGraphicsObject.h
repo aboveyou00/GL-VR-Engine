@@ -1,7 +1,9 @@
 #pragma once
 
 #include "GraphicsObject.h"
-#include "VbObject.h"
+#include "VaObject.h"
+
+#include <unordered_map>
 
 namespace GlEngine
 {
@@ -19,7 +21,7 @@ namespace GlEngine
 	{
 	public:
 		VboGraphicsObject();
-        VboGraphicsObject(VbObject arrayVbo, VbObject elementVbo);
+        VboGraphicsObject(VaObject vao);
 		~VboGraphicsObject();
 
         void SetGraphics(Shader *shader, Texture *texture);
@@ -49,9 +51,9 @@ namespace GlEngine
 
     private:
         bool finalized;
-        VbObject arrayVbo, elementVbo;
+        VaObject _vao;
         std::vector<Impl::VboGraphicsSection*> graphicsSections;
-
+        
         Impl::VboGraphicsSection *currentGraphicsSection;
         int elemIdx;
         VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>> *verticesFactory;

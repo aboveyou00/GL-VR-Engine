@@ -1,14 +1,11 @@
 #pragma once
 
-namespace GlEngine
+class ENGINE_SHARED ScopedLock
 {
-    class ENGINE_SHARED ScopedLock
-    {
-    public:
-        ScopedLock(rt_mutex &mutex);
-        ~ScopedLock();
+public:
+    ScopedLock(rt_mutex &mutex);
+    ~ScopedLock();
 
-    private:
-        rt_mutex *_mutex;
-    };
-}
+private:
+    rt_mutex *_mutex;
+};
