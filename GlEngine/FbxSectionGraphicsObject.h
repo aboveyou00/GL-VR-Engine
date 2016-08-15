@@ -7,7 +7,7 @@ namespace GlEngine
 {
     namespace Impl
     {
-        class FbxSectionGraphicsObject : public VboGraphicsObject
+        class FbxSectionGraphicsObject : public VboGraphicsObject<>
         {
         public:
             FbxSectionGraphicsObject(fbxsdk::FbxMesh *fbxMesh);

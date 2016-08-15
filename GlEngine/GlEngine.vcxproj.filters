@@ -408,6 +408,9 @@
     <ClInclude Include="VaoFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="VboGraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -502,9 +505,6 @@
     </ClCompile>
     <ClCompile Include="YseAudioSource.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="VboGraphicsObject.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="ObjGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -628,6 +628,9 @@
     </ClCompile>
     <ClCompile Include="VaoFactory.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

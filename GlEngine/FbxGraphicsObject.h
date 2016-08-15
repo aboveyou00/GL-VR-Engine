@@ -9,15 +9,16 @@ namespace GlEngine
 	public:
 		FbxGraphicsObject() {}
 		FbxGraphicsObject(const char * const filename);
+        ~FbxGraphicsObject();
 
-		std::vector<VboGraphicsObject*> subObjects;
-		std::vector<VboGraphicsObject*> pending;
+		std::vector<VboGraphicsObject<>*> subObjects;
+		std::vector<VboGraphicsObject<>*> pending;
 		rt_mutex pendingMutex;
 
 		static FbxGraphicsObject* Create(const char* name);
         void PreRender() override;
 		void RenderImpl() override;
-		void AddSubObject(VboGraphicsObject* graphicsObject);
+		void AddSubObject(VboGraphicsObject<>* graphicsObject);
 
 		bool Initialize() override;
 		void Shutdown() override;

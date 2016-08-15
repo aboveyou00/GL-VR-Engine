@@ -1,62 +1,66 @@
 #pragma once
 
-#include "GraphicsObject.h"
-#include "VaObject.h"
-
-#include <unordered_map>
+#include "VboGraphicsObjectImpl.h"
+#include "VaoFactory.h"
 
 namespace GlEngine
 {
-    template <VboType type, typename... TArgs>
-    class VboFactory;
-    class Shader;
-    class Texture;
-
-    namespace Impl
-    {
-        class VboGraphicsSection;
-    }
-
-	class ENGINE_SHARED VboGraphicsObject : public GraphicsObject
+    template <typename... TArgs>
+	class VboGraphicsObject : public Impl::VboGraphicsObjectImpl
 	{
-	public:
-		VboGraphicsObject();
-        VboGraphicsObject(VaObject vao);
-		~VboGraphicsObject();
-
-        void SetGraphics(Shader *shader, Texture *texture);
-        int AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
-        inline void AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2)
+    public:
+        VboGraphicsObject()
+            : VboGraphicsObject(VaObject())
         {
-            AddTriangle({ idx0, idx1, idx2 });
         }
-        inline void AddQuad(unsigned idx0, unsigned idx1, unsigned idx2, unsigned idx3)
+        VboGraphicsObject(VaObject vao)
+            : Impl::VboGraphicsObjectImpl(vao),
+              instancesFactory(finalized ? nullptr : new VboFactory<VboType::Float, TArgs...>())
         {
-            AddQuad({ idx0, idx1, idx2, idx3 });
         }
-        void AddTriangle(Vector<3, uint16_t> indices);
-        void AddQuad(Vector<4, uint16_t> indices);
+        ~VboGraphicsObject()
+        {
+            SafeDelete(instancesFactory);
+        }
 
-		bool Initialize() override;
-		void Shutdown() override;
-        bool InitializeGraphics() override;
-        void ShutdownGraphics() override;
+        void AddInstance(TArgs... args)
+        {
+            assert(!finalized);
+            assert(instancesFactory != nullptr);
+            instancesFactory->AddVertex(args...);
+        }
 
-        const char *name() override;
+        const char *name() override
+        {
+            return "VboGraphicsObject<T...>";
+        }
 
-		void PreRender() override;
-		void RenderImpl() override;
-
-        operator bool() override;
+    protected:
+        void createVao(VaoFactory *vao) override
+        {
+            Impl::VboGraphicsObjectImpl::createVao(vao);
+            if (instancesFactory != nullptr)
+            {
+                vao->Add(instancesFactory);
+                delete instancesFactory;
+                instancesFactory = nullptr;
+            }
+        }
 
     private:
-        bool finalized;
-        VaObject _vao;
-        std::vector<Impl::VboGraphicsSection*> graphicsSections;
-        
-        Impl::VboGraphicsSection *currentGraphicsSection;
-        int elemIdx;
-        VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>> *verticesFactory;
-        VboFactory<VboType::UnsignedShort, uint16_t> *facesFactory;
+        VboFactory<VboType::Float, TArgs...> *instancesFactory;
 	};
+
+    template <>
+    const char *VboGraphicsObject<>::name()
+    {
+        return "VboGraphicsObject";
+    }
+
+    template <>
+    VboGraphicsObject<>::VboGraphicsObject(VaObject vao)
+        : Impl::VboGraphicsObjectImpl(vao),
+          instancesFactory(nullptr)
+    {
+    }
 }

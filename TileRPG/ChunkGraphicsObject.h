@@ -13,7 +13,7 @@ namespace TileRPG
     class World;
     class Chunk;
 
-    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject
+    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject<>
     {
     public:
         ChunkGraphicsObject(Chunk *chunk, World *world);

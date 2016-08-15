@@ -13,6 +13,9 @@ namespace GlEngine
 		this->filename = filename;
 		initialized = false;
 	}
+    FbxGraphicsObject::~FbxGraphicsObject()
+    {
+    }
 
 	FbxGraphicsObject *FbxGraphicsObject::Create(const char *name)
 	{
@@ -59,7 +62,7 @@ namespace GlEngine
 		return "FbxGraphicsObject";
 	}
 
-	void FbxGraphicsObject::AddSubObject(VboGraphicsObject* graphicsObject)
+	void FbxGraphicsObject::AddSubObject(VboGraphicsObject<>* graphicsObject)
 	{
 		ScopedLock _lock(pendingMutex);
 		pending.push_back(graphicsObject);

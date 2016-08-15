@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-    class VaoFactory
+    class ENGINE_SHARED VaoFactory
     {
     private:
         VaoFactory();

@@ -93,4 +93,51 @@ namespace GlEngine
         int elemIdx = 0;
         Impl::attribute_descriptor attribs[attribCount];
     };
+
+    template <>
+    class UnsafeVboFactory<VboType::Float, 0>
+    {
+    protected:
+        typedef typename vbo_type_attribs<VboType::Float>::type el_type;
+
+    public:
+        UnsafeVboFactory(unsigned vertexSizeInElements, BufferMode mode)
+            : vertexSizeInElements(vertexSizeInElements), currentMode(mode)
+        {
+            assert(vertexSizeInElements == 0);
+        }
+        ~UnsafeVboFactory()
+        {
+        }
+
+        void AddAttrib(unsigned, unsigned, unsigned)
+        {
+            assert(false);
+        }
+
+        void Allocate(unsigned vertexCount)
+        {
+            assert(vertexCount == 0);
+        }
+
+        int AddVertex(el_type*, unsigned, bool = false)
+        {
+            assert(false);
+            return 0;
+        }
+        int AddVertex(el_type *elements, bool checkCache = false)
+        {
+            return AddVertex(elements, vertexSizeInElements, checkCache);
+        }
+
+        VbObject Compile(VaoFactory*, bool = false)
+        {
+            return VbObject();
+        }
+
+    protected:
+        std::vector<el_type> data;
+        unsigned vertexSizeInElements = 0;
+        BufferMode currentMode;
+    };
 }

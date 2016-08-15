@@ -63,8 +63,8 @@ namespace GlEngine
             return UnsafeVboFactory::Compile(vao, instanced);
         }
 
-    private:
-        std::vector<el_type> check_cache_data;
+    //private:
+    //    std::vector<el_type> check_cache_data;
     };
 
     using ElementVboFactory = VboFactory<VboType::UnsignedShort, uint16_t, uint16_t, uint16_t>;

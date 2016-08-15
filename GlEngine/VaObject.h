@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-    class VaObject : public IGraphicsComponent
+    class ENGINE_SHARED VaObject : public IGraphicsComponent
     {
     public:
         VaObject();
