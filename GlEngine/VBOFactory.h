@@ -57,6 +57,10 @@ namespace GlEngine
                 return (data.size() / vertexSizeInElements) - 1;
             //}
         }
+        void RemoveVertex(unsigned idx)
+        {
+            UnsafeVboFactory::RemoveVertex(idx);
+        }
 
         VbObject Compile(VaoFactory *vao, bool instanced = false)
         {

@@ -46,7 +46,10 @@ namespace TileRPG
         if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyTyped) return;
 
         Vector<3> translation = { 0, 0, 0 };
-        switch (kbevt->GetVirtualKeyCode())
+        auto vkcode = kbevt->GetVirtualKeyCode();
+        int idx = -1;
+        int info;
+        switch (vkcode)
         {
         case VK_UP:
             translation += { 0, 0, 1 };
@@ -69,8 +72,7 @@ namespace TileRPG
 
         case VK_SPACE:
         case VK_RETURN:
-            int info = world->GetTileInfo((int)position[0], (int)position[1], (int)position[2]);
-            int idx = -1;
+            info = world->GetTileInfo((int)position[0], (int)position[1], (int)position[2]);
             for (size_t q = 0; q < MAX_TILE_IDS; q++)
                 if (TILE_IDS[q] == info)
                 {
@@ -80,6 +82,21 @@ namespace TileRPG
             idx++;
             if (idx >= MAX_TILE_IDS) idx = 0;
             world->SetTileInfo((int)position[0], (int)position[1], (int)position[2], TILE_IDS[idx]);
+            break;
+
+        case VK_NUMPAD0:
+        case VK_NUMPAD1:
+        case VK_NUMPAD2:
+        case VK_NUMPAD3:
+        case VK_NUMPAD4:
+        case VK_NUMPAD5:
+        case VK_NUMPAD6:
+        case VK_NUMPAD7:
+        case VK_NUMPAD8:
+        case VK_NUMPAD9:
+            idx = kbevt->GetVirtualKeyCode() - 0x61;
+            if (kbevt->GetVirtualKeyCode() == VK_NUMPAD0) idx = 0x6a - 0x61;
+            if (idx < MAX_TILE_IDS) world->SetTileInfo((int)position[0], (int)position[1], (int)position[2], TILE_IDS[idx]);
             break;
         }
 

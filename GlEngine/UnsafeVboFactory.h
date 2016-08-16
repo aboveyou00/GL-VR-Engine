@@ -10,7 +10,7 @@ namespace GlEngine
     namespace Impl
     {
         typedef struct { unsigned name, start, size; } attribute_descriptor;
-        VbObject CompileVbo(VaoFactory *vao, bool instanced, BufferMode mode, unsigned bufferSizeInBytes, unsigned vertexSizeInBytes, void *front, attribute_descriptor *attrs, unsigned attributeCount, VboType type);
+        VbObject ENGINE_SHARED CompileVbo(VaoFactory *vao, bool instanced, BufferMode mode, unsigned bufferSizeInBytes, unsigned vertexSizeInBytes, void *front, attribute_descriptor *attrs, unsigned attributeCount, VboType type);
     }
 
     template <VboType type = VboType::Float, unsigned attribCount = 1>
@@ -21,9 +21,11 @@ namespace GlEngine
 
     public:
         UnsafeVboFactory(unsigned vertexSizeInElements, BufferMode mode)
-            : vertexSizeInElements(vertexSizeInElements), currentMode(mode)
+            : vertexSizeInElements(vertexSizeInElements),
+              currentMode(mode),
+              elemIdx(0),
+              attribIdx(0)
         {
-            attribIdx = 0;
         }
         ~UnsafeVboFactory()
         {
@@ -76,10 +78,19 @@ namespace GlEngine
         {
             return AddVertex(elements, vertexSizeInElements, checkCache);
         }
+        void RemoveVertex(unsigned idx)
+        {
+            assert(idx < elemIdx);
+            auto begin = data.begin() + (idx * vertexSizeInElements);
+            auto end = data.begin() + ((idx + 1) * vertexSizeInElements) - 1;
+            data.erase(begin, end);
+            elemIdx--;
+        }
 
         VbObject Compile(VaoFactory *vao, bool instanced = false)
         {
             assert(attribIdx == attribCount);
+            if (data.size() == 0) return VbObject();
             return Impl::CompileVbo(vao, instanced, currentMode, data.size() * sizeof(el_type), vertexSizeInElements * sizeof(el_type), &data[0], attribs, attribCount, type);
         }
 
@@ -90,7 +101,7 @@ namespace GlEngine
 
     private:
         unsigned attribIdx = 0;
-        int elemIdx = 0;
+        unsigned elemIdx = 0;
         Impl::attribute_descriptor attribs[attribCount];
     };
 

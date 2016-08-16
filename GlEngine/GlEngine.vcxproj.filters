@@ -399,9 +399,6 @@
     <ClInclude Include="ScopedLock.h">
       <Filter>Header Files\stdafx</Filter>
     </ClInclude>
-    <ClInclude Include="FbxSectionGraphicsObject.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="VaObject.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
@@ -409,6 +406,9 @@
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
     <ClInclude Include="VboGraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxGraphicsObjectImpl.h">
       <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
   </ItemGroup>
@@ -507,9 +507,6 @@
       <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
     <ClCompile Include="ObjGraphicsObject.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="FbxGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Frame.cpp">
@@ -614,9 +611,6 @@
     <ClCompile Include="VboGraphicsSection.cpp">
       <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
     </ClCompile>
-    <ClCompile Include="FbxSectionGraphicsObject.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="MatrixStack.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
@@ -630,6 +624,15 @@
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
     <ClCompile Include="VboGraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxGraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsObject_Empty.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxGraphicsObject_Empty.cpp">
       <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
     </ClCompile>
   </ItemGroup>

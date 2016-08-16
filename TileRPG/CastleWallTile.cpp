@@ -27,7 +27,7 @@ namespace TileRPG
         static auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
         static auto texture_wall = GlEngine::Texture::FromFile("Textures/castle_wall.png");
         static auto texture_floor = GlEngine::Texture::FromFile("Textures/castle_floor.png");
-        static auto castle_none_top = GlEngine::FbxGraphicsObject::Create("Resources/castle_none_top.fbx");
+        static auto castle_none_top = GlEngine::FbxGraphicsObject<Matrix<4, 4>>::Create("Resources/castle_none_top.fbx");
         
         static const float TILES_PER_TEXTURE_U = 2;
         static const float TILES_PER_TEXTURE_V = 2;
@@ -39,20 +39,8 @@ namespace TileRPG
         tile = getTile(chunk.GetTileInfo(world, x, y + 1, z));
         if (tile == nullptr || !tile->IsFlushYm())
         {
-            //chunkGobj.AddInstance(castle_none_top, Matrix<4, 4>::TranslateMatrix(x + .5, y, z + .5));
-
-            chunkGobj.SetGraphics(shader, texture_floor);
-
-            //Render face Yp
-            auto idx0 = chunkGobj.AddVertex({ x,     y + 1, z },     { x       / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
-            auto idx1 = chunkGobj.AddVertex({ x + 1, y + 1, z },     { (x + 1) / TILES_PER_TEXTURE_U, z       / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
-            auto idx2 = chunkGobj.AddVertex({ x + 1, y + 1, z + 1 }, { (x + 1) / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
-            auto idx3 = chunkGobj.AddVertex({ x,     y + 1, z + 1 }, { x       / TILES_PER_TEXTURE_U, (z + 1) / TILES_PER_TEXTURE_V }, { 0, 1, 0 });
-
-            chunkGobj.AddTriangle({ idx0, idx1, idx2 });
-            chunkGobj.AddTriangle({ idx0, idx2, idx3 });
-
-            //return;
+            chunkGobj.AddInstance(castle_none_top, Matrix<4, 4>::TranslateMatrix(x + .5f, (float)y, z + .5f));
+            return;
         }
 
         chunkGobj.SetGraphics(shader, texture_wall);

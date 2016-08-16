@@ -1,37 +1,64 @@
 #pragma once
 
 #include "VboGraphicsObject.h"
+#include "FbxGraphicsObjectImpl.h"
+#include <unordered_map>
 
 namespace GlEngine
 {
-	class ENGINE_SHARED FbxGraphicsObject : public GraphicsObject
+    template <typename... TArgs>
+	class FbxGraphicsObject : public VboGraphicsObject<TArgs...>
 	{
+    private:
+        FbxGraphicsObject(const char *const filename)
+            : filename(filename), initialized(false)
+        {
+        }
+        ~FbxGraphicsObject()
+        {
+        }
+
 	public:
-		FbxGraphicsObject() {}
-		FbxGraphicsObject(const char * const filename);
-        ~FbxGraphicsObject();
+        static FbxGraphicsObject<TArgs...> *Create(const char* name)
+        {
+            static std::unordered_map<const char*, FbxGraphicsObject<TArgs...>*> cache;
+            auto ptr = cache[name];
+            if (ptr == nullptr) ptr = cache[name] = new FbxGraphicsObject<TArgs...>(name);
+            return ptr;
+        }
+		
+		bool Initialize() override
+        {
+            if (!Impl::FbxGraphicsObjectImpl::SharedInitialize(this, filename)) return false;
+            return VboGraphicsObject<TArgs...>::Initialize();
+        }
 
-		std::vector<VboGraphicsObject<>*> subObjects;
-		std::vector<VboGraphicsObject<>*> pending;
-		rt_mutex pendingMutex;
-
-		static FbxGraphicsObject* Create(const char* name);
-        void PreRender() override;
-		void RenderImpl() override;
-		void AddSubObject(VboGraphicsObject<>* graphicsObject);
-
-		bool Initialize() override;
-		void Shutdown() override;
-		bool InitializeGraphics() override;
-		void ShutdownGraphics() override;
-
-		operator bool() override;
-
-		const char * name() override;
+        const char *name() override
+        {
+            return "FbxGraphicsObject<T...>";
+        }
 
 	private:
-		const char * filename;
+		const char *filename;
 		bool initialized;
-		void ProcessPending();
 	};
+
+    template <>
+    class ENGINE_SHARED FbxGraphicsObject<> : public VboGraphicsObject<>
+    {
+    private:
+        FbxGraphicsObject(const char *const filename);
+        ~FbxGraphicsObject();
+
+    public:
+        static FbxGraphicsObject<> *Create(const char* name);
+
+        bool Initialize() override;
+
+        const char *name() override;
+
+    private:
+        const char *filename;
+        bool initialized;
+    };
 }

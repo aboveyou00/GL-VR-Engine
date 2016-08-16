@@ -15,7 +15,9 @@ namespace GlEngine
         }
         VboGraphicsObject(VaObject vao)
             : Impl::VboGraphicsObjectImpl(vao),
-              instancesFactory(finalized ? nullptr : new VboFactory<VboType::Float, TArgs...>())
+              instancesFactory(finalized ? nullptr : new VboFactory<VboType::Float, TArgs...>(BufferMode::Array)),
+              instanceCount(0),
+              instanceId(0)
         {
         }
         ~VboGraphicsObject()
@@ -23,11 +25,25 @@ namespace GlEngine
             SafeDelete(instancesFactory);
         }
 
-        void AddInstance(TArgs... args)
+        int AddInstance(TArgs... args)
         {
-            assert(!finalized);
             assert(instancesFactory != nullptr);
+            instanceCount++;
             instancesFactory->AddVertex(args...);
+
+            auto id = ++instanceId;
+            instanceIds.push_back(id);
+            return id;
+        }
+        bool RemoveInstance(int id)
+        {
+            auto idx = std::find(instanceIds.begin(), instanceIds.end(), id);
+            if (idx == instanceIds.end()) return false;
+
+            instanceIds.erase(idx);
+            instancesFactory->RemoveVertex(idx - instanceIds.begin());
+            instanceCount--;
+            return true;
         }
 
         const char *name() override
@@ -39,28 +55,23 @@ namespace GlEngine
         void createVao(VaoFactory *vao) override
         {
             Impl::VboGraphicsObjectImpl::createVao(vao);
-            if (instancesFactory != nullptr)
-            {
-                vao->Add(instancesFactory);
-                delete instancesFactory;
-                instancesFactory = nullptr;
-            }
+            if (instancesFactory != nullptr) vao->Add(instancesFactory);
         }
 
     private:
         VboFactory<VboType::Float, TArgs...> *instancesFactory;
+        std::vector<int> instanceIds;
+        unsigned instanceCount, instanceId;
 	};
 
     template <>
-    const char *VboGraphicsObject<>::name()
+    class ENGINE_SHARED VboGraphicsObject<> : public Impl::VboGraphicsObjectImpl
     {
-        return "VboGraphicsObject";
-    }
+    public:
+        VboGraphicsObject();
+        VboGraphicsObject(VaObject vao);
+        ~VboGraphicsObject();
 
-    template <>
-    VboGraphicsObject<>::VboGraphicsObject(VaObject vao)
-        : Impl::VboGraphicsObjectImpl(vao),
-          instancesFactory(nullptr)
-    {
-    }
+        const char *name() override;
+    };
 }

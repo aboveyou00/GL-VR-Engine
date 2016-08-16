@@ -121,7 +121,7 @@ namespace TileRPG
 
 	GlEngine::GraphicsObject *PlayerObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
 	{
-		return GlEngine::FbxGraphicsObject::Create("Resources/cyllinder.fbx");
+		return GlEngine::FbxGraphicsObject<>::Create("Resources/cylinder.fbx");
 		//return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
 	}
 }

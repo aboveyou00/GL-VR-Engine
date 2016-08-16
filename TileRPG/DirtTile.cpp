@@ -21,7 +21,7 @@ namespace TileRPG
     void DirtTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
         static auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
-        static auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
+        static auto texture = GlEngine::Texture::FromFile("Textures/sand.png");
         chunkGobj.SetGraphics(shader, texture);
         ITile::AddToChunkGraphicsObject(chunkGobj, x, y, z);
     }

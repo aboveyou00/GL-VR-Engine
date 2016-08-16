@@ -22,12 +22,6 @@ namespace TileRPG
 
     bool ChunkGraphicsObject::Initialize()
     {
-        transformationMatrix = Mat3T<float>::TranslateMatrix({ 
-            chunk->GetX() * Chunk::TILES_PER_CHUNK_X,
-            0,
-            chunk->GetZ() * Chunk::TILES_PER_CHUNK_Z
-        });
-
         auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
         auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
         SetGraphics(shader, texture);
@@ -58,16 +52,41 @@ namespace TileRPG
 
         return true;
     }
+    void ChunkGraphicsObject::Shutdown()
+    {
+        for (auto pair = instances.begin(); pair != instances.end(); pair++)
+        {
+            auto &gobj = *pair->first;
+            auto &vec = pair->second;
+            for (size_t q = 0; q < vec.size(); q++)
+                gobj.RemoveInstance(vec[q]);
+        }
+    }
+
+    void ChunkGraphicsObject::AddInstance(VboGraphicsObject<Matrix<4, 4>> *gobj, Matrix<4, 4> localTransformation)
+    {
+        auto index = gobj->AddInstance(GetTransformation() * localTransformation);
+        instances[gobj].push_back(index);
+    }
 
     void ChunkGraphicsObject::PreRender()
     {
         VboGraphicsObject::PreRender();
-        GlEngine::MatrixStack::ModelView.mult(transformationMatrix);
+        GlEngine::MatrixStack::ModelView.mult(GetTransformation());
     }
     void ChunkGraphicsObject::PostRender()
     {
         GlEngine::MatrixStack::ModelView.pop();
         VboGraphicsObject::PostRender();
+    }
+
+    Matrix<4, 4> ChunkGraphicsObject::GetTransformation()
+    {
+        return Mat3T<float>::TranslateMatrix({
+            chunk->GetX() * Chunk::TILES_PER_CHUNK_X,
+            0,
+            chunk->GetZ() * Chunk::TILES_PER_CHUNK_Z
+        });
     }
     
     const char *ChunkGraphicsObject::name()
