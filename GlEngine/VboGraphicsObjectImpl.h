@@ -17,8 +17,8 @@ namespace GlEngine
         class ENGINE_SHARED VboGraphicsObjectImpl : public GraphicsObject
         {
         public:
-            VboGraphicsObjectImpl();
-            VboGraphicsObjectImpl(VaObject vao);
+            VboGraphicsObjectImpl(bool instanced = false);
+            VboGraphicsObjectImpl(VaObject vao, bool instanced = false);
             ~VboGraphicsObjectImpl();
 
             void SetGraphics(Shader *shader, Texture *texture);

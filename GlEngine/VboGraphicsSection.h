@@ -11,7 +11,7 @@ namespace GlEngine
 
     namespace Impl
     {
-        class VboGraphicsSection : public GraphicsObject
+        class VboGraphicsSection
         {
         public:
             VboGraphicsSection(Shader *shader, Texture *texture);
@@ -21,9 +21,8 @@ namespace GlEngine
             void AddQuad(Vector<4, uint16_t> indices);
             void Finalize(VboFactory<VboType::UnsignedShort, uint16_t> *face_factory);
 
-            void PreRender() override;
-            void RenderImpl() override;
-            void PostRender() override;
+            void Render();
+            void RenderInstanced(unsigned instanceCount);
 
             inline bool HasGraphics(Shader *shader, Texture *texture)
             {
@@ -46,8 +45,7 @@ namespace GlEngine
             std::vector<Vector<4, uint16_t>> *quads;
             int triCount, quadCount, triOffset, quadOffset;
 
-            virtual const char *name() override;
-            virtual operator bool() override;
+            operator bool();
         };
     }
 }

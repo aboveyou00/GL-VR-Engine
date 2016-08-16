@@ -14,7 +14,7 @@ namespace GlEngine
         {
         }
         VboGraphicsObject(VaObject vao)
-            : Impl::VboGraphicsObjectImpl(vao),
+            : Impl::VboGraphicsObjectImpl(vao, true),
               instancesFactory(finalized ? nullptr : new VboFactory<VboType::Float, TArgs...>(BufferMode::Array)),
               instanceCount(0),
               instanceId(0)

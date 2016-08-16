@@ -26,7 +26,8 @@ namespace GlEngine
 
         const char *name() override;
 
-        void MakeCurrent();
+        void Push();
+        void Pop();
 
         bool UsesTesselation();
 

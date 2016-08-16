@@ -133,7 +133,7 @@ namespace GlEngine
         return "Shader";
     }
 
-    void Shader::MakeCurrent()
+    void Shader::Push()
     {
         assert(!!*this);
         glUseProgram(_prog);
@@ -149,6 +149,10 @@ namespace GlEngine
 
         theta += .01f;
         glUniform1f(6, theta);
+    }
+    void Shader::Pop()
+    {
+        glUseProgram(0);
     }
 
     bool Shader::UsesTesselation()

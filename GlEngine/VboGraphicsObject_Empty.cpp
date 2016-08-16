@@ -8,7 +8,7 @@ namespace GlEngine
     {
     }
     VboGraphicsObject<>::VboGraphicsObject(VaObject vao)
-        : Impl::VboGraphicsObjectImpl(vao)
+        : Impl::VboGraphicsObjectImpl(vao, false)
     {
     }
     VboGraphicsObject<>::~VboGraphicsObject()

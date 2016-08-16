@@ -11,12 +11,13 @@ namespace GlEngine
 {
     namespace Impl
     {
-        VboGraphicsObjectImpl::VboGraphicsObjectImpl()
-            : VboGraphicsObjectImpl(VaObject())
+        VboGraphicsObjectImpl::VboGraphicsObjectImpl(bool instanced)
+            : VboGraphicsObjectImpl(VaObject(), instanced)
         {
         }
-        VboGraphicsObjectImpl::VboGraphicsObjectImpl(VaObject vao)
-            : _vao(vao),
+        VboGraphicsObjectImpl::VboGraphicsObjectImpl(VaObject vao, bool instanced)
+            : GraphicsObject(true, instanced),
+              _vao(vao),
               finalized(!!vao),
               elemIdx(0),
               currentGraphicsSection(nullptr),
@@ -120,8 +121,17 @@ namespace GlEngine
         {
             if (*this)
             {
-                for (size_t q = 0; q < graphicsSections.size(); q++)
-                    graphicsSections[q]->Render();
+                if (IsInstanced())
+                {
+                    auto count = GetInstanceCount();
+                    for (size_t q = 0; q < graphicsSections.size(); q++)
+                        graphicsSections[q]->RenderInstanced(count);
+                }
+                else
+                {
+                    for (size_t q = 0; q < graphicsSections.size(); q++)
+                        graphicsSections[q]->Render();
+                }
             }
         }
 
