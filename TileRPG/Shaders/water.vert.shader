@@ -16,11 +16,13 @@ layout(location = 2) out vec2 out_uv_coords;
 //layout(location = 3) uniform vec3 direct_light_color;
 //layout(location = 4) uniform vec3 ambient_light_color;
 //layout(location = 5) uniform sampler2D texture_sampler;
-//layout(location = 6) uniform float in_game_time;
+layout(location = 6) uniform float in_game_time;
 
 void main(void)
 {
     out_vertex_pos = in_vertex_pos;
     out_normal = in_normal;
-    out_uv_coords = in_uv_coords;
+
+    float igt = in_game_time / 3.14159 / 4 / 4;
+    out_uv_coords = vec2(in_uv_coords.x - igt, in_uv_coords.y - igt);
 }
