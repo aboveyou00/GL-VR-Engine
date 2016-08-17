@@ -378,6 +378,15 @@
     <ClInclude Include="WindowRenderTarget.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="ImageGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderTarget.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargeLayer.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -588,6 +597,12 @@
       <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="WindowRenderTarget.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRenderTarget.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

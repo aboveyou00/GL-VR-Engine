@@ -16,6 +16,11 @@
 #include "ObjGraphicsObject.h"
 #include "FbxGraphicsObject.h"
 
+#include "WindowRenderTarget.h"
+#include "PerspectiveViewPort.h"
+
+#include "TextureRenderTarget.h"
+
 namespace TileRPG
 {
     TileRPGGame::TileRPGGame()
@@ -44,7 +49,11 @@ namespace TileRPG
         _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
         GlEngine::RenderTarget* _renderTarget = new GlEngine::WindowRenderTarget(_window);
+		_renderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
+		//GlEngine::RenderTarget* texRenderTarget = new GlEngine::TextureRenderTarget(200, 200);
+		//texRenderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
         _gfxContext->AddRenderTarget(_renderTarget);
+		//_gfxContext->AddRenderTarget(texRenderTarget);
 
         _gfxContext->camera.SetEye({ 0, 0, 0 });
         _gfxContext->camera.SetForward({ 0, 0, 1 });

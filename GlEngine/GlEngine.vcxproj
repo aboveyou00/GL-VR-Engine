@@ -165,6 +165,8 @@
     <ClInclude Include="Force.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameStack.h" />
+    <ClInclude Include="RenderTargeLayer.h" />
+    <ClInclude Include="TextureRenderTarget.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="BufferMode.h" />
     <ClInclude Include="Camera.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsController.h" />
     <ClInclude Include="GraphicsControllerImpl.h" />
+    <ClInclude Include="ImageGraphicsObject.h" />
     <ClInclude Include="OrthoViewPort.h" />
     <ClInclude Include="PerspectiveViewPort.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -260,6 +263,7 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
+    <ClCompile Include="ImageGraphicsObject.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -273,6 +277,7 @@
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureRenderTarget.cpp" />
     <ClCompile Include="TextureRenderTargetImpl.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />

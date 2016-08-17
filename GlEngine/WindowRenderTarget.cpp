@@ -6,6 +6,7 @@ namespace GlEngine
 {
 	WindowRenderTarget::WindowRenderTarget(Window * window)
 	{
+		pimpl = new Impl::WindowRenderTargetImpl(window);
 	}
 	WindowRenderTarget::~WindowRenderTarget()
 	{

@@ -6,7 +6,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class ENGINE_SHARED WindowRenderTargetImpl : RenderTargetImpl
+		class ENGINE_SHARED WindowRenderTargetImpl : public RenderTargetImpl
 		{
 		public:
 			WindowRenderTargetImpl(Window * window);
@@ -22,8 +22,8 @@ namespace GlEngine
 			virtual void MakeCurrentTarget() override;
 
 			virtual void Prepare() override;
-			virtual void Push() override;
-			virtual void Pop() override;
+			virtual void Push(RenderTargetLayer layer) override;
+			virtual void Pop(RenderTargetLayer layer) override;
 
 			virtual void Flip() override;
 
@@ -43,7 +43,6 @@ namespace GlEngine
 			bool shouldRender;
 
 			bool CreateContext();
-			bool LoadGlewExtensions();
 		};
 	}
 }

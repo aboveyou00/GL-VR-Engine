@@ -3,6 +3,7 @@
 #include "IComponent.h"
 #include "OpenGl.h"
 #include "ViewPort.h"
+#include "RenderTargeLayer.h"
 
 namespace GlEngine
 {
@@ -27,14 +28,15 @@ namespace GlEngine
             }
 
 			virtual void Prepare();
-			virtual void Push();
-			virtual void Pop();
+			virtual void Push(RenderTargetLayer layer);
+			virtual void Pop(RenderTargetLayer layer);
 
 			virtual void Flip();
-			virtual void SetViewPort(ViewPort * viewPort);
+			virtual void SetViewPort(RenderTargetLayer layer, ViewPort * viewPort);
 
-			ViewPort * viewPort;
-
+			static const int layerCount = (int)std::numeric_limits<RenderTargetLayer>::max() -(int)std::numeric_limits<RenderTargetLayer>::min();
+			ViewPort* viewPorts[layerCount];
+			
         private:
             bool shouldRender;
         };

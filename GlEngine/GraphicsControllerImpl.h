@@ -16,15 +16,11 @@ namespace GlEngine
             bool Initialize();
             void Shutdown();
 
-            inline std::mutex &GetMutex()
-            {
-                return renderTargetMutex;
-            }
-
             const char *name() override;
 
-        private:
-            std::mutex renderTargetMutex;
+		private:
+			void MakeDefaultContext();
+			bool LoadGlewExtensions();
         };
     }
 }

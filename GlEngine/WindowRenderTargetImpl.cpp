@@ -7,7 +7,7 @@ namespace GlEngine
 	namespace Impl
 	{
 		WindowRenderTargetImpl::WindowRenderTargetImpl(Window *window)
-			: _window(window), deviceContext(_window->GetDeviceContext())
+			: _window(window), deviceContext(_window->GetDeviceContext()), lastWidth(0), lastHeight(0)
         {
 		}
 		WindowRenderTargetImpl::~WindowRenderTargetImpl()
@@ -18,8 +18,7 @@ namespace GlEngine
         {
 			if (!CreateContext()) return false;
 			MakeCurrentTarget();
-			if (!LoadGlewExtensions()) return false;
-            return true;
+			return true;
         }
 
         void WindowRenderTargetImpl::Shutdown()
@@ -35,7 +34,6 @@ namespace GlEngine
 
 		void WindowRenderTargetImpl::MakeCurrentTarget()
 		{
-			assert(false);
 			wglMakeCurrent(deviceContext, contextHandle);
 		}
 
@@ -73,22 +71,6 @@ namespace GlEngine
 			return true;
 		}
 
-		bool WindowRenderTargetImpl::LoadGlewExtensions()
-		{
-			glewExperimental = TRUE;
-			GLenum err = glewInit();
-            if (err != GLEW_OK)
-            {
-                std::cout << "GLEW error: " << glewGetErrorString(err) << std::endl;
-                return false;
-            }
-			
-			//TODO: Load any glew extensions
-			//glewGetExtension();
-
-			return true;
-		}
-
         void WindowRenderTargetImpl::Prepare()
         {
             if (_window->GetWidth() != this->lastWidth || _window->GetHeight() != this->lastHeight)
@@ -102,13 +84,17 @@ namespace GlEngine
                 if (_window->GetLastResizeTime() < std::chrono::high_resolution_clock::now() - 50ms)
                 {
                     glViewport(0, 0, this->lastWidth, this->lastHeight);
-					viewPort->SetSize(this->lastWidth, this->lastHeight);
+					for (int i = 0; i < layerCount; i++)
+						if (viewPorts[i] != nullptr)
+							viewPorts[i]->SetSize(this->lastWidth, this->lastHeight);
 					shouldRender = true;
                 }
             }
         }
-        void WindowRenderTargetImpl::Push()
+        void WindowRenderTargetImpl::Push(RenderTargetLayer layer)
 		{
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 			glEnable(GL_DEPTH_TEST);
             glEnable(GL_CULL_FACE);
             glEnable(GL_TEXTURE_2D);
@@ -123,16 +109,13 @@ namespace GlEngine
             //glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			// TODO: this might be more efficient then :
-			// float currentFrameBuffer; glGet(GL_FRAME_BUFFER_BINDING, &currentFrameBuffer); 
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, this->lastWidth, this->lastHeight);
 
-			viewPort->Push();
+			RenderTargetImpl::Push(layer);
 		}
-		void WindowRenderTargetImpl::Pop()
+		void WindowRenderTargetImpl::Pop(RenderTargetLayer layer)
 		{
-			viewPort->Pop();
+			RenderTargetImpl::Pop(layer);
 		}
 
 		void WindowRenderTargetImpl::Flip()

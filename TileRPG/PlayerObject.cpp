@@ -12,6 +12,8 @@
 
 #include "ObjGraphicsObject.h"
 #include "FbxGraphicsObject.h"
+#include "ImageGraphicsObject.h"
+#include "TextureRenderTarget.h"
 
 #include "World.h"
 #include "WorldLoader.h"
@@ -121,7 +123,9 @@ namespace TileRPG
 
 	GlEngine::GraphicsObject *PlayerObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
 	{
-		return GlEngine::FbxGraphicsObject::Create("Resources/cyllinder.fbx");
+		auto obj = GlEngine::ImageGraphicsObject::Create("Textures/dirt.png");
+		return obj;
+		//return GlEngine::FbxGraphicsObject::Create("Resources/cyllinder.fbx");
 		//return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
 	}
 }

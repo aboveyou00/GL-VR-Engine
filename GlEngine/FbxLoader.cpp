@@ -11,6 +11,7 @@
 namespace GlEngine
 {
 	std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> FbxLoader::glVertices;
+	std::vector<int> FbxLoader::triangleIndeces;
 
 	int FbxLoader::FindOrAddGlVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal)
 	{
@@ -28,11 +29,9 @@ namespace GlEngine
 		}
 	}
 
-	bool FbxLoader::ConvertMesh(fbxsdk::FbxMesh* mesh, FbxGraphicsObject * out)
+	bool FbxLoader::ConvertMesh(fbxsdk::FbxMesh* mesh)
 	{
 		std::cout << "Loading mesh: " << mesh->GetName() << std::endl;
-
-		std::vector<int> triangleIndeces;
 
 		for (int p = 0; p < mesh->GetPolygonCount(); p++)
 		{
@@ -60,33 +59,12 @@ namespace GlEngine
 				triangleIndeces.push_back(vIndex);
 			}
 		}
-
-		//Below for Gl thread
-
-		auto sub = new VboGraphicsObject();
-		for (auto vertex : glVertices)
-		{
-			Vector<3> position; Vector<2> texCoord; Vector<3> normal;
-			std::tie(position, texCoord, normal) = vertex;
-			sub->AddVertex(position, texCoord, normal);
-		}
-
-        //TODO: set the Shader and Texture before we add any faces
-        auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
-        auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
-        sub->SetGraphics(shader, texture);
-        for (unsigned i = 0; i < triangleIndeces.size() / 3; i++)
-            sub->AddTriangle({ triangleIndeces[3 * i + 2], triangleIndeces[3 * i + 1], triangleIndeces[3 * i] });
-
-		out->AddSubObject(sub);
-
-		std::cout << "Finished mesh: " << mesh->GetName() << std::endl;
 		return true;
 	}
 
-	bool FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial* mat, FbxGraphicsObject * out)
+	bool FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial* mat)
 	{
-		mat; out;
+		mat;
 		//auto diffuseProp = mat->FindProperty(fbxsdk::FbxSurfaceMaterial::sDiffuse);
 		//int layeredCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxLayeredTexture>();
 
@@ -108,7 +86,7 @@ namespace GlEngine
 		return true;
 	}
 
-	bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode, FbxGraphicsObject * out)
+	bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode)
 	{
 		static int depth = 0;
 		for (int i = 0; i < depth; i++)
@@ -120,11 +98,42 @@ namespace GlEngine
 		{
 			auto subNode = rootNode->GetChild(i);
 			if (auto mesh = subNode->GetMesh())
-				ConvertMesh(mesh, out);
-			if (!Convert(subNode, out))
+			{
+				ConvertMesh(mesh);
+				//if (subNode->GetSrcObjectCount<fbxsdk::FbxSurfaceMaterial>() >= 1)
+				//{
+				//	//auto mat = (fbxsdk::FbxSurfaceMaterial*)subNode->GetSrcObject<fbxsdk::FbxSurfaceMaterial>(0);
+				//	//if (mat)
+				//	//{
+
+				//	//}
+				//}
+			}
+			if (!Convert(subNode))
 				return false;
 		}
 		depth--;
+		return true;
+	}
+
+	bool FbxLoader::CreateObject(FbxGraphicsObject* out)
+	{
+		auto sub = new VboGraphicsObject();
+		for (auto vertex : glVertices)
+		{
+			Vector<3> position; Vector<2> texCoord; Vector<3> normal;
+			std::tie(position, texCoord, normal) = vertex;
+			sub->AddVertex(position, texCoord, normal);
+		}
+
+		//TODO: set the Shader and Texture before we add any faces
+		auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
+		auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
+		sub->SetGraphics(shader, texture);
+		for (unsigned i = 0; i < triangleIndeces.size() / 3; i++)
+			sub->AddTriangle({ triangleIndeces[3 * i + 2], triangleIndeces[3 * i + 1], triangleIndeces[3 * i] });
+
+		out->AddSubObject(sub);
 		return true;
 	}
 
@@ -143,6 +152,8 @@ namespace GlEngine
 		importer->Destroy();
 
 		auto rootNode = scene->GetRootNode();
-		return Convert(rootNode, out);
+		if (!Convert(rootNode))
+			return false;
+		return CreateObject(out);
 	}
 }

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "RenderTarget.h"
 
+#include "RenderTargetImpl.h"
+
 namespace GlEngine
 {
 	RenderTarget::RenderTarget()
@@ -30,9 +32,9 @@ namespace GlEngine
 	{
 		return "GlRenderTarget";
 	}
-	void RenderTarget::SetViewPort(ViewPort * viewPort)
+	void RenderTarget::SetViewPort(RenderTargetLayer layer, ViewPort * viewPort)
 	{
-		pimpl->SetViewPort(viewPort);
+		pimpl->SetViewPort(layer, viewPort);
 	}
 
 	void RenderTarget::SetCurrent()
@@ -49,13 +51,13 @@ namespace GlEngine
 	{
 		pimpl->Prepare();
 	}
-	void RenderTarget::Push()
+	void RenderTarget::Push(RenderTargetLayer layer)
 	{
-		pimpl->Push();
+		pimpl->Push(layer);
 	}
-	void RenderTarget::Pop()
+	void RenderTarget::Pop(RenderTargetLayer layer)
 	{
-		pimpl->Pop();
+		pimpl->Pop(layer);
 	}
 
 	void RenderTarget::Flip()
