@@ -109,6 +109,12 @@
     <Filter Include="Source Files\stdafx">
       <UniqueIdentifier>{736b5471-dfa4-4dd8-b876-359a44ca6d6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\Materials">
+      <UniqueIdentifier>{b2f6dda9-dd89-4227-8c3e-000d3b5ebd89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\Materials">
+      <UniqueIdentifier>{141d4387-ef4d-4abc-8f44-e7b3c277b118}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -188,9 +194,6 @@
     </ClInclude>
     <ClInclude Include="PathUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="StringUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
@@ -381,9 +384,6 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGl.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
@@ -410,6 +410,24 @@
     </ClInclude>
     <ClInclude Include="FbxGraphicsObjectImpl.h">
       <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinnMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="LambertMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="TesselationType.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -445,9 +463,6 @@
     </ClCompile>
     <ClCompile Include="ILogger.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsContext.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -614,9 +629,6 @@
     <ClCompile Include="MatrixStack.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="VaObject.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
@@ -634,6 +646,21 @@
     </ClCompile>
     <ClCompile Include="FbxGraphicsObject_Empty.cpp">
       <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="BlinnMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="LambertMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

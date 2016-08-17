@@ -4,9 +4,8 @@
 #include "fbxsdk.h"
 #include "VBOFactory.h"
 #include "VbObject.h"
-
-#include "Shader.h"
 #include "Texture.h"
+#include "BlinnMaterial.h"
 
 namespace GlEngine
 {
@@ -63,9 +62,9 @@ namespace GlEngine
 
         auto uvs = mesh->GetLayer(0)->GetUVs();
 
-        auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
         auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
-        out->SetGraphics(shader, texture);
+        auto mat = GlEngine::BlinnMaterial::Create(texture);
+        out->SetMaterial(mat);
 
         for (int p = 0; p < mesh->GetPolygonCount(); p++)
         {

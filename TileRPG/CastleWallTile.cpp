@@ -3,8 +3,8 @@
 #include "TileManager.h"
 
 #include "ChunkGraphicsObject.h"
-#include "Shader.h"
 #include "Texture.h"
+#include "BlinnMaterial.h"
 #include "FbxGraphicsObject.h"
 
 #include "Chunk.h"
@@ -24,9 +24,9 @@ namespace TileRPG
 
     void CastleWallTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
-        static auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
         static auto texture_wall = GlEngine::Texture::FromFile("Textures/castle_wall.png");
-        static auto texture_floor = GlEngine::Texture::FromFile("Textures/castle_floor.png");
+        static auto mat_wall = GlEngine::BlinnMaterial::Create(texture_wall);
+
         static auto castle_none_top = GlEngine::FbxGraphicsObject<Matrix<4, 4>>::Create("Resources/castle_none_top.fbx");
         
         static const float TILES_PER_TEXTURE_U = 2;
@@ -43,7 +43,7 @@ namespace TileRPG
             return;
         }
 
-        chunkGobj.SetGraphics(shader, texture_wall);
+        chunkGobj.SetMaterial(mat_wall);
         tile = getTile(chunk.GetTileInfo(world, x - 1, y, z));
         if (tile == nullptr || !tile->IsFlushXp())
         {

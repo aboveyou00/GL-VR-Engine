@@ -4,8 +4,7 @@
 
 #include "Chunk.h"
 #include "ChunkGraphicsObject.h"
-#include "Texture.h"
-#include "Shader.h"
+#include "WaterMaterial.h"
 
 namespace TileRPG
 {
@@ -21,9 +20,7 @@ namespace TileRPG
 
     void WaterTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
-        static auto shader = GlEngine::Shader::Create("Shaders", "water");
-        static auto texture = GlEngine::Texture::FromFile("Textures/water.png", true);
-        chunkGobj.SetGraphics(shader, texture);
+        chunkGobj.SetMaterial(WaterMaterial::GetInstance());
         
         static const float TILES_PER_TEXTURE_U = 16;
         static const float TILES_PER_TEXTURE_V = 16;

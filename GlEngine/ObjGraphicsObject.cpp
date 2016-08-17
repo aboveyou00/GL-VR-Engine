@@ -17,29 +17,24 @@ namespace GlEngine
         : VboGraphicsObject(vao), filename(filename)
     {
     }
-    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VaObject vao, Shader *shader, Texture *texture)
+    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VaObject vao, Material *mat)
         : ObjGraphicsObject(filename, vao)
     {
-        SetGraphics(shader, texture);
+        SetMaterial(mat);
     }
 
-    ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, const char *shader_path, const char *shader_name, const char *texture_filename)
+    ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, Material *mat)
     {
-        Shader *shader = Shader::Create(shader_path, shader_name);
-        Texture *texture = Texture::FromFile(texture_filename);
+        auto hashed = ([](const char *name, Material *mat) {
+            unsigned h = 0;
+            while (*name)
+                h = h << 1 ^ *name++;
+            return ((h << 3) ^ std::hash<Material*>()(mat));
+        })(name, mat);
 
-        auto hashed = ([](const char *str, void *shader, void *texture) {
-            int h = 0;
-            while (*str)
-                h = h << 1 ^ *str++;
-            h = h << 1 ^ std::hash<void*>()(shader);
-            h = h << 1 ^ std::hash<void*>()(texture);
-            return h;
-        })(name, shader, texture);
-
-        static std::unordered_map<int, ObjGraphicsObject*> cache;
+        static std::unordered_map<unsigned, ObjGraphicsObject*> cache;
         auto ptr = cache[hashed];
-        if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VaObject(), shader, texture);
+        if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VaObject(), mat);
         return ptr;
     }
 
