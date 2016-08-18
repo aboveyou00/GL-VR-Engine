@@ -2,7 +2,7 @@
 #include "FbxLoader.h"
 
 #include "fbxsdk.h"
-#include "VBOFactory.h"
+#include "VboFactory.h"
 #include "VbObject.h"
 #include "Texture.h"
 #include "BlinnMaterial.h"
@@ -11,7 +11,7 @@ namespace GlEngine
 {
 	std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> FbxLoader::glVertices;
 
-	bool FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat, Impl::VboGraphicsObjectImpl *out)
+	bool FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat, VboGraphicsObject *out)
 	{
 		mat; out;
 		//auto diffuseProp = mat->FindProperty(fbxsdk::FbxSurfaceMaterial::sDiffuse);
@@ -35,7 +35,7 @@ namespace GlEngine
 		return true;
 	}
 
-	bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode, Impl::VboGraphicsObjectImpl *out)
+	bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode, VboGraphicsObject *out)
 	{
 		static int depth = 0;
 		for (int i = 0; i < depth; i++)
@@ -54,7 +54,7 @@ namespace GlEngine
 		depth--;
 		return true;
 	}
-    bool FbxLoader::ConvertMesh(fbxsdk::FbxMesh *mesh, Impl::VboGraphicsObjectImpl *out)
+    bool FbxLoader::ConvertMesh(fbxsdk::FbxMesh *mesh, VboGraphicsObject *out)
     {
         std::cout << "Loading mesh: " << mesh->GetName() << std::endl;
 
@@ -100,7 +100,7 @@ namespace GlEngine
         return true;
     }
      
-	bool FbxLoader::Load(const char * const filename, Impl::VboGraphicsObjectImpl *out)
+	bool FbxLoader::Load(const char * const filename, VboGraphicsObject *out)
 	{
 		FbxManager *lSdkManager = FbxManager::Create();
 		FbxIOSettings * ios = FbxIOSettings::Create(lSdkManager, IOSROOT);

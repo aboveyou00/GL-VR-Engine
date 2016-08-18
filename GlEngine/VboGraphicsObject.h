@@ -1,83 +1,66 @@
 #pragma once
 
-#include "VboGraphicsObjectImpl.h"
-#include "VaoFactory.h"
+#include "GraphicsObject.h"
+#include "VaObject.h"
 
 namespace GlEngine
 {
-    template <typename... TArgs>
-	class VboGraphicsObject : public Impl::VboGraphicsObjectImpl
-	{
-    public:
-        VboGraphicsObject()
-            : VboGraphicsObject(VaObject())
-        {
-        }
-        VboGraphicsObject(VaObject vao)
-            : Impl::VboGraphicsObjectImpl(vao, true),
-              instancesFactory(finalized ? nullptr : new VboFactory<VboType::Float, TArgs...>(BufferMode::Array)),
-              unsetInstanceCount(0),
-              instanceId(0)
-        {
-        }
-        ~VboGraphicsObject()
-        {
-            SafeDelete(instancesFactory);
-        }
+    template <VboType type, typename... TArgs>
+    class VboFactory;
+    class VaoFactory;
+    class Material;
 
-        int AddInstance(TArgs... args)
-        {
-            assert(instancesFactory != nullptr);
-            unsetInstanceCount++;
-            instancesFactory->AddVertex(args...);
+    namespace Impl
+    {
+        class VboGraphicsSection;
+    }
 
-            auto id = ++instanceId;
-            instanceIds.push_back(id);
-            return id;
-        }
-        bool RemoveInstance(int id)
-        {
-            auto idx = std::find(instanceIds.begin(), instanceIds.end(), id);
-            if (idx == instanceIds.end()) return false;
-
-            auto removeIdx = idx - instanceIds.begin();
-            instanceIds.erase(idx);
-            instancesFactory->RemoveVertex(removeIdx);
-            unsetInstanceCount--;
-            return true;
-        }
-
-        const char *name() override
-        {
-            return "VboGraphicsObject<T...>";
-        }
-
-    protected:
-        void createVao(VaoFactory *vao) override
-        {
-            Impl::VboGraphicsObjectImpl::createVao(vao);
-            if (instancesFactory != nullptr)
-            {
-                vao->AddInstanced(instancesFactory);
-                SetInstanceCount(unsetInstanceCount);
-            }
-        }
-
-    private:
-        VboFactory<VboType::Float, TArgs...> *instancesFactory;
-        std::vector<int> instanceIds;
-        int unsetInstanceCount;
-        unsigned instanceId;
-	};
-
-    template <>
-    class ENGINE_SHARED VboGraphicsObject<> : public Impl::VboGraphicsObjectImpl
+    class ENGINE_SHARED VboGraphicsObject : public GraphicsObject
     {
     public:
         VboGraphicsObject();
         VboGraphicsObject(VaObject vao);
         ~VboGraphicsObject();
 
+        void SetMaterial(Material *material);
+        int AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
+        inline void AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2)
+        {
+            AddTriangle({ idx0, idx1, idx2 });
+        }
+        inline void AddQuad(unsigned idx0, unsigned idx1, unsigned idx2, unsigned idx3)
+        {
+            AddQuad({ idx0, idx1, idx2, idx3 });
+        }
+        void AddTriangle(Vector<3, uint16_t> indices);
+        void AddQuad(Vector<4, uint16_t> indices);
+
+        bool Initialize() override;
+        void Shutdown() override;
+        bool InitializeGraphics() override;
+        void ShutdownGraphics() override;
+
         const char *name() override;
+
+        void PreRender() override;
+        void RenderImpl() override;
+
+        void RenderInstancedImpl(unsigned instanceCount) override;
+
+        operator bool() override;
+
+    protected:
+        bool finalized;
+
+        virtual void createVao(VaoFactory *vao);
+
+    private:
+        VaObject _vao;
+        std::vector<Impl::VboGraphicsSection*> graphicsSections;
+
+        Impl::VboGraphicsSection *currentGraphicsSection;
+        int elemIdx;
+        VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>> *verticesFactory;
+        VboFactory<VboType::UnsignedShort, uint16_t> *facesFactory;
     };
 }

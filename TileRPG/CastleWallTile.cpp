@@ -27,7 +27,7 @@ namespace TileRPG
         static auto texture_wall = GlEngine::Texture::FromFile("Textures/castle_wall.png");
         static auto mat_wall = GlEngine::BlinnMaterial::Create(texture_wall);
 
-        static auto castle_none_top = GlEngine::FbxGraphicsObject<Matrix<4, 4>>::Create("Resources/castle_none_top.fbx");
+        static auto castle_none_top = GlEngine::FbxGraphicsObject::Create("Resources/castle_none_top.fbx");
         
         static const float TILES_PER_TEXTURE_U = 2;
         static const float TILES_PER_TEXTURE_V = 2;

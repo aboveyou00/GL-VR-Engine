@@ -21,6 +21,7 @@ namespace TileRPG
         void ShutdownGraphics() override;
 
         void RenderImpl() override;
+        void RenderInstancedImpl(unsigned instanceCount) override;
 
         operator bool() override;
 

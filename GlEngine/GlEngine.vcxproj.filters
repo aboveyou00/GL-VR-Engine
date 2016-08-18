@@ -243,9 +243,6 @@
     <ClInclude Include="YseAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="VboGraphicsObject.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="ObjGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
@@ -405,12 +402,6 @@
     <ClInclude Include="VaoFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="VboGraphicsObjectImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="FbxGraphicsObjectImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
     </ClInclude>
@@ -428,6 +419,12 @@
     </ClInclude>
     <ClInclude Include="TesselationType.h">
       <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancedGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VboGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -632,18 +629,6 @@
     <ClCompile Include="VaoFactory.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="VboGraphicsObjectImpl.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="FbxGraphicsObjectImpl.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="VboGraphicsObject_Empty.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="FbxGraphicsObject_Empty.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
     </ClCompile>
@@ -661,6 +646,12 @@
     </ClCompile>
     <ClCompile Include="Threading.cpp">
       <Filter>Source Files\stdafx</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

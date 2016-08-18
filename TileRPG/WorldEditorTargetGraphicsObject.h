@@ -4,7 +4,7 @@
 
 namespace TileRPG
 {
-    class WorldEditorTargetGraphicsObject : public GlEngine::VboGraphicsObject<>
+    class WorldEditorTargetGraphicsObject : public GlEngine::VboGraphicsObject
     {
     public:
         WorldEditorTargetGraphicsObject();

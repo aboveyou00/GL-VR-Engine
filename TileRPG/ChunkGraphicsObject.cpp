@@ -2,18 +2,21 @@
 #include "ChunkGraphicsObject.h"
 #include "Chunk.h"
 #include "ITile.h"
+#include "TileManager.h"
 
 #include "Texture.h"
 #include "BlinnMaterial.h"
 #include "VBOFactory.h"
 #include "MatrixStack.h"
-
-#include "TileManager.h"
+#include "InstancedGraphicsObject.h"
 
 namespace TileRPG
 {
     ChunkGraphicsObject::ChunkGraphicsObject(Chunk *chunk, World *world)
-        : chunk(chunk), world(world), version(chunk->GetUpdateVersion())
+        : chunk(chunk),
+          world(world),
+          version(chunk->GetUpdateVersion()),
+          instances()
     {
     }
     ChunkGraphicsObject::~ChunkGraphicsObject()
@@ -54,19 +57,16 @@ namespace TileRPG
     }
     void ChunkGraphicsObject::Shutdown()
     {
-        for (auto pair = instances.begin(); pair != instances.end(); pair++)
-        {
-            auto &gobj = *pair->first;
-            auto &vec = pair->second;
-            for (size_t q = 0; q < vec.size(); q++)
-                gobj.RemoveInstance(vec[q]);
-        }
     }
 
-    void ChunkGraphicsObject::AddInstance(VboGraphicsObject<Matrix<4, 4>> *gobj, Matrix<4, 4> localTransformation)
+    void ChunkGraphicsObject::AddInstance(GraphicsObject *gobj, Matrix<4, 4> localTransformation)
     {
-        auto index = gobj->AddInstance(GetTransformation() * localTransformation);
-        instances[gobj].push_back(index);
+        assert(!finalized);
+        auto igo_ptr = instances[gobj];
+        if (igo_ptr == nullptr) igo_ptr = instances[gobj] = new GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>(gobj);
+        auto &igo = *igo_ptr;
+
+        igo.AddInstance(GetTransformation() * localTransformation);
     }
 
     void ChunkGraphicsObject::PreRender()

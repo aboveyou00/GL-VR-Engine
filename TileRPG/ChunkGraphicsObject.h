@@ -2,11 +2,14 @@
 
 #include "VboGraphicsObject.h"
 #include <unordered_map>
+#include "VboType.h"
 
 namespace GlEngine
 {
     class Shader;
     class Texture;
+    template <VboType type, typename... TArgs>
+    class InstancedGraphicsObject;
 }
 
 namespace TileRPG
@@ -14,7 +17,7 @@ namespace TileRPG
     class World;
     class Chunk;
 
-    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject<>
+    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject
     {
     public:
         ChunkGraphicsObject(Chunk *chunk, World *world);
@@ -23,7 +26,7 @@ namespace TileRPG
         bool Initialize() override;
         void Shutdown() override;
 
-        void AddInstance(VboGraphicsObject<Matrix<4, 4>> *gobj, Matrix<4, 4> localTransformation);
+        void AddInstance(GlEngine::GraphicsObject *gobj, Matrix<4, 4> localTransformation);
         
         void PreRender() override;
         void PostRender() override;
@@ -51,6 +54,7 @@ namespace TileRPG
         World *world;
         unsigned version;
 
-        std::unordered_map<VboGraphicsObject<Matrix<4, 4>>*, std::vector<int>> instances;
+        typedef std::unordered_map<GraphicsObject*, GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>*> instances_map_t;
+        instances_map_t instances;
     };
 }

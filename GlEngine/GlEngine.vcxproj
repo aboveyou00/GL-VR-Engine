@@ -161,7 +161,6 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
-    <ClInclude Include="FbxGraphicsObjectImpl.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Force.h" />
@@ -183,6 +182,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsController.h" />
     <ClInclude Include="GraphicsControllerImpl.h" />
+    <ClInclude Include="InstancedGraphicsObject.h" />
     <ClInclude Include="LambertMaterial.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="OrthoViewPort.h" />
@@ -238,7 +238,6 @@
     <ClInclude Include="VbObject.h" />
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboGraphicsObject.h" />
-    <ClInclude Include="VboGraphicsObjectImpl.h" />
     <ClInclude Include="VboGraphicsSection.h" />
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
@@ -263,8 +262,7 @@
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
-    <ClCompile Include="FbxGraphicsObjectImpl.cpp" />
-    <ClCompile Include="FbxGraphicsObject_Empty.cpp" />
+    <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Force.cpp" />
@@ -321,8 +319,7 @@
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
-    <ClCompile Include="VboGraphicsObjectImpl.cpp" />
-    <ClCompile Include="VboGraphicsObject_Empty.cpp" />
+    <ClCompile Include="VboGraphicsObject.cpp" />
     <ClCompile Include="VboGraphicsSection.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="Window.cpp" />
