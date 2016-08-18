@@ -1,33 +1,30 @@
 #pragma once
 
 #include "VboGraphicsObject.h"
-#include "Texture.h"
 
 namespace GlEngine
 {
+	class Material;
+
 	class ENGINE_SHARED ImageGraphicsObject : public VboGraphicsObject<>
 	{
 	public:
-		ImageGraphicsObject(const char * const filename, const char * const shaderName = "direct_light_tex");
-		ImageGraphicsObject(Texture * texture, const char * const shaderName = "direct_light_tex");
+		ImageGraphicsObject(Material * material = nullptr);
 		~ImageGraphicsObject();
 
-		static ImageGraphicsObject * Create(const char * const filename, const char * const shaderName = "direct_light_tex");
-		static ImageGraphicsObject * Create(Texture * texture, const char * const shaderName = "direct_light_tex");
-
+		static ImageGraphicsObject * Create(Material * material);
+		
 		bool Initialize() override;
 		void Shutdown() override;
 
-		const char * const GetFilename();
-		const char * const GetShaderName();
-		Texture * GetTexture();
-		Shader * GetShader();
+		inline Material * GetMaterial() 
+		{
+			return material;
+		}
 
 	protected:
 		const char * const filename;
-		const char * const shaderName;
-		Texture * texture;
-		Shader * shader;
+		Material * material;
 
 		virtual const char * name() override;
 	};
