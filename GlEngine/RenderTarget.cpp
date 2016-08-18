@@ -52,6 +52,10 @@ namespace GlEngine
 	{
 		pimpl->Prepare();
 	}
+	void RenderTarget::PrePush()
+	{
+		pimpl->PrePush();
+	}
 	void RenderTarget::Push(RenderTargetLayer layer)
 	{
 		pimpl->Push(layer);

@@ -76,9 +76,8 @@ namespace GlEngine
 
         void VboGraphicsSection::Render(RenderTargetLayer layer)
         {
-			layer;
-			//if (layer != RenderTargetLayer::Layer3dOpaque)
-			//	return;
+			if (layer != material->GetRenderTargetLayer())
+				return;
 
             if (!*this) return;
             
@@ -113,7 +112,7 @@ namespace GlEngine
 
         void VboGraphicsSection::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
         {
-			if (layer != RenderTargetLayer::Layer3dOpaque)
+			if (layer != material->GetRenderTargetLayer())
 				return;
 
             if (!*this) return;

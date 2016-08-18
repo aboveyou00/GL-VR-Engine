@@ -15,6 +15,12 @@ namespace GlEngine
         class Event;
     }
 
+	enum class ENGINE_SHARED GameObjectType
+	{
+		Object3d,
+		Camera
+	};
+
 	class ENGINE_SHARED GameObject: public IGameComponent
 	{
 	public:
@@ -68,7 +74,7 @@ namespace GlEngine
 		void RotateDegreesY(float degrees);
 		void RotateDegreesZ(float degrees);
 
-		virtual const char * type();
+		virtual GameObjectType type();
 
 		Actor actor;
 

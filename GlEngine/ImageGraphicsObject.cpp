@@ -8,6 +8,7 @@ namespace GlEngine
 	ImageGraphicsObject::ImageGraphicsObject(Material * material)
 		: filename(filename), material(material)
 	{
+		material->is2d = true;
 	}
 
 	ImageGraphicsObject::~ImageGraphicsObject()

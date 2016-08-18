@@ -49,10 +49,13 @@ namespace TileRPG
         _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
         GlEngine::RenderTarget* _renderTarget = new GlEngine::WindowRenderTarget(_window);
-		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, new GlEngine::PerspectiveViewPort());
-		//_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, new GlEngine::PerspectiveViewPort());
-		//_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer2d, new GlEngine::OrthoViewPort());
 		
+		auto viewport3d = new GlEngine::PerspectiveViewPort();
+		auto viewport2d = new GlEngine::OrthoViewPort();
+		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, viewport3d);
+		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, viewport3d);
+		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer2d, viewport2d);
+
 		//GlEngine::RenderTarget* texRenderTarget = new GlEngine::TextureRenderTarget(200, 200);
 		//texRenderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
         _gfxContext->AddRenderTarget(_renderTarget);

@@ -90,18 +90,28 @@ namespace GlEngine
 					shouldRender = true;
                 }
             }
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
-        void WindowRenderTargetImpl::Push(RenderTargetLayer layer)
+		void WindowRenderTargetImpl::PrePush()
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-			glEnable(GL_DEPTH_TEST);
-            glEnable(GL_CULL_FACE);
-            glEnable(GL_TEXTURE_2D);
-			glDepthFunc(GL_LEQUAL);
-
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glViewport(0, 0, this->lastWidth, this->lastHeight);
+
+			RenderTargetImpl::PrePush();
+		}
+        void WindowRenderTargetImpl::Push(RenderTargetLayer layer)
+		{
+			if (layer == RenderTargetLayer::Layer3dOpaque || layer == RenderTargetLayer::Layer3dTransluscent)
+			{
+				glEnable(GL_DEPTH_TEST);
+				glEnable(GL_CULL_FACE);
+				glEnable(GL_TEXTURE_2D);
+				glDepthFunc(GL_LEQUAL);
+			}
+			else if (layer == RenderTargetLayer::Layer2d)
+			{
+				glDisable(GL_DEPTH_TEST);
+			}
 
 			RenderTargetImpl::Push(layer);
 		}

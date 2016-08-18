@@ -95,8 +95,8 @@ namespace GlEngine
 		RotateZ((float)Util::degToRad(degrees));
 	}
 
-	const char * GameObject::type()
+	GameObjectType GameObject::type()
 	{
-		return "Object3d";
+		return GameObjectType::Object3d;
 	}
 }

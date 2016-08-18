@@ -22,6 +22,7 @@ namespace GlEngine
 			virtual void MakeCurrentTarget() override;
 
 			virtual void Prepare() override;
+			virtual void PrePush() override;
 			virtual void Push(RenderTargetLayer layer) override;
 			virtual void Pop(RenderTargetLayer layer) override;
 

@@ -9,7 +9,6 @@ namespace GlEngine
 	class ENGINE_SHARED ImageGraphicsObject : public VboGraphicsObject<>
 	{
 	public:
-		ImageGraphicsObject(Material * material = nullptr);
 		~ImageGraphicsObject();
 
 		static ImageGraphicsObject * Create(Material * material);
@@ -23,6 +22,7 @@ namespace GlEngine
 		}
 
 	protected:
+		ImageGraphicsObject(Material * material = nullptr);
 		const char * const filename;
 		Material * material;
 

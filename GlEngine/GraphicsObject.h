@@ -35,6 +35,8 @@ namespace GlEngine
             return instanceCount;
         }
 
+		int renderOrder;
+
     protected:
         bool initialized, graphicsInitialized;
 
@@ -45,6 +47,6 @@ namespace GlEngine
 
     private:
         bool isInstanced;
-        unsigned instanceCount;
+		unsigned instanceCount;
 	};
 }

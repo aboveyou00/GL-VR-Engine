@@ -8,7 +8,7 @@ namespace GlEngine
 	{
 		Layer3dOpaque = 0,
 		Layer3dTransluscent = 1,
-		Layer2d = 2
+		Layer2d = 2,
 	};
 }
 

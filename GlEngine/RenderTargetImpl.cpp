@@ -42,6 +42,9 @@ namespace GlEngine
         void RenderTargetImpl::Prepare()
         {
         }
+		void RenderTargetImpl::PrePush()
+		{
+		}
         void RenderTargetImpl::Push(RenderTargetLayer layer)
 		{
 			ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];

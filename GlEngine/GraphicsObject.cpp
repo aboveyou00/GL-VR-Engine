@@ -15,7 +15,8 @@ namespace GlEngine
         : initialized(false),
           graphicsInitialized(false),
           isInstanced(instanced),
-          instanceCount(0)
+          instanceCount(0),
+		  renderOrder(0)
 	{
         if (autoinit)
         {
