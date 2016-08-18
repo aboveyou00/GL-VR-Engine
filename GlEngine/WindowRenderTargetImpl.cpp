@@ -90,6 +90,7 @@ namespace GlEngine
 					shouldRender = true;
                 }
             }
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         void WindowRenderTargetImpl::Push(RenderTargetLayer layer)
 		{
@@ -99,8 +100,6 @@ namespace GlEngine
             glEnable(GL_CULL_FACE);
             glEnable(GL_TEXTURE_2D);
 			glDepthFunc(GL_LEQUAL);
-
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glViewport(0, 0, this->lastWidth, this->lastHeight);
 

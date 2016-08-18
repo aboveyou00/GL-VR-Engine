@@ -40,8 +40,9 @@ namespace GlEngine
             auto idx = std::find(instanceIds.begin(), instanceIds.end(), id);
             if (idx == instanceIds.end()) return false;
 
+			unsigned offset = idx - instanceIds.begin();
             instanceIds.erase(idx);
-            instancesFactory->RemoveVertex(idx - instanceIds.begin());
+            instancesFactory->RemoveVertex(offset);
             instanceCount--;
             return true;
         }

@@ -8,6 +8,8 @@
 #include "ILogger.h"
 #include "ResourceLoader.h"
 
+#include "MatrixStack.h"
+
 namespace GlEngine
 {
     GraphicsContext::GraphicsContext(FrameStack *frames)
@@ -77,13 +79,18 @@ namespace GlEngine
 		camera.Push();
 		for (size_t i = 0; i < renderTargetCount; i++)
 		{
-			renderTargets[i]->Push();
-            if (renderTargets[i]->GetShouldRender())
-            {
-			    for (int j = 0; j < transformedCount; j++)
-				    transformed[j].Render();
-            }
-			renderTargets[i]->Pop();
+			for (int layer_int = (int)std::numeric_limits<RenderTargetLayer>::min(); layer_int < (int)std::numeric_limits<RenderTargetLayer>::max() + 1; layer_int++)
+			{
+				renderTargets[i]->Push((RenderTargetLayer)layer_int);
+				if (renderTargets[i]->GetShouldRender())
+				{
+					for (int j = 0; j < transformedCount; j++)
+					{
+						transformed[j].Render((RenderTargetLayer)layer_int);
+					}
+				}
+				renderTargets[i]->Pop((RenderTargetLayer)layer_int);
+			}
 		}
 		camera.Pop();
 

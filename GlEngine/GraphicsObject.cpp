@@ -52,16 +52,16 @@ namespace GlEngine
         graphicsInitialized = false;
     }
 
-    void GraphicsObject::Render()
+    void GraphicsObject::Render(RenderTargetLayer layer)
     {
-        PreRender();
-        RenderImpl();
-        PostRender();
+        PreRender(layer);
+        RenderImpl(layer);
+        PostRender(layer);
     }
-	void GraphicsObject::PreRender()
+	void GraphicsObject::PreRender(RenderTargetLayer)
 	{
 	}
-    void GraphicsObject::PostRender()
+    void GraphicsObject::PostRender(RenderTargetLayer)
     {
     }
 }

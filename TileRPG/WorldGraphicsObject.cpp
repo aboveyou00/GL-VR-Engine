@@ -39,14 +39,18 @@ namespace TileRPG
         addNewChunks(*chunks);
     }
 
-    void WorldGraphicsObject::RenderImpl()
+    void WorldGraphicsObject::RenderImpl(GlEngine::RenderTargetLayer layer)
     {
+		layer;
+		//if (layer != GlEngine::RenderTargetLayer::Layer3dOpaque)
+		//	return;
+
         for (auto ptr = chunkGraphics.begin(); ptr != chunkGraphics.end(); ptr++)
         {
             auto gobj = ptr->second;
             if (!gobj) continue;
 
-            gobj->Render();
+            gobj->Render(layer);
         }
     }
 

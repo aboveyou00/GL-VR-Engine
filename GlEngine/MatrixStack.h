@@ -23,6 +23,11 @@ namespace GlEngine
 
         void tell_gl();
 
+		inline unsigned GetStackSize()
+		{
+			return idx;
+		}
+
     private:
         unsigned idx = 0;
         int gl_enum = 0;

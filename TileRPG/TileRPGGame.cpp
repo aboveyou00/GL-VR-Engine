@@ -16,6 +16,7 @@
 #include "FbxGraphicsObject.h"
 
 #include "WindowRenderTarget.h"
+#include "OrthoViewPort.h"
 #include "PerspectiveViewPort.h"
 
 #include "TextureRenderTarget.h"
@@ -48,7 +49,10 @@ namespace TileRPG
         _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
         GlEngine::RenderTarget* _renderTarget = new GlEngine::WindowRenderTarget(_window);
-		_renderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
+		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, new GlEngine::PerspectiveViewPort());
+		//_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, new GlEngine::PerspectiveViewPort());
+		//_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer2d, new GlEngine::OrthoViewPort());
+		
 		//GlEngine::RenderTarget* texRenderTarget = new GlEngine::TextureRenderTarget(200, 200);
 		//texRenderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
         _gfxContext->AddRenderTarget(_renderTarget);

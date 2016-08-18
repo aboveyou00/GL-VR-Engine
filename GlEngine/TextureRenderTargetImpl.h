@@ -7,7 +7,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class ENGINE_SHARED TextureRenderTargetImpl : public RenderTargetImpl
+		class TextureRenderTargetImpl : public RenderTargetImpl
 		{
 		public:
 			TextureRenderTargetImpl(unsigned width, unsigned height, bool hasAlphaChannel = false);

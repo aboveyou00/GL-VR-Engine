@@ -41,8 +41,8 @@ namespace GlEngine
 
             const char *name() override;
 
-            void PreRender() override;
-            void RenderImpl() override;
+            void PreRender(RenderTargetLayer layer) override;
+            void RenderImpl(RenderTargetLayer layer) override;
 
             operator bool() override;
 

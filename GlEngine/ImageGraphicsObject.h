@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED ImageGraphicsObject : public VboGraphicsObject
+	class ENGINE_SHARED ImageGraphicsObject : public VboGraphicsObject<>
 	{
 	public:
 		ImageGraphicsObject(const char * const filename, const char * const shaderName = "direct_light_tex");

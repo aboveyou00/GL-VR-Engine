@@ -21,8 +21,8 @@ namespace GlEngine
             void AddQuad(Vector<4, uint16_t> indices);
             void Finalize(VboFactory<VboType::UnsignedShort, uint16_t> *face_factory);
 
-            void Render();
-            void RenderInstanced(unsigned instanceCount);
+            void Render(RenderTargetLayer layer);
+            void RenderInstanced(RenderTargetLayer layer, unsigned instanceCount);
 
             inline bool HasGraphics(Shader *shader, Texture *texture)
             {

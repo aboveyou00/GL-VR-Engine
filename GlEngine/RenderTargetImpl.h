@@ -3,7 +3,7 @@
 #include "IComponent.h"
 #include "OpenGl.h"
 #include "ViewPort.h"
-#include "RenderTargeLayer.h"
+#include "RenderTargetLayer.h"
 
 namespace GlEngine
 {
@@ -34,7 +34,7 @@ namespace GlEngine
 			virtual void Flip();
 			virtual void SetViewPort(RenderTargetLayer layer, ViewPort * viewPort);
 
-			static const int layerCount = (int)std::numeric_limits<RenderTargetLayer>::max() -(int)std::numeric_limits<RenderTargetLayer>::min();
+			static const int layerCount = (int)std::numeric_limits<RenderTargetLayer>::max() - (int)std::numeric_limits<RenderTargetLayer>::min() + 1;
 			ViewPort* viewPorts[layerCount];
 			
         private:

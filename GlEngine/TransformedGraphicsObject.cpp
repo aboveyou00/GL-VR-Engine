@@ -21,14 +21,12 @@ namespace GlEngine
 	{
 	}
 
-	void TransformedGraphicsObject::Render() const
+	void TransformedGraphicsObject::Render(RenderTargetLayer layer) const
 	{
         if (graphicsObject)
         {
             MatrixStack::ModelView.mult(Mat3T<float>::TranslateMatrix(position) * orientation);
-
-            graphicsObject->Render();
-
+            graphicsObject->Render(layer);
             MatrixStack::ModelView.pop();
         }
 	}

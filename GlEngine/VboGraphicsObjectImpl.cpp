@@ -112,12 +112,12 @@ namespace GlEngine
             return "VboGraphicsObjectImpl";
         }
 
-        void VboGraphicsObjectImpl::PreRender()
+        void VboGraphicsObjectImpl::PreRender(RenderTargetLayer layer)
         {
-            GraphicsObject::PreRender();
+            GraphicsObject::PreRender(layer);
             if (*this) _vao.MakeCurrent();
         }
-        void VboGraphicsObjectImpl::RenderImpl()
+        void VboGraphicsObjectImpl::RenderImpl(RenderTargetLayer layer)
         {
             if (*this)
             {
@@ -125,12 +125,12 @@ namespace GlEngine
                 {
                     auto count = GetInstanceCount();
                     for (size_t q = 0; q < graphicsSections.size(); q++)
-                        graphicsSections[q]->RenderInstanced(count);
+                        graphicsSections[q]->RenderInstanced(layer, count);
                 }
                 else
                 {
                     for (size_t q = 0; q < graphicsSections.size(); q++)
-                        graphicsSections[q]->Render();
+                        graphicsSections[q]->Render(layer);
                 }
             }
         }

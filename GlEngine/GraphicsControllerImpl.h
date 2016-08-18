@@ -5,6 +5,8 @@
 
 namespace GlEngine
 {
+	class Window;
+
     namespace Impl
     {
         class ENGINE_SHARED GraphicsControllerImpl : public IComponent
@@ -19,6 +21,7 @@ namespace GlEngine
             const char *name() override;
 
 		private:
+			Window * dummyWindow;
 			void MakeDefaultContext();
 			bool LoadGlewExtensions();
         };

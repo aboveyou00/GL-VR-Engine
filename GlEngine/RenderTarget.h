@@ -2,7 +2,7 @@
 
 #include "IComponent.h"
 #include "Camera.h"
-#include "RenderTargeLayer.h"
+#include "RenderTargetLayer.h"
 
 namespace GlEngine
 {

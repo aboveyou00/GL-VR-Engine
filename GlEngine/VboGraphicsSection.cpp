@@ -76,8 +76,12 @@ namespace GlEngine
             SafeDelete(quads);
         }
 
-        void VboGraphicsSection::Render()
+        void VboGraphicsSection::Render(RenderTargetLayer layer)
         {
+			layer;
+			//if (layer != RenderTargetLayer::Layer3dOpaque)
+			//	return;
+
             if (!*this) return;
 
             if (shader != nullptr && *shader) shader->Push();
@@ -106,8 +110,11 @@ namespace GlEngine
             if (shader != nullptr && *shader) shader->Pop();
         }
 
-        void VboGraphicsSection::RenderInstanced(unsigned instanceCount)
+        void VboGraphicsSection::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
         {
+			if (layer != RenderTargetLayer::Layer3dOpaque)
+				return;
+
             if (!*this) return;
 
             if (shader != nullptr && *shader) shader->Push();

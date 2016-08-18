@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGraphicsComponent.h"
+#include "RenderTargetLayer.h"
 
 namespace GlEngine
 {
@@ -20,10 +21,10 @@ namespace GlEngine
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
-        void Render();
-		virtual void PreRender();
-        virtual void RenderImpl() = 0;
-        virtual void PostRender();
+        void Render(RenderTargetLayer layer);
+		virtual void PreRender(RenderTargetLayer layer);
+        virtual void RenderImpl(RenderTargetLayer layer) = 0;
+        virtual void PostRender(RenderTargetLayer layer);
 
         inline bool IsInstanced()
         {

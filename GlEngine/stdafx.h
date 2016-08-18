@@ -24,6 +24,8 @@ using namespace std::chrono_literals;
 #include "Threading.h"
 #include "Memory.h"
 
+#include "LogUtils.h"
+
 //#pragma warning (disable: 4239)
 #pragma warning (disable: 4458) //declaration of 'x' hides class member
 #pragma warning (disable: 4455)
