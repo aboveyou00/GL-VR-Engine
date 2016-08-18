@@ -78,7 +78,7 @@ namespace GlEngine
         {
             if (!*this) return;
             
-            material->Push();
+            material->Push(false);
 
             auto tesselation = material->GetTesselationType();
             if (tesselation == TesselationType::Disabled)
@@ -104,14 +104,14 @@ namespace GlEngine
             }
             else assert(false);
 
-            material->Pop();
+            material->Pop(false);
         }
 
         void VboGraphicsSection::RenderInstanced(unsigned instanceCount)
         {
             if (!*this) return;
 
-            material->Push();
+            material->Push(true);
 
             auto tesselation = material->GetTesselationType();
             if (tesselation == TesselationType::Disabled)
@@ -137,7 +137,7 @@ namespace GlEngine
             }
             else assert(false);
 
-            material->Pop();
+            material->Pop(true);
         }
 
         VboGraphicsSection::operator bool()

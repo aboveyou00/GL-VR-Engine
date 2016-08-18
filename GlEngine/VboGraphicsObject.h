@@ -16,7 +16,7 @@ namespace GlEngine
         VboGraphicsObject(VaObject vao)
             : Impl::VboGraphicsObjectImpl(vao, true),
               instancesFactory(finalized ? nullptr : new VboFactory<VboType::Float, TArgs...>(BufferMode::Array)),
-              instanceCount(0),
+              unsetInstanceCount(0),
               instanceId(0)
         {
         }
@@ -28,7 +28,7 @@ namespace GlEngine
         int AddInstance(TArgs... args)
         {
             assert(instancesFactory != nullptr);
-            instanceCount++;
+            unsetInstanceCount++;
             instancesFactory->AddVertex(args...);
 
             auto id = ++instanceId;
@@ -40,9 +40,10 @@ namespace GlEngine
             auto idx = std::find(instanceIds.begin(), instanceIds.end(), id);
             if (idx == instanceIds.end()) return false;
 
+            auto removeIdx = idx - instanceIds.begin();
             instanceIds.erase(idx);
-            instancesFactory->RemoveVertex(idx - instanceIds.begin());
-            instanceCount--;
+            instancesFactory->RemoveVertex(removeIdx);
+            unsetInstanceCount--;
             return true;
         }
 
@@ -55,13 +56,18 @@ namespace GlEngine
         void createVao(VaoFactory *vao) override
         {
             Impl::VboGraphicsObjectImpl::createVao(vao);
-            if (instancesFactory != nullptr) vao->Add(instancesFactory);
+            if (instancesFactory != nullptr)
+            {
+                vao->AddInstanced(instancesFactory);
+                SetInstanceCount(unsetInstanceCount);
+            }
         }
 
     private:
         VboFactory<VboType::Float, TArgs...> *instancesFactory;
         std::vector<int> instanceIds;
-        unsigned instanceCount, instanceId;
+        int unsetInstanceCount;
+        unsigned instanceId;
 	};
 
     template <>

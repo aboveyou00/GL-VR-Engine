@@ -500,9 +500,6 @@
     <ClCompile Include="IService.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
     </ClCompile>
-    <ClCompile Include="Threading.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AudioController.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
@@ -661,6 +658,9 @@
     </ClCompile>
     <ClCompile Include="LambertMaterial.cpp">
       <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Threading.cpp">
+      <Filter>Source Files\stdafx</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

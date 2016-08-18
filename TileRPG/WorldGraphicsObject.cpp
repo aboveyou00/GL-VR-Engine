@@ -8,6 +8,8 @@
 #include "ServiceProvider.h"
 #include "ResourceLoader.h"
 
+#include "FbxGraphicsObject.h"
+
 namespace TileRPG
 {
     WorldGraphicsObject::WorldGraphicsObject(World *world)
@@ -48,6 +50,19 @@ namespace TileRPG
 
             gobj->Render();
         }
+
+        static GlEngine::FbxGraphicsObject<Matrix<4, 4>> *castle_none_top = nullptr;
+        if (castle_none_top == nullptr)
+        {
+            castle_none_top = GlEngine::FbxGraphicsObject<Matrix<4, 4>>::Create("Resources/castle_none_top.fbx");
+            castle_none_top->AddInstance(Matrix<4, 4>::TranslateMatrix(5, 5, 5));
+            castle_none_top->AddInstance(Matrix<4, 4>::TranslateMatrix(10, 5, 5));
+            castle_none_top->AddInstance(Matrix<4, 4>::TranslateMatrix(5, 5, 10));
+            castle_none_top->AddInstance(Matrix<4, 4>::TranslateMatrix(10, 5, 10));
+            castle_none_top->AddInstance(Matrix<4, 4>::TranslateMatrix(7.5f, 7.5f, 7.5f));
+        }
+        if (*castle_none_top)
+            castle_none_top->Render();
     }
 
     const char *WorldGraphicsObject::name()
