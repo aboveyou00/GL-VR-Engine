@@ -14,7 +14,7 @@ namespace GlEngine
 		TransformedGraphicsObject(GraphicsObject * obj, Vector<3> position = Vector<3> { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
 		~TransformedGraphicsObject();
 
-        void Render() const;
+        void Render(RenderTargetLayer layer) const;
 
         GraphicsObject * graphicsObject;
 

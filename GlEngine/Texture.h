@@ -8,6 +8,7 @@ namespace GlEngine
     {
     public:
         static Texture *FromFile(const char *const path, bool hasAlphaChannel = false);
+		Texture(unsigned width, unsigned height, bool hasAlphaChannel = false);
 
     private:
         Texture(const char *const path, bool hasAlphaChannel);

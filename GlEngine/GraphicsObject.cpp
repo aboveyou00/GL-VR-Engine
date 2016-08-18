@@ -13,7 +13,8 @@ namespace GlEngine
 {
 	GraphicsObject::GraphicsObject(bool autoinit)
         : initialized(false),
-          graphicsInitialized(false)
+          graphicsInitialized(false),
+          renderOrder(0)
 	{
         if (autoinit)
         {
@@ -50,32 +51,32 @@ namespace GlEngine
         graphicsInitialized = false;
     }
 
-    void GraphicsObject::Render()
+    void GraphicsObject::Render(RenderTargetLayer layer)
     {
-        PreRender();
-        RenderImpl();
-        PostRender();
+        PreRender(layer);
+        RenderImpl(layer);
+        PostRender(layer);
     }
-	void GraphicsObject::PreRender()
+	void GraphicsObject::PreRender(RenderTargetLayer)
 	{
 	}
-    void GraphicsObject::PostRender()
+    void GraphicsObject::PostRender(RenderTargetLayer)
     {
     }
 
-    void GraphicsObject::RenderInstanced(unsigned instanceCount)
+    void GraphicsObject::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
     {
         if (instanceCount == 0) return;
-        PreRenderInstanced();
-        RenderInstancedImpl(instanceCount);
-        PostRenderInstanced();
+        PreRenderInstanced(layer);
+        RenderInstancedImpl(layer, instanceCount);
+        PostRenderInstanced(layer);
     }
-    void GraphicsObject::PreRenderInstanced()
+    void GraphicsObject::PreRenderInstanced(RenderTargetLayer layer)
     {
-        PreRender();
+        PreRender(layer);
     }
-    void GraphicsObject::PostRenderInstanced()
+    void GraphicsObject::PostRenderInstanced(RenderTargetLayer layer)
     {
-        PostRender();
+        PostRender(layer);
     }
 }

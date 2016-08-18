@@ -2,6 +2,7 @@
 
 #include "IComponent.h"
 #include "Camera.h"
+#include "RenderTargetLayer.h"
 
 namespace GlEngine
 {
@@ -20,21 +21,22 @@ namespace GlEngine
 		RenderTarget(Impl::RenderTargetImpl *impl);
 		~RenderTarget();
 
-		bool Initialize();
-		void Shutdown();
+		virtual bool Initialize();
+		virtual void Shutdown();
 
-		const char *name();
-		void SetViewPort(ViewPort * viewPort);
+		virtual const char *name();
+		void SetViewPort(RenderTargetLayer layer, ViewPort * viewPort);
 
 		void SetCurrent();
 
-		bool GetShouldRender();
+		virtual bool GetShouldRender();
 
-		void Prepare();
-		void Push();
-		void Pop();
+		virtual void Prepare();
+		virtual void PrePush();
+		virtual void Push(RenderTargetLayer layer);
+		virtual void Pop(RenderTargetLayer layer);
 
-		void Flip();
+		virtual void Flip();
 
         inline Impl::RenderTargetImpl &GetImpl()
         {

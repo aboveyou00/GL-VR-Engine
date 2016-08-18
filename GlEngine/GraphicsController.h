@@ -26,8 +26,6 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
-        std::mutex &GetMutex();
-
         const char *name() override;
 
         inline Impl::GraphicsControllerImpl *GetImpl()

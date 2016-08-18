@@ -5,6 +5,8 @@
 
 namespace GlEngine
 {
+	class Window;
+
     namespace Impl
     {
         class ENGINE_SHARED GraphicsControllerImpl : public IComponent
@@ -16,15 +18,12 @@ namespace GlEngine
             bool Initialize();
             void Shutdown();
 
-            inline std::mutex &GetMutex()
-            {
-                return renderTargetMutex;
-            }
-
             const char *name() override;
 
-        private:
-            std::mutex renderTargetMutex;
+		private:
+			Window * dummyWindow;
+			void MakeDefaultContext();
+			bool LoadGlewExtensions();
         };
     }
 }

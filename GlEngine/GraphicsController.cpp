@@ -28,11 +28,6 @@ namespace GlEngine
         pimpl->Shutdown();
     }
 
-    std::mutex &GraphicsController::GetMutex()
-    {
-        return pimpl->GetMutex();
-    }
-
     const char *GraphicsController::name()
     {
         return "GlController";

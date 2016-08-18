@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "TextureRenderTarget.h"
 
 namespace GlEngine
 {
@@ -30,7 +31,7 @@ namespace TileRPG
 		GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
 
 	private:
-        GlEngine::IAudioSource *footsteps;
+		GlEngine::IAudioSource *footsteps;
 		
 		GlEngine::Force * gravity;
 

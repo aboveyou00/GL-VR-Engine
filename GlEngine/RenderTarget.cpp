@@ -2,6 +2,8 @@
 #include "RenderTarget.h"
 #include "RenderTargetImpl.h"
 
+#include "RenderTargetImpl.h"
+
 namespace GlEngine
 {
 	RenderTarget::RenderTarget(Impl::RenderTargetImpl *pimpl)
@@ -31,9 +33,9 @@ namespace GlEngine
 	{
 		return "GlRenderTarget";
 	}
-	void RenderTarget::SetViewPort(ViewPort * viewPort)
+	void RenderTarget::SetViewPort(RenderTargetLayer layer, ViewPort * viewPort)
 	{
-		pimpl->SetViewPort(viewPort);
+		pimpl->SetViewPort(layer, viewPort);
 	}
 
 	void RenderTarget::SetCurrent()
@@ -50,13 +52,17 @@ namespace GlEngine
 	{
 		pimpl->Prepare();
 	}
-	void RenderTarget::Push()
+	void RenderTarget::PrePush()
 	{
-		pimpl->Push();
+		pimpl->PrePush();
 	}
-	void RenderTarget::Pop()
+	void RenderTarget::Push(RenderTargetLayer layer)
 	{
-		pimpl->Pop();
+		pimpl->Push(layer);
+	}
+	void RenderTarget::Pop(RenderTargetLayer layer)
+	{
+		pimpl->Pop(layer);
 	}
 
 	void RenderTarget::Flip()

@@ -297,6 +297,9 @@
     <ClInclude Include="Font.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
     <ClInclude Include="CollisionGroup.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
     </ClInclude>
@@ -342,6 +345,9 @@
     <ClInclude Include="AudioControllerImpl.h">
       <Filter>Header Files\GlEngine\Audio\Impl</Filter>
     </ClInclude>
+    <ClInclude Include="ImageGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="LodePNG\lodepng.h">
       <Filter>Header Files\LodePNG</Filter>
     </ClInclude>
@@ -349,6 +355,9 @@
       <Filter>Header Files\LodePNG</Filter>
     </ClInclude>
     <ClInclude Include="MatrixStack.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderTarget.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="vbo_attribs_Matrix.h">
@@ -365,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="Matrix.h">
       <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargetLayer.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files\stdafx</Filter>
@@ -401,6 +413,12 @@
     </ClInclude>
     <ClInclude Include="VaoFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="LogUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
@@ -448,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
       <Filter>Source Files\GlEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Threading.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyValuePair.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
@@ -614,8 +635,14 @@
     <ClCompile Include="LodePNG\lodepng.cpp">
       <Filter>Source Files\LodePNG</Filter>
     </ClCompile>
+	<ClCompile Include="ImageGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="Threading.cpp">
       <Filter>Source Files\stdafx</Filter>
+    </ClCompile>
+	<ClCompile Include="TextureRenderTarget.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="VboGraphicsSection.cpp">
       <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
@@ -628,6 +655,12 @@
     </ClCompile>
     <ClCompile Include="VaoFactory.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsUtils.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="LogUtils.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\GlEngine\Graphics\Materials</Filter>

@@ -12,6 +12,8 @@
 
 #include "ObjGraphicsObject.h"
 #include "FbxGraphicsObject.h"
+#include "ImageGraphicsObject.h"
+#include "TextureRenderTarget.h"
 
 #include "World.h"
 #include "WorldLoader.h"

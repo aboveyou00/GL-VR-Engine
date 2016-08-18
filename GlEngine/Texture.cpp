@@ -53,6 +53,10 @@ namespace GlEngine
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);
     }
+	Texture::Texture(unsigned width, unsigned height, bool hasAlphaChannel)
+		: path(""), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), alpha(hasAlphaChannel)
+	{
+	}
     Texture::~Texture()
     {
     }

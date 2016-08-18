@@ -21,9 +21,7 @@ namespace GlEngine
 		GraphicsContext(FrameStack *frames);
 		~GraphicsContext();
 
-		static const int maxGraphicsObjects = 1024;
-		TransformedGraphicsObject transformed[maxGraphicsObjects];
-		int transformedCount = 0;
+		std::list<TransformedGraphicsObject> transformed;
 		
 		Camera camera;
 

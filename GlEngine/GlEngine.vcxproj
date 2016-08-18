@@ -166,6 +166,9 @@
     <ClInclude Include="Force.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameStack.h" />
+    <ClInclude Include="LogUtils.h" />
+    <ClInclude Include="RenderTargetLayer.h" />
+    <ClInclude Include="TextureRenderTarget.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="BufferMode.h" />
     <ClInclude Include="Camera.h" />
@@ -185,6 +188,7 @@
     <ClInclude Include="InstancedGraphicsObject.h" />
     <ClInclude Include="LambertMaterial.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="ImageGraphicsObject.h" />
     <ClInclude Include="OrthoViewPort.h" />
     <ClInclude Include="PerspectiveViewPort.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -249,6 +253,7 @@
     <ClInclude Include="WindowManager.h" />
     <ClInclude Include="WindowRenderTarget.h" />
     <ClInclude Include="WindowRenderTargetImpl.h" />
+    <ClInclude Include="WindowsUtils.h" />
     <ClInclude Include="YseAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -269,11 +274,13 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
+    <ClCompile Include="ImageGraphicsObject.cpp" />
     <ClCompile Include="LambertMaterial.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="LogUtils.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
@@ -284,6 +291,7 @@
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureRenderTarget.cpp" />
     <ClCompile Include="TextureRenderTargetImpl.cpp" />
     <ClCompile Include="VaObject.cpp" />
     <ClCompile Include="VaoFactory.cpp" />
@@ -326,6 +334,7 @@
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="WindowRenderTarget.cpp" />
     <ClCompile Include="WindowRenderTargetImpl.cpp" />
+    <ClCompile Include="WindowsUtils.cpp" />
     <ClCompile Include="Window_WndProc.cpp" />
     <ClCompile Include="YseAudioSource.cpp" />
   </ItemGroup>

@@ -1,18 +1,20 @@
 #pragma once
 
+#include "IComponent.h"
 #include "RenderTarget.h"
-#include "Window.h"
 
 namespace GlEngine
 {
 	namespace Impl
 	{
-		class WindowRenderTargetImpl;
+		class RenderTargetImpl;
 	}
+
+	class Window;
 
 	class ENGINE_SHARED WindowRenderTarget : public RenderTarget
 	{
-    public:
+	public:
 		WindowRenderTarget(Window * window);
 		~WindowRenderTarget();
 	};

@@ -3,7 +3,7 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED OrthoViewPort : ViewPort
+	class ENGINE_SHARED OrthoViewPort : public ViewPort
 	{
 	public:
 		OrthoViewPort();		

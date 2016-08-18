@@ -74,8 +74,11 @@ namespace GlEngine
             SafeDelete(quads);
         }
 
-        void VboGraphicsSection::Render()
+        void VboGraphicsSection::Render(RenderTargetLayer layer)
         {
+			if (layer != material->GetRenderTargetLayer())
+				return;
+
             if (!*this) return;
             
             material->Push(false);
@@ -107,8 +110,11 @@ namespace GlEngine
             material->Pop(false);
         }
 
-        void VboGraphicsSection::RenderInstanced(unsigned instanceCount)
+        void VboGraphicsSection::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
         {
+			if (layer != material->GetRenderTargetLayer())
+				return;
+
             if (!*this) return;
 
             material->Push(true);

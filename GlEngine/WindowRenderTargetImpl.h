@@ -22,8 +22,9 @@ namespace GlEngine
 			virtual void MakeCurrentTarget() override;
 
 			virtual void Prepare() override;
-			virtual void Push() override;
-			virtual void Pop() override;
+			virtual void PrePush() override;
+			virtual void Push(RenderTargetLayer layer) override;
+			virtual void Pop(RenderTargetLayer layer) override;
 
 			virtual void Flip() override;
 
@@ -43,7 +44,6 @@ namespace GlEngine
 			bool shouldRender;
 
 			bool CreateContext();
-			bool LoadGlewExtensions();
 		};
 	}
 }

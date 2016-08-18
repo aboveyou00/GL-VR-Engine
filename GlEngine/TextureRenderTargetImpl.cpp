@@ -5,8 +5,8 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		TextureRenderTargetImpl::TextureRenderTargetImpl(Texture * texture)
-			: texture(texture)
+		TextureRenderTargetImpl::TextureRenderTargetImpl(unsigned width, unsigned height, bool hasAlphaChannel)
+			: texture(new Texture(width, height, hasAlphaChannel))
 		{
 		}
 		TextureRenderTargetImpl::~TextureRenderTargetImpl()
@@ -55,16 +55,15 @@ namespace GlEngine
 		void TextureRenderTargetImpl::Prepare()
 		{
 		}
-		void TextureRenderTargetImpl::Push()
+		void TextureRenderTargetImpl::Push(RenderTargetLayer layer)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 			glViewport(0, 0, texture->GetWidth(), texture->GetHeight());
-
-			viewPort->Push();
+			viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()]->Push();
 		}
-		void TextureRenderTargetImpl::Pop()
+		void TextureRenderTargetImpl::Pop(RenderTargetLayer layer)
 		{
-			viewPort->Pop();
+			viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()]->Pop();
 		}
 
 		void TextureRenderTargetImpl::Flip()

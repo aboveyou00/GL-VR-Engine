@@ -69,15 +69,15 @@ namespace TileRPG
         igo.AddInstance(GetTransformation() * localTransformation);
     }
 
-    void ChunkGraphicsObject::PreRender()
+    void ChunkGraphicsObject::PreRender(GlEngine::RenderTargetLayer layer)
     {
-        VboGraphicsObject::PreRender();
+        VboGraphicsObject::PreRender(layer);
         GlEngine::MatrixStack::ModelView.mult(GetTransformation());
     }
-    void ChunkGraphicsObject::PostRender()
+    void ChunkGraphicsObject::PostRender(GlEngine::RenderTargetLayer layer)
     {
         GlEngine::MatrixStack::ModelView.pop();
-        VboGraphicsObject::PostRender();
+        VboGraphicsObject::PostRender(layer);
     }
 
     Matrix<4, 4> ChunkGraphicsObject::GetTransformation()

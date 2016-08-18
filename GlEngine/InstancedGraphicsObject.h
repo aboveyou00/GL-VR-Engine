@@ -59,13 +59,13 @@ namespace GlEngine
         {
         }
 
-        void RenderImpl() override
+        void RenderImpl(RenderTargetLayer layer) override
         {
             assert(!!*this);
-            gobj->RenderInstanced(instanceCount);
+            gobj->RenderInstanced(layer, instanceCount);
         }
 
-        void RenderInstancedImpl(unsigned) override
+        void RenderInstancedImpl(RenderTargetLayer, unsigned) override
         {
             assert(false);
         }

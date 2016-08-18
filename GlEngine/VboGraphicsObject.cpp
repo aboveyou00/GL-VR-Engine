@@ -15,12 +15,12 @@ namespace GlEngine
     }
     VboGraphicsObject::VboGraphicsObject(VaObject vao)
         : GraphicsObject(true),
-        _vao(vao),
-        finalized(!!vao),
-        elemIdx(0),
-        currentGraphicsSection(nullptr),
-        verticesFactory(finalized ? nullptr : new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array)),
-        facesFactory(finalized ? nullptr : new VboFactory<VboType::UnsignedShort, uint16_t>(BufferMode::ElementArray))
+          _vao(vao),
+          finalized(!!vao),
+          elemIdx(0),
+          currentGraphicsSection(nullptr),
+          verticesFactory(finalized ? nullptr : new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array)),
+          facesFactory(finalized ? nullptr : new VboFactory<VboType::UnsignedShort, uint16_t>(BufferMode::ElementArray))
     {
     }
     VboGraphicsObject::~VboGraphicsObject()
@@ -110,21 +110,21 @@ namespace GlEngine
         return "VboGraphicsObject";
     }
 
-    void VboGraphicsObject::PreRender()
+    void VboGraphicsObject::PreRender(RenderTargetLayer layer)
     {
-        GraphicsObject::PreRender();
+        GraphicsObject::PreRender(layer);
         if (*this) _vao.MakeCurrent();
     }
-    void VboGraphicsObject::RenderImpl()
+    void VboGraphicsObject::RenderImpl(RenderTargetLayer layer)
     {
         for (size_t q = 0; q < graphicsSections.size(); q++)
-            graphicsSections[q]->Render();
+            graphicsSections[q]->Render(layer);
     }
 
-    void VboGraphicsObject::RenderInstancedImpl(unsigned instanceCount)
+    void VboGraphicsObject::RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount)
     {
         for (size_t q = 0; q < graphicsSections.size(); q++)
-            graphicsSections[q]->RenderInstanced(instanceCount);
+            graphicsSections[q]->RenderInstanced(layer, instanceCount);
     }
 
     VboGraphicsObject::operator bool()

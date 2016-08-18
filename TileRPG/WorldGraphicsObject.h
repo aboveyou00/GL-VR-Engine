@@ -2,6 +2,7 @@
 
 #include "GraphicsObject.h"
 #include <unordered_map>
+#include "RenderTargetLayer.h"
 
 namespace TileRPG
 {
@@ -20,8 +21,8 @@ namespace TileRPG
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
-        void RenderImpl() override;
-        void RenderInstancedImpl(unsigned instanceCount) override;
+        void RenderImpl(GlEngine::RenderTargetLayer layer) override;
+        void RenderInstancedImpl(GlEngine::RenderTargetLayer layer, unsigned instanceCount) override;
 
         operator bool() override;
 

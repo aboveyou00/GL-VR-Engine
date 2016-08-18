@@ -2,6 +2,7 @@
 
 #include "GraphicsObject.h"
 #include "VaObject.h"
+#include "RenderTargetLayer.h"
 
 namespace GlEngine
 {
@@ -42,10 +43,10 @@ namespace GlEngine
 
         const char *name() override;
 
-        void PreRender() override;
-        void RenderImpl() override;
+        void PreRender(RenderTargetLayer layer) override;
+        void RenderImpl(RenderTargetLayer layer) override;
 
-        void RenderInstancedImpl(unsigned instanceCount) override;
+        void RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount) override;
 
         operator bool() override;
 

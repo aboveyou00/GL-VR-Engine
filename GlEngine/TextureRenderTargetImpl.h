@@ -10,7 +10,7 @@ namespace GlEngine
 		class TextureRenderTargetImpl : public RenderTargetImpl
 		{
 		public:
-			TextureRenderTargetImpl(Texture * texture);
+			TextureRenderTargetImpl(unsigned width, unsigned height, bool hasAlphaChannel = false);
 			~TextureRenderTargetImpl();
 
 			virtual bool Initialize() override;
@@ -23,8 +23,8 @@ namespace GlEngine
 			virtual void MakeCurrentTarget() override;
 
 			virtual void Prepare() override;
-			virtual void Push() override;
-			virtual void Pop() override;
+			virtual void Push(RenderTargetLayer layer) override;
+			virtual void Pop(RenderTargetLayer layer) override;
 
 			virtual void Flip() override;
 

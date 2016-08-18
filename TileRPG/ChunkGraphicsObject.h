@@ -2,6 +2,7 @@
 
 #include "VboGraphicsObject.h"
 #include <unordered_map>
+#include "RenderTargetLayer.h"
 #include "VboType.h"
 
 namespace GlEngine
@@ -28,8 +29,8 @@ namespace TileRPG
 
         void AddInstance(GlEngine::GraphicsObject *gobj, Matrix<4, 4> localTransformation);
         
-        void PreRender() override;
-        void PostRender() override;
+        void PreRender(GlEngine::RenderTargetLayer layer) override;
+        void PostRender(GlEngine::RenderTargetLayer layer) override;
 
         Matrix<4, 4> GetTransformation();
 
