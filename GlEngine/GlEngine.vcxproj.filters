@@ -189,9 +189,6 @@
     <ClInclude Include="PathUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="StringUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
@@ -400,6 +397,25 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderTargetLayer.h">
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="FixWindows.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineShared.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGl.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphicsComponent.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="WindowsUtils.h">
@@ -407,6 +423,24 @@
     </ClInclude>
     <ClInclude Include="LogUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinnMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="LambertMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="TesselationType.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,9 +482,6 @@
     </ClCompile>
     <ClCompile Include="ILogger.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsContext.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -643,6 +674,21 @@
     </ClCompile>
     <ClCompile Include="LogUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="BlinnMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="LambertMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

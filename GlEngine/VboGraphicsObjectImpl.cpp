@@ -31,17 +31,17 @@ namespace GlEngine
             SafeDelete(facesFactory);
         }
 
-        void VboGraphicsObjectImpl::SetGraphics(Shader *shader, Texture *texture)
+        void VboGraphicsObjectImpl::SetMaterial(Material *material)
         {
             assert(!finalized);
-            if (currentGraphicsSection != nullptr && currentGraphicsSection->HasGraphics(shader, texture)) return;
+            if (currentGraphicsSection != nullptr && currentGraphicsSection->GetMaterial() == material) return;
             for (size_t q = 0; q < graphicsSections.size(); q++)
-                if (graphicsSections[q]->HasGraphics(shader, texture))
+                if (graphicsSections[q]->GetMaterial() == material)
                 {
                     currentGraphicsSection = graphicsSections[q];
                     return;
                 }
-            graphicsSections.push_back(currentGraphicsSection = new Impl::VboGraphicsSection(shader, texture));
+            graphicsSections.push_back(currentGraphicsSection = new Impl::VboGraphicsSection(material));
         }
 
         int VboGraphicsObjectImpl::AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal)

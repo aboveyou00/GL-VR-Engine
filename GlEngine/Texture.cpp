@@ -136,4 +136,9 @@ namespace GlEngine
 	{
 		return gl_tex;
 	}
+
+    bool Texture::IsOpaque()
+    {
+        return !alpha;
+    }
 }

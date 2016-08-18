@@ -6,15 +6,14 @@ namespace GlEngine
 {
     template <VboType type, typename... TArgs>
     class VboFactory;
-    class Shader;
-    class Texture;
+    class Material;
 
     namespace Impl
     {
         class VboGraphicsSection
         {
         public:
-            VboGraphicsSection(Shader *shader, Texture *texture);
+            VboGraphicsSection(Material *material);
             ~VboGraphicsSection();
 
             void AddTriangle(Vector<3, uint16_t> indices);
@@ -24,23 +23,14 @@ namespace GlEngine
             void Render(RenderTargetLayer layer);
             void RenderInstanced(RenderTargetLayer layer, unsigned instanceCount);
 
-            inline bool HasGraphics(Shader *shader, Texture *texture)
+            inline Material *GetMaterial()
             {
-                return this->shader == shader && this->texture == texture;
-            }
-            inline Shader *GetShader()
-            {
-                return shader;
-            }
-            inline Texture *GetTexture()
-            {
-                return texture;
+                return material;
             }
 
         private:
             bool finalized;
-            Shader *shader;
-            Texture *texture;
+            Material *material;
             std::vector<Vector<3, uint16_t>> *tris;
             std::vector<Vector<4, uint16_t>> *quads;
             int triCount, quadCount, triOffset, quadOffset;

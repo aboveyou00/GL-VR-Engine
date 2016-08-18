@@ -3,8 +3,8 @@
 #include "TileManager.h"
 
 #include "ChunkGraphicsObject.h"
-#include "Shader.h"
 #include "Texture.h"
+#include "BlinnMaterial.h"
 
 namespace TileRPG
 {
@@ -20,9 +20,9 @@ namespace TileRPG
 
     void RockTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
-        static auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
-        static auto texture = GlEngine::Texture::FromFile("Textures/rock.png");
-        chunkGobj.SetGraphics(shader, texture);
+        auto texture = GlEngine::Texture::FromFile("Textures/rock.png");
+        auto mat = GlEngine::BlinnMaterial::Create(texture);
+        chunkGobj.SetMaterial(mat);
         ITile::AddToChunkGraphicsObject(chunkGobj, x, y, z);
     }
 }

@@ -32,6 +32,8 @@ namespace GlEngine
 
 		unsigned GetGlTexture();
 
+        bool IsOpaque();
+
     private:
         bool initialized, alpha;
         const char *const path;

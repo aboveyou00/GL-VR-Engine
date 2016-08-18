@@ -184,6 +184,7 @@
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="TileRPGGame.h" />
     <ClInclude Include="TileRPGGameLoop.h" />
+    <ClInclude Include="WaterMaterial.h" />
     <ClInclude Include="WaterTile.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldEditorTargetGraphicsObject.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TileRPGGame.cpp" />
     <ClCompile Include="TileRPGGameLoop.cpp" />
+    <ClCompile Include="WaterMaterial.cpp" />
     <ClCompile Include="WaterTile.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldEditorTargetGraphicsObject.cpp" />

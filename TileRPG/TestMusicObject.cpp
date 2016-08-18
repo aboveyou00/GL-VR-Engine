@@ -5,8 +5,9 @@
 #include "AudioController.h"
 #include "GraphicsObject.h"
 #include "GraphicsContext.h"
-
 #include "ObjGraphicsObject.h"
+#include "Texture.h"
+#include "BlinnMaterial.h"
 
 namespace TileRPG
 {
@@ -68,6 +69,8 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
+        auto texture = GlEngine::Texture::FromFile("Textures/checkers.png", false);
+        auto mat = GlEngine::BlinnMaterial::Create(texture);
+        return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", mat);
     }
 }

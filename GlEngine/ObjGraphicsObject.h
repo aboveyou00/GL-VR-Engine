@@ -10,9 +10,9 @@ namespace GlEngine
 		ObjGraphicsObject() : VboGraphicsObject() {}
 		ObjGraphicsObject(const char *const filename);
         ObjGraphicsObject(const char *const filename, VaObject vao);
-        ObjGraphicsObject(const char *const filename, VaObject vao, Shader *shader, Texture *texture);
+        ObjGraphicsObject(const char *const filename, VaObject vao, Material *mat);
 
-        static ObjGraphicsObject *Create(const char *name, const char *shader_path, const char *shader_name, const char *texture_filename = nullptr);
+        static ObjGraphicsObject *Create(const char *name, Material *mat);
 
 		bool Initialize() override;
 

@@ -67,6 +67,12 @@
     <Filter Include="Source Files\GameObjects\Graphics">
       <UniqueIdentifier>{1dfcb390-e0b2-4207-9ebd-fd293d9346c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tiles\Graphics">
+      <UniqueIdentifier>{79d6baf6-d507-4af4-9720-2b4eb42a5016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tiles\Graphics">
+      <UniqueIdentifier>{9b06793c-6c2d-41c3-ab7c-1695b001a983}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -207,6 +213,9 @@
     <ClInclude Include="ICPSelector.h">
       <Filter>Header Files\World\ChunkProviders</Filter>
     </ClInclude>
+    <ClInclude Include="WaterMaterial.h">
+      <Filter>Header Files\Tiles\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -340,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="WorldEditorTargetGraphicsObject.cpp">
       <Filter>Source Files\GameObjects\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterMaterial.cpp">
+      <Filter>Source Files\Tiles\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

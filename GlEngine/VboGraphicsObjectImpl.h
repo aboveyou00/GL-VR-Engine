@@ -8,8 +8,7 @@ namespace GlEngine
     template <VboType type, typename... TArgs>
     class VboFactory;
     class VaoFactory;
-    class Shader;
-    class Texture;
+    class Material;
 
     namespace Impl
     {
@@ -21,7 +20,7 @@ namespace GlEngine
             VboGraphicsObjectImpl(VaObject vao, bool instanced = false);
             ~VboGraphicsObjectImpl();
 
-            void SetGraphics(Shader *shader, Texture *texture);
+            void SetMaterial(Material *material);
             int AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
             inline void AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2)
             {

@@ -153,6 +153,7 @@
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
     <ClInclude Include="BasicCollisionGroup.h" />
+    <ClInclude Include="BlinnMaterial.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="BoxBody.h" />
     <ClInclude Include="CameraGameObject.h" />
@@ -185,6 +186,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsController.h" />
     <ClInclude Include="GraphicsControllerImpl.h" />
+    <ClInclude Include="LambertMaterial.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="ImageGraphicsObject.h" />
     <ClInclude Include="OrthoViewPort.h" />
     <ClInclude Include="PerspectiveViewPort.h" />
@@ -226,6 +229,7 @@
     <ClInclude Include="Space.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringUtils.h" />
+    <ClInclude Include="TesselationType.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureRenderTargetImpl.h" />
     <ClInclude Include="Threading.h" />
@@ -258,6 +262,7 @@
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
+    <ClCompile Include="BlinnMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />
     <ClCompile Include="CameraGameObject.cpp" />
@@ -272,9 +277,11 @@
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
     <ClCompile Include="ImageGraphicsObject.cpp" />
+    <ClCompile Include="LambertMaterial.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="LogUtils.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="MatrixStack.cpp" />

@@ -4,7 +4,7 @@
 #include "ITile.h"
 
 #include "Texture.h"
-#include "Shader.h"
+#include "BlinnMaterial.h"
 #include "VBOFactory.h"
 #include "MatrixStack.h"
 
@@ -22,9 +22,9 @@ namespace TileRPG
 
     bool ChunkGraphicsObject::Initialize()
     {
-        auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
         auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
-        SetGraphics(shader, texture);
+        auto mat = GlEngine::BlinnMaterial::Create(texture);
+        SetMaterial(mat);
 
         auto &tileManager = TileManager::GetInstance();
         
