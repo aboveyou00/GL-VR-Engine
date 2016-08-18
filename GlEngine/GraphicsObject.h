@@ -12,7 +12,7 @@ namespace GlEngine
 	class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
 	{
 	public:
-		GraphicsObject();
+		GraphicsObject(bool autoinit = true, bool instanced = false);
 		~GraphicsObject();
 
         bool Initialize() override;
@@ -20,12 +20,30 @@ namespace GlEngine
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
-        virtual void Render();
+        void Render();
 		virtual void PreRender();
         virtual void RenderImpl() = 0;
         virtual void PostRender();
 
+        inline bool IsInstanced()
+        {
+            return isInstanced;
+        }
+        inline unsigned GetInstanceCount()
+        {
+            return instanceCount;
+        }
+
     protected:
         bool initialized, graphicsInitialized;
+
+        inline void SetInstanceCount(unsigned count)
+        {
+            instanceCount = count;
+        }
+
+    private:
+        bool isInstanced;
+        unsigned instanceCount;
 	};
 }

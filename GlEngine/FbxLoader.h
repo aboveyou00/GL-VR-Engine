@@ -16,22 +16,21 @@ namespace fbxsdk
 
 namespace GlEngine
 {
+    namespace Impl
+    {
+        class VboGraphicsObjectImpl;
+    }
+
 	class ENGINE_SHARED FbxLoader
 	{
 	public:
-		static bool Load(const char * const filename, FbxGraphicsObject * out);
-
+		static bool Load(const char * const filename, Impl::VboGraphicsObjectImpl *out);
 
 	private:
 		static std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> glVertices;
-		static std::vector<int> triangleIndeces;
 
-		static int FindOrAddGlVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
-		
-		static bool Convert(fbxsdk::FbxNode* rootNode);
-		static bool ConvertMesh(fbxsdk::FbxMesh* mesh);
-		static bool ConvertMaterial(fbxsdk::FbxSurfaceMaterial* mat);
-
-		static bool CreateObject(FbxGraphicsObject* out);
+		static bool Convert(fbxsdk::FbxNode *rootNode, Impl::VboGraphicsObjectImpl *out);
+        static bool ConvertMesh(fbxsdk::FbxMesh *mesh, Impl::VboGraphicsObjectImpl *out);
+		static bool ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat, Impl::VboGraphicsObjectImpl *out);
 	};
 }

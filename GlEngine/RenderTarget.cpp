@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "RenderTarget.h"
+#include "RenderTargetImpl.h"
 
 #include "RenderTargetImpl.h"
 
 namespace GlEngine
 {
-	RenderTarget::RenderTarget()
-		: pimpl()
+	RenderTarget::RenderTarget(Impl::RenderTargetImpl *pimpl)
+		: pimpl(pimpl)
 	{
 	}
 	RenderTarget::~RenderTarget()

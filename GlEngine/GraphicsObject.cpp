@@ -11,13 +11,17 @@
 
 namespace GlEngine
 {
-	GraphicsObject::GraphicsObject()
+	GraphicsObject::GraphicsObject(bool autoinit, bool instanced)
+        : initialized(false),
+          graphicsInitialized(false),
+          isInstanced(instanced),
+          instanceCount(0)
 	{
-        initialized = false;
-        graphicsInitialized = false;
-
-        auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-        resources->QueueResource(this);
+        if (autoinit)
+        {
+            auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+            resources->QueueResource(this);
+        }
 	}
 	GraphicsObject::~GraphicsObject()
 	{

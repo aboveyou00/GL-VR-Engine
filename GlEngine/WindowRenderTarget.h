@@ -5,8 +5,6 @@
 
 namespace GlEngine
 {
-	class Window;
-
 	namespace Impl
 	{
 		class RenderTargetImpl;

@@ -21,7 +21,7 @@ namespace TileRPG
     void RockTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
         static auto shader = GlEngine::Shader::Create("Shaders", "direct_light_tex");
-        static auto texture = GlEngine::Texture::FromFile("Textures/green.png");
+        static auto texture = GlEngine::Texture::FromFile("Textures/rock.png");
         chunkGobj.SetGraphics(shader, texture);
         ITile::AddToChunkGraphicsObject(chunkGobj, x, y, z);
     }

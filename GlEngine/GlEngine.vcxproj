@@ -160,6 +160,7 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
+    <ClInclude Include="FbxGraphicsObjectImpl.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Force.h" />
@@ -231,12 +232,16 @@
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
     <ClInclude Include="UnsafeVboFactory.h" />
+    <ClInclude Include="VaObject.h" />
+    <ClInclude Include="VaoFactory.h" />
     <ClInclude Include="VbObject.h" />
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboGraphicsObject.h" />
+    <ClInclude Include="VboGraphicsObjectImpl.h" />
     <ClInclude Include="VboGraphicsSection.h" />
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
+    <ClInclude Include="vbo_attribs_Matrix.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="vbo_attribs_Vector.h" />
     <ClInclude Include="ViewPort.h" />
@@ -256,7 +261,8 @@
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
-    <ClCompile Include="FbxGraphicsObject.cpp" />
+    <ClCompile Include="FbxGraphicsObjectImpl.cpp" />
+    <ClCompile Include="FbxGraphicsObject_Empty.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Force.cpp" />
@@ -279,6 +285,8 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureRenderTarget.cpp" />
     <ClCompile Include="TextureRenderTargetImpl.cpp" />
+    <ClCompile Include="VaObject.cpp" />
+    <ClCompile Include="VaoFactory.cpp" />
     <ClCompile Include="VbObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraImpl.cpp" />
@@ -311,7 +319,8 @@
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
-    <ClCompile Include="VboGraphicsObject.cpp" />
+    <ClCompile Include="VboGraphicsObjectImpl.cpp" />
+    <ClCompile Include="VboGraphicsObject_Empty.cpp" />
     <ClCompile Include="VboGraphicsSection.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="Window.cpp" />

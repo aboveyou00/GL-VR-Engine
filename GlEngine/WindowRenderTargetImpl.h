@@ -6,7 +6,7 @@ namespace GlEngine
 {
 	namespace Impl
 	{
-		class ENGINE_SHARED WindowRenderTargetImpl : public RenderTargetImpl
+		class WindowRenderTargetImpl : public RenderTargetImpl
 		{
 		public:
 			WindowRenderTargetImpl(Window * window);

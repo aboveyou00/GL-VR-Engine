@@ -13,12 +13,12 @@ namespace GlEngine
         : filename(filename)
 	{
 	}
-    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VbObject arrayVbo, VbObject elementVbo)
-        : VboGraphicsObject(arrayVbo, elementVbo), filename(filename)
+    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VaObject vao)
+        : VboGraphicsObject(vao), filename(filename)
     {
     }
-    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VbObject arrayVbo, VbObject elementVbo, Shader *shader, Texture *texture)
-        : ObjGraphicsObject(filename, arrayVbo, elementVbo)
+    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VaObject vao, Shader *shader, Texture *texture)
+        : ObjGraphicsObject(filename, vao)
     {
         SetGraphics(shader, texture);
     }
@@ -39,7 +39,7 @@ namespace GlEngine
 
         static std::unordered_map<int, ObjGraphicsObject*> cache;
         auto ptr = cache[hashed];
-        if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VbObject(), VbObject(), shader, texture);
+        if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VaObject(), shader, texture);
         return ptr;
     }
 

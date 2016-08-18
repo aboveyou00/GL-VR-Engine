@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VboGraphicsObject.h"
+#include <unordered_map>
 
 namespace GlEngine
 {
@@ -13,17 +14,22 @@ namespace TileRPG
     class World;
     class Chunk;
 
-    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject
+    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject<>
     {
     public:
         ChunkGraphicsObject(Chunk *chunk, World *world);
         ~ChunkGraphicsObject();
-
+        
         bool Initialize() override;
+        void Shutdown() override;
 
+        void AddInstance(VboGraphicsObject<Matrix<4, 4>> *gobj, Matrix<4, 4> localTransformation);
+        
         void PreRender() override;
         void PostRender() override;
-        
+
+        Matrix<4, 4> GetTransformation();
+
         const char *name() override;
 
         inline Chunk &GetChunk()
@@ -41,9 +47,10 @@ namespace TileRPG
         }
 
     private:
-        Matrix<4, 4> transformationMatrix;
         Chunk *chunk;
         World *world;
         unsigned version;
+
+        std::unordered_map<VboGraphicsObject<Matrix<4, 4>>*, std::vector<int>> instances;
     };
 }

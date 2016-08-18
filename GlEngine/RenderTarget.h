@@ -18,7 +18,7 @@ namespace GlEngine
 	class ENGINE_SHARED RenderTarget : public IComponent
     {
     public:
-		RenderTarget();
+		RenderTarget(Impl::RenderTargetImpl *impl);
 		~RenderTarget();
 
 		virtual bool Initialize();

@@ -9,7 +9,7 @@ using rt_mutex = std::recursive_timed_mutex;
 
 static inline bool TestSetLock(bool &val, rt_mutex &mutex, std::function<void()> onSuccess = nullptr)
 {
-    GlEngine::ScopedLock _lock(mutex);
+    ScopedLock _lock(mutex);
     if (val) return false;
 
     val = true;
@@ -18,21 +18,21 @@ static inline bool TestSetLock(bool &val, rt_mutex &mutex, std::function<void()>
 }
 static inline void ReleaseLock(bool &val, rt_mutex &mutex)
 {
-    GlEngine::ScopedLock _lock(mutex);
+    ScopedLock _lock(mutex);
     val = false;
 }
 
 template <typename T>
 static inline T LockGet(T &val, rt_mutex &mutex)
 {
-    GlEngine::ScopedLock _lock(mutex);
+    ScopedLock _lock(mutex);
     return val;
 }
 
 template <typename T>
 static inline void LockSet(T &val, T newVal, rt_mutex &mutex)
 {
-    GlEngine::ScopedLock _lock(mutex);
+    ScopedLock _lock(mutex);
     val = newVal;
 }
 

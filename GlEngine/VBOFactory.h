@@ -57,14 +57,18 @@ namespace GlEngine
                 return (data.size() / vertexSizeInElements) - 1;
             //}
         }
-
-        VbObject Compile()
+        void RemoveVertex(unsigned idx)
         {
-            return UnsafeVboFactory::Compile();
+            UnsafeVboFactory::RemoveVertex(idx);
         }
 
-    private:
-        std::vector<el_type> check_cache_data;
+        VbObject Compile(VaoFactory *vao, bool instanced = false)
+        {
+            return UnsafeVboFactory::Compile(vao, instanced);
+        }
+
+    //private:
+    //    std::vector<el_type> check_cache_data;
     };
 
     using ElementVboFactory = VboFactory<VboType::UnsignedShort, uint16_t, uint16_t, uint16_t>;

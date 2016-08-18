@@ -76,29 +76,66 @@ namespace GlEngine
             SafeDelete(quads);
         }
 
-        void VboGraphicsSection::PreRender()
+        void VboGraphicsSection::Render()
         {
-            if (shader != nullptr && *shader) shader->MakeCurrent();
+            if (!*this) return;
+
+            if (shader != nullptr && *shader) shader->Push();
             if (texture != nullptr && *texture) texture->Push();
-        }
-        void VboGraphicsSection::RenderImpl()
-        {
-            if (*this)
+
+            if (shader != nullptr && *shader && shader->UsesTesselation())
+            {
+                if (triCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 3);
+                    glDrawElements(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                }
+                if (quadCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 4);
+                    glDrawElements(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                }
+            }
+            else
             {
                 if (triCount) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
                 if (quadCount) glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
             }
-        }
-        void VboGraphicsSection::PostRender()
-        {
+
             if (texture != nullptr && *texture) texture->Pop();
-            //if (shader != nullptr && *shader) shader->Pop();
+            if (shader != nullptr && *shader) shader->Pop();
         }
 
-        const char *VboGraphicsSection::name()
+        void VboGraphicsSection::RenderInstanced(unsigned instanceCount)
         {
-            return "VboGraphicsSection";
+            if (!*this) return;
+
+            if (shader != nullptr && *shader) shader->Push();
+            if (texture != nullptr && *texture) texture->Push();
+
+            if (shader != nullptr && *shader && shader->UsesTesselation())
+            {
+                if (triCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 3);
+                    glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                }
+                if (quadCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 4);
+                    glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                }
+            }
+            else
+            {
+                if (triCount) glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                if (quadCount) glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset), instanceCount);
+            }
+
+            if (texture != nullptr && *texture) texture->Pop();
+            if (shader != nullptr && *shader) shader->Pop();
         }
+
         VboGraphicsSection::operator bool()
         {
             return finalized && *shader && *texture;
