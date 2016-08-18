@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "UnsafeVboFactory.h"
-
+#include "VbObjectAttribList.h"
 #include "OpenGl.h"
 #include "VaoFactory.h"
 
@@ -14,7 +14,8 @@ namespace GlEngine
             glGenBuffers(1, &currentVbo);
             glBindBuffer(static_cast<GLenum>(mode), currentVbo);
             glBufferData(static_cast<GLuint>(mode), bufferSizeInBytes, front, GL_STATIC_DRAW);
-            
+
+            auto list = new VbObjectAttribList(VbObject(currentVbo, mode));
             if (mode == BufferMode::Array)
             {
                 for (unsigned i = 0; i < attributeCount; i++)
@@ -23,10 +24,10 @@ namespace GlEngine
                     switch (type)
                     {
                     case VboType::Float:
-                        vao->AddAttrib(attr.size, type, false, vertexSizeInBytes, (void*)attr.start, instanced);
+                        list->AddAttrib(attr.size, type, false, vertexSizeInBytes, (void*)attr.start, instanced);
                         break;
                     case VboType::Double:
-                        vao->AddAttribL(attr.size, type, vertexSizeInBytes, (void*)attr.start, instanced);
+                        list->AddAttribL(attr.size, type, vertexSizeInBytes, (void*)attr.start, instanced);
                         break;
                     case VboType::Int:
                     case VboType::UnsignedInt:
@@ -34,13 +35,14 @@ namespace GlEngine
                     case VboType::UnsignedShort:
                     case VboType::Byte:
                     case VboType::UnsignedByte:
-                        vao->AddAttribI(attr.size, type, vertexSizeInBytes, (void*)attr.start, instanced);
+                        list->AddAttribI(attr.size, type, vertexSizeInBytes, (void*)attr.start, instanced);
                         break;
                     }
                 }
             }
+            vao->AddAttribs(list);
 
-            return VbObject(currentVbo, mode);
+            return list->GetVbObject();
         }
     }
 }

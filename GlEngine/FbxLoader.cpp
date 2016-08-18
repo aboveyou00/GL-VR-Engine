@@ -91,8 +91,8 @@ namespace GlEngine
                 int vIndex = out->AddVertex({ vertex[0], vertex[1], vertex[2] }, { texCoord[0], texCoord[1] }, { normal[0], normal[1], normal[2] });
                 faceIndices.push_back(vIndex);
             }
-            if (polySize == 3) out->AddTriangle(faceIndices[0], faceIndices[1], faceIndices[2]);
-            else if (polySize == 4) out->AddQuad(faceIndices[0], faceIndices[1], faceIndices[2], faceIndices[3]);
+            if (polySize == 3) out->AddTriangle(faceIndices[2], faceIndices[1], faceIndices[0]);
+            else if (polySize == 4) out->AddQuad(faceIndices[3], faceIndices[2], faceIndices[1], faceIndices[0]);
             faceIndices.clear();
         }
 

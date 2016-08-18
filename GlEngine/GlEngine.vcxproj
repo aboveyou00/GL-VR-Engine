@@ -240,6 +240,9 @@
     <ClInclude Include="VaObject.h" />
     <ClInclude Include="VaoFactory.h" />
     <ClInclude Include="VbObject.h" />
+    <ClInclude Include="VbObjectAttrib.h" />
+    <ClInclude Include="VbObjectAttribList.h" />
+    <ClInclude Include="VbObjectAttribType.h" />
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboGraphicsObject.h" />
     <ClInclude Include="VboGraphicsSection.h" />
@@ -327,6 +330,8 @@
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
+    <ClCompile Include="VbObjectAttrib.cpp" />
+    <ClCompile Include="VbObjectAttribList.cpp" />
     <ClCompile Include="VboGraphicsObject.cpp" />
     <ClCompile Include="VboGraphicsSection.cpp" />
     <ClCompile Include="ViewPort.cpp" />

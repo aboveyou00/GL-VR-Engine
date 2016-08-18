@@ -81,23 +81,27 @@ namespace GlEngine
         if (facesFactory == nullptr) return false;
 
         auto vao_factory = VaoFactory::Begin();
-        createVao(vao_factory);
+        BuildVao(*vao_factory);
         _vao = vao_factory->Compile(); //This will delete vao_factory
 
         return _vao.InitializeGraphics();
     }
-    void VboGraphicsObject::createVao(VaoFactory *vao)
+    void VboGraphicsObject::BuildVao(VaoFactory &vao)
     {
-        for (size_t q = 0; q < graphicsSections.size(); q++)
-            graphicsSections[q]->Finalize(facesFactory);
+        if (verticesFactory != nullptr && facesFactory != nullptr)
+        {
+            for (size_t q = 0; q < graphicsSections.size(); q++)
+                graphicsSections[q]->Finalize(facesFactory);
 
-        vao->Add(verticesFactory)
-            ->Add(facesFactory);
+            vao.Add(verticesFactory)
+               .Add(facesFactory);
 
-        delete verticesFactory;
-        verticesFactory = nullptr;
-        delete facesFactory;
-        facesFactory = nullptr;
+            delete verticesFactory;
+            verticesFactory = nullptr;
+            delete facesFactory;
+            facesFactory = nullptr;
+        }
+        else if (_vao) vao.Add(_vao);
     }
     void VboGraphicsObject::ShutdownGraphics()
     {

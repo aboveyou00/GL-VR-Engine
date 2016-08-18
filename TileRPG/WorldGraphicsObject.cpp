@@ -33,6 +33,11 @@ namespace TileRPG
     {
     }
 
+    void WorldGraphicsObject::BuildVao(GlEngine::VaoFactory&)
+    {
+        assert(false);
+    }
+
     void WorldGraphicsObject::UpdateChunks(std::vector<Chunk*> *chunks)
     {
         removeOldChunks(*chunks);

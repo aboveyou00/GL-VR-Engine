@@ -2,6 +2,11 @@
 
 #include "GraphicsObject.h"
 #include "VboFactory.h"
+#include "VaoFactory.h"
+
+#include "Engine.h"
+#include "ServiceProvider.h"
+#include "ResourceLoader.h"
 
 namespace GlEngine
 {
@@ -10,53 +15,55 @@ namespace GlEngine
     {
     public:
         InstancedGraphicsObject(GraphicsObject *gobj)
-            : gobj(gobj),
+            : GraphicsObject(false),
+              gobj(gobj),
               instances(new VboFactory<type, TArgs...>(BufferMode::Array)),
               instanceCount(0),
-              instanceId(0)
+              finalized(false),
+              _vao(VaObject())
         {
         }
         ~InstancedGraphicsObject()
         {
             SafeDelete(instances);
-            SafeDelete(instanceIds);
         }
 
         int AddInstance(TArgs... args)
         {
-            assert(instances != nullptr);
+            assert(!finalized && instances != nullptr);
             instanceCount++;
-            instances->AddVertex(args...);
-
-            auto id = ++instanceId;
-            instanceIds.push_back(id);
-            return id;
-        }
-        bool RemoveInstance(int id)
-        {
-            auto idx = std::find(instanceIds.begin(), instanceIds.end(), id);
-            if (idx == instanceIds.end()) return false;
-
-            auto removeIdx = idx - instanceIds.begin();
-            instanceIds.erase(idx);
-            instances->RemoveVertex(removeIdx);
-            instanceCount--;
-            return true;
+            return instances->AddVertex(args...);
         }
 
-        bool Initialize() override
+        void Finalize()
         {
-            return true;
+            assert(!finalized);
+            finalized = true;
+
+            auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+            resources->QueueResource(this);
         }
-        void Shutdown() override
-        {
-        }
+        
         bool InitializeGraphics() override
         {
-            return true;
+            VaoFactory *factory = VaoFactory::Begin();
+            BuildVao(*factory);
+            _vao = factory->Compile();
+
+            delete instances;
+            instances = nullptr;
+
+            return _vao && GraphicsObject::InitializeGraphics();
         }
-        void ShutdownGraphics() override
+
+        void BuildVao(VaoFactory &vao) override
         {
+            if (instances != nullptr)
+            {
+                gobj->BuildVao(vao);
+                vao.AddInstanced(instances);
+            }
+            else if (_vao) vao.Add(_vao);
         }
 
         void RenderImpl(RenderTargetLayer layer) override
@@ -72,7 +79,7 @@ namespace GlEngine
 
         operator bool() override
         {
-            return gobj && *gobj;
+            return finalized && graphicsInitialized && gobj && *gobj;
         }
 
         const char *name() override
@@ -81,11 +88,12 @@ namespace GlEngine
         }
 
     private:
+        VaObject _vao;
+
+        bool finalized;
         GraphicsObject *gobj;
         VboFactory<type, TArgs...> *instances;
-        std::vector<int> instanceIds;
         int instanceCount;
-        unsigned instanceId;
     };
 
     template <VboType type>

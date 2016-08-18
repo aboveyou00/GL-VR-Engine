@@ -10,6 +10,8 @@ namespace GlEngine
 		class GraphicsObjectImpl;
 	}
 
+    class VaoFactory;
+
 	class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
 	{
 	public:
@@ -20,6 +22,8 @@ namespace GlEngine
         void Shutdown() override;
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
+
+        virtual void BuildVao(VaoFactory &vao) = 0;
 
         void Render(RenderTargetLayer layer);
 		virtual void PreRender(RenderTargetLayer layer);

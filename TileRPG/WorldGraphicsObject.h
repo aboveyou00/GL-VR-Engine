@@ -21,6 +21,8 @@ namespace TileRPG
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
+        void BuildVao(GlEngine::VaoFactory &vao) override;
+
         void RenderImpl(GlEngine::RenderTargetLayer layer) override;
         void RenderInstancedImpl(GlEngine::RenderTargetLayer layer, unsigned instanceCount) override;
 

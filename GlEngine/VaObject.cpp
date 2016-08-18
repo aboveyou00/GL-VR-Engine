@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "VaObject.h"
-
+#include "VbObjectAttribList.h"
 #include "OpenGl.h"
 
 namespace GlEngine
@@ -13,8 +13,8 @@ namespace GlEngine
         : VaObject(vao, nullptr)
     {
     }
-    VaObject::VaObject(unsigned vao, std::vector<VbObject> *vbos)
-        : _vao(vao), _vbos(vbos)
+    VaObject::VaObject(unsigned vao, std::vector<VbObjectAttribList*> *vbo_attribs)
+        : _vao(vao), _vbos(vbo_attribs)
     {
     }
     VaObject::~VaObject()
@@ -26,8 +26,8 @@ namespace GlEngine
         if (_vbos == nullptr) return true;
         for (size_t q = 0; q < _vbos->size(); q++)
         {
-            auto &vbo = (*_vbos)[q];
-            if (!vbo.Initialize()) return false;
+            auto &vbo_attribs = (*_vbos)[q];
+            if (!vbo_attribs->GetVbObject().Initialize()) return false;
         }
         return true;
     }
@@ -40,8 +40,8 @@ namespace GlEngine
         if (_vbos == nullptr) return true;
         for (size_t q = 0; q < _vbos->size(); q++)
         {
-            auto &vbo = (*_vbos)[q];
-            if (!vbo.InitializeGraphics()) return false;
+            auto &vbo_attribs = (*_vbos)[q];
+            if (!vbo_attribs->GetVbObject().InitializeGraphics()) return false;
         }
         return true;
     }
@@ -56,8 +56,8 @@ namespace GlEngine
         {
             for (size_t q = 0; q < _vbos->size(); q++)
             {
-                auto &vbo = (*_vbos)[q];
-                vbo.ShutdownGraphics();
+                //auto &vbo_attribs = (*_vbos)[q];
+                //vbo_attribs->GetVbObject().ShutdownGraphics();
             }
             delete _vbos;
             _vbos = nullptr;
@@ -89,8 +89,8 @@ namespace GlEngine
         if (_vbos == nullptr) return;
         for (size_t q = 0; q < _vbos->size(); q++)
         {
-            auto &vbo = (*_vbos)[q];
-            vbo.MakeCurrent(); //This does nothing for most vbos, but the element array and possibly others need it because it is not stored in the VAO
+            auto &vbo_attribs = (*_vbos)[q];
+            vbo_attribs->GetVbObject().MakeCurrent(); //This does nothing for most vbos, but the element array and possibly others need it because it is not stored in the VAO
         }
     }
 }

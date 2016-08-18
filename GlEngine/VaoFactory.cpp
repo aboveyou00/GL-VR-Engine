@@ -1,17 +1,17 @@
 #include "stdafx.h"
 #include "VaoFactory.h"
-
+#include "VbObjectAttribList.h"
 #include "OpenGl.h"
 
 namespace GlEngine
 {
     VaoFactory::VaoFactory()
-        : _vao(0), _name(0), _vbos(new std::vector<VbObject>())
+        : _vao(0), _name(0), _vbos(new std::vector<VbObjectAttribList*>())
     {
     }
     VaoFactory::~VaoFactory()
     {
-        SafeDelete(_vbos);
+        SafeDeleteVector(_vbos);
     }
 
     VaoFactory *VaoFactory::Begin()
@@ -26,26 +26,27 @@ namespace GlEngine
         glBindVertexArray(_vao);
     }
 
-    void VaoFactory::AddAttrib(unsigned size, VboType type, bool normalized, unsigned stride, const void *start, bool instanced)
+    void VaoFactory::Add(VaObject vao)
     {
-        glVertexAttribPointer(_name, size, static_cast<GLenum>(type), normalized ? GL_TRUE : GL_FALSE, stride, start);
-        glEnableVertexAttribArray(_name);
-        glVertexAttribDivisor(_name, instanced ? 1 : 0);
-        _name++;
+        auto attributes = vao.GetVboAttributes();
+        assert(attributes != nullptr);
+
+        makeCurrent();
+        for (size_t q = 0; q < attributes->size(); q++)
+        {
+            auto &attribute = *(*attributes)[q];
+            AddAttribs(new VbObjectAttribList(attribute));
+        }
     }
-    void VaoFactory::AddAttribL(unsigned size, VboType type, unsigned stride, const void *start, bool instanced)
+
+    void VaoFactory::AddAttribs(VbObjectAttribList *attribs)
     {
-        glVertexAttribLPointer(_name, size, static_cast<GLenum>(type), stride, start);
-        glEnableVertexAttribArray(_name);
-        glVertexAttribDivisor(_name, instanced ? 1 : 0);
-        _name++;
+        _vbos->push_back(attribs);
+        attribs->BuildVao(*this);
     }
-    void VaoFactory::AddAttribI(unsigned size, VboType type, unsigned stride, const void *start, bool instanced)
+    void VaoFactory::AddAttrib(VbObjectAttrib *attrib)
     {
-        glVertexAttribIPointer(_name, size, static_cast<GLenum>(type), stride, start);
-        glEnableVertexAttribArray(_name);
-        glVertexAttribDivisor(_name, instanced ? 1 : 0);
-        _name++;
+        attrib->BuildVao(*this);
     }
 
     VaObject VaoFactory::Compile()

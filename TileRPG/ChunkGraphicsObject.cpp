@@ -62,11 +62,23 @@ namespace TileRPG
     void ChunkGraphicsObject::AddInstance(GraphicsObject *gobj, Matrix<4, 4> localTransformation)
     {
         assert(!finalized);
+
         auto igo_ptr = instances[gobj];
         if (igo_ptr == nullptr) igo_ptr = instances[gobj] = new GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>(gobj);
         auto &igo = *igo_ptr;
 
         igo.AddInstance(GetTransformation() * localTransformation);
+    }
+
+    bool ChunkGraphicsObject::InitializeGraphics()
+    {
+        for (auto ptr = instances.begin(); ptr != instances.end(); ptr++)
+        {
+            auto &igo = *ptr->second;
+            igo.Finalize();
+        }
+
+        return VboGraphicsObject::InitializeGraphics();
     }
 
     void ChunkGraphicsObject::PreRender(GlEngine::RenderTargetLayer layer)

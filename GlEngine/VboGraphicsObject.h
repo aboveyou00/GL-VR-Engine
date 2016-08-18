@@ -8,7 +8,6 @@ namespace GlEngine
 {
     template <VboType type, typename... TArgs>
     class VboFactory;
-    class VaoFactory;
     class Material;
 
     namespace Impl
@@ -43,6 +42,8 @@ namespace GlEngine
 
         const char *name() override;
 
+        void BuildVao(VaoFactory &vao) override;
+
         void PreRender(RenderTargetLayer layer) override;
         void RenderImpl(RenderTargetLayer layer) override;
 
@@ -52,8 +53,6 @@ namespace GlEngine
 
     protected:
         bool finalized;
-
-        virtual void createVao(VaoFactory *vao);
 
     private:
         VaObject _vao;
