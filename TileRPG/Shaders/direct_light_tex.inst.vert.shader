@@ -19,10 +19,16 @@ layout(location = 1) out vec2 out_uv_coords;
 
 void main(void)
 {
+    //mat4 norm_mat = transpose(inverse(in_model_matrix));
+    mat3 norm_mat = mat3(in_model_matrix);
+
     gl_Position = projection_matrix * model_view_matrix * in_model_matrix * vec4(in_position, 1);
     out_uv_coords = in_uv_coords;
 
-    float direct_light_amt = clamp(dot(direct_light_direction, in_normal), 0.0, 1.0);
+    //float direct_light_amt = clamp(dot(vec4(direct_light_direction, 1), norm_mat * vec4(in_normal, 1)), 0.0, 1.0);
+    float direct_light_amt = clamp(dot(direct_light_direction, norm_mat * in_normal), 0.0, 1.0);
     vec3 direct_light = direct_light_amt * direct_light_color;
     out_light_color = ambient_light_color + direct_light;
+
+    //out_light_color = (norm_mat * vec4(in_normal, 1)).xyz;
 }
