@@ -23,6 +23,10 @@ namespace GlEngine
         void AddAttribL(unsigned size, VboType type, unsigned stride, const void *start, bool instanced);
         void AddAttribI(unsigned size, VboType type, unsigned stride, const void *start, bool instanced);
 
+        void MakeCurrent();
+
+        operator bool();
+
     private:
         VbObject vbo;
         std::vector<VbObjectAttrib> *attribs;

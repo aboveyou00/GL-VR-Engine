@@ -26,15 +26,15 @@ namespace GlEngine
         switch (type)
         {
         case GlEngine::VbObjectAttribType::Normal:
-            glVertexAttribPointer(name, size, static_cast<GLenum>(type), normalized ? GL_TRUE : GL_FALSE, stride, start);
+            glVertexAttribPointer(name, size, static_cast<GLenum>(vbotype), normalized ? GL_TRUE : GL_FALSE, stride, start);
             break;
 
         case GlEngine::VbObjectAttribType::Long:
-            glVertexAttribLPointer(name, size, static_cast<GLenum>(type), stride, start);
+            glVertexAttribLPointer(name, size, static_cast<GLenum>(vbotype), stride, start);
             break;
 
         case GlEngine::VbObjectAttribType::Integer:
-            glVertexAttribIPointer(name, size, static_cast<GLenum>(type), stride, start);
+            glVertexAttribIPointer(name, size, static_cast<GLenum>(vbotype), stride, start);
             break;
 
         default:

@@ -37,4 +37,14 @@ namespace GlEngine
     {
         attribs->push_back(VbObjectAttrib(VbObjectAttribType::Integer, size, type, false, stride, start, instanced));
     }
+
+    void VbObjectAttribList::MakeCurrent()
+    {
+        vbo.MakeCurrent();
+    }
+
+    VbObjectAttribList::operator bool()
+    {
+        return !!vbo;
+    }
 }

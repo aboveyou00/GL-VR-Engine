@@ -20,6 +20,7 @@ namespace GlEngine
               instances(new VboFactory<type, TArgs...>(BufferMode::Array)),
               instanceCount(0),
               finalized(false),
+              queued(false),
               _vao(VaObject())
         {
         }
@@ -40,15 +41,19 @@ namespace GlEngine
             assert(!finalized);
             finalized = true;
 
-            auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-            resources->QueueResource(this);
+            if (*gobj)
+            {
+                queued = true;
+                auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+                resources->QueueResource(this);
+            }
         }
         
         bool InitializeGraphics() override
         {
-            VaoFactory *factory = VaoFactory::Begin();
-            BuildVao(*factory);
-            _vao = factory->Compile();
+            VaoFactory *vao = VaoFactory::Begin();
+            BuildVao(*vao);
+            _vao = vao->Compile();
 
             delete instances;
             instances = nullptr;
@@ -66,6 +71,11 @@ namespace GlEngine
             else if (_vao) vao.Add(_vao);
         }
 
+        void PreRender(RenderTargetLayer layer) override
+        {
+            GraphicsObject::PreRender(layer);
+            if (*this) _vao.MakeCurrent();
+        }
         void RenderImpl(RenderTargetLayer layer) override
         {
             assert(!!*this);
@@ -79,7 +89,13 @@ namespace GlEngine
 
         operator bool() override
         {
-            return finalized && graphicsInitialized && gobj && *gobj;
+            if (finalized && !queued)
+            {
+                queued = true;
+                auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+                resources->QueueResource(this);
+            }
+            return finalized && _vao && gobj && *gobj;
         }
 
         const char *name() override
@@ -90,7 +106,7 @@ namespace GlEngine
     private:
         VaObject _vao;
 
-        bool finalized;
+        bool finalized, queued;
         GraphicsObject *gobj;
         VboFactory<type, TArgs...> *instances;
         int instanceCount;

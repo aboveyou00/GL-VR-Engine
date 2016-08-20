@@ -71,12 +71,10 @@ namespace GlEngine
         RenderInstancedImpl(layer, instanceCount);
         PostRenderInstanced(layer);
     }
-    void GraphicsObject::PreRenderInstanced(RenderTargetLayer layer)
+    void GraphicsObject::PreRenderInstanced(RenderTargetLayer)
     {
-        PreRender(layer);
     }
-    void GraphicsObject::PostRenderInstanced(RenderTargetLayer layer)
+    void GraphicsObject::PostRenderInstanced(RenderTargetLayer)
     {
-        PostRender(layer);
     }
 }

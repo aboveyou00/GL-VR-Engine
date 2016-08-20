@@ -25,13 +25,12 @@ namespace TileRPG
         ~ChunkGraphicsObject();
         
         bool Initialize() override;
-        void Shutdown() override;
+        bool InitializeGraphics() override;
 
         void AddInstance(GlEngine::GraphicsObject *gobj, Matrix<4, 4> localTransformation);
 
-        bool InitializeGraphics() override;
-        
         void PreRender(GlEngine::RenderTargetLayer layer) override;
+        void RenderImpl(GlEngine::RenderTargetLayer layer) override;
         void PostRender(GlEngine::RenderTargetLayer layer) override;
 
         Matrix<4, 4> GetTransformation();

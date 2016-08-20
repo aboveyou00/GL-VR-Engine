@@ -23,12 +23,6 @@ namespace GlEngine
 
     bool VaObject::Initialize()
     {
-        if (_vbos == nullptr) return true;
-        for (size_t q = 0; q < _vbos->size(); q++)
-        {
-            auto &vbo_attribs = (*_vbos)[q];
-            if (!vbo_attribs->GetVbObject().Initialize()) return false;
-        }
         return true;
     }
     void VaObject::Shutdown()
@@ -70,8 +64,8 @@ namespace GlEngine
         if (_vbos == nullptr) return true;
         for (size_t q = 0; q < _vbos->size(); q++)
         {
-            auto &vbo = (*_vbos)[q];
-            if (!vbo) return false;
+            auto &vbo_attribs = (*_vbos)[q];
+            if (!vbo_attribs) return false;
         }
         return true;
     }
@@ -89,8 +83,8 @@ namespace GlEngine
         if (_vbos == nullptr) return;
         for (size_t q = 0; q < _vbos->size(); q++)
         {
-            auto &vbo_attribs = (*_vbos)[q];
-            vbo_attribs->GetVbObject().MakeCurrent(); //This does nothing for most vbos, but the element array and possibly others need it because it is not stored in the VAO
+            auto &vbo_attribs = *(*_vbos)[q];
+            vbo_attribs.MakeCurrent(); //This does nothing for most vbos, but the element array and possibly others need it because it is not stored in the VAO
         }
     }
 }

@@ -53,6 +53,7 @@ namespace GlEngine
 
     protected:
         bool finalized;
+        rt_mutex mutex;
 
     private:
         VaObject _vao;
