@@ -15,30 +15,24 @@
 
 namespace GlEngine
 {
-    Shader::Shader()
-        : Shader(nullptr, nullptr)
+    ShaderFactory::ShaderFactory()
+        : ShaderFactory(nullptr, nullptr)
     {
     }
-    Shader::Shader(const char *name)
-        : Shader("", name)
-    {
-    }
-    Shader::Shader(const char *path, const char *name)
-        : _path(path), _name(name),
-          _vert_text(nullptr), _frag_text(nullptr), _vert(0), _frag(0),
-          _tessc_text(nullptr), _tesse_text(nullptr), _tessc(0), _tesse(0),
-          _prog(0),
-          theta(0)
+    ShaderFactory::ShaderFactory(std::string vert_src, std::string frag_src, std::string tessc_src, std::string tesse_src, std::string geom_src)
+        : vert_src(vert_src), frag_src(frag_src), tessc_src(tessc_src), tesse_src(tesse_src), geom_src(geom_src),
+		  _vert(0), _frag(0), _tessc(0), _tesse(0), _geom(0),
+          _prog(0)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);
     }
-    Shader::~Shader()
+    ShaderFactory::~ShaderFactory()
     {
         Shutdown();
     }
 
-    Shader *Shader::Create(const char *shader_path, const char *shader_name)
+    ShaderFactory *ShaderFactory::Create(const char *shader_path, const char *shader_name)
     {
         if (shader_name == nullptr || shader_name[0] == '\0') return nullptr;
 
@@ -52,55 +46,55 @@ namespace GlEngine
             return h;
         })(shader_path, shader_name);
 
-        static std::unordered_map<int, Shader*> shaders;
+        static std::unordered_map<int, ShaderFactory*> shaders;
         auto cached = shaders[hashed];
         if (cached != nullptr) return cached;
-        return shaders[hashed] = new Shader(shader_path, shader_name);
+        return shaders[hashed] = new ShaderFactory(shader_path, shader_name);
     }
 
-    bool Shader::Initialize()
-    {
-        if (_name == nullptr) return false;
+	ShaderFactory * ShaderFactory::Create(ShaderAttribs attribs)
+	{
+		std::string vertexSource = "#layout 430\n";
+	
+	}
 
-        if (!loadShaderText(_vert_text, _vert_text_length, "vert")) return false;
-        if (!loadShaderText(_frag_text, _frag_text_length, "frag")) return false;
-        loadShaderText(_tessc_text, _tessc_text_length, "tessc", false);
-        loadShaderText(_tesse_text, _tesse_text_length, "tesse", false);
-
-        return true;
-    }
-    void Shader::Shutdown()
+    bool ShaderFactory::Initialize()
     {
     }
-    bool Shader::InitializeGraphics()
+    void ShaderFactory::Shutdown()
     {
-        if (!_vert)
+    }
+    bool ShaderFactory::InitializeGraphics()
+    {
+        if (!_vert && vert_src != "")
         {
-            _vert = compileShader(GL_VERTEX_SHADER, _vert_text, _vert_text_length);
-            delete[] _vert_text;
-            if (!ensureShaderCompiled(_vert, "vert")) return false;
+            _vert = compileShader(GL_VERTEX_SHADER, vert_src.c_str(), vert_src.size());
+            if (!ensureShaderCompiled(_vert)) return false;
         }
 
-        if (!_frag)
+        if (!_frag && frag_src != "")
         {
-            _frag = compileShader(GL_FRAGMENT_SHADER, _frag_text, _frag_text_length);
-            delete[] _frag_text;
-            if (!ensureShaderCompiled(_frag, "frag")) return false;
+            _frag = compileShader(GL_FRAGMENT_SHADER, frag_src.c_str(), frag_src.size());
+            if (!ensureShaderCompiled(_frag)) return false;
         }
 
-        if (!_tessc && _tessc_text != nullptr)
+        if (!_tessc && tessc_src != "")
         {
-            _tessc = compileShader(GL_TESS_CONTROL_SHADER, _tessc_text, _tessc_text_length);
-            delete[] _tessc_text;
-            if (!ensureShaderCompiled(_tessc, "tessc")) _tessc = 0;
+            _tessc = compileShader(GL_TESS_CONTROL_SHADER, tessc_src.c_str(), tessc_src.size());
+            if (!ensureShaderCompiled(_tessc)) _tessc = 0;
         }
 
-        if (!_tesse && _tesse_text != nullptr)
+        if (!_tesse && tesse_src != "")
         {
-            _tesse = compileShader(GL_TESS_EVALUATION_SHADER, _tesse_text, _tesse_text_length);
-            delete[] _tesse_text;
-            if (!ensureShaderCompiled(_tesse, "tesse")) _tesse = 0;
+            _tesse = compileShader(GL_TESS_EVALUATION_SHADER, tesse_src.c_str(), tesse_src.size());
+            if (!ensureShaderCompiled(_tesse)) _tesse = 0;
         }
+
+		if (!_geom && geom_src != "")
+		{
+			_geom = compileShader(GL_GEOMETRY_SHADER, geom_src.c_str(), geom_src.size());
+			if (!ensureShaderCompiled(_geom)) _tesse = 0;
+		}
 
         if (!_prog)
         {
@@ -110,7 +104,7 @@ namespace GlEngine
 
         return true;
     }
-    void Shader::ShutdownGraphics()
+    void ShaderFactory::ShutdownGraphics()
     {
         if (_prog) glDeleteProgram(_prog);
         _prog = 0;
@@ -128,16 +122,17 @@ namespace GlEngine
         _tesse = 0;
     }
 
-    const char *Shader::name()
+    const char *ShaderFactory::name()
     {
         return "Shader";
     }
 
-    void Shader::Push()
+    void ShaderFactory::Push()
     {
         assert(!!*this);
         glUseProgram(_prog);
 
+		/* Use environment here */
         MatrixStack::Projection.tell_gl();
         MatrixStack::ModelView.tell_gl();
 
@@ -147,55 +142,37 @@ namespace GlEngine
         glUniform3f(3, .4f, .6f, 1.f);
         glUniform3f(4, .4f, .4f, .4f);
 
-        theta += .01f;
-        glUniform1f(6, theta);
+        //theta += .01f;
+        //glUniform1f(6, theta);
     }
-    void Shader::Pop()
+    void ShaderFactory::Pop()
     {
         glUseProgram(0);
     }
-
-    bool Shader::UsesTesselation()
+	
+	bool ShaderFactory::UsesVertex()
+	{
+		return !!_vert;
+	}
+	bool ShaderFactory::UsesFragment()
+	{
+		return !!_frag;
+	}
+    bool ShaderFactory::UsesTesselation()
     {
         return !!_tesse;
     }
+	bool ShaderFactory::UsesGeometry()
+	{
+		return !!_geom;
+	}
 
-    Shader::operator bool()
+    ShaderFactory::operator bool()
     {
         return _prog && _vert && _frag;
     }
 
-    bool Shader::loadShaderText(const char *&text, int &text_length, const char *suffix, bool required)
-    {
-        static const int NAME_BUFFER_SIZE = 64;
-        static thread_local char nameBuff[NAME_BUFFER_SIZE];
-        sprintf_s(nameBuff, "%s.%s.shader", _name, suffix);
-        auto fullPath = Util::combinePath(_path, nameBuff);
-
-        std::ifstream file(fullPath, std::ios::in | std::ifstream::ate | std::ifstream::binary);
-        if (file.fail() || !file)
-        {
-            if (required)
-            {
-                auto &logger = *GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-                logger.Log(LogType::Warning, "Could not open shader file [%s]", fullPath);
-            }
-            return false;
-        }
-
-        auto len = (int)file.tellg();
-        file.seekg(0);
-
-        char *buff = new char[len + 1];
-        file.read(buff, len);
-        buff[len] = '\0';
-        text = buff;
-
-        text_length = len;
-        return true;
-    }
-
-    unsigned Shader::compileShader(unsigned type, const char *text, int text_length)
+    unsigned ShaderFactory::compileShader(unsigned type, const char *text, int text_length)
     {
         auto shader = glCreateShader(type);
         glShaderSource(shader, 1, (const GLchar**)&text, &text_length);
@@ -203,7 +180,7 @@ namespace GlEngine
 
         return shader;
     }
-    bool Shader::ensureShaderCompiled(unsigned shader, const char *suffix)
+    bool ShaderFactory::ensureShaderCompiled(unsigned shader)
     {
         if (shader == 0) return false;
 
@@ -211,7 +188,7 @@ namespace GlEngine
         glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
 
         auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-        if (result != GL_TRUE) logger->Log(LogType::WarningC, "Shader failed to compile: [%s.%s.shader]", _name, suffix);
+        if (result != GL_TRUE) logger->Log(LogType::WarningC, "Shader failed to compile");
 
         GLint logLength;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
@@ -223,14 +200,14 @@ namespace GlEngine
             if (logLength + 1 > STATIC_BUFFER_SIZE) buff = new char[logLength + 1];
             GLsizei length;
             glGetShaderInfoLog(shader, max(STATIC_BUFFER_SIZE, logLength + 1), &length, buff);
-            if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader info log for [%s.%s.shader]:\n%s", _name, suffix, buff);
+            if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader info log:\n%s", buff);
             if (logLength + 1 > STATIC_BUFFER_SIZE) delete[] buff;
         }
 
         return result == GL_TRUE;
     }
 
-    unsigned Shader::compileProgram()
+    unsigned ShaderFactory::compileProgram()
     {
         auto program = glCreateProgram();
         glAttachShader(program, _vert);
@@ -240,13 +217,13 @@ namespace GlEngine
         glLinkProgram(program);
         return program;
     }
-    bool Shader::ensureProgramCompiled()
+    bool ShaderFactory::ensureProgramCompiled()
     {
         GLint result;
         glGetProgramiv(_prog, GL_LINK_STATUS, &result);
 
         auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-        if (result != GL_TRUE) logger->Log(LogType::WarningC, "Shader program failed to link: [%s]", _name);
+        if (result != GL_TRUE) logger->Log(LogType::WarningC, "Shader program failed to link");
 
         GLint logLength;
         glGetProgramiv(_prog, GL_INFO_LOG_LENGTH, &logLength);
@@ -258,7 +235,7 @@ namespace GlEngine
             if (logLength + 1 > STATIC_BUFFER_SIZE) buff = new char[logLength + 1];
             GLsizei length;
             glGetProgramInfoLog(_prog, max(STATIC_BUFFER_SIZE, logLength + 1), &length, buff);
-            if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader program info log for [%s]:\n%s", _name, buff);
+            if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader program info log:\n%s", buff);
             if (logLength + 1 > STATIC_BUFFER_SIZE) delete[] buff;
         }
 

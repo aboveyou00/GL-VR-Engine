@@ -124,6 +124,20 @@ namespace GlEngine
             return std::strcmp(lhs, rhs);
         }
 
+		ENGINE_SHARED std::string itos(int value)
+		{
+			char result[12];
+			sprintf(result, "%i", value);
+			return std::string(result);
+		}
+
+		ENGINE_SHARED std::string ftos(float value)
+		{
+			char result[32];
+			sprintf(result, "%f", value);
+			return std::string(result);
+		}
+
         bool is_empty(const char *const str) noexcept
         {
             return str == nullptr || *str == '\0';

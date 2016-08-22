@@ -91,6 +91,12 @@
     <Filter Include="Source Files\GlEngine\Events">
       <UniqueIdentifier>{717aa156-75c6-4bc9-9e4b-5a56037cd64a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\ShaderFactory">
+      <UniqueIdentifier>{4cb16149-e9a0-49b1-8625-99f634772fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\ShaderFactory">
+      <UniqueIdentifier>{8de262f4-550b-4e9e-a55b-2bf31d47d3f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -188,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="PathUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="StringUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
@@ -397,25 +406,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderTargetLayer.h">
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files\stdafx</Filter>
-    </ClInclude>
-    <ClInclude Include="Threading.h">
-      <Filter>Header Files\stdafx</Filter>
-    </ClInclude>
-    <ClInclude Include="FixWindows.h">
-      <Filter>Header Files\stdafx</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineShared.h">
-      <Filter>Header Files\stdafx</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Header Files\GlEngine\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGl.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphicsComponent.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="WindowsUtils.h">
@@ -424,23 +414,35 @@
     <ClInclude Include="LogUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="BlinnMaterial.h">
-      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LambertMaterial.h">
-      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TesselationType.h">
-      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderFactory.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Snippet.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Program.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -482,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="ILogger.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsContext.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -675,20 +680,29 @@
     <ClCompile Include="LogUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
-    </ClCompile>
     <ClCompile Include="BlinnMaterial.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LambertMaterial.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderFactory.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Property.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Snippet.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

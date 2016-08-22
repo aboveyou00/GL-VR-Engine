@@ -160,6 +160,7 @@
     <ClInclude Include="CollisionGroup.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="EmptyBody.h" />
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxGraphicsObjectImpl.h" />
     <ClInclude Include="FbxLoader.h" />
@@ -168,7 +169,12 @@
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameStack.h" />
     <ClInclude Include="LogUtils.h" />
+    <ClInclude Include="Program.h" />
+    <ClInclude Include="Property.h" />
     <ClInclude Include="RenderTargetLayer.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ShaderFactory.h" />
+    <ClInclude Include="Snippet.h" />
     <ClInclude Include="TextureRenderTarget.h" />
     <ClInclude Include="IAudioSource.h" />
     <ClInclude Include="BufferMode.h" />
@@ -288,9 +294,14 @@
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="OrthoViewPort.cpp" />
     <ClCompile Include="PersperctiveViewPort.cpp" />
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Property.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ShaderFactory.cpp" />
+    <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureRenderTarget.cpp" />

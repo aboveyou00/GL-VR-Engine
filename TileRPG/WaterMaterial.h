@@ -25,6 +25,6 @@ namespace TileRPG
 
     private:
         GlEngine::Texture *texture;
-        GlEngine::Shader *shader;
+        GlEngine::ShaderFactory *shader;
     };
 }

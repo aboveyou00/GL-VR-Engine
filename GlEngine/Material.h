@@ -7,7 +7,7 @@
 namespace GlEngine
 {
     class Texture;
-    class Shader;
+    class ShaderFactory;
 
     class ENGINE_SHARED Material : public IGraphicsComponent
     {

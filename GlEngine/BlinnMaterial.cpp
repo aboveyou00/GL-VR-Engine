@@ -20,7 +20,7 @@ namespace GlEngine
     }
 
     BlinnMaterial::BlinnMaterial(Texture *texture)
-        : texture(texture), instancedShader(Shader::Create("Shaders", "direct_light_tex.inst")), singleShader(Shader::Create("Shaders", "direct_light_tex"))
+        : texture(texture), instancedShader(ShaderFactory::Create("Shaders", "direct_light_tex.inst")), singleShader(ShaderFactory::Create("Shaders", "direct_light_tex"))
     {
     }
     BlinnMaterial::~BlinnMaterial()

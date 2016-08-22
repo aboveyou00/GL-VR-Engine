@@ -6,7 +6,7 @@
 
 namespace GlEngine
 {
-    class Shader;
+    class ShaderFactory;
     class Texture;
 }
 

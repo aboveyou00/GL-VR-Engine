@@ -25,6 +25,6 @@ namespace GlEngine
 
     private:
         Texture *texture;
-        Shader *instancedShader, *singleShader;
+        ShaderFactory *instancedShader, *singleShader;
     };
 }
