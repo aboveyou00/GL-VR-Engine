@@ -16,7 +16,9 @@ namespace fbxsdk
 
 namespace GlEngine
 {
+    class Material;
     class VboGraphicsObject;
+
 	class ENGINE_SHARED FbxLoader
 	{
 	public:
@@ -27,6 +29,7 @@ namespace GlEngine
 
 		static bool Convert(fbxsdk::FbxNode *rootNode, VboGraphicsObject *out);
         static bool ConvertMesh(fbxsdk::FbxMesh *mesh, VboGraphicsObject *out);
-		static bool ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat, VboGraphicsObject *out);
+
+		static Material *ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat);
 	};
 }

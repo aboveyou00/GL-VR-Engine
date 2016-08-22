@@ -94,7 +94,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32;$(SolutionDir)GlEngine\Middleware\fbx-sdk\lib\vs2015\x86\debug;$(SolutionDir)GlEngine\Middleware\yse\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
