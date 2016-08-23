@@ -1,7 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
-#include "TextureRenderTarget.h"
+#include "Entity.h"
 
 namespace GlEngine
 {
@@ -14,7 +13,7 @@ namespace TileRPG
 	class World;
 	class WorldLoader;
 
-	class PlayerObject : public GlEngine::GameObject
+	class PlayerObject : public Entity
 	{
 	public:
 		PlayerObject(World *world);
@@ -33,10 +32,7 @@ namespace TileRPG
 	private:
 		GlEngine::IAudioSource *footsteps;
 		
-		GlEngine::Force * gravity;
-
 		WorldLoader* loader;
-		float timePassed;
 		float direction = 0;
 		bool leftPressed, rightPressed, upPressed, downPressed, inPressed, outPressed;
 	};

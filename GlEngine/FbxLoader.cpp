@@ -26,15 +26,23 @@ namespace GlEngine
 		else
 		{
 			int textureCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxTexture>();
-            assert(textureCount == 1);
 
-            auto texture = fbxsdk::FbxCast<fbxsdk::FbxTexture>(diffuseProp.GetSrcObject<fbxsdk::FbxTexture>(0));
-            auto fileTexture = (fbxsdk::FbxFileTexture*)texture;
-            auto filename = fileTexture->GetFileName();
+            if (textureCount >= 1)
+            {
+                auto texture = fbxsdk::FbxCast<fbxsdk::FbxTexture>(diffuseProp.GetSrcObject<fbxsdk::FbxTexture>(0));
+                auto fileTexture = (fbxsdk::FbxFileTexture*)texture;
+                auto filename = fileTexture->GetFileName();
 
-            // TODO: get texture instance from filename;
-            auto tex = Texture::FromFile(filename, fileTexture->GetAlphaSource() != fbxsdk::FbxTexture::EAlphaSource::eNone);
-            return BlinnMaterial::Create(tex);
+                // TODO: get texture instance from filename;
+                auto tex = Texture::FromFile(filename, fileTexture->GetAlphaSource() != fbxsdk::FbxTexture::EAlphaSource::eNone);
+                return BlinnMaterial::Create(tex);
+            }
+            else
+            {
+                //Default texture
+                auto tex = Texture::FromFile("Textures/dirt.png", false);
+                return BlinnMaterial::Create(tex);
+            }
 		}
 	}
 

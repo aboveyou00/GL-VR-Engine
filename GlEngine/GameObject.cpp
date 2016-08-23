@@ -95,8 +95,31 @@ namespace GlEngine
 		RotateZ((float)Util::degToRad(degrees));
 	}
 
-	GameObjectType GameObject::type()
+    void GameObject::Activate()
+    {
+        _active = true;
+        actor()->Activate();
+    }
+    void GameObject::Deactivate()
+    {
+        _active = false;
+        actor()->Deactivate();
+    }
+    bool GameObject::active() const
+    {
+        return _active;
+    }
+
+	GameObjectType GameObject::type() const
 	{
 		return GameObjectType::Object3d;
 	}
+    Frame *GameObject::frame() const
+    {
+        return _frame;
+    }
+    Actor *GameObject::actor()
+    {
+        return &_actor;
+    }
 }

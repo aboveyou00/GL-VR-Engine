@@ -90,6 +90,7 @@ namespace TileRPG
     void ChunkGraphicsObject::RenderImpl(GlEngine::RenderTargetLayer layer)
     {
         VboGraphicsObject::RenderImpl(layer);
+        ScopedLock _lock(mutex);
         for (auto ptr = instances.begin(); ptr != instances.end(); ptr++)
         {
             auto &igo = *ptr->second;

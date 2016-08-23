@@ -35,7 +35,7 @@ namespace GlEngine
     void Frame::Tick(float delta)
     {
         for (size_t q = 0; q < objects.size(); q++)
-            if (objects[q]->RequiresTick())
+            if (objects[q]->active() && objects[q]->RequiresTick())
                 objects[q]->Tick(delta);
     }
 
@@ -99,6 +99,7 @@ namespace GlEngine
         if (evt.IsHandled()) return;
         for (size_t q = 0; q < objects.size(); q++)
         {
+            if (!objects[q]->active()) continue;
             objects[q]->HandleEvent(evt);
             if (evt.IsHandled()) return;
         }

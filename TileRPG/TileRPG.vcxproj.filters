@@ -73,6 +73,18 @@
     <Filter Include="Source Files\Tiles\Graphics">
       <UniqueIdentifier>{9b06793c-6c2d-41c3-ab7c-1695b001a983}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObjects\Entity">
+      <UniqueIdentifier>{e05f22ec-b8cc-418e-81ea-65eff3ee1722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects\TileEntity">
+      <UniqueIdentifier>{af651876-b170-4339-ade9-1de8d6ec8bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Entity">
+      <UniqueIdentifier>{5ed07bb4-585e-4e67-8629-d3e2b5ece3f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\TileEntity">
+      <UniqueIdentifier>{ab243a0a-5da5-4fcb-90b2-bf9ba9f65c73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -150,9 +162,6 @@
     <ClInclude Include="TestSceneFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CfbFile.h">
       <Filter>Header Files\CFB</Filter>
     </ClInclude>
@@ -215,6 +224,15 @@
     </ClInclude>
     <ClInclude Include="WaterMaterial.h">
       <Filter>Header Files\Tiles\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TileEntity.h">
+      <Filter>Header Files\GameObjects\TileEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObject.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +350,6 @@
     <ClCompile Include="ChunkGraphicsObject.cpp">
       <Filter>Source Files\World\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerObject.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="ITile.cpp">
       <Filter>Source Files\Tiles</Filter>
     </ClCompile>
@@ -352,6 +367,15 @@
     </ClCompile>
     <ClCompile Include="WaterMaterial.cpp">
       <Filter>Source Files\Tiles\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TileEntity.cpp">
+      <Filter>Source Files\GameObjects\TileEntity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

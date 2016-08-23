@@ -15,7 +15,7 @@ namespace GlEngine
 		return "CameraGameObject";
 	}
 
-	GameObjectType CameraGameObject::type()
+	GameObjectType CameraGameObject::type() const
 	{
 		return GameObjectType::Camera;
 	}

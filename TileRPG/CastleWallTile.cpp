@@ -3,10 +3,7 @@
 #include "TileManager.h"
 
 #include "ChunkGraphicsObject.h"
-#include "Texture.h"
-#include "BlinnMaterial.h"
 #include "FbxGraphicsObject.h"
-
 #include "MathUtils.h"
 #include "Chunk.h"
 #include "World.h"

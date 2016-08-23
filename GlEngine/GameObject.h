@@ -74,12 +74,17 @@ namespace GlEngine
 		void RotateDegreesY(float degrees);
 		void RotateDegreesZ(float degrees);
 
-		virtual GameObjectType type();
+        void Deactivate();
+        void Activate();
+        bool active() const;
 
-		Actor actor;
-
+		virtual GameObjectType type() const;
+        Frame *frame() const;
+        Actor *actor();
+		
     private:
-        bool _requiresTick, _requiresGraphicsTick;
+        bool _requiresTick, _requiresGraphicsTick, _active;
         Frame *_frame;
+        Actor _actor;
 	};
 }

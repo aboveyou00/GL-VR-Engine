@@ -38,13 +38,13 @@ namespace GlEngine
 
 	void Space::Add(GameObject * gameObject)
 	{
-		Add(&gameObject->actor);
+		Add(gameObject->actor());
 	}
 
 	void Space::Add(Actor * actor)
 	{
 		elements[nextEmptyActor] = actor;
-		while (elements[++nextEmptyActor] != nullptr && elements[++nextEmptyActor]->active);
+		while (elements[++nextEmptyActor] != nullptr) ;
 		defaultGroup->Add(actor);
 	}
 

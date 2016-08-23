@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "YseAudioSource.h"
 
+void func()
+{
+    YSE::ChannelFX();
+}
+
 namespace GlEngine
 {
     YseAudioSource::YseAudioSource()

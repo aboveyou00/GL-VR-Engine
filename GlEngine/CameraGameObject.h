@@ -22,7 +22,7 @@ namespace GlEngine
 		void SetTargetObject(GameObject* gameObject);
 
 		virtual const char * name() override;
-		virtual GameObjectType type() override;
+		virtual GameObjectType type() const override;
 		virtual GraphicsObject * CreateGraphicsObject(GraphicsContext & ctx) override;
 		
 		virtual void Tick(float delta) override;

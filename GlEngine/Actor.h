@@ -12,8 +12,6 @@ namespace GlEngine
 		Actor();
 		~Actor();
 
-		bool active;
-
 		Body * body;
 
 		static const int maxForces = 16;
@@ -22,5 +20,12 @@ namespace GlEngine
 
 		void Tick(float delta);
 		void AddForce(Force* force);
+
+        void Deactivate();
+        void Activate();
+        bool active() const;
+
+    private:
+        bool _active;
 	};
 }

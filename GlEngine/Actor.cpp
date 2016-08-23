@@ -6,16 +6,18 @@
 namespace GlEngine
 {
 	Actor::Actor()
-		: active(false), body(new EmptyBody())
+		: _active(true), body(new EmptyBody())
 	{
 	}
 	Actor::~Actor()
 	{
-		delete body;
+        SafeDelete(body);
 	}
 
 	void Actor::Tick(float delta)
 	{
+        if (!active()) return;
+
 		if (!body->movable)
 			return;
 		
@@ -31,4 +33,17 @@ namespace GlEngine
 	{
 		forces[numForces++] = force;
 	}
+
+    void Actor::Activate()
+    {
+        _active = true;
+    }
+    void Actor::Deactivate()
+    {
+        _active = false;
+    }
+    bool Actor::active() const
+    {
+        return _active;
+    }
 }
