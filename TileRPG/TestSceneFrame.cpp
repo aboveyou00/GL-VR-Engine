@@ -9,6 +9,7 @@
 #include "CameraGameObject.h"
 #include "PlagueVictim.h"
 #include "GateGuard.h"
+#include "GateTileEntity.h"
 
 #include "DiskChunkProvider.h"
 
@@ -47,6 +48,9 @@ namespace TileRPG
 		cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
         cameraObject->SetPosition({ 0, -7, 3.5 });
         //cameraObject->SetPosition({ 0, -1.5, 0.5 });
+
+        auto gate0 = this->CreateGameObject<GateTileEntity>(Vector<3> { -2, 2, -1 });
+        space->Add(gate0);
 
         auto plagueVictim0 = this->CreateGameObject<PlagueVictim>(Vector<3> { 8, 30, -13 });
         auto plagueVictim1 = this->CreateGameObject<PlagueVictim>(Vector<3> { 10, 30, -15 });

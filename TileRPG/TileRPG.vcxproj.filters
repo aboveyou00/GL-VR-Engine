@@ -240,6 +240,12 @@
     <ClInclude Include="GateGuard.h">
       <Filter>Header Files\GameObjects\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="GateTileEntity.h">
+      <Filter>Header Files\GameObjects\TileEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidAirTile.h">
+      <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -388,6 +394,12 @@
     </ClCompile>
     <ClCompile Include="GateGuard.cpp">
       <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="GateTileEntity.cpp">
+      <Filter>Source Files\GameObjects\TileEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidAirTile.cpp">
+      <Filter>Source Files\Tiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

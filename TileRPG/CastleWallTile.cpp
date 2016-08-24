@@ -7,6 +7,9 @@
 #include "MathUtils.h"
 #include "Chunk.h"
 #include "World.h"
+#include "IStairsTile.h"
+
+#include "SolidAirTile.h"
 
 namespace TileRPG
 {
@@ -108,7 +111,11 @@ namespace TileRPG
         if (tile == nullptr || !tile->IsFlushXm() || !tile->IsSolid())
         {
             tile = getTile(chunk.GetTileInfo(world, x + 1, y, z));
-            if (tile == nullptr || !tile->IsFlushYp() || !tile->IsSolid()) east = true; //TODO: Check for stairs as an exception
+            if (tile == nullptr || !tile->IsFlushYp() || !tile->IsSolid())
+            {
+                auto stairs = dynamic_cast<IStairsTile*>(tile);
+                if (stairs == nullptr) east = true; //TODO: Check for the correct orientation
+            }
         }
 
         tile = getTile(chunk.GetTileInfo(world, x, y + 1, z - 1));

@@ -31,6 +31,7 @@ namespace GlEngine
 
     void VboGraphicsObject::SetMaterial(Material *material)
     {
+        ScopedLock _lock(mutex);
         assert(!finalized);
         if (currentGraphicsSection != nullptr && currentGraphicsSection->GetMaterial() == material) return;
         for (size_t q = 0; q < graphicsSections.size(); q++)
@@ -50,6 +51,7 @@ namespace GlEngine
     }
     void VboGraphicsObject::AddTriangle(Vector<3, uint16_t> indices)
     {
+        ScopedLock _lock(mutex);
         assert(!finalized);
         assert(currentGraphicsSection != nullptr);
         for (size_t q = 0; q < 3; q++)
@@ -58,6 +60,7 @@ namespace GlEngine
     }
     void VboGraphicsObject::AddQuad(Vector<4, uint16_t> indices)
     {
+        ScopedLock _lock(mutex);
         assert(!finalized);
         assert(currentGraphicsSection != nullptr);
         for (size_t q = 0; q < 4; q++)
@@ -121,12 +124,14 @@ namespace GlEngine
     }
     void VboGraphicsObject::RenderImpl(RenderTargetLayer layer)
     {
+        ScopedLock _lock(mutex);
         for (size_t q = 0; q < graphicsSections.size(); q++)
             graphicsSections[q]->Render(layer);
     }
 
     void VboGraphicsObject::RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount)
     {
+        ScopedLock _lock(mutex);
         for (size_t q = 0; q < graphicsSections.size(); q++)
             graphicsSections[q]->RenderInstanced(layer, instanceCount);
     }

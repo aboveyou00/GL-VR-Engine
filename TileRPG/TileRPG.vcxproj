@@ -165,6 +165,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FlowingWaterTile.h" />
     <ClInclude Include="GateGuard.h" />
+    <ClInclude Include="GateTileEntity.h" />
     <ClInclude Include="IChunkProvider.h" />
     <ClInclude Include="ICPSelector.h" />
     <ClInclude Include="ITile.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="RockTile.h" />
     <ClInclude Include="IStairsTile.h" />
     <ClInclude Include="Sector.h" />
+    <ClInclude Include="SolidAirTile.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestEventObject.h" />
     <ClInclude Include="TestMusicObject.h" />
@@ -218,6 +220,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FlowingWaterTile.cpp" />
     <ClCompile Include="GateGuard.cpp" />
+    <ClCompile Include="GateTileEntity.cpp" />
     <ClCompile Include="IChunkProvider.cpp" />
     <ClCompile Include="ICPSelector.cpp" />
     <ClCompile Include="ITile.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="RockStairsTile.cpp" />
     <ClCompile Include="RockTile.cpp" />
     <ClCompile Include="IStairsTile.cpp" />
+    <ClCompile Include="SolidAirTile.cpp" />
     <ClCompile Include="TestEventObject.cpp" />
     <ClCompile Include="TestMusicObject.cpp" />
     <ClCompile Include="TestSceneFrame.cpp" />

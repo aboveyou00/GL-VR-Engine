@@ -22,7 +22,7 @@ namespace TileRPG
 
     private:
         bool initialized = false;
-        static const int MAX_TILE_ID = 0xFF;
+        static const int MAX_TILE_ID = 0x100;
         ITile *baseTiles[MAX_TILE_ID];
     };
 };
