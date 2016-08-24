@@ -76,11 +76,11 @@ namespace GlEngine
 
         void VboGraphicsSection::Render(RenderTargetLayer layer)
         {
-			if (layer != material->GetRenderTargetLayer())
-				return;
-
             if (!*this) return;
-            
+
+            if (layer != material->GetRenderTargetLayer())
+                return;
+
             material->Push(false);
 
             auto tesselation = material->GetTesselationType();

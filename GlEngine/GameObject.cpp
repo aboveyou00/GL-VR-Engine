@@ -24,6 +24,12 @@ namespace GlEngine
     }
     void GameObject::Tick(float)
     {
+        auto body = actor()->body;
+        if (body != nullptr)
+        {
+            if (body->position[1] < -10) body->position += {0, 20, 0};
+            position = body->position;
+        }
     }
 
     void GameObject::AddToFrame(Frame *frame)

@@ -7,6 +7,8 @@
 #include "WorldEditorTargetObject.h"
 #include "GraphicsObject.h"
 #include "CameraGameObject.h"
+#include "PlagueVictim.h"
+#include "GateGuard.h"
 
 #include "DiskChunkProvider.h"
 
@@ -35,16 +37,28 @@ namespace TileRPG
 		space = new GlEngine::Space();
 		auto world = this->CreateGameObject<World>(new DiskChunkProvider("world"));
 
-        //auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
-        auto testObject = this->CreateGameObject<PlayerObject>(world);
+        auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
+        //auto testObject = this->CreateGameObject<PlayerObject>(world);
 		testObject->position = Vector<3>(0, 0, 0);
 		space->Add(testObject);
 
 		auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
 		cameraObject->SetTargetObject(testObject);
 		cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-        //cameraObject->SetPosition({ 0, -7, 3.5 });
-        cameraObject->SetPosition({ 0, -1.5, 0.5 });
+        cameraObject->SetPosition({ 0, -7, 3.5 });
+        //cameraObject->SetPosition({ 0, -1.5, 0.5 });
+
+        auto plagueVictim0 = this->CreateGameObject<PlagueVictim>(Vector<3> { 8, 30, -13 });
+        auto plagueVictim1 = this->CreateGameObject<PlagueVictim>(Vector<3> { 10, 30, -15 });
+        auto plagueVictim2 = this->CreateGameObject<PlagueVictim>(Vector<3> { 10, 30, -11 });
+        space->Add(plagueVictim0);
+        space->Add(plagueVictim1);
+        space->Add(plagueVictim2);
+
+        auto gateGuard0 = this->CreateGameObject<GateGuard>(Vector<3> { 1, 5, 0 });
+        auto gateGuard1 = this->CreateGameObject<GateGuard>(Vector<3> { -3, 5, 0 });
+        space->Add(gateGuard0);
+        space->Add(gateGuard1);
 
 		tileCollisionProvider = new TileCollisionProvider(world);
 		tileCollisionGroup = new GlEngine::TileCollisionGroup<TileCollisionProvider>(tileCollisionProvider);

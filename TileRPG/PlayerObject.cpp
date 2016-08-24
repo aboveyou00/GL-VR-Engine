@@ -2,30 +2,25 @@
 #include "PlayerObject.h"
 
 #include "Engine.h"
-
 #include "AudioController.h"
 #include "IAudioSource.h"
-#include "GraphicsObject.h"
-#include "GraphicsContext.h"
 
 #include "KeyboardEvent.h"
-
-#include "ObjGraphicsObject.h"
-#include "FbxGraphicsObject.h"
 
 #include "World.h"
 #include "WorldLoader.h"
 #include "Chunk.h"
 #include "BoxBody.h"
 
+#include "FbxGraphicsObject.h"
+
 namespace TileRPG
 {
-	PlayerObject::PlayerObject(World* world)
-		: Entity(new GlEngine::BoxBody(-0.2f, 0.2f, -0.2f, 0.2f, -0.2f, 0.2f)),
+    PlayerObject::PlayerObject(World* world, Vector<3> position, Matrix<4, 4> orientation)
+		: Entity(new GlEngine::BoxBody(-0.2f, 0.2f, -0.2f, 0.2f, -0.2f, 0.2f), position, orientation),
           upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0),
 		  loader(new WorldLoader(world))
 	{
-		RequireTick(true);
 	}
 	PlayerObject::~PlayerObject()
 	{
@@ -41,14 +36,8 @@ namespace TileRPG
 
         return true;
     }
-    void PlayerObject::Tick(float)
+    void PlayerObject::Tick(float delta)
 	{
-		position = actor()->body->position;
-		if (position[1] < -10) {
-			position += {0, 20, 0};
-			actor()->body->position += {0, 20, 0};
-		}
-		
 		auto motionVector = Vector<3>{ (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), 0, (upPressed ? 1 : 0) + (downPressed ? -1 : 0) };
 		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(3);
 		actor()->body->velocity = {motionVector[0], actor()->body->velocity[1], motionVector[2]};
@@ -63,7 +52,13 @@ namespace TileRPG
 
 		loader->Move(Chunk::getChunkCoordsFromTileCoords((int)position[0], (int)position[2]));
 		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
+
+        Entity::Tick(delta);
 	}
+    void PlayerObject::Shutdown()
+    {
+        footsteps->Release();
+    }
 
 	void PlayerObject::Jump()
 	{

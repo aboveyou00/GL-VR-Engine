@@ -16,11 +16,13 @@ namespace TileRPG
 	class PlayerObject : public Entity
 	{
 	public:
-		PlayerObject(World *world);
+		PlayerObject(World *world, Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
 		~PlayerObject();
 		
         bool Initialize() override;
 		void Tick(float delta) override;
+        void Shutdown() override;
+
 		void Jump();
 
 		const char *name() override;

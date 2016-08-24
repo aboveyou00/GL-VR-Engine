@@ -234,6 +234,12 @@
     <ClInclude Include="PlayerObject.h">
       <Filter>Header Files\GameObjects\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="PlagueVictim.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="GateGuard.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -376,6 +382,12 @@
     </ClCompile>
     <ClCompile Include="TileEntity.cpp">
       <Filter>Source Files\GameObjects\TileEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="PlagueVictim.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="GateGuard.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

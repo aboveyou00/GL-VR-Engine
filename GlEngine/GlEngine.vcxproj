@@ -167,6 +167,7 @@
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameStack.h" />
     <ClInclude Include="LogUtils.h" />
+    <ClInclude Include="RandomUtils.h" />
     <ClInclude Include="RenderTargetLayer.h" />
     <ClInclude Include="TextureRenderTarget.h" />
     <ClInclude Include="IAudioSource.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="OrthoViewPort.cpp" />
     <ClCompile Include="PersperctiveViewPort.cpp" />
+    <ClCompile Include="RandomUtils.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />

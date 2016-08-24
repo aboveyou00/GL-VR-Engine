@@ -103,4 +103,9 @@ namespace TileRPG
     //        chunkGobj.AddInstance(selection.gobj, selection.transform * translate);
     //    }
     //}
+
+    const char *RockTile::footstep_sound()
+    {
+        return "footstep-rock.ogg";
+    }
 }

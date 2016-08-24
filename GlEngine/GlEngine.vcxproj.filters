@@ -450,6 +450,9 @@
     <ClInclude Include="VbObjectAttribType.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="RandomUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -694,6 +697,9 @@
     </ClCompile>
     <ClCompile Include="ImageGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomUtils.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
