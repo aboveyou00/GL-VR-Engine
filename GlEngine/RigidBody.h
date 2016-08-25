@@ -11,7 +11,8 @@ namespace GlEngine
 		~RigidBody();
 
 		virtual const char * name() = 0;
-		virtual bool Collide(Body* other, bool trySwitch = true) override = 0;
+		virtual int id() override = 0;
+		virtual bool Collide(Body* other, Collision*& out, bool trySwitch = true) override = 0;
 
 		virtual float MinX() override = 0;
 		virtual float MaxX() override = 0;

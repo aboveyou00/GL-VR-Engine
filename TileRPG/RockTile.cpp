@@ -106,6 +106,6 @@ namespace TileRPG
 
     const char *RockTile::footstep_sound()
     {
-        return "footstep-rock.ogg";
+        return "Audio/footstep-rock.ogg";
     }
 }

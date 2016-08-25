@@ -16,7 +16,12 @@ namespace GlEngine
 		return "EmptyBody";
 	}
 
-	bool EmptyBody::Collide(Body*, bool)
+	int EmptyBody::id()
+	{
+		return 0;
+	}
+
+	bool EmptyBody::Collide(Body*, Collision*&, bool)
 	{
 		return false;
 	}

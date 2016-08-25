@@ -149,6 +149,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BoxCollision.h" />
+    <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="Body.h" />
     <ClInclude Include="BoxBody.h" />
     <ClInclude Include="CameraGameObject.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionGroup.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="EmptyBody.h" />
@@ -234,6 +237,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureRenderTargetImpl.h" />
     <ClInclude Include="Threading.h" />
+    <ClInclude Include="TileCollision.h" />
     <ClInclude Include="TileCollisionGroup.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
@@ -268,7 +272,9 @@
     <ClCompile Include="BlinnMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />
+    <ClCompile Include="BoxCollision.cpp" />
     <ClCompile Include="CameraGameObject.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="FbxGraphicsObject.cpp" />
@@ -294,10 +300,12 @@
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureRenderTarget.cpp" />
     <ClCompile Include="TextureRenderTargetImpl.cpp" />
+    <ClCompile Include="TileCollision.cpp" />
     <ClCompile Include="VaObject.cpp" />
     <ClCompile Include="VaoFactory.cpp" />
     <ClCompile Include="VbObject.cpp" />

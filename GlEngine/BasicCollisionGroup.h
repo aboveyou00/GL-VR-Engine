@@ -15,8 +15,8 @@ namespace GlEngine
 		void Add(Body * body);
 		void Add(Actor *  actor);
 
-		virtual void Collide(Body * body) override;
-		virtual void Collide(CollisionGroup * other, bool trySwitch = true) override;
+		virtual std::vector<Collision*> Collide(Body * body) override;
+		virtual std::vector<Collision*> Collide(CollisionGroup * other, bool trySwitch = true) override;
 
 	private:
 		std::vector<Body*> bodies;

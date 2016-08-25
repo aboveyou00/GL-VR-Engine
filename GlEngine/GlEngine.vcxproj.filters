@@ -453,6 +453,18 @@
     <ClInclude Include="RandomUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="TileCollision.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="TileBoxBody.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollision.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -700,6 +712,18 @@
     </ClCompile>
     <ClCompile Include="RandomUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCollision.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="TileBoxBody.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollision.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
