@@ -17,6 +17,8 @@
 #include "BoxBody.h"
 #include "TileCollisionGroup.h"
 #include "TileCollisionProvider.h"
+#include "DialogBoxObject.h"
+#include "Quest.h"
 
 namespace TileRPG
 {
@@ -38,16 +40,15 @@ namespace TileRPG
 		space = new GlEngine::Space();
 		auto world = this->CreateGameObject<World>(new DiskChunkProvider("world"));
 
-        auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
-        //auto testObject = this->CreateGameObject<PlayerObject>(world);
-		testObject->position = Vector<3>(0, 0, 0);
+        //auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
+        auto testObject = this->CreateGameObject<PlayerObject>(world, Vector<3> { 0, 30, -3 });
 		space->Add(testObject);
 
 		auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
 		cameraObject->SetTargetObject(testObject);
 		cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-        cameraObject->SetPosition({ 0, -7, 3.5 });
-        //cameraObject->SetPosition({ 0, -1.5, 0.5 });
+        //cameraObject->SetPosition({ 0, -7, 3.5 });
+        cameraObject->SetPosition({ 0, -1.5 + 30, 0.5 - 3 });
 
         auto gate0 = this->CreateGameObject<GateTileEntity>(Vector<3> { -2, 2, -1 });
         space->Add(gate0);
@@ -67,6 +68,9 @@ namespace TileRPG
 		tileCollisionProvider = new TileCollisionProvider(world);
 		tileCollisionGroup = new GlEngine::TileCollisionGroup<TileCollisionProvider>(tileCollisionProvider);
 		space->Add(tileCollisionGroup);
+
+        auto dbo = this->CreateGameObject<DialogBoxObject>();
+        testObject->GetCurrentQuest()->SetDialogBoxObject(dbo);
 
         //this->CreateGameObject<TestMusicObject>("Audio/overworld-start.ogg", "Audio/overworld-main.ogg")->position = Vector<3>(3.f, -2.f, 5.f);
         //this->CreateGameObject<TestMusicObject>("Audio/happy-start.ogg", "Audio/happy-main.ogg")->position = Vector<3>(-50.f, 3.f, 2.f);

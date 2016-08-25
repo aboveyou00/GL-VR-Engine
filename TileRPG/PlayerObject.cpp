@@ -11,6 +11,7 @@
 #include "WorldLoader.h"
 #include "Chunk.h"
 #include "BoxBody.h"
+#include "Quest.h"
 
 #include "FbxGraphicsObject.h"
 
@@ -19,7 +20,8 @@ namespace TileRPG
     PlayerObject::PlayerObject(World* world, Vector<3> position, Matrix<4, 4> orientation)
 		: Entity(new GlEngine::BoxBody(-0.2f, 0.2f, -0.2f, 0.2f, -0.2f, 0.2f), position, orientation),
           upPressed(0), downPressed(0), leftPressed(0), rightPressed(0), inPressed(0), outPressed(0),
-		  loader(new WorldLoader(world))
+		  loader(new WorldLoader(world)),
+          currentQuest(Quest::FirstQuest(this))
 	{
 	}
 	PlayerObject::~PlayerObject()
@@ -38,8 +40,13 @@ namespace TileRPG
     }
     void PlayerObject::Tick(float delta)
 	{
-		auto motionVector = Vector<3>{ (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), 0, (upPressed ? 1 : 0) + (downPressed ? -1 : 0) };
-		if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(3);
+        Vector<3> motionVector;
+        if (currentQuest->IsPaused()) motionVector = { 0, 0, 0 };
+        else
+        {
+            motionVector = { (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), 0, (upPressed ? 1 : 0) + (downPressed ? -1 : 0) };
+            if (motionVector.LengthSquared() > 0.5) motionVector = motionVector.Normalized(3);
+        }
 		actor()->body->velocity = {motionVector[0], actor()->body->velocity[1], motionVector[2]};
 
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
@@ -54,6 +61,8 @@ namespace TileRPG
 		loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
 
         Entity::Tick(delta);
+
+        currentQuest->Tick(delta);
 	}
     void PlayerObject::Shutdown()
     {
@@ -72,6 +81,9 @@ namespace TileRPG
 
 	void PlayerObject::HandleEvent(GlEngine::Events::Event &evt)
 	{
+        currentQuest->HandleEvent(evt);
+        if (evt.IsHandled()) return;
+
 		auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
 		if (kbevt == nullptr) return;
 		if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyPressed &&
@@ -108,6 +120,5 @@ namespace TileRPG
 	GlEngine::GraphicsObject *PlayerObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
 	{
 		return GlEngine::FbxGraphicsObject::Create("Resources/cylinder.fbx");
-		//return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");
 	}
 }

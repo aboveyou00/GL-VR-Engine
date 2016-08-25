@@ -292,6 +292,7 @@
     <ClCompile Include="PersperctiveViewPort.cpp" />
     <ClCompile Include="RandomUtils.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="RenderTargetLayer.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Space.cpp" />

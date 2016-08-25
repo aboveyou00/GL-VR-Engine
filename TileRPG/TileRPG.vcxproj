@@ -158,6 +158,9 @@
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="ChunkGraphicsObject.h" />
     <ClInclude Include="ChunkLoadHint.h" />
+    <ClInclude Include="DialogBoxGraphicsObject.h" />
+    <ClInclude Include="DialogBoxMaterial.h" />
+    <ClInclude Include="DialogBoxObject.h" />
     <ClInclude Include="DirtTile.h" />
     <ClInclude Include="DiskChunkProvider.h" />
     <ClInclude Include="DockTile.h" />
@@ -174,6 +177,8 @@
     <ClInclude Include="PathTile.h" />
     <ClInclude Include="PlagueVictim.h" />
     <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="Quest0.h" />
     <ClInclude Include="RoadStairsTile.h" />
     <ClInclude Include="RoadTile.h" />
     <ClInclude Include="RockStairsTile.h" />
@@ -213,6 +218,9 @@
     <ClCompile Include="CfbStream.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="ChunkGraphicsObject.cpp" />
+    <ClCompile Include="DialogBoxGraphicsObject.cpp" />
+    <ClCompile Include="DialogBoxMaterial.cpp" />
+    <ClCompile Include="DialogBoxObject.cpp" />
     <ClCompile Include="DirtTile.cpp" />
     <ClCompile Include="DiskChunkProvider.cpp" />
     <ClCompile Include="DockTile.cpp" />
@@ -229,6 +237,8 @@
     <ClCompile Include="PathTile.cpp" />
     <ClCompile Include="PlagueVictim.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="Quest0.cpp" />
     <ClCompile Include="RoadStairsTile.cpp" />
     <ClCompile Include="RoadTile.cpp" />
     <ClCompile Include="RockStairsTile.cpp" />

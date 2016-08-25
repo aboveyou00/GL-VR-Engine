@@ -85,6 +85,12 @@
     <Filter Include="Source Files\GameObjects\TileEntity">
       <UniqueIdentifier>{ab243a0a-5da5-4fcb-90b2-bf9ba9f65c73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Quests">
+      <UniqueIdentifier>{a4eced4f-59bc-4459-9d77-f9ffee2f53be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Quests">
+      <UniqueIdentifier>{1c14a7ae-716e-4e84-875b-f51b0d42cb7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -246,6 +252,21 @@
     <ClInclude Include="SolidAirTile.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
+    <ClInclude Include="DialogBoxObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogBoxGraphicsObject.h">
+      <Filter>Header Files\GameObjects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogBoxMaterial.h">
+      <Filter>Header Files\GameObjects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest.h">
+      <Filter>Header Files\Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest0.h">
+      <Filter>Header Files\Quests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -400,6 +421,21 @@
     </ClCompile>
     <ClCompile Include="SolidAirTile.cpp">
       <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogBoxObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogBoxGraphicsObject.cpp">
+      <Filter>Source Files\GameObjects\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogBoxMaterial.cpp">
+      <Filter>Source Files\GameObjects\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest.cpp">
+      <Filter>Source Files\Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest0.cpp">
+      <Filter>Source Files\Quests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -210,9 +210,6 @@
     <ClInclude Include="TransformedGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
     <ClInclude Include="VBOFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
@@ -426,21 +423,6 @@
     <ClInclude Include="VboGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="LogUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTargetLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureRenderTarget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageGraphicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowsUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VbObjectAttribList.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
@@ -452,6 +434,24 @@
     </ClInclude>
     <ClInclude Include="RandomUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargetLayer.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="LogUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderTarget.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -700,6 +700,9 @@
     </ClCompile>
     <ClCompile Include="RandomUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargetLayer.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

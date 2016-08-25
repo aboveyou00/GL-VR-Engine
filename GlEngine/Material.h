@@ -24,7 +24,11 @@ namespace GlEngine
         virtual void Pop(bool instanced = false) = 0;
 
 		virtual bool IsOpaque() = 0;
-		bool is2d;
+        inline void Make2d(bool is2d = true)
+        {
+            //TODO: Separate 2d and 3d materials
+            this->is2d = is2d;
+        }
 		inline bool Is2d()
 		{
 			return is2d;
@@ -33,7 +37,8 @@ namespace GlEngine
 		virtual RenderTargetLayer GetRenderTargetLayer();
 
         virtual TesselationType GetTesselationType() = 0;
-	
+
 	private:
+        bool is2d;
     };
 }

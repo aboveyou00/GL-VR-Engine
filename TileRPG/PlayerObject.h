@@ -12,6 +12,7 @@ namespace TileRPG
 {
 	class World;
 	class WorldLoader;
+    class Quest;
 
 	class PlayerObject : public Entity
 	{
@@ -31,11 +32,18 @@ namespace TileRPG
 
 		GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
 
+        inline Quest *GetCurrentQuest()
+        {
+            return currentQuest;
+        }
+
 	private:
 		GlEngine::IAudioSource *footsteps;
 		
 		WorldLoader* loader;
 		float direction = 0;
 		bool leftPressed, rightPressed, upPressed, downPressed, inPressed, outPressed;
+
+        Quest *currentQuest;
 	};
 }
