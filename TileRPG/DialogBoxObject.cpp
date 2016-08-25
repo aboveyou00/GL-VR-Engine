@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DialogBoxObject.h"
 #include "Texture.h"
-#include "DialogBoxGraphicsObject.h"
+#include "Image2dGraphicsObject.h"
 
 namespace TileRPG
 {
@@ -14,7 +14,7 @@ namespace TileRPG
     {
     }
     DialogBoxObject::DialogBoxObject(GlEngine::Texture *tex)
-        : tex(tex)
+        : GameObject({ 0, 0/*180*/, 0 }), tex(tex)
     {
     }
     DialogBoxObject::~DialogBoxObject()
@@ -38,13 +38,13 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *DialogBoxObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
-        auto gobj = new DialogBoxGraphicsObject();
+        auto gobj = new GlEngine::Image2dGraphicsObject();
         gobj->SetTexture(tex);
         return gobj;
     }
     void DialogBoxObject::UpdateGraphicsObject(GlEngine::GraphicsContext&, GlEngine::GraphicsObject *object)
     {
-        auto gobj = dynamic_cast<DialogBoxGraphicsObject*>(object);
+        auto gobj = dynamic_cast<GlEngine::Image2dGraphicsObject*>(object);
         if (gobj == nullptr) return;
         gobj->SetTexture(tex);
     }

@@ -85,7 +85,10 @@ namespace GlEngine
 
 		void RenderTargetImpl::SetViewPort(RenderTargetLayer layer, ViewPort * viewPort)
 		{
-			ViewPort* mViewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
+            auto idx = (int)layer - (int)std::numeric_limits<RenderTargetLayer>::min();
+            if (idx < 0) return;
+
+			ViewPort* mViewPort = this->viewPorts[idx];
 			if (mViewPort != nullptr)
 				delete mViewPort;
 			this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()] = viewPort;

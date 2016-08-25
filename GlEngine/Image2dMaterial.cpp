@@ -1,50 +1,51 @@
 #include "stdafx.h"
-#include "DialogBoxMaterial.h"
+#include "Image2dMaterial.h"
 #include "Texture.h"
 #include "Shader.h"
 
-namespace TileRPG
+namespace GlEngine
 {
-    DialogBoxMaterial::DialogBoxMaterial()
-        : singleShader(GlEngine::Shader::Create("Shaders", "tex_2d"))
+    Image2dMaterial::Image2dMaterial()
+        : Material(true),
+          singleShader(GlEngine::Shader::Create("Shaders", "tex_2d"))
     {
     }
-    DialogBoxMaterial::~DialogBoxMaterial()
+    Image2dMaterial::~Image2dMaterial()
     {
     }
 
-    void DialogBoxMaterial::SetTexture(GlEngine::Texture *tex)
+    void Image2dMaterial::SetTexture(Texture *tex)
     {
         this->tex = tex;
     }
 
-    void DialogBoxMaterial::Push(bool instanced)
+    void Image2dMaterial::Push(bool instanced)
     {
         assert(!instanced);
         if (singleShader && *singleShader) singleShader->Push();
         if (tex && *tex) tex->Push();
     }
-    void DialogBoxMaterial::Pop(bool instanced)
+    void Image2dMaterial::Pop(bool instanced)
     {
         assert(!instanced);
         if (tex && *tex) tex->Pop();
         if (singleShader && *singleShader) singleShader->Pop();
     }
 
-    bool DialogBoxMaterial::IsOpaque()
+    bool Image2dMaterial::IsOpaque()
     {
         return !tex || tex->IsOpaque();
     }
-    GlEngine::TesselationType DialogBoxMaterial::GetTesselationType()
+    TesselationType Image2dMaterial::GetTesselationType()
     {
         return GlEngine::TesselationType::Disabled;
     }
 
-    const char *DialogBoxMaterial::name()
+    const char *Image2dMaterial::name()
     {
-        return "DialogBoxMaterial";
+        return "Image2dMaterial";
     }
-    DialogBoxMaterial::operator bool()
+    Image2dMaterial::operator bool()
     {
         return tex && *tex && singleShader && *singleShader;
     }

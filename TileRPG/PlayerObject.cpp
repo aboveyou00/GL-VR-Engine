@@ -41,7 +41,7 @@ namespace TileRPG
     void PlayerObject::Tick(float delta)
 	{
         Vector<3> motionVector;
-        if (currentQuest->IsPaused()) motionVector = { 0, 0, 0 };
+        if (currentQuest->IsPaused() && false) motionVector = { 0, 0, 0 };
         else
         {
             motionVector = { (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0), 0, (upPressed ? 1 : 0) + (downPressed ? -1 : 0) };
@@ -82,7 +82,7 @@ namespace TileRPG
 	void PlayerObject::HandleEvent(GlEngine::Events::Event &evt)
 	{
         currentQuest->HandleEvent(evt);
-        if (evt.IsHandled()) return;
+        //if (evt.IsHandled()) return;
 
 		auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
 		if (kbevt == nullptr) return;

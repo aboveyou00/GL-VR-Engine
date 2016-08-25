@@ -255,17 +255,17 @@
     <ClInclude Include="DialogBoxObject.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="DialogBoxGraphicsObject.h">
-      <Filter>Header Files\GameObjects\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogBoxMaterial.h">
-      <Filter>Header Files\GameObjects\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Quest.h">
       <Filter>Header Files\Quests</Filter>
     </ClInclude>
     <ClInclude Include="Quest0.h">
       <Filter>Header Files\Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="CompassObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CompassGraphicsObject.h">
+      <Filter>Header Files\GameObjects\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -425,17 +425,17 @@
     <ClCompile Include="DialogBoxObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="DialogBoxGraphicsObject.cpp">
-      <Filter>Source Files\GameObjects\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogBoxMaterial.cpp">
-      <Filter>Source Files\GameObjects\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Quest.cpp">
       <Filter>Source Files\Quests</Filter>
     </ClCompile>
     <ClCompile Include="Quest0.cpp">
       <Filter>Source Files\Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="CompassObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CompassGraphicsObject.cpp">
+      <Filter>Source Files\GameObjects\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
