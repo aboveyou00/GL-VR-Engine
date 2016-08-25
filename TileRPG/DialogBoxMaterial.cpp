@@ -6,7 +6,7 @@
 namespace TileRPG
 {
     DialogBoxMaterial::DialogBoxMaterial()
-        : singleShader(GlEngine::Shader::Create("Shaders", "direct_light_tex"))
+        : singleShader(GlEngine::Shader::Create("Shaders", "tex_2d"))
     {
     }
     DialogBoxMaterial::~DialogBoxMaterial()
