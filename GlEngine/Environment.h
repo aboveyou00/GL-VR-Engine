@@ -2,5 +2,14 @@
 
 namespace GlEngine
 {
-	namespace
+	class EnvironmentAttributes
+
+	class ENGINE_SHARED Environment
+	{
+	public:
+		Environment();
+		~Environment();
+
+		float GetGameTime();
+	};
 }

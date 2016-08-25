@@ -6,8 +6,20 @@ namespace GlEngine
 {
     namespace Util
     {
+		std::chrono::milliseconds gameMillisOffset = 0s;
+
+		long long getGameMillis() noexcept
+		{
+			if (gameMillisOffset.count() == 0)
+			{
+				gameMillisOffset = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+				return 0;
+			}
+			return (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()) - gameMillisOffset).count();
+		}
+
 		long long high_resolution_offset = 0;
-        
+
 		//IMPORTANT: Each time you call this method, the strings returned by previous calls are invalidated.
         const char *const getTimestamp() noexcept
         {

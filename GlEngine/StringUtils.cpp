@@ -127,14 +127,14 @@ namespace GlEngine
 		ENGINE_SHARED std::string itos(int value)
 		{
 			char result[12];
-			sprintf(result, "%i", value);
+			sprintf_s(result, "%i", value);
 			return std::string(result);
 		}
 
 		ENGINE_SHARED std::string ftos(float value)
 		{
 			char result[32];
-			sprintf(result, "%f", value);
+			sprintf_s(result, "%f", value);
 			return std::string(result);
 		}
 

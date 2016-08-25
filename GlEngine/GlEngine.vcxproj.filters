@@ -444,6 +444,15 @@
     <ClInclude Include="Environment.h">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Attribute.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentAttribute.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RawComponent.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -702,6 +711,18 @@
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
     <ClCompile Include="Program.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Attribute.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentAttribute.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="RawComponent.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
   </ItemGroup>

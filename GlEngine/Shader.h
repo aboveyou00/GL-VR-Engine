@@ -2,21 +2,22 @@
 
 #include "IComponent.h"
 #include "IGraphicsComponent.h"
+#include "Attribute.h"
 
 namespace GlEngine
 {
-    class ENGINE_SHARED ShaderFactory : public IGraphicsComponent
+    class ENGINE_SHARED Shader : public IGraphicsComponent
     {
     public:
-        ShaderFactory();
-		ShaderFactory(std::string vert_src = "", std::string frag_src = "", std::string tessc_src = "", std::string tesse_src = "", std::string geom_src = "");
-        ~ShaderFactory();
+        Shader();
+		Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src = "", std::string frag_src = "", std::string tessc_src = "", std::string tesse_src = "", std::string geom_src = "");
+        ~Shader();
 
-        inline static ShaderFactory *Create(const char *shader_name)
+        inline static Shader *Create(const char *shader_name)
         {
             return Create("", shader_name);
         }
-        static ShaderFactory *Create(const char *shader_path, const char *shader_name);
+        static Shader *Create(const char *shader_path, const char *shader_name);
 		//static Shader * Create(ShaderAttribs attribs);
 
         bool Initialize() override;
@@ -37,8 +38,8 @@ namespace GlEngine
         operator bool();
 
     private:        
-        std::string vert_src, frag_src, tessc_src, tesse_src, geom_src;
-        unsigned _vert, _frag, _tessc, _tesse, _geom, _prog;
+		ShaderFactory::Program program;
+		unsigned _vert, _frag, _tessc, _tesse, _geom, _prog;
 
         unsigned compileShader(unsigned type, const char *text, int text_length);
         bool ensureShaderCompiled(unsigned shader);

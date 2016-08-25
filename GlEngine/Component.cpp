@@ -14,6 +14,8 @@ namespace GlEngine
 		}
 		Component::~Component()
 		{
+			if (constantsSnippet != nullptr)
+				delete constantsSnippet;
 		}
 
 		std::string Component::Compile()
@@ -51,6 +53,7 @@ namespace GlEngine
 
 		std::string Component::CompileBody()
 		{
+			CreateConstantsSnippet();
 			if (!ResolveSnippetOrder())
 				return "";
 			
@@ -58,6 +61,15 @@ namespace GlEngine
 			for (Snippet* snippet : orderedSnippets)
 				result += snippet->source + "\n";
 			return result;
+		}
+
+		void Component::CreateConstantsSnippet()
+		{
+			std::string source = "";
+			for (Property* property : constants)
+				source += property->ValueString() + ";\n";
+			constantsSnippet = new Snippet(source);
+			constantsSnippet->localPropertiesOut.insert(constantsSnippet->localPropertiesOut.begin(), constants.begin(), constants.end());
 		}
 
 		bool Component::ResolveSnippetOrder()
@@ -81,7 +93,7 @@ namespace GlEngine
 					{
 						orderedSnippets.push_back(snippet);
 						currentSnippets.erase(snippet);
-						for (Property* property : snippet->LocalPropertiesOut)
+						for (Property* property : snippet->localPropertiesOut)
 							localProperties.insert(property);
 					}
 				}
@@ -90,27 +102,10 @@ namespace GlEngine
 
 		bool Component::SnippetDependenciesMet(Snippet* snippet)
 		{
-			for (Property* property : snippet->LocalPropertiesIn)
+			for (Property* property : snippet->localPropertiesIn)
 				if (localProperties.find(property) == localProperties.end())
 					return false;
 			return true;
-		}
-	
-		ComponentArray::ComponentArray(int size)
-		{
-			_components = new Component*[size];
-		}
-		ComponentArray::~ComponentArray()
-		{
-			delete[] _components;
-		}
-		Component*& ComponentArray::operator[](int index)
-		{
-			return _components[index];
-		}
-		Component*& ComponentArray::operator[](ComponentType index)
-		{
-			return _components[(unsigned)index];
 		}
 	}
 }

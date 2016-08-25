@@ -1,4 +1,5 @@
 #pragma once
+#include <sstream>
 
 namespace GlEngine
 {
@@ -37,6 +38,19 @@ namespace GlEngine
 				delete buffer;
 				buffsize *= 2;
 			}
+		}
+
+		template<typename T>
+		std::string ToString(T arg)
+		{
+			std::stringstream ss;
+			ss << arg;
+			return ss.str()
+		}
+		template<bool>
+		std::string ToString(bool arg)
+		{
+			return arg ? "true" : "false";
 		}
 
         ENGINE_SHARED bool is_empty(const char *const str) noexcept;

@@ -9,13 +9,12 @@ namespace GlEngine
 		class Snippet
 		{
 		public:
-			Snippet(std::string source, Component* parentComponent);
+			Snippet(std::string source, std::vector<Property*> localPropertiesIn = std::vector<Property*>(), std::vector<Property*> localPropertiesOut = std::vector<Property*>());
 			~Snippet();
 
 			std::string source;
-			Component* parentComponent;
-			std::vector<Property*> LocalPropertiesIn;
-			std::vector<Property*> LocalPropertiesOut;
+			std::vector<Property*> localPropertiesIn;
+			std::vector<Property*> localPropertiesOut;
 		};
 	}
 }

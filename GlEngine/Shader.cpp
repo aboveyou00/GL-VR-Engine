@@ -15,24 +15,25 @@
 
 namespace GlEngine
 {
-    ShaderFactory::ShaderFactory()
-        : ShaderFactory(nullptr, nullptr)
+	Shader::Shader()
+		: Shader(std::vector<ShaderFactory::Attribute>())
     {
     }
-    ShaderFactory::ShaderFactory(std::string vert_src, std::string frag_src, std::string tessc_src, std::string tesse_src, std::string geom_src)
-        : vert_src(vert_src), frag_src(frag_src), tessc_src(tessc_src), tesse_src(tesse_src), geom_src(geom_src),
-		  _vert(0), _frag(0), _tessc(0), _tesse(0), _geom(0),
-          _prog(0)
+    Shader::Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src, std::string frag_src, std::string tessc_src, std::string tesse_src, std::string geom_src)
+        : _prog(0)
     {
+		program = ShaderFactory::Program(false, false);
+
+
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);
     }
-    ShaderFactory::~ShaderFactory()
+    Shader::~Shader()
     {
         Shutdown();
     }
 
-    ShaderFactory *ShaderFactory::Create(const char *shader_path, const char *shader_name)
+    Shader *Shader::Create(const char *shader_path, const char *shader_name)
     {
         if (shader_name == nullptr || shader_name[0] == '\0') return nullptr;
 
@@ -46,13 +47,13 @@ namespace GlEngine
             return h;
         })(shader_path, shader_name);
 
-        static std::unordered_map<int, ShaderFactory*> shaders;
+        static std::unordered_map<int, Shader*> shaders;
         auto cached = shaders[hashed];
         if (cached != nullptr) return cached;
-        return shaders[hashed] = new ShaderFactory(shader_path, shader_name);
+        return shaders[hashed] = new Shader(shader_path, shader_name);
     }
 
-	ShaderFactory * ShaderFactory::Create(ShaderAttribs attribs)
+	Shader * Shader::Create(ShaderAttribs attribs)
 	{
 		std::string vertexSource = "#layout 430\n";
 	
@@ -133,7 +134,9 @@ namespace GlEngine
         glUseProgram(_prog);
 
 		/* Use environment here */
-        MatrixStack::Projection.tell_gl();
+        
+		
+		MatrixStack::Projection.tell_gl();
         MatrixStack::ModelView.tell_gl();
 
         Vector<3> lightDir = { 1, 1.5, 1 };

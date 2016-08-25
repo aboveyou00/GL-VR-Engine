@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Attribute.h" />
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
     <ClInclude Include="BasicCollisionGroup.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="EnvironmentAttribute.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxGraphicsObjectImpl.h" />
     <ClInclude Include="FbxLoader.h" />
@@ -171,6 +173,7 @@
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Property.h" />
+    <ClInclude Include="RawComponent.h" />
     <ClInclude Include="RenderTargetLayer.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ShaderFactory.h" />
@@ -265,6 +268,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
@@ -274,6 +278,8 @@
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
+    <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="EnvironmentAttribute.cpp" />
     <ClCompile Include="FbxGraphicsObjectImpl.cpp" />
     <ClCompile Include="FbxGraphicsObject_Empty.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
@@ -296,6 +302,7 @@
     <ClCompile Include="PersperctiveViewPort.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Property.cpp" />
+    <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />

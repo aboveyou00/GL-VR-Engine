@@ -50,12 +50,15 @@ namespace GlEngine
 
 			std::set<Snippet*> snippets;
 
-			std::string Compile();
+			virtual std::string Compile();
 
 		private:
 			std::string CompileVersion();
 			std::string CompileLayouts();
 			std::string CompileBody();
+
+			Snippet* constantsSnippet;
+			void CreateConstantsSnippet();
 
 			std::set<Property*> localProperties;
 			std::vector<Snippet*> orderedSnippets;
@@ -63,17 +66,44 @@ namespace GlEngine
 			bool SnippetDependenciesMet(Snippet* snippet);
 		};
 
-		class ENGINE_SHARED ComponentArray
+		//TODO iterator
+		template<typename T>
+		class ComponentArray
 		{
 		public:
-			ComponentArray(int length);
-			~ComponentArray();
+			ComponentArray(unsigned length)
+			{
+				_components = new T[length];
+				size = length;
+			}
+			ComponentArray(std::vector<T> data)
+			{
+				_components = new T[data.size()];
+				size = data.size();
+				for (unsigned i = 0; i < data.size(); i++)
+					_components[i] = data[i];
+			}
+			~ComponentArray()
+			{
+				delete[] _components;
+			}
 
-			Component*& operator[](int index);
-			Component*& operator[](ComponentType index);
+			T& operator[](int index)
+			{
+				return _components[index];
+			}
+			T& operator[](ComponentType index)
+			{
+				return _components[(unsigned)index];
+			}
+			size_t size()
+			{
+				return size;
+			}
 
 		private:
-			Component** _components;
+			size_t size;
+			T* _components;
 		};
 	}
 }
