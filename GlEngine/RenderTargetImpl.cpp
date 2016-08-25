@@ -48,18 +48,18 @@ namespace GlEngine
 		}
         void RenderTargetImpl::Push(RenderTargetLayer layer)
 		{
+            glEnable(GL_TEXTURE_2D);
             if (layer == RenderTargetLayer::Layer3dOpaque || layer == RenderTargetLayer::Layer3dTransluscent)
             {
                 glEnable(GL_DEPTH_TEST);
                 glEnable(GL_CULL_FACE);
-                glEnable(GL_TEXTURE_2D);
                 glDepthFunc(GL_LEQUAL);
             }
             else if (layer == RenderTargetLayer::Layer2d)
             {
                 glDisable(GL_DEPTH_TEST);
                 glDisable(GL_CULL_FACE);
-                glEnable(GL_TEXTURE_2D);
+                glDepthFunc(GL_NONE);
                 MatrixStack::ModelView.push(Matrix<4, 4>::Identity());
             }
 
