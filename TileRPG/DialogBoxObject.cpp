@@ -14,7 +14,7 @@ namespace TileRPG
     {
     }
     DialogBoxObject::DialogBoxObject(GlEngine::Texture *tex)
-        : GameObject({ 0, 0/*180*/, 0 }), tex(tex)
+        : GameObject({ 0, 180, 0 }), tex(tex)
     {
     }
     DialogBoxObject::~DialogBoxObject()

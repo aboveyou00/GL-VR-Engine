@@ -62,12 +62,12 @@ namespace GlEngine
         if (tex && *tex) scale_mat = Matrix<4, 4>::ScaleMatrix({ tex->GetWidth(), tex->GetHeight(), 1 });
         scale_mat = Util::GetAlignmentMatrix(align) * scale_mat;
         GlEngine::MatrixStack::ModelView.mult(scale_mat);
-        GraphicsObject::PreRender(layer);
+        VboGraphicsObject::PreRender(layer);
     }
     void Image2dGraphicsObject::PostRender(GlEngine::RenderTargetLayer layer)
     {
         if (layer != GlEngine::RenderTargetLayer::Layer2d) return;
-        GraphicsObject::PostRender(layer);
+        VboGraphicsObject::PostRender(layer);
         GlEngine::MatrixStack::ModelView.pop();
     }
 
