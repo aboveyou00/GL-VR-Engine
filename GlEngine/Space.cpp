@@ -66,6 +66,11 @@ namespace GlEngine
 				currentCollisions.insert(currentCollisions.end(), partial.begin(), partial.end());
 			}
 		}
+		for (CollisionGroup* collisionGroup : collisionGroups)
+		{
+			std::vector<Collision*> partial = collisionGroup->CollideSelf();
+			currentCollisions.insert(currentCollisions.end(), partial.begin(), partial.end());
+		}
 		return currentCollisions;
 	}
 }

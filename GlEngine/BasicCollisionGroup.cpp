@@ -41,4 +41,15 @@ namespace GlEngine
 		}
 		return result;
 	}
+
+	std::vector<Collision*> BasicCollisionGroup::CollideSelf()
+	{
+		std::vector<Collision*> result;
+		Collision* col = nullptr;
+		for (unsigned i = 0; i < bodies.size(); i++)
+			for (unsigned j = 0; j < i; j++)
+				if (bodies[i]->Collide(bodies[j], col))
+					result.push_back(col);
+		return result;
+	}
 }

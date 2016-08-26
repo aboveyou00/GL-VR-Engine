@@ -30,7 +30,7 @@ namespace TileRPG
 			delete currentBody;
 
 		auto t = tileManager.GetTile(tile);
-		if (t != nullptr && t->IsSolid())
+		if (t == nullptr || t->IsSolid())
 		{
 			currentBody = new GlEngine::TileBoxBody(0, 1, 0, 1, 0, 1, tile);
 			currentBody->position = { x, y, z };

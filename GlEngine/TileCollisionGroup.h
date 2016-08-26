@@ -45,6 +45,11 @@ namespace GlEngine
 			return result;
 		}
 
+		virtual std::vector<Collision*> CollideSelf() override
+		{
+			return std::vector<Collision*>();
+		}
+
 	private:
 		TileProviderT * provider;
 	};

@@ -17,6 +17,7 @@ namespace GlEngine
 
 		virtual std::vector<Collision*> Collide(Body * body) override;
 		virtual std::vector<Collision*> Collide(CollisionGroup * other, bool trySwitch = true) override;
+		virtual std::vector<Collision*> CollideSelf();
 
 	private:
 		std::vector<Body*> bodies;

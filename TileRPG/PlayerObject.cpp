@@ -61,7 +61,7 @@ namespace TileRPG
 
 		auto &tileManager = TileManager::GetInstance();
 		GlEngine::TileCollision* col = GetSingleTileCollision(3);
-		if (col != nullptr)
+		if (col != nullptr && col->tileId != -1)
 		{
 			ITile* tile = tileManager.GetTile(col->tileId);
 			footsteps->SetSource(tile->footstep_sound());
