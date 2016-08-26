@@ -162,13 +162,18 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionGroup.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CompoundGraphicsObject.h" />
+    <ClInclude Include="CompoundGraphicsObjectImpl.h" />
     <ClInclude Include="EmptyBody.h" />
+    <ClInclude Include="EmptyGraphicsObject.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Force.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameStack.h" />
+    <ClInclude Include="Image2dMaterial.h" />
+    <ClInclude Include="ImageAlignment.h" />
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="RandomUtils.h" />
     <ClInclude Include="RenderTargetLayer.h" />
@@ -192,7 +197,7 @@
     <ClInclude Include="InstancedGraphicsObject.h" />
     <ClInclude Include="LambertMaterial.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="ImageGraphicsObject.h" />
+    <ClInclude Include="Image2dGraphicsObject.h" />
     <ClInclude Include="OrthoViewPort.h" />
     <ClInclude Include="PerspectiveViewPort.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -276,7 +281,10 @@
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
+    <ClCompile Include="CompoundGraphicsObject.cpp" />
+    <ClCompile Include="CompoundGraphicsObjectImpl.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
+    <ClCompile Include="EmptyGraphicsObject.cpp" />
     <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -284,7 +292,9 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
-    <ClCompile Include="ImageGraphicsObject.cpp" />
+    <ClCompile Include="Image2dGraphicsObject.cpp" />
+    <ClCompile Include="Image2dMaterial.cpp" />
+    <ClCompile Include="ImageAlignment.cpp" />
     <ClCompile Include="LambertMaterial.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -298,6 +308,7 @@
     <ClCompile Include="PersperctiveViewPort.cpp" />
     <ClCompile Include="RandomUtils.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="RenderTargetLayer.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />

@@ -1,0 +1,52 @@
+#include "stdafx.h"
+#include "Image2dMaterial.h"
+#include "Texture.h"
+#include "Shader.h"
+
+namespace GlEngine
+{
+    Image2dMaterial::Image2dMaterial()
+        : Material(true),
+          singleShader(GlEngine::Shader::Create("Shaders", "tex_2d"))
+    {
+    }
+    Image2dMaterial::~Image2dMaterial()
+    {
+    }
+
+    void Image2dMaterial::SetTexture(Texture *tex)
+    {
+        this->tex = tex;
+    }
+
+    void Image2dMaterial::Push(bool instanced)
+    {
+        assert(!instanced);
+        if (singleShader && *singleShader) singleShader->Push();
+        if (tex && *tex) tex->Push();
+    }
+    void Image2dMaterial::Pop(bool instanced)
+    {
+        assert(!instanced);
+        if (tex && *tex) tex->Pop();
+        if (singleShader && *singleShader) singleShader->Pop();
+    }
+
+    bool Image2dMaterial::IsOpaque()
+    {
+        return !tex || tex->IsOpaque();
+    }
+    TesselationType Image2dMaterial::GetTesselationType()
+    {
+        return GlEngine::TesselationType::Disabled;
+    }
+
+    const char *Image2dMaterial::name()
+    {
+        return "Image2dMaterial";
+    }
+    Image2dMaterial::operator bool()
+    {
+        return tex && *tex && singleShader && *singleShader;
+    }
+}

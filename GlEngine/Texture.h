@@ -27,6 +27,8 @@ namespace GlEngine
         void Push();
         void Pop();
 
+        const char *GetSource();
+
 		unsigned GetWidth();
 		unsigned GetHeight();
 

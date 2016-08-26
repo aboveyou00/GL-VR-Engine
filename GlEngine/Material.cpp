@@ -3,8 +3,8 @@
 
 namespace GlEngine
 {
-	Material::Material()
-		: is2d(false)
+	Material::Material(bool is2d)
+		: is2d(is2d)
     {
     }
     Material::~Material()
@@ -27,12 +27,8 @@ namespace GlEngine
     }
 	RenderTargetLayer Material::GetRenderTargetLayer()
 	{
-		if (Is2d())
-			return RenderTargetLayer::Layer2d;
-		else
-			if (IsOpaque())
-				return RenderTargetLayer::Layer3dOpaque;
-			else
-				return RenderTargetLayer::Layer3dTransluscent;
+		if (is2d) return RenderTargetLayer::Layer2d;
+		else if (IsOpaque()) return RenderTargetLayer::Layer3dOpaque;
+		else return RenderTargetLayer::Layer3dTransluscent;
 	}
 }

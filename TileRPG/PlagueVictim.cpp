@@ -49,7 +49,7 @@ namespace TileRPG
                 auto rotation = Matrix<4, 4>::YawMatrix(GlEngine::Util::random<float>() * (float)360deg);
                 actor()->body->velocity = rotation * Vector<3> { 1, actor()->body->velocity[1], 0 };
                 std::cout << "Distance: " << actor()->body->velocity.Length() << std::endl;
-                jibberish->Play(false);
+                //jibberish->Play(false);
             }
         }
 

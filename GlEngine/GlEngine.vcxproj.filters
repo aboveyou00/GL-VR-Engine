@@ -115,6 +115,42 @@
     <Filter Include="Source Files\GlEngine\Graphics\Materials">
       <UniqueIdentifier>{141d4387-ef4d-4abc-8f44-e7b3c277b118}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\2D">
+      <UniqueIdentifier>{2771a0ed-7988-4036-bc37-4c2e1fc907b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\RenderTargets">
+      <UniqueIdentifier>{e7f214b1-5a7b-426b-b1c1-33993e3f4ab8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\RenderTargets\Impl">
+      <UniqueIdentifier>{dfe2fa57-ccb2-4c4d-85d7-a99519ef33c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\Camera">
+      <UniqueIdentifier>{fb4f616a-07ea-49ec-b673-53243b1162cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\2D">
+      <UniqueIdentifier>{6afcea17-6c6e-4b38-a5f5-bebb9d0df376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\Camera">
+      <UniqueIdentifier>{bd52d155-3cef-44a8-a46b-4928837d2e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\RenderTargets">
+      <UniqueIdentifier>{ffa59943-7927-496c-8cce-7322122ea252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\RenderTargets\Impl">
+      <UniqueIdentifier>{ccf21c4e-7e1f-47b5-9a93-402e6665eba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\Camera\Impl">
+      <UniqueIdentifier>{fb9abff9-7f1c-404c-b44e-181e179a3b5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\Camera\Impl">
+      <UniqueIdentifier>{c174bb01-ee69-4ef4-9f17-04ef5eff792b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\2D\Materials">
+      <UniqueIdentifier>{7a05a0ab-b364-487d-a3ee-60dd97cacb4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\2D\Materials">
+      <UniqueIdentifier>{ba2f86d1-b6db-4b39-bea0-84adcd9c6cbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -177,12 +213,6 @@
     <ClInclude Include="ConsoleLogger.h">
       <Filter>Header Files\GlEngine\Services</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="IEventSender.h">
       <Filter>Header Files\GlEngine\Events</Filter>
     </ClInclude>
@@ -209,9 +239,6 @@
     </ClInclude>
     <ClInclude Include="TransformedGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="VBOFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
@@ -294,9 +321,6 @@
     <ClInclude Include="Octree.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionGroup.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
     </ClInclude>
@@ -314,30 +338,6 @@
     </ClInclude>
     <ClInclude Include="GraphicsControllerImpl.h">
       <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTarget.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTargetImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowRenderTargetImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="ViewPort.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="PerspectiveViewPort.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="OrthoViewPort.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureRenderTargetImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowRenderTarget.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="AudioControllerImpl.h">
       <Filter>Header Files\GlEngine\Audio\Impl</Filter>
@@ -426,21 +426,6 @@
     <ClInclude Include="VboGraphicsObject.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="LogUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTargetLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureRenderTarget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageGraphicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowsUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VbObjectAttribList.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
@@ -452,6 +437,72 @@
     </ClInclude>
     <ClInclude Include="RandomUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="LogUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsUtils.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CompoundGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CompoundGraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\GlEngine\Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowRenderTarget.h">
+      <Filter>Header Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderTarget.h">
+      <Filter>Header Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Header Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargetLayer.h">
+      <Filter>Header Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargetImpl.h">
+      <Filter>Header Files\GlEngine\Graphics\RenderTargets\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowRenderTargetImpl.h">
+      <Filter>Header Files\GlEngine\Graphics\RenderTargets\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewPort.h">
+      <Filter>Header Files\GlEngine\Graphics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoViewPort.h">
+      <Filter>Header Files\GlEngine\Graphics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="PerspectiveViewPort.h">
+      <Filter>Header Files\GlEngine\Graphics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\GlEngine\Graphics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderTargetImpl.h">
+      <Filter>Header Files\GlEngine\Graphics\RenderTargets\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraImpl.h">
+      <Filter>Header Files\GlEngine\Graphics\Camera\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageAlignment.h">
+      <Filter>Header Files\GlEngine\Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Image2dGraphicsObject.h">
+      <Filter>Header Files\GlEngine\Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Image2dMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\2D\Materials</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
@@ -505,12 +556,6 @@
     </ClCompile>
     <ClCompile Include="GraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraImpl.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
     </ClCompile>
     <ClCompile Include="TransformedGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -599,9 +644,6 @@
     <ClCompile Include="EmptyBody.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionGroup.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
     </ClCompile>
@@ -619,30 +661,6 @@
     </ClCompile>
     <ClCompile Include="GraphicsControllerImpl.cpp">
       <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTargetImpl.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowRenderTargetImpl.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewPort.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="PersperctiveViewPort.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="OrthoViewPort.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTarget.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureRenderTargetImpl.cpp">
-      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowRenderTarget.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="AudioControllerImpl.cpp">
       <Filter>Source Files\GlEngine\Audio\Impl</Filter>
@@ -704,14 +722,65 @@
     <ClCompile Include="WindowsUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
-    <ClCompile Include="TextureRenderTarget.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageGraphicsObject.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="RandomUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CompoundGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="CompoundGraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>Source Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargetLayer.cpp">
+      <Filter>Source Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRenderTarget.cpp">
+      <Filter>Source Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\RenderTargets\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowRenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\RenderTargets\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\RenderTargets\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Camera\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\GlEngine\Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="OrthoViewPort.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="PersperctiveViewPort.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewPort.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowRenderTarget.cpp">
+      <Filter>Source Files\GlEngine\Graphics\RenderTargets</Filter>
+    </ClCompile>
+    <ClCompile Include="Image2dGraphicsObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Image2dMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\2D\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageAlignment.cpp">
+      <Filter>Source Files\GlEngine\Graphics\2D</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
