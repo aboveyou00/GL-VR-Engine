@@ -70,8 +70,7 @@ namespace GlEngine
     }
     void YseAudioSource::SetLoop(bool loop)
     {
-        assert(sound != nullptr);
-        sound->setLooping(loop);
+        if (sound != nullptr) sound->setLooping(loop);
     }
 
     bool YseAudioSource::IsPlaying()
