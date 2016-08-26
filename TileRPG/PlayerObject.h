@@ -6,6 +6,7 @@ namespace GlEngine
 {
     class IAudioSource;
 	class Force;
+	class TileCollision;
 }
 
 namespace TileRPG
@@ -24,6 +25,7 @@ namespace TileRPG
 		void Tick(float delta) override;
         void Shutdown() override;
 
+		GlEngine::TileCollision* GetSingleTileCollision(unsigned side);
 		void Jump();
 
 		const char *name() override;

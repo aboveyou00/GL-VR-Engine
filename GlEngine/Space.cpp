@@ -4,8 +4,8 @@
 namespace GlEngine
 {
 	Space::Space()
+		: defaultGroup(new BasicCollisionGroup()), currentCollisions(std::vector<Collision*>())
 	{
-		defaultGroup = new BasicCollisionGroup();
 		collisionGroups.push_back(defaultGroup);
 		for (int i = 0; i < maxElement; i++)
 			elements[i] = nullptr;
@@ -53,10 +53,19 @@ namespace GlEngine
 		collisionGroups.push_back(collisionGroup);
 	}
 
-	void Space::ManageCollisions()
+	std::vector<Collision*> Space::ManageCollisions()
 	{
+		for (Collision* col : currentCollisions)
+			delete col;
+		currentCollisions.clear();
 		for (unsigned i = 0; i < collisionGroups.size(); i++)
-			for (unsigned j = i+1; j < collisionGroups.size(); j++)
-				collisionGroups[i]->Collide(collisionGroups[j]);
+		{
+			for (unsigned j = i + 1; j < collisionGroups.size(); j++)
+			{
+				std::vector<Collision*> partial = collisionGroups[i]->Collide(collisionGroups[j]);
+				currentCollisions.insert(currentCollisions.end(), partial.begin(), partial.end());
+			}
+		}
+		return currentCollisions;
 	}
 }

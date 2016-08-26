@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "BasicCollisionGroup.h"
+#include "Collision.h"
+#include "Body.h"
 
 namespace GlEngine
 {
@@ -19,17 +21,24 @@ namespace GlEngine
 		bodies.push_back(actor->body);
 	}
 
-	void BasicCollisionGroup::Collide(Body * body)
+	std::vector<Collision*> BasicCollisionGroup::Collide(Body * body)
 	{
+		std::vector<Collision*> result;
+		Collision* col = nullptr;
 		for (Body * b : bodies)
-		{
-			b->Collide(body);
-		}
+			if (b->Collide(body, col))
+				result.push_back(col);
+		return result;
 	}
 
-	void BasicCollisionGroup::Collide(CollisionGroup * other, bool)
+	std::vector<Collision*> BasicCollisionGroup::Collide(CollisionGroup * other, bool)
 	{
+		std::vector<Collision*> result;
 		for (Body * b : bodies)
-			other->Collide(b);
+		{
+			std::vector<Collision*> partial = other->Collide(b);
+			result.insert(result.end(), partial.begin(), partial.end());
+		}
+		return result;
 	}
 }

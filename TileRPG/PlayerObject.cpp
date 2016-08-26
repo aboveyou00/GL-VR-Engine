@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "PlayerObject.h"
 
+#include "LogUtils.h"
+
 #include "Engine.h"
 #include "AudioController.h"
 #include "IAudioSource.h"
@@ -14,6 +16,11 @@
 #include "Quest.h"
 
 #include "FbxGraphicsObject.h"
+
+#include "Collision.h"
+#include "TileCollision.h"
+#include "ITile.h"
+#include "TileManager.h"
 
 namespace TileRPG
 {
@@ -52,6 +59,16 @@ namespace TileRPG
 		auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
 		audioCtrl.SetListenerPosition(position);
 
+		auto &tileManager = TileManager::GetInstance();
+		GlEngine::TileCollision* col = GetSingleTileCollision(3);
+		if (col != nullptr)
+		{
+			ITile* tile = tileManager.GetTile(col->tileId);
+			footsteps->SetSource(tile->footstep_sound());
+		}
+		else
+			footsteps->SetSource(nullptr);
+
         footsteps->SetPosition(position);
         bool playFootsteps = Vector<3>(motionVector[0], 0, motionVector[2]).LengthSquared() > .5;
         if (playFootsteps && !footsteps->IsPlaying()) footsteps->Play(true);
@@ -69,9 +86,24 @@ namespace TileRPG
         footsteps->Release();
     }
 
+	GlEngine::TileCollision* PlayerObject::GetSingleTileCollision(unsigned side)
+	{
+		for (GlEngine::Collision* col : actor()->body->currentCollisions)
+		{
+			if (col->id() == 2)
+			{
+				auto tcol = (GlEngine::TileCollision*)col;
+				if (tcol->side == side)
+					return tcol;
+			}
+		}
+		return nullptr;
+	}
+
 	void PlayerObject::Jump()
 	{
-		actor()->body->velocity = { actor()->body->velocity[0], 4.0, actor()->body->velocity[2] };
+		if (GetSingleTileCollision(3) != nullptr)
+			actor()->body->velocity = { actor()->body->velocity[0], 10.0, actor()->body->velocity[2] };
 	}
 	
 	const char *PlayerObject::name()

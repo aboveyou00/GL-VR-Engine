@@ -504,6 +504,18 @@
     <ClInclude Include="Image2dMaterial.h">
       <Filter>Header Files\GlEngine\Graphics\2D\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="TileCollision.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="TileBoxBody.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollision.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -769,6 +781,18 @@
     </ClCompile>
     <ClCompile Include="ImageAlignment.cpp">
       <Filter>Source Files\GlEngine\Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCollision.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="TileBoxBody.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollision.cpp">
+      <Filter>Source Files\GlEngine\Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

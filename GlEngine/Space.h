@@ -34,6 +34,9 @@ namespace GlEngine
 		void Add(GameObject * gameObject);
 		void Add(Actor * actor);
 		void Add(CollisionGroup * collisionGroup);
-		void ManageCollisions();
+		std::vector<Collision*> ManageCollisions();
+
+	private:
+		std::vector<Collision*> currentCollisions;
 	};
 }
