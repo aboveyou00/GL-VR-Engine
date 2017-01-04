@@ -4,8 +4,8 @@
 
 namespace TileRPG
 {
-    CompassObject::CompassObject()
-        : rotation(0)
+    CompassObject::CompassObject(Vector<3> position, Matrix<4, 4> orientation)
+        : GameObject(position, orientation), rotation(0)
     {
         RequireTick();
     }

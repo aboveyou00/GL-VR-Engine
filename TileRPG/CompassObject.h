@@ -7,7 +7,7 @@ namespace TileRPG
     class CompassObject : public GlEngine::GameObject
     {
     public:
-        CompassObject();
+        CompassObject(Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         ~CompassObject();
         
         void Tick(float delta) override;

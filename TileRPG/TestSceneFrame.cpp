@@ -10,6 +10,7 @@
 #include "PlagueVictim.h"
 #include "GateGuard.h"
 #include "GateTileEntity.h"
+#include "CompassObject.h"
 
 #include "DiskChunkProvider.h"
 
@@ -40,15 +41,15 @@ namespace TileRPG
 		space = new GlEngine::Space();
 		auto world = this->CreateGameObject<World>(new DiskChunkProvider("world"));
 
-        //auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
-        auto testObject = this->CreateGameObject<PlayerObject>(world, Vector<3> { 0, 30, -3 });
+        auto testObject = this->CreateGameObject<WorldEditorTargetObject>(world);
+        //auto testObject = this->CreateGameObject<PlayerObject>(world, Vector<3> { 0, 30, -3 });
 		space->Add(testObject);
 
 		auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
 		cameraObject->SetTargetObject(testObject);
 		cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-        //cameraObject->SetPosition({ 0, -7, 3.5 });
-        cameraObject->SetPosition({ 0, -1.5 + 30, 0.5 - 3 });
+        cameraObject->SetPosition({ 0, -7, 3.5 });
+        //cameraObject->SetPosition({ 0, -1.5 + 30, 0.5 - 3 });
 
         auto gate0 = this->CreateGameObject<GateTileEntity>(Vector<3> { -2, 2, -1 });
         space->Add(gate0);
@@ -60,8 +61,8 @@ namespace TileRPG
         space->Add(plagueVictim1);
         space->Add(plagueVictim2);
 
-        auto gateGuard0 = this->CreateGameObject<GateGuard>(Vector<3> { 1, 5, 0 });
-        auto gateGuard1 = this->CreateGameObject<GateGuard>(Vector<3> { -3, 5, 0 });
+        auto gateGuard0 = this->CreateGameObject<GateGuard>(Vector<3> { 1, 30, 0 });
+        auto gateGuard1 = this->CreateGameObject<GateGuard>(Vector<3> { -3, 30, 0 });
         space->Add(gateGuard0);
         space->Add(gateGuard1);
 
@@ -69,10 +70,12 @@ namespace TileRPG
 		tileCollisionGroup = new GlEngine::TileCollisionGroup<TileCollisionProvider>(tileCollisionProvider);
 		space->Add(tileCollisionGroup);
 
-        auto dbo = this->CreateGameObject<DialogBoxObject>();
-        testObject->GetCurrentQuest()->SetDialogBoxObject(dbo);
+        //auto dbo = this->CreateGameObject<DialogBoxObject>();
+        //testObject->GetCurrentQuest()->SetDialogBoxObject(dbo);
 
-        //this->CreateGameObject<TestMusicObject>("Audio/overworld-start.ogg", "Audio/overworld-main.ogg")->position = Vector<3>(3.f, -2.f, 5.f);
+        //this->CreateGameObject<CompassObject>(Vector<3> { 100, -100, 0 });
+
+        this->CreateGameObject<TestMusicObject>("Audio/overworld-start.ogg", "Audio/overworld-main.ogg")->position = Vector<3>(3.f, -2.f, 5.f);
         //this->CreateGameObject<TestMusicObject>("Audio/happy-start.ogg", "Audio/happy-main.ogg")->position = Vector<3>(-50.f, 3.f, 2.f);
         //this->CreateGameObject<TestMusicObject>("Audio/friendly-start.ogg", "Audio/friendly-main.ogg")->position = Vector<3>(50.f, -5.f, -4.f);
 
