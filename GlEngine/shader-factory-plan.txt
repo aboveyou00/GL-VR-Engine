@@ -1,0 +1,73 @@
+translate material to shader
+
+vboInputs {
+  
+  location(0): propPosition
+  location(1): propRgbColor
+
+}
+
+Vertex {
+  
+  in: propModelMatrix, propViewMatrix, propProjectionMatrix
+  out: propGlPosition
+  [out:0] = [in:0] * [in:1] * [in:2];
+  
+}
+
+Frag {
+  
+}
+
+*** {
+  
+  in: propRgbaColor
+  
+}
+
+
+
+Properties:
+  - built in (gl_Position) should never output or input
+  - force out (out_color) should always output
+  - name (can't start with "in_" or "out_" or "gl_")
+
+Components:
+  - required output properties
+    - Vertex: gl_Position
+    - Tesselation control: gl_TessLevelInner, gl_TessLevelOuter
+    - Fragment:
+  - required input properties
+    - ***: propRgbColor or propRgbaColor
+
+Snippets:
+  - Input properties
+  - Output properties
+  - fallback?
+  - .text (in main())
+  - .body (not in main())
+
+
+
+property provider dependency resolution:
+
+1. make list of snippets in each component
+2. resolve dependencies using this formula:
+   1. other snippets in same component
+   2. outputs from previous components
+   3. program-level property providers
+      1. VBO inputs
+      2. uniforms
+      3. constants
+3. Fallback providers: (if has all inputs, doesn't have another provider for output, output is required)
+        - autoconvert modelMatrix and/or viewMatrix to modelViewMatrix
+        - autoconvert modelMatrix, viewMatrix, projectionMatrix, or modelViewMatrix to modelViewProjectionMatrix
+        - autoconvert rgbColor to rgbaColor
+4. If added a fallback provider and still has unresolved providers, goto 2
+5. If unresolved providers, throw error
+6. Resolve snippet order (if not done before)
+
+  fallback: true
+  in: propRgbColor
+  out: propRgbaColor
+  [out:0] = vec4([in:0], 1);

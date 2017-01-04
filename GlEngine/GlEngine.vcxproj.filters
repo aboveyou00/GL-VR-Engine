@@ -19,9 +19,6 @@
     <Filter Include="Source Files\GlEngine">
       <UniqueIdentifier>{44dcc902-aeb1-44dc-8b6c-a0fa76e0ff05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GlEngine\Impl">
-      <UniqueIdentifier>{6adad3ce-caf6-4aee-b200-ff3fc742c3e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GlEngine\Graphics">
       <UniqueIdentifier>{16f5dd40-0666-46a3-bed0-a229e8017a4a}</UniqueIdentifier>
     </Filter>
@@ -97,31 +94,25 @@
     <Filter Include="Source Files\GlEngine\Graphics\ShaderFactory">
       <UniqueIdentifier>{8de262f4-550b-4e9e-a55b-2bf31d47d3f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Graphics\Materials">
+      <UniqueIdentifier>{0b9dabfb-73f3-465a-a03b-d93d06905526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\Materials">
+      <UniqueIdentifier>{9a53d6a3-047a-4709-9697-e61f2f6db8f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Audio\Impl">
+      <UniqueIdentifier>{ea4bc45a-cfd1-4a9e-8634-2a3225c487f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GlEngine\Graphics\Impl">
+      <UniqueIdentifier>{f6c45267-8f26-44bc-81b1-8ddcd805e48f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\stdafx">
+      <UniqueIdentifier>{faefdbf5-3077-4fbe-9aa5-4e8e4b4fb003}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Threading.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="IGameComponent.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ScopedLock.h">
-      <Filter>Header Files\GlEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineShared.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Header Files\GlEngine\Events</Filter>
@@ -158,9 +149,6 @@
     </ClInclude>
     <ClInclude Include="IAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="FixWindows.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KeyValuePair.h">
       <Filter>Header Files\GlEngine\Util</Filter>
@@ -225,9 +213,6 @@
     <ClInclude Include="AudioControllerImpl.h">
       <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
     </ClInclude>
-    <ClInclude Include="Memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VbObject.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
@@ -246,17 +231,8 @@
     <ClInclude Include="VboFactory.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ObjLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Audio.h">
-      <Filter>Header Files\GlEngine</Filter>
     </ClInclude>
     <ClInclude Include="YseAudioSource.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
@@ -278,15 +254,6 @@
     </ClInclude>
     <ClInclude Include="FbxLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="IGraphicsComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MatrixStack.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ResourceLoader.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
@@ -324,17 +291,8 @@
     <ClInclude Include="Octree.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="LodePNG\lodepng.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LodePNG\lodepng_util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CollisionGroup.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
@@ -347,12 +305,6 @@
     </ClInclude>
     <ClInclude Include="BoxBody.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="VboGraphicsSection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vbo_attribs_Vector.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsController.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
@@ -390,41 +342,11 @@
     <ClInclude Include="TextureRenderTarget.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="FbxGraphicsObjectImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VaObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VaoFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VboGraphicsObjectImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vbo_attribs_Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RenderTargetLayer.h">
       <Filter>Header Files\GlEngine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="WindowsUtils.h">
       <Filter>Header Files\GlEngine\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="LogUtils.h">
-      <Filter>Header Files\GlEngine\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="BlinnMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LambertMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TesselationType.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderFactory.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
@@ -441,17 +363,107 @@
     <ClInclude Include="Program.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
-    <ClInclude Include="Environment.h">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Attribute.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
-    <ClInclude Include="EnvironmentAttribute.h">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="RawComponent.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentAttribute.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxGraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="LambertMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinnMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="LodePNG\lodepng.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="LodePNG\lodepng_util.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixStack.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphicsComponent.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TesselationType.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VaObject.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VaoFactory.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VboGraphicsObjectImpl.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VboGraphicsSection.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Header Files\GlEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineShared.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="FixWindows.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="vbo_attribs_Matrix.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="vbo_attribs_Vector.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="LogUtils.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\stdafx</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGl.h">
+      <Filter>Header Files\GlEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files\GlEngine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponent.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameComponent.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopedLock.h">
+      <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -479,9 +491,6 @@
     <ClCompile Include="WindowManager.cpp">
       <Filter>Source Files\GlEngine\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="Threading.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KeyValuePair.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
@@ -505,9 +514,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="TransformedGraphicsObject.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -539,17 +545,11 @@
     <ClCompile Include="AudioController.cpp">
       <Filter>Source Files\GlEngine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="AudioControllerImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="VbObject.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
     </ClCompile>
     <ClCompile Include="ObjLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="ServiceProvider.cpp">
       <Filter>Source Files\GlEngine\Services</Filter>
@@ -568,15 +568,6 @@
     </ClCompile>
     <ClCompile Include="FbxLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LodePNG\lodepng.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MatrixStack.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ResourceLoader.cpp">
       <Filter>Source Files\GlEngine\Resources</Filter>
@@ -626,20 +617,8 @@
     <ClCompile Include="EventQueue.cpp">
       <Filter>Source Files\GlEngine\Events</Filter>
     </ClCompile>
-    <ClCompile Include="VboGraphicsSection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsController.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsControllerImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTargetImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowRenderTargetImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
     </ClCompile>
     <ClCompile Include="ViewPort.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
@@ -653,9 +632,6 @@
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="TextureRenderTargetImpl.cpp">
-      <Filter>Source Files\GlEngine\Impl</Filter>
-    </ClCompile>
     <ClCompile Include="WindowRenderTarget.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
@@ -665,38 +641,11 @@
     <ClCompile Include="TextureRenderTarget.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="FbxGraphicsObjectImpl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FbxGraphicsObject_Empty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VaObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VaoFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VboGraphicsObjectImpl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VboGraphicsObject_Empty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WindowsUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
     </ClCompile>
     <ClCompile Include="LogUtils.cpp">
       <Filter>Source Files\GlEngine\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="BlinnMaterial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LambertMaterial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShaderFactory.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
@@ -713,17 +662,80 @@
     <ClCompile Include="Program.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
-    <ClCompile Include="Environment.cpp">
-      <Filter>Header Files\GlEngine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Attribute.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
-    <ClCompile Include="EnvironmentAttribute.cpp">
-      <Filter>Source Files\GlEngine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="RawComponent.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentAttribute.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsSection.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VaObject.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VaoFactory.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsObject_Empty.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VboGraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioControllerImpl.cpp">
+      <Filter>Source Files\GlEngine\Audio\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsControllerImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureRenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowRenderTargetImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="BlinnMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="LambertMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxGraphicsObject_Empty.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxGraphicsObjectImpl.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixStack.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Threading.cpp">
+      <Filter>Source Files\GlEngine\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="LodePNG\lodepng.cpp">
+      <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,8 +2,6 @@
 
 namespace GlEngine
 {
-    class EnvironmentAttributes
-
     class ENGINE_SHARED Environment
     {
     public:
