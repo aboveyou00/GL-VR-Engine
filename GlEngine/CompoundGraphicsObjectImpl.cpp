@@ -6,7 +6,7 @@ namespace GlEngine
     namespace Impl
     {
         CompoundGraphicsObjectImpl::CompoundGraphicsObjectImpl(TransformedGraphicsObject *t_gobjs, unsigned count)
-            : t_gobjs(t_gobjs), count(count)
+            : GraphicsObject(false), t_gobjs(t_gobjs), count(count)
         {
         }
         CompoundGraphicsObjectImpl::~CompoundGraphicsObjectImpl()
@@ -17,15 +17,15 @@ namespace GlEngine
         {
             assert(false);
         }
+        void CompoundGraphicsObjectImpl::RenderInstancedImpl(RenderTargetLayer, unsigned)
+        {
+            assert(false);
+        }
 
         void CompoundGraphicsObjectImpl::RenderImpl(RenderTargetLayer layer)
         {
             for (size_t q = 0; q < count; q++)
                 t_gobjs[q].Render(layer);
-        }
-        void CompoundGraphicsObjectImpl::RenderInstancedImpl(RenderTargetLayer, unsigned)
-        {
-            assert(false);
         }
 
         const char *CompoundGraphicsObjectImpl::name()

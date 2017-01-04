@@ -14,7 +14,7 @@ namespace GlEngine
           align({ ImageComponentAlignment::Middle, ImageComponentAlignment::Middle })
 	{
         if (readonly) assert(!!tex);
-        SetTexture(tex);
+        mat->SetTexture(this->tex = tex);
 	}
 	Image2dGraphicsObject::~Image2dGraphicsObject()
 	{
