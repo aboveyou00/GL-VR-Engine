@@ -13,8 +13,6 @@ namespace GlEngine
 			Program(bool useTesselation, bool useGeometry);
 			~Program();
 
-			Matrix<10, 100> mat;
-
 			static const unsigned numComponents = (unsigned)std::numeric_limits<ComponentType>::max() - (unsigned)std::numeric_limits<ComponentType>::min() + 1;
 			ComponentArray<Component*> components;
 

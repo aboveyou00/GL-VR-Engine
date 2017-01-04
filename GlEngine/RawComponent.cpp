@@ -5,8 +5,8 @@ namespace GlEngine
 {
 	namespace ShaderFactory
 	{
-		RawComponent::RawComponent(std::string source)
-			: source(source)
+		RawComponent::RawComponent(ComponentType type, std::string source)
+			: Component(type), source(source)
 		{
 		}
 		RawComponent::~RawComponent()

@@ -7,8 +7,8 @@ namespace GlEngine
 {
 	namespace ShaderFactory
 	{
-		Property::Property(std::string name, EnvironmentAttribute environmentAttribute, PropertyType type, int arraylength)
-			: name(name), environmentAttribute(environmentAttribute), datatype(datatype), arraylength(arraylength)
+		Property::Property(std::string name, PropertyType type, int arraylength)
+			: name(name), datatype(datatype), arraylength(arraylength)
 		{
 		}
 		Property::~Property()
@@ -89,11 +89,11 @@ namespace GlEngine
 			}
 		}
 
-		Property prop_Color = Property("color", PropertyType::Vec4);
+		Property prop_Color("color", PropertyType::Vec4);
 
-		Property prop_Position("position", Vec4);
-		Property prop_Normal("normal", Vec4);
-		Property prop_UV("uv", Vec2);
+		Property prop_Position("position", PropertyType::Vec4);
+		Property prop_Normal("normal", PropertyType::Vec4);
+		Property prop_UV("uv", PropertyType::Vec2);
 
 		Property prop_ModelMatrix("model_matrix", PropertyType::Mat4);
 		Property prop_ViewMatrix("view_matrix", PropertyType::Mat4);

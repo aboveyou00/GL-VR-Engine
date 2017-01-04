@@ -9,7 +9,7 @@ namespace GlEngine
 		class RawComponent : public Component
 		{
 		public:
-			RawComponent(std::string source);
+			RawComponent(ComponentType type, std::string source);
 			~RawComponent();
 
 			virtual std::string Compile() override;
