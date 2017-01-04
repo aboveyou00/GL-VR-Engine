@@ -7,8 +7,8 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Property::Property(std::string name, PropertyType type, int arraylength)
-            : name(name), datatype(datatype), arraylength(arraylength)
+        Property::Property(std::string name, PropertyType type, bool isBuiltIn, int arraylength)
+            : name(name), datatype(datatype), isBuiltIn(isBuiltIn), arraylength(arraylength)
         {
         }
         Property::~Property()

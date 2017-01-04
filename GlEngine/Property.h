@@ -169,13 +169,14 @@ namespace GlEngine
         class ENGINE_SHARED Property
         {
         public:
-            Property(std::string name, PropertyType datatype, int arraylength = -1);
+            Property(std::string name, PropertyType datatype, bool isBuiltIn = false, int arraylength = -1);
             ~Property();
 
             std::string name;
             PropertyType datatype;
             int arraylength;
             PropertyValue value;
+            bool isBuiltIn;
 
             std::string    DeclerationString(std::string prefix = "");
             std::string ValueString();
