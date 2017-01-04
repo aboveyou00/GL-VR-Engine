@@ -4,22 +4,22 @@
 
 namespace GlEngine
 {
-	class Body;
+    class Body;
 }
 
 namespace TileRPG
 {
-	class TileCollisionProvider
-	{
-	public:
-		TileCollisionProvider(World * world);
-		~TileCollisionProvider();
+    class TileCollisionProvider
+    {
+    public:
+        TileCollisionProvider(World * world);
+        ~TileCollisionProvider();
 
-		GlEngine::Body * GetBody(int x, int y, int z);
-		GlEngine::Body * currentBody;
-	
-	private:
-		World * world;
+        GlEngine::Body * GetBody(int x, int y, int z);
+        GlEngine::Body * currentBody;
+    
+    private:
+        World * world;
 
-	};
+    };
 }

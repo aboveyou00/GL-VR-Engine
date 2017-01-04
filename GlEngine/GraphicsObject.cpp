@@ -11,32 +11,32 @@
 
 namespace GlEngine
 {
-	GraphicsObject::GraphicsObject(bool autoinit, bool instanced)
+    GraphicsObject::GraphicsObject(bool autoinit, bool instanced)
         : initialized(false),
           graphicsInitialized(false),
           isInstanced(instanced),
           instanceCount(0),
-		  renderOrder(0)
-	{
+          renderOrder(0)
+    {
         if (autoinit)
         {
             auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
             resources->QueueResource(this);
         }
-	}
-	GraphicsObject::~GraphicsObject()
-	{
-	}
+    }
+    GraphicsObject::~GraphicsObject()
+    {
+    }
 
-	bool GraphicsObject::Initialize()
-	{
+    bool GraphicsObject::Initialize()
+    {
         if (initialized) return true;
-		return initialized = true;
-	}
+        return initialized = true;
+    }
     void GraphicsObject::Shutdown()
     {
         initialized = false;
-	}
+    }
     bool GraphicsObject::InitializeGraphics()
     {
         if (graphicsInitialized) return true;
@@ -59,9 +59,9 @@ namespace GlEngine
         RenderImpl(layer);
         PostRender(layer);
     }
-	void GraphicsObject::PreRender(RenderTargetLayer)
-	{
-	}
+    void GraphicsObject::PreRender(RenderTargetLayer)
+    {
+    }
     void GraphicsObject::PostRender(RenderTargetLayer)
     {
     }

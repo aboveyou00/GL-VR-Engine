@@ -23,17 +23,17 @@ namespace GlEngine
         virtual void Push(bool instanced = false) = 0;
         virtual void Pop(bool instanced = false) = 0;
 
-		virtual bool IsOpaque() = 0;
-		bool is2d;
-		inline bool Is2d()
-		{
-			return is2d;
-		}
+        virtual bool IsOpaque() = 0;
+        bool is2d;
+        inline bool Is2d()
+        {
+            return is2d;
+        }
 
-		virtual RenderTargetLayer GetRenderTargetLayer();
+        virtual RenderTargetLayer GetRenderTargetLayer();
 
         virtual TesselationType GetTesselationType() = 0;
-	
-	private:
+    
+    private:
     };
 }

@@ -5,16 +5,16 @@
 
 namespace GlEngine
 {
-	namespace Impl
-	{
-		class GraphicsObjectImpl;
-	}
+    namespace Impl
+    {
+        class GraphicsObjectImpl;
+    }
 
-	class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
-	{
-	public:
-		GraphicsObject(bool autoinit = true, bool instanced = false);
-		~GraphicsObject();
+    class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
+    {
+    public:
+        GraphicsObject(bool autoinit = true, bool instanced = false);
+        ~GraphicsObject();
 
         bool Initialize() override;
         void Shutdown() override;
@@ -22,7 +22,7 @@ namespace GlEngine
         void ShutdownGraphics() override;
 
         void Render(RenderTargetLayer layer);
-		virtual void PreRender(RenderTargetLayer layer);
+        virtual void PreRender(RenderTargetLayer layer);
         virtual void RenderImpl(RenderTargetLayer layer) = 0;
         virtual void PostRender(RenderTargetLayer layer);
 
@@ -35,7 +35,7 @@ namespace GlEngine
             return instanceCount;
         }
 
-		int renderOrder;
+        int renderOrder;
 
     protected:
         bool initialized, graphicsInitialized;
@@ -47,6 +47,6 @@ namespace GlEngine
 
     private:
         bool isInstanced;
-		unsigned instanceCount;
-	};
+        unsigned instanceCount;
+    };
 }

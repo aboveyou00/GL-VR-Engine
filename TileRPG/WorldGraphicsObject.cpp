@@ -41,9 +41,9 @@ namespace TileRPG
 
     void WorldGraphicsObject::RenderImpl(GlEngine::RenderTargetLayer layer)
     {
-		layer;
-		//if (layer != GlEngine::RenderTargetLayer::Layer3dOpaque)
-		//	return;
+        layer;
+        //if (layer != GlEngine::RenderTargetLayer::Layer3dOpaque)
+        //    return;
 
         for (auto ptr = chunkGraphics.begin(); ptr != chunkGraphics.end(); ptr++)
         {

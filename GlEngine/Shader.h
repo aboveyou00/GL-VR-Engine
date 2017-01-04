@@ -10,7 +10,7 @@ namespace GlEngine
     {
     public:
         Shader();
-		Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src = "", std::string frag_src = "", std::string tessc_src = "", std::string tesse_src = "", std::string geom_src = "");
+        Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src = "", std::string frag_src = "", std::string tessc_src = "", std::string tesse_src = "", std::string geom_src = "");
         ~Shader();
 
         inline static Shader *Create(const char *shader_name)
@@ -18,7 +18,7 @@ namespace GlEngine
             return Create("", shader_name);
         }
         static Shader *Create(const char *shader_path, const char *shader_name);
-		//static Shader * Create(ShaderAttribs attribs);
+        //static Shader * Create(ShaderAttribs attribs);
 
         bool Initialize() override;
         void Shutdown() override;
@@ -30,16 +30,16 @@ namespace GlEngine
         void Push();
         void Pop();
 
-		bool UsesVertex();
-		bool UsesFragment();
+        bool UsesVertex();
+        bool UsesFragment();
         bool UsesTesselation();
-		bool UsesGeometry();
+        bool UsesGeometry();
 
         operator bool();
 
     private:        
-		ShaderFactory::Program program;
-		unsigned _vert, _frag, _tessc, _tesse, _geom, _prog;
+        ShaderFactory::Program program;
+        unsigned _vert, _frag, _tessc, _tesse, _geom, _prog;
 
         unsigned compileShader(unsigned type, const char *text, int text_length);
         bool ensureShaderCompiled(unsigned shader);

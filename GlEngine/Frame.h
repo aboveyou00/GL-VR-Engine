@@ -6,7 +6,7 @@
 namespace GlEngine
 {
     class GameObject;
-	class CameraGameObject;
+    class CameraGameObject;
     class GraphicsObject;
     class GraphicsContext;
     class FrameStack;
@@ -55,7 +55,7 @@ namespace GlEngine
         std::vector<GameObject*> objects;
         bool initialized;
 
-		CameraGameObject* cameraGameObject;
+        CameraGameObject* cameraGameObject;
         graphics_context_map context_map;
     };
 }

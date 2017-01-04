@@ -3,21 +3,21 @@
 
 namespace GlEngine
 {
-	Body::Body()
-	{
-		movable = false;
-	}
-	Body::~Body()
-	{
-	}
-	const char * Body::name()
-	{
-		return nullptr;
-	}
-	bool Body::Collide(Body* other, bool trySwitched)
-	{
-		if (trySwitched)
-			return other->Collide(this, false);
-		return false;
-	}
+    Body::Body()
+    {
+        movable = false;
+    }
+    Body::~Body()
+    {
+    }
+    const char * Body::name()
+    {
+        return nullptr;
+    }
+    bool Body::Collide(Body* other, bool trySwitched)
+    {
+        if (trySwitched)
+            return other->Collide(this, false);
+        return false;
+    }
 }

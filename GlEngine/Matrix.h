@@ -15,18 +15,18 @@ public:
                 values[q][w] = 0;
         initialize(vals...);
     }
-	Matrix(ElemT *vals)
-	{
-		for (auto i = 0; i < rows * cols; i++)
-			values[i / cols][i%cols] = vals[i];
-	}
+    Matrix(ElemT *vals)
+    {
+        for (auto i = 0; i < rows * cols; i++)
+            values[i / cols][i%cols] = vals[i];
+    }
     ~Matrix()
     {
     }
 
     static Matrix<rows, cols, ElemT> Identity()
     {
-		static_assert(rows == cols, "Identity cannot be called for a non-square matrix");
+        static_assert(rows == cols, "Identity cannot be called for a non-square matrix");
         Matrix<rows, rows, ElemT> result;
         for (auto q = 0; q < rows; q++)
             result.values[q][q] = (ElemT)1;
@@ -102,67 +102,67 @@ public:
         return result;
     }
 
-	static Matrix<rows, cols, ElemT> RotationMatrixNormalized(ElemT theta, Vector<rows - 1, ElemT> axis)
-	{
-		static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrixNormalized(ElemT) can only be applied to 4*4 matrices");
-		
-		auto u = axis[0], v = axis[1], w = axis[3];
-		auto u2 = u*u, v2 = v*v, w2 = w*w;
-		auto uv = u*v, uw = u*w, vw = v*w;
-		auto sinTheta = sin(theta);
-		auto cosTheta = cos(theta);
-		auto oneMinusCosTheta = 1 - cosTheta;
+    static Matrix<rows, cols, ElemT> RotationMatrixNormalized(ElemT theta, Vector<rows - 1, ElemT> axis)
+    {
+        static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrixNormalized(ElemT) can only be applied to 4*4 matrices");
+        
+        auto u = axis[0], v = axis[1], w = axis[3];
+        auto u2 = u*u, v2 = v*v, w2 = w*w;
+        auto uv = u*v, uw = u*w, vw = v*w;
+        auto sinTheta = sin(theta);
+        auto cosTheta = cos(theta);
+        auto oneMinusCosTheta = 1 - cosTheta;
 
-		return Matrix<4, 4, ElemT> 
-		{
-			u2 + (1 - u2)*cosTheta,               uv * oneMinusCosTheta - w * sinTheta, uw * oneMinusCosTheta + v * sinTheta, 0,
-			uv * oneMinusCosTheta + w * sinTheta, v2 + (1 - v2) * cosTheta,             vw * oneMinusCosTheta - u * sinTheta, 0,
-			uw * oneMinusCosTheta - v * sinTheta, vw * oneMinusCosTheta + u * sinTheta, w2 + (1 - w2) * cosTheta,             0,
-			0,                                    0,                                    0,                                    1
-		};
-	}
+        return Matrix<4, 4, ElemT> 
+        {
+            u2 + (1 - u2)*cosTheta,               uv * oneMinusCosTheta - w * sinTheta, uw * oneMinusCosTheta + v * sinTheta, 0,
+            uv * oneMinusCosTheta + w * sinTheta, v2 + (1 - v2) * cosTheta,             vw * oneMinusCosTheta - u * sinTheta, 0,
+            uw * oneMinusCosTheta - v * sinTheta, vw * oneMinusCosTheta + u * sinTheta, w2 + (1 - w2) * cosTheta,             0,
+            0,                                    0,                                    0,                                    1
+        };
+    }
 
-	static Matrix<rows, cols, ElemT> Rotate3dMatrix(ElemT radians, Vector<rows, ElemT> axis)
-	{
-		static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrix(ElemT) can only be applied to 4*4 matrices");
-		return RotationMatrixNormalized(radians, axis.Normalized());
-	}
+    static Matrix<rows, cols, ElemT> Rotate3dMatrix(ElemT radians, Vector<rows, ElemT> axis)
+    {
+        static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrix(ElemT) can only be applied to 4*4 matrices");
+        return RotationMatrixNormalized(radians, axis.Normalized());
+    }
 
-	static Matrix<rows, cols, ElemT> PitchMatrix(ElemT theta)
-	{
-		/// <summary>Rotates about the Z axis
-		/// </summary>
+    static Matrix<rows, cols, ElemT> PitchMatrix(ElemT theta)
+    {
+        /// <summary>Rotates about the Z axis
+        /// </summary>
 
-		static_assert(rows == 4 && cols == 4, "Matrix::PitchMatrix(ElemT) can only be applied to 4*4 matrices");
-		return Matrix<4, 4, ElemT> { cos(theta), -sin(theta), 0, 0,
-			                         sin(theta), cos(theta),  0, 0,
-			                         0,          0,           1, 0,
-			                         0,          0,           0, 1 };
-	}
+        static_assert(rows == 4 && cols == 4, "Matrix::PitchMatrix(ElemT) can only be applied to 4*4 matrices");
+        return Matrix<4, 4, ElemT> { cos(theta), -sin(theta), 0, 0,
+                                     sin(theta), cos(theta),  0, 0,
+                                     0,          0,           1, 0,
+                                     0,          0,           0, 1 };
+    }
 
-	static Matrix<rows, cols, ElemT> YawMatrix(ElemT theta)
-	{
-		/// <summary>Rotates about the Y axis
-		/// </summary>
+    static Matrix<rows, cols, ElemT> YawMatrix(ElemT theta)
+    {
+        /// <summary>Rotates about the Y axis
+        /// </summary>
 
-		static_assert(rows == 4 && cols == 4, "Matrix::YawMatrix(ElemT) can only be applied to 4*4 matrices");
-		return Matrix<4, 4, ElemT> { cos(theta), 0, -sin(theta), 0,
-			                         0,          1,           0, 0,
-			                         sin(theta), 0,  cos(theta), 0,
-			                         0,          0,           0, 1 };
-	}
+        static_assert(rows == 4 && cols == 4, "Matrix::YawMatrix(ElemT) can only be applied to 4*4 matrices");
+        return Matrix<4, 4, ElemT> { cos(theta), 0, -sin(theta), 0,
+                                     0,          1,           0, 0,
+                                     sin(theta), 0,  cos(theta), 0,
+                                     0,          0,           0, 1 };
+    }
 
-	static Matrix<rows, cols, ElemT> RollMatrix(ElemT theta)
-	{
-		/// <summary>Rotates about the X axis
-		/// </summary>
+    static Matrix<rows, cols, ElemT> RollMatrix(ElemT theta)
+    {
+        /// <summary>Rotates about the X axis
+        /// </summary>
 
-		static_assert(rows == 4 && cols == 4, "Matrix::RollMatrix(ElemT) can only be applied to 4*4 matrices");
-		return Matrix<4, 4, ElemT> { 1,          0,           0, 0,
-			                         0, cos(theta), -sin(theta), 0,
-			                         0, sin(theta),  cos(theta), 0,
-			                         0,          0,           0, 1 };
-	}
+        static_assert(rows == 4 && cols == 4, "Matrix::RollMatrix(ElemT) can only be applied to 4*4 matrices");
+        return Matrix<4, 4, ElemT> { 1,          0,           0, 0,
+                                     0, cos(theta), -sin(theta), 0,
+                                     0, sin(theta),  cos(theta), 0,
+                                     0,          0,           0, 1 };
+    }
 
     inline static Matrix<rows, cols, ElemT> FromVector(Vector<rows, ElemT> vec)
     {
@@ -192,8 +192,8 @@ public:
         for (auto q = 0; q < rows; q++)
         {
             vals[q] = (rows == 1) ? values[0][q] :
-				      (cols == 1) ? values[q][0] : 
-								    values[q][q];
+                      (cols == 1) ? values[q][0] : 
+                                    values[q][q];
         }
         return Vector<rows, ElemT>(vals);
     }
@@ -365,38 +365,38 @@ public:
         return values[0];
     }
 
-	template <typename... Args>
-	static Matrix<rows, cols, ElemT> FromRows(Args... rowVectors)
-	{
-		ElemT arr[cols * rows];
-		PopulateFromRows(arr, 0, rowVectors...);
-		return Matrix<rows, cols>(arr);
-	}
+    template <typename... Args>
+    static Matrix<rows, cols, ElemT> FromRows(Args... rowVectors)
+    {
+        ElemT arr[cols * rows];
+        PopulateFromRows(arr, 0, rowVectors...);
+        return Matrix<rows, cols>(arr);
+    }
 
-	template <typename... Args>
-	static Matrix<rows, cols, ElemT> FromCols(Args... colVectors)
-	{
-		ElemT arr[cols * rows];
-		PopulateFromRows(arr, 0, colVectors...);
-		return Matrix<rows, cols, ElemT>(arr);
-	}
+    template <typename... Args>
+    static Matrix<rows, cols, ElemT> FromCols(Args... colVectors)
+    {
+        ElemT arr[cols * rows];
+        PopulateFromRows(arr, 0, colVectors...);
+        return Matrix<rows, cols, ElemT>(arr);
+    }
 
-	Matrix<rows + 1, cols + 1> ToTransformMatrix()
-	{
-		return Matrix<rows + 1, cols + 1, ElemT>::CreateTransformMatrix(*this);
-	}
+    Matrix<rows + 1, cols + 1> ToTransformMatrix()
+    {
+        return Matrix<rows + 1, cols + 1, ElemT>::CreateTransformMatrix(*this);
+    }
 
-	static Matrix<rows, cols, ElemT> CreateTransformMatrix(Matrix<rows - 1, cols - 1, ElemT>& from)
-	{
-		static_assert(rows == cols, "ToTransformationMatrix cannot be called on non-square matrix");
-		auto result = Matrix<rows, cols, ElemT>::Identity();
+    static Matrix<rows, cols, ElemT> CreateTransformMatrix(Matrix<rows - 1, cols - 1, ElemT>& from)
+    {
+        static_assert(rows == cols, "ToTransformationMatrix cannot be called on non-square matrix");
+        auto result = Matrix<rows, cols, ElemT>::Identity();
 
-		for (int i = 0; i < rows - 1; i++)
-			for (int j = 0; j < cols - 1; j++)
-				result.values[i][j] = from[i][j];
+        for (int i = 0; i < rows - 1; i++)
+            for (int j = 0; j < cols - 1; j++)
+                result.values[i][j] = from[i][j];
 
-		return result;
-	}
+        return result;
+    }
 
     static Matrix<rows, cols, ElemT> Frustum(ElemT left, ElemT right, ElemT bottom, ElemT top, ElemT nearVal, ElemT farVal)
     {
@@ -482,37 +482,37 @@ private:
     {
     }
 
-	template <typename... Args, int rowSize>
-	static void PopulateFromRows(ElemT * out, int rowIndex, Vector<rowSize, ElemT> row, Args... rowVectors)
-	{
-		static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
-		for (int c = 0; c < rowSize; c++)
-			out[rowIndex * cols + c] = row[c];
-		PopulateFromRows(out, rowIndex + 1, rowVectors...);
-	}
-	template <int rowSize>
-	static void PopulateFromRows(ElemT * out, int rowIndex, Vector<rowSize, ElemT> row)
-	{
-		static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
-		for (int c = 0; c < rowSize; c++)
-			out[rowIndex * cols + c] = row[c];
-	}
+    template <typename... Args, int rowSize>
+    static void PopulateFromRows(ElemT * out, int rowIndex, Vector<rowSize, ElemT> row, Args... rowVectors)
+    {
+        static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
+        for (int c = 0; c < rowSize; c++)
+            out[rowIndex * cols + c] = row[c];
+        PopulateFromRows(out, rowIndex + 1, rowVectors...);
+    }
+    template <int rowSize>
+    static void PopulateFromRows(ElemT * out, int rowIndex, Vector<rowSize, ElemT> row)
+    {
+        static_assert(rowSize <= cols, "Vector rowSize cannot be greater than Matrix cols");
+        for (int c = 0; c < rowSize; c++)
+            out[rowIndex * cols + c] = row[c];
+    }
 
-	template <typename... Args, int colSize>
-	static void PopulateFromCols(ElemT * out, int colIndex, Vector<colSize, ElemT> col, Args... colVectors)
-	{
+    template <typename... Args, int colSize>
+    static void PopulateFromCols(ElemT * out, int colIndex, Vector<colSize, ElemT> col, Args... colVectors)
+    {
         static_assert(colSize <= rows, "Vector colSize cannot be greater than Matrix rows");
-		for (int c = 0; c < colSize; c++)
-			out[c * cols + colIndex] = row[c];
-		PopulateFromRows(out, rowIndex + 1, rowVectors...);
-	}
-	template <int colSize>
-	static void PopulateFromCols(ElemT * out, int colIndex, Vector<colSize, ElemT> col)
-	{
+        for (int c = 0; c < colSize; c++)
+            out[c * cols + colIndex] = row[c];
+        PopulateFromRows(out, rowIndex + 1, rowVectors...);
+    }
+    template <int colSize>
+    static void PopulateFromCols(ElemT * out, int colIndex, Vector<colSize, ElemT> col)
+    {
         static_assert(colSize <= rows, "Vector colSize cannot be greater than Matrix rows");
-		for (int c = 0; c < colSize; c++)
-			out[c * cols + colIndex] = row[c];
-	}
+        for (int c = 0; c < colSize; c++)
+            out[c * cols + colIndex] = row[c];
+    }
 };
 
 template <int rows, int cols, typename ElemT = float>
@@ -549,8 +549,8 @@ Matrix<dim, 1, ElemT> MakeMatrix(Vector<dim, ElemT> vec)
 template <int rows, int cols, typename ElemT = float>
 Vector<cols, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<rows, ElemT> &vec)
 {
-	auto rhs = Matrix<cols, 1, ElemT>(vec);
-	return (mat * rhs).AsVector();
+    auto rhs = Matrix<cols, 1, ElemT>(vec);
+    return (mat * rhs).AsVector();
 }
 
 template <int rows, int cols, typename ElemT = float>

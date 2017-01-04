@@ -9,51 +9,51 @@
 
 namespace GlEngine
 {
-	std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> FbxLoader::glVertices;
+    std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> FbxLoader::glVertices;
 
-	bool FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat, Impl::VboGraphicsObjectImpl *out)
-	{
-		mat; out;
-		//auto diffuseProp = mat->FindProperty(fbxsdk::FbxSurfaceMaterial::sDiffuse);
-		//int layeredCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxLayeredTexture>();
+    bool FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat, Impl::VboGraphicsObjectImpl *out)
+    {
+        mat; out;
+        //auto diffuseProp = mat->FindProperty(fbxsdk::FbxSurfaceMaterial::sDiffuse);
+        //int layeredCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxLayeredTexture>();
 
-		//if (layeredCount > 0)
-		//{
-		//	// layered textures
-		//}
-		//else
-		//{
-		//	int textureCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxTexture>();
-		//	for (int i = 0; i < textureCount; i++)
-		//	{
-		//		auto texture = fbxsdk::FbxCast<fbxsdk::FbxTexture>(diffuseProp.GetSrcObject<fbxsdk::FbxTexture>(i));
-		//		auto fileTexture = (fbxsdk::FbxFileTexture*)texture;
-		//		fileTexture->GetFileName();
-		//		// TODO: get texture instance from filename;
-		//	}
-		//}
-		return true;
-	}
+        //if (layeredCount > 0)
+        //{
+        //    // layered textures
+        //}
+        //else
+        //{
+        //    int textureCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxTexture>();
+        //    for (int i = 0; i < textureCount; i++)
+        //    {
+        //        auto texture = fbxsdk::FbxCast<fbxsdk::FbxTexture>(diffuseProp.GetSrcObject<fbxsdk::FbxTexture>(i));
+        //        auto fileTexture = (fbxsdk::FbxFileTexture*)texture;
+        //        fileTexture->GetFileName();
+        //        // TODO: get texture instance from filename;
+        //    }
+        //}
+        return true;
+    }
 
-	bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode, Impl::VboGraphicsObjectImpl *out)
-	{
-		static int depth = 0;
-		for (int i = 0; i < depth; i++)
-			std::cout << "  ";
-		std::cout << rootNode->GetName()<<std::endl;
-		depth++;
+    bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode, Impl::VboGraphicsObjectImpl *out)
+    {
+        static int depth = 0;
+        for (int i = 0; i < depth; i++)
+            std::cout << "  ";
+        std::cout << rootNode->GetName()<<std::endl;
+        depth++;
 
-		for (int i = 0; i < rootNode->GetChildCount(); i++)
-		{
-			auto subNode = rootNode->GetChild(i);
+        for (int i = 0; i < rootNode->GetChildCount(); i++)
+        {
+            auto subNode = rootNode->GetChild(i);
             if (auto mesh = subNode->GetMesh())
                 ConvertMesh(mesh, out);
-			if (!Convert(subNode, out))
-				return false;
-		}
-		depth--;
-		return true;
-	}
+            if (!Convert(subNode, out))
+                return false;
+        }
+        depth--;
+        return true;
+    }
     bool FbxLoader::ConvertMesh(fbxsdk::FbxMesh *mesh, Impl::VboGraphicsObjectImpl *out)
     {
         std::cout << "Loading mesh: " << mesh->GetName() << std::endl;
@@ -100,21 +100,21 @@ namespace GlEngine
         return true;
     }
      
-	bool FbxLoader::Load(const char * const filename, Impl::VboGraphicsObjectImpl *out)
-	{
-		FbxManager *lSdkManager = FbxManager::Create();
-		FbxIOSettings * ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
+    bool FbxLoader::Load(const char * const filename, Impl::VboGraphicsObjectImpl *out)
+    {
+        FbxManager *lSdkManager = FbxManager::Create();
+        FbxIOSettings * ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
 
-		ios->SetBoolProp(IMP_FBX_MATERIAL, true);
-		ios->SetBoolProp(IMP_FBX_TEXTURE, true);
+        ios->SetBoolProp(IMP_FBX_MATERIAL, true);
+        ios->SetBoolProp(IMP_FBX_TEXTURE, true);
 
-		auto scene = FbxScene::Create(lSdkManager, "");
-		auto importer = FbxImporter::Create(lSdkManager, "");
-		importer->Initialize(filename, -1, ios);
-		importer->Import(scene);
-		importer->Destroy();
+        auto scene = FbxScene::Create(lSdkManager, "");
+        auto importer = FbxImporter::Create(lSdkManager, "");
+        importer->Initialize(filename, -1, ios);
+        importer->Import(scene);
+        importer->Destroy();
 
-		auto rootNode = scene->GetRootNode();
-		return Convert(rootNode, out);
-	}
+        auto rootNode = scene->GetRootNode();
+        return Convert(rootNode, out);
+    }
 }

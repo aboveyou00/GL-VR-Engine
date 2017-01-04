@@ -4,15 +4,15 @@
 
 namespace GlEngine
 {
-	Environment::Environment()
-	{
-	}
-	Environment::~Environment()
-	{
-	}
+    Environment::Environment()
+    {
+    }
+    Environment::~Environment()
+    {
+    }
 
-	float Environment::GetGameTime()
-	{
-		return Util::getGameMillis() / 1000.0;
-	}
+    float Environment::GetGameTime()
+    {
+        return Util::getGameMillis() / 1000.0;
+    }
 }

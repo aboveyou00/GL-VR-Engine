@@ -17,13 +17,13 @@
 namespace TileRPG
 {
     TestEventObject::TestEventObject(World *world)
-		: upPressed(0), downPressed(0),
+        : upPressed(0), downPressed(0),
         leftPressed(0), rightPressed(0),
         inPressed(0), outPressed(0),
         loader(new WorldLoader(world))
     {
         RequireTick(true);
-		timePassed = 0;
+        timePassed = 0;
     }
     TestEventObject::~TestEventObject()
     {
@@ -75,11 +75,11 @@ namespace TileRPG
         case VK_RIGHT:
             rightPressed = pressed;
             break;
-		case VK_LETTER<'q'>():
-			inPressed = pressed;
-			break;
-		case VK_LETTER<'a'>():
-			outPressed = pressed;
+        case VK_LETTER<'q'>():
+            inPressed = pressed;
+            break;
+        case VK_LETTER<'a'>():
+            outPressed = pressed;
         }
     }
 

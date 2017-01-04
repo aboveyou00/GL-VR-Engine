@@ -4,12 +4,12 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED Force
-	{
-	public:
-		Force(Vector<3> component);
-		~Force();
+    class ENGINE_SHARED Force
+    {
+    public:
+        Force(Vector<3> component);
+        ~Force();
 
-		Vector<3> component;
-	};
+        Vector<3> component;
+    };
 }

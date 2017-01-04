@@ -3,10 +3,10 @@
 
 namespace GlEngine
 {
-	RigidBody::RigidBody()
-	{
-	}
-	RigidBody::~RigidBody()
-	{
-	}
+    RigidBody::RigidBody()
+    {
+    }
+    RigidBody::~RigidBody()
+    {
+    }
 }

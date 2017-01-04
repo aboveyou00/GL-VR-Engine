@@ -8,7 +8,7 @@ namespace GlEngine
     {
     public:
         static Texture *FromFile(const char *const path, bool hasAlphaChannel = false);
-		Texture(unsigned width, unsigned height, bool hasAlphaChannel = false);
+        Texture(unsigned width, unsigned height, bool hasAlphaChannel = false);
 
     private:
         Texture(const char *const path, bool hasAlphaChannel);
@@ -27,10 +27,10 @@ namespace GlEngine
         void Push();
         void Pop();
 
-		unsigned GetWidth();
-		unsigned GetHeight();
+        unsigned GetWidth();
+        unsigned GetHeight();
 
-		unsigned GetGlTexture();
+        unsigned GetGlTexture();
 
         bool IsOpaque();
 

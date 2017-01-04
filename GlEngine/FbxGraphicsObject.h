@@ -7,8 +7,8 @@
 namespace GlEngine
 {
     template <typename... TArgs>
-	class FbxGraphicsObject : public VboGraphicsObject<TArgs...>
-	{
+    class FbxGraphicsObject : public VboGraphicsObject<TArgs...>
+    {
     private:
         FbxGraphicsObject(const char *const filename)
             : filename(filename), initialized(false)
@@ -18,7 +18,7 @@ namespace GlEngine
         {
         }
 
-	public:
+    public:
         static FbxGraphicsObject<TArgs...> *Create(const char* name)
         {
             static std::unordered_map<const char*, FbxGraphicsObject<TArgs...>*> cache;
@@ -26,8 +26,8 @@ namespace GlEngine
             if (ptr == nullptr) ptr = cache[name] = new FbxGraphicsObject<TArgs...>(name);
             return ptr;
         }
-		
-		bool Initialize() override
+        
+        bool Initialize() override
         {
             if (!Impl::FbxGraphicsObjectImpl::SharedInitialize(this, filename)) return false;
             return VboGraphicsObject<TArgs...>::Initialize();
@@ -38,10 +38,10 @@ namespace GlEngine
             return "FbxGraphicsObject<T...>";
         }
 
-	private:
-		const char *filename;
-		bool initialized;
-	};
+    private:
+        const char *filename;
+        bool initialized;
+    };
 
     template <>
     class ENGINE_SHARED FbxGraphicsObject<> : public VboGraphicsObject<>

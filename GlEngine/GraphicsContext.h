@@ -14,25 +14,25 @@ namespace GlEngine
     class GraphicsObject;
     class FrameStack;
     using graphics_object_map = std::unordered_map<GameObject*, GraphicsObject*>;
-	
-	class ENGINE_SHARED GraphicsContext : public IComponent
-	{
-	public:
-		GraphicsContext(FrameStack *frames);
-		~GraphicsContext();
+    
+    class ENGINE_SHARED GraphicsContext : public IComponent
+    {
+    public:
+        GraphicsContext(FrameStack *frames);
+        ~GraphicsContext();
 
-		std::list<TransformedGraphicsObject> transformed;
-		
-		Camera camera;
+        std::list<TransformedGraphicsObject> transformed;
+        
+        Camera camera;
 
-		bool Initialize();
-		void Shutdown();
+        bool Initialize();
+        void Shutdown();
 
-		void AddRenderTarget(RenderTarget * renderTarget);
+        void AddRenderTarget(RenderTarget * renderTarget);
 
-		void Update(const graphics_object_map &objs);
-		void UpdateCamera(GameObject*);
-		void Render();
+        void Update(const graphics_object_map &objs);
+        void UpdateCamera(GameObject*);
+        void Render();
 
         inline rt_mutex &GetMutex()
         {
@@ -40,18 +40,18 @@ namespace GlEngine
         }
 
         const char *name() override;
-	
-	private:
+    
+    private:
         rt_mutex _lock;
 
-		static const int maxRenderTargets = 256;
-		RenderTarget * renderTargets[maxRenderTargets];
-		size_t renderTargetCount = 0;
+        static const int maxRenderTargets = 256;
+        RenderTarget * renderTargets[maxRenderTargets];
+        size_t renderTargetCount = 0;
         GameLoop _loop;
         FrameStack *frames;
 
         bool InitializeRenderTargets();
         void Tick(float delta);
         void ShutdownRenderTargets();
-	};
+    };
 }

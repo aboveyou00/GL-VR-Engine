@@ -4,28 +4,28 @@
 
 namespace GlEngine
 {
-	class Material;
+    class Material;
 
-	class ENGINE_SHARED ImageGraphicsObject : public VboGraphicsObject<>
-	{
-	public:
-		~ImageGraphicsObject();
+    class ENGINE_SHARED ImageGraphicsObject : public VboGraphicsObject<>
+    {
+    public:
+        ~ImageGraphicsObject();
 
-		static ImageGraphicsObject * Create(Material * material);
-		
-		bool Initialize() override;
-		void Shutdown() override;
+        static ImageGraphicsObject * Create(Material * material);
+        
+        bool Initialize() override;
+        void Shutdown() override;
 
-		inline Material * GetMaterial() 
-		{
-			return material;
-		}
+        inline Material * GetMaterial() 
+        {
+            return material;
+        }
 
-	protected:
-		ImageGraphicsObject(Material * material = nullptr);
-		const char * const filename;
-		Material * material;
+    protected:
+        ImageGraphicsObject(Material * material = nullptr);
+        const char * const filename;
+        Material * material;
 
-		virtual const char * name() override;
-	};
+        virtual const char * name() override;
+    };
 }

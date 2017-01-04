@@ -3,11 +3,11 @@
 
 namespace GlEngine
 {
-	CollisionGroup::CollisionGroup()
-	{
-	}
+    CollisionGroup::CollisionGroup()
+    {
+    }
 
-	CollisionGroup::~CollisionGroup()
-	{
-	}
+    CollisionGroup::~CollisionGroup()
+    {
+    }
 }

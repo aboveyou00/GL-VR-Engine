@@ -35,10 +35,10 @@ vec2 derivative_water_wave(vec2 xz)
 
 void main(void)
 {
-	vec3 p0 = gl_TessCoord.x * in_vertex_pos[0];
-	vec3 p1 = gl_TessCoord.y * in_vertex_pos[1];
-	vec3 p2 = gl_TessCoord.z * in_vertex_pos[2];
-	vec3 local_vertex_pos = p0 + p1 + p2;
+    vec3 p0 = gl_TessCoord.x * in_vertex_pos[0];
+    vec3 p1 = gl_TessCoord.y * in_vertex_pos[1];
+    vec3 p2 = gl_TessCoord.z * in_vertex_pos[2];
+    vec3 local_vertex_pos = p0 + p1 + p2;
     local_vertex_pos.y += water_wave(local_vertex_pos.xz);
 
     vec3 n0 = gl_TessCoord.x * in_normal[0];
@@ -57,5 +57,5 @@ void main(void)
     vec2 uv2 = gl_TessCoord.z * in_uv_coords[2];
     out_uv_coords = uv0 + uv1 + uv2;
 
-	gl_Position = projection_matrix * model_view_matrix * vec4(local_vertex_pos, 1);
+    gl_Position = projection_matrix * model_view_matrix * vec4(local_vertex_pos, 1);
 }

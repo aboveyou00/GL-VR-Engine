@@ -15,14 +15,14 @@ template <unsigned dimension, typename ElemT = float>//, typename = std::enable_
 struct Vector
 {
 public:
-	template <int dimension_other>
-	Vector(Vector<dimension_other> d)
-	{
-		for (auto q = 0; q < dimension_other; q++)
-			values[q] = d[q];
-	}
-	
-	template <typename... Args>
+    template <int dimension_other>
+    Vector(Vector<dimension_other> d)
+    {
+        for (auto q = 0; q < dimension_other; q++)
+            values[q] = d[q];
+    }
+    
+    template <typename... Args>
     Vector(Args... vals)
     {
         for (auto q = 0; q < dimension; q++)
@@ -81,11 +81,11 @@ public:
     template <typename = std::enable_if_t<dimension == 3>>
     inline Vector<dimension, ElemT> Cross(const Vector<dimension> &right) const
     {
-		return Vector<3, ElemT> {
-			values[1] * right[2] - values[2] * right[1],
-			values[2] * right[0] - values[0] * right[2],
-			values[0] * right[1] - values[1] * right[0]
-		};
+        return Vector<3, ElemT> {
+            values[1] * right[2] - values[2] * right[1],
+            values[2] * right[0] - values[0] * right[2],
+            values[0] * right[1] - values[1] * right[0]
+        };
     }
     
     Vector<dimension, ElemT> Perpendicular(bool cw = true) const
@@ -117,13 +117,13 @@ public:
         rej = onto - proj;
     }
 
-	bool operator==(const Vector<dimension, ElemT>& other) const
-	{
-		for (int i = 0; i < dimension; i++)
-			if (other[i] != values[i])
-				return false;
-		return true;
-	}
+    bool operator==(const Vector<dimension, ElemT>& other) const
+    {
+        for (int i = 0; i < dimension; i++)
+            if (other[i] != values[i])
+                return false;
+        return true;
+    }
 
     friend Vector<dimension, ElemT> operator-(Vector<dimension, ElemT> &operand)
     {
@@ -187,14 +187,14 @@ public:
     }
     friend Vector<dimension, ElemT> &operator*=(Vector<dimension, ElemT> &left, ElemT right)
     {
-		return (left = left * right);
+        return (left = left * right);
     }
-	friend Vector<dimension, ElemT> &operator/=(Vector<dimension, ElemT> &left, ElemT right)
-	{
-		return (left = left / right);
-	}
+    friend Vector<dimension, ElemT> &operator/=(Vector<dimension, ElemT> &left, ElemT right)
+    {
+        return (left = left / right);
+    }
     friend Vector<dimension, ElemT> &operator+=(Vector<dimension, ElemT> &left, const Vector<dimension, ElemT> &right)
-	{
+    {
         return (left = left + right);
     }
     friend Vector<dimension, ElemT> &operator-=(Vector<dimension, ElemT> &left, const Vector<dimension, ElemT> &right)

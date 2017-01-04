@@ -25,7 +25,7 @@ namespace TileRPG
 {
     TileRPGGame::TileRPGGame()
     {
-		
+        
     }
     TileRPGGame::~TileRPGGame()
     {
@@ -49,17 +49,17 @@ namespace TileRPG
         _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
         GlEngine::RenderTarget* _renderTarget = new GlEngine::WindowRenderTarget(_window);
-		
-		auto viewport3d = new GlEngine::PerspectiveViewPort();
-		auto viewport2d = new GlEngine::OrthoViewPort();
-		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, viewport3d);
-		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, viewport3d);
-		_renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer2d, viewport2d);
+        
+        auto viewport3d = new GlEngine::PerspectiveViewPort();
+        auto viewport2d = new GlEngine::OrthoViewPort();
+        _renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, viewport3d);
+        _renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, viewport3d);
+        _renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer2d, viewport2d);
 
-		//GlEngine::RenderTarget* texRenderTarget = new GlEngine::TextureRenderTarget(200, 200);
-		//texRenderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
+        //GlEngine::RenderTarget* texRenderTarget = new GlEngine::TextureRenderTarget(200, 200);
+        //texRenderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
         _gfxContext->AddRenderTarget(_renderTarget);
-		//_gfxContext->AddRenderTarget(texRenderTarget);
+        //_gfxContext->AddRenderTarget(texRenderTarget);
 
         _gfxContext->camera.SetEye({ 0, 0, 0 });
         _gfxContext->camera.SetForward({ 0, 0, 1 });
@@ -73,7 +73,7 @@ namespace TileRPG
         }
 
         _window->Show();
-		
+        
         return true;
     }
     void TileRPGGame::destroyWindow()

@@ -44,7 +44,7 @@ namespace GlEngine
     {
         return texture->IsOpaque();
     }
-	
+    
     TesselationType BlinnMaterial::GetTesselationType()
     {
         return TesselationType::Disabled;

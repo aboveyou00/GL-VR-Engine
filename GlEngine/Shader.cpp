@@ -15,14 +15,14 @@
 
 namespace GlEngine
 {
-	Shader::Shader()
-		: Shader(std::vector<ShaderFactory::Attribute>())
+    Shader::Shader()
+        : Shader(std::vector<ShaderFactory::Attribute>())
     {
     }
     Shader::Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src, std::string frag_src, std::string tessc_src, std::string tesse_src, std::string geom_src)
         : _prog(0)
     {
-		program = ShaderFactory::Program(false, false);
+        program = ShaderFactory::Program(false, false);
 
 
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
@@ -53,11 +53,11 @@ namespace GlEngine
         return shaders[hashed] = new Shader(shader_path, shader_name);
     }
 
-	Shader * Shader::Create(ShaderAttribs attribs)
-	{
-		std::string vertexSource = "#layout 430\n";
-	
-	}
+    Shader * Shader::Create(ShaderAttribs attribs)
+    {
+        std::string vertexSource = "#layout 430\n";
+    
+    }
 
     bool ShaderFactory::Initialize()
     {
@@ -91,11 +91,11 @@ namespace GlEngine
             if (!ensureShaderCompiled(_tesse)) _tesse = 0;
         }
 
-		if (!_geom && geom_src != "")
-		{
-			_geom = compileShader(GL_GEOMETRY_SHADER, geom_src.c_str(), geom_src.size());
-			if (!ensureShaderCompiled(_geom)) _tesse = 0;
-		}
+        if (!_geom && geom_src != "")
+        {
+            _geom = compileShader(GL_GEOMETRY_SHADER, geom_src.c_str(), geom_src.size());
+            if (!ensureShaderCompiled(_geom)) _tesse = 0;
+        }
 
         if (!_prog)
         {
@@ -133,10 +133,10 @@ namespace GlEngine
         assert(!!*this);
         glUseProgram(_prog);
 
-		/* Use environment here */
+        /* Use environment here */
         
-		
-		MatrixStack::Projection.tell_gl();
+        
+        MatrixStack::Projection.tell_gl();
         MatrixStack::ModelView.tell_gl();
 
         Vector<3> lightDir = { 1, 1.5, 1 };
@@ -152,23 +152,23 @@ namespace GlEngine
     {
         glUseProgram(0);
     }
-	
-	bool ShaderFactory::UsesVertex()
-	{
-		return !!_vert;
-	}
-	bool ShaderFactory::UsesFragment()
-	{
-		return !!_frag;
-	}
+    
+    bool ShaderFactory::UsesVertex()
+    {
+        return !!_vert;
+    }
+    bool ShaderFactory::UsesFragment()
+    {
+        return !!_frag;
+    }
     bool ShaderFactory::UsesTesselation()
     {
         return !!_tesse;
     }
-	bool ShaderFactory::UsesGeometry()
-	{
-		return !!_geom;
-	}
+    bool ShaderFactory::UsesGeometry()
+    {
+        return !!_geom;
+    }
 
     ShaderFactory::operator bool()
     {

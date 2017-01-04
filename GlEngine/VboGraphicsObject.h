@@ -6,8 +6,8 @@
 namespace GlEngine
 {
     template <typename... TArgs>
-	class VboGraphicsObject : public Impl::VboGraphicsObjectImpl
-	{
+    class VboGraphicsObject : public Impl::VboGraphicsObjectImpl
+    {
     public:
         VboGraphicsObject()
             : VboGraphicsObject(VaObject())
@@ -40,7 +40,7 @@ namespace GlEngine
             auto idx = std::find(instanceIds.begin(), instanceIds.end(), id);
             if (idx == instanceIds.end()) return false;
 
-			unsigned offset = idx - instanceIds.begin();
+            unsigned offset = idx - instanceIds.begin();
             instanceIds.erase(idx);
             instancesFactory->RemoveVertex(offset);
             instanceCount--;
@@ -63,7 +63,7 @@ namespace GlEngine
         VboFactory<VboType::Float, TArgs...> *instancesFactory;
         std::vector<int> instanceIds;
         unsigned instanceCount, instanceId;
-	};
+    };
 
     template <>
     class ENGINE_SHARED VboGraphicsObject<> : public Impl::VboGraphicsObjectImpl

@@ -15,17 +15,17 @@ namespace GlEngine
         class Event;
     }
 
-	enum class ENGINE_SHARED GameObjectType
-	{
-		Object3d,
-		Camera
-	};
+    enum class ENGINE_SHARED GameObjectType
+    {
+        Object3d,
+        Camera
+    };
 
-	class ENGINE_SHARED GameObject: public IGameComponent
-	{
-	public:
+    class ENGINE_SHARED GameObject: public IGameComponent
+    {
+    public:
         GameObject(Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
-		~GameObject();
+        ~GameObject();
 
         inline void RequireTick(bool require = true)
         {
@@ -56,30 +56,30 @@ namespace GlEngine
         virtual GraphicsObject *CreateGraphicsObject(GraphicsContext &ctx) = 0;
         virtual void UpdateGraphicsObject(GraphicsContext &ctx, GraphicsObject *object);
 
-		Vector<3> position;
-		Matrix<4, 4> orientation;
+        Vector<3> position;
+        Matrix<4, 4> orientation;
 
-		virtual void SetPosition(Vector<3> pos);
-		virtual void SetOrientation(Matrix<4, 4> orientation);
-		virtual void ApplyOrientation(Matrix<4, 4> relative);
-		
-		virtual void Rotate(float radians, Vector<3> axis);
-		
-		virtual void RotateX(float radians);
-		virtual void RotateY(float radians);
-		virtual void RotateZ(float radians);
+        virtual void SetPosition(Vector<3> pos);
+        virtual void SetOrientation(Matrix<4, 4> orientation);
+        virtual void ApplyOrientation(Matrix<4, 4> relative);
+        
+        virtual void Rotate(float radians, Vector<3> axis);
+        
+        virtual void RotateX(float radians);
+        virtual void RotateY(float radians);
+        virtual void RotateZ(float radians);
 
-		void RotateDegrees(float degrees, Vector<3> axis);
-		void RotateDegreesX(float degrees);
-		void RotateDegreesY(float degrees);
-		void RotateDegreesZ(float degrees);
+        void RotateDegrees(float degrees, Vector<3> axis);
+        void RotateDegreesX(float degrees);
+        void RotateDegreesY(float degrees);
+        void RotateDegreesZ(float degrees);
 
-		virtual GameObjectType type();
+        virtual GameObjectType type();
 
-		Actor actor;
+        Actor actor;
 
     private:
         bool _requiresTick, _requiresGraphicsTick;
         Frame *_frame;
-	};
+    };
 }
