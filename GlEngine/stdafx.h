@@ -18,6 +18,9 @@ using namespace std::chrono_literals;
 #include <vector>
 #include <assert.h>
 
+#include <string>
+using namespace std::string_literals;
+
 #include "vbo_attribs_Vector.h"
 #include "vbo_attribs_Matrix.h"
 

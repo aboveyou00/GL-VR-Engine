@@ -71,3 +71,8 @@ property provider dependency resolution:
   in: propRgbColor
   out: propRgbaColor
   [out:0] = vec4([in:0], 1);
+
+modelMatrix, viewMatrix => modelViewMatrix
+modelViewMatrix, projectionMatrix => modelViewProjectionMatrix
+modelMatrix, viewMatrix, projectionMatrix => modelViewProjectionMatrix
+rgbColor => rgbaColor

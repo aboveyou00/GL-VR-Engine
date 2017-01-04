@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "StringUtils.h"
 #include "KeyValuePair.h"
-#include <string> //Used only for stof, and strcmp
 #include <sstream>
 
 namespace GlEngine

@@ -465,6 +465,12 @@
     <ClInclude Include="ScopedLock.h">
       <Filter>Header Files\GlEngine\Util</Filter>
     </ClInclude>
+    <ClInclude Include="FactoryUtils.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentType.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -736,6 +742,9 @@
     </ClCompile>
     <ClCompile Include="LodePNG\lodepng.cpp">
       <Filter>Source Files\GlEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryUtils.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

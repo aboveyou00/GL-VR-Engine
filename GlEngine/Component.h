@@ -2,6 +2,7 @@
 
 #include "Property.h"
 #include "Snippet.h"
+#include "ComponentType.h"
 #include <set>
 #include <numeric>
 
@@ -9,14 +10,6 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        enum class ENGINE_SHARED ComponentType
-        {
-            Vertex = 0,
-            TessControl = 1,
-            TessEvaluation = 2,
-            Geometry = 3,
-            Fragment = 4
-        };
         extern std::string ComponentTypeName(ComponentType type)
         {
             switch (type)

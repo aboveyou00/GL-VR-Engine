@@ -2,7 +2,6 @@
 
 #include "Engine.h"
 #include "LogType.h"
-#include <string>
 
 namespace Util
 {

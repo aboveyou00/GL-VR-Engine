@@ -160,9 +160,11 @@
     <ClInclude Include="CameraGameObject.h" />
     <ClInclude Include="CollisionGroup.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="ComponentType.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentAttribute.h" />
+    <ClInclude Include="FactoryUtils.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxGraphicsObjectImpl.h" />
     <ClInclude Include="FbxLoader.h" />
@@ -280,6 +282,7 @@
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentAttribute.cpp" />
+    <ClCompile Include="FactoryUtils.cpp" />
     <ClCompile Include="FbxGraphicsObjectImpl.cpp" />
     <ClCompile Include="FbxGraphicsObject_Empty.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
