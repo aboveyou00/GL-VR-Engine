@@ -2,12 +2,15 @@
 
 namespace GlEngine
 {
-    class ENGINE_SHARED Environment
+    namespace ShaderFactory
     {
-    public:
-        Environment();
-        ~Environment();
+        class ENGINE_SHARED Environment
+        {
+        public:
+            Environment();
+            ~Environment();
 
-        float GetGameTime();
-    };
+            float GetGameTime();
+        };
+    }
 }

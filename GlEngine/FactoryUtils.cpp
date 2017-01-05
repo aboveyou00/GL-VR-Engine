@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FactoryUtils.h"
 #include "Snippet.h"
+#include "Property.h"
 #include <regex>
 #include <sstream>
 

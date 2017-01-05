@@ -1,12 +1,12 @@
 #pragma once
-#include "Property.h"
-#include "Component.h"
 
 namespace GlEngine
 {
     namespace ShaderFactory
     {
-        class Snippet
+        class Property;
+
+        class ENGINE_SHARED Snippet
         {
         public:
             Snippet(std::string source, bool fallback = false, std::string body = ""s);

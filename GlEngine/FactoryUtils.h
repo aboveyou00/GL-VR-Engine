@@ -2,10 +2,10 @@
 
 namespace GlEngine
 {
-    class Snippet;
-
     namespace ShaderFactory
     {
+        class Snippet;
+
         std::string resolveSnippetBody(Snippet *snippet);
     }
 }

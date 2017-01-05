@@ -20,7 +20,7 @@ namespace GlEngine
     }
 
     BlinnMaterial::BlinnMaterial(Texture *texture)
-        : texture(texture), instancedShader(ShaderFactory::Create("Shaders", "direct_light_tex.inst")), singleShader(ShaderFactory::Create("Shaders", "direct_light_tex"))
+        : texture(texture)//, instancedShader(ShaderFactory::Create("Shaders", "direct_light_tex.inst")), singleShader(ShaderFactory::Create("Shaders", "direct_light_tex"))
     {
     }
     BlinnMaterial::~BlinnMaterial()
@@ -29,15 +29,17 @@ namespace GlEngine
 
     void BlinnMaterial::Push(bool instanced)
     {
-        auto shader = instanced ? instancedShader : singleShader;
-        if (shader && *shader) shader->Push();
+        instanced;
+        //auto shader = instanced ? instancedShader : singleShader;
+        //if (shader && *shader) shader->Push();
         texture->Push();
     }
     void BlinnMaterial::Pop(bool instanced)
     {
+        instanced;
         texture->Pop();
-        auto shader = instanced ? instancedShader : singleShader;
-        if (shader && *shader) shader->Pop();
+        //auto shader = instanced ? instancedShader : singleShader;
+        //if (shader && *shader) shader->Pop();
     }
 
     bool BlinnMaterial::IsOpaque()
@@ -56,6 +58,6 @@ namespace GlEngine
     }
     BlinnMaterial::operator bool()
     {
-        return texture && *texture && instancedShader && *instancedShader && singleShader && *singleShader;
+        return texture && *texture;// && instancedShader && *instancedShader && singleShader && *singleShader;
     }
 }

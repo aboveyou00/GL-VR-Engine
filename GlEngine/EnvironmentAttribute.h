@@ -2,13 +2,16 @@
 
 namespace GlEngine
 {
-    enum class ENGINE_SHARED EnvironmentAttribute
+    namespace ShaderFactory
     {
-        GameSeconds,
-        ModelMatrix,
-        ViewMatrix,
-        ProjectionMatrix,
-        ModelViewMatrix,
-        ModelViewProjectionMatrix
-    };
+        enum class ENGINE_SHARED EnvironmentAttribute
+        {
+            GameSeconds,
+            ModelMatrix,
+            ViewMatrix,
+            ProjectionMatrix,
+            ModelViewMatrix,
+            ModelViewProjectionMatrix
+        };
+    }
 }

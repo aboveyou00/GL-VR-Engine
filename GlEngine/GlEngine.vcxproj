@@ -75,6 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>$(SolutionDir)GlEngine\Middleware\dlls\;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -102,13 +103,17 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\fbx-sdk\include;$(SolutionDir)GlEngine\Middleware\yse\include;$(SolutionDir)GlEngine\Middleware\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32;$(SolutionDir)GlEngine\Middleware\fbx-sdk\lib\vs2015\x86\debug;$(SolutionDir)GlEngine\Middleware\yse\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk-md.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -160,7 +165,9 @@
     <ClInclude Include="CameraGameObject.h" />
     <ClInclude Include="CollisionGroup.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentType.h" />
+    <ClInclude Include="ComponentType_attribs.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentAttribute.h" />
@@ -279,6 +286,7 @@
     <ClCompile Include="BoxBody.cpp" />
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
+    <ClCompile Include="ComponentType_attribs.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentAttribute.cpp" />

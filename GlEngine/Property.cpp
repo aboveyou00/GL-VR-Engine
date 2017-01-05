@@ -8,7 +8,7 @@ namespace GlEngine
     namespace ShaderFactory
     {
         Property::Property(std::string name, PropertyType type, bool isBuiltIn, int arraylength)
-            : name(name), datatype(datatype), isBuiltIn(isBuiltIn), arraylength(arraylength)
+            : name(name), datatype(type), isBuiltIn(isBuiltIn), arraylength(arraylength)
         {
         }
         Property::~Property()
@@ -86,6 +86,9 @@ namespace GlEngine
             case PropertyType::Mat4x4:
                 return PropertyTypeString(datatype) + "(" + MatrixArgumentsString(value._mat4x4) + ")";
 
+            default:
+                assert(false);
+                return "ERROR";
             }
         }
 
@@ -104,5 +107,90 @@ namespace GlEngine
         Property prop_AmbientLightColor("ambient_light_color", PropertyType::Vec4);
         Property prop_DiffuseLightColor("diffuse_light_color", PropertyType::Vec4);
         Property prop_DiffuseLightDirection("diffuse_light_direction", PropertyType::Vec4);
+
+        PropertyValue::PropertyValue()
+        {
+        }
+        PropertyValue::~PropertyValue()
+        {
+        }
+
+        std::string PropertyTypeString(PropertyType type)
+        {
+            switch (type)
+            {
+            case PropertyType::Bool:
+                return "bool";
+            case PropertyType::Int:
+                return "int";
+            case PropertyType::Uint:
+                return "uint";
+            case PropertyType::Float:
+                return "float";
+            case PropertyType::Double:
+                return "double";
+
+            case PropertyType::Bvec2:
+                return "bvec2";
+            case PropertyType::Bvec3:
+                return "bvec3";
+            case PropertyType::Bvec4:
+                return "bvec4";
+
+            case PropertyType::Ivec2:
+                return "ivec2";
+            case PropertyType::Ivec3:
+                return "ivec3";
+            case PropertyType::Ivec4:
+                return "ivec4";
+
+            case PropertyType::Uvec2:
+                return "uvec2";
+            case PropertyType::Uvec3:
+                return "uvec3";
+            case PropertyType::Uvec4:
+                return "uvec4";
+
+            case PropertyType::Vec2:
+                return "vec2";
+            case PropertyType::Vec3:
+                return "vec3";
+            case PropertyType::Vec4:
+                return "vec4";
+
+            case PropertyType::Dvec2:
+                return "dvec2";
+            case PropertyType::Dvec3:
+                return "dvec3";
+            case PropertyType::Dvec4:
+                return "dvec4";
+
+            case PropertyType::Mat2x2:
+                return "mat2";
+            case PropertyType::Mat2x3:
+                return "mat2x3";
+            case PropertyType::Mat2x4:
+                return "mat2x4";
+            case PropertyType::Mat3x2:
+                return "mat3x2";
+            case PropertyType::Mat3x3:
+                return "mat3";
+            case PropertyType::Mat3x4:
+                return "mat3x4";
+            case PropertyType::Mat4x2:
+                return "mat4x2";
+            case PropertyType::Mat4x3:
+                return "mat4x3";
+            case PropertyType::Mat4x4:
+                return "mat4";
+
+            case PropertyType::Sampler:
+                return "sampler";
+
+            default:
+                assert(false);
+                return "ERROR";
+            }
+        }
     }
 }

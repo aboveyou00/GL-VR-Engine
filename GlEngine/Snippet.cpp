@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Snippet.h"
 
-#include "StringUtils.h"
-
 namespace GlEngine
 {
     namespace ShaderFactory
