@@ -175,6 +175,7 @@
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Property.h" />
+    <ClInclude Include="PropertyProvider.h" />
     <ClInclude Include="RawComponent.h" />
     <ClInclude Include="RenderTargetLayer.h" />
     <ClInclude Include="Component.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="PersperctiveViewPort.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Property.cpp" />
+    <ClCompile Include="PropertyProvider.cpp" />
     <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />

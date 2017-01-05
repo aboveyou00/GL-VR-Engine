@@ -471,6 +471,9 @@
     <ClInclude Include="ComponentType.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
+    <ClInclude Include="PropertyProvider.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -744,6 +747,9 @@
       <Filter>Source Files\GlEngine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="FactoryUtils.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyProvider.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
   </ItemGroup>
