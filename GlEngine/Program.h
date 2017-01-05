@@ -17,14 +17,10 @@ namespace GlEngine
             ComponentArray<Component*> components;
 
             void AddAttribute(Attribute* attribute);
-            
-            void AddConstant(ComponentType type, Property* property);
-            void AddUniform(Property* property);
-            void AddIn(ComponentType type, Property* property);
-            void AddOut(ComponentType type, Property* property);
-            void AddSnippet(ComponentType type, Snippet* snippet);
 
         private:
+			void ResolveProperties();
+
             ComponentType NextComponentType(unsigned type);
             ComponentType NextComponentType(ComponentType type);
             ComponentType LastComponentType(unsigned type);

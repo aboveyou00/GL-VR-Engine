@@ -7,31 +7,22 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        class AttributeComponent
+		class Attribute
         {
         public:
-            AttributeComponent(std::vector<Property*> constants = std::vector<Property*>(), std::vector<Property*> ins = std::vector<Property*>(), std::vector<Snippet> snippets = std::vector<Snippet>());
-            ~AttributeComponent();
+			Attribute(ComponentArray<std::vector<Snippet>> snippets);
+            Attribute(std::vector<std::vector<Snippet>> snippets);
+			Attribute(std::vector<Snippet> vertexSnippets, std::vector<Snippet> fragmentSnippets);
+			Attribute(std::vector<Snippet> vertexSnippets, std::vector<Snippet> tessControlSnippets, std::vector<Snippet> tessEvaluationSnippets, std::vector<Snippet> fragmentSnippets);
+			Attribute(std::vector<Snippet> vertexSnippets, std::vector<Snippet> tessControlSnippets, std::vector<Snippet> tessEvaluationSnippets, std::vector<Snippet> geometrySnippets, std::vector<Snippet> fragmentSnippets);
+			~Attribute();
 
-            std::vector<Property*> constants;
-            std::vector<Property*> ins;
-
-            std::vector<Snippet> snippets;
-        };
-
-        class Attribute
-        {
-        public:
-            Attribute(std::vector<Property*> uniforms, std::vector<AttributeComponent> attributeComponents);
-            ~Attribute();
-
-            std::vector<Property*> uniforms;
             static const unsigned numComponents = (unsigned)std::numeric_limits<ComponentType>::max() - (unsigned)std::numeric_limits<ComponentType>::min() + 1;
-            ComponentArray<AttributeComponent> attributeComponents;
+            ComponentArray<std::vector<Snippet>> snippets;
         };
 
-        extern Attribute attr_Position;
-        extern Attribute attr_Projection;
-        extern Attribute attr_AmbientLight;
+        extern ENGINE_SHARED Attribute attr_glPosition;
+        extern ENGINE_SHARED Attribute attr_Projection;
+        extern ENGINE_SHARED Attribute attr_AmbientLight;
     }
 }

@@ -210,7 +210,11 @@ namespace GlEngine
         extern ENGINE_SHARED Property prop_modelMatrix;
         extern ENGINE_SHARED Property prop_viewMatrix;
         extern ENGINE_SHARED Property prop_projectionMatrix;
+		extern ENGINE_SHARED Property prop_modelViewMatrix;
+		extern ENGINE_SHARED Property prop_modelViewProjectionMatrix;
 
         extern ENGINE_SHARED Property prop_LightColor;
+		
+		extern ENGINE_SHARED Property prop_glPosition;
     }
 }

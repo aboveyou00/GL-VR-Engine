@@ -31,48 +31,65 @@ namespace GlEngine
 
         void Program::AddAttribute(Attribute* attribute)
         {
-            for (Property* uniform : attribute->uniforms)
-                AddUniform(uniform);
-
             for (unsigned i = 0; i < attribute->numComponents; i++)
             {
                 if (components[i] == nullptr)
                     continue;
-                AttributeComponent ac = attribute->attributeComponents[i];
-                for (Property* prop : ac.constants)
-                    AddConstant((ComponentType)i, prop);
-                for (Property* prop : ac.ins)
-                {
-                    AddIn((ComponentType)i, prop);
-                    if ((ComponentType)i != ComponentType::Vertex)
-                        AddOut(LastComponentType(i), prop);
-                }
-                for (Snippet snippet : ac.snippets)
-                    AddSnippet((ComponentType)i, &snippet);
+				for (Snippet snippet : attribute->snippets[i])
+					components[i]->snippets.insert(&snippet);
             }
         }
 
-        void Program::AddConstant(ComponentType type, Property* property)
-        {
-            components[type]->constants.push_back(property);
-        }
-        void Program::AddUniform(Property* property)
-        {
-            for (int i = 0; i < numComponents; i++)
-                components[i]->uniforms.push_back(property);
-        }
-        void Program::AddIn(ComponentType type, Property* property)
-        {
-            components[type]->ins.push_back(property);
-        }
-        void Program::AddOut(ComponentType type, Property* property)
-        {
-            components[type]->outs.push_back(property);
-        }
-        void Program::AddSnippet(ComponentType type, Snippet* snippet)
-        {
-            components[type]->snippets.insert(snippet);
-        }
+		void Program::ResolveProperties()
+		{
+			auto componentProperties = ComponentArray<std::set<Property*>>(numComponents);
+
+			for (unsigned i = 0; i < numComponents; i++)
+			{
+				componentProperties[i] = std::set<Property*>();
+				if (components[i] == nullptr)
+					continue;
+
+				std::set<Property*> componentInputs = std::set<Property*>();
+				std::set<Property*> componentOutputs = std::set<Property*>();
+				
+				for (Snippet* snippet : components[i]->snippets)
+					for (Property* prop : snippet->propertiesIn)
+						componentInputs.insert(prop);
+				for (Snippet* snippet : components[i]->snippets)
+					for (Property* prop : snippet->propertiesOut)
+						componentOutputs.insert(prop);
+
+				for (Property* prop : componentInputs)
+				{
+					// property is defined within component
+					if (componentOutputs.count(prop) > 0)
+						continue;
+
+					// property is defined in previous component
+					for (unsigned j = i - 1; j >= 0; j--)
+					{
+						if (componentProperties[j].count(prop) > 0)
+						{
+							components[j]->outs.insert(prop);
+							components[i]->ins.insert(prop);
+							for (unsigned k = j + 1; k < i; k++)
+							{
+								components[k]->ins.insert(prop);
+								components[k]->outs.insert(prop);
+								components[k]->snippets.insert(Snippet::IdentitySnippet(prop));
+							}
+						}
+						goto cont;
+					}
+
+					// property is defined as program input
+					
+
+					cont:;
+				}
+			}
+		}
 
         ComponentType Program::NextComponentType(ComponentType type)
         {

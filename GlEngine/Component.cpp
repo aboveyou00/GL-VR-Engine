@@ -20,11 +20,13 @@ namespace GlEngine
 
         std::string Component::Compile()
         {
+			ResolveProperties();
+
             std::string result = "";
             result += CompileVersion() + "\n";
             result += CompileLayouts() + "\n";
-            // TOOD: subroutines
-            result += "void main(void){\n" + CompileBody() + "\n}\n";
+			result += CompileBody() + "\n";
+            result += "void main(void){\n" + CompileSource() + "\n}\n";
             
             return result;
         }
@@ -51,7 +53,15 @@ namespace GlEngine
             return result;
         }
 
-        std::string Component::CompileBody()
+		std::string Component::CompileBody()
+		{
+			std::string result = "";
+			for (Snippet* snippet : snippets)
+				result += snippet->body + "\n";
+			return result;
+		}
+
+        std::string Component::CompileSource()
         {
             CreateConstantsSnippet();
             if (!ResolveSnippetOrder())
@@ -69,8 +79,14 @@ namespace GlEngine
             for (Property* property : constants)
                 source += property->ValueString() + ";\n";
             constantsSnippet = new Snippet(source);
-            constantsSnippet->localPropertiesOut.insert(constantsSnippet->localPropertiesOut.begin(), constants.begin(), constants.end());
+            constantsSnippet->propertiesOut.insert(constantsSnippet->propertiesOut.begin(), constants.begin(), constants.end());
         }
+
+		void Component::ResolveProperties()
+		{
+			std::set<Property*> inputs;
+			std::set<Property*> outputs;
+		}
 
         bool Component::ResolveSnippetOrder()
         {
@@ -93,7 +109,7 @@ namespace GlEngine
                     {
                         orderedSnippets.push_back(snippet);
                         currentSnippets.erase(snippet);
-                        for (Property* property : snippet->localPropertiesOut)
+                        for (Property* property : snippet->propertiesOut)
                             localProperties.insert(property);
                     }
                 }
@@ -102,7 +118,7 @@ namespace GlEngine
 
         bool Component::SnippetDependenciesMet(Snippet* snippet)
         {
-            for (Property* property : snippet->localPropertiesIn)
+            for (Property* property : snippet->propertiesIn)
                 if (localProperties.find(property) == localProperties.end())
                     return false;
             return true;

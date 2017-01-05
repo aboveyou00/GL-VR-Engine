@@ -91,7 +91,7 @@ namespace GlEngine
 
         Property prop_Color("color", PropertyType::Vec4);
 
-        Property prop_Position("position", PropertyType::Vec4);
+        Property prop_Position("position", PropertyType::Vec3);
         Property prop_Normal("normal", PropertyType::Vec4);
         Property prop_UV("uv", PropertyType::Vec2);
 
@@ -104,5 +104,7 @@ namespace GlEngine
         Property prop_AmbientLightColor("ambient_light_color", PropertyType::Vec4);
         Property prop_DiffuseLightColor("diffuse_light_color", PropertyType::Vec4);
         Property prop_DiffuseLightDirection("diffuse_light_direction", PropertyType::Vec4);
+
+		Property prop_glPosition("gl_Position", PropertyType::Vec4);
     }
 }

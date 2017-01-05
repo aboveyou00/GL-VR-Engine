@@ -4,7 +4,6 @@
 #include "Snippet.h"
 #include "ComponentType.h"
 #include <set>
-#include <numeric>
 
 namespace GlEngine
 {
@@ -36,10 +35,10 @@ namespace GlEngine
 
             ComponentType type;
 
-            std::vector<Property*> constants;
-            std::vector<Property*> uniforms;
-            std::vector<Property*> ins;
-            std::vector<Property*> outs;
+            std::set<Property*> constants;
+            std::set<Property*> uniforms;
+            std::set<Property*> ins;
+            std::set<Property*> outs;
 
             std::set<Snippet*> snippets;
 
@@ -48,11 +47,13 @@ namespace GlEngine
         private:
             std::string CompileVersion();
             std::string CompileLayouts();
-            std::string CompileBody();
+			std::string CompileBody();
+            std::string CompileSource();
 
             Snippet* constantsSnippet;
             void CreateConstantsSnippet();
 
+			void ResolveProperties();
             std::set<Property*> localProperties;
             std::vector<Snippet*> orderedSnippets;
             bool ResolveSnippetOrder();

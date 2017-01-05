@@ -5,61 +5,36 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Attribute::Attribute(std::vector<Property*> uniforms, std::vector<AttributeComponent> attributeComponents)
-            : uniforms(uniforms), attributeComponents(attributeComponents)
+        Attribute::Attribute(ComponentArray<std::vector<Snippet>> snippets)
+            : snippets(snippets)
         {
         }
+		Attribute::Attribute(std::vector<std::vector<Snippet>> snippets)
+			: snippets(snippets)
+		{
+		}
+		Attribute::Attribute(std::vector<Snippet> vertexSnippets, std::vector<Snippet> fragmentSnippets)
+			: snippets({ vertexSnippets, {}, {}, {}, fragmentSnippets })
+		{
+		}
+		Attribute::Attribute(std::vector<Snippet> vertexSnippets, std::vector<Snippet> tessControlSnippets, std::vector<Snippet> tessEvaluationSnippets, std::vector<Snippet> fragmentSnippets)
+			: snippets({ vertexSnippets, tessControlSnippets, tessEvaluationSnippets, {}, fragmentSnippets })
+		{
+		}
+		Attribute::Attribute(std::vector<Snippet> vertexSnippets, std::vector<Snippet> tessControlSnippets, std::vector<Snippet> tessEvaluationSnippets, std::vector<Snippet> geometrySnippets, std::vector<Snippet> fragmentSnippets)
+			: snippets({ vertexSnippets, tessControlSnippets, tessEvaluationSnippets, geometrySnippets, fragmentSnippets })
+		{
+		}
+
         Attribute::~Attribute()
         {
         }
-
-        AttributeComponent::AttributeComponent(std::vector<Property*> constants, std::vector<Property*> ins, std::vector<Snippet> snippets)
-            : constants(constants), ins(ins), snippets(snippets)
-        {
-        }
-        AttributeComponent::~AttributeComponent()
-        {
-        }
         
-        Attribute attr_Position = Attribute(
-            { &prop_ModelMatrix, &prop_ViewMatrix, &prop_ProjectionMatrix },
-            {
-                { // Vertex
-                    {}, 
-                    {&prop_Position}, 
-                    {
-                        {"gl_Position = projection_matrix * view_matrix * model_matrix * in_position;"}
-                    }
-                },
-                { // TessC
-                },
-                { // TessE
-                },
-                { // Geometry
-                },
-                { // Fragment
-                }
-            }
-        );
-
-        Attribute attr_AmbientLight = Attribute(
-            {},
-            {
-                { // Vertex
-                    {},
-                    { &prop-LightColor &prop_AmbientLightColor },
-                    {
-                        {"out_light_color += ambient_light_color;"}
-                    }
-                },
-                { // TessC
-                },
-                { // TessE
-                },
-                { // Geometry
-                },
-                { // Fragment
-                }
+        Attribute attr_glPosition = Attribute(
+            { // Vertex
+				Snippet("[OUT:0] = [IN:0] * [IN:1];", { &prop_modelViewMatrix, &prop_Position }, { &prop_glPosition })
+            },
+            { // Fragment
             }
         );
     }

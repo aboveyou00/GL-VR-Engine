@@ -11,8 +11,8 @@ namespace GlEngine
             : source(source), fallback(fallback), body(body)
         {
         }
-        Snippet::Snippet(std::string source, std::vector<Property*> localPropertiesIn, std::vector<Property*> localPropertiesOut, bool fallback, std::string body)
-            : source(source), localPropertiesIn(localPropertiesIn), localPropertiesOut(localPropertiesOut), fallback(fallback), body(body)
+        Snippet::Snippet(std::string source, std::vector<Property*> propertiesIn, std::vector<Property*> propertiesOut, bool fallback, std::string body)
+            : source(source), propertiesIn(propertiesIn), propertiesOut(propertiesOut), fallback(fallback), body(body)
         {
         }
         Snippet::~Snippet()
