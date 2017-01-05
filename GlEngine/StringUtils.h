@@ -45,7 +45,7 @@ namespace GlEngine
         {
             std::stringstream ss;
             ss << arg;
-            return ss.str()
+            return ss.str();
         }
         template<bool>
         std::string ToString(bool arg)

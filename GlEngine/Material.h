@@ -7,7 +7,6 @@
 namespace GlEngine
 {
     class Texture;
-    class ShaderFactory;
 
     class ENGINE_SHARED Material : public IGraphicsComponent
     {
@@ -33,7 +32,5 @@ namespace GlEngine
         virtual RenderTargetLayer GetRenderTargetLayer();
 
         virtual TesselationType GetTesselationType() = 0;
-    
-    private:
     };
 }

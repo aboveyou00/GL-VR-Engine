@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Property.h"
-#include "Snippet.h"
 #include "ComponentType.h"
 #include <set>
 
@@ -9,50 +7,50 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        extern std::string ComponentTypeName(ComponentType type)
-        {
-            switch (type)
-            {
-            case ComponentType::Vertex:
-                return "Vertex";
-            case ComponentType::TessControl:
-                return "TessControl";
-            case ComponentType::TessEvaluation:
-                return "TessEvaluation";
-            case ComponentType::Geometry:
-                return "Geometry";
-            case ComponentType::Fragment:
-                return "Fragment";
-            }
-            return "";
-        }
+        class Property;
+        class Snippet;
 
-        class ENGINE_SHARED Component
-        {
-        public:
-            Component(ComponentType type);
-            ~Component();
+        //class ENGINE_SHARED Component
+        //{
+        //public:
+        //    Component(ComponentType type);
+        //    ~Component();
 
-            ComponentType type;
+        //    ComponentType type;
 
+<<<<<<< HEAD
             std::set<Property*> constants;
             std::set<Property*> uniforms;
             std::set<Property*> ins;
             std::set<Property*> outs;
+=======
+        //    std::vector<Property*> constants;
+        //    std::vector<Property*> uniforms;
+        //    std::vector<Property*> ins;
+        //    std::vector<Property*> outs;
+>>>>>>> 9a332fad24e8f2e4cf0df4e95d7ead07270d041e
 
-            std::set<Snippet*> snippets;
+        //    std::set<Snippet*> snippets;
 
-            virtual std::string Compile();
+        //    virtual std::string Compile();
 
+<<<<<<< HEAD
         private:
             std::string CompileVersion();
             std::string CompileLayouts();
 			std::string CompileBody();
             std::string CompileSource();
+=======
+        //private:
+        //    std::string CompileVersion();
+        //    std::string CompileLayouts();
+        //    std::string CompileBody();
+>>>>>>> 9a332fad24e8f2e4cf0df4e95d7ead07270d041e
 
-            Snippet* constantsSnippet;
-            void CreateConstantsSnippet();
+        //    Snippet* constantsSnippet;
+        //    void CreateConstantsSnippet();
 
+<<<<<<< HEAD
 			void ResolveProperties();
             std::set<Property*> localProperties;
             std::vector<Snippet*> orderedSnippets;
@@ -99,14 +97,12 @@ namespace GlEngine
             size_t size;
             T* _components;
         };
+=======
+        //    std::set<Property*> localProperties;
+        //    std::vector<Snippet*> orderedSnippets;
+        //    bool ResolveSnippetOrder();
+        //    bool SnippetDependenciesMet(Snippet* snippet);
+        //};
+>>>>>>> 9a332fad24e8f2e4cf0df4e95d7ead07270d041e
     }
-}
-
-GlEngine::ShaderFactory::ComponentType std::numeric_limits<GlEngine::ShaderFactory::ComponentType>::min()
-{
-    return GlEngine::ShaderFactory::ComponentType::Vertex;
-}
-GlEngine::ShaderFactory::ComponentType std::numeric_limits<GlEngine::ShaderFactory::ComponentType>::max()
-{
-    return GlEngine::ShaderFactory::ComponentType::Fragment;
 }

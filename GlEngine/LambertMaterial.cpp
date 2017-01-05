@@ -20,7 +20,7 @@ namespace GlEngine
     }
 
     LambertMaterial::LambertMaterial(Texture *texture)
-        : texture(texture), instancedShader(nullptr), singleShader(nullptr)
+        : texture(texture)//, instancedShader(nullptr), singleShader(nullptr)
     {
     }
     LambertMaterial::~LambertMaterial()
@@ -29,15 +29,17 @@ namespace GlEngine
 
     void LambertMaterial::Push(bool instanced)
     {
-        auto shader = instanced ? instancedShader : singleShader;
-        if (shader && *shader) shader->Push();
+        instanced;
+        //auto shader = instanced ? instancedShader : singleShader;
+        //if (shader && *shader) shader->Push();
         texture->Push();
     }
     void LambertMaterial::Pop(bool instanced)
     {
+        instanced;
         texture->Pop();
-        auto shader = instanced ? instancedShader : singleShader;
-        if (shader && *shader) shader->Pop();
+        //auto shader = instanced ? instancedShader : singleShader;
+        //if (shader && *shader) shader->Pop();
     }
 
     bool LambertMaterial::IsOpaque()
@@ -56,6 +58,6 @@ namespace GlEngine
     }
     LambertMaterial::operator bool()
     {
-        return texture && *texture && instancedShader && *instancedShader && singleShader && *singleShader;
+        return texture && *texture;// && instancedShader && *instancedShader && singleShader && *singleShader;
     }
 }

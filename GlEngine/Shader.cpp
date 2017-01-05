@@ -16,18 +16,18 @@
 namespace GlEngine
 {
     Shader::Shader()
-        : Shader(std::vector<ShaderFactory::Attribute>())
+        //: Shader(std::vector<ShaderFactory::Attribute>())
     {
     }
-    Shader::Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src, std::string frag_src, std::string tessc_src, std::string tesse_src, std::string geom_src)
-        : _prog(0)
-    {
-        program = ShaderFactory::Program(false, false);
+    //Shader::Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src, std::string frag_src, std::string tessc_src, std::string tesse_src, std::string geom_src)
+    //    : _prog(0)
+    //{
+    //    program = ShaderFactory::Program(false, false);
 
 
-        auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-        resources->QueueResource(this);
-    }
+    //    auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+    //    resources->QueueResource(this);
+    //}
     Shader::~Shader()
     {
         Shutdown();
@@ -50,62 +50,63 @@ namespace GlEngine
         static std::unordered_map<int, Shader*> shaders;
         auto cached = shaders[hashed];
         if (cached != nullptr) return cached;
-        return shaders[hashed] = new Shader(shader_path, shader_name);
+
+        assert(false);
+        return nullptr;
+        //return shaders[hashed] = new Shader(shader_path, shader_name);
     }
 
-    Shader * Shader::Create(ShaderAttribs attribs)
+    bool Shader::Initialize()
     {
-        std::string vertexSource = "#layout 430\n";
-    
+        return false;
     }
-
-    bool ShaderFactory::Initialize()
+    void Shader::Shutdown()
     {
     }
-    void ShaderFactory::Shutdown()
+    bool Shader::InitializeGraphics()
     {
-    }
-    bool ShaderFactory::InitializeGraphics()
-    {
-        if (!_vert && vert_src != "")
-        {
-            _vert = compileShader(GL_VERTEX_SHADER, vert_src.c_str(), vert_src.size());
-            if (!ensureShaderCompiled(_vert)) return false;
-        }
+        //if (!_vert && vert_src != "")
+        //{
+        //    _vert = compileShader(GL_VERTEX_SHADER, vert_src.c_str(), vert_src.size());
+        //    if (!ensureShaderCompiled(_vert)) return false;
+        //}
 
-        if (!_frag && frag_src != "")
-        {
-            _frag = compileShader(GL_FRAGMENT_SHADER, frag_src.c_str(), frag_src.size());
-            if (!ensureShaderCompiled(_frag)) return false;
-        }
+        //if (!_frag && frag_src != "")
+        //{
+        //    _frag = compileShader(GL_FRAGMENT_SHADER, frag_src.c_str(), frag_src.size());
+        //    if (!ensureShaderCompiled(_frag)) return false;
+        //}
 
-        if (!_tessc && tessc_src != "")
-        {
-            _tessc = compileShader(GL_TESS_CONTROL_SHADER, tessc_src.c_str(), tessc_src.size());
-            if (!ensureShaderCompiled(_tessc)) _tessc = 0;
-        }
+        //if (!_tessc && tessc_src != "")
+        //{
+        //    _tessc = compileShader(GL_TESS_CONTROL_SHADER, tessc_src.c_str(), tessc_src.size());
+        //    if (!ensureShaderCompiled(_tessc)) _tessc = 0;
+        //}
 
-        if (!_tesse && tesse_src != "")
-        {
-            _tesse = compileShader(GL_TESS_EVALUATION_SHADER, tesse_src.c_str(), tesse_src.size());
-            if (!ensureShaderCompiled(_tesse)) _tesse = 0;
-        }
+        //if (!_tesse && tesse_src != "")
+        //{
+        //    _tesse = compileShader(GL_TESS_EVALUATION_SHADER, tesse_src.c_str(), tesse_src.size());
+        //    if (!ensureShaderCompiled(_tesse)) _tesse = 0;
+        //}
 
-        if (!_geom && geom_src != "")
-        {
-            _geom = compileShader(GL_GEOMETRY_SHADER, geom_src.c_str(), geom_src.size());
-            if (!ensureShaderCompiled(_geom)) _tesse = 0;
-        }
+        //if (!_geom && geom_src != "")
+        //{
+        //    _geom = compileShader(GL_GEOMETRY_SHADER, geom_src.c_str(), geom_src.size());
+        //    if (!ensureShaderCompiled(_geom)) _tesse = 0;
+        //}
 
-        if (!_prog)
-        {
-            _prog = compileProgram();
-            if (!ensureProgramCompiled()) return false;
-        }
+        //if (!_prog)
+        //{
+        //    _prog = compileProgram();
+        //    if (!ensureProgramCompiled()) return false;
+        //}
 
+        //return true;
+
+        assert(false);
         return true;
     }
-    void ShaderFactory::ShutdownGraphics()
+    void Shader::ShutdownGraphics()
     {
         if (_prog) glDeleteProgram(_prog);
         _prog = 0;
@@ -123,12 +124,12 @@ namespace GlEngine
         _tesse = 0;
     }
 
-    const char *ShaderFactory::name()
+    const char *Shader::name()
     {
         return "Shader";
     }
 
-    void ShaderFactory::Push()
+    void Shader::Push()
     {
         assert(!!*this);
         glUseProgram(_prog);
@@ -148,34 +149,34 @@ namespace GlEngine
         //theta += .01f;
         //glUniform1f(6, theta);
     }
-    void ShaderFactory::Pop()
+    void Shader::Pop()
     {
         glUseProgram(0);
     }
     
-    bool ShaderFactory::UsesVertex()
+    bool Shader::UsesVertex()
     {
         return !!_vert;
     }
-    bool ShaderFactory::UsesFragment()
+    bool Shader::UsesFragment()
     {
         return !!_frag;
     }
-    bool ShaderFactory::UsesTesselation()
+    bool Shader::UsesTesselation()
     {
         return !!_tesse;
     }
-    bool ShaderFactory::UsesGeometry()
+    bool Shader::UsesGeometry()
     {
         return !!_geom;
     }
 
-    ShaderFactory::operator bool()
+    Shader::operator bool()
     {
         return _prog && _vert && _frag;
     }
 
-    unsigned ShaderFactory::compileShader(unsigned type, const char *text, int text_length)
+    unsigned Shader::compileShader(unsigned type, const char *text, int text_length)
     {
         auto shader = glCreateShader(type);
         glShaderSource(shader, 1, (const GLchar**)&text, &text_length);
@@ -183,7 +184,7 @@ namespace GlEngine
 
         return shader;
     }
-    bool ShaderFactory::ensureShaderCompiled(unsigned shader)
+    bool Shader::ensureShaderCompiled(unsigned shader)
     {
         if (shader == 0) return false;
 
@@ -210,7 +211,7 @@ namespace GlEngine
         return result == GL_TRUE;
     }
 
-    unsigned ShaderFactory::compileProgram()
+    unsigned Shader::compileProgram()
     {
         auto program = glCreateProgram();
         glAttachShader(program, _vert);
@@ -220,7 +221,7 @@ namespace GlEngine
         glLinkProgram(program);
         return program;
     }
-    bool ShaderFactory::ensureProgramCompiled()
+    bool Shader::ensureProgramCompiled()
     {
         GLint result;
         glGetProgramiv(_prog, GL_LINK_STATUS, &result);

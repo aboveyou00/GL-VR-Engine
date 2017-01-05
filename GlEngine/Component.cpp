@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Component.h"
+#include "ComponentType_attribs.h"
 
 #include "StringUtils.h"
 #include "LogUtils.h"

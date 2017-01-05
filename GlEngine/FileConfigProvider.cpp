@@ -89,7 +89,7 @@ namespace GlEngine
             auto pk = _pairs[q].GetKey();
             if (pk == nullptr || pk[0] == '\0')
             {
-                if (firstAvailableIndex == -1) firstAvailableIndex = q;
+                if (firstAvailableIndex == -1) firstAvailableIndex = static_cast<int>(q);
                 continue;
             }
             if (strcmp(key, _pairs[q].GetKey()) == 0)

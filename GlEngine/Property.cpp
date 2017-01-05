@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include "Property.h"
 
-#include "StringUtils.h"
-
 namespace GlEngine
 {
     namespace ShaderFactory
     {
+<<<<<<< HEAD
         Property::Property(std::string name, PropertyType type, int arraylength)
             : name(name), datatype(datatype), arraylength(arraylength)
         {
@@ -106,5 +105,27 @@ namespace GlEngine
         Property prop_DiffuseLightDirection("diffuse_light_direction", PropertyType::Vec4);
 
 		Property prop_glPosition("gl_Position", PropertyType::Vec4);
+=======
+        Property<Vector<3>> prop_RgbColor("rgb_color");
+        Property<Vector<4>> prop_RgbaColor("color");
+
+        Property<Vector<4>> prop_GlPosition("position");
+        //Should these be vec4 or vec3?
+        Property<Vector<4>> prop_Normal("normal");
+        Property<Vector<4>> prop_UV("uv");
+
+        Property<Matrix<4, 4>> prop_ModelMatrix("model_matrix");
+        Property<Matrix<4, 4>> prop_ViewMatrix("view_matrix");
+        Property<Matrix<4, 4>> prop_ProjectionMatrix("projection_matrix");
+
+        Property<Matrix<4, 4>> prop_ModelViewMatrix("model_view_matrix");
+        Property<Matrix<4, 4>> prop_ModelViewProjectionMatrix("model_view_projection_matrix");
+
+        //Should these be vec4 or vec3?
+        Property<Vector<4>> prop_LightColor("light_color");
+        Property<Vector<4>> prop_AmbientLightColor("ambient_light_color");
+        Property<Vector<4>> prop_DiffuseLightColor("diffuse_light_color");
+        Property<Vector<4>> prop_DiffuseLightDirection("diffuse_light_direction");
+>>>>>>> 9a332fad24e8f2e4cf0df4e95d7ead07270d041e
     }
 }

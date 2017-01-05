@@ -6,16 +6,16 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        class RawComponent : public Component
-        {
-        public:
-            RawComponent(ComponentType type, std::string source);
-            ~RawComponent();
+        //class RawComponent : public Component
+        //{
+        //public:
+        //    RawComponent(ComponentType type, std::string source);
+        //    ~RawComponent();
 
-            virtual std::string Compile() override;
+        //    virtual std::string Compile() override;
 
-        private:
-            std::string source;
-        };
+        //private:
+        //    std::string source;
+        //};
     }
 }

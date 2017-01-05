@@ -2,7 +2,7 @@
 #define EXPORTHEADER_H
 #pragma once
 
-#ifdef    ENGINE_EXPORTS
+#ifdef ENGINE_EXPORTS
 #define ENGINE_SHARED __declspec( dllexport )
 #define ENGINE_TEMPLATE
 #else
