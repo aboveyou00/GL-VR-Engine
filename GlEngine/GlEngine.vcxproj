@@ -168,6 +168,7 @@
     <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentType.h" />
     <ClInclude Include="ComponentType_attribs.h" />
+    <ClInclude Include="ConstantSource.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentAttribute.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Program.h" />
     <ClInclude Include="Property.h" />
     <ClInclude Include="PropertyProvider.h" />
+    <ClInclude Include="PropertySource.h" />
     <ClInclude Include="PropertyType_attribs.h" />
     <ClInclude Include="RawComponent.h" />
     <ClInclude Include="RenderTargetLayer.h" />
@@ -290,6 +292,7 @@
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="ComponentType_attribs.cpp" />
+    <ClCompile Include="ConstantSource.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentAttribute.cpp" />
@@ -317,6 +320,7 @@
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Property.cpp" />
     <ClCompile Include="PropertyProvider.cpp" />
+    <ClCompile Include="PropertySource.cpp" />
     <ClCompile Include="PropertyType_attribs.cpp" />
     <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RenderTarget.cpp" />

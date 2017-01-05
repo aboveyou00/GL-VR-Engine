@@ -30,25 +30,22 @@ namespace GlEngine
             return stream.str();
         }
 
+        std::string PropertyName(ShaderProp* prop, bool in)
+        {
+            if (prop->isBuiltIn) return prop->name;
+            else return (in ? "in_" : "out_") + prop->name;
+        }
+
         std::string resolveSnippetBody(Snippet *snippet)
         {
             auto source = regex_replace_label(snippet->source, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::string type, std::string val) -> std::string {
+                if (type != "in" && type != "out")
+                    return "ERROR[" + type + ":" + val + "]";
+                
                 unsigned number;
-                if (type == "in")
-                {
-                    (std::istringstream(val) >> number);
-                    auto prop = snippet->localPropertiesIn[number];
-                    if (prop->isBuiltIn) return prop->name;
-                    else return "in_" + prop->name;
-                }
-                else if (type == "out")
-                {
-                    (std::istringstream(val) >> number);
-                    auto prop = snippet->localPropertiesOut[number];
-                    if (prop->isBuiltIn) return prop->name;
-                    else return "out_" + prop->name;
-                }
-                else return "ERROR[" + type + ":" + val + "]";
+                (std::istringstream(val) >> number);
+                auto prop = snippet->propertiesIn[number];
+                return PropertyName(prop, type == "in");
             });
             return source;
         }

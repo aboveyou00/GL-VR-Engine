@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Snippet.h"
+#include "Program.h"
 
 namespace GlEngine
 {
@@ -9,17 +10,22 @@ namespace GlEngine
             : source(source), fallback(fallback), body(body)
         {
         }
-<<<<<<< HEAD
-        Snippet::Snippet(std::string source, std::vector<Property*> propertiesIn, std::vector<Property*> propertiesOut, bool fallback, std::string body)
+        Snippet::Snippet(std::string source, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, bool fallback, std::string body)
             : source(source), propertiesIn(propertiesIn), propertiesOut(propertiesOut), fallback(fallback), body(body)
-=======
-        Snippet::Snippet(std::string source, std::vector<ShaderProp*> localPropertiesIn, std::vector<ShaderProp*> localPropertiesOut, bool fallback, std::string body)
-            : source(source), localPropertiesIn(localPropertiesIn), localPropertiesOut(localPropertiesOut), fallback(fallback), body(body)
->>>>>>> 9a332fad24e8f2e4cf0df4e95d7ead07270d041e
         {
         }
         Snippet::~Snippet()
         {
+        }
+        bool Snippet::HasProperty(ShaderProp* prop)
+        {
+            return std::find(propertiesOut.begin(), propertiesOut.end(), prop) != propertiesOut.end();
+        }
+        void Snippet::ProvideProperty(ShaderProp * prop, Program * program, ComponentType type)
+        {
+            prop;
+            program;
+            type;
         }
     }
 }

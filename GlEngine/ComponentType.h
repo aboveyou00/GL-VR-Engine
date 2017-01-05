@@ -7,12 +7,13 @@ namespace GlEngine
     {
         enum class ENGINE_SHARED ComponentType : unsigned
         {
-            Vertex = 0,
-            TessControl = 1,
-            TessEvaluation = 2,
-            Geometry = 3,
-            Fragment = 4,
-            Pseudo = 5
+            Input = 0,
+            Vertex,
+            TessControl,
+            TessEvaluation,
+            Geometry,
+            Fragment,
+            Output
         };
     }
 }
@@ -27,11 +28,11 @@ namespace std
     public:
         static constexpr T min() noexcept
         {
-            return T::Vertex;
+            return T::Input;
         }
         static constexpr T max() noexcept
         {
-            return T::Pseudo;
+            return T::Output;
         }
     };
 }

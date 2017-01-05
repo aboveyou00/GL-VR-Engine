@@ -210,9 +210,6 @@
     <ClInclude Include="AudioController.h">
       <Filter>Header Files\GlEngine\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="AudioControllerImpl.h">
-      <Filter>Header Files\GlEngine\Graphics\Impl</Filter>
-    </ClInclude>
     <ClInclude Include="VbObject.h">
       <Filter>Header Files\GlEngine\Resources</Filter>
     </ClInclude>
@@ -473,6 +470,27 @@
     </ClInclude>
     <ClInclude Include="PropertyProvider.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentType_attribs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyType_attribs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioControllerImpl.h">
+      <Filter>Header Files\GlEngine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertySource.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantSource.h">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -751,6 +769,21 @@
     </ClCompile>
     <ClCompile Include="PropertyProvider.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentType_attribs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyType_attribs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertySource.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantSource.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

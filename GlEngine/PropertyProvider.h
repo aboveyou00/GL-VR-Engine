@@ -4,16 +4,15 @@
 
 namespace GlEngine
 {
-	namespace ShaderFactory
-	{
-		class PropertyProvider
-		{
-		public:
-			PropertyProvider();
-			~PropertyProvider();
+    namespace ShaderFactory
+    {
+        class PropertyProvider
+        {
+        public:
+            PropertyProvider();
+            ~PropertyProvider();
 
-			bool HasPropertyValue(Property* prop);
-			PropertyValue GetPropertyValue(Property* prop);
-		};
-	}
+            bool HasPropertyValue(ShaderProp* prop);
+        };
+    }
 }

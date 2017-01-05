@@ -14,6 +14,8 @@ namespace GlEngine
             const bool isBuiltIn;
             const bool isArray;
             const int arrayLength;
+
+            unsigned virtual LayoutSize() = 0;
         };
     }
 }

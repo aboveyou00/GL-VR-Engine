@@ -9,6 +9,12 @@ namespace GlEngine
         struct ComponentType_attribs;
 
         template <>
+        struct ComponentType_attribs<ComponentType::Input>
+        {
+            static const std::string name;
+        };
+
+        template <>
         struct ComponentType_attribs<ComponentType::Vertex>
         {
             static const std::string name;
@@ -39,7 +45,7 @@ namespace GlEngine
         };
 
         template <>
-        struct ComponentType_attribs<ComponentType::Pseudo>
+        struct ComponentType_attribs<ComponentType::Output>
         {
             static const std::string name;
         };

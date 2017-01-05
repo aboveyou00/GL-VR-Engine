@@ -3,22 +3,20 @@
 
 namespace GlEngine
 {
-	namespace ShaderFactory
-	{
-		PropertyProvider::PropertyProvider()
-		{
-		}
-		PropertyProvider::~PropertyProvider()
-		{
-		}
+    namespace ShaderFactory
+    {
+        PropertyProvider::PropertyProvider()
+        {
+        }
+        PropertyProvider::~PropertyProvider()
+        {
+        }
 
-		bool PropertyProvider::HasPropertyValue(Property* prop)
-		{
-		}
-
-		PropertyValue PropertyProvider::GetPropertyValue(Property* prop)
-		{
-		}
-	}
+        bool PropertyProvider::HasPropertyValue(ShaderProp* prop)
+        {
+            prop;
+            return false;
+        }
+    }
 }
 
