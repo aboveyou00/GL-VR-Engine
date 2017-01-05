@@ -477,6 +477,12 @@
     <ClInclude Include="ComponentArray.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderProp.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyType_attribs.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -753,6 +759,12 @@
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
     <ClCompile Include="ComponentType_attribs.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProp.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyType_attribs.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
   </ItemGroup>

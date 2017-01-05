@@ -182,10 +182,12 @@
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Property.h" />
+    <ClInclude Include="PropertyType_attribs.h" />
     <ClInclude Include="RawComponent.h" />
     <ClInclude Include="RenderTargetLayer.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ShaderFactory.h" />
+    <ClInclude Include="ShaderProp.h" />
     <ClInclude Include="Snippet.h" />
     <ClInclude Include="TextureRenderTarget.h" />
     <ClInclude Include="IAudioSource.h" />
@@ -313,12 +315,14 @@
     <ClCompile Include="PersperctiveViewPort.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Property.cpp" />
+    <ClCompile Include="PropertyType_attribs.cpp" />
     <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
+    <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />

@@ -9,7 +9,7 @@ namespace GlEngine
             : source(source), fallback(fallback), body(body)
         {
         }
-        Snippet::Snippet(std::string source, std::vector<Property*> localPropertiesIn, std::vector<Property*> localPropertiesOut, bool fallback, std::string body)
+        Snippet::Snippet(std::string source, std::vector<ShaderProp*> localPropertiesIn, std::vector<ShaderProp*> localPropertiesOut, bool fallback, std::string body)
             : source(source), localPropertiesIn(localPropertiesIn), localPropertiesOut(localPropertiesOut), fallback(fallback), body(body)
         {
         }
