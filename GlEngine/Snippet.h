@@ -11,11 +11,11 @@ namespace GlEngine
         class ENGINE_SHARED Snippet : PropertySource 
         {
         public:
-            Snippet(std::string source, bool fallback = false, std::string body = ""s);
-            Snippet(std::string source, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> proportiesOut, bool fallback = false, std::string body = ""s);
+            Snippet(std::string mainSource, bool fallback = false, std::string declSource = ""s);
+            Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> proportiesOut, bool fallback = false, std::string declSource = ""s);
             ~Snippet();
 
-            std::string source, body;
+            std::string mainSource, declSource;
             std::vector<ShaderProp*> propertiesIn;
             std::vector<ShaderProp*> propertiesOut;
 

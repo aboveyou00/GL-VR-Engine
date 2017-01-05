@@ -109,6 +109,9 @@
     <Filter Include="Header Files\stdafx">
       <UniqueIdentifier>{faefdbf5-3077-4fbe-9aa5-4e8e4b4fb003}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GlEngine\Audio\Impl">
+      <UniqueIdentifier>{d7ccb80f-426c-4d8c-bbeb-f7b8b3a6fb8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -483,14 +486,14 @@
     <ClInclude Include="ShaderProp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AudioControllerImpl.h">
-      <Filter>Header Files\GlEngine\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="PropertySource.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
+    <ClInclude Include="AudioControllerImpl.h">
+      <Filter>Header Files\GlEngine\Audio\Impl</Filter>
+    </ClInclude>
     <ClInclude Include="ConstantSource.h">
-      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,13 +34,10 @@ namespace GlEngine
             std::string CompileBody();
             std::string CompileSource();
 
-            Snippet* constantsSnippet;
-            void CreateConstantsSnippet();
-
             std::set<ShaderProp*> localProperties;
             std::vector<Snippet*> orderedSnippets;
-            bool ResolveSnippetOrder();
-            bool SnippetDependenciesMet(Snippet* snippet);
+            //bool ResolveSnippetOrder();
+            //bool SnippetDependenciesMet(Snippet* snippet);
         };
     }
 }

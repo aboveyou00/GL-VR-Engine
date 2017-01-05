@@ -17,8 +17,6 @@ namespace GlEngine
         }
         Component::~Component()
         {
-            if (constantsSnippet != nullptr)
-                delete constantsSnippet;
         }
 
         std::string Component::Compile()
@@ -58,70 +56,54 @@ namespace GlEngine
         {
             std::string result = "";
             for (Snippet* snippet : snippets)
-                result += snippet->body + "\n";
+                result += snippet->declSource + "\n";
             return result;
         }
 
         std::string Component::CompileSource()
         {
-            CreateConstantsSnippet();
-            if (!ResolveSnippetOrder())
-                return "";
+            //CreateConstantsSnippet();
+            //if (!ResolveSnippetOrder())
+            //    return "";
             
             std::string result;
             for (Snippet* snippet : orderedSnippets)
-                result += snippet->source + "\n";
+                result += snippet->mainSource + "\n";
             return result;
         }
 
-        void Component::CreateConstantsSnippet()
-        {
-            //std::string source = "";
-            //for (Property* property : constants)
-            //    source += property->ValueString() + ";\n";
-            //constantsSnippet = new Snippet(source);
-            //constantsSnippet->propertiesOut.insert(constantsSnippet->propertiesOut.begin(), constants.begin(), constants.end());
-        }
+        //bool Component::ResolveSnippetOrder()
+        //{
+        //    unsigned last_size = 0;
+        //    while (currentSnippets.size() > 0)
+        //    {
+        //        if (snippets.size() == last_size)
+        //        {
+        //            //Util::Log(LogType::Error, "Circular snippet dependencies detected when compiling %s shader; enable level logging 'info' to view snippet data", ComponentTypeName(type));
+        //            //for (Snippet* snippet : snippets)
+        //            //    Util::Log(LogType::Info, "\nSnippet Data:\n%s", snippet->source);
+        //            return false;
+        //        }
 
-        bool Component::ResolveSnippetOrder()
-        {
-            assert(false);
-            return false;
-            //std::set<Snippet*> currentSnippets(snippets);
+        //        for (Snippet* snippet : currentSnippets)
+        //        {
+        //            if (SnippetDependenciesMet(snippet))
+        //            {
+        //                orderedSnippets.push_back(snippet);
+        //                currentSnippets.erase(snippet);
+        //                for (Property* property : snippet->propertiesOut)
+        //                    localProperties.insert(property);
+        //            }
+        //        }
+        //    }
+        //}
 
-            //unsigned last_size = 0;
-            //while (currentSnippets.size() > 0)
-            //{
-            //    if (snippets.size() == last_size)
-            //    {
-            //        //Util::Log(LogType::Error, "Circular snippet dependencies detected when compiling %s shader; enable level logging 'info' to view snippet data", ComponentTypeName(type));
-            //        //for (Snippet* snippet : snippets)
-            //        //    Util::Log(LogType::Info, "\nSnippet Data:\n%s", snippet->source);
-            //        return false;
-            //    }
-
-            //    for (Snippet* snippet : currentSnippets)
-            //    {
-            //        if (SnippetDependenciesMet(snippet))
-            //        {
-            //            orderedSnippets.push_back(snippet);
-            //            currentSnippets.erase(snippet);
-            //            for (Property* property : snippet->propertiesOut)
-            //                localProperties.insert(property);
-            //        }
-            //    }
-            //}
-        }
-
-        bool Component::SnippetDependenciesMet(Snippet* snippet)
-        {
-            snippet;
-            assert(false);
-            return false;
-            //for (Property* property : snippet->propertiesIn)
-            //    if (localProperties.find(property) == localProperties.end())
-            //        return false;
-            //return true;
-        }
+        //bool Component::SnippetDependenciesMet(Snippet* snippet)
+        //{
+        //    for (Property* property : snippet->propertiesIn)
+        //        if (localProperties.find(property) == localProperties.end())
+        //            return false;
+        //    return true;
+        //}
     }
 }

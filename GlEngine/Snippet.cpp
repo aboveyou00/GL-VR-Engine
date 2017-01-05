@@ -6,12 +6,12 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Snippet::Snippet(std::string source, bool fallback, std::string body)
-            : source(source), fallback(fallback), body(body)
+        Snippet::Snippet(std::string mainSource, bool fallback, std::string declSource)
+            : mainSource(mainSource), fallback(fallback), declSource(declSource)
         {
         }
-        Snippet::Snippet(std::string source, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, bool fallback, std::string body)
-            : source(source), propertiesIn(propertiesIn), propertiesOut(propertiesOut), fallback(fallback), body(body)
+        Snippet::Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, bool fallback, std::string declSource)
+            : mainSource(mainSource), propertiesIn(propertiesIn), propertiesOut(propertiesOut), fallback(fallback), declSource(declSource)
         {
         }
         Snippet::~Snippet()

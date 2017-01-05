@@ -34,19 +34,41 @@ namespace GlEngine
             }
         }
 
+        void Program::AddPropertySource(PropertySource *propSource)
+        {
+            assert(!compilationStarted);
+            this->propSources.push_back(propSource);
+        }
         void Program::AddAttribute(Attribute* attribute)
         {
+            assert(!compilationStarted);
             for (unsigned i = 0; i < attribute->numComponents; i++)
             {
                 if (components[i] == nullptr)
+                {
+                    assert(attribute->snippets[i].size() == 0);
                     continue;
+                }
                 for (Snippet snippet : attribute->snippets[i])
                     components[i]->snippets.insert(&snippet);
             }
         }
 
+        void Program::Compile()
+        {
+            assert(!compilationStarted);
+            compilationStarted = true;
+            ResolveProperties();
+            for (size_t q = 0; q < this->numComponents; q++)
+            {
+                if (components[q] == nullptr) continue;
+                components[q]->Compile();
+            }
+        }
+
         void Program::BootstrapInputs()
         {
+            assert(!compilationStarted);
 
         }
 

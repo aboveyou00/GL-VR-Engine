@@ -38,7 +38,7 @@ namespace GlEngine
 
         std::string resolveSnippetBody(Snippet *snippet)
         {
-            auto source = regex_replace_label(snippet->source, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::string type, std::string val) -> std::string {
+            auto source = regex_replace_label(snippet->mainSource, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::string type, std::string val) -> std::string {
                 if (type != "in" && type != "out")
                     return "ERROR[" + type + ":" + val + "]";
                 
