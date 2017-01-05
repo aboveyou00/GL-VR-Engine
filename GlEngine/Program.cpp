@@ -50,7 +50,7 @@ namespace GlEngine
                     continue;
                 }
                 for (Snippet snippet : attribute->snippets[i])
-                    components[i]->snippets.insert(&snippet);
+                    components[i]->unresolvedSnippets.insert(&snippet);
             }
         }
 
@@ -85,10 +85,10 @@ namespace GlEngine
                 std::set<ShaderProp*> componentInputs = {};
                 std::set<ShaderProp*> componentOutputs = {};
 
-                for (Snippet* snippet : components[i]->snippets)
+                for (Snippet* snippet : components[i]->unresolvedSnippets)
                     for (ShaderProp* prop : snippet->propertiesIn)
                         componentInputs.insert(prop);
-                for (Snippet* snippet : components[i]->snippets)
+                for (Snippet* snippet : components[i]->unresolvedSnippets)
                     for (ShaderProp* prop : snippet->propertiesOut)
                         componentOutputs.insert(prop);
 
@@ -109,7 +109,7 @@ namespace GlEngine
                         //    {
                         //        components[k]->ins.insert(prop);
                         //        components[k]->outs.insert(prop);
-                        //        components[k]->snippets.insert(Snippet::IdentitySnippet(prop));
+                        //        components[k]->unresolvedSnippets.insert(Snippet::IdentitySnippet(prop));
                         //    }
                         //}
                         //goto cont;

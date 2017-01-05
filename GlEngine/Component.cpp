@@ -12,30 +12,89 @@ namespace GlEngine
     namespace ShaderFactory
     {
         Component::Component(ComponentType type)
-            : type(type)
+            : type(type), ins({}), outs({}), unresolvedInputs({}), availableLocalProps({}), unresolvedOutputs({}), unresolvedSnippets({})
         {
         }
         Component::~Component()
         {
         }
 
+        bool Component::ResolveSnippets()
+        {
+            for (ShaderProp* prop : ins)
+                addLocalProp(prop);
+            unsigned last_size = 0;
+            bool changed = false;
+            while (unresolvedSnippets.size() > 0)
+            {
+                if (unresolvedSnippets.size() == last_size) break;
+                //{
+                //    Util::Log(LogType::Error, "Circular snippet dependencies detected when compiling %s shader; enable level logging 'info' to view snippet data", ComponentTypeName(type));
+                //    for (Snippet* snippet : unresolvedSnippets)
+                //        Util::Log(LogType::Info, "\nSnippet Data:\n%s", snippet->source);
+                //    return false;
+                //}
+
+                for (Snippet* snippet : unresolvedSnippets)
+                {
+                    if (snippetDependenciesMet(snippet))
+                    {
+                        orderedSnippets.push_back(snippet);
+                        unresolvedSnippets.erase(snippet);
+                        for (ShaderProp* prop : snippet->propertiesOut)
+                            addLocalProp(prop);
+                        changed = true;
+                    }
+                }
+            }
+            unresolvedOutputs.clear();
+            unresolvedInputs.clear();
+            for (Snippet* snippet : unresolvedSnippets)
+            {
+                for (size_t q = 0; q < snippet->propertiesIn.size(); q++)
+                    unresolvedInputs.insert(snippet->propertiesIn[q]);
+                for (size_t q = 0; q < snippet->propertiesOut.size(); q++)
+                    unresolvedOutputs.insert(snippet->propertiesOut[q]);
+            }
+            return changed;
+        }
+        bool Component::IsResolved()
+        {
+            return unresolvedSnippets.size() == 0;
+        }
+
+        bool Component::snippetDependenciesMet(Snippet* snippet)
+        {
+            for (ShaderProp* prop : snippet->propertiesIn)
+            {
+                if (std::find(availableLocalProps.begin(), availableLocalProps.end(), prop) == availableLocalProps.end())
+                    return false;
+            }
+            return true;
+        }
+        void Component::addLocalProp(ShaderProp *prop)
+        {
+            if (std::find(availableLocalProps.begin(), availableLocalProps.end(), prop) == availableLocalProps.end())
+                availableLocalProps.insert(prop);
+        }
+
         std::string Component::Compile()
         {
             std::string result = "";
-            result += CompileVersion() + "\n";
-            result += CompileLayouts() + "\n";
-            result += CompileBody() + "\n";
-            result += "void main(void){\n" + CompileSource() + "\n}\n";
+            result += compileVersion() + "\n";
+            result += compileLayouts() + "\n";
+            result += compileBody() + "\n";
+            result += "void main(void){\n" + compileSource() + "\n}\n";
             
             return result;
         }
 
-        std::string Component::CompileVersion()
+        std::string Component::compileVersion()
         {
             return "#version 430";
         }
 
-        std::string Component::CompileLayouts()
+        std::string Component::compileLayouts()
         {
             std::string result = "";
             
@@ -52,15 +111,15 @@ namespace GlEngine
             return result;
         }
 
-        std::string Component::CompileBody()
+        std::string Component::compileBody()
         {
             std::string result = "";
-            for (Snippet* snippet : snippets)
+            for (Snippet* snippet : unresolvedSnippets)
                 result += snippet->declSource + "\n";
             return result;
         }
 
-        std::string Component::CompileSource()
+        std::string Component::compileSource()
         {
             //CreateConstantsSnippet();
             //if (!ResolveSnippetOrder())
@@ -71,39 +130,5 @@ namespace GlEngine
                 result += snippet->mainSource + "\n";
             return result;
         }
-
-        //bool Component::ResolveSnippetOrder()
-        //{
-        //    unsigned last_size = 0;
-        //    while (currentSnippets.size() > 0)
-        //    {
-        //        if (snippets.size() == last_size)
-        //        {
-        //            //Util::Log(LogType::Error, "Circular snippet dependencies detected when compiling %s shader; enable level logging 'info' to view snippet data", ComponentTypeName(type));
-        //            //for (Snippet* snippet : snippets)
-        //            //    Util::Log(LogType::Info, "\nSnippet Data:\n%s", snippet->source);
-        //            return false;
-        //        }
-
-        //        for (Snippet* snippet : currentSnippets)
-        //        {
-        //            if (SnippetDependenciesMet(snippet))
-        //            {
-        //                orderedSnippets.push_back(snippet);
-        //                currentSnippets.erase(snippet);
-        //                for (Property* property : snippet->propertiesOut)
-        //                    localProperties.insert(property);
-        //            }
-        //        }
-        //    }
-        //}
-
-        //bool Component::SnippetDependenciesMet(Snippet* snippet)
-        //{
-        //    for (Property* property : snippet->propertiesIn)
-        //        if (localProperties.find(property) == localProperties.end())
-        //            return false;
-        //    return true;
-        //}
     }
 }

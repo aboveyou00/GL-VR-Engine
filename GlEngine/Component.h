@@ -18,26 +18,28 @@ namespace GlEngine
 
             ComponentType type;
 
-            std::set<ShaderProp*> constants;
-            std::set<ShaderProp*> uniforms;
-            std::set<ShaderProp*> ins;
-            std::set<ShaderProp*> outs;
+            std::vector<ShaderProp*> ins, outs;
+            std::set<ShaderProp*> unresolvedInputs, availableLocalProps, unresolvedOutputs;
 
-            std::set<Snippet*> snippets;
+            std::set<Snippet*> unresolvedSnippets;
 
             unsigned FindOrCreateOutput(ShaderProp* prop);
+
+            bool ResolveSnippets();
+            bool IsResolved();
+
             virtual std::string Compile();
 
         private:
-            std::string CompileVersion();
-            std::string CompileLayouts();
-            std::string CompileBody();
-            std::string CompileSource();
+            std::string compileVersion();
+            std::string compileLayouts();
+            std::string compileBody();
+            std::string compileSource();
 
-            std::set<ShaderProp*> localProperties;
             std::vector<Snippet*> orderedSnippets;
-            //bool ResolveSnippetOrder();
-            //bool SnippetDependenciesMet(Snippet* snippet);
+            bool snippetDependenciesMet(Snippet* snippet);
+
+            void addLocalProp(ShaderProp *prop);
         };
     }
 }
