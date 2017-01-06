@@ -28,9 +28,9 @@ namespace TileRPG
     }
     TestSceneFrame::~TestSceneFrame()
     {
-        if (tileCollisionProvider == nullptr)
+        if (tileCollisionProvider != nullptr)
             delete tileCollisionProvider;
-        if (tileCollisionGroup == nullptr)
+        if (tileCollisionGroup != nullptr)
             delete tileCollisionGroup;
     }
 
@@ -54,17 +54,17 @@ namespace TileRPG
         auto gate0 = this->CreateGameObject<GateTileEntity>(Vector<3> { -2, 2, -1 });
         space->Add(gate0);
 
-        auto plagueVictim0 = this->CreateGameObject<PlagueVictim>(Vector<3> { 8, 30, -13 });
-        auto plagueVictim1 = this->CreateGameObject<PlagueVictim>(Vector<3> { 10, 30, -15 });
-        auto plagueVictim2 = this->CreateGameObject<PlagueVictim>(Vector<3> { 10, 30, -11 });
-        space->Add(plagueVictim0);
-        space->Add(plagueVictim1);
-        space->Add(plagueVictim2);
+        //auto plagueVictim0 = this->CreateGameObject<PlagueVictim>(Vector<3> { 8, 30, -13 });
+        //auto plagueVictim1 = this->CreateGameObject<PlagueVictim>(Vector<3> { 10, 30, -15 });
+        //auto plagueVictim2 = this->CreateGameObject<PlagueVictim>(Vector<3> { 10, 30, -11 });
+        //space->Add(plagueVictim0);
+        //space->Add(plagueVictim1);
+        //space->Add(plagueVictim2);
 
-        auto gateGuard0 = this->CreateGameObject<GateGuard>(Vector<3> { 1, 30, 0 });
-        auto gateGuard1 = this->CreateGameObject<GateGuard>(Vector<3> { -3, 30, 0 });
-        space->Add(gateGuard0);
-        space->Add(gateGuard1);
+        //auto gateGuard0 = this->CreateGameObject<GateGuard>(Vector<3> { 1, 30, 0 });
+        //auto gateGuard1 = this->CreateGameObject<GateGuard>(Vector<3> { -3, 30, 0 });
+        //space->Add(gateGuard0);
+        //space->Add(gateGuard1);
 
         tileCollisionProvider = new TileCollisionProvider(world);
         tileCollisionGroup = new GlEngine::TileCollisionGroup<TileCollisionProvider>(tileCollisionProvider);
@@ -75,7 +75,7 @@ namespace TileRPG
 
         //this->CreateGameObject<CompassObject>(Vector<3> { 100, -100, 0 });
 
-        this->CreateGameObject<TestMusicObject>("Audio/overworld-start.ogg", "Audio/overworld-main.ogg")->position = Vector<3>(3.f, -2.f, 5.f);
+        //this->CreateGameObject<TestMusicObject>("Audio/overworld-start.ogg", "Audio/overworld-main.ogg")->position = Vector<3>(3.f, -2.f, 5.f);
         //this->CreateGameObject<TestMusicObject>("Audio/happy-start.ogg", "Audio/happy-main.ogg")->position = Vector<3>(-50.f, 3.f, 2.f);
         //this->CreateGameObject<TestMusicObject>("Audio/friendly-start.ogg", "Audio/friendly-main.ogg")->position = Vector<3>(50.f, -5.f, -4.f);
 

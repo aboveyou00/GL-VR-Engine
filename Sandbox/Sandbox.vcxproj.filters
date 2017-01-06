@@ -13,41 +13,91 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Resources">
+      <UniqueIdentifier>{c828eeac-2d36-417b-8e1e-44aae91944b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entry">
+      <UniqueIdentifier>{57179d4d-f69d-44ab-86ac-f3ea11570402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entry">
+      <UniqueIdentifier>{8289a0fa-5b37-492b-a749-5497c5ac8158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Lab01_Diffuse">
+      <UniqueIdentifier>{40579056-cfd3-4cf5-a8cf-14b35e328a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lab01_Diffuse">
+      <UniqueIdentifier>{9e935da7-34b4-48b4-bafc-687005396290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{ac48cd1a-2493-469c-bebf-3edcfc9fe644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Textures">
+      <UniqueIdentifier>{25b55df0-7e83-4d30-b77e-f19f064c5988}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sandbox.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entry</Filter>
     </ClInclude>
     <ClInclude Include="SandboxLoop.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entry</Filter>
     </ClInclude>
-    <ClInclude Include="SandboxSceneFrame.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="DiffuseSceneFrame.h">
+      <Filter>Header Files\Lab01_Diffuse</Filter>
+    </ClInclude>
+    <ClInclude Include="LitTorus.h">
+      <Filter>Header Files\Lab01_Diffuse</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraTargetObject.h">
+      <Filter>Header Files\Lab01_Diffuse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sandbox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="Sandbox.cpp">
+      <Filter>Source Files\Entry</Filter>
     </ClCompile>
     <ClCompile Include="SandboxLoop.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entry</Filter>
     </ClCompile>
-    <ClCompile Include="SandboxSceneFrame.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="DiffuseSceneFrame.cpp">
+      <Filter>Source Files\Lab01_Diffuse</Filter>
+    </ClCompile>
+    <ClCompile Include="LitTorus.cpp">
+      <Filter>Source Files\Lab01_Diffuse</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraTargetObject.cpp">
+      <Filter>Source Files\Lab01_Diffuse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox.config">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\torus.obj">
+      <Filter>Resource Files\Resources</Filter>
+    </None>
+    <None Include="Shaders\diffuse.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\diffuse.inst.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\diffuse.inst.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\diffuse.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\world-edit-select.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

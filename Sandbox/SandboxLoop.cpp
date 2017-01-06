@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SandboxLoop.h"
-#include "SandboxSceneFrame.h"
+#include "DiffuseSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -48,7 +48,7 @@ bool SandboxLoop::initLoop()
     if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
 
     if (!frames.Initialize()) return false;
-    frames.PushNewFrame<SandboxSceneFrame>();
+    frames.PushNewFrame<DiffuseSceneFrame>();
 
     return true;
 }
