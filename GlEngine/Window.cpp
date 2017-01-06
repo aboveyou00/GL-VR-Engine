@@ -190,10 +190,10 @@ namespace GlEngine
         return _windowHandle;
     }
 
-	HDC Window::GetDeviceContext()
-	{
-		return GetDC(GetHandle());
-	}
+    HDC Window::GetDeviceContext()
+    {
+        return GetDC(GetHandle());
+    }
 
     void Window::CenterCoords(unsigned &posX, unsigned &posY)
     {

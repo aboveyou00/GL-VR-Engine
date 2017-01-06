@@ -9,23 +9,23 @@
 
 namespace GlEngine
 {
-	std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> FbxLoader::glVertices;
+    std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> FbxLoader::glVertices;
 
-	Material *FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat)
-	{
-		mat;
-		auto diffuseProp = mat->FindProperty(fbxsdk::FbxSurfaceMaterial::sDiffuse);
-		int layeredCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxLayeredTexture>();
+    Material *FbxLoader::ConvertMaterial(fbxsdk::FbxSurfaceMaterial *mat)
+    {
+        mat;
+        auto diffuseProp = mat->FindProperty(fbxsdk::FbxSurfaceMaterial::sDiffuse);
+        int layeredCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxLayeredTexture>();
         
-		if (layeredCount > 0)
-		{
-			// layered textures
+        if (layeredCount > 0)
+        {
+            // layered textures
             assert(false);
             return nullptr;
-		}
-		else
-		{
-			int textureCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxTexture>();
+        }
+        else
+        {
+            int textureCount = diffuseProp.GetSrcObjectCount<fbxsdk::FbxTexture>();
 
             if (textureCount >= 1)
             {
@@ -43,16 +43,16 @@ namespace GlEngine
                 auto tex = Texture::FromFile("Textures/dirt.png", false);
                 return BlinnMaterial::Create(tex);
             }
-		}
-	}
+        }
+    }
 
-	bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode, VboGraphicsObject *out)
-	{
-		static int depth = 0;
-		for (int i = 0; i < depth; i++)
-			std::cout << "  ";
-		std::cout << rootNode->GetName()<<std::endl;
-		depth++;
+    bool FbxLoader::Convert(fbxsdk::FbxNode* rootNode, VboGraphicsObject *out)
+    {
+        static int depth = 0;
+        for (int i = 0; i < depth; i++)
+            std::cout << "  ";
+        std::cout << rootNode->GetName()<<std::endl;
+        depth++;
 
         int matCount = rootNode->GetMaterialCount();
         Material **materials = nullptr;
@@ -68,9 +68,9 @@ namespace GlEngine
             out->SetMaterial(materials[0]);
         }
 
-		for (int i = 0; i < rootNode->GetChildCount(); i++)
-		{
-			auto subNode = rootNode->GetChild(i);
+        for (int i = 0; i < rootNode->GetChildCount(); i++)
+        {
+            auto subNode = rootNode->GetChild(i);
             if (auto mesh = subNode->GetMesh())
                 ConvertMesh(mesh, out);
             if (!Convert(subNode, out))
@@ -78,11 +78,11 @@ namespace GlEngine
                 SafeDelete(materials);
                 return false;
             }
-		}
-		depth--;
+        }
+        depth--;
         SafeDelete(materials);
-		return true;
-	}
+        return true;
+    }
     bool FbxLoader::ConvertMesh(fbxsdk::FbxMesh *mesh, VboGraphicsObject *out)
     {
         std::cout << "Loading mesh: " << mesh->GetName() << std::endl;
@@ -151,21 +151,21 @@ namespace GlEngine
         return true;
     }
      
-	bool FbxLoader::Load(const char * const filename, VboGraphicsObject *out)
-	{
-		FbxManager *lSdkManager = FbxManager::Create();
-		FbxIOSettings * ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
+    bool FbxLoader::Load(const char * const filename, VboGraphicsObject *out)
+    {
+        FbxManager *lSdkManager = FbxManager::Create();
+        FbxIOSettings * ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
 
-		ios->SetBoolProp(IMP_FBX_MATERIAL, true);
-		ios->SetBoolProp(IMP_FBX_TEXTURE, true);
+        ios->SetBoolProp(IMP_FBX_MATERIAL, true);
+        ios->SetBoolProp(IMP_FBX_TEXTURE, true);
 
-		auto scene = FbxScene::Create(lSdkManager, "");
-		auto importer = FbxImporter::Create(lSdkManager, "");
-		importer->Initialize(filename, -1, ios);
-		importer->Import(scene);
-		importer->Destroy();
+        auto scene = FbxScene::Create(lSdkManager, "");
+        auto importer = FbxImporter::Create(lSdkManager, "");
+        importer->Initialize(filename, -1, ios);
+        importer->Import(scene);
+        importer->Destroy();
 
-		auto rootNode = scene->GetRootNode();
-		return Convert(rootNode, out);
-	}
+        auto rootNode = scene->GetRootNode();
+        return Convert(rootNode, out);
+    }
 }

@@ -28,7 +28,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BoxCollision.h" />
+    <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AudioController.h" />
@@ -283,6 +284,7 @@
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="CompoundGraphicsObject.cpp" />
     <ClCompile Include="CompoundGraphicsObjectImpl.cpp" />
+    <ClCompile Include="DiffuseMaterial.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="EmptyGraphicsObject.cpp" />
     <ClCompile Include="FbxGraphicsObject.cpp" />

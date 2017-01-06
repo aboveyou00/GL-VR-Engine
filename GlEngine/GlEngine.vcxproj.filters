@@ -516,6 +516,9 @@
     <ClInclude Include="BoxCollision.h">
       <Filter>Header Files\GlEngine\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="DiffuseMaterial.h">
+      <Filter>Header Files\GlEngine\Graphics\Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -793,6 +796,9 @@
     </ClCompile>
     <ClCompile Include="BoxCollision.cpp">
       <Filter>Source Files\GlEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="DiffuseMaterial.cpp">
+      <Filter>Source Files\GlEngine\Graphics\Materials</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

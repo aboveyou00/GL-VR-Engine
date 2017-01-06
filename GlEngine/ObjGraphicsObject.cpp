@@ -9,10 +9,10 @@
 
 namespace GlEngine
 {
-	ObjGraphicsObject::ObjGraphicsObject(const char *const filename)
+    ObjGraphicsObject::ObjGraphicsObject(const char *const filename)
         : filename(filename)
-	{
-	}
+    {
+    }
     ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VaObject vao)
         : VboGraphicsObject(vao), filename(filename)
     {
@@ -38,12 +38,12 @@ namespace GlEngine
         return ptr;
     }
 
-	bool ObjGraphicsObject::Initialize()
-	{
-		if (!GlEngine::ObjLoader::Load(filename, this))
-			return false;
-		return VboGraphicsObject::Initialize();
-	}
+    bool ObjGraphicsObject::Initialize()
+    {
+        if (!GlEngine::ObjLoader::Load(filename, this))
+            return false;
+        return VboGraphicsObject::Initialize();
+    }
 
     const char *ObjGraphicsObject::name()
     {

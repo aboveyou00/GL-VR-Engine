@@ -4,5 +4,5 @@
 
 namespace Util
 {
-	ENGINE_SHARED std::string GetLastErrorAsString();
+    ENGINE_SHARED std::string GetLastErrorAsString();
 }

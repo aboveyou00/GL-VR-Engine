@@ -3,14 +3,14 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED BoxCollision : public Collision
-	{
-	public:
-		BoxCollision(Body* bodyA, Body* bodyB, unsigned side);
-		~BoxCollision();
+    class ENGINE_SHARED BoxCollision : public Collision
+    {
+    public:
+        BoxCollision(Body* bodyA, Body* bodyB, unsigned side);
+        ~BoxCollision();
 
-		virtual int id() override;
+        virtual int id() override;
 
-		unsigned side;
-	};
+        unsigned side;
+    };
 }

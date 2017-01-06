@@ -10,33 +10,33 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED Space : public IComponent
-	{
-	public:
-		Space();
-		~Space();
+    class ENGINE_SHARED Space : public IComponent
+    {
+    public:
+        Space();
+        ~Space();
 
-		bool Initialize() override;
-		void Shutdown() override;
+        bool Initialize() override;
+        void Shutdown() override;
 
-		const char *name() override;
+        const char *name() override;
 
-		void Tick(float delta);
+        void Tick(float delta);
 
-		static const int maxElement = 2048;
-		Actor * elements[maxElement];
-		int nextEmptyActor = 0;
+        static const int maxElement = 2048;
+        Actor * elements[maxElement];
+        int nextEmptyActor = 0;
 
-		BasicCollisionGroup * defaultGroup;
+        BasicCollisionGroup * defaultGroup;
 
-		std::vector<CollisionGroup*> collisionGroups;
+        std::vector<CollisionGroup*> collisionGroups;
 
-		void Add(GameObject * gameObject);
-		void Add(Actor * actor);
-		void Add(CollisionGroup * collisionGroup);
-		std::vector<Collision*> ManageCollisions();
+        void Add(GameObject * gameObject);
+        void Add(Actor * actor);
+        void Add(CollisionGroup * collisionGroup);
+        std::vector<Collision*> ManageCollisions();
 
-	private:
-		std::vector<Collision*> currentCollisions;
-	};
+    private:
+        std::vector<Collision*> currentCollisions;
+    };
 }

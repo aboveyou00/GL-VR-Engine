@@ -9,16 +9,16 @@
 
 namespace GlEngine
 {
-	Image2dGraphicsObject::Image2dGraphicsObject(Texture *tex, bool readonly)
+    Image2dGraphicsObject::Image2dGraphicsObject(Texture *tex, bool readonly)
         : tex(nullptr), mat(new Image2dMaterial()), readonly(readonly),
           align({ ImageComponentAlignment::Middle, ImageComponentAlignment::Middle })
-	{
+    {
         if (readonly) assert(!!tex);
         mat->SetTexture(this->tex = tex);
-	}
-	Image2dGraphicsObject::~Image2dGraphicsObject()
-	{
-	}
+    }
+    Image2dGraphicsObject::~Image2dGraphicsObject()
+    {
+    }
 
     Image2dGraphicsObject *Image2dGraphicsObject::Create(Texture *tex)
     {
@@ -33,19 +33,19 @@ namespace GlEngine
         return Create(tex);
     }
 
-	bool Image2dGraphicsObject::Initialize()
-	{
-		AddVertex({ 0, 0, 0 }, { 0, 0 }, { 0, 0, 1 });
-		AddVertex({ 1, 0, 0 }, { 1, 0 }, { 0, 0, 1 });
-		AddVertex({ 0, 1, 0 }, { 0, 1 }, { 0, 0, 1 });
-		AddVertex({ 1, 1, 0 }, { 1, 1 }, { 0, 0, 1 });
+    bool Image2dGraphicsObject::Initialize()
+    {
+        AddVertex({ 0, 0, 0 }, { 0, 0 }, { 0, 0, 1 });
+        AddVertex({ 1, 0, 0 }, { 1, 0 }, { 0, 0, 1 });
+        AddVertex({ 0, 1, 0 }, { 0, 1 }, { 0, 0, 1 });
+        AddVertex({ 1, 1, 0 }, { 1, 1 }, { 0, 0, 1 });
 
-		SetMaterial(mat);
-		AddTriangle({ 0, 1, 3 });
-		AddTriangle({ 0, 3, 2 });
+        SetMaterial(mat);
+        AddTriangle({ 0, 1, 3 });
+        AddTriangle({ 0, 3, 2 });
 
-		return true;
-	}
+        return true;
+    }
     void Image2dGraphicsObject::Shutdown()
     {
     }

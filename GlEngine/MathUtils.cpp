@@ -3,8 +3,8 @@
 
 namespace GlEngine
 {
-	namespace Util
-	{
+    namespace Util
+    {
         constexpr float radToDeg(const float rad)
         {
             return (float)(rad / PI * 180);
@@ -22,7 +22,7 @@ namespace GlEngine
         {
             return deg * PI / 180;
         }
-	}
+    }
 }
 
 float operator "" rad(long double angle)

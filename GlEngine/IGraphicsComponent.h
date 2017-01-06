@@ -10,6 +10,6 @@ namespace GlEngine
         virtual bool InitializeGraphics() = 0;
         virtual void ShutdownGraphics() = 0;
 
-		virtual operator bool() = 0;
+        virtual operator bool() = 0;
     };
 }

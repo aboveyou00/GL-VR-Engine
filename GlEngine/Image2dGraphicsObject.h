@@ -5,20 +5,20 @@
 
 namespace GlEngine
 {
-	class Texture;
+    class Texture;
     class Image2dMaterial;
 
-	class ENGINE_SHARED Image2dGraphicsObject : public VboGraphicsObject
-	{
-	public:
+    class ENGINE_SHARED Image2dGraphicsObject : public VboGraphicsObject
+    {
+    public:
         Image2dGraphicsObject(Texture *tex = nullptr, bool readonly = false);
         ~Image2dGraphicsObject();
 
         static Image2dGraphicsObject *Create(Texture *tex);
         static Image2dGraphicsObject *Create(const char *path);
-		
-		bool Initialize() override;
-		void Shutdown() override;
+        
+        bool Initialize() override;
+        void Shutdown() override;
 
         const char *name() override;
 
@@ -38,10 +38,10 @@ namespace GlEngine
         Material *GetMaterial();
         bool IsReadonly();
 
-	private:
+    private:
         bool readonly;
         Texture *tex;
         Image2dMaterial *mat;
         ImageAlignment align;
-	};
+    };
 }

@@ -5,18 +5,18 @@
 
 namespace GlEngine
 {
-	namespace Impl
-	{
-		class GraphicsObjectImpl;
-	}
+    namespace Impl
+    {
+        class GraphicsObjectImpl;
+    }
 
     class VaoFactory;
 
-	class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
-	{
-	public:
-		GraphicsObject(bool autoinit = true);
-		~GraphicsObject();
+    class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
+    {
+    public:
+        GraphicsObject(bool autoinit = true);
+        ~GraphicsObject();
 
         bool Initialize() override;
         void Shutdown() override;
@@ -26,7 +26,7 @@ namespace GlEngine
         virtual void BuildVao(VaoFactory &vao) = 0;
 
         void Render(RenderTargetLayer layer);
-		virtual void PreRender(RenderTargetLayer layer);
+        virtual void PreRender(RenderTargetLayer layer);
         virtual void RenderImpl(RenderTargetLayer layer) = 0;
         virtual void PostRender(RenderTargetLayer layer);
 
@@ -35,9 +35,9 @@ namespace GlEngine
         virtual void RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount) = 0;
         virtual void PostRenderInstanced(RenderTargetLayer layer);
 
-		int renderOrder;
+        int renderOrder;
 
     protected:
         bool initialized, graphicsInitialized;
-	};
+    };
 }

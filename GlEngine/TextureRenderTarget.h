@@ -6,19 +6,19 @@
 
 namespace GlEngine
 {
-	class Window;
+    class Window;
 
-	namespace Impl
-	{
-		class RenderTargetImpl;
-	}
+    namespace Impl
+    {
+        class RenderTargetImpl;
+    }
 
-	class Window;
+    class Window;
 
-	class ENGINE_SHARED TextureRenderTarget : public RenderTarget
-	{
-	public:
-		TextureRenderTarget(unsigned width, unsigned height, bool hasAlphaChannel = false);
-		~TextureRenderTarget();
-	};
+    class ENGINE_SHARED TextureRenderTarget : public RenderTarget
+    {
+    public:
+        TextureRenderTarget(unsigned width, unsigned height, bool hasAlphaChannel = false);
+        ~TextureRenderTarget();
+    };
 }

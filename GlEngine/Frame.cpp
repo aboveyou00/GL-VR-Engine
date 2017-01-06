@@ -81,11 +81,11 @@ namespace GlEngine
         {
             auto obj = objects[q];
             auto idx = map.find(obj);
-			if (idx == map.end())
-			{
-				map[obj] = obj->CreateGraphicsObject(ctx);
-				if (initialized) obj->Initialize();
-			}
+            if (idx == map.end())
+            {
+                map[obj] = obj->CreateGraphicsObject(ctx);
+                if (initialized) obj->Initialize();
+            }
             else
             {
                 obj->UpdateGraphicsObject(ctx, idx->second);

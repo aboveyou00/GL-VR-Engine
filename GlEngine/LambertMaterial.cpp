@@ -44,7 +44,7 @@ namespace GlEngine
     {
         return texture->IsOpaque();
     }
-	
+    
     TesselationType LambertMaterial::GetTesselationType()
     {
         return TesselationType::Disabled;

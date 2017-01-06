@@ -53,10 +53,10 @@ namespace GlEngine
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueResource(this);
     }
-	Texture::Texture(unsigned width, unsigned height, bool hasAlphaChannel)
-		: path(""), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), alpha(hasAlphaChannel)
-	{
-	}
+    Texture::Texture(unsigned width, unsigned height, bool hasAlphaChannel)
+        : path(""), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), alpha(hasAlphaChannel)
+    {
+    }
     Texture::~Texture()
     {
     }
@@ -127,19 +127,19 @@ namespace GlEngine
         return path;
     }
 
-	unsigned Texture::GetWidth()
-	{
-		return width;
-	}
-	unsigned Texture::GetHeight()
-	{
-		return height;
-	}
+    unsigned Texture::GetWidth()
+    {
+        return width;
+    }
+    unsigned Texture::GetHeight()
+    {
+        return height;
+    }
 
-	unsigned Texture::GetGlTexture()
-	{
-		return gl_tex;
-	}
+    unsigned Texture::GetGlTexture()
+    {
+        return gl_tex;
+    }
 
     bool Texture::IsOpaque()
     {

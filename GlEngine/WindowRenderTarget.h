@@ -5,17 +5,17 @@
 
 namespace GlEngine
 {
-	namespace Impl
-	{
-		class RenderTargetImpl;
-	}
+    namespace Impl
+    {
+        class RenderTargetImpl;
+    }
 
-	class Window;
+    class Window;
 
-	class ENGINE_SHARED WindowRenderTarget : public RenderTarget
-	{
-	public:
-		WindowRenderTarget(Window * window);
-		~WindowRenderTarget();
-	};
+    class ENGINE_SHARED WindowRenderTarget : public RenderTarget
+    {
+    public:
+        WindowRenderTarget(Window * window);
+        ~WindowRenderTarget();
+    };
 }

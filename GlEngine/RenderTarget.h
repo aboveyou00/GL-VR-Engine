@@ -6,7 +6,7 @@
 
 namespace GlEngine
 {
-	class ViewPort;
+    class ViewPort;
 
     namespace Impl
     {
@@ -15,28 +15,28 @@ namespace GlEngine
 
     class Window;
 
-	class ENGINE_SHARED RenderTarget : public IComponent
+    class ENGINE_SHARED RenderTarget : public IComponent
     {
     public:
-		RenderTarget(Impl::RenderTargetImpl *impl);
-		~RenderTarget();
+        RenderTarget(Impl::RenderTargetImpl *impl);
+        ~RenderTarget();
 
-		virtual bool Initialize();
-		virtual void Shutdown();
+        virtual bool Initialize();
+        virtual void Shutdown();
 
-		virtual const char *name();
-		void SetViewPort(RenderTargetLayer layer, ViewPort * viewPort);
+        virtual const char *name();
+        void SetViewPort(RenderTargetLayer layer, ViewPort * viewPort);
 
-		void SetCurrent();
+        void SetCurrent();
 
-		virtual bool GetShouldRender();
+        virtual bool GetShouldRender();
 
-		virtual void Prepare();
-		virtual void PrePush();
-		virtual void Push(RenderTargetLayer layer);
-		virtual void Pop(RenderTargetLayer layer);
+        virtual void Prepare();
+        virtual void PrePush();
+        virtual void Push(RenderTargetLayer layer);
+        virtual void Pop(RenderTargetLayer layer);
 
-		virtual void Flip();
+        virtual void Flip();
 
         inline Impl::RenderTargetImpl &GetImpl()
         {
@@ -44,6 +44,6 @@ namespace GlEngine
         }
 
     protected:
-		Impl::RenderTargetImpl *pimpl;
+        Impl::RenderTargetImpl *pimpl;
     };
 }

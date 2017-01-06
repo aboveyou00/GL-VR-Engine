@@ -10,7 +10,7 @@ namespace GlEngine
         MatrixStack(int gl_enum = -1);
         ~MatrixStack();
 
-		static MatrixStack &Projection;
+        static MatrixStack &Projection;
         static MatrixStack &ModelView;
 
     public:
@@ -23,10 +23,10 @@ namespace GlEngine
 
         void tell_gl();
 
-		inline unsigned GetStackSize()
-		{
-			return idx;
-		}
+        inline unsigned GetStackSize()
+        {
+            return idx;
+        }
 
     private:
         unsigned idx = 0;

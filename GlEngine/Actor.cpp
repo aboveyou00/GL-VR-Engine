@@ -5,34 +5,34 @@
 
 namespace GlEngine
 {
-	Actor::Actor()
-		: _active(true), body(new EmptyBody())
-	{
-	}
-	Actor::~Actor()
-	{
+    Actor::Actor()
+        : _active(true), body(new EmptyBody())
+    {
+    }
+    Actor::~Actor()
+    {
         SafeDelete(body);
-	}
+    }
 
-	void Actor::Tick(float delta)
-	{
+    void Actor::Tick(float delta)
+    {
         if (!active()) return;
 
-		if (!body->movable)
-			return;
-		
-		Vector<3> totalForce;
-		for (int i = 0; i < numForces; i++)
-			totalForce += forces[i]->component;
-	
-		body->position += 0.5 * totalForce * delta * delta + body->velocity * delta;
-		body->velocity += totalForce * delta;
-	}
+        if (!body->movable)
+            return;
+        
+        Vector<3> totalForce;
+        for (int i = 0; i < numForces; i++)
+            totalForce += forces[i]->component;
+    
+        body->position += 0.5 * totalForce * delta * delta + body->velocity * delta;
+        body->velocity += totalForce * delta;
+    }
 
-	void Actor::AddForce(Force* force)
-	{
-		forces[numForces++] = force;
-	}
+    void Actor::AddForce(Force* force)
+    {
+        forces[numForces++] = force;
+    }
 
     void Actor::Activate()
     {

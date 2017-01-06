@@ -43,7 +43,7 @@ namespace GlEngine
         void Hide();
 
         HWND GetHandle();
-		HDC GetDeviceContext();
+        HDC GetDeviceContext();
         LRESULT CALLBACK WndProc(unsigned message, WPARAM wParam, LPARAM lParam);
 
     private:

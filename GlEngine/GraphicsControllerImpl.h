@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-	class Window;
+    class Window;
 
     namespace Impl
     {
@@ -20,10 +20,10 @@ namespace GlEngine
 
             const char *name() override;
 
-		private:
-			Window * dummyWindow;
-			void MakeDefaultContext();
-			bool LoadGlewExtensions();
+        private:
+            Window * dummyWindow;
+            void MakeDefaultContext();
+            bool LoadGlewExtensions();
         };
     }
 }

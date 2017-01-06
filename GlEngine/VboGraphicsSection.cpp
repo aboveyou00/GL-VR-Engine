@@ -112,8 +112,8 @@ namespace GlEngine
 
         void VboGraphicsSection::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
         {
-			if (layer != material->GetRenderTargetLayer())
-				return;
+            if (layer != material->GetRenderTargetLayer())
+                return;
 
             if (!*this) return;
 

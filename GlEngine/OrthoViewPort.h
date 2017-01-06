@@ -3,20 +3,20 @@
 
 namespace GlEngine
 {
-	class ENGINE_SHARED OrthoViewPort : public ViewPort
-	{
-	public:
-		OrthoViewPort();		
-		~OrthoViewPort();
+    class ENGINE_SHARED OrthoViewPort : public ViewPort
+    {
+    public:
+        OrthoViewPort();        
+        ~OrthoViewPort();
 
-		virtual void Push() override;
-		virtual void Pop() override;
+        virtual void Push() override;
+        virtual void Pop() override;
 
-		virtual void SetNear(float nearVal);
-		virtual void SetFar(float farVal);
+        virtual void SetNear(float nearVal);
+        virtual void SetFar(float farVal);
 
-	protected:
-		float nearVal = 0.1f;
-		float farVal = 100.f;
-	};
+    protected:
+        float nearVal = 0.1f;
+        float farVal = 100.f;
+    };
 }

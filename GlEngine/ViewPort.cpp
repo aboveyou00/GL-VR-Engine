@@ -4,27 +4,27 @@
 
 namespace GlEngine
 {
-	void ViewPort::SetSize(int width, int height)
-	{
-		SetWidth(width);
-		SetHeight(height);
-	}
-	void ViewPort::SetWidth(int width)
-	{
-		this->width = width;
-	}
-	void ViewPort::SetHeight(int height)
-	{
-		this->height = height;
-	}
+    void ViewPort::SetSize(int width, int height)
+    {
+        SetWidth(width);
+        SetHeight(height);
+    }
+    void ViewPort::SetWidth(int width)
+    {
+        this->width = width;
+    }
+    void ViewPort::SetHeight(int height)
+    {
+        this->height = height;
+    }
 
-	int ViewPort::GetWidth()
-	{
-		return width;
-	}
+    int ViewPort::GetWidth()
+    {
+        return width;
+    }
 
-	int ViewPort::GetHeight()
-	{
-		return height;
-	}
+    int ViewPort::GetHeight()
+    {
+        return height;
+    }
 }

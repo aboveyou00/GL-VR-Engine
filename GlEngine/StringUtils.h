@@ -4,15 +4,15 @@ namespace GlEngine
 {
     namespace Util
     {
-		ENGINE_SHARED bool isWhitespace(char c) noexcept;
-		ENGINE_SHARED bool isNumeric(char c) noexcept;
-		ENGINE_SHARED void eatWhitespace(std::istream& in) noexcept;
-		ENGINE_SHARED const char * const eatWhitespace(const char * const str) noexcept;
+        ENGINE_SHARED bool isWhitespace(char c) noexcept;
+        ENGINE_SHARED bool isNumeric(char c) noexcept;
+        ENGINE_SHARED void eatWhitespace(std::istream& in) noexcept;
+        ENGINE_SHARED const char * const eatWhitespace(const char * const str) noexcept;
 
         ENGINE_SHARED bool stoi(const char *const str, int &value) noexcept;
-		ENGINE_SHARED bool geti(std::istream& in, int &value) noexcept;
+        ENGINE_SHARED bool geti(std::istream& in, int &value) noexcept;
         ENGINE_SHARED bool stof(const char *const str, float &value) noexcept;
-		ENGINE_SHARED bool getf(std::istream& in, float &value) noexcept;
+        ENGINE_SHARED bool getf(std::istream& in, float &value) noexcept;
         ENGINE_SHARED int strcmp(const char *const lhs, const char *const rhs) noexcept;
 
         ENGINE_SHARED bool is_empty(const char *const str) noexcept;

@@ -8,117 +8,117 @@ namespace GlEngine
 {
     namespace Util
     {
-		inline bool isWhitespace(char c) noexcept
-		{
-			return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\r');
-		}
+        inline bool isWhitespace(char c) noexcept
+        {
+            return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\r');
+        }
 
-		inline bool isNumeric(char c) noexcept
-		{
-			return ('0' <= c && c <= '9' || c == '-' || c == '+' || c == '.');
-		}
+        inline bool isNumeric(char c) noexcept
+        {
+            return ('0' <= c && c <= '9' || c == '-' || c == '+' || c == '.');
+        }
 
-		void eatWhitespace(std::istream& in) noexcept
-		{
-			while (isWhitespace((char)in.peek()))
-			{
-				in.get();
-			}
-			char c = (char)in.peek(); c;
-		}
+        void eatWhitespace(std::istream& in) noexcept
+        {
+            while (isWhitespace((char)in.peek()))
+            {
+                in.get();
+            }
+            char c = (char)in.peek(); c;
+        }
 
-		const char * const eatWhitespace(const char * const str) noexcept
-		{
-			int i = 0;
-			while (str[i++] != 0)
-			{
-				if (!isWhitespace(str[i]))
-					return str + i;
-			}
-			return str;
-		}
+        const char * const eatWhitespace(const char * const str) noexcept
+        {
+            int i = 0;
+            while (str[i++] != 0)
+            {
+                if (!isWhitespace(str[i]))
+                    return str + i;
+            }
+            return str;
+        }
 
-		bool stoi(const char *const str, int &value) noexcept
-		{
-			//This function only supports base 10, will allow leading zeros, and will allow one sign upfront.
-			//Strip spaces first, it will not do so.
+        bool stoi(const char *const str, int &value) noexcept
+        {
+            //This function only supports base 10, will allow leading zeros, and will allow one sign upfront.
+            //Strip spaces first, it will not do so.
 
-			auto idx = 0;
-			unsigned long long tmpVal = 0;
+            auto idx = 0;
+            unsigned long long tmpVal = 0;
 
-			bool negative = false;
-			auto chr = *(str + idx);
-			if (chr == '-') { negative = true; idx++; }
-			else if (chr == '+') { idx++; } //Collect the sign, if there is one
+            bool negative = false;
+            auto chr = *(str + idx);
+            if (chr == '-') { negative = true; idx++; }
+            else if (chr == '+') { idx++; } //Collect the sign, if there is one
 
-			chr = *(str + idx);
-			if (chr < '0' || chr > '9') return false; //There must be at least one digit
+            chr = *(str + idx);
+            if (chr < '0' || chr > '9') return false; //There must be at least one digit
 
-			while ((chr = *(str + idx++)) != '\0')
-			{
-				if (chr < '0' || chr > '9') { return false; }
-				else { tmpVal *= 10; tmpVal += (int)(chr - '0'); }
-			}
+            while ((chr = *(str + idx++)) != '\0')
+            {
+                if (chr < '0' || chr > '9') { return false; }
+                else { tmpVal *= 10; tmpVal += (int)(chr - '0'); }
+            }
 
-			if (negative && tmpVal > (unsigned long long) - (long long)std::numeric_limits<int>::min()) return false;
-			else if (!negative && tmpVal > std::numeric_limits<int>::max()) return false;
-			value = (negative ? -1 : 1) * (int)tmpVal;
-			return true;
-		}
-		bool geti(std::istream& in, int &value) noexcept
-		{
-			auto start = in.tellg();
+            if (negative && tmpVal > (unsigned long long) - (long long)std::numeric_limits<int>::min()) return false;
+            else if (!negative && tmpVal > std::numeric_limits<int>::max()) return false;
+            value = (negative ? -1 : 1) * (int)tmpVal;
+            return true;
+        }
+        bool geti(std::istream& in, int &value) noexcept
+        {
+            auto start = in.tellg();
 
-			eatWhitespace(in);
+            eatWhitespace(in);
 
-			unsigned long long tmpVal = 0;
+            unsigned long long tmpVal = 0;
 
-			bool negative = false;
-			auto chr = in.peek();
-			if (chr == '-') { negative = true; in.get(); }
-			else if (chr == '+') { in.get(); } //Collect the sign, if there is one
+            bool negative = false;
+            auto chr = in.peek();
+            if (chr == '-') { negative = true; in.get(); }
+            else if (chr == '+') { in.get(); } //Collect the sign, if there is one
 
-			chr = in.peek();
-			if (chr < '0' || chr > '9') //There must be at least one digit
-			{
-				in.seekg(start);
-				return false; 
-			}
+            chr = in.peek();
+            if (chr < '0' || chr > '9') //There must be at least one digit
+            {
+                in.seekg(start);
+                return false; 
+            }
 
-			while ((chr = in.peek()) != '\0')
-			{
-				if (chr == '.')
-				{
-					in.seekg(start);
-					return false;
-				}
-				if (chr < '0' || chr > '9') { break; }
-				else { tmpVal *= 10; tmpVal += (int)(chr - '0'); }
-				in.get();
-			}
+            while ((chr = in.peek()) != '\0')
+            {
+                if (chr == '.')
+                {
+                    in.seekg(start);
+                    return false;
+                }
+                if (chr < '0' || chr > '9') { break; }
+                else { tmpVal *= 10; tmpVal += (int)(chr - '0'); }
+                in.get();
+            }
 
-			if (negative && tmpVal > (unsigned long long) - (long long)std::numeric_limits<int>::min())
-			{
-				in.seekg(start);
-				return false;
-			}
-			else if (!negative && tmpVal > std::numeric_limits<int>::max())
-			{
-				in.seekg(start);
-				return false;
-			}
-			value = (negative ? -1 : 1) * (int)tmpVal;
-			return true;
-		}
+            if (negative && tmpVal > (unsigned long long) - (long long)std::numeric_limits<int>::min())
+            {
+                in.seekg(start);
+                return false;
+            }
+            else if (!negative && tmpVal > std::numeric_limits<int>::max())
+            {
+                in.seekg(start);
+                return false;
+            }
+            value = (negative ? -1 : 1) * (int)tmpVal;
+            return true;
+        }
         bool stof(const char *const str, float &value) noexcept
         {
-			std::stringstream in(str);
-			return getf(in, value);
+            std::stringstream in(str);
+            return getf(in, value);
         }
-		bool getf(std::istream& in, float& value) noexcept
-		{
-			return (bool)(in >> value);
-		}
+        bool getf(std::istream& in, float& value) noexcept
+        {
+            return (bool)(in >> value);
+        }
         int strcmp(const char *const lhs, const char *const rhs) noexcept
         {
             return std::strcmp(lhs, rhs);
