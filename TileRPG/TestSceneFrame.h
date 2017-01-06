@@ -6,7 +6,7 @@
 
 namespace TileRPG
 {
-	class TileCollisionProvider;
+    class TileCollisionProvider;
 
     class TestSceneFrame : public GlEngine::Frame
     {
@@ -15,12 +15,12 @@ namespace TileRPG
         ~TestSceneFrame();
 
         bool Initialize() override;
-		void Shutdown() override;
-		void Tick(float delta) override;
+        void Shutdown() override;
+        void Tick(float delta) override;
 
-		GlEngine::Space * space;
+        GlEngine::Space * space;
 
-		TileCollisionProvider * tileCollisionProvider;
-		GlEngine::TileCollisionGroup<TileCollisionProvider> * tileCollisionGroup;
+        TileCollisionProvider * tileCollisionProvider;
+        GlEngine::TileCollisionGroup<TileCollisionProvider> * tileCollisionGroup;
     };
 }

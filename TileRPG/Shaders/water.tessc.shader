@@ -33,6 +33,6 @@ void main(void)
         vec4 vertex_pos = model_view_matrix * vec4(in_vertex_pos[ID], 1);
         int tessLevel = int(clamp(3 + (vertex_pos.z * .5 + 3), 1, 6));
         gl_TessLevelInner[0] = tessLevel;
-		gl_TessLevelOuter[0] = gl_TessLevelOuter[1] = gl_TessLevelOuter[2] = tessLevel;
+        gl_TessLevelOuter[0] = gl_TessLevelOuter[1] = gl_TessLevelOuter[2] = tessLevel;
     }
 }
