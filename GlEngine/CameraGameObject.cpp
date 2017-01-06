@@ -10,7 +10,7 @@ namespace GlEngine
     }
     CameraGameObject::~CameraGameObject() {}
     
-    const char * CameraGameObject::name()
+    const char *CameraGameObject::name()
     {
         return "CameraGameObject";
     }
@@ -20,7 +20,7 @@ namespace GlEngine
         return GameObjectType::Camera;
     }
 
-    GraphicsObject * CameraGameObject::CreateGraphicsObject(GraphicsContext &)
+    GraphicsObject *CameraGameObject::CreateGraphicsObject(GraphicsContext &)
     {
         return nullptr;
     }

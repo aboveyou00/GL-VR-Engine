@@ -21,9 +21,9 @@ namespace GlEngine
 
         void SetTargetObject(GameObject* gameObject);
 
-        virtual const char * name() override;
+        virtual const char *name() override;
         virtual GameObjectType type() const override;
-        virtual GraphicsObject * CreateGraphicsObject(GraphicsContext & ctx) override;
+        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext & ctx) override;
         
         virtual void Tick(float delta) override;
 
@@ -32,16 +32,17 @@ namespace GlEngine
 
         virtual void FindOrientation();
 
-        GameObject* target;
+        GameObject *target;
 
         Vector<3> relativePosition;
         Matrix<4, 4> relativeOrientation;
 
+        virtual void SetPosition(Vector<3> pos) override;
+
+    private:
         bool lockRelativePosition;
         bool lockRelativeOrientation;
         bool lockAbsolutePosition;
         bool lockAbsoluteOrientation;
-
-        virtual void SetPosition(Vector<3> pos) override;
     };
 }
