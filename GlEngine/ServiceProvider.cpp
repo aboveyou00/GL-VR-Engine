@@ -1,15 +1,17 @@
 #include "stdafx.h"
 #include "ServiceProvider.h"
 #include "IService.h"
+#include <limits>
 
 namespace GlEngine
 {
     ServiceProvider::ServiceProvider()
     {
+        static_assert(MAX_SVCS != std::numeric_limits<unsigned>::max(), "MAX_SVCS must be less than the maximum value for unsigned ints");
     }
     ServiceProvider::~ServiceProvider()
     {
-        for (size_t q = MAX_SVCS - 1; q >= 0; q--)
+        for (unsigned q = MAX_SVCS - 1; q >= 0 && q < MAX_SVCS; q--)
         {
             if (_svcs[q] != nullptr)
             {
@@ -22,7 +24,7 @@ namespace GlEngine
     bool ServiceProvider::RegisterService(IService *svc)
     {
         ScopedLock _lock(_mutex);
-        for (size_t q = 0; q < MAX_SVCS; q++)
+        for (unsigned q = 0; q < MAX_SVCS; q++)
         {
             if (_svcs[q] == nullptr)
             {
