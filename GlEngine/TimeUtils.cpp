@@ -34,7 +34,7 @@ namespace GlEngine
                 auto millis_high_res = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
                 high_resolution_offset = (millis - millis_high_res).count();
             }
-            
+
             auto timeNow = std::chrono::high_resolution_clock::now();
             auto nowFractional = timeNow - std::chrono::time_point_cast<std::chrono::seconds>(timeNow);
             auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(nowFractional).count();

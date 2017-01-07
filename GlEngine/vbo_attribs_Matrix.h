@@ -27,5 +27,16 @@ namespace GlEngine
                         return false;
             return true;
         }
+
+        static const unsigned attrib_count = dimension;
+        template <unsigned attribCount, unsigned idx, unsigned start>
+        inline static void add_attribs(UnsafeVboFactory<type, attribCount> &factory)
+        {
+            static_assert(dimension <= 4, "You can't use a Matrix with dimensions of more than 4 in OpenGL!");
+            for (size_t q = 0; q < attrib_count; q++)
+            {
+                factory.AddAttrib(idx + q, start + (q * sizeof(el_type) * dimension), dimension);
+            }
+        }
     };
 }

@@ -241,8 +241,8 @@ private:
     ElemT values[dimension];
 
     //Constructor helpers:
-    template <int idx = 0, typename T, typename... Args>
-    inline void initialize(T val, Args... args)
+    template <int idx = 0, typename T, typename... TArgs>
+    inline void initialize(T val, TArgs... args)
     {
         values[idx] = (ElemT)val;
         initialize<idx + 1>(args...);

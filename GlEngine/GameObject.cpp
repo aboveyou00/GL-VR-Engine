@@ -24,6 +24,12 @@ namespace GlEngine
     }
     void GameObject::Tick(float)
     {
+        auto body = actor()->body;
+        if (body != nullptr)
+        {
+            if (body->position[1] < -10) body->position += {0, 20, 0};
+            position = body->position;
+        }
     }
 
     void GameObject::AddToFrame(Frame *frame)
@@ -95,8 +101,31 @@ namespace GlEngine
         RotateZ((float)Util::degToRad(degrees));
     }
 
-    GameObjectType GameObject::type()
+    void GameObject::Activate()
+    {
+        _active = true;
+        actor()->Activate();
+    }
+    void GameObject::Deactivate()
+    {
+        _active = false;
+        actor()->Deactivate();
+    }
+    bool GameObject::active() const
+    {
+        return _active;
+    }
+
+    GameObjectType GameObject::type() const
     {
         return GameObjectType::Object3d;
+    }
+    Frame *GameObject::frame() const
+    {
+        return _frame;
+    }
+    Actor *GameObject::actor()
+    {
+        return &_actor;
     }
 }

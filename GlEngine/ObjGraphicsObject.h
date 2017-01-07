@@ -4,7 +4,7 @@
 
 namespace GlEngine
 {
-    class ENGINE_SHARED ObjGraphicsObject : public VboGraphicsObject<>
+    class ENGINE_SHARED ObjGraphicsObject : public VboGraphicsObject
     {
     public:
         ObjGraphicsObject() : VboGraphicsObject() {}

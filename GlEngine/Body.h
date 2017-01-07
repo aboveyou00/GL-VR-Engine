@@ -1,4 +1,6 @@
 #pragma once
+#include "Collision.h"
+#include <set>
 
 namespace GlEngine
 {
@@ -8,7 +10,8 @@ namespace GlEngine
         Body();
         ~Body();
         virtual const char *name();
-        virtual bool Collide(Body* other, bool trySwitched = true);
+        virtual int id() = 0;
+        virtual bool Collide(Body* other, Collision*& out, bool trySwitched = true);
 
         virtual float MinX() = 0;
         virtual float MaxX() = 0;
@@ -16,6 +19,8 @@ namespace GlEngine
         virtual float MaxY() = 0;
         virtual float MinZ() = 0;
         virtual float MaxZ() = 0;
+
+        std::set<Collision*> currentCollisions;
 
         bool movable;
 

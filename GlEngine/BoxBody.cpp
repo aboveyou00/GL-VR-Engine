@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BoxBody.h"
+#include "BoxCollision.h"
 
 namespace GlEngine
 {
@@ -41,12 +42,17 @@ namespace GlEngine
         return "BoxBody";
     }
 
-    bool BoxBody::Collide(Body * other, bool trySwitch)
+    int BoxBody::id()
+    {
+        return 1;
+    }
+
+    bool BoxBody::Collide(Body * other, Collision*& out, bool trySwitch)
     {
         if (!movable && !other->movable)
             return false;
 
-        if (strcmp(other->name(), "BoxBody") == 0)
+        if (other->id() == 1)
         {
             auto boxOther = (BoxBody*)other;
 
@@ -57,25 +63,25 @@ namespace GlEngine
                   if (movable)
                 {
                     if (other->movable)
-                        Backtrack(this, other);
+                        Backtrack(this, other, out);
                     else
-                        BacktrackSingle(other, this);
+                        BacktrackSingle(other, this, out);
                 }
                 else
-                    BacktrackSingle(this, other);
+                    BacktrackSingle(this, other, out);
+                return true;
             }
             return false;
         }
 
         if (trySwitch)
-            return other->Collide(this, false);
+            return other->Collide(this, out, false);
         return false;
     }
 
-    void BoxBody::BacktrackSingle(Body * first, Body * second)
+    void BoxBody::BacktrackSingle(Body * first, Body * second, Collision*& out)
     {
         float dx, dy, dz;
-
         if ((first->MaxX() + first->MinX()) / 2 > (second->MaxX() + second->MinX()) / 2)
             dx = first->MinX() - second->MaxX();
         else
@@ -91,25 +97,34 @@ namespace GlEngine
         else
             dz = first->MaxZ() - second->MinZ();
 
+        unsigned side;
         if (abs(dx) < abs(dy) && abs(dx) < abs(dz))
         {
             second->velocity = { signbit(second->velocity[0]) == signbit(dx) ? second->velocity[0] : 0, second->velocity[1], second->velocity[2] };
             second->position += { dx, 0, 0 };
+            side = dx < 0 ? 0 : 1;
         }
         else if (abs(dy) < abs(dz))
         {
             second->velocity = { second->velocity[0], signbit(second->velocity[1]) == signbit(dy) ? second->velocity[1] : 0, second->velocity[2] };
             second->position += { 0, dy, 0 };
+            side = dy < 0 ? 2 : 3;
         }
         else
         {
             second->velocity = { second->velocity[0], second->velocity[1], signbit(second->velocity[2]) == signbit(dz) ? second->velocity[2] : 0 };
             second->position += { 0, 0, dz };
+            side = dz < 0 ? 4 : 5;
         }
+
+        out = new BoxCollision(first, second, side);
     }
 
-    void BoxBody::Backtrack(Body * first, Body * second)
+    void BoxBody::Backtrack(Body * first, Body * second, Collision *& out)
     {
+        out;
+        // TODO: set out
+
         float dx, dy, dz;
 
         if ((first->MaxX() + first->MinX()) / 2 > (second->MaxX() + second->MinX()) / 2)

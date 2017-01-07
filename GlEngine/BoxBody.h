@@ -13,7 +13,8 @@ namespace GlEngine
         float minX, maxX, minY, maxY, minZ, maxZ;
 
         virtual const char * name();
-        virtual bool Collide(Body * other, bool trySwitch = true) override;
+        virtual int id() override;
+        virtual bool Collide(Body * other, Collision*& out, bool trySwitch = true) override;
 
         virtual float MinX() override;
         virtual float MaxX() override;
@@ -23,7 +24,7 @@ namespace GlEngine
         virtual float MaxZ() override;
 
     private:
-        static void BacktrackSingle(Body * first, Body * second); // Backtracks the second argument
-        static void Backtrack(Body * first, Body * second);
+        static void BacktrackSingle(Body * first, Body * second, Collision *& out); // Backtracks the second argument
+        static void Backtrack(Body * first, Body * second, Collision *& out);
     };
 }

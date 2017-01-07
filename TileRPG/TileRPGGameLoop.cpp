@@ -18,7 +18,8 @@ namespace TileRPG
         : GlEngine::GameLoop(
             [&] { return this->initLoop(); },
             [&](float delta) { this->loopBody(delta); },
-            [&] { this->shutdownLoop(); }, targetFPS
+            [&] { this->shutdownLoop(); },
+            targetFPS
           )
     {
     }
@@ -71,11 +72,11 @@ namespace TileRPG
     }
     void TileRPGGameLoop::copyRemoteQueue()
     {
-        GlEngine::Events::Event *evt;
         auto &engine = GlEngine::Engine::GetInstance();
         ScopedLock _lock(engine.GetMutex());
 
         auto &remoteQueue = engine.GetEventQueue();
+        GlEngine::Events::Event *evt;
         while ((evt = remoteQueue.RemoveEvent()) != nullptr)
             localQueue.PushEvent(evt);
     }

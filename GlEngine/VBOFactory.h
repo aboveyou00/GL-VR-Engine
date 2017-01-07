@@ -54,7 +54,7 @@ namespace GlEngine
             //else
             //{
                 compound_vbo_attribs<type, TArgs...>::push(args..., data);
-                return (data.size() / vertexSizeInElements) - 1;
+                return elemIdx++;
             //}
         }
         void RemoveVertex(unsigned idx)

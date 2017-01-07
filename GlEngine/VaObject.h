@@ -5,12 +5,14 @@
 
 namespace GlEngine
 {
+    class VbObjectAttribList;
+
     class ENGINE_SHARED VaObject : public IGraphicsComponent
     {
     public:
         VaObject();
         VaObject(unsigned vao);
-        VaObject(unsigned vao, std::vector<VbObject> *vbos);
+        VaObject(unsigned vao, std::vector<VbObjectAttribList*> *vbo_attribs);
         ~VaObject();
 
         bool Initialize();
@@ -23,9 +25,14 @@ namespace GlEngine
         operator bool();
         const char *name() override;
 
+        inline std::vector<VbObjectAttribList*> *GetVboAttributes()
+        {
+            return _vbos;
+        }
+
     private:
         unsigned _vao;
-        std::vector<VbObject> *_vbos;
+        std::vector<VbObjectAttribList*> *_vbos;
         BufferMode _mode;
     };
 }

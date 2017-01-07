@@ -243,10 +243,19 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/GlEngine/Middleware
-/TileRPG/YSElog.txt
-/TileRPG/Audio
-/TileRPG/Textures
-/TileRPG/Resources
-/GlEngine/LodePNG/examples
-/TileRPG/world
+
+**/*.vcxproj.filters
+
+GlEngine/Middleware
+GlEngine/LodePNG/examples
+
+**/YSElog.txt
+
+Sandbox/Audio
+Sandbox/Textures
+Sandbox/Resources
+
+TileRPG/Audio
+TileRPG/Textures
+TileRPG/Resources
+TileRPG/world

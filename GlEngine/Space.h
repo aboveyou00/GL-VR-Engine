@@ -27,13 +27,16 @@ namespace GlEngine
         Actor * elements[maxElement];
         int nextEmptyActor = 0;
 
-        BasicCollisionGroup * defaultGroup;
+        BasicCollisionGroup *defaultGroup;
 
         std::vector<CollisionGroup*> collisionGroups;
 
-        void Add(GameObject * gameObject);
-        void Add(Actor * actor);
-        void Add(CollisionGroup * collisionGroup);
-        void ManageCollisions();
+        void Add(GameObject *gameObject);
+        void Add(Actor *actor);
+        void Add(CollisionGroup *collisionGroup);
+        std::vector<Collision*> ManageCollisions();
+
+    private:
+        std::vector<Collision*> currentCollisions;
     };
 }

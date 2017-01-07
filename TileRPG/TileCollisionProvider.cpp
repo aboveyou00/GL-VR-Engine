@@ -7,7 +7,7 @@
 
 #include "Engine.h"
 #include "ServiceProvider.h"
-#include "BoxBody.h"
+#include "TileBoxBody.h"
 
 namespace TileRPG
 {
@@ -30,9 +30,9 @@ namespace TileRPG
             delete currentBody;
 
         auto t = tileManager.GetTile(tile);
-        if (t != nullptr && t->IsSolid())
+        if (t == nullptr || t->IsSolid())
         {
-            currentBody = new GlEngine::BoxBody(0, 1, 0, 1, 0, 1);
+            currentBody = new GlEngine::TileBoxBody(0, 1, 0, 1, 0, 1, tile);
             currentBody->position = { x, y, z };
             return currentBody;
         }

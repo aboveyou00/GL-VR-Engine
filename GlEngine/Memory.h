@@ -1,16 +1,33 @@
 #pragma once
 
 template <typename T>
-inline void SafeDelete(T *&ptr)
+inline void SafeDelete(T **&ptr)
 {
-    delete ptr;
-    ptr = nullptr;
+    if (ptr != nullptr)
+    {
+        delete[] ptr;
+        ptr = nullptr;
+    }
 }
 template <typename T>
-inline void SafeDeleteArray(T **&ptr)
+inline void SafeDeleteVector(std::vector<T*> *&ptr)
 {
-    delete[] ptr;
-    ptr = nullptr;
+    if (ptr != nullptr)
+    {
+        for (size_t q = 0; q < ptr->size(); q++)
+            SafeDelete((*ptr)[q]);
+        delete ptr;
+        ptr = nullptr;
+    }
+}
+template <typename T>
+inline void SafeDelete(T *&ptr)
+{
+    if (ptr != nullptr)
+    {
+        delete ptr;
+        ptr = nullptr;
+    }
 }
 
 template <typename IterT, typename ElemT>

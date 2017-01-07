@@ -3,11 +3,14 @@
 #include "VboGraphicsObject.h"
 #include <unordered_map>
 #include "RenderTargetLayer.h"
+#include "VboType.h"
 
 namespace GlEngine
 {
     class ShaderFactory;
     class Texture;
+    template <VboType type, typename... TArgs>
+    class InstancedGraphicsObject;
 }
 
 namespace TileRPG
@@ -15,18 +18,19 @@ namespace TileRPG
     class World;
     class Chunk;
 
-    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject<>
+    class ChunkGraphicsObject : public GlEngine::VboGraphicsObject
     {
     public:
         ChunkGraphicsObject(Chunk *chunk, World *world);
         ~ChunkGraphicsObject();
         
         bool Initialize() override;
-        void Shutdown() override;
+        bool InitializeGraphics() override;
 
-        void AddInstance(VboGraphicsObject<Matrix<4, 4>> *gobj, Matrix<4, 4> localTransformation);
-        
+        void AddInstance(GlEngine::GraphicsObject *gobj, Matrix<4, 4> localTransformation);
+
         void PreRender(GlEngine::RenderTargetLayer layer) override;
+        void RenderImpl(GlEngine::RenderTargetLayer layer) override;
         void PostRender(GlEngine::RenderTargetLayer layer) override;
 
         Matrix<4, 4> GetTransformation();
@@ -52,6 +56,7 @@ namespace TileRPG
         World *world;
         unsigned version;
 
-        std::unordered_map<VboGraphicsObject<Matrix<4, 4>>*, std::vector<int>> instances;
+        typedef std::unordered_map<GraphicsObject*, GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>*> instances_map_t;
+        instances_map_t instances;
     };
 }

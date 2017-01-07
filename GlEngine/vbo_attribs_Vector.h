@@ -25,5 +25,13 @@ namespace GlEngine
                     return false;
             return true;
         }
+
+        static const unsigned attrib_count = 1;
+        template <unsigned attribCount, unsigned idx, unsigned start>
+        inline static void add_attribs(UnsafeVboFactory<type, attribCount> &factory)
+        {
+            static_assert(dimension <= 4, "You can't use a Vector with more than 4 as it's size in OpenGL!");
+            factory.AddAttrib(idx, start, dimension);
+        }
     };
 }

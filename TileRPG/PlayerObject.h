@@ -1,27 +1,30 @@
 #pragma once
 
-#include "GameObject.h"
-#include "TextureRenderTarget.h"
+#include "Entity.h"
 
 namespace GlEngine
 {
     class IAudioSource;
-    class Force;
+    class TileCollision;
 }
 
 namespace TileRPG
 {
     class World;
     class WorldLoader;
+    class Quest;
 
-    class PlayerObject : public GlEngine::GameObject
+    class PlayerObject : public Entity
     {
     public:
-        PlayerObject(World *world);
+        PlayerObject(World *world, Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         ~PlayerObject();
         
         bool Initialize() override;
         void Tick(float delta) override;
+        void Shutdown() override;
+
+        GlEngine::TileCollision* GetSingleTileCollision(unsigned side);
         void Jump();
 
         const char *name() override;
@@ -30,14 +33,18 @@ namespace TileRPG
 
         GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
 
+        inline Quest *GetCurrentQuest()
+        {
+            return currentQuest;
+        }
+
     private:
         GlEngine::IAudioSource *footsteps;
         
-        GlEngine::Force * gravity;
-
         WorldLoader* loader;
-        float timePassed;
         float direction = 0;
         bool leftPressed, rightPressed, upPressed, downPressed, inPressed, outPressed;
+
+        Quest *currentQuest;
     };
 }

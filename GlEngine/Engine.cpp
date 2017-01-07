@@ -105,7 +105,6 @@ namespace GlEngine
                 DispatchMessage(&msg);
                 if (msg.message == WM_QUIT) return;
             }
-            //GetAudioController().Tick(0); //We don't need a delta here, YSE worries about its own timing
         }
     }
 

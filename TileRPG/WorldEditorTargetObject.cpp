@@ -13,6 +13,8 @@
 #include "DirtTile.h"
 #include "RockTile.h"
 #include "CastleWallTile.h"
+#include "CastleStairsTile.h"
+#include "SolidAirTile.h"
 
 namespace TileRPG
 {
@@ -35,7 +37,9 @@ namespace TileRPG
         DirtTile::GetInstance().GetTileId(),
         RockTile::GetInstance().GetTileId(),
         WaterTile::GetInstance().GetTileId(),
-        CastleWallTile::GetInstance().GetTileId()
+        CastleWallTile::GetInstance().GetTileId(),
+        CastleStairsTile::GetInstance().GetTileId(),
+        SolidAirTile::GetInstance().GetTileId()
     };
     static const unsigned MAX_TILE_IDS = sizeof(TILE_IDS) / sizeof(int);
 

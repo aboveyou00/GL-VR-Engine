@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "YseAudioSource.h"
 
+void func()
+{
+    YSE::ChannelFX();
+}
+
 namespace GlEngine
 {
     YseAudioSource::YseAudioSource()
@@ -65,8 +70,7 @@ namespace GlEngine
     }
     void YseAudioSource::SetLoop(bool loop)
     {
-        assert(sound != nullptr);
-        sound->setLooping(loop);
+        if (sound != nullptr) sound->setLooping(loop);
     }
 
     bool YseAudioSource::IsPlaying()

@@ -19,8 +19,8 @@ namespace GlEngine
         
         static std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> glVertices;
 
-        static std::vector<int> triangleIndeces;
-        static std::vector<int> quadIndeces;
+        static std::vector<int> triangleIndices;
+        static std::vector<int> quadIndices;
 
         static bool Load(const char * const filename, ObjGraphicsObject * out);
         static bool Load(std::istream & in, ObjGraphicsObject * out);
@@ -29,6 +29,5 @@ namespace GlEngine
         static int ParseVertex(std::string faceString);
         static int ObjLoader::FindOrAddGlVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
         static bool CreateFromData(ObjGraphicsObject * out);
-
     };
 }

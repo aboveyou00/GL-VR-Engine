@@ -12,11 +12,12 @@ namespace GlEngine
         BasicCollisionGroup();
         ~BasicCollisionGroup();
 
-        void Add(Body * body);
-        void Add(Actor *  actor);
+        void Add(Body *body);
+        void Add(Actor *actor);
 
-        virtual void Collide(Body * body) override;
-        virtual void Collide(CollisionGroup * other, bool trySwitch = true) override;
+        virtual std::vector<Collision*> Collide(Body *body) override;
+        virtual std::vector<Collision*> Collide(CollisionGroup *other, bool trySwitch = true) override;
+        virtual std::vector<Collision*> CollideSelf();
 
     private:
         std::vector<Body*> bodies;

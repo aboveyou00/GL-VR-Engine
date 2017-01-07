@@ -33,6 +33,11 @@ namespace TileRPG
     {
     }
 
+    void WorldGraphicsObject::BuildVao(GlEngine::VaoFactory&)
+    {
+        assert(false);
+    }
+
     void WorldGraphicsObject::UpdateChunks(std::vector<Chunk*> *chunks)
     {
         removeOldChunks(*chunks);
@@ -41,10 +46,6 @@ namespace TileRPG
 
     void WorldGraphicsObject::RenderImpl(GlEngine::RenderTargetLayer layer)
     {
-        layer;
-        //if (layer != GlEngine::RenderTargetLayer::Layer3dOpaque)
-        //    return;
-
         for (auto ptr = chunkGraphics.begin(); ptr != chunkGraphics.end(); ptr++)
         {
             auto gobj = ptr->second;
@@ -52,6 +53,11 @@ namespace TileRPG
 
             gobj->Render(layer);
         }
+    }
+
+    void WorldGraphicsObject::RenderInstancedImpl(GlEngine::RenderTargetLayer, unsigned)
+    {
+        assert(false);
     }
 
     const char *WorldGraphicsObject::name()

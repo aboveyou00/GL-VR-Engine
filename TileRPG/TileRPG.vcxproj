@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -34,20 +34,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -158,29 +158,40 @@
     <ClInclude Include="Chunk.h" />
     <ClInclude Include="ChunkGraphicsObject.h" />
     <ClInclude Include="ChunkLoadHint.h" />
+    <ClInclude Include="CompassGraphicsObject.h" />
+    <ClInclude Include="CompassObject.h" />
+    <ClInclude Include="DialogBoxObject.h" />
     <ClInclude Include="DirtTile.h" />
     <ClInclude Include="DiskChunkProvider.h" />
     <ClInclude Include="DockTile.h" />
     <ClInclude Include="DummyChunkProvider.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="FlowingWaterTile.h" />
+    <ClInclude Include="GateGuard.h" />
+    <ClInclude Include="GateTileEntity.h" />
     <ClInclude Include="IChunkProvider.h" />
     <ClInclude Include="ICPSelector.h" />
     <ClInclude Include="ITile.h" />
     <ClInclude Include="ITileMacros.h" />
     <ClInclude Include="PathStairsTile.h" />
     <ClInclude Include="PathTile.h" />
+    <ClInclude Include="PlagueVictim.h" />
     <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="Quest0.h" />
     <ClInclude Include="RoadStairsTile.h" />
     <ClInclude Include="RoadTile.h" />
     <ClInclude Include="RockStairsTile.h" />
     <ClInclude Include="RockTile.h" />
     <ClInclude Include="IStairsTile.h" />
     <ClInclude Include="Sector.h" />
+    <ClInclude Include="SolidAirTile.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestEventObject.h" />
     <ClInclude Include="TestMusicObject.h" />
     <ClInclude Include="TestSceneFrame.h" />
     <ClInclude Include="TileCollisionProvider.h" />
+    <ClInclude Include="TileEntity.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="TileRPGGame.h" />
     <ClInclude Include="TileRPGGameLoop.h" />
@@ -207,27 +218,38 @@
     <ClCompile Include="CfbStream.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="ChunkGraphicsObject.cpp" />
+    <ClCompile Include="CompassGraphicsObject.cpp" />
+    <ClCompile Include="CompassObject.cpp" />
+    <ClCompile Include="DialogBoxObject.cpp" />
     <ClCompile Include="DirtTile.cpp" />
     <ClCompile Include="DiskChunkProvider.cpp" />
     <ClCompile Include="DockTile.cpp" />
     <ClCompile Include="DummyChunkProvider.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FlowingWaterTile.cpp" />
+    <ClCompile Include="GateGuard.cpp" />
+    <ClCompile Include="GateTileEntity.cpp" />
     <ClCompile Include="IChunkProvider.cpp" />
     <ClCompile Include="ICPSelector.cpp" />
     <ClCompile Include="ITile.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PathStairsTile.cpp" />
     <ClCompile Include="PathTile.cpp" />
+    <ClCompile Include="PlagueVictim.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="Quest0.cpp" />
     <ClCompile Include="RoadStairsTile.cpp" />
     <ClCompile Include="RoadTile.cpp" />
     <ClCompile Include="RockStairsTile.cpp" />
     <ClCompile Include="RockTile.cpp" />
     <ClCompile Include="IStairsTile.cpp" />
+    <ClCompile Include="SolidAirTile.cpp" />
     <ClCompile Include="TestEventObject.cpp" />
     <ClCompile Include="TestMusicObject.cpp" />
     <ClCompile Include="TestSceneFrame.cpp" />
     <ClCompile Include="TileCollisionProvider.cpp" />
+    <ClCompile Include="TileEntity.cpp" />
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="TileRPGGame.cpp" />
     <ClCompile Include="TileRPGGameLoop.cpp" />
@@ -253,14 +275,14 @@
     <None Include="Shaders\direct_light_tex.inst.frag.shader" />
     <None Include="Shaders\direct_light_tex.inst.vert.shader" />
     <None Include="Shaders\direct_light_tex.vert.shader" />
-    <None Include="Shaders\std.frag.shader" />
-    <None Include="Shaders\std.vert.shader" />
     <None Include="Shaders\simple.frag.shader" />
     <None Include="Shaders\simple.vert.shader" />
     <None Include="Shaders\water.frag.shader" />
     <None Include="Shaders\water.tessc.shader" />
     <None Include="Shaders\water.tesse.shader" />
     <None Include="Shaders\water.vert.shader" />
+    <None Include="Shaders\tex_2d.frag.shader" />
+    <None Include="Shaders\tex_2d.vert.shader" />
     <None Include="TileRPG.config">
       <SubType>Designer</SubType>
     </None>

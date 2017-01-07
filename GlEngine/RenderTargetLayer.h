@@ -22,3 +22,8 @@ constexpr GlEngine::RenderTargetLayer std::numeric_limits<GlEngine::RenderTarget
 {
     return GlEngine::RenderTargetLayer::Layer2d;
 }
+
+GlEngine::RenderTargetLayer ENGINE_SHARED operator++(GlEngine::RenderTargetLayer &ref, int) noexcept;
+GlEngine::RenderTargetLayer ENGINE_SHARED operator--(GlEngine::RenderTargetLayer &ref, int) noexcept;
+GlEngine::RenderTargetLayer ENGINE_SHARED operator++(GlEngine::RenderTargetLayer &ref) noexcept;
+GlEngine::RenderTargetLayer ENGINE_SHARED operator--(GlEngine::RenderTargetLayer &ref) noexcept;

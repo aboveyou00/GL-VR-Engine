@@ -4,15 +4,15 @@
 namespace GlEngine
 {
     Space::Space()
+        : defaultGroup(new BasicCollisionGroup()), currentCollisions(std::vector<Collision*>())
     {
-        defaultGroup = new BasicCollisionGroup();
         collisionGroups.push_back(defaultGroup);
         for (int i = 0; i < maxElement; i++)
             elements[i] = nullptr;
     }
     Space::~Space()
     {
-        delete defaultGroup;
+        SafeDelete(defaultGroup);
     }
 
     bool Space::Initialize()
@@ -38,13 +38,13 @@ namespace GlEngine
 
     void Space::Add(GameObject * gameObject)
     {
-        Add(&gameObject->actor);
+        Add(gameObject->actor());
     }
 
     void Space::Add(Actor * actor)
     {
         elements[nextEmptyActor] = actor;
-        while (elements[++nextEmptyActor] != nullptr && elements[++nextEmptyActor]->active);
+        while (elements[++nextEmptyActor] != nullptr) ;
         defaultGroup->Add(actor);
     }
 
@@ -53,10 +53,24 @@ namespace GlEngine
         collisionGroups.push_back(collisionGroup);
     }
 
-    void Space::ManageCollisions()
+    std::vector<Collision*> Space::ManageCollisions()
     {
+        for (Collision* col : currentCollisions)
+            delete col;
+        currentCollisions.clear();
         for (unsigned i = 0; i < collisionGroups.size(); i++)
-            for (unsigned j = i+1; j < collisionGroups.size(); j++)
-                collisionGroups[i]->Collide(collisionGroups[j]);
+        {
+            for (unsigned j = i + 1; j < collisionGroups.size(); j++)
+            {
+                std::vector<Collision*> partial = collisionGroups[i]->Collide(collisionGroups[j]);
+                currentCollisions.insert(currentCollisions.end(), partial.begin(), partial.end());
+            }
+        }
+        for (CollisionGroup* collisionGroup : collisionGroups)
+        {
+            std::vector<Collision*> partial = collisionGroup->CollideSelf();
+            currentCollisions.insert(currentCollisions.end(), partial.begin(), partial.end());
+        }
+        return currentCollisions;
     }
 }

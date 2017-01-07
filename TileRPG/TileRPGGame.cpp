@@ -5,21 +5,19 @@
 #include "WindowManager.h"
 #include "GraphicsContext.h"
 #include "WindowRenderTarget.h"
-#include "TransformedGraphicsObject.h"
-#include "Camera.h"
+//#include "TransformedGraphicsObject.h"
+
 #include "PerspectiveViewPort.h"
+#include "OrthoViewPort.h"
+#include "Camera.h"
 
 #include "FileLogger.h"
 #include "FileConfigProvider.h"
 
-#include "ObjGraphicsObject.h"
-#include "FbxGraphicsObject.h"
+//#include "ObjGraphicsObject.h"
+//#include "FbxGraphicsObject.h"
 
-#include "WindowRenderTarget.h"
-#include "OrthoViewPort.h"
-#include "PerspectiveViewPort.h"
-
-#include "TextureRenderTarget.h"
+//#include "TextureRenderTarget.h"
 
 namespace TileRPG
 {

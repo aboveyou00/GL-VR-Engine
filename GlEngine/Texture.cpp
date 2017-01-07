@@ -122,11 +122,15 @@ namespace GlEngine
         if (alpha) glDisable(GL_BLEND);
     }
 
+    const char *Texture::GetSource()
+    {
+        return path;
+    }
+
     unsigned Texture::GetWidth()
     {
         return width;
     }
-
     unsigned Texture::GetHeight()
     {
         return height;

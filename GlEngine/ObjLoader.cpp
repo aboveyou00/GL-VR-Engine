@@ -15,8 +15,8 @@ namespace GlEngine
 
     std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> ObjLoader::glVertices;
 
-    std::vector<int> ObjLoader::triangleIndeces;
-    std::vector<int> ObjLoader::quadIndeces;
+    std::vector<int> ObjLoader::triangleIndices;
+    std::vector<int> ObjLoader::quadIndices;
 
     bool isWhiteSpace(char c)
     {
@@ -76,16 +76,16 @@ namespace GlEngine
                 iss >> s0 >> s1 >> s2;
                 if (!(iss >> s3))
                 {
-                    triangleIndeces.push_back(ParseVertex(s0));
-                    triangleIndeces.push_back(ParseVertex(s1));
-                    triangleIndeces.push_back(ParseVertex(s2));
+                    triangleIndices.push_back(ParseVertex(s0));
+                    triangleIndices.push_back(ParseVertex(s1));
+                    triangleIndices.push_back(ParseVertex(s2));
                 }
                 else
                 {
-                    quadIndeces.push_back(ParseVertex(s0));
-                    quadIndeces.push_back(ParseVertex(s1));
-                    quadIndeces.push_back(ParseVertex(s2));
-                    quadIndeces.push_back(ParseVertex(s3));
+                    quadIndices.push_back(ParseVertex(s0));
+                    quadIndices.push_back(ParseVertex(s1));
+                    quadIndices.push_back(ParseVertex(s2));
+                    quadIndices.push_back(ParseVertex(s3));
                 }
             }
         }
@@ -102,8 +102,15 @@ namespace GlEngine
         }
 
         //TODO: dynamically choose VboType based on size
-        for (unsigned i = 0; i < triangleIndeces.size(); i += 3)
-            out->AddTriangle({ triangleIndeces[i + 2], triangleIndeces[i + 1], triangleIndeces[i] });
+        for (unsigned i = 0; i < triangleIndices.size(); i += 3)
+        {
+            out->AddTriangle({ triangleIndices[i + 2], triangleIndices[i + 1], triangleIndices[i] });
+        }
+        for (unsigned i = 0; i < quadIndices.size(); i += 4)
+        {
+            out->AddTriangle({ quadIndices[i + 2], quadIndices[i + 1], quadIndices[i] });
+            out->AddTriangle({ quadIndices[i], quadIndices[i + 3], quadIndices[i + 2] });
+        }
 
         return true;
     }
@@ -121,7 +128,10 @@ namespace GlEngine
             if (faceString[i] == '/' || i == faceString.length())
             {
                 if (current.empty())
+                {
+                    idx++;
                     continue;
+                }
 
                 switch (idx)
                 {

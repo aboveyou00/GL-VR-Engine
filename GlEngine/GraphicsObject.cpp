@@ -11,11 +11,9 @@
 
 namespace GlEngine
 {
-    GraphicsObject::GraphicsObject(bool autoinit, bool instanced)
+    GraphicsObject::GraphicsObject(bool autoinit)
         : initialized(false),
           graphicsInitialized(false),
-          isInstanced(instanced),
-          instanceCount(0),
           renderOrder(0)
     {
         if (autoinit)
@@ -63,6 +61,20 @@ namespace GlEngine
     {
     }
     void GraphicsObject::PostRender(RenderTargetLayer)
+    {
+    }
+
+    void GraphicsObject::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
+    {
+        if (instanceCount == 0) return;
+        PreRenderInstanced(layer);
+        RenderInstancedImpl(layer, instanceCount);
+        PostRenderInstanced(layer);
+    }
+    void GraphicsObject::PreRenderInstanced(RenderTargetLayer)
+    {
+    }
+    void GraphicsObject::PostRenderInstanced(RenderTargetLayer)
     {
     }
 }

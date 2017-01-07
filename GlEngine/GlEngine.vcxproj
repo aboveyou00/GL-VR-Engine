@@ -95,7 +95,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32;$(SolutionDir)GlEngine\Middleware\fbx-sdk\lib\vs2015\x86\debug;$(SolutionDir)GlEngine\Middleware\yse\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -154,6 +154,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BoxCollision.h" />
+    <ClInclude Include="DiffuseMaterial.h" />
+    <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="AudioController.h" />
@@ -163,23 +166,28 @@
     <ClInclude Include="Body.h" />
     <ClInclude Include="BoxBody.h" />
     <ClInclude Include="CameraGameObject.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionGroup.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentType.h" />
     <ClInclude Include="ComponentType_attribs.h" />
     <ClInclude Include="ConstantPropertySource.h" />
+    <ClInclude Include="CompoundGraphicsObject.h" />
+    <ClInclude Include="CompoundGraphicsObjectImpl.h" />
     <ClInclude Include="EmptyBody.h" />
+    <ClInclude Include="EmptyGraphicsObject.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentAttribute.h" />
     <ClInclude Include="FactoryUtils.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
-    <ClInclude Include="FbxGraphicsObjectImpl.h" />
     <ClInclude Include="FbxLoader.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Force.h" />
     <ClInclude Include="Frame.h" />
     <ClInclude Include="FrameStack.h" />
+    <ClInclude Include="Image2dMaterial.h" />
+    <ClInclude Include="ImageAlignment.h" />
     <ClInclude Include="LogUtils.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Property.h" />
@@ -187,6 +195,7 @@
     <ClInclude Include="PropertySource.h" />
     <ClInclude Include="PropertyType_attribs.h" />
     <ClInclude Include="RawComponent.h" />
+    <ClInclude Include="RandomUtils.h" />
     <ClInclude Include="RenderTargetLayer.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ShaderFactory.h" />
@@ -209,9 +218,10 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsController.h" />
     <ClInclude Include="GraphicsControllerImpl.h" />
+    <ClInclude Include="InstancedGraphicsObject.h" />
     <ClInclude Include="LambertMaterial.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="ImageGraphicsObject.h" />
+    <ClInclude Include="Image2dGraphicsObject.h" />
     <ClInclude Include="OrthoViewPort.h" />
     <ClInclude Include="PerspectiveViewPort.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -256,6 +266,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureRenderTargetImpl.h" />
     <ClInclude Include="Threading.h" />
+    <ClInclude Include="TileCollision.h" />
     <ClInclude Include="TileCollisionGroup.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
@@ -264,9 +275,11 @@
     <ClInclude Include="VaObject.h" />
     <ClInclude Include="VaoFactory.h" />
     <ClInclude Include="VbObject.h" />
+    <ClInclude Include="VbObjectAttrib.h" />
+    <ClInclude Include="VbObjectAttribList.h" />
+    <ClInclude Include="VbObjectAttribType.h" />
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboGraphicsObject.h" />
-    <ClInclude Include="VboGraphicsObjectImpl.h" />
     <ClInclude Include="VboGraphicsSection.h" />
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
@@ -290,23 +303,30 @@
     <ClCompile Include="BlinnMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />
+    <ClCompile Include="BoxCollision.cpp" />
     <ClCompile Include="CameraGameObject.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="ComponentType_attribs.cpp" />
     <ClCompile Include="ConstantPropertySource.cpp" />
+    <ClCompile Include="CompoundGraphicsObject.cpp" />
+    <ClCompile Include="CompoundGraphicsObjectImpl.cpp" />
+    <ClCompile Include="DiffuseMaterial.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
+    <ClCompile Include="EmptyGraphicsObject.cpp" />
+    <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentAttribute.cpp" />
     <ClCompile Include="FactoryUtils.cpp" />
-    <ClCompile Include="FbxGraphicsObjectImpl.cpp" />
-    <ClCompile Include="FbxGraphicsObject_Empty.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Force.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameStack.cpp" />
     <ClCompile Include="IAudioSource.cpp" />
-    <ClCompile Include="ImageGraphicsObject.cpp" />
+    <ClCompile Include="Image2dGraphicsObject.cpp" />
+    <ClCompile Include="Image2dMaterial.cpp" />
+    <ClCompile Include="ImageAlignment.cpp" />
     <ClCompile Include="LambertMaterial.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -324,17 +344,21 @@
     <ClCompile Include="PropertySource.cpp" />
     <ClCompile Include="PropertyType_attribs.cpp" />
     <ClCompile Include="RawComponent.cpp" />
+    <ClCompile Include="RandomUtils.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="RenderTargetLayer.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
+    <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureRenderTarget.cpp" />
     <ClCompile Include="TextureRenderTargetImpl.cpp" />
+    <ClCompile Include="TileCollision.cpp" />
     <ClCompile Include="UniformPropertySource.cpp" />
     <ClCompile Include="VaObject.cpp" />
     <ClCompile Include="VaoFactory.cpp" />
@@ -370,8 +394,9 @@
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
-    <ClCompile Include="VboGraphicsObjectImpl.cpp" />
-    <ClCompile Include="VboGraphicsObject_Empty.cpp" />
+    <ClCompile Include="VbObjectAttrib.cpp" />
+    <ClCompile Include="VbObjectAttribList.cpp" />
+    <ClCompile Include="VboGraphicsObject.cpp" />
     <ClCompile Include="VboGraphicsSection.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="Window.cpp" />

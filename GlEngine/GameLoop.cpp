@@ -16,6 +16,7 @@ namespace GlEngine
     }
     GameLoop::~GameLoop()
     {
+        Join();
     }
 
     void GameLoop::RunLoop()

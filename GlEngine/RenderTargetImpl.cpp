@@ -44,15 +44,36 @@ namespace GlEngine
         }
         void RenderTargetImpl::PrePush()
         {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
         void RenderTargetImpl::Push(RenderTargetLayer layer)
         {
+            glEnable(GL_TEXTURE_2D);
+            if (layer == RenderTargetLayer::Layer3dOpaque || layer == RenderTargetLayer::Layer3dTransluscent)
+            {
+                glEnable(GL_DEPTH_TEST);
+                glEnable(GL_CULL_FACE);
+                glDepthFunc(GL_LEQUAL);
+            }
+            else if (layer == RenderTargetLayer::Layer2d)
+            {
+                glDisable(GL_DEPTH_TEST);
+                glDisable(GL_CULL_FACE);
+                glDepthFunc(GL_NONE);
+                MatrixStack::ModelView.push(Matrix<4, 4>::Identity());
+            }
+
             ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
             if (viewPort != nullptr)
                 viewPort->Push();
         }
         void RenderTargetImpl::Pop(RenderTargetLayer layer)
         {
+            if (layer == RenderTargetLayer::Layer2d)
+            {
+                MatrixStack::ModelView.pop();
+            }
+
             ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
             if (viewPort != nullptr)
                 viewPort->Pop();
@@ -64,7 +85,10 @@ namespace GlEngine
 
         void RenderTargetImpl::SetViewPort(RenderTargetLayer layer, ViewPort * viewPort)
         {
-            ViewPort* mViewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
+            auto idx = (int)layer - (int)std::numeric_limits<RenderTargetLayer>::min();
+            if (idx < 0) return;
+
+            ViewPort* mViewPort = this->viewPorts[idx];
             if (mViewPort != nullptr)
                 delete mViewPort;
             this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()] = viewPort;

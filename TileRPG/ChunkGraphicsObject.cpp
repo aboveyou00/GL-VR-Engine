@@ -2,18 +2,21 @@
 #include "ChunkGraphicsObject.h"
 #include "Chunk.h"
 #include "ITile.h"
+#include "TileManager.h"
 
 #include "Texture.h"
 #include "BlinnMaterial.h"
 #include "VBOFactory.h"
 #include "MatrixStack.h"
-
-#include "TileManager.h"
+#include "InstancedGraphicsObject.h"
 
 namespace TileRPG
 {
     ChunkGraphicsObject::ChunkGraphicsObject(Chunk *chunk, World *world)
-        : chunk(chunk), world(world), version(chunk->GetUpdateVersion())
+        : chunk(chunk),
+          world(world),
+          version(chunk->GetUpdateVersion()),
+          instances()
     {
     }
     ChunkGraphicsObject::~ChunkGraphicsObject()
@@ -22,6 +25,8 @@ namespace TileRPG
 
     bool ChunkGraphicsObject::Initialize()
     {
+        ScopedLock _lock(mutex);
+
         auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
         auto mat = GlEngine::BlinnMaterial::Create(texture);
         SetMaterial(mat);
@@ -50,29 +55,47 @@ namespace TileRPG
                     lastITile->AddToChunkGraphicsObject(*this, x, y, z);
                 }
 
-        return true;
+        return VboGraphicsObject::Initialize();
     }
-    void ChunkGraphicsObject::Shutdown()
+    bool ChunkGraphicsObject::InitializeGraphics()
     {
-        for (auto pair = instances.begin(); pair != instances.end(); pair++)
+        ScopedLock _lock(mutex);
+
+        for (auto ptr = instances.begin(); ptr != instances.end(); ptr++)
         {
-            auto &gobj = *pair->first;
-            auto &vec = pair->second;
-            for (size_t q = 0; q < vec.size(); q++)
-                gobj.RemoveInstance(vec[q]);
+            auto &igo = *ptr->second;
+            igo.Finalize();
         }
+
+        return VboGraphicsObject::InitializeGraphics();
     }
 
-    void ChunkGraphicsObject::AddInstance(VboGraphicsObject<Matrix<4, 4>> *gobj, Matrix<4, 4> localTransformation)
+    void ChunkGraphicsObject::AddInstance(GraphicsObject *gobj, Matrix<4, 4> localTransformation)
     {
-        auto index = gobj->AddInstance(GetTransformation() * localTransformation);
-        instances[gobj].push_back(index);
+        ScopedLock _lock(mutex);
+        assert(!finalized);
+
+        auto igo_ptr = instances[gobj];
+        if (igo_ptr == nullptr) igo_ptr = instances[gobj] = new GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>(gobj);
+        auto &igo = *igo_ptr;
+
+        igo.AddInstance(localTransformation);
     }
 
     void ChunkGraphicsObject::PreRender(GlEngine::RenderTargetLayer layer)
     {
         VboGraphicsObject::PreRender(layer);
         GlEngine::MatrixStack::ModelView.mult(GetTransformation());
+    }
+    void ChunkGraphicsObject::RenderImpl(GlEngine::RenderTargetLayer layer)
+    {
+        VboGraphicsObject::RenderImpl(layer);
+        ScopedLock _lock(mutex);
+        for (auto ptr = instances.begin(); ptr != instances.end(); ptr++)
+        {
+            auto &igo = *ptr->second;
+            if (igo) igo.Render(layer);
+        }
     }
     void ChunkGraphicsObject::PostRender(GlEngine::RenderTargetLayer layer)
     {

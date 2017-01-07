@@ -90,18 +90,20 @@ namespace GlEngine
         VbObject Compile(VaoFactory *vao, bool instanced = false)
         {
             assert(attribIdx == attribCount);
-            if (data.size() == 0) return VbObject();
-            return Impl::CompileVbo(vao, instanced, currentMode, data.size() * sizeof(el_type), vertexSizeInElements * sizeof(el_type), &data[0], attribs, attribCount, type);
+            void *start;
+            if (data.size() == 0) start = nullptr;
+            else start = &data[0];
+            return Impl::CompileVbo(vao, instanced, currentMode, data.size() * sizeof(el_type), vertexSizeInElements * sizeof(el_type), start, attribs, attribCount, type);
         }
 
     protected:
         std::vector<el_type> data;
         unsigned vertexSizeInElements = 0;
         BufferMode currentMode;
+        unsigned elemIdx = 0;
 
     private:
         unsigned attribIdx = 0;
-        unsigned elemIdx = 0;
         Impl::attribute_descriptor attribs[attribCount];
     };
 

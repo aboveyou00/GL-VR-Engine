@@ -3,6 +3,7 @@
 namespace GlEngine
 {
     class Body;
+    class Collision;
 
     class ENGINE_SHARED CollisionGroup
     {
@@ -10,7 +11,8 @@ namespace GlEngine
         CollisionGroup();
         ~CollisionGroup();
 
-        virtual void Collide(Body * actor) = 0;
-        virtual void Collide(CollisionGroup * other, bool trySwitch = true) = 0;
+        virtual std::vector<Collision*> Collide(Body *body) = 0;
+        virtual std::vector<Collision*> Collide(CollisionGroup *other, bool trySwitch = true) = 0;
+        virtual std::vector<Collision*> CollideSelf() = 0;
     };
 }

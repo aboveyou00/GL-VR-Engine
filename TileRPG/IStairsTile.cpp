@@ -10,4 +10,29 @@ namespace TileRPG
     IStairsTile::~IStairsTile()
     {
     }
+
+    bool IStairsTile::IsFlushXm() const
+    {
+        return true;
+    }
+    bool IStairsTile::IsFlushXp() const
+    {
+        return false;
+    }
+    bool IStairsTile::IsFlushYm() const
+    {
+        return true;
+    }
+    bool IStairsTile::IsFlushYp() const
+    {
+        return false;
+    }
+    bool IStairsTile::IsFlushZm() const
+    {
+        return false;
+    }
+    bool IStairsTile::IsFlushZp() const
+    {
+        return false;
+    }
 }

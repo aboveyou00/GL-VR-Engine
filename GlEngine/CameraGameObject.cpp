@@ -10,17 +10,17 @@ namespace GlEngine
     }
     CameraGameObject::~CameraGameObject() {}
     
-    const char * CameraGameObject::name()
+    const char *CameraGameObject::name()
     {
         return "CameraGameObject";
     }
 
-    GameObjectType CameraGameObject::type()
+    GameObjectType CameraGameObject::type() const
     {
         return GameObjectType::Camera;
     }
 
-    GraphicsObject * CameraGameObject::CreateGraphicsObject(GraphicsContext &)
+    GraphicsObject *CameraGameObject::CreateGraphicsObject(GraphicsContext &)
     {
         return nullptr;
     }
@@ -74,5 +74,4 @@ namespace GlEngine
             relativePosition = target->position - position;
         FindOrientation();
     }
-
 }

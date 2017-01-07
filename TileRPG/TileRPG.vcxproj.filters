@@ -73,6 +73,24 @@
     <Filter Include="Source Files\Tiles\Graphics">
       <UniqueIdentifier>{9b06793c-6c2d-41c3-ab7c-1695b001a983}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObjects\Entity">
+      <UniqueIdentifier>{e05f22ec-b8cc-418e-81ea-65eff3ee1722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObjects\TileEntity">
+      <UniqueIdentifier>{af651876-b170-4339-ade9-1de8d6ec8bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\Entity">
+      <UniqueIdentifier>{5ed07bb4-585e-4e67-8629-d3e2b5ece3f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObjects\TileEntity">
+      <UniqueIdentifier>{ab243a0a-5da5-4fcb-90b2-bf9ba9f65c73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Quests">
+      <UniqueIdentifier>{a4eced4f-59bc-4459-9d77-f9ffee2f53be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Quests">
+      <UniqueIdentifier>{1c14a7ae-716e-4e84-875b-f51b0d42cb7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -150,9 +168,6 @@
     <ClInclude Include="TestSceneFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CfbFile.h">
       <Filter>Header Files\CFB</Filter>
     </ClInclude>
@@ -204,17 +219,53 @@
     <ClInclude Include="TileManager.h">
       <Filter>Header Files\Tiles</Filter>
     </ClInclude>
-    <ClInclude Include="WorldEditorTargetObject.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldEditorTargetGraphicsObject.h">
-      <Filter>Header Files\GameObjects\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="ICPSelector.h">
       <Filter>Header Files\World\ChunkProviders</Filter>
     </ClInclude>
     <ClInclude Include="WaterMaterial.h">
       <Filter>Header Files\Tiles\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TileEntity.h">
+      <Filter>Header Files\GameObjects\TileEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObject.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="PlagueVictim.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="GateGuard.h">
+      <Filter>Header Files\GameObjects\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="GateTileEntity.h">
+      <Filter>Header Files\GameObjects\TileEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidAirTile.h">
+      <Filter>Header Files\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogBoxObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest.h">
+      <Filter>Header Files\Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest0.h">
+      <Filter>Header Files\Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="CompassObject.h">
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CompassGraphicsObject.h">
+      <Filter>Header Files\GameObjects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldEditorTargetGraphicsObject.h">
+      <Filter>Header Files\GameObjects\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldEditorTargetObject.h">
+      <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +383,6 @@
     <ClCompile Include="ChunkGraphicsObject.cpp">
       <Filter>Source Files\World\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerObject.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="ITile.cpp">
       <Filter>Source Files\Tiles</Filter>
     </ClCompile>
@@ -347,22 +395,52 @@
     <ClCompile Include="WorldEditorTargetObject.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="WorldEditorTargetGraphicsObject.cpp">
-      <Filter>Source Files\GameObjects\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="WaterMaterial.cpp">
       <Filter>Source Files\Tiles\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TileEntity.cpp">
+      <Filter>Source Files\GameObjects\TileEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="PlagueVictim.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="GateGuard.cpp">
+      <Filter>Source Files\GameObjects\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="GateTileEntity.cpp">
+      <Filter>Source Files\GameObjects\TileEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidAirTile.cpp">
+      <Filter>Source Files\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogBoxObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest.cpp">
+      <Filter>Source Files\Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest0.cpp">
+      <Filter>Source Files\Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="CompassObject.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CompassGraphicsObject.cpp">
+      <Filter>Source Files\GameObjects\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldEditorTargetGraphicsObject.cpp">
+      <Filter>Source Files\GameObjects\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TileRPG.config">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Shaders\std.vert.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\std.frag.shader">
-      <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Shaders\simple.frag.shader">
       <Filter>Resource Files\Shaders</Filter>
@@ -407,6 +485,12 @@
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="Shaders\direct_light_tex.inst.vert.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\tex_2d.frag.shader">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\tex_2d.vert.shader">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>

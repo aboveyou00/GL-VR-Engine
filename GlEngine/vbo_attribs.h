@@ -38,13 +38,14 @@ namespace GlEngine
             return compound_vbo_attribs<type, TArgs...>::check_cache(offset + vbo_attribs<type, T>::element_count, others..., values);
         }
 
-        static const unsigned attrib_count = 1 + compound_vbo_attribs<type, TArgs...>::attrib_count;
+        static const unsigned attrib_count = vbo_attribs<type, T>::attrib_count + compound_vbo_attribs<type, TArgs...>::attrib_count;
         template <unsigned attribCount = attrib_count, unsigned idx = 0, unsigned start = 0>
         inline static void add_attribs(UnsafeVboFactory<type, attribCount> &factory)
         {
+            vbo_attribs<type, T>::add_attribs<attribCount, idx, start>(factory);
+            static const unsigned single_attr_count = vbo_attribs<type, T>::attrib_count;
             static const unsigned elCount = vbo_attribs<type, T>::element_count;
-            factory.AddAttrib(idx, start, elCount);
-            compound_vbo_attribs<type, TArgs...>::add_attribs<attribCount, idx + 1, start + (elCount * sizeof(el_type))>(factory);
+            compound_vbo_attribs<type, TArgs...>::add_attribs<attribCount, idx + single_attr_count, start + (elCount * sizeof(el_type))>(factory);
         }
     };
 
@@ -64,7 +65,7 @@ namespace GlEngine
         {
             return true;
         }
-        template <unsigned attribCount = attrib_count, unsigned idx = 0, unsigned start = 0>
+        template <unsigned attribCount, unsigned idx, unsigned start>
         inline static void add_attribs(UnsafeVboFactory<type, attribCount>&)
         {
         }
@@ -86,102 +87,14 @@ namespace GlEngine
         {
             return (values[offset] == val);
         }
+
+        static const unsigned attrib_count = 1;
+        template <unsigned attribCount, unsigned idx, unsigned start>
+        inline static void add_attribs(UnsafeVboFactory<type, attribCount> &factory)
+        {
+            factory.AddAttrib(idx, start, 1);
+        }
     };
-
- //   template <>
- //   struct vbo_attribs<VboType::Int, int32_t>
- //   {
- //       static const unsigned element_count = 1;
- //       inline static void push(const int32_t &val, std::vector<int32_t> &values)
- //       {
- //           values.push_back(val);
- //       }
- //       inline static bool check_cache(unsigned offset, const int32_t &val, std::vector<int32_t> &values)
- //       {
- //           return (values[offset] == val);
- //       }
- //   };
- //   template <>
- //   struct vbo_attribs<VboType::UnsignedInt, uint32_t>
- //   {
- //       static const unsigned element_count = 1;
- //       inline static void push(const uint32_t &val, std::vector<uint32_t> &values)
- //       {
- //           values.push_back(val);
- //       }
- //       inline static bool check_cache(unsigned offset, const uint32_t &val, std::vector<uint32_t> &values)
- //       {
- //           return (values[offset] == val);
- //       }
- //   };
-
-    //template <>
-    //struct vbo_attribs<VboType::Short, int16_t>
-    //{
-    //    static const unsigned element_count = 1;
-    //    inline static void push(const int16_t &val, std::vector<int16_t> &values)
-    //    {
-    //        values.push_back(val);
-    //    }
- //       inline static bool check_cache(unsigned offset, const int16_t &val, std::vector<int16_t> &values)
- //       {
- //           return (values[offset] == val);
- //       }
-    //};
-    //template <>
-    //struct vbo_attribs<VboType::UnsignedShort, uint16_t>
-    //{
-    //    static const unsigned element_count = 1;
-    //    inline static void push(const uint16_t &val, std::vector<uint16_t> &values)
-    //    {
-    //        values.push_back(val);
-    //    }
- //       inline static bool check_cache(unsigned offset, const uint16_t &val, std::vector<uint16_t> &values)
- //       {
- //           return (values[offset] == val);
- //       }
-    //};
-
-    //template <>
-    //struct vbo_attribs<VboType::Byte, int8_t>
-    //{
-    //    static const unsigned element_count = 1;
-    //    inline static void push(const int8_t &val, std::vector<int8_t> &values)
-    //    {
-    //        values.push_back(val);
-    //    }
- //       inline static bool check_cache(unsigned offset, const int8_t &val, std::vector<int8_t> &values)
- //       {
- //           return (values[offset] == val);
- //       }
-    //};
-    //template <>
-    //struct vbo_attribs<VboType::UnsignedByte, uint8_t>
-    //{
-    //    static const unsigned element_count = 1;
-    //    inline static void push(const uint8_t &val, std::vector<uint8_t> &values)
-    //    {
-    //        values.push_back(val);
-    //    }
- //       inline static bool check_cache(unsigned offset, const uint8_t &val, std::vector<uint8_t> &values)
- //       {
- //           return (values[offset] == val);
- //       }
-    //};
-
- //   template <>
- //   struct vbo_attribs<VboType::Float, float>
- //   {
- //       static const unsigned element_count = 1;
- //       inline static void push(const float &val, std::vector<float> &values)
- //       {
- //           values.push_back(val);
- //       }
- //       inline static bool check_cache(unsigned offset, const float &val, std::vector<float> &values)
- //       {
- //           return (values[offset] == val);
- //       }
- //   };
 
     template <>
     struct vbo_attribs<VboType::Double, float>
@@ -195,18 +108,12 @@ namespace GlEngine
         {
             return (values[offset] == val);
         }
+
+        static const unsigned attrib_count = 1;
+        template <unsigned attribCount, unsigned idx, unsigned start>
+        inline static void add_attribs(UnsafeVboFactory<VboType::Double, attribCount> &factory)
+        {
+            factory.AddAttrib(idx, start, 1);
+        }
     };
-    //template <>
-    //struct vbo_attribs<VboType::Double, double>
-    //{
-    //    static const unsigned element_count = 1;
-    //    inline static void push(const double &val, std::vector<double> &values)
-    //    {
-    //        values.push_back(val);
-    //    }
-    //    inline static bool check_cache(unsigned offset, const double &val, std::vector<double> &values)
-    //    {
-    //        return (values[offset] == val);
-    //    }
-    //};
 }
