@@ -57,7 +57,7 @@ namespace GlEngine
             }
         }
 
-        void Program::Compile(bool writeToDisk)
+        void Program::Compile()
         {
             assert(!compilationStarted);
             
@@ -70,9 +70,6 @@ namespace GlEngine
                 if (components[q] == nullptr) continue;
                 components[q]->Compile();
             }
-
-            if (writeToDisk)
-                WriteToDisk();
         }
 
         void Program::BootstrapInputs()
@@ -138,8 +135,18 @@ namespace GlEngine
             }
         }
 
+        unsigned Program::FindOrCreateUniform(ShaderProp * prop)
+        {
+            for (auto it : uniforms)
+                if (it.second == prop)
+                    return it.first;
+            unsigned idx = uniforms.size();
+            uniforms[idx] = prop;
+            return idx;
+        }
         void Program::ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp * prop)
         {
+            assert(firstIndex < lastIndex);
             components[firstIndex]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, false, true));
             unsigned idx = components[firstIndex]->FindOrCreateOutput(prop);
             for (unsigned i = firstIndex + 1; i < lastIndex; i++)
@@ -155,18 +162,9 @@ namespace GlEngine
             components[lastIndex]->orderedSnippets.insert(components[lastIndex]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
         }
 
-        unsigned Program::FindOrCreateUniform(ShaderProp * prop)
+        void Program::WriteToDisk(std::string name)
         {
-            for (auto it : uniforms)
-                if (it.second == prop)
-                    return it.first;
-            unsigned idx = uniforms.size();
-            uniforms[idx] = prop;
-            return idx;
-        }
-
-        void Program::WriteToDisk()
-        {
+            assert(name.length() > 0);
             _mkdir("generated_shader");
             for (unsigned i = 0; i < numComponents; i++)
             {
@@ -174,7 +172,7 @@ namespace GlEngine
                 if (type == ComponentType::Input || type == ComponentType::Output || components[type] == nullptr)
                     continue;
                 std::ofstream outFile;
-                outFile.open("generated_shader/" + NameOf(type) + ".shader");
+                outFile.open("generated_shader/" + name + "." + NameOf(type) + ".shader");
                 outFile << components[type]->compiled;
                 outFile.close();
             }

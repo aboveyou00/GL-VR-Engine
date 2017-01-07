@@ -77,4 +77,9 @@ namespace GlEngine
     void GraphicsObject::PostRenderInstanced(RenderTargetLayer)
     {
     }
+
+    void GraphicsObject::SetInstanceCount(unsigned count)
+    {
+        instanceCount = count;
+    }
 }

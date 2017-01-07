@@ -24,17 +24,17 @@ namespace GlEngine
             void AddPropertySource(PropertySource *propSource);
             void AddAttribute(Attribute* attribute);
             unsigned FindOrCreateUniform(ShaderProp* prop);
+            void ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp* prop);
 
-            void Compile(bool writeToDisk = false);
+            void Compile();
+
+            void WriteToDisk(std::string name);
 
         private:
             void BootstrapInputs();
             void BootstrapOutputs();
 
             void ResolveProperties();
-            void ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp* prop);
-
-            void WriteToDisk();
 
             std::map<unsigned, ShaderProp*> uniforms;
             std::vector<PropertySource*> propSources;

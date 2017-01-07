@@ -25,10 +25,7 @@ namespace GlEngine
 
             void SetListenerPosition(Vector<3> position);
 
-            inline rt_mutex &GetMutex()
-            {
-                return audioMutex;
-            }
+            rt_mutex &GetMutex();
 
             const char *name() override;
 

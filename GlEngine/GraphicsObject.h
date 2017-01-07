@@ -40,10 +40,7 @@ namespace GlEngine
     protected:
         bool initialized, graphicsInitialized;
 
-        inline void SetInstanceCount(unsigned count)
-        {
-            instanceCount = count;
-        }
+        void SetInstanceCount(unsigned count);
 
     private:
         bool isInstanced;

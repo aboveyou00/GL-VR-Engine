@@ -254,6 +254,7 @@ GlEngine/LodePNG/examples
 Sandbox/Audio
 Sandbox/Textures
 Sandbox/Resources
+Sandbox/generated_shader/
 
 TileRPG/Audio
 TileRPG/Textures

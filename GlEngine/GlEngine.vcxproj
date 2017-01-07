@@ -280,6 +280,7 @@
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboGraphicsObject.h" />
     <ClInclude Include="VboGraphicsSection.h" />
+    <ClInclude Include="VboPropertySource.h" />
     <ClInclude Include="VboType.h" />
     <ClInclude Include="vbo_attribs.h" />
     <ClInclude Include="vbo_attribs_Matrix.h" />
@@ -401,6 +402,7 @@
     <ClCompile Include="VbObjectAttribList.cpp" />
     <ClCompile Include="VboGraphicsObject.cpp" />
     <ClCompile Include="VboGraphicsSection.cpp" />
+    <ClCompile Include="VboPropertySource.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />

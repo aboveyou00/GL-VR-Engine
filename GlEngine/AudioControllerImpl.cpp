@@ -69,6 +69,12 @@ namespace GlEngine
         {
             YSE::Listener().setPosition(YSE::Vec(position[0], position[1], position[2]));
         }
+        
+        rt_mutex &AudioControllerImpl::GetMutex()
+        {
+            return audioMutex;
+        }
+
         const char *AudioControllerImpl::name()
         {
             return "AudioControllerImpl";
