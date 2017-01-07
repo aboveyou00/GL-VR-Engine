@@ -6,18 +6,18 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Snippet::Snippet(std::string mainSource, bool fallback, std::string declSource)
-            : mainSource(mainSource), fallback(fallback), declSource(declSource)
+        Snippet::Snippet(std::string mainSource, SnippetFlag flags, std::string declSource)
+            : mainSource(mainSource), flags(flags), declSource(declSource)
         {
         }
-        Snippet::Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, bool fallback, std::string declSource)
-            : mainSource(mainSource), propertiesIn(propertiesIn), propertiesOut(propertiesOut), fallback(fallback), declSource(declSource)
+        Snippet::Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, SnippetFlag flags, std::string declSource)
+            : mainSource(mainSource), propertiesIn(propertiesIn), propertiesOut(propertiesOut), flags(flags), declSource(declSource)
         {
         }
         Snippet::~Snippet()
         {
         }
-        Snippet * Snippet::Copy()
+        Snippet *Snippet::Copy()
         {
             std::vector<ShaderProp*> propertiesIn;
             std::vector<ShaderProp*> propertiesOut;
@@ -25,7 +25,7 @@ namespace GlEngine
                 propertiesIn.push_back(prop);
             for (ShaderProp* prop : this->propertiesOut)
                 propertiesOut.push_back(prop);
-            return new Snippet(mainSource, propertiesIn, propertiesOut, fallback, declSource);
+            return new Snippet(mainSource, propertiesIn, propertiesOut, flags, declSource);
         }
         Snippet * Snippet::IdentitySnippet(ShaderProp * prop, bool input, bool output)
         {
@@ -45,6 +45,37 @@ namespace GlEngine
             prop;
             program;
             type;
+        }
+
+        bool Snippet::HasFlag(SnippetFlag flag) const
+        {
+            return (flags & flag) != SnippetFlag::None;
+        }
+        void Snippet::SetFlag(SnippetFlag flag, bool val)
+        {
+            if (val) flags |= flag;
+            else flags &= ~flag;
+        }
+        void Snippet::SetFlag(SnippetFlag flag)
+        {
+            SetFlag(flag, true);
+        }
+        void Snippet::ResetFlag(SnippetFlag flag)
+        {
+            SetFlag(flag, false);
+        }
+
+        bool Snippet::fallback() const
+        {
+            return HasFlag(SnippetFlag::Fallback);
+        }
+        bool Snippet::noSideEffects() const
+        {
+            return HasFlag(SnippetFlag::NoSideEffects);
+        }
+        bool Snippet::hasSideEffects() const
+        {
+            return !HasFlag(SnippetFlag::NoSideEffects);
         }
     }
 }

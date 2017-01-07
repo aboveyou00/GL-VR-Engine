@@ -11,6 +11,7 @@ namespace GlEngine
         Property<Vector<3>> prop_Position("xyz_position");
         Property<Vector<3>> prop_Normal("normal");
         Property<Vector<2>> prop_UV("uv_coords");
+        Property<Vector<3>> prop_ReflectionCoefficient("reflection_coefficient");
         
         Property<Vector<4>> prop_GlPosition("gl_Position", true);
 
@@ -26,8 +27,7 @@ namespace GlEngine
         Property<Vector<4>> prop_AmbientLightColor("ambient_light_color");
 
         Property<Vector<4>> prop_DiffuseLightColor("diffuse_light_color");
+        Property<Vector<3>> prop_DiffuseLightPosition("diffuse_light_position");
         Property<Vector<4>> prop_DiffuseLightDirection("diffuse_light_direction");
-        Property<Vector<4>> prop_DiffuseLightIntensity("diffuse_light_intensity");
-        Property<Vector<4>> prop_DiffuseLight("diffuse_light");
     }
 }

@@ -6,6 +6,19 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
+        VboPropertySource::VboPropertySource(std::vector<ShaderProp*> properties)
+        {
+            assert(properties.size() >= 1);
+            for (size_t q = 0; q < properties.size(); q++)
+            {
+                assert(properties[q] != nullptr);
+                _props.push_back(properties[q]);
+            }
+        }
+        VboPropertySource::~VboPropertySource()
+        {
+        }
+
         bool VboPropertySource::HasProperty(ShaderProp *prop)
         {
             return std::find(_props.begin(), _props.end(), prop) != _props.end();

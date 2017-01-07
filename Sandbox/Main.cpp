@@ -24,11 +24,9 @@ int main(int argc, char **argv)
 
     auto prog = Program(false, false);
 
-    prog.AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
+    prog.AddPropertySource(new VboPropertySource(&prop_Position, &prop_Normal, &prop_UV));
 
-    prog.AddPropertySource(new UniformPropertySource(&prop_ModelViewProjectionMatrix));
-    prog.AddPropertySource(new UniformPropertySource(&prop_DiffuseLightDirection));
-    prog.AddPropertySource(new UniformPropertySource(&prop_DiffuseLightColor));
+    prog.AddPropertySource(new UniformPropertySource(&prop_ModelViewMatrix, &prop_ProjectionMatrix, &prop_DiffuseLightPosition, &prop_DiffuseLightColor, &prop_RgbColor, &prop_ReflectionCoefficient));
 
     prog.AddAttribute(&attr_GlPosition);
     prog.AddAttribute(&attr_DiffuseLight);

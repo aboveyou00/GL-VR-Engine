@@ -26,6 +26,7 @@ using namespace std::string_literals;
 
 #include "Threading.h"
 #include "Memory.h"
+#include "Flags.h"
 
 #include "LogUtils.h"
 

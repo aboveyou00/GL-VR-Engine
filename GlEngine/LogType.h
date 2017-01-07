@@ -2,19 +2,9 @@
 
 namespace GlEngine
 {
-    enum class LogType;
+    FLAGS_H_PREDECL(LogType)
 
-    inline constexpr ENGINE_SHARED LogType operator|(LogType one, LogType two);
-    inline constexpr ENGINE_SHARED LogType operator&(LogType one, LogType two);
-    inline constexpr ENGINE_SHARED LogType operator^(LogType one, LogType two);
-
-    inline constexpr ENGINE_SHARED LogType operator~(LogType type);
-
-    inline ENGINE_SHARED LogType operator|=(LogType &one, LogType two);
-    inline ENGINE_SHARED LogType operator&=(LogType &one, LogType two);
-    inline ENGINE_SHARED LogType operator^=(LogType &one, LogType two);
-
-    enum class ENGINE_SHARED LogType
+    FLAGS_H_DECL(LogType)
     {
         Ignore      = 0,
         Console     = 0b000001,
@@ -29,36 +19,7 @@ namespace GlEngine
         FatalErrorC = LogType::FatalError | LogType::Console,
     };
 
-    inline constexpr ENGINE_SHARED LogType operator|(LogType one, LogType two)
-    {
-        return static_cast<LogType>(static_cast<unsigned>(one) | static_cast<unsigned>(two));
-    }
-    inline constexpr ENGINE_SHARED LogType operator&(LogType one, LogType two)
-    {
-        return static_cast<LogType>(static_cast<unsigned>(one) & static_cast<unsigned>(two));
-    }
-    inline constexpr ENGINE_SHARED LogType operator^(LogType one, LogType two)
-    {
-        return static_cast<LogType>(static_cast<unsigned>(one) ^ static_cast<unsigned>(two));
-    }
-
-    inline constexpr ENGINE_SHARED LogType operator~(LogType type)
-    {
-        return static_cast<LogType>(~static_cast<unsigned>(type));
-    }
-
-    inline ENGINE_SHARED LogType operator|=(LogType &one, LogType two)
-    {
-        return one = static_cast<LogType>(static_cast<unsigned>(one) | static_cast<unsigned>(two));
-    }
-    inline ENGINE_SHARED LogType operator&=(LogType &one, LogType two)
-    {
-        return one = static_cast<LogType>(static_cast<unsigned>(one) & static_cast<unsigned>(two));
-    }
-    inline ENGINE_SHARED LogType operator^=(LogType &one, LogType two)
-    {
-        return one = static_cast<LogType>(static_cast<unsigned>(one) ^ static_cast<unsigned>(two));
-    }
+    FLAGS_H(LogType)
 
     ENGINE_SHARED const char *const MakeReadableLogType(LogType type);
 }

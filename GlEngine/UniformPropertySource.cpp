@@ -3,19 +3,34 @@
 #include "Program.h"
 #include "Snippet.h"
 
-GlEngine::ShaderFactory::UniformPropertySource::UniformPropertySource(ShaderProp * prop)
-    : prop(prop)
+namespace GlEngine
 {
-}
+    namespace ShaderFactory
+    {
+        UniformPropertySource::UniformPropertySource(std::vector<ShaderProp*> properties)
+        {
+            assert(properties.size() >= 1);
+            for (size_t q = 0; q < properties.size(); q++)
+            {
+                assert(properties[q] != nullptr);
+                _props.push_back(properties[q]);
+            }
+        }
+        UniformPropertySource::~UniformPropertySource()
+        {
+        }
 
-bool GlEngine::ShaderFactory::UniformPropertySource::HasProperty(ShaderProp * prop)
-{
-    return this->prop == prop;
-}
+        bool UniformPropertySource::HasProperty(ShaderProp *prop)
+        {
+            return std::find(_props.begin(), _props.end(), prop) != _props.end();
+        }
 
-void GlEngine::ShaderFactory::UniformPropertySource::ProvideProperty(ShaderProp * prop, Program * program, ComponentType type)
-{
-    unsigned idx = program->FindOrCreateUniform(prop);
-    program->components[type]->uniforms[idx] = prop;
-    program->components[type]->orderedSnippets.insert(program->components[type]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+        void UniformPropertySource::ProvideProperty(ShaderProp *prop, Program *program, ComponentType type)
+        {
+            assert(HasProperty(prop));
+            unsigned idx = program->FindOrCreateUniform(prop);
+            program->components[type]->uniforms[idx] = prop;
+            program->components[type]->orderedSnippets.insert(program->components[type]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+        }
+    }
 }

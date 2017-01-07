@@ -156,6 +156,8 @@
   <ItemGroup>
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="DiffuseMaterial.h" />
+    <ClInclude Include="Flags.h" />
+    <ClInclude Include="SnippetFlag.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Attribute.h" />
@@ -357,6 +359,7 @@
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
+    <ClCompile Include="SnippetFlag.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />

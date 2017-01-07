@@ -40,7 +40,10 @@ namespace GlEngine
         
         Attribute attr_GlPosition = Attribute(
             { // Vertex
-                Snippet("[out:0] = [in:0] * vec4([in:1], 1);", { &prop_ModelViewProjectionMatrix, &prop_Position }, { &prop_GlPosition })
+                Snippet("[out:0] = [in:0] * vec4([in:1], 1);", { &prop_ModelViewProjectionMatrix, &prop_Position }, { &prop_GlPosition }),
+
+                //Fallback
+                Snippet("[out:0] = [in:0] * [in:1];", { &prop_ProjectionMatrix, &prop_ModelViewMatrix }, { &prop_ModelViewProjectionMatrix }, SnippetFlag::Fallback)
             },
             { // Fragment
             }
@@ -48,11 +51,15 @@ namespace GlEngine
 
         Attribute attr_DiffuseLight = Attribute(
             { // Vertex
-                Snippet("[out:0] = clamp(dot([in:0], [in:1]), 0.0, 1.0);", { &prop_DiffuseLightDirection, &prop_Normal }, { &prop_DiffuseLightIntensity }),
-                Snippet("[out:0] = [in:0] * [in:1];", { &prop_DiffuseLightIntensity, &prop_DiffuseLightColor }, { &prop_DiffuseLight })
+                Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3]), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseLightDirection, &prop_Normal }, { &prop_DiffuseLightColor }),
+
+                //Fallback
+                Snippet("[temp:0] = [in:1] * [in:2];\n[out:0] = normalize([in:0] - [temp:0]);", { &prop_GlPosition, &prop_ModelViewProjectionMatrix, &prop_DiffuseLightPosition }, { &prop_DiffuseLightDirection }, SnippetFlag::Fallback)
             },
             { // Fragment
-                Snippet("[out:0] = [in:0]", { &prop_DiffuseLight }, { &prop_RgbaColor })
+                Snippet("[out:0] = [in:0] * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
+                Snippet("[out:0] = [in:0] * vec4([in:1], 1);", { &prop_DiffuseLightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
+                Snippet("[out:0] = [in:0];", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
             }
         );
     }

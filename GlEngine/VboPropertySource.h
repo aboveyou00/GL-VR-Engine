@@ -1,6 +1,5 @@
 #pragma once
 
-#include "VBOFactory.h"
 #include "Property.h"
 #include "PropertySource.h"
 
@@ -17,15 +16,8 @@ namespace GlEngine
                 static_assert(sizeof...(TArgs) >= 1, "VboPropertySource must be created with at least one property");
                 ctor(properties...);
             }
-            VboPropertySource(std::vector<ShaderProp*> properties)
-            {
-                assert(properties.size() >= 1);
-                for (size_t q = 0; q < properties.size(); q++)
-                {
-                    assert(properties[q] != nullptr);
-                    _props.push_back(properties[q]);
-                }
-            }
+            VboPropertySource(std::vector<ShaderProp*> properties);
+            ~VboPropertySource();
 
             virtual bool HasProperty(ShaderProp * prop) override;
             virtual void ProvideProperty(ShaderProp * prop, Program * program, ComponentType type) override;

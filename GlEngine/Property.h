@@ -47,6 +47,7 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<3>> prop_Position;
         extern ENGINE_SHARED Property<Vector<3>> prop_Normal;
         extern ENGINE_SHARED Property<Vector<2>> prop_UV;
+        extern ENGINE_SHARED Property<Vector<3>> prop_ReflectionCoefficient;
 
         extern ENGINE_SHARED Property<Vector<4>> prop_GlPosition;
         
@@ -62,8 +63,7 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<4>> prop_AmbientLightColor;
         
         extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightColor;
-        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightDirection;
-        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightIntensity;
-        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLight;
+        extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightPosition;
+        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightDirection; //can be calculated using DiffuseLightPosition
     }
 }
