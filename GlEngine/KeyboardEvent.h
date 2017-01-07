@@ -13,26 +13,11 @@ namespace GlEngine
             KeyboardEvent(unsigned int vkCode, KeyboardEventType type);
             ~KeyboardEvent();
             
-            inline unsigned int GetVirtualKeyCode()
-            {
-                return _vkCode;
-            }
-            inline KeyboardEventType GetEventType()
-            {
-                return _type;
-            }
-            inline bool IsPressed()
-            {
-                return _type == KeyboardEventType::KeyPressed;
-            }
-            inline bool IsReleased()
-            {
-                return _type == KeyboardEventType::KeyReleased;
-            }
-            inline bool IsTyped()
-            {
-                return _type == KeyboardEventType::KeyTyped;
-            }
+            unsigned int GetVirtualKeyCode() const;
+            KeyboardEventType GetEventType() const;
+            bool IsPressed() const;
+            bool IsReleased() const;
+            bool IsTyped() const;
 
             std::ostream &stringify(std::ostream &stream) const override;
 

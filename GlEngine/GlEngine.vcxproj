@@ -313,6 +313,7 @@
     <ClCompile Include="DiffuseMaterial.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="EmptyGraphicsObject.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentAttribute.cpp" />
@@ -326,6 +327,7 @@
     <ClCompile Include="Image2dGraphicsObject.cpp" />
     <ClCompile Include="Image2dMaterial.cpp" />
     <ClCompile Include="ImageAlignment.cpp" />
+    <ClCompile Include="KeyboardEventType.cpp" />
     <ClCompile Include="LambertMaterial.cpp" />
     <ClCompile Include="LodePNG\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -334,6 +336,8 @@
     <ClCompile Include="LogUtils.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="MatrixStack.cpp" />
+    <ClCompile Include="MouseButton.cpp" />
+    <ClCompile Include="MouseEventType.cpp" />
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="OrthoViewPort.cpp" />
     <ClCompile Include="PersperctiveViewPort.cpp" />

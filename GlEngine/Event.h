@@ -1,7 +1,5 @@
 #pragma once
 
-#include "IEventSender.h"
-
 namespace GlEngine
 {
     namespace Events
@@ -9,31 +7,18 @@ namespace GlEngine
         class ENGINE_SHARED Event
         {
         public:
-            Event()
-                : _handled(false)
-            {
-            }
-            ~Event()
-            {
-            }
+            Event();
+            ~Event();
 
-            inline bool IsHandled()
-            {
-                return _handled;
-            }
-            inline void Handle()
-            {
-                _handled = true;
-            }
+            bool IsHandled() const;
+            void Handle();
 
-            inline friend std::ostream &operator<<(std::ostream &stream, Event &evt)
-            {
-                return evt.stringify(stream);
-            }
             virtual std::ostream &stringify(std::ostream &stream) const = 0;
 
         private:
             bool _handled;
         };
+
+        ENGINE_SHARED std::ostream &operator<<(std::ostream &stream, Event &evt);
     }
 }
