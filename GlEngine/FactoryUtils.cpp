@@ -26,7 +26,8 @@ namespace GlEngine
                 lastEnd += results.position() + results.length();
             }
 
-            stream << &*lastEnd;
+            if (lastEnd != source.cend())
+                stream << &*lastEnd;
             return stream.str();
         }
 
@@ -44,8 +45,8 @@ namespace GlEngine
                 
                 unsigned number;
                 (std::istringstream(val) >> number);
-                auto prop = snippet->propertiesIn[number];
-                return PropertyName(prop, type == "in");
+                auto prop = type == "in" ? snippet->propertiesIn[number] : snippet->propertiesOut[number];
+                return prop->name;
             });
             return source;
         }

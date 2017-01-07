@@ -17,11 +17,11 @@ namespace GlEngine
             ~Attribute();
 
             static const unsigned numComponents = (unsigned)std::numeric_limits<ComponentType>::max() - (unsigned)std::numeric_limits<ComponentType>::min() + 1;
-            ComponentArray<std::vector<Snippet>> snippets;
+            ComponentArray<std::vector<Snippet*>> snippets;
         };
 
         extern ENGINE_SHARED Attribute attr_GlPosition;
-        extern ENGINE_SHARED Attribute attr_Projection;
         extern ENGINE_SHARED Attribute attr_AmbientLight;
+        extern ENGINE_SHARED Attribute attr_DiffuseLight;
     }
 }

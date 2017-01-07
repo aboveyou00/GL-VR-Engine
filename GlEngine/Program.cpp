@@ -52,14 +52,17 @@ namespace GlEngine
                     assert(attribute->snippets[i].size() == 0);
                     continue;
                 }
-                for (Snippet snippet : attribute->snippets[i])
-                    components[i]->unresolvedSnippets.insert(&snippet);
+                for (Snippet* snippet : attribute->snippets[i])
+                    components[i]->unresolvedSnippets.insert(snippet);
             }
         }
 
         void Program::Compile(bool writeToDisk)
         {
             assert(!compilationStarted);
+            
+            BootstrapInputs();
+            BootstrapOutputs();
             compilationStarted = true;
             ResolveProperties();
             for (size_t q = 0; q < this->numComponents; q++)
@@ -93,25 +96,17 @@ namespace GlEngine
 
                 while (true)
                 {
-                    bool changed = components[i]->ResolveSnippets();
+                    components[i]->ResolveSnippets();
                     if (components[i]->unresolvedSnippets.size() == 0)
                         break;
 
-                    if (!changed)
-                    {
-                        Util::Log(LogType::Error, "Could not resolve dependencies when compiling %s shader; enable level logging 'info' to view snippet data", NameOf((ComponentType)i));
-                        for (Snippet* snippet : components[i]->unresolvedSnippets)
-                            Util::Log(LogType::Info, "\nSnippetDecl:\n%s\nSnippet Main:\n%s", snippet->declSource, snippet->mainSource);
-                        
-                        for (ShaderProp* prop : components[i]->unresolvedOutputs)
-                            components[i]->availableLocalProps.insert(prop);
-                        break;
-                    }
-
                     for (ShaderProp* input : components[i]->unresolvedInputs)
                     {
-                        for (unsigned j = i - 1; j >= 0; j--)
+                        for (int j = i - 1; j >= 0; j--)
                         {
+                            if (components[j] == nullptr)
+                                continue;
+
                             auto props = components[j]->availableLocalProps;
                             if (std::find(props.begin(), props.end(), input) != props.end())
                             {
@@ -128,7 +123,17 @@ namespace GlEngine
                             }
                         }
                     }
-                    found:;
+
+                    // CANNOT RESOLVE DEPENDENCIES
+
+                    //Util::Log(LogType::Error, "Could not resolve dependencies when compiling %s shader; enable level logging 'info' to view snippet data", NameOf((ComponentType)i));
+                    //for (Snippet* snippet : components[i]->unresolvedSnippets)
+                    //    Util::Log(LogType::Info, "\nSnippetDecl:\n%s\nSnippet Main:\n%s", snippet->declSource, snippet->mainSource);    
+                    for (ShaderProp* prop : components[i]->unresolvedOutputs)
+                        components[i]->availableLocalProps.insert(prop);
+                    break;
+                
+                found:;
                 }
             }
         }
@@ -139,6 +144,9 @@ namespace GlEngine
             unsigned idx = components[firstIndex]->FindOrCreateOutput(prop);
             for (unsigned i = firstIndex + 1; i < lastIndex; i++)
             {
+                if (components[i] == nullptr)
+                    continue;
+
                 components[i]->ins[idx] = prop;
                 components[i]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, true, true));
                 idx = components[i]->FindOrCreateOutput(prop);
@@ -159,14 +167,14 @@ namespace GlEngine
 
         void Program::WriteToDisk()
         {
-            _mkdir("shader");
+            _mkdir("generated_shader");
             for (unsigned i = 0; i < numComponents; i++)
             {
                 ComponentType type = (ComponentType)i;
                 if (type == ComponentType::Input || type == ComponentType::Output || components[type] == nullptr)
                     continue;
                 std::ofstream outFile;
-                outFile.open("shader/" + NameOf(type) + ".shader");
+                outFile.open("generated_shader/" + NameOf(type) + ".shader");
                 outFile << components[type]->compiled;
                 outFile.close();
             }

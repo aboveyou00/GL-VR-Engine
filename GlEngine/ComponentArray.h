@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ComponentType.h"
+#include "limits.h"
 
 namespace GlEngine
 {
@@ -11,21 +12,20 @@ namespace GlEngine
         class ComponentArray
         {
         public:
-            ComponentArray(unsigned length)
+            ComponentArray(unsigned length = (unsigned)std::numeric_limits<ComponentType>::max() - (unsigned)std::numeric_limits<ComponentType>::min())
             {
-                _components = new T[length];
+                _components = std::vector<T>(length);
                 _size = length;
             }
             ComponentArray(std::vector<T> data)
             {
-                _components = new T[data.size()];
+                _components = std::vector<T>(data.size());
                 _size = data.size();
                 for (unsigned i = 0; i < data.size(); i++)
                     _components[i] = data[i];
             }
             ~ComponentArray()
             {
-                delete[] _components;
             }
 
             T& operator[](int index)
@@ -43,7 +43,7 @@ namespace GlEngine
 
         private:
             size_t _size;
-            T* _components;
+            std::vector<T> _components;
         };
     }
 }

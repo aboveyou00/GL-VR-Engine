@@ -32,7 +32,6 @@ namespace GlEngine
                 stream << PropertyType_attribs<T>::glsl_name << " ";
                 stream << prefix << name;
                 if (arrayLength != -1) stream << "[" << arrayLength << "]";
-                stream << ";\n";
                 return stream.str();
             }
 
@@ -61,7 +60,10 @@ namespace GlEngine
         //Should these be vec4 or vec3?
         extern ENGINE_SHARED Property<Vector<4>> prop_LightColor;
         extern ENGINE_SHARED Property<Vector<4>> prop_AmbientLightColor;
+        
         extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightColor;
         extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightDirection;
+        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightIntensity;
+        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLight;
     }
 }

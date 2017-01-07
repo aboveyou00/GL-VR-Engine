@@ -35,6 +35,7 @@ namespace GlEngine
             std::string compileVersion();
             std::string compileLayouts();
             std::string compileDecl();
+            std::string compilePropertyDeclarations();
             std::string compileMain();
 
             bool snippetDependenciesMet(Snippet* snippet);
