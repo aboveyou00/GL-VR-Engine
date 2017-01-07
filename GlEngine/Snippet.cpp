@@ -21,11 +21,16 @@ namespace GlEngine
         {
             std::vector<ShaderProp*> propertiesIn;
             std::vector<ShaderProp*> propertiesOut;
+            std::vector<ShaderProp*> tempProperties;
             for (ShaderProp* prop : this->propertiesIn)
                 propertiesIn.push_back(prop);
             for (ShaderProp* prop : this->propertiesOut)
                 propertiesOut.push_back(prop);
-            return new Snippet(mainSource, propertiesIn, propertiesOut, flags, declSource);
+            for (ShaderProp* prop : this->tempProperties)
+                tempProperties.push_back(prop);
+            auto snippet = new Snippet(mainSource, propertiesIn, propertiesOut, flags, declSource);
+            snippet->tempProperties = tempProperties;
+            return snippet;
         }
         Snippet * Snippet::IdentitySnippet(ShaderProp * prop, bool input, bool output)
         {

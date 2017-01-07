@@ -167,6 +167,15 @@ namespace GlEngine
                 stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
                 any = true;
             }
+            for (size_t q = 0; q < orderedSnippets.size(); q++)
+            {
+                auto snippet = orderedSnippets[q];
+                for (ShaderProp* prop : snippet->tempProperties)
+                {
+                    stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
+                    any = true;
+                }
+            }
             if (any) stream << tabulationString << std::endl;
         }
 

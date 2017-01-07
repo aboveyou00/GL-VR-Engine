@@ -19,6 +19,15 @@ namespace GlEngine
         ENGINE_SHARED std::string itos(int value);
         ENGINE_SHARED std::string ftos(float value);
 
+        template <typename T>
+        std::string addressString(T *ptr)
+        {
+            static std::stringstream stream;
+            stream.clear();
+            stream << static_cast<const void*>(ptr);
+            return stream.str();
+        }
+
         template<typename... TArgs>
         std::string formatted(const char * const format, TArgs... args)
         {

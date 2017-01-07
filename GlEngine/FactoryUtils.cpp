@@ -40,13 +40,15 @@ namespace GlEngine
                 tabulationStr += " ";
 
             auto source = regex_replace_label(snippet->mainSource, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::string type, std::string val) -> std::string {
-                if (type != "in" && type != "out")
-                    return "ERROR[" + type + ":" + val + "]";
-                
+                auto vec = type == "in" ? &snippet->propertiesIn :
+                          type == "out" ? &snippet->propertiesOut :
+                         type == "temp" ? &snippet->tempProperties :
+                                          nullptr;
                 unsigned number;
                 (std::istringstream(val) >> number);
-                auto prop = type == "in" ? snippet->propertiesIn[number] : snippet->propertiesOut[number];
-                //TODO: get property source from program and return the name from that (important for constant values)
+                if (vec == nullptr || number >= vec->size()) return "ERROR[" + type + ":" + val + "]";
+                auto prop = (*vec)[number];
+                //TODO: get property source from program and return the name from that, if possible (important for constant values)
                 return prop->name;
             });
             static std::regex newlineRegex(R"raw(\r?\n)raw"s);
