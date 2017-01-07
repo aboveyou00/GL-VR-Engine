@@ -102,7 +102,6 @@ namespace GlEngine
             stream << "void main(void) {" << std::endl;
 
             compilePropertyDeclarations(stream, 4);
-            stream << "    " << std::endl;
 
             compileMain(stream, 4);
             stream << "}" << std::endl;
@@ -157,12 +156,18 @@ namespace GlEngine
 
         void Component::compilePropertyDeclarations(std::stringstream &stream, int tabulation)
         {
+            auto tabulationString = ""s;
+            for (int q = 0; q < tabulation; q++)
+                tabulationString += " ";
+
+            bool any = false;
             for (ShaderProp* prop : availableLocalProps)
             {
-                for (int q = 0; q < tabulation; q++)
-                    stream << " ";
-                stream << prop->DeclarationString() + ";" << std::endl;
+                if (prop->isBuiltIn) continue;
+                stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
+                any = true;
             }
+            if (any) stream << tabulationString << std::endl;
         }
 
         void Component::compileMain(std::stringstream &stream, int tabulation)
