@@ -4,10 +4,10 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
+        class Program;
         class Snippet;
         class ShaderProp;
 
-        std::string PropertyName(ShaderProp* prop, bool in);
-        std::string resolveSnippetBody(Snippet *snippet);
+        std::string resolveSnippetBody(Snippet *snippet, int tabulation = 0);
     }
 }

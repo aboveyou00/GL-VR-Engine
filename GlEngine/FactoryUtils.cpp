@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "FactoryUtils.h"
+#include "Program.h"
 #include "Snippet.h"
 #include "Property.h"
 #include <regex>
 #include <sstream>
+#include <iostream>
 
 namespace GlEngine
 {
@@ -31,14 +33,12 @@ namespace GlEngine
             return stream.str();
         }
 
-        std::string PropertyName(ShaderProp* prop, bool in)
+        std::string resolveSnippetBody(Snippet *snippet, int tabulation)
         {
-            if (prop->isBuiltIn) return prop->name;
-            else return (in ? "in_" : "out_") + prop->name;
-        }
+            std::string tabulationStr;
+            for (int q = 0; q < tabulation; q++)
+                tabulationStr += " ";
 
-        std::string resolveSnippetBody(Snippet *snippet)
-        {
             auto source = regex_replace_label(snippet->mainSource, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::string type, std::string val) -> std::string {
                 if (type != "in" && type != "out")
                     return "ERROR[" + type + ":" + val + "]";
@@ -46,9 +46,11 @@ namespace GlEngine
                 unsigned number;
                 (std::istringstream(val) >> number);
                 auto prop = type == "in" ? snippet->propertiesIn[number] : snippet->propertiesOut[number];
+                //TODO: get property source from program and return the name from that (important for constant values)
                 return prop->name;
             });
-            return source;
+            static std::regex newlineRegex(R"raw(\r?\n)raw"s);
+            return tabulationStr + std::regex_replace(source, newlineRegex, "\n"s + tabulationStr);
         }
     }
 }

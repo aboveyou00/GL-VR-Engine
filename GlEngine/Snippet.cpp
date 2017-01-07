@@ -31,9 +31,9 @@ namespace GlEngine
         {
             if (!input && !output)
                 assert(false);
-            std::string format = (input && !output) ? "[out:0] = in_[in:0];" :
-                                 (!input && output) ? "out_[out:0] = [in:0];" :
-                                                      "out_[out:0] = in_[in:0];";
+            std::string format = (input && !output) ? "/* identity */ [out:0] = in_[in:0];" :
+                                 (!input && output) ? "/* identity */ out_[out:0] = [in:0];" :
+                                                      "/* identity */ out_[out:0] = in_[in:0];";
             return new Snippet(format, { prop }, { prop });
         }
         bool Snippet::HasProperty(ShaderProp* prop)

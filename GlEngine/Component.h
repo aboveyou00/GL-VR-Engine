@@ -32,11 +32,11 @@ namespace GlEngine
             std::string compiled;
 
         private:
-            std::string compileVersion();
-            std::string compileLayouts();
-            std::string compileDecl();
-            std::string compilePropertyDeclarations();
-            std::string compileMain();
+            void compileVersion(std::stringstream &stream);
+            void compileLayouts(std::stringstream &stream);
+            void compileDecl(std::stringstream &stream);
+            void compilePropertyDeclarations(std::stringstream &stream, int tabulation = 4);
+            void compileMain(std::stringstream &stream, int tabulation = 4);
 
             bool snippetDependenciesMet(Snippet* snippet);
 

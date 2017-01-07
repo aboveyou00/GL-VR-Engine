@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PropertySource.h"
 #include "FactoryUtils.h"
+#include "ShaderProp.h"
 
 namespace GlEngine
 {
@@ -15,7 +16,7 @@ namespace GlEngine
 
         std::string PropertySource::PropertyName(ShaderProp * prop)
         {
-            return ShaderFactory::PropertyName(prop, true);
+            return prop->name;
         }
     }
 }

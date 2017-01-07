@@ -92,62 +92,83 @@ namespace GlEngine
 
         std::string Component::Compile()
         {
+            std::stringstream stream;
             std::string result = "";
-            result += compileVersion() + "\n";
-            result += compileLayouts() + "\n";
-            result += compileDecl() + "\n";
-            result += "void main(void) {\n\n" + 
-                compilePropertyDeclarations() + "\n" + 
-                compileMain() + 
-            "\n}\n";
-            
-            compiled = result;
+
+            compileVersion(stream);
+            compileLayouts(stream);
+            compileDecl(stream);
+
+            stream << "void main(void) {" << std::endl;
+
+            compilePropertyDeclarations(stream, 4);
+            stream << "    " << std::endl;
+
+            compileMain(stream, 4);
+            stream << "}" << std::endl;
+
+            compiled = stream.str();
             return result;
         }
 
-        std::string Component::compileVersion()
+        void Component::compileVersion(std::stringstream &stream)
         {
-            return "#version 430\n";
+            stream << "#version 430" << std::endl << std::endl;
         }
 
-        std::string Component::compileLayouts()
+        void Component::compileLayouts(std::stringstream &stream)
         {
             std::string result = "";
-            
-            for (auto it : uniforms)
-                result += Util::formatted("layout(location = %i) uniform %s;\n", it.first, it.second->DeclarationString("in_").c_str());
-            result += "\n";
-            for (auto it : ins)
-                result += Util::formatted("layout(location = %i) in %s;\n", it.first, it.second->DeclarationString("in_").c_str());
-            result += "\n";
-            for (auto it : outs)
-                result += Util::formatted("layout(location = %i) out %s;\n", it.first, it.second->DeclarationString("out_").c_str());
 
-            return result;
+            if (uniforms.size() > 0)
+            {
+                for (auto it : uniforms)
+                    stream << "layout(location = " << it.first << ") uniform " << it.second->DeclarationString("in_") << ";" << std::endl;
+                stream << std::endl;
+            }
+            if (ins.size() > 0)
+            {
+                for (auto it : ins)
+                    stream << "layout(location = " << it.first << ") in " << it.second->DeclarationString("in_") << ";" << std::endl;
+                stream << std::endl;
+            }
+            if (outs.size() > 0)
+            {
+                for (auto it : outs)
+                    stream << "layout(location = " << it.first << ") out " << it.second->DeclarationString("out_") << ";" << std::endl;
+                stream << std::endl;
+            }
         }
 
-        std::string Component::compileDecl()
+        void Component::compileDecl(std::stringstream &stream)
         {
             std::string result = "";
+            bool any = false;
             for (Snippet* snippet : orderedSnippets)
-                result += snippet->declSource + "\n";
-            return result;
+            {
+                if (!Util::is_empty_or_ws(snippet->declSource.c_str()))
+                {
+                    stream << snippet->declSource << std::endl;
+                    any = true;
+                }
+            }
+            if (any) stream << std::endl;
         }
 
-        std::string Component::compilePropertyDeclarations()
+        void Component::compilePropertyDeclarations(std::stringstream &stream, int tabulation)
         {
-            std::string result;
             for (ShaderProp* prop : availableLocalProps)
-                result += prop->DeclarationString() + ";\n";
-            return result;
+            {
+                for (int q = 0; q < tabulation; q++)
+                    stream << " ";
+                stream << prop->DeclarationString() + ";" << std::endl;
+            }
         }
 
-        std::string Component::compileMain()
+        void Component::compileMain(std::stringstream &stream, int tabulation)
         {            
-            std::string result;
             for (Snippet* snippet : orderedSnippets)
-                result += resolveSnippetBody(snippet) + "\n";
-            return result;
+                stream << resolveSnippetBody(snippet, tabulation) << std::endl;
         }
     }
 }
