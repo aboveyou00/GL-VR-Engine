@@ -12,7 +12,7 @@ namespace GlEngine
         class ENGINE_SHARED MouseEvent : public Event
         {
         public:
-            MouseEvent(Vector<2> mousePos, bool control, bool shift, bool alt, MouseEventType type, MouseButton btn, IEventSender *sender = nullptr);
+            MouseEvent(Vector<2> mousePos, bool control, bool shift, bool alt, MouseEventType type, MouseButton btn);
             ~MouseEvent();
 
             inline MouseButton GetButton() const

@@ -9,8 +9,8 @@ namespace GlEngine
         class ENGINE_SHARED Event
         {
         public:
-            Event(IEventSender *sender = nullptr)
-                : _sender(sender), _handled(false)
+            Event()
+                : _handled(false)
             {
             }
             ~Event()
@@ -26,16 +26,6 @@ namespace GlEngine
                 _handled = true;
             }
 
-            inline IEventSender *GetSender()
-            {
-                return _sender;
-            }
-            template <typename T>
-            inline T *GetSender()
-            {
-                return dynamic_cast<T*>(_sender);
-            }
-
             inline friend std::ostream &operator<<(std::ostream &stream, Event &evt)
             {
                 return evt.stringify(stream);
@@ -44,7 +34,6 @@ namespace GlEngine
 
         private:
             bool _handled;
-            IEventSender *_sender;
         };
     }
 }

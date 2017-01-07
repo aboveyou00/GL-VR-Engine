@@ -230,7 +230,6 @@
     <ClInclude Include="GraphicsObject.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IConfigProvider.h" />
-    <ClInclude Include="IEventSender.h" />
     <ClInclude Include="IGameComponent.h" />
     <ClInclude Include="IGraphicsComponent.h" />
     <ClInclude Include="ILogger.h" />

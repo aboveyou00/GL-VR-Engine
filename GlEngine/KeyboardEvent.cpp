@@ -5,8 +5,8 @@ namespace GlEngine
 {
     namespace Events
     {
-        KeyboardEvent::KeyboardEvent(unsigned int vkCode, KeyboardEventType type, IEventSender *sender)
-            : Event(sender), _vkCode(vkCode), _type(type)
+        KeyboardEvent::KeyboardEvent(unsigned int vkCode, KeyboardEventType type)
+            : _vkCode(vkCode), _type(type)
         {
         }
         KeyboardEvent::~KeyboardEvent()
