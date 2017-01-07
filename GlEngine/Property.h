@@ -3,6 +3,7 @@
 #include "EnvironmentAttribute.h"
 #include "ShaderProp.h"
 #include "PropertyType_attribs.h"
+#include <sstream>
 
 namespace GlEngine
 {
@@ -25,13 +26,13 @@ namespace GlEngine
                 return PropertyType_attribs<T>::glsl_value(val);
             }
 
-            std::string DeclarationString(std::string prefix = "")
+            std::string DeclarationString(std::string prefix = "") override
             {
                 std::stringstream stream;
                 stream << PropertyType_attribs<T>::glsl_name << " ";
                 stream << prefix << name;
                 if (arrayLength != -1) stream << "[" << arrayLength << "]";
-                stream << ";\r\n";
+                stream << ";\n";
                 return stream.str();
             }
 

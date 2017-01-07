@@ -26,6 +26,8 @@ namespace GlEngine
                         result += ", " + PropertyType_attribs<T>::glsl_value(mat[r][c]);
             return result;
         }
+
+
 #pragma endregion
 
 #pragma region primitive

@@ -13,7 +13,7 @@ namespace TileRPG
     }
     
     WaterMaterial::WaterMaterial()
-        : texture(GlEngine::Texture::FromFile("Textures/water.png", true)), shader(GlEngine::ShaderFactory::Create("Shaders", "water"))
+//        : texture(GlEngine::Texture::FromFile("Textures/water.png", true)), shader(GlEngine::ShaderFactory::Create("Shaders", "water"))
     {
     }
     WaterMaterial::~WaterMaterial()
@@ -22,15 +22,17 @@ namespace TileRPG
 
     void WaterMaterial::Push(bool instanced)
     {
-        assert(!instanced);
-        if (shader && *shader) shader->Push();
-        texture->Push();
+        instanced;
+        //assert(!instanced);
+        //if (shader && *shader) shader->Push();
+        //texture->Push();
     }
     void WaterMaterial::Pop(bool instanced)
     {
-        assert(!instanced);
-        texture->Pop();
-        if (shader && *shader) shader->Pop();
+        instanced;
+        //assert(!instanced);
+        //texture->Pop();
+        //if (shader && *shader) shader->Pop();
     }
 
     bool WaterMaterial::IsOpaque()
@@ -48,6 +50,7 @@ namespace TileRPG
     }
     WaterMaterial::operator bool()
     {
-        return texture && *texture && shader && *shader;
+        return true;
+        //return texture && *texture && shader && *shader;
     }
 }

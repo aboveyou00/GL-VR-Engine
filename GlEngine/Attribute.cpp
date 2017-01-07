@@ -28,7 +28,7 @@ namespace GlEngine
         {
         }
         
-        Attribute attr_glPosition = Attribute(
+        Attribute attr_GlPosition = Attribute(
             { // Vertex
                 Snippet("[OUT:0] = [IN:0] * [IN:1];", { &prop_ModelViewMatrix, &prop_Position }, { &prop_GlPosition })
             },

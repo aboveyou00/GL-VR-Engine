@@ -7,7 +7,7 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        class Attribute
+        class ENGINE_SHARED Attribute
         {
         public:
             Attribute(ComponentArray<std::vector<Snippet>> snippets);
@@ -20,7 +20,7 @@ namespace GlEngine
             ComponentArray<std::vector<Snippet>> snippets;
         };
 
-        extern ENGINE_SHARED Attribute attr_glPosition;
+        extern ENGINE_SHARED Attribute attr_GlPosition;
         extern ENGINE_SHARED Attribute attr_Projection;
         extern ENGINE_SHARED Attribute attr_AmbientLight;
     }

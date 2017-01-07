@@ -2,6 +2,9 @@
 #include "Program.h"
 #include "Attribute.h"
 #include "Snippet.h"
+#include "ComponentType_attribs.h"
+#include <fstream>
+#include <direct.h>
 
 namespace GlEngine
 {
@@ -54,7 +57,7 @@ namespace GlEngine
             }
         }
 
-        void Program::Compile()
+        void Program::Compile(bool writeToDisk)
         {
             assert(!compilationStarted);
             compilationStarted = true;
@@ -64,85 +67,109 @@ namespace GlEngine
                 if (components[q] == nullptr) continue;
                 components[q]->Compile();
             }
+
+            if (writeToDisk)
+                WriteToDisk();
         }
 
         void Program::BootstrapInputs()
         {
             assert(!compilationStarted);
+        }
 
+        void Program::BootstrapOutputs()
+        {
+            assert(!compilationStarted);
+            components[ComponentType::Output]->unresolvedSnippets.insert(new Snippet("", { &prop_RgbaColor }, std::vector<ShaderProp*>()));
+            // TODO: delete
         }
 
         void Program::ResolveProperties()
         {
-            auto componentProperties = ComponentArray<std::set<ShaderProp*>>(numComponents);
-
             for (unsigned i = 0; i < numComponents; i++)
             {
-                componentProperties[i] = std::set<ShaderProp*>();
                 if (components[i] == nullptr)
                     continue;
 
-                std::set<ShaderProp*> componentInputs = {};
-                std::set<ShaderProp*> componentOutputs = {};
-
-                for (Snippet* snippet : components[i]->unresolvedSnippets)
-                    for (ShaderProp* prop : snippet->propertiesIn)
-                        componentInputs.insert(prop);
-                for (Snippet* snippet : components[i]->unresolvedSnippets)
-                    for (ShaderProp* prop : snippet->propertiesOut)
-                        componentOutputs.insert(prop);
-
-                for (ShaderProp* prop : componentInputs)
+                while (true)
                 {
-                    // property is defined within component
-                    if (componentOutputs.count(prop) > 0)
-                        continue;
+                    bool changed = components[i]->ResolveSnippets();
+                    if (components[i]->unresolvedSnippets.size() == 0)
+                        break;
 
-                    // property is defined in previous component
-                    for (unsigned j = i - 1; j >= 0; j--)
+                    if (!changed)
                     {
-                        //if (componentProperties[j].count(prop) > 0)
-                        //{
-                        //    components[j]->outs.insert(prop);
-                        //    components[i]->ins.insert(prop);
-                        //    for (unsigned k = j + 1; k < i; k++)
-                        //    {
-                        //        components[k]->ins.insert(prop);
-                        //        components[k]->outs.insert(prop);
-                        //        components[k]->unresolvedSnippets.insert(Snippet::IdentitySnippet(prop));
-                        //    }
-                        //}
-                        //goto cont;
+                        Util::Log(LogType::Error, "Could not resolve dependencies when compiling %s shader; enable level logging 'info' to view snippet data", NameOf((ComponentType)i));
+                        for (Snippet* snippet : components[i]->unresolvedSnippets)
+                            Util::Log(LogType::Info, "\nSnippetDecl:\n%s\nSnippet Main:\n%s", snippet->declSource, snippet->mainSource);
+                        
+                        for (ShaderProp* prop : components[i]->unresolvedOutputs)
+                            components[i]->availableLocalProps.insert(prop);
+                        break;
                     }
 
-                    // property is defined as program input
-
-                //cont:;
+                    for (ShaderProp* input : components[i]->unresolvedInputs)
+                    {
+                        for (unsigned j = i - 1; j >= 0; j--)
+                        {
+                            auto props = components[j]->availableLocalProps;
+                            if (std::find(props.begin(), props.end(), input) != props.end())
+                            {
+                                ConnectComponentsProperty(j, i, input);
+                                goto found;
+                            }
+                        }
+                        for (PropertySource* source : propSources)
+                        {
+                            if (source->HasProperty(input))
+                            {
+                                source->ProvideProperty(input, this, (ComponentType)i);
+                                goto found;
+                            }
+                        }
+                    }
+                    found:;
                 }
             }
         }
 
-        ComponentType Program::NextComponentType(ComponentType type)
+        void Program::ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp * prop)
         {
-            return NextComponentType((unsigned)type);
+            components[firstIndex]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, false, true));
+            unsigned idx = components[firstIndex]->FindOrCreateOutput(prop);
+            for (unsigned i = firstIndex + 1; i < lastIndex; i++)
+            {
+                components[i]->ins[idx] = prop;
+                components[i]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, true, true));
+                idx = components[i]->FindOrCreateOutput(prop);
+            }
+            components[lastIndex]->ins[idx] = prop;
+            components[lastIndex]->orderedSnippets.insert(components[lastIndex]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
         }
-        ComponentType Program::NextComponentType(unsigned type)
+
+        unsigned Program::FindOrCreateUniform(ShaderProp * prop)
         {
-            type = (type + 1) % numComponents;
-            while (components[type] == nullptr)
-                type = (type + 1) % numComponents;
-            return (ComponentType)type;
+            for (auto it : uniforms)
+                if (it.second == prop)
+                    return it.first;
+            unsigned idx = uniforms.size();
+            uniforms[idx] = prop;
+            return idx;
         }
-        ComponentType Program::LastComponentType(ComponentType type)
+
+        void Program::WriteToDisk()
         {
-            return LastComponentType((unsigned)type);
-        }
-        ComponentType Program::LastComponentType(unsigned type)
-        {
-            type = (type - 1 + numComponents) % numComponents;
-            while (components[type] == nullptr)
-                type = (type - 1 + numComponents) % numComponents;
-            return (ComponentType)type;
+            _mkdir("shader");
+            for (unsigned i = 0; i < numComponents; i++)
+            {
+                ComponentType type = (ComponentType)i;
+                if (type == ComponentType::Input || type == ComponentType::Output || components[type] == nullptr)
+                    continue;
+                std::ofstream outFile;
+                outFile.open("shader/" + NameOf(type) + ".shader");
+                outFile << components[type]->compiled;
+                outFile.close();
+            }
         }
     }
 }

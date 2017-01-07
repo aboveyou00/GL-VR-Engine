@@ -21,9 +21,14 @@ namespace GlEngine
 
             bool fallback;
 
-            static Snippet* IdentitySnippet(ShaderProp* prop)
+            static Snippet* IdentitySnippet(ShaderProp* prop, bool input, bool output)
             {
-                return new Snippet("[OUT:0] = [IN:0]", {prop}, {prop});
+                if (!input && !output)
+                    assert(false);
+                std::string format = (input && !output) ? "[out:0] = in_[in:0]"  :
+                                     (!input && output) ? "out_[out:0] = [in:0]" :
+                                                          "out_[out:0] = in_[in:0]";
+                return new Snippet(format, {prop}, {prop});
             }
 
             virtual bool HasProperty(ShaderProp* prop) override;

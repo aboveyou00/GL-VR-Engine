@@ -16,6 +16,7 @@ namespace GlEngine
             const int arrayLength;
 
             unsigned virtual LayoutSize() = 0;
+            std::string virtual DeclarationString(std::string prefix = "") = 0;
         };
     }
 }

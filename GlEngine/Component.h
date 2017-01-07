@@ -2,6 +2,7 @@
 
 #include "ComponentType.h"
 #include <set>
+#include <map>
 
 namespace GlEngine
 {
@@ -18,25 +19,24 @@ namespace GlEngine
 
             ComponentType type;
 
-            std::vector<ShaderProp*> ins, outs;
+            std::map<unsigned, ShaderProp*> ins, outs, uniforms;
             std::set<ShaderProp*> unresolvedInputs, availableLocalProps, unresolvedOutputs;
-
             std::set<Snippet*> unresolvedSnippets;
-
-            unsigned FindOrCreateOutput(ShaderProp* prop);
+            std::vector<Snippet*> orderedSnippets;
 
             bool ResolveSnippets();
             bool IsResolved();
 
+            unsigned FindOrCreateOutput(ShaderProp* prop);
             virtual std::string Compile();
+            std::string compiled;
 
         private:
             std::string compileVersion();
             std::string compileLayouts();
-            std::string compileBody();
-            std::string compileSource();
+            std::string compileDecl();
+            std::string compileMain();
 
-            std::vector<Snippet*> orderedSnippets;
             bool snippetDependenciesMet(Snippet* snippet);
 
             void addLocalProp(ShaderProp *prop);

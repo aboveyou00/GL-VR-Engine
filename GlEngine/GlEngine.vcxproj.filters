@@ -492,7 +492,10 @@
     <ClInclude Include="AudioControllerImpl.h">
       <Filter>Header Files\GlEngine\Audio\Impl</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantSource.h">
+    <ClInclude Include="ConstantPropertySource.h">
+      <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformPropertySource.h">
       <Filter>Header Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClInclude>
   </ItemGroup>
@@ -785,8 +788,11 @@
     <ClCompile Include="PropertySource.cpp">
       <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
-    <ClCompile Include="ConstantSource.cpp">
+    <ClCompile Include="ConstantPropertySource.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformPropertySource.cpp">
+      <Filter>Source Files\GlEngine\Graphics\ShaderFactory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

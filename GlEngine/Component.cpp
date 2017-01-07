@@ -21,19 +21,15 @@ namespace GlEngine
 
         bool Component::ResolveSnippets()
         {
-            for (ShaderProp* prop : ins)
-                addLocalProp(prop);
+            for (auto it: ins)
+                addLocalProp(it.second);
+
             unsigned last_size = 0;
             bool changed = false;
             while (unresolvedSnippets.size() > 0)
             {
-                if (unresolvedSnippets.size() == last_size) break;
-                //{
-                //    Util::Log(LogType::Error, "Circular snippet dependencies detected when compiling %s shader; enable level logging 'info' to view snippet data", ComponentTypeName(type));
-                //    for (Snippet* snippet : unresolvedSnippets)
-                //        Util::Log(LogType::Info, "\nSnippet Data:\n%s", snippet->source);
-                //    return false;
-                //}
+                if (unresolvedSnippets.size() == last_size)
+                    break;
 
                 for (Snippet* snippet : unresolvedSnippets)
                 {
@@ -66,10 +62,8 @@ namespace GlEngine
         bool Component::snippetDependenciesMet(Snippet* snippet)
         {
             for (ShaderProp* prop : snippet->propertiesIn)
-            {
                 if (std::find(availableLocalProps.begin(), availableLocalProps.end(), prop) == availableLocalProps.end())
                     return false;
-            }
             return true;
         }
         void Component::addLocalProp(ShaderProp *prop)
@@ -78,14 +72,25 @@ namespace GlEngine
                 availableLocalProps.insert(prop);
         }
 
+        unsigned Component::FindOrCreateOutput(ShaderProp * prop)
+        {
+            for (auto it : outs)
+                if (it.second == prop)
+                    return it.first;
+            unsigned idx = outs.size();
+            outs[idx] = prop;
+            return idx;
+        }
+
         std::string Component::Compile()
         {
             std::string result = "";
             result += compileVersion() + "\n";
             result += compileLayouts() + "\n";
-            result += compileBody() + "\n";
-            result += "void main(void){\n" + compileSource() + "\n}\n";
+            result += compileDecl() + "\n";
+            result += "void main(void) {\n" + compileMain() + "\n}\n";
             
+            compiled = result;
             return result;
         }
 
@@ -98,33 +103,28 @@ namespace GlEngine
         {
             std::string result = "";
             
-            //int count = 0;
-            //for (Property* property : uniforms)
-            //    result += Util::formatted("layout(location = %i) uniform %s;\n", count++, property->DeclerationString());
-            //count = 0; result += "\n";
-            //for (Property* property : ins)
-            //    result += Util::formatted("layout(location = %i) in %s;\n", count++, property->DeclerationString("in_"));
-            //count = 0; result += "\n";
-            //for (Property* property : outs)
-            //    result += Util::formatted("layout(location = %i) out %s;\n", count++, property->DeclerationString("out_"));
+            for (auto it : uniforms)
+                result += Util::formatted("layout(location = %i) uniform %s;\n", it.first, it.second->DeclarationString("in_"));
+            result += "\n";
+            for (auto it : ins)
+                result += Util::formatted("layout(location = %i) in %s;\n", it.first, it.second->DeclarationString("in_"));
+            result += "\n";
+            for (auto it : outs)
+                result += Util::formatted("layout(location = %i) out %s;\n", it.first, it.second->DeclarationString("out_"));
 
             return result;
         }
 
-        std::string Component::compileBody()
+        std::string Component::compileDecl()
         {
             std::string result = "";
-            for (Snippet* snippet : unresolvedSnippets)
+            for (Snippet* snippet : orderedSnippets)
                 result += snippet->declSource + "\n";
             return result;
         }
 
-        std::string Component::compileSource()
-        {
-            //CreateConstantsSnippet();
-            //if (!ResolveSnippetOrder())
-            //    return "";
-            
+        std::string Component::compileMain()
+        {            
             std::string result;
             for (Snippet* snippet : orderedSnippets)
                 result += snippet->mainSource + "\n";

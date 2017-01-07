@@ -168,7 +168,7 @@
     <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentType.h" />
     <ClInclude Include="ComponentType_attribs.h" />
-    <ClInclude Include="ConstantSource.h" />
+    <ClInclude Include="ConstantPropertySource.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentAttribute.h" />
@@ -259,6 +259,7 @@
     <ClInclude Include="TileCollisionGroup.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="TransformedGraphicsObject.h" />
+    <ClInclude Include="UniformPropertySource.h" />
     <ClInclude Include="UnsafeVboFactory.h" />
     <ClInclude Include="VaObject.h" />
     <ClInclude Include="VaoFactory.h" />
@@ -292,7 +293,7 @@
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="ComponentType_attribs.cpp" />
-    <ClCompile Include="ConstantSource.cpp" />
+    <ClCompile Include="ConstantPropertySource.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentAttribute.cpp" />
@@ -334,6 +335,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureRenderTarget.cpp" />
     <ClCompile Include="TextureRenderTargetImpl.cpp" />
+    <ClCompile Include="UniformPropertySource.cpp" />
     <ClCompile Include="VaObject.cpp" />
     <ClCompile Include="VaoFactory.cpp" />
     <ClCompile Include="VbObject.cpp" />
