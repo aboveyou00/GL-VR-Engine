@@ -38,10 +38,15 @@ namespace GlEngine
             unsigned _prog, _vert, _tessc, _tesse, _geom, _frag;
 
             unsigned compileShader(unsigned type, const char *text, int text_length);
-            bool ensureShaderCompiled(unsigned shader);
+            bool ensureShaderCompiled(std::string name, unsigned shader);
 
             unsigned compileProgram();
             bool ensureProgramCompiled();
+
+            void reflectShader();
+            void reflectActiveAttributes();
+            void reflectActiveUniforms(bool showUniformBlocks = false);
+            std::string typeString(int type);
         };
     }
 }

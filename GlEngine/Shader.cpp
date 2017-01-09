@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Shader.h"
 #include "OpenGl.h"
 #include <fstream>
@@ -12,6 +12,7 @@
 #include "ILogger.h"
 #include "ResourceLoader.h"
 #include "StringUtils.h"
+#include "Property.h"
 
 namespace GlEngine
 {
@@ -57,35 +58,35 @@ namespace GlEngine
             if (!_vert && !Util::is_empty_or_ws(vertexSource))
             {
                 _vert = compileShader(GL_VERTEX_SHADER, vertexSource->c_str(), vertexSource->size());
-                if (!ensureShaderCompiled(_vert)) return false;
-            }
-
-            auto fragmentSource = source->fragment();
-            if (!_frag && !Util::is_empty_or_ws(fragmentSource))
-            {
-                _frag = compileShader(GL_FRAGMENT_SHADER, fragmentSource->c_str(), fragmentSource->size());
-                if (!ensureShaderCompiled(_frag)) return false;
+                if (!ensureShaderCompiled("Vertex", _vert)) return false;
             }
 
             auto tessControlSource = source->tessControl();
             if (!_tessc && !Util::is_empty_or_ws(tessControlSource))
             {
                 _tessc = compileShader(GL_TESS_CONTROL_SHADER, tessControlSource->c_str(), tessControlSource->size());
-                if (!ensureShaderCompiled(_tessc)) _tessc = 0;
+                if (!ensureShaderCompiled("TessControl", _tessc)) _tessc = 0;
             }
 
             auto tessEvaluationSource = source->tessEvaluation();
             if (!_tesse && !Util::is_empty_or_ws(tessEvaluationSource))
             {
                 _tesse = compileShader(GL_TESS_EVALUATION_SHADER, tessEvaluationSource->c_str(), tessEvaluationSource->size());
-                if (!ensureShaderCompiled(_tesse)) _tesse = 0;
+                if (!ensureShaderCompiled("TessEvaluation", _tesse)) _tesse = 0;
             }
 
             auto geometrySource = source->geometry();
             if (!_geom && !Util::is_empty_or_ws(geometrySource))
             {
                 _geom = compileShader(GL_GEOMETRY_SHADER, vertexSource->c_str(), geometrySource->size());
-                if (!ensureShaderCompiled(_geom)) _tesse = 0;
+                if (!ensureShaderCompiled("Geometry", _geom)) _tesse = 0;
+            }
+
+            auto fragmentSource = source->fragment();
+            if (!_frag && !Util::is_empty_or_ws(fragmentSource))
+            {
+                _frag = compileShader(GL_FRAGMENT_SHADER, fragmentSource->c_str(), fragmentSource->size());
+                if (!ensureShaderCompiled("Fragment", _frag)) return false;
             }
 
             if (!_vert || !_frag) return false;
@@ -95,6 +96,8 @@ namespace GlEngine
                 _prog = compileProgram();
                 if (!ensureProgramCompiled()) return false;
             }
+
+            reflectShader();
 
             return true;
         }
@@ -128,20 +131,6 @@ namespace GlEngine
         {
             assert(!!*this);
             glUseProgram(_prog);
-
-            /* Use environment here */
-
-            //MatrixStack::Projection.tell_gl();
-            //MatrixStack::ModelView.tell_gl();
-
-            //Vector<3> lightDir = { 1, 1.5, 1 };
-            //lightDir = lightDir.Normalized();
-            //glUniform3f(2, lightDir[0], lightDir[1], lightDir[2]);
-            //glUniform3f(3, .4f, .6f, 1.f);
-            //glUniform3f(4, .4f, .4f, .4f);
-
-            //theta += .01f;
-            //glUniform1f(6, theta);
         }
         void Shader::Pop()
         {
@@ -178,7 +167,7 @@ namespace GlEngine
 
             return shader;
         }
-        bool Shader::ensureShaderCompiled(unsigned shader)
+        bool Shader::ensureShaderCompiled(std::string name, unsigned shader)
         {
             if (shader == 0) return false;
 
@@ -238,6 +227,114 @@ namespace GlEngine
             }
 
             return (result == GL_TRUE);
+        }
+
+        void Shader::reflectShader()
+        {
+            Util::Log("Shader program index: %d", _prog);
+            Util::Log("Compiled using ShaderFactory.");
+
+            reflectActiveAttributes();
+            reflectActiveUniforms();
+        }
+#pragma warning(push)
+#pragma warning(disable: 4201)
+        void Shader::reflectActiveAttributes()
+        {
+            int numAttributes;
+            glGetProgramInterfaceiv(_prog, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numAttributes);
+            const unsigned properties[] = { GL_LOCATION, GL_NAME_LENGTH, GL_TYPE };
+
+            for (int attributeIdx = 0; attributeIdx < numAttributes; attributeIdx++)
+            {
+                union {
+                    int asArray[3];
+                    struct {
+                        int location, name_length, type;
+                    };
+                } values;
+                glGetProgramResourceiv(_prog, GL_PROGRAM_INPUT, attributeIdx, 3, properties, 3, NULL, values.asArray);
+
+                char *nameBuff = new char[values.name_length + 1];
+                glGetProgramResourceName(_prog, GL_PROGRAM_INPUT, attributeIdx, values.name_length + 1, NULL, nameBuff);
+                Util::Log("layout(location = %i) in %s %s;", values.location, typeString(values.type).c_str(), nameBuff);
+            }
+        }
+        void Shader::reflectActiveUniforms(bool showUniformBlocks)
+        {
+            int numUniforms = 0;
+            glGetProgramInterfaceiv(_prog, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
+            const unsigned properties[4] = { GL_LOCATION, GL_NAME_LENGTH, GL_TYPE, GL_BLOCK_INDEX };
+            
+            for (int uniformIdx = 0; uniformIdx < numUniforms; uniformIdx++)
+            {
+                union {
+                    int asArray[4];
+                    struct {
+                        int location, name_length, type, block_index;
+                    };
+                } values;
+                glGetProgramResourceiv(_prog, GL_UNIFORM, uniformIdx, 4, properties, 4, NULL, values.asArray);
+
+                if (values.block_index != -1)
+                {
+                    //This uniform is in a block
+                    if (!showUniformBlocks) continue;
+                    Util::Log("Not implemented! Cannot output block uniform information.");
+                }
+                else
+                {
+                    char *nameBuff = new char[values.name_length + 1];
+                    glGetProgramResourceName(_prog, GL_UNIFORM, uniformIdx, values.name_length + 1, NULL, nameBuff);
+                    Util::Log(LogType::Info, "layout(location = %i) uniform %s %s;", values.location, typeString(values.type).c_str(), nameBuff);
+                }
+            }
+        }
+#pragma warning(pop)
+        std::string Shader::typeString(int type) {
+            switch (type)
+            {
+            case GL_BOOL: return PropertyType_attribs<bool>::glsl_name;
+            case GL_INT: return PropertyType_attribs<int>::glsl_name;
+            case GL_UNSIGNED_INT: return PropertyType_attribs<unsigned>::glsl_name;
+            case GL_FLOAT: return PropertyType_attribs<float>::glsl_name;
+            case GL_DOUBLE: return PropertyType_attribs<double>::glsl_name;
+
+            case GL_BOOL_VEC2: return PropertyType_attribs<Vector<2, bool>>::glsl_name;
+            case GL_BOOL_VEC3: return PropertyType_attribs<Vector<3, bool>>::glsl_name;
+            case GL_BOOL_VEC4: return PropertyType_attribs<Vector<4, bool>>::glsl_name;
+
+            case GL_INT_VEC2: return PropertyType_attribs<Vector<2, int>>::glsl_name;
+            case GL_INT_VEC3: return PropertyType_attribs<Vector<3, int>>::glsl_name;
+            case GL_INT_VEC4: return PropertyType_attribs<Vector<4, int>>::glsl_name;
+
+            case GL_UNSIGNED_INT_VEC2: return PropertyType_attribs<Vector<2, unsigned>>::glsl_name;
+            case GL_UNSIGNED_INT_VEC3: return PropertyType_attribs<Vector<3, unsigned>>::glsl_name;
+            case GL_UNSIGNED_INT_VEC4: return PropertyType_attribs<Vector<4, unsigned>>::glsl_name;
+
+            case GL_FLOAT_VEC2: return PropertyType_attribs<Vector<2>>::glsl_name;
+            case GL_FLOAT_VEC3: return PropertyType_attribs<Vector<3>>::glsl_name;
+            case GL_FLOAT_VEC4: return PropertyType_attribs<Vector<4>>::glsl_name;
+
+            case GL_DOUBLE_VEC2: return PropertyType_attribs<Vector<2, double>>::glsl_name;
+            case GL_DOUBLE_VEC3: return PropertyType_attribs<Vector<3, double>>::glsl_name;
+            case GL_DOUBLE_VEC4: return PropertyType_attribs<Vector<4, double>>::glsl_name;
+
+            case GL_FLOAT_MAT2: return PropertyType_attribs<Matrix<2, 2>>::glsl_name;
+            case GL_FLOAT_MAT2x3: return PropertyType_attribs<Matrix<2, 3>>::glsl_name;
+            case GL_FLOAT_MAT2x4: return PropertyType_attribs<Matrix<2, 4>>::glsl_name;
+
+            case GL_FLOAT_MAT3x2: return PropertyType_attribs<Matrix<3, 2>>::glsl_name;
+            case GL_FLOAT_MAT3: return PropertyType_attribs<Matrix<3, 3>>::glsl_name;
+            case GL_FLOAT_MAT3x4: return PropertyType_attribs<Matrix<3, 4>>::glsl_name;
+
+            case GL_FLOAT_MAT4x2: return PropertyType_attribs<Matrix<4, 2>>::glsl_name;
+            case GL_FLOAT_MAT4x3: return PropertyType_attribs<Matrix<4, 3>>::glsl_name;
+            case GL_FLOAT_MAT4: return PropertyType_attribs<Matrix<4, 4>>::glsl_name;
+
+            default:
+                return "Unknown type"s;
+            }
         }
     }
 }
