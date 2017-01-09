@@ -220,5 +220,27 @@ namespace GlEngine
             buff[tokenLen] = '\0';
             return true;
         }
+
+        std::string regex_replace_callback(std::string source, std::string regex, std::function<std::string(std::smatch)> func)
+        {
+            std::regex r(regex);
+
+            std::string::const_iterator lastEnd(source.cbegin());
+
+            std::stringstream stream;
+            while (true) {
+                std::smatch results;
+                if (!std::regex_search(lastEnd, source.cend(), results, r)) break;
+
+                stream << std::string(&*lastEnd, &*lastEnd + results.position());
+                stream << func(results);
+
+                lastEnd += results.position() + results.length();
+            }
+
+            if (lastEnd != source.cend())
+                stream << &*lastEnd;
+            return stream.str();
+        }
     }
 }

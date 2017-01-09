@@ -106,6 +106,11 @@ namespace GlEngine
             stream << "}" << std::endl;
 
             compiled = stream.str();
+            int linen = 1;
+            std::function<std::string(std::smatch)> linen_cb = [&](std::smatch match) -> std::string {
+                return "\n/* " + Util::itos(++linen) + " */ ";
+            };
+            compiled = "/* 1 */ " + Util::regex_replace_callback(compiled, R"raw(\r?\n)raw"s, linen_cb);
             return compiled;
         }
 

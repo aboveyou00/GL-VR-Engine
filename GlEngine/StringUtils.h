@@ -1,5 +1,6 @@
 #pragma once
 #include <sstream>
+#include <regex>
 
 namespace GlEngine
 {
@@ -78,5 +79,7 @@ namespace GlEngine
         }
         //This method makes the assumption that pos is a valid index in this string; str + pos should never be after the terminating \0 on str
         ENGINE_SHARED bool extractToken(char* buff, int buffSize, const char *&ptr) noexcept;
+
+        std::string regex_replace_callback(std::string source, std::string regex, std::function<std::string(std::smatch)> func);
     }
 }

@@ -257,7 +257,7 @@ namespace GlEngine
 
                 char *nameBuff = new char[values.name_length + 1];
                 glGetProgramResourceName(_prog, GL_PROGRAM_INPUT, attributeIdx, values.name_length + 1, NULL, nameBuff);
-                Util::Log("layout(location = %i) in %s %s;", values.location, typeString(values.type).c_str(), nameBuff);
+                Util::Log(LogType::Info, "layout(location = %i) in %s %s;", values.location, typeString(values.type).c_str(), nameBuff);
             }
         }
         void Shader::reflectActiveUniforms(bool showUniformBlocks)

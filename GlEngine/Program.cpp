@@ -73,8 +73,7 @@ namespace GlEngine
             {
                 if (components[type] == nullptr) continue;
                 (*source)[type] = new std::string(components[type]->Compile());
-                //Util::Log(LogType::InfoC, "%s:\n%s", type, (*source)[type]->c_str());
-                std::cout << type << ":" << std::endl << *(*source)[type] << std::endl;
+                Util::Log(LogType::Info, "%s:\n%s", NameOf(type).c_str(), (*source)[type]->c_str());
             }
 
             return source;
