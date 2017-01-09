@@ -57,9 +57,9 @@ namespace GlEngine
                 (new Snippet("[temp:0] = [in:1] * [in:0];\n[out:0] = normalize([temp:0] - [in:2]);", { &prop_Position, &prop_ModelViewMatrix, &prop_DiffuseLightPosition }, { &prop_DiffuseLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>>()
             },
             { // Fragment
-                new Snippet("[out:0] = [in:0] * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
+                //new Snippet("[out:0] = [in:0] * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
                 new Snippet("[out:0] = [in:0] * vec4([in:1], 1);", { &prop_DiffuseLightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
-                new Snippet("[out:0] = [in:0];", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
+                //new Snippet("[out:0] = [in:0];", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
             }
         );
     }
