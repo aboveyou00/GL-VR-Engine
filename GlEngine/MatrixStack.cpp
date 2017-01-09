@@ -5,8 +5,7 @@
 
 namespace GlEngine
 {
-    MatrixStack::MatrixStack(int gl_enum)
-        : gl_enum(gl_enum)
+    MatrixStack::MatrixStack()
     {
         stack[idx] = Mat3T<float>::Identity();
     }
@@ -21,9 +20,10 @@ namespace GlEngine
         stack[idx] = Mat3T<float>::Identity();
     }
 
-    static MatrixStack _projection(0), _modelView(1);
+    static MatrixStack _projection, _model, _view;
     MatrixStack &MatrixStack::Projection = _projection;
-    MatrixStack &MatrixStack::ModelView = _modelView;
+    MatrixStack &MatrixStack::Model = _model;
+    MatrixStack &MatrixStack::View = _view;
 
     const Matrix<4, 4> &MatrixStack::push(const Matrix<4, 4> &matrix)
     {

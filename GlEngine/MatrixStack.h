@@ -7,11 +7,12 @@ namespace GlEngine
     class ENGINE_SHARED MatrixStack
     {
     public:
-        MatrixStack(int gl_enum = -1);
+        MatrixStack();
         ~MatrixStack();
 
         static MatrixStack &Projection;
-        static MatrixStack &ModelView;
+        static MatrixStack &Model;
+        static MatrixStack &View;
 
     public:
         const Matrix<4, 4> &push(const Matrix<4, 4> &matrix);

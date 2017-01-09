@@ -72,15 +72,16 @@ namespace GlEngine
             assert(!!*this);
             _shader->Push();
 
-            ProvideProperty(prop_ModelViewMatrix, MatrixStack::ModelView.head());
+            ProvideProperty(prop_ModelMatrix, MatrixStack::Model.head());
+            ProvideProperty(prop_ViewMatrix, MatrixStack::View.head());
             ProvideProperty(prop_ProjectionMatrix, MatrixStack::Projection.head());
 
             _mat->Push(*this);
 
             /* Use environment here */
 
-            ProvideProperty(prop_DiffuseLightDirection, { 0.0, 0.0, -1.0 });
-            //ProvideProperty(prop_DiffuseLightPosition, { 0.0, 0.0, -3.0 });
+            //ProvideProperty(prop_DiffuseLightDirection, {0, 0, 1.0} );
+            ProvideProperty(prop_DiffuseLightPosition, { 0.0, 0.0, 10.0 });
             ProvideProperty(prop_DiffuseLightColor, { 1.0, 1.0, 1.0 });
 
             //Vector<3> lightDir = { 1, 1.5, 1 };

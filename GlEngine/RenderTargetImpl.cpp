@@ -60,7 +60,8 @@ namespace GlEngine
                 glDisable(GL_DEPTH_TEST);
                 glDisable(GL_CULL_FACE);
                 glDepthFunc(GL_NONE);
-                MatrixStack::ModelView.push(Matrix<4, 4>::Identity());
+                MatrixStack::Model.push(Matrix<4, 4>::Identity());
+                MatrixStack::View.push(Matrix<4, 4>::Identity());
             }
 
             ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
@@ -71,7 +72,8 @@ namespace GlEngine
         {
             if (layer == RenderTargetLayer::Layer2d)
             {
-                MatrixStack::ModelView.pop();
+                MatrixStack::Model.pop();
+                MatrixStack::View.pop();
             }
 
             ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];

@@ -61,14 +61,14 @@ namespace GlEngine
         auto scale_mat = Matrix<4, 4>::Identity();
         if (tex && *tex) scale_mat = Matrix<4, 4>::ScaleMatrix({ tex->GetWidth(), tex->GetHeight(), 1 });
         scale_mat = Util::GetAlignmentMatrix(align) * scale_mat;
-        GlEngine::MatrixStack::ModelView.mult(scale_mat);
+        GlEngine::MatrixStack::Model.mult(scale_mat);
         VboGraphicsObject::PreRender(layer);
     }
     void Image2dGraphicsObject::PostRender(GlEngine::RenderTargetLayer layer)
     {
         if (layer != GlEngine::RenderTargetLayer::Layer2d) return;
         VboGraphicsObject::PostRender(layer);
-        GlEngine::MatrixStack::ModelView.pop();
+        GlEngine::MatrixStack::Model.pop();
     }
 
     ImageAlignment Image2dGraphicsObject::GetAlignment()

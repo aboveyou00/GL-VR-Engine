@@ -49,7 +49,7 @@ namespace GlEngine
 
     void TransformedGraphicsObject::PreRender(RenderTargetLayer)
     {
-        MatrixStack::ModelView.mult(transformation);
+        MatrixStack::Model.mult(transformation);
     }
     void TransformedGraphicsObject::RenderImpl(RenderTargetLayer layer)
     {
@@ -57,6 +57,6 @@ namespace GlEngine
     }
     void TransformedGraphicsObject::PostRender(RenderTargetLayer)
     {
-        MatrixStack::ModelView.pop();
+        MatrixStack::Model.pop();
     }
 }

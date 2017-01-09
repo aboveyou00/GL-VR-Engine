@@ -28,12 +28,12 @@ namespace GlEngine
             }
             view = Matrix<3, 3>::FromCols(-side, up, forwardN).ToTransformMatrix();
             
-            MatrixStack::ModelView.mult(Mat3T<float>::TranslateMatrix(-eye) * view);
+            MatrixStack::View.mult(Mat3T<float>::TranslateMatrix(-eye) * view);
         }
 
         void CameraImpl::Pop()
         {
-            MatrixStack::ModelView.pop();
+            MatrixStack::View.pop();
         }
     }
 }
