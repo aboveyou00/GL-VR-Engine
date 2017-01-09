@@ -1,40 +1,20 @@
 #pragma once
 #include <numeric>
 
-namespace GlEngine
+namespace GlEngine::ShaderFactory
 {
-    namespace ShaderFactory
+    enum class ENGINE_SHARED ComponentType : unsigned
     {
-        enum class ENGINE_SHARED ComponentType : unsigned
-        {
-            Input = 0,
-            Vertex,
-            TessControl,
-            TessEvaluation,
-            Geometry,
-            Fragment,
-            Output
-        };
-    }
-}
+        Input = 0,
+        Vertex,
+        TessControl,
+        TessEvaluation,
+        Geometry,
+        Fragment,
+        Output
+    };
 
-//namespace std
-//{
-//    template <>
-//    class numeric_limits<GlEngine::ShaderFactory::ComponentType>
-//    {
-//        typedef GlEngine::ShaderFactory::ComponentType T;
-//
-//    public:
-//        static constexpr T min() noexcept
-//        {
-//            return T::Input;
-//        }
-//        static constexpr T max() noexcept
-//        {
-//            return T::Output;
-//        }
-//    };
-//}
+    ENGINE_SHARED std::ostream &operator<<(std::ostream &stream, ComponentType type);
+}
 
 CONTIGUOUS_ENUM_H(GlEngine::ShaderFactory::ComponentType, Input, Output)

@@ -136,18 +136,15 @@ namespace GlEngine
 
         void PropertyType_attribs<Vector<2, int>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform2i(uniformLocation, val[0], val[1]);
         }
         void PropertyType_attribs<Vector<3, int>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform3i(uniformLocation, val[0], val[1], val[2]);
         }
         void PropertyType_attribs<Vector<4, int>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform4i(uniformLocation, val[0], val[1], val[2], val[3]);
         }
 #pragma endregion
 
@@ -171,18 +168,15 @@ namespace GlEngine
 
         void PropertyType_attribs<Vector<2, unsigned>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform2ui(uniformLocation, val[0], val[1]);
         }
         void PropertyType_attribs<Vector<3, unsigned>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform3ui(uniformLocation, val[0], val[1], val[2]);
         }
         void PropertyType_attribs<Vector<4, unsigned>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform4ui(uniformLocation, val[0], val[1], val[2], val[3]);
         }
 #pragma endregion
 
@@ -238,18 +232,15 @@ namespace GlEngine
 
         void PropertyType_attribs<Vector<2, double>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform2d(uniformLocation, val[0], val[1]);
         }
         void PropertyType_attribs<Vector<3, double>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform3d(uniformLocation, val[0], val[1], val[2]);
         }
         void PropertyType_attribs<Vector<4, double>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform4d(uniformLocation, val[0], val[1], val[2], val[3]);
         }
 #pragma endregion
 

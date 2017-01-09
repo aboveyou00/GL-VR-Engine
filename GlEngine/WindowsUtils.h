@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Util
+namespace GlEngine::Util
 {
     ENGINE_SHARED std::string GetLastErrorAsString();
 }

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "WindowsUtils.h"
 
-namespace Util
+namespace GlEngine::Util
 {
     std::string GetLastErrorAsString()
     {

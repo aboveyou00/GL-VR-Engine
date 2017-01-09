@@ -3,7 +3,7 @@
 #include "Engine.h"
 #include "LogType.h"
 
-namespace Util
+namespace GlEngine::Util
 {
     template <typename... TArgs>
     bool Log(std::string format, TArgs... args)

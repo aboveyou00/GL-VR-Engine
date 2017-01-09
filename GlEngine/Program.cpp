@@ -3,6 +3,7 @@
 #include "Attribute.h"
 #include "Snippet.h"
 #include "ComponentType_attribs.h"
+#include "LogUtils.h"
 #include <fstream>
 #include <direct.h>
 
@@ -72,6 +73,8 @@ namespace GlEngine
             {
                 if (components[type] == nullptr) continue;
                 (*source)[type] = new std::string(components[type]->Compile());
+                //Util::Log(LogType::InfoC, "%s:\n%s", type, (*source)[type]->c_str());
+                std::cout << type << ":" << std::endl << *(*source)[type] << std::endl;
             }
 
             return source;
