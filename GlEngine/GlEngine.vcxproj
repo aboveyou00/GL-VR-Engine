@@ -309,6 +309,7 @@
     <ClCompile Include="CameraGameObject.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionGroup.cpp" />
+    <ClCompile Include="ComponentType.cpp" />
     <ClCompile Include="ComponentType_attribs.cpp" />
     <ClCompile Include="ConstantPropertySource.cpp" />
     <ClCompile Include="CompoundGraphicsObject.cpp" />

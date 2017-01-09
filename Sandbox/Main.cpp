@@ -8,32 +8,29 @@
 
 using namespace GlEngine::ShaderFactory;
 
-int main(int argc, char **argv)
+int main(int, char**)
 {
-    argc; argv;
-    //TODO: Parse arguments
+    this_thread_name() = "main";
 
-    //this_thread_name() = "main";
+    Sandbox sandbox;
 
-    //Sandbox sandbox;
-
-    //if (!sandbox.Initialize()) return -1;
-    //sandbox.MessageLoop();
-    //sandbox.Shutdown();
-    //return 0;
-
-    auto prog = Program(false, false);
-
-    prog.AddPropertySource(new VboPropertySource(&prop_Position, &prop_Normal, &prop_UV));
-
-    prog.AddPropertySource(new UniformPropertySource(&prop_ModelViewMatrix, &prop_ProjectionMatrix, &prop_DiffuseLightPosition, &prop_DiffuseLightColor, &prop_RgbColor, &prop_ReflectionCoefficient));
-
-    prog.AddAttribute(&attr_GlPosition);
-    prog.AddAttribute(&attr_DiffuseLight);
-
-    prog.Compile();
-
-    prog.WriteToDisk("diffuse");
-
+    if (!sandbox.Initialize()) return -1;
+    sandbox.MessageLoop();
+    sandbox.Shutdown();
     return 0;
+
+    //auto prog = Program(false, false);
+
+    //prog.AddPropertySource(new VboPropertySource(&prop_Position, &prop_Normal, &prop_UV));
+
+    //prog.AddPropertySource(new UniformPropertySource(&prop_ModelViewMatrix, &prop_ProjectionMatrix, &prop_DiffuseLightPosition, &prop_DiffuseLightColor, &prop_RgbColor, &prop_ReflectionCoefficient));
+
+    //prog.AddAttribute(&attr_GlPosition);
+    //prog.AddAttribute(&attr_DiffuseLight);
+
+    //prog.Compile();
+
+    //prog.WriteToDisk("diffuse");
+
+    //return 0;
 }

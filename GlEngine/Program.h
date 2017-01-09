@@ -26,7 +26,7 @@ namespace GlEngine
             unsigned FindOrCreateUniform(ShaderProp* prop);
             void ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp* prop);
 
-            void Compile();
+            ShaderSource *Compile();
 
             void WriteToDisk(std::string name);
 

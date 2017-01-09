@@ -57,29 +57,32 @@ namespace GlEngine
             }
         }
 
-        void Program::Compile()
+        ShaderSource *Program::Compile()
         {
             assert(!compilationStarted);
+            compilationStarted = true;
             
             BootstrapInputs();
             BootstrapOutputs();
-            compilationStarted = true;
+
             ResolveProperties();
-            for (size_t q = 0; q < this->numComponents; q++)
+            auto source = new ComponentArray<std::string*>();
+
+            for (auto type = ComponentType::Vertex; type != ComponentType::Output; type++)
             {
-                if (components[q] == nullptr) continue;
-                components[q]->Compile();
+                if (components[type] == nullptr) continue;
+                (*source)[type] = new std::string(components[type]->Compile());
             }
+
+            return source;
         }
 
         void Program::BootstrapInputs()
         {
-            assert(!compilationStarted);
         }
 
         void Program::BootstrapOutputs()
         {
-            assert(!compilationStarted);
             components[ComponentType::Output]->unresolvedSnippets.insert(new Snippet("", { &prop_RgbaColor }, std::vector<ShaderProp*>()));
             // TODO: delete
         }

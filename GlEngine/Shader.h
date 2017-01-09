@@ -1,50 +1,47 @@
 #pragma once
 
-#include "IComponent.h"
 #include "IGraphicsComponent.h"
-#include "Attribute.h"
+#include "ComponentArray.h"
 
 namespace GlEngine
 {
-    class ENGINE_SHARED Shader : public IGraphicsComponent
+    namespace ShaderFactory
     {
-    public:
-        Shader();
-        //Shader(std::vector<ShaderFactory::Attribute>, std::string vert_src = "", std::string frag_src = "", std::string tessc_src = "", std::string tesse_src = "", std::string geom_src = "");
-        ~Shader();
-
-        inline static Shader *Create(const char *shader_name)
+        class ENGINE_SHARED Shader : public IGraphicsComponent
         {
-            return Create("", shader_name);
-        }
-        static Shader *Create(const char *shader_path, const char *shader_name);
-        //static Shader * Create(ShaderAttribs attribs);
+        private:
+            Shader(ShaderSource *source);
+            ~Shader();
 
-        bool Initialize() override;
-        void Shutdown() override;
-        bool InitializeGraphics() override;
-        void ShutdownGraphics() override;
+        public:
+            static Shader *Create(ShaderSource *source);
 
-        const char *name() override;
+            bool Initialize() override;
+            void Shutdown() override;
+            bool InitializeGraphics() override;
+            void ShutdownGraphics() override;
 
-        void Push();
-        void Pop();
+            const char *name() override;
 
-        bool UsesVertex();
-        bool UsesFragment();
-        bool UsesTesselation();
-        bool UsesGeometry();
+            void Push();
+            void Pop();
 
-        operator bool();
+            bool UsesVertex();
+            bool UsesFragment();
+            bool UsesTesselation();
+            bool UsesGeometry();
 
-    private:
-        //ShaderFactory::Program program;
-        unsigned _vert, _frag, _tessc, _tesse, _geom, _prog;
+            operator bool();
 
-        unsigned compileShader(unsigned type, const char *text, int text_length);
-        bool ensureShaderCompiled(unsigned shader);
+        private:
+            ShaderSource *source;
+            unsigned _prog, _vert, _tessc, _tesse, _geom, _frag;
 
-        unsigned compileProgram();
-        bool ensureProgramCompiled();
-    };
+            unsigned compileShader(unsigned type, const char *text, int text_length);
+            bool ensureShaderCompiled(unsigned shader);
+
+            unsigned compileProgram();
+            bool ensureProgramCompiled();
+        };
+    }
 }

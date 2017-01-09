@@ -1,33 +1,40 @@
 #pragma once
 
-//#include "Shader.h"
-//
-//namespace GlEngine
-//{
-//    static const unsigned glsl_version = 430;
-//
-//    class ShaderFactory
-//    {
-//    public:
-//        static ShaderFactory Build(ShaderAttribs attribs, std::string vertexSource = "", std::string fragmentSource = "", std::string tessControlSource = "", std::string tessEvaluationSource = "", std::string geometrySource = "");
-//
-//    private:
-//        static const int maxLayouts = 32;
-//        
-//        static ShaderAttrib uniformLayouts[maxLayouts], inLayouts[maxLayouts], vertexOutLayouts[maxLayouts], tesscOutLayouts[maxLayouts], tesseOutLayouts[maxLayouts], geometryOutLayouts[maxLayouts], fragmentOutLayouts[maxLayouts];
-//        static unsigned uniformLayoutsCount, inLayoutsCount, vertexOutLayoutsCount, tesscOutLayoutsCount, tesseOutLayoutsCount, geometryOutLayoutsCount, fragmentOutLayoutsCount;
-//
-//        static void SetupLayouts(ShaderAttribs attribs);
-//        
-//        static std::string BuildLayouts(ShaderAttrib * uniformLayouts, unsigned uniformLayoutsCount, ShaderAttrib * inLayouts, unsigned inLayoutsCount, ShaderAttrib * outLayouts, unsigned outLayoutsCount);
-//
-//        static std::string BuildVertex(ShaderAttribs attribs);
-//        static std::string BuildFragment(ShaderAttribs attribs);
-//        static std::string BuildTessControl(ShaderAttribs attribs);
-//        static std::string BuildTessEvaluation(ShaderAttribs attribs);
-//        static std::string BuildGeometry(ShaderAttribs attribs);
-//
-//        static std::string LoadShaderSource(const const char * path, const char * const name, const char *suffix, bool required);
-//        static void Clear();
-//    };
-//}
+#include "IGraphicsComponent.h"
+
+namespace GlEngine
+{
+    class Material;
+
+    namespace ShaderFactory
+    {
+        class Shader;
+
+        class ENGINE_SHARED ShaderFactory : public IGraphicsComponent
+        {
+        public:
+            ShaderFactory();
+            ~ShaderFactory();
+
+            Material *material();
+            void SetMaterial(Material *mat);
+
+            virtual bool Initialize() override;
+            virtual void Shutdown() override;
+
+            virtual bool InitializeGraphics() override;
+            virtual void ShutdownGraphics() override;
+
+            void Push();
+            void Pop();
+
+            virtual operator bool() override;
+            
+            virtual const char *name() override;
+            
+        private:
+            Material *_mat;
+            Shader *_shader;
+        };
+    }
+}

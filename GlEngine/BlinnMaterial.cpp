@@ -52,6 +52,15 @@ namespace GlEngine
         return TesselationType::Disabled;
     }
 
+    std::vector<ShaderFactory::ShaderProp*> BlinnMaterial::properties()
+    {
+        return { };
+    }
+    std::vector<ShaderFactory::Attribute*> BlinnMaterial::attributes()
+    {
+        return { };
+    }
+
     const char *BlinnMaterial::name()
     {
         return "BlinnMaterial";

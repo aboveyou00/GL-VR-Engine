@@ -43,6 +43,15 @@ namespace GlEngine
         return GlEngine::TesselationType::Disabled;
     }
 
+    std::vector<ShaderFactory::ShaderProp*> Image2dMaterial::properties()
+    {
+        return { };
+    }
+    std::vector<ShaderFactory::Attribute*> Image2dMaterial::attributes()
+    {
+        return { };
+    }
+
     const char *Image2dMaterial::name()
     {
         return "Image2dMaterial";

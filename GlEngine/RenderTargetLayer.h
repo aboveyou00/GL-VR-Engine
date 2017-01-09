@@ -12,18 +12,20 @@ namespace GlEngine
     };
 }
 
-template<>
-constexpr GlEngine::RenderTargetLayer std::numeric_limits<GlEngine::RenderTargetLayer>::min() noexcept
-{
-    return GlEngine::RenderTargetLayer::Layer3dOpaque;
-}
-template<>
-constexpr GlEngine::RenderTargetLayer std::numeric_limits<GlEngine::RenderTargetLayer>::max() noexcept
-{
-    return GlEngine::RenderTargetLayer::Layer2d;
-}
+//template<>
+//constexpr GlEngine::RenderTargetLayer std::numeric_limits<GlEngine::RenderTargetLayer>::min() noexcept
+//{
+//    return GlEngine::RenderTargetLayer::Layer3dOpaque;
+//}
+//template<>
+//constexpr GlEngine::RenderTargetLayer std::numeric_limits<GlEngine::RenderTargetLayer>::max() noexcept
+//{
+//    return GlEngine::RenderTargetLayer::Layer2d;
+//}
 
-GlEngine::RenderTargetLayer ENGINE_SHARED operator++(GlEngine::RenderTargetLayer &ref, int) noexcept;
-GlEngine::RenderTargetLayer ENGINE_SHARED operator--(GlEngine::RenderTargetLayer &ref, int) noexcept;
-GlEngine::RenderTargetLayer ENGINE_SHARED operator++(GlEngine::RenderTargetLayer &ref) noexcept;
-GlEngine::RenderTargetLayer ENGINE_SHARED operator--(GlEngine::RenderTargetLayer &ref) noexcept;
+//GlEngine::RenderTargetLayer ENGINE_SHARED operator++(GlEngine::RenderTargetLayer &ref, int) noexcept;
+//GlEngine::RenderTargetLayer ENGINE_SHARED operator--(GlEngine::RenderTargetLayer &ref, int) noexcept;
+//GlEngine::RenderTargetLayer ENGINE_SHARED operator++(GlEngine::RenderTargetLayer &ref) noexcept;
+//GlEngine::RenderTargetLayer ENGINE_SHARED operator--(GlEngine::RenderTargetLayer &ref) noexcept;
+
+CONTIGUOUS_ENUM_H(GlEngine::RenderTargetLayer, Layer3dOpaque, Layer2d)

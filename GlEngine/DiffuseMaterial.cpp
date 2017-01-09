@@ -2,6 +2,9 @@
 #include "DiffuseMaterial.h"
 #include "Shader.h"
 
+#include "Property.h"
+#include "Attribute.h"
+
 #include "OpenGl.h"
 
 namespace GlEngine
@@ -21,7 +24,7 @@ namespace GlEngine
     }
 
     DiffuseMaterial::DiffuseMaterial(Vector<3> color)
-        : color(color)//, instancedShader(Shader::Create("Shaders", "diffuse.inst")), singleShader(Shader::Create("Shaders", "diffuse"))
+        : color(color)
     {
     }
     DiffuseMaterial::~DiffuseMaterial()
@@ -31,17 +34,11 @@ namespace GlEngine
     void DiffuseMaterial::Push(bool instanced)
     {
         instanced;
-        assert(false);
-        //auto shader = instanced ? instancedShader : singleShader;
-        //if (shader && *shader) shader->Push();
-        glUniform3f(5, color[0], color[1], color[2]);
+        //glUniform3f(5, color[0], color[1], color[2]);
     }
     void DiffuseMaterial::Pop(bool instanced)
     {
         instanced;
-        assert(false);
-        //auto shader = instanced ? instancedShader : singleShader;
-        //if (shader && *shader) shader->Pop();
     }
 
     bool DiffuseMaterial::IsOpaque()
@@ -54,14 +51,31 @@ namespace GlEngine
         return TesselationType::Disabled;
     }
 
+    std::vector<ShaderFactory::ShaderProp*> DiffuseMaterial::properties()
+    {
+        return {
+            &ShaderFactory::prop_ModelViewMatrix,
+            &ShaderFactory::prop_ProjectionMatrix,
+            &ShaderFactory::prop_DiffuseLightPosition,
+            &ShaderFactory::prop_DiffuseLightColor,
+            &ShaderFactory::prop_RgbColor,
+            &ShaderFactory::prop_ReflectionCoefficient
+        };
+    }
+    std::vector<ShaderFactory::Attribute*> DiffuseMaterial::attributes()
+    {
+        return {
+            &ShaderFactory::attr_GlPosition,
+            &ShaderFactory::attr_DiffuseLight
+        };
+    }
+
     const char *DiffuseMaterial::name()
     {
         return "DiffuseMaterial";
     }
     DiffuseMaterial::operator bool()
     {
-        assert(false);
-        return false;
-        //return instancedShader && *instancedShader && singleShader && *singleShader;
+        return true;
     }
 }

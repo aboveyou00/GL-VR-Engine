@@ -151,6 +151,17 @@ namespace GlEngine
                     return false;
             return true;
         }
+        bool is_empty_or_ws(const std::string *const str) noexcept
+        {
+            if (str == nullptr) return true;
+            return is_empty_or_ws(*str);
+        }
+        bool is_empty_or_ws(const std::string &str) noexcept
+        {
+            for (auto it = str.begin(); it != str.end(); it++)
+                if (!isWhitespace(*it)) return false;
+            return true;
+        }
 
         inline char interpretEscapeCharacter(char chr) noexcept
         {

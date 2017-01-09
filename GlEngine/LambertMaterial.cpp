@@ -52,6 +52,15 @@ namespace GlEngine
         return TesselationType::Disabled;
     }
 
+    std::vector<ShaderFactory::ShaderProp*> LambertMaterial::properties()
+    {
+        return { };
+    }
+    std::vector<ShaderFactory::Attribute*> LambertMaterial::attributes()
+    {
+        return { };
+    }
+
     const char *LambertMaterial::name()
     {
         return "LambertMaterial";

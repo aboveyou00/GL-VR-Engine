@@ -47,3 +47,48 @@
     { \
         return one = static_cast<flags_name>(static_cast<unsigned>(one) ^ static_cast<unsigned>(two)); \
     }
+
+#define CONTIGUOUS_ENUM_H(enum_name, min_val, max_val) \
+    template<> \
+    constexpr enum_name std::numeric_limits<enum_name>::min() noexcept \
+    { \
+        return enum_name::min_val; \
+    } \
+    template<> \
+    constexpr enum_name std::numeric_limits<enum_name>::max() noexcept \
+    { \
+        return enum_name::max_val; \
+    } \
+     \
+    enum_name ENGINE_SHARED operator++(enum_name &ref, int) noexcept; \
+    enum_name ENGINE_SHARED operator--(enum_name &ref, int) noexcept; \
+    enum_name ENGINE_SHARED operator++(enum_name &ref) noexcept; \
+    enum_name ENGINE_SHARED operator--(enum_name &ref) noexcept;
+
+#define CONTIGUOUS_ENUM_CPP(enum_name) \
+    enum_name operator++(enum_name &ref, int) noexcept \
+    { \
+        auto oldval = ref; \
+        if (ref == std::numeric_limits<enum_name>::max()) ref = std::numeric_limits<enum_name>::min(); \
+        else ref = static_cast<enum_name>(static_cast<int>(ref) + 1); \
+        return oldval; \
+    } \
+    enum_name operator--(enum_name &ref, int) noexcept \
+    { \
+        auto oldval = ref; \
+        if (ref == std::numeric_limits<enum_name>::min()) ref = std::numeric_limits<enum_name>::max(); \
+        else ref = static_cast<enum_name>(static_cast<int>(ref) - 1); \
+        return oldval; \
+    } \
+    enum_name operator++(enum_name &ref) noexcept \
+    { \
+        if (ref == std::numeric_limits<enum_name>::max()) ref = std::numeric_limits<enum_name>::min(); \
+        else ref = static_cast<enum_name>(static_cast<int>(ref) + 1); \
+        return ref; \
+    } \
+    enum_name operator--(enum_name &ref) noexcept \
+    { \
+        if (ref == std::numeric_limits<enum_name>::min()) ref = std::numeric_limits<enum_name>::max(); \
+        else ref = static_cast<enum_name>(static_cast<int>(ref) - 1); \
+        return ref; \
+    }

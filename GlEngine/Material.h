@@ -8,6 +8,12 @@ namespace GlEngine
 {
     class Texture;
 
+    namespace ShaderFactory
+    {
+        class ShaderProp;
+        class Attribute;
+    }
+
     class ENGINE_SHARED Material : public IGraphicsComponent
     {
     public:
@@ -32,6 +38,9 @@ namespace GlEngine
         virtual RenderTargetLayer GetRenderTargetLayer();
 
         virtual TesselationType GetTesselationType() = 0;
+
+        virtual std::vector<ShaderFactory::ShaderProp*> properties() = 0;
+        virtual std::vector<ShaderFactory::Attribute*> attributes() = 0;
 
     private:
         bool is2d;

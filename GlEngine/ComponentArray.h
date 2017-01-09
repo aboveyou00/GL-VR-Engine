@@ -41,9 +41,32 @@ namespace GlEngine
                 return _size;
             }
 
+            inline T& vertex()
+            {
+                return (*this)[ComponentType::Vertex];
+            }
+            inline T& tessControl()
+            {
+                return (*this)[ComponentType::TessControl];
+            }
+            inline T& tessEvaluation()
+            {
+                return (*this)[ComponentType::TessEvaluation];
+            }
+            inline T& geometry()
+            {
+                return (*this)[ComponentType::Geometry];
+            }
+            inline T& fragment()
+            {
+                return (*this)[ComponentType::Fragment];
+            }
+
         private:
             size_t _size;
             std::vector<T> _components;
         };
+
+        typedef ComponentArray<std::string*> ShaderSource;
     }
 }

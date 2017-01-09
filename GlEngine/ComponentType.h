@@ -1,5 +1,5 @@
 #pragma once
-#include <limits>
+#include <numeric>
 
 namespace GlEngine
 {
@@ -18,21 +18,23 @@ namespace GlEngine
     }
 }
 
-namespace std
-{
-    template <>
-    class numeric_limits<GlEngine::ShaderFactory::ComponentType>
-    {
-        typedef GlEngine::ShaderFactory::ComponentType T;
+//namespace std
+//{
+//    template <>
+//    class numeric_limits<GlEngine::ShaderFactory::ComponentType>
+//    {
+//        typedef GlEngine::ShaderFactory::ComponentType T;
+//
+//    public:
+//        static constexpr T min() noexcept
+//        {
+//            return T::Input;
+//        }
+//        static constexpr T max() noexcept
+//        {
+//            return T::Output;
+//        }
+//    };
+//}
 
-    public:
-        static constexpr T min() noexcept
-        {
-            return T::Input;
-        }
-        static constexpr T max() noexcept
-        {
-            return T::Output;
-        }
-    };
-}
+CONTIGUOUS_ENUM_H(GlEngine::ShaderFactory::ComponentType, Input, Output)
