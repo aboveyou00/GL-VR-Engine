@@ -3,6 +3,8 @@
 
 #include "StringUtils.h"
 
+#include "OpenGl.h"
+
 namespace GlEngine
 {
     namespace ShaderFactory
@@ -63,23 +65,19 @@ namespace GlEngine
         }
         void PropertyType_attribs<int>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform1i(uniformLocation, val);
         }
         void PropertyType_attribs<unsigned>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform1ui(uniformLocation, val);
         }
         void PropertyType_attribs<float>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform1f(uniformLocation, val);
         }
         void PropertyType_attribs<double>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform1d(uniformLocation, val);
         }
 #pragma endregion
 
@@ -208,18 +206,15 @@ namespace GlEngine
 
         void PropertyType_attribs<Vector<2>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform2f(uniformLocation, val[0], val[1]);
         }
         void PropertyType_attribs<Vector<3>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform3f(uniformLocation, val[0], val[1], val[2]);
         }
         void PropertyType_attribs<Vector<4>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform4f(uniformLocation, val[0], val[1], val[2], val[3]);
         }
 #pragma endregion
 
@@ -312,8 +307,7 @@ namespace GlEngine
 
         void PropertyType_attribs<Matrix<2, 2>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniformMatrix2fv(uniformLocation, 1, false, val.getAddr());
         }
         void PropertyType_attribs<Matrix<2, 3>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
@@ -333,8 +327,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<3, 3>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniformMatrix3fv(uniformLocation, 1, false, val.getAddr());
         }
         void PropertyType_attribs<Matrix<3, 4>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
@@ -354,8 +347,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<4, 4>>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniformMatrix4fv(uniformLocation, 1, false, val.getAddr());
         }
 #pragma endregion
     }

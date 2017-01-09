@@ -93,7 +93,6 @@ namespace GlEngine
         std::string Component::Compile()
         {
             std::stringstream stream;
-            std::string result = "";
 
             compileVersion(stream);
             compileLayouts(stream);
@@ -107,7 +106,7 @@ namespace GlEngine
             stream << "}" << std::endl;
 
             compiled = stream.str();
-            return result;
+            return compiled;
         }
 
         void Component::compileVersion(std::stringstream &stream)
