@@ -2,16 +2,18 @@
 #include "LitTorus.h"
 #include "ObjGraphicsObject.h"
 #include "DiffuseMaterial.h"
-#include <random>
+#include "RandomUtils.h"
+#include "MatrixStack.h"
 
 LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed)
     : LitTorus(color, reflectionCoef, rotationSpeed, randomRotateAxis())
 {
-    RequireTick(true);
 }
 LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed, Vector<3> rotationAxis)
     : color(color), reflectionCoef(reflectionCoef), rotationSpeed(rotationSpeed), rotationAxis(rotationAxis)
 {
+    RequireTick(true);
+    std::cout << "Rotation Axis: " << rotationAxis << std::endl;
 }
 LitTorus::~LitTorus()
 {
@@ -19,7 +21,9 @@ LitTorus::~LitTorus()
 
 void LitTorus::Tick(float delta)
 {
-    this->Rotate(delta * rotationSpeed, rotationAxis);
+    this->RotateX(rotationSpeed * delta * rotationAxis[0]);
+    this->RotateY(rotationSpeed * delta * rotationAxis[1]);
+    this->RotateZ(rotationSpeed * delta * rotationAxis[2]);
 }
 
 const char *LitTorus::name()
@@ -35,8 +39,7 @@ GlEngine::GraphicsObject *LitTorus::CreateGraphicsObject(GlEngine::GraphicsConte
 
 float randomVecComponent()
 {
-    auto val = (float)rand() / (float)RAND_MAX;
-    return (val - .5f) * 2;
+    return GlEngine::Util::random(2.f) - 1;
 }
 Vector<3> LitTorus::randomRotateAxis()
 {
@@ -44,7 +47,7 @@ Vector<3> LitTorus::randomRotateAxis()
     {
         Vector<3> axis = { randomVecComponent(), randomVecComponent(), randomVecComponent() };
         if (axis[0] == 0 && axis[1] == 0 && axis[2] == 0) continue;
-        //if ()
+        if (sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]) > 1) continue;
         return axis;
     }
 }

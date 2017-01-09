@@ -22,7 +22,7 @@ namespace GlEngine
     {
     }
     TransformedGraphicsObject::TransformedGraphicsObject(GraphicsObject * obj, Vector<3> position, Matrix<4, 4> orientation)
-        : TransformedGraphicsObject(obj, Mat3T<float>::TranslateMatrix(position) * orientation)
+        : TransformedGraphicsObject(obj, orientation * Mat3T<float>::TranslateMatrix(position))
     {
     }
     TransformedGraphicsObject::~TransformedGraphicsObject()
