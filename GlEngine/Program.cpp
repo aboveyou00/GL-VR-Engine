@@ -146,7 +146,7 @@ namespace GlEngine
             for (auto it : uniforms)
                 if (it.second == prop)
                     return it.first;
-            return 0;
+            return -1;
         }
         unsigned Program::FindOrCreateUniform(ShaderProp *prop)
         {
