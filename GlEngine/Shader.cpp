@@ -18,7 +18,8 @@ namespace GlEngine
     namespace ShaderFactory
     {
         Shader::Shader(ShaderSource *source)
-            : source(source)
+            : source(source),
+            _vert(0), _frag(0), _tessc(0), _tesse(0), _geom(0), _prog(0)
         {
             assert(!Util::is_empty_or_ws(source->vertex()));
             assert(!Util::is_empty_or_ws(source->fragment()));

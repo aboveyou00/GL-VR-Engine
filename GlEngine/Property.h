@@ -47,7 +47,7 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<3>> prop_Position;
         extern ENGINE_SHARED Property<Vector<3>> prop_Normal;
         extern ENGINE_SHARED Property<Vector<2>> prop_UV;
-        extern ENGINE_SHARED Property<Vector<3>> prop_ReflectionCoefficient;
+        extern ENGINE_SHARED Property<Vector<4>> prop_ReflectionCoefficient;
 
         extern ENGINE_SHARED Property<Vector<4>> prop_GlPosition;
         

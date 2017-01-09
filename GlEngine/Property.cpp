@@ -11,7 +11,7 @@ namespace GlEngine
         Property<Vector<3>> prop_Position("xyz_position");
         Property<Vector<3>> prop_Normal("normal");
         Property<Vector<2>> prop_UV("uv_coords");
-        Property<Vector<3>> prop_ReflectionCoefficient("reflection_coefficient");
+        Property<Vector<4>> prop_ReflectionCoefficient("reflection_coefficient");
         
         Property<Vector<4>> prop_GlPosition("gl_Position", true);
 

@@ -51,10 +51,10 @@ namespace GlEngine
 
         Attribute attr_DiffuseLight = Attribute(
             { // Vertex
-                new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3]), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseLightDirection, &prop_Normal }, { &prop_DiffuseLightColor }),
+                new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], vec4([in:3], 1)), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseLightDirection, &prop_Normal }, { &prop_DiffuseLightColor }),
 
                 //Fallback
-                (new Snippet("[temp:0] = [in:1] * [in:0];\n[out:0] = normalize([temp:0] - [in:2]);", { &prop_Position, &prop_ModelViewMatrix, &prop_DiffuseLightPosition }, { &prop_DiffuseLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>>()
+                (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[out:0] = normalize([temp:0] - vec4([in:2], 0));", { &prop_Position, &prop_ModelViewMatrix, &prop_DiffuseLightPosition }, { &prop_DiffuseLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>>()
             },
             { // Fragment
                 //new Snippet("[out:0] = [in:0] * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
