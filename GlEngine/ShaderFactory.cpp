@@ -10,6 +10,8 @@
 #include "Material.h"
 
 #include "Shader.h"
+#include "Property.h"
+#include "MatrixStack.h"
 
 namespace GlEngine
 {
@@ -31,17 +33,21 @@ namespace GlEngine
         void ShaderFactory::SetMaterial(Material *mat)
         {
             if (mat == this->_mat) return;
+
             this->_mat = mat;
+            this->_program = nullptr;
+            this->_shader = nullptr;
+            if (mat == nullptr) return;
 
-            Program prog(false, false);
+            this->_program = new Program(false, false);
 
-            prog.AddPropertySource(new VboPropertySource(&prop_Position, &prop_Normal, &prop_UV));
+            this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_Normal, &prop_UV));
 
-            prog.AddPropertySource(new UniformPropertySource(mat->properties()));
+            this->_program->AddPropertySource(new UniformPropertySource(mat->properties()));
 
             for (auto *attr : mat->attributes())
-                prog.AddAttribute(attr);
-            auto *source = prog.Compile();
+                this->_program->AddAttribute(attr);
+            auto *source = this->_program->Compile();
 
             this->_shader = Shader::Create(source);
         }
@@ -65,6 +71,11 @@ namespace GlEngine
         {
             assert(!!*this);
             _shader->Push();
+
+            ProvideProperty(prop_ModelViewMatrix, MatrixStack::ModelView.head());
+            ProvideProperty(prop_ProjectionMatrix, MatrixStack::Projection.head());
+
+            _mat->Push(*this);
 
             /* Use environment here */
 

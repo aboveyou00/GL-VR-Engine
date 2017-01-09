@@ -18,13 +18,11 @@ namespace GlEngine
         float top = -(float)height / 2;
         float bottom = (float)height / 2;
         MatrixStack::Projection.push(Mat3T<float>::Ortho(left, right, bottom, top, nearVal, farVal));
-        MatrixStack::Projection.tell_gl();
     }
 
     void OrthoViewPort::Pop()
     {
         MatrixStack::Projection.pop();
-        MatrixStack::Projection.tell_gl();
     }
 
     void OrthoViewPort::SetNear(float nearVal)

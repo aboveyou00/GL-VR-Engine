@@ -14,14 +14,11 @@ namespace GlEngine
         static MatrixStack &ModelView;
 
     public:
-
         const Matrix<4, 4> &push(const Matrix<4, 4> &matrix);
         const Matrix<4, 4> &mult(const Matrix<4, 4> &matrix);
         const Matrix<4, 4> &pop();
         const Matrix<4, 4> &dup();
         const Matrix<4, 4> &head();
-
-        void tell_gl();
 
         inline unsigned GetStackSize()
         {

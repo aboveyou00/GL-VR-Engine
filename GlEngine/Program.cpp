@@ -138,11 +138,18 @@ namespace GlEngine
             }
         }
 
-        unsigned Program::FindOrCreateUniform(ShaderProp * prop)
+        int Program::FindUniform(ShaderProp *prop)
         {
             for (auto it : uniforms)
                 if (it.second == prop)
                     return it.first;
+            return 0;
+        }
+        unsigned Program::FindOrCreateUniform(ShaderProp *prop)
+        {
+            auto location = FindUniform(prop);
+            if (location != -1) return static_cast<unsigned>(location);
+
             unsigned idx = uniforms.size();
             uniforms[idx] = prop;
             return idx;

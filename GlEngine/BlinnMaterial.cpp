@@ -27,20 +27,21 @@ namespace GlEngine
     {
     }
 
-    void BlinnMaterial::Push(bool instanced)
+    void BlinnMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
-        instanced;
+        factory;
+        assert(false);
         //auto shader = instanced ? instancedShader : singleShader;
         //if (shader && *shader) shader->Push();
-        texture->Push();
+        //texture->Push();
     }
-    void BlinnMaterial::Pop(bool instanced)
-    {
-        instanced;
-        texture->Pop();
-        //auto shader = instanced ? instancedShader : singleShader;
-        //if (shader && *shader) shader->Pop();
-    }
+    //void BlinnMaterial::Pop(bool instanced)
+    //{
+    //    instanced;
+    //    texture->Pop();
+    //    //auto shader = instanced ? instancedShader : singleShader;
+    //    //if (shader && *shader) shader->Pop();
+    //}
 
     bool BlinnMaterial::IsOpaque()
     {

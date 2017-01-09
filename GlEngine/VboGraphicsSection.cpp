@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "VboGraphicsSection.h"
 
+#include "ShaderFactory.h"
 #include "VboFactory.h"
 #include "Material.h"
 #include "OpenGl.h"
@@ -13,8 +14,10 @@ namespace GlEngine
             : material(material),
               tris(new std::vector<Vector<3, uint16_t>>()),
               quads(new std::vector<Vector<4, uint16_t>>()),
+              factory(new ShaderFactory::ShaderFactory()),
               finalized(false)
         {
+            factory->SetMaterial(material);
         }
         VboGraphicsSection::~VboGraphicsSection()
         {
@@ -81,7 +84,8 @@ namespace GlEngine
             if (layer != material->GetRenderTargetLayer())
                 return;
 
-            material->Push(false);
+            //material->Push(false);
+            factory->Push();
 
             auto tesselation = material->GetTesselationType();
             if (tesselation == TesselationType::Disabled)
@@ -107,48 +111,52 @@ namespace GlEngine
             }
             else assert(false);
 
-            material->Pop(false);
+            factory->Pop();
+            //material->Pop(false);
         }
 
         void VboGraphicsSection::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
         {
-            if (layer != material->GetRenderTargetLayer())
-                return;
+            layer; instanceCount;
+            assert(false);
 
-            if (!*this) return;
+            //if (layer != material->GetRenderTargetLayer())
+            //    return;
 
-            material->Push(true);
+            //if (!*this) return;
 
-            auto tesselation = material->GetTesselationType();
-            if (tesselation == TesselationType::Disabled)
-            {
-                if (triCount) glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
-                if (quadCount) glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset), instanceCount);
-            }
-            else if (tesselation == TesselationType::Triangles)
-            {
-                if (triCount)
-                {
-                    glPatchParameteri(GL_PATCH_VERTICES, 3);
-                    glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
-                }
-            }
-            else if (tesselation == TesselationType::Quads)
-            {
-                if (quadCount)
-                {
-                    glPatchParameteri(GL_PATCH_VERTICES, 4);
-                    glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
-                }
-            }
-            else assert(false);
+            //material->Push(true);
 
-            material->Pop(true);
+            //auto tesselation = material->GetTesselationType();
+            //if (tesselation == TesselationType::Disabled)
+            //{
+            //    if (triCount) glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+            //    if (quadCount) glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset), instanceCount);
+            //}
+            //else if (tesselation == TesselationType::Triangles)
+            //{
+            //    if (triCount)
+            //    {
+            //        glPatchParameteri(GL_PATCH_VERTICES, 3);
+            //        glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+            //    }
+            //}
+            //else if (tesselation == TesselationType::Quads)
+            //{
+            //    if (quadCount)
+            //    {
+            //        glPatchParameteri(GL_PATCH_VERTICES, 4);
+            //        glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+            //    }
+            //}
+            //else assert(false);
+
+            //material->Pop(true);
         }
 
         VboGraphicsSection::operator bool()
         {
-            return finalized && material && *material;
+            return finalized && material && *material && factory && *factory;
         }
     }
 }

@@ -27,20 +27,21 @@ namespace GlEngine
     {
     }
 
-    void LambertMaterial::Push(bool instanced)
+    void LambertMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
-        instanced;
+        factory;
+        assert(false);
         //auto shader = instanced ? instancedShader : singleShader;
         //if (shader && *shader) shader->Push();
-        texture->Push();
+        //texture->Push();
     }
-    void LambertMaterial::Pop(bool instanced)
-    {
-        instanced;
-        texture->Pop();
-        //auto shader = instanced ? instancedShader : singleShader;
-        //if (shader && *shader) shader->Pop();
-    }
+    //void LambertMaterial::Pop(bool instanced)
+    //{
+    //    instanced;
+    //    texture->Pop();
+    //    //auto shader = instanced ? instancedShader : singleShader;
+    //    //if (shader && *shader) shader->Pop();
+    //}
 
     bool LambertMaterial::IsOpaque()
     {

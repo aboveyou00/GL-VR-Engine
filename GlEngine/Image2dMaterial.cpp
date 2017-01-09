@@ -19,20 +19,21 @@ namespace GlEngine
         this->tex = tex;
     }
 
-    void Image2dMaterial::Push(bool instanced)
+    void Image2dMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
-        assert(!instanced);
+        factory;
         assert(false);
+        //assert(!instanced);
         //if (singleShader && *singleShader) singleShader->Push();
-        if (tex && *tex) tex->Push();
+        //if (tex && *tex) tex->Push();
     }
-    void Image2dMaterial::Pop(bool instanced)
-    {
-        assert(!instanced);
-        if (tex && *tex) tex->Pop();
-        assert(false);
-        //if (singleShader && *singleShader) singleShader->Pop();
-    }
+    //void Image2dMaterial::Pop(bool instanced)
+    //{
+    //    assert(!instanced);
+    //    if (tex && *tex) tex->Pop();
+    //    assert(false);
+    //    //if (singleShader && *singleShader) singleShader->Pop();
+    //}
 
     bool Image2dMaterial::IsOpaque()
     {

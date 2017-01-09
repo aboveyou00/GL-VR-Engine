@@ -26,8 +26,6 @@ namespace GlEngine
                         result += ", " + PropertyType_attribs<T>::glsl_value(mat[r][c]);
             return result;
         }
-
-
 #pragma endregion
 
 #pragma region primitive
@@ -37,25 +35,51 @@ namespace GlEngine
         const std::string PropertyType_attribs<float>::glsl_name = "float"s;
         const std::string PropertyType_attribs<double>::glsl_name = "double"s;
 
-        std::string PropertyType_attribs<bool>::glsl_value(bool val)
+        std::string PropertyType_attribs<bool>::glsl_value(const bool &val)
         {
             return Util::ToString(val);
         }
-        std::string PropertyType_attribs<int>::glsl_value(int val)
+        std::string PropertyType_attribs<int>::glsl_value(const int &val)
         {
             return Util::ToString(val);
         }
-        std::string PropertyType_attribs<unsigned>::glsl_value(unsigned val)
+        std::string PropertyType_attribs<unsigned>::glsl_value(const unsigned &val)
         {
             return Util::ToString(val);
         }
-        std::string PropertyType_attribs<float>::glsl_value(float val)
+        std::string PropertyType_attribs<float>::glsl_value(const float &val)
         {
             return Util::ToString(val);
         }
-        std::string PropertyType_attribs<double>::glsl_value(double val)
+        std::string PropertyType_attribs<double>::glsl_value(const double &val)
         {
             return Util::ToString(val);
+        }
+
+        void PropertyType_attribs<bool>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<int>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<unsigned>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<float>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<double>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
         }
 #pragma endregion
 
@@ -64,17 +88,33 @@ namespace GlEngine
         const std::string PropertyType_attribs<Vector<3, bool>>::glsl_name = "bvec3"s;
         const std::string PropertyType_attribs<Vector<4, bool>>::glsl_name = "bvec4"s;
 
-        std::string PropertyType_attribs<Vector<2, bool>>::glsl_value(Vector<2, bool> val)
+        std::string PropertyType_attribs<Vector<2, bool>>::glsl_value(const Vector<2, bool> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<3, bool>>::glsl_value(Vector<3, bool> val)
+        std::string PropertyType_attribs<Vector<3, bool>>::glsl_value(const Vector<3, bool> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<4, bool>>::glsl_value(Vector<4, bool> val)
+        std::string PropertyType_attribs<Vector<4, bool>>::glsl_value(const Vector<4, bool> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
+        }
+
+        void PropertyType_attribs<Vector<2, bool>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<3, bool>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<4, bool>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
         }
 #pragma endregion
 
@@ -83,17 +123,33 @@ namespace GlEngine
         const std::string PropertyType_attribs<Vector<3, int>>::glsl_name = "ivec3"s;
         const std::string PropertyType_attribs<Vector<4, int>>::glsl_name = "ivec4"s;
 
-        std::string PropertyType_attribs<Vector<2, int>>::glsl_value(Vector<2, int> val)
+        std::string PropertyType_attribs<Vector<2, int>>::glsl_value(const Vector<2, int> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<3, int>>::glsl_value(Vector<3, int> val)
+        std::string PropertyType_attribs<Vector<3, int>>::glsl_value(const Vector<3, int> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<4, int>>::glsl_value(Vector<4, int> val)
+        std::string PropertyType_attribs<Vector<4, int>>::glsl_value(const Vector<4, int> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
+        }
+
+        void PropertyType_attribs<Vector<2, int>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<3, int>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<4, int>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
         }
 #pragma endregion
 
@@ -102,17 +158,33 @@ namespace GlEngine
         const std::string PropertyType_attribs<Vector<3, unsigned>>::glsl_name = "uvec3"s;
         const std::string PropertyType_attribs<Vector<4, unsigned>>::glsl_name = "uvec4"s;
 
-        std::string PropertyType_attribs<Vector<2, unsigned>>::glsl_value(Vector<2, unsigned> val)
+        std::string PropertyType_attribs<Vector<2, unsigned>>::glsl_value(const Vector<2, unsigned> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<3, unsigned>>::glsl_value(Vector<3, unsigned> val)
+        std::string PropertyType_attribs<Vector<3, unsigned>>::glsl_value(const Vector<3, unsigned> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<4, unsigned>>::glsl_value(Vector<4, unsigned> val)
+        std::string PropertyType_attribs<Vector<4, unsigned>>::glsl_value(const Vector<4, unsigned> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
+        }
+
+        void PropertyType_attribs<Vector<2, unsigned>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<3, unsigned>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<4, unsigned>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
         }
 #pragma endregion
 
@@ -121,17 +193,33 @@ namespace GlEngine
         const std::string PropertyType_attribs<Vector<3>>::glsl_name = "vec3"s;
         const std::string PropertyType_attribs<Vector<4>>::glsl_name = "vec4"s;
 
-        std::string PropertyType_attribs<Vector<2>>::glsl_value(Vector<2> val)
+        std::string PropertyType_attribs<Vector<2>>::glsl_value(const Vector<2> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<3>>::glsl_value(Vector<3> val)
+        std::string PropertyType_attribs<Vector<3>>::glsl_value(const Vector<3> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<4>>::glsl_value(Vector<4> val)
+        std::string PropertyType_attribs<Vector<4>>::glsl_value(const Vector<4> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
+        }
+
+        void PropertyType_attribs<Vector<2>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<3>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<4>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
         }
 #pragma endregion
 
@@ -140,17 +228,33 @@ namespace GlEngine
         const std::string PropertyType_attribs<Vector<3, double>>::glsl_name = "dvec3"s;
         const std::string PropertyType_attribs<Vector<4, double>>::glsl_name = "dvec4"s;
 
-        std::string PropertyType_attribs<Vector<2, double>>::glsl_value(Vector<2, double> val)
+        std::string PropertyType_attribs<Vector<2, double>>::glsl_value(const Vector<2, double> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<3, double>>::glsl_value(Vector<3, double> val)
+        std::string PropertyType_attribs<Vector<3, double>>::glsl_value(const Vector<3, double> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Vector<4, double>>::glsl_value(Vector<4, double> val)
+        std::string PropertyType_attribs<Vector<4, double>>::glsl_value(const Vector<4, double> &val)
         {
             return glsl_name + "(" + VectorArgumentsString(val) + ")";
+        }
+
+        void PropertyType_attribs<Vector<2, double>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<3, double>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Vector<4, double>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
         }
 #pragma endregion
 
@@ -167,43 +271,91 @@ namespace GlEngine
         const std::string PropertyType_attribs<Matrix<4, 3>>::glsl_name = "mat4x3"s;
         const std::string PropertyType_attribs<Matrix<4, 4>>::glsl_name = "mat4"s;
 
-        std::string PropertyType_attribs<Matrix<2, 2>>::glsl_value(Matrix<2, 2> val)
+        std::string PropertyType_attribs<Matrix<2, 2>>::glsl_value(const Matrix<2, 2> &val)
         {
             return glsl_name + "(" + MatrixArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Matrix<2, 3>>::glsl_value(Matrix<2, 3> val)
+        std::string PropertyType_attribs<Matrix<2, 3>>::glsl_value(const Matrix<2, 3> &val)
         {
             return glsl_name + "(" + MatrixArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Matrix<2, 4>>::glsl_value(Matrix<2, 4> val)
-        {
-            return glsl_name + "(" + MatrixArgumentsString(val) + ")";
-        }
-
-        std::string PropertyType_attribs<Matrix<3, 2>>::glsl_value(Matrix<3, 2> val)
-        {
-            return glsl_name + "(" + MatrixArgumentsString(val) + ")";
-        }
-        std::string PropertyType_attribs<Matrix<3, 3>>::glsl_value(Matrix<3, 3> val)
-        {
-            return glsl_name + "(" + MatrixArgumentsString(val) + ")";
-        }
-        std::string PropertyType_attribs<Matrix<3, 4>>::glsl_value(Matrix<3, 4> val)
+        std::string PropertyType_attribs<Matrix<2, 4>>::glsl_value(const Matrix<2, 4> &val)
         {
             return glsl_name + "(" + MatrixArgumentsString(val) + ")";
         }
 
-        std::string PropertyType_attribs<Matrix<4, 2>>::glsl_value(Matrix<4, 2> val)
+        std::string PropertyType_attribs<Matrix<3, 2>>::glsl_value(const Matrix<3, 2> &val)
         {
             return glsl_name + "(" + MatrixArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Matrix<4, 3>>::glsl_value(Matrix<4, 3> val)
+        std::string PropertyType_attribs<Matrix<3, 3>>::glsl_value(const Matrix<3, 3> &val)
         {
             return glsl_name + "(" + MatrixArgumentsString(val) + ")";
         }
-        std::string PropertyType_attribs<Matrix<4, 4>>::glsl_value(Matrix<4, 4> val)
+        std::string PropertyType_attribs<Matrix<3, 4>>::glsl_value(const Matrix<3, 4> &val)
         {
             return glsl_name + "(" + MatrixArgumentsString(val) + ")";
+        }
+
+        std::string PropertyType_attribs<Matrix<4, 2>>::glsl_value(const Matrix<4, 2> &val)
+        {
+            return glsl_name + "(" + MatrixArgumentsString(val) + ")";
+        }
+        std::string PropertyType_attribs<Matrix<4, 3>>::glsl_value(const Matrix<4, 3> &val)
+        {
+            return glsl_name + "(" + MatrixArgumentsString(val) + ")";
+        }
+        std::string PropertyType_attribs<Matrix<4, 4>>::glsl_value(const Matrix<4, 4> &val)
+        {
+            return glsl_name + "(" + MatrixArgumentsString(val) + ")";
+        }
+
+        void PropertyType_attribs<Matrix<2, 2>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Matrix<2, 3>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Matrix<2, 4>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+
+        void PropertyType_attribs<Matrix<3, 2>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Matrix<3, 3>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Matrix<3, 4>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+
+        void PropertyType_attribs<Matrix<4, 2>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Matrix<4, 3>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
+        }
+        void PropertyType_attribs<Matrix<4, 4>>::set_gl_uniform(unsigned uniformLocation, const T &val)
+        {
+            uniformLocation; val;
+            assert(false);
         }
 #pragma endregion
     }

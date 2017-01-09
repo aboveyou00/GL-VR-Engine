@@ -10,6 +10,7 @@ namespace GlEngine
 
     namespace ShaderFactory
     {
+        class ShaderFactory;
         class ShaderProp;
         class Attribute;
     }
@@ -25,8 +26,7 @@ namespace GlEngine
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
-        virtual void Push(bool instanced = false) = 0;
-        virtual void Pop(bool instanced = false) = 0;
+        virtual void Push(ShaderFactory::ShaderFactory &factory) = 0;
 
         virtual bool IsOpaque() = 0;
 

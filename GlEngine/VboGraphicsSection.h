@@ -7,7 +7,12 @@ namespace GlEngine
     template <VboType type, typename... TArgs>
     class VboFactory;
     class Material;
-
+    
+    namespace ShaderFactory
+    {
+        class ShaderFactory;
+    }
+    
     namespace Impl
     {
         class VboGraphicsSection
@@ -34,6 +39,8 @@ namespace GlEngine
             std::vector<Vector<3, uint16_t>> *tris;
             std::vector<Vector<4, uint16_t>> *quads;
             int triCount, quadCount, triOffset, quadOffset;
+
+            ShaderFactory::ShaderFactory *factory;
 
             operator bool();
         };

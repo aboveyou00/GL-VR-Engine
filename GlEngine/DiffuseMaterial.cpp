@@ -2,6 +2,7 @@
 #include "DiffuseMaterial.h"
 #include "Shader.h"
 
+#include "ShaderFactory.h"
 #include "Property.h"
 #include "Attribute.h"
 
@@ -31,14 +32,9 @@ namespace GlEngine
     {
     }
 
-    void DiffuseMaterial::Push(bool instanced)
+    void DiffuseMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
-        instanced;
-        //glUniform3f(5, color[0], color[1], color[2]);
-    }
-    void DiffuseMaterial::Pop(bool instanced)
-    {
-        instanced;
+        factory.ProvideProperty(ShaderFactory::prop_DiffuseLightColor, { color[0], color[1], color[2], 1.f });
     }
 
     bool DiffuseMaterial::IsOpaque()

@@ -31,13 +31,11 @@ namespace GlEngine
         float farVal = 100.f;
 
         MatrixStack::Projection.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
-        MatrixStack::Projection.tell_gl();
     }
 
     void PerspectiveViewPort::Pop()
     {
         MatrixStack::Projection.pop();
-        MatrixStack::Projection.tell_gl();
     }
 
     void PerspectiveViewPort::SetNear(float nearVal)

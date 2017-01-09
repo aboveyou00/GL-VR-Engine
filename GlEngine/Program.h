@@ -23,6 +23,7 @@ namespace GlEngine
 
             void AddPropertySource(PropertySource *propSource);
             void AddAttribute(Attribute* attribute);
+            int FindUniform(ShaderProp* prop);
             unsigned FindOrCreateUniform(ShaderProp* prop);
             void ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp* prop);
 

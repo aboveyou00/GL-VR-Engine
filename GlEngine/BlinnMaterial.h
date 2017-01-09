@@ -14,8 +14,7 @@ namespace GlEngine
         ~BlinnMaterial();
 
     public:
-        void Push(bool instanced = false) override;
-        void Pop(bool instanced = false) override;
+        void Push(ShaderFactory::ShaderFactory &factory) override;
 
         bool IsOpaque() override;
         TesselationType GetTesselationType() override;

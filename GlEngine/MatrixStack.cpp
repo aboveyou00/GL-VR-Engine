@@ -39,32 +39,21 @@ namespace GlEngine
     }
     const Matrix<4, 4> &MatrixStack::mult(const Matrix<4, 4> &matrix)
     {
-        auto &retval = push(matrix * head());
-        tell_gl();
-        return retval;
+        return push(matrix * head());
     }
     const Matrix<4, 4> &MatrixStack::pop()
     {
         auto &retval = (idx < MAX_LOCAL_STACK) ? stack[idx] : (*remoteStack)[idx - MAX_LOCAL_STACK];
         idx--;
-        tell_gl();
         return retval;
     }
     const Matrix<4, 4> &MatrixStack::dup()
     {
-        auto &retval = push(head());
-        tell_gl();
-        return retval;
+        return push(head());
     }
     const Matrix<4, 4> &MatrixStack::head()
     {
         if (idx < MAX_LOCAL_STACK) return stack[idx];
         else return (*remoteStack)[idx - MAX_LOCAL_STACK];
-    }
-
-    void MatrixStack::tell_gl()
-    {
-        if (gl_enum == -1) return;
-        glUniformMatrix4fv(gl_enum, 1, false, head().getAddr());
     }
 }

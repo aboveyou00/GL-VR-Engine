@@ -13,7 +13,8 @@ namespace GlEngine
         {
             typedef bool T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -21,7 +22,8 @@ namespace GlEngine
         {
             typedef int T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -29,7 +31,8 @@ namespace GlEngine
         {
             typedef unsigned T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -37,7 +40,8 @@ namespace GlEngine
         {
             typedef float T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -45,7 +49,8 @@ namespace GlEngine
         {
             typedef double T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 #pragma endregion
 
@@ -55,7 +60,8 @@ namespace GlEngine
         {
             typedef Vector<2, bool> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -63,7 +69,8 @@ namespace GlEngine
         {
             typedef Vector<3, bool> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -71,7 +78,8 @@ namespace GlEngine
         {
             typedef Vector<4, bool> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 #pragma endregion
 
@@ -81,7 +89,8 @@ namespace GlEngine
         {
             typedef Vector<2, int> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -89,7 +98,8 @@ namespace GlEngine
         {
             typedef Vector<3, int> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -97,7 +107,8 @@ namespace GlEngine
         {
             typedef Vector<4, int> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 #pragma endregion
 
@@ -107,7 +118,8 @@ namespace GlEngine
         {
             typedef Vector<2, unsigned> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -115,7 +127,8 @@ namespace GlEngine
         {
             typedef Vector<3, unsigned> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -123,7 +136,8 @@ namespace GlEngine
         {
             typedef Vector<4, unsigned> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 #pragma endregion
 
@@ -133,7 +147,8 @@ namespace GlEngine
         {
             typedef Vector<2> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -141,7 +156,8 @@ namespace GlEngine
         {
             typedef Vector<3> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -149,7 +165,8 @@ namespace GlEngine
         {
             typedef Vector<4> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 #pragma endregion
 
@@ -159,7 +176,8 @@ namespace GlEngine
         {
             typedef Vector<2, double> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -167,7 +185,8 @@ namespace GlEngine
         {
             typedef Vector<3, double> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -175,7 +194,8 @@ namespace GlEngine
         {
             typedef Vector<4, double> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 #pragma endregion
 
@@ -185,7 +205,8 @@ namespace GlEngine
         {
             typedef Matrix<2, 2> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -193,7 +214,8 @@ namespace GlEngine
         {
             typedef Matrix<2, 3> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -201,7 +223,8 @@ namespace GlEngine
         {
             typedef Matrix<2, 4> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -209,7 +232,8 @@ namespace GlEngine
         {
             typedef Matrix<3, 2> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -217,7 +241,8 @@ namespace GlEngine
         {
             typedef Matrix<3, 3> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -225,7 +250,8 @@ namespace GlEngine
         {
             typedef Matrix<3, 4> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -233,7 +259,8 @@ namespace GlEngine
         {
             typedef Matrix<4, 2> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -241,7 +268,8 @@ namespace GlEngine
         {
             typedef Matrix<4, 3> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 
         template <>
@@ -249,7 +277,8 @@ namespace GlEngine
         {
             typedef Matrix<4, 4> T;
             static const std::string glsl_name;
-            static std::string glsl_value(T value);
+            static std::string glsl_value(const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value);
         };
 #pragma endregion
 
