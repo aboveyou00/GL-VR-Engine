@@ -5,8 +5,8 @@
 class LitTorus : public GlEngine::GameObject
 {
 public:
-    LitTorus(Vector<3> color, float rotationSpeed);
-    LitTorus(Vector<3> color, float rotationSpeed, Vector<3> rotationAxis);
+    LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed);
+    LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed, Vector<3> rotationAxis);
     ~LitTorus();
 
     virtual void Tick(float delta) override;
@@ -17,6 +17,7 @@ public:
 
 private:
     Vector<3> color;
+    Vector<3> reflectionCoef;
     float rotationSpeed;
     Vector<3> rotationAxis;
 

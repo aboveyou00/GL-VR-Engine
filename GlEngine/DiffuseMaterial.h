@@ -7,10 +7,7 @@ namespace GlEngine
     class ENGINE_SHARED DiffuseMaterial : public Material
     {
     public:
-        static DiffuseMaterial *Create(Vector<3> color);
-
-    private:
-        DiffuseMaterial(Vector<3> color);
+        DiffuseMaterial(Vector<3> color, Vector<3> reflectionCoef);
         ~DiffuseMaterial();
 
     public:
@@ -27,5 +24,6 @@ namespace GlEngine
 
     private:
         Vector<3> color;
+        Vector<3> reflectionCoef;
     };
 }

@@ -4,13 +4,13 @@
 #include "DiffuseMaterial.h"
 #include <random>
 
-LitTorus::LitTorus(Vector<3> color, float rotationSpeed)
-    : LitTorus(color, rotationSpeed, randomRotateAxis())
+LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed)
+    : LitTorus(color, reflectionCoef, rotationSpeed, randomRotateAxis())
 {
     RequireTick(true);
 }
-LitTorus::LitTorus(Vector<3> color, float rotationSpeed, Vector<3> rotationAxis)
-    : color(color), rotationSpeed(rotationSpeed), rotationAxis(rotationAxis)
+LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed, Vector<3> rotationAxis)
+    : color(color), reflectionCoef(reflectionCoef), rotationSpeed(rotationSpeed), rotationAxis(rotationAxis)
 {
 }
 LitTorus::~LitTorus()
@@ -30,7 +30,7 @@ const char *LitTorus::name()
 GlEngine::GraphicsObject *LitTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
 {
     ctx;
-    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", GlEngine::DiffuseMaterial::Create(color));
+    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", new GlEngine::DiffuseMaterial(color, reflectionCoef));
 }
 
 float randomVecComponent()

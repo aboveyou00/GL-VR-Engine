@@ -41,7 +41,7 @@ namespace GlEngine
 
             this->_program = new Program(false, false);
 
-            this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_Normal, &prop_UV));
+            this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
 
             this->_program->AddPropertySource(new UniformPropertySource(mat->properties()));
 
@@ -79,8 +79,9 @@ namespace GlEngine
 
             /* Use environment here */
 
-            //MatrixStack::Projection.tell_gl();
-            //MatrixStack::ModelView.tell_gl();
+            ProvideProperty(prop_DiffuseLightDirection, { 0.0, 0.0, -1.0 });
+            //ProvideProperty(prop_DiffuseLightPosition, { 0.0, 0.0, -3.0 });
+            ProvideProperty(prop_DiffuseLightColor, { 1.0, 1.0, 1.0 });
 
             //Vector<3> lightDir = { 1, 1.5, 1 };
             //lightDir = lightDir.Normalized();

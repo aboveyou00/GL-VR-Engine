@@ -20,13 +20,13 @@ bool DiffuseSceneFrame::Initialize()
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 
-    auto torus1 = CreateGameObject<LitTorus>(Vector<3> { 1, 1, 1 }, 1.f);
+    auto torus1 = CreateGameObject<LitTorus>(Vector<3> { 1, 1, 1 }, Vector<3>{ 0.f, 0.f, .9f }, 1.f);
     torus1->SetPosition({ 0, 0, 0 });
 
-    auto torus2 = CreateGameObject<LitTorus>(Vector<3> { 1, 1, 1 }, 1.f);
+    auto torus2 = CreateGameObject<LitTorus>(Vector<3> { 1, 1, 1 }, Vector<3>{ .9f, .9f, 0.f }, 1.f);
     torus2->SetPosition({ -5, 0, -5 });
 
-    auto torus3 = CreateGameObject<LitTorus>(Vector<3> { 1, 1, 1 }, 1.f);
+    auto torus3 = CreateGameObject<LitTorus>(Vector<3> { 1, 1, 1 }, Vector<3>{ .75f, .75f, .75f } , 1.f);
     torus3->SetPosition({ 5, 0, -5 });
 
     //auto camera = CreateGameObject<GlEngine::CameraGameObject>();

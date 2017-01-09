@@ -10,22 +10,8 @@
 
 namespace GlEngine
 {
-    DiffuseMaterial *DiffuseMaterial::Create(Vector<3> color)
-    {
-        static std::vector<DiffuseMaterial*> cache;
-        for (auto ptr = cache.begin(); ptr != cache.end(); ptr++)
-        {
-            auto &mat = **ptr;
-            if (mat.color == color) return &mat;
-        }
-
-        auto diffuse = new DiffuseMaterial(color);
-        cache.push_back(diffuse);
-        return diffuse;
-    }
-
-    DiffuseMaterial::DiffuseMaterial(Vector<3> color)
-        : color(color)
+    DiffuseMaterial::DiffuseMaterial(Vector<3> color, Vector<3> reflectionCoef)
+        : color(color), reflectionCoef(reflectionCoef)
     {
     }
     DiffuseMaterial::~DiffuseMaterial()
@@ -34,7 +20,8 @@ namespace GlEngine
 
     void DiffuseMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
-        factory.ProvideProperty(ShaderFactory::prop_DiffuseLightColor, { color[0], color[1], color[2], 1.f });
+        factory.ProvideProperty(ShaderFactory::prop_RgbColor, color);
+        factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
     }
 
     bool DiffuseMaterial::IsOpaque()

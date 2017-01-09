@@ -7,6 +7,8 @@
 #include <fstream>
 #include <direct.h>
 
+#include "RawComponent.h"
+
 namespace GlEngine
 {
     namespace ShaderFactory
@@ -19,6 +21,62 @@ namespace GlEngine
 
             components[ComponentType::Vertex] = new Component(ComponentType::Vertex);
             components[ComponentType::Fragment] = new Component(ComponentType::Fragment);
+
+//            components[ComponentType::Vertex] = new RawComponent(ComponentType::Vertex, R"raw(
+//#version 430
+//
+//layout(location = 0) in vec3 in_position;
+//layout(location = 1) in vec3 in_normal;
+//
+//layout(location = 0) uniform mat4 projection_matrix;
+//layout(location = 1) uniform mat4 model_view_matrix;
+//layout(location = 2) uniform vec3 direct_light_position;
+//layout(location = 3) uniform vec3 direct_light_color;
+//layout(location = 4) uniform vec3 reflection_coefficient;
+//
+//layout(location = 0) out vec3 out_light_color;
+//
+//void main(void)
+//{
+//    gl_Position = projection_matrix * model_view_matrix * vec4(in_position, 1);
+//	
+//    vec4 temp_0074E428_0 = (model_view_matrix * vec4(in_position, 1));
+//    vec4 direct_light_direction = normalize(temp_0074E428_0 - vec4(direct_light_position, 0));
+//
+//    float direct_light_amt = clamp(dot(direct_light_direction, vec4(in_normal, 0)), 0.0, 1.0);
+//    vec3 direct_light = reflection_coefficient * direct_light_amt * direct_light_color;
+//    //out_light_color = ambient_light_color + direct_light;
+//	
+//    out_light_color = direct_light;
+//}
+//)raw");
+//
+//            components[ComponentType::Fragment] = new RawComponent(ComponentType::Fragment, R"raw(
+//#version 430
+//
+//layout(location = 0) in vec3 in_light_color;
+//
+////layout(location = 0) uniform mat4 projection_matrix;
+////layout(location = 1) uniform mat4 model_view_matrix;
+////layout(location = 2) uniform vec3 direct_light_direction;
+////layout(location = 3) uniform vec3 direct_light_color;
+////layout(location = 4) uniform vec3 ambient_light_color;
+//
+//layout(location = 0) out vec4 out_color;
+//
+//void main(void)
+//{
+//    vec4 direct_color = vec4(base_color, 1) * vec4(in_light_color, 1);
+//    out_color = direct_color;
+//
+//    //const vec4 fog_color = vec4(0.0, 0.0, 0.0, 1.0);
+//
+//    //float dist = gl_FragCoord.z / gl_FragCoord.w;
+//    //float fog_amt = clamp(sqrt(dist) / 6, 0.0, 1.0);
+//    //out_color = mix(direct_color, fog_color, fog_amt);
+//}
+//)raw");
+
             if (useTesselation)
             {
                 components[ComponentType::TessControl] = new Component(ComponentType::TessControl);
