@@ -50,7 +50,7 @@ namespace GlEngine
                 for (Snippet* snippet : resolved)
                     unresolvedSnippets.erase(snippet);
             }
-             unresolvedOutputs.clear();
+            unresolvedOutputs.clear();
             unresolvedInputs.clear();
             for (Snippet* snippet : unresolvedSnippets)
             {
@@ -111,6 +111,12 @@ namespace GlEngine
             //    return "\n/* " + Util::itos(++linen) + " */ ";
             //});
             return compiled;
+        }
+
+        void Component::AddComment(std::string comment, int tabulation)
+        {
+            comment;
+            tabulation;
         }
 
         void Component::compileVersion(std::stringstream &stream)

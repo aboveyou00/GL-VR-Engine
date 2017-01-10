@@ -21,9 +21,7 @@ LitTorus::~LitTorus()
 
 void LitTorus::Tick(float delta)
 {
-    this->RotateX(rotationSpeed * delta * rotationAxis[0]);
-    this->RotateY(rotationSpeed * delta * rotationAxis[1]);
-    this->RotateZ(rotationSpeed * delta * rotationAxis[2]);
+    this->Rotate(rotationSpeed * delta, rotationAxis);
 }
 
 const char *LitTorus::name()

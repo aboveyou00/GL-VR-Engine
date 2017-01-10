@@ -122,7 +122,7 @@ public:
         };
     }
 
-    static Matrix<rows, cols, ElemT> Rotate3dMatrix(ElemT radians, Vector<rows, ElemT> axis)
+    static Matrix<rows, cols, ElemT> RotateMatrix(ElemT radians, Vector<rows-1, ElemT> axis)
     {
         static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrix(ElemT) can only be applied to 4*4 matrices");
         return RotationMatrixNormalized(radians, axis.Normalized());

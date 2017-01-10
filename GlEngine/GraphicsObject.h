@@ -44,6 +44,6 @@ namespace GlEngine
 
     private:
         bool isInstanced;
-		unsigned instanceCount;
-	};
+        unsigned instanceCount;
+    };
 }

@@ -31,6 +31,8 @@ namespace GlEngine
             virtual std::string Compile();
             std::string compiled;
 
+            void AddComment(std::string comment, int tabulation = 4);
+
         private:
             void compileVersion(std::stringstream &stream);
             void compileLayouts(std::stringstream &stream);
