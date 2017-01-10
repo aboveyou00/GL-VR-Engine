@@ -21,7 +21,7 @@ namespace GlEngine
         };
 
         extern ENGINE_SHARED Attribute attr_GlPosition;
-        extern ENGINE_SHARED Attribute attr_AmbientLight;
         extern ENGINE_SHARED Attribute attr_DiffuseLight;
+        extern ENGINE_SHARED Attribute attr_AmbientLight;
     }
 }

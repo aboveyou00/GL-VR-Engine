@@ -22,6 +22,9 @@ namespace GlEngine
         VboGraphicsObject(VaObject vao);
         ~VboGraphicsObject();
 
+        virtual void AddPropertyProvider(ShaderFactory::IPropertyProvider *provider) override;
+        virtual void RemovePropertyProvider(ShaderFactory::IPropertyProvider *provider) override;
+
         void SetMaterial(Material *material);
         int AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
         inline void AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2)

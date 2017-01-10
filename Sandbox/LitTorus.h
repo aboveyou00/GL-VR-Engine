@@ -2,11 +2,16 @@
 
 #include "GameObject.h"
 
+namespace GlEngine
+{
+    class PointLightSource;
+}
+
 class LitTorus : public GlEngine::GameObject
 {
 public:
-    LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed);
-    LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed, Vector<3> rotationAxis);
+    LitTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance = 3.f, float rotationSpeed = .5f);
+    LitTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance = 3.f, float rotationSpeed = .5f);
     ~LitTorus();
 
     virtual void Tick(float delta) override;
@@ -18,8 +23,10 @@ public:
 private:
     Vector<3> color;
     Vector<3> reflectionCoef;
-    float rotationSpeed;
+    GlEngine::PointLightSource *_lightSource;
+
     Vector<3> rotationAxis;
+    float distance, totalDelta, rotationSpeed;
 
     static Vector<3> randomRotateAxis();
 };

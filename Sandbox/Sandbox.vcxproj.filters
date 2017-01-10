@@ -54,6 +54,12 @@
     <ClInclude Include="CameraTargetObject.h">
       <Filter>Header Files\Lab01_Diffuse</Filter>
     </ClInclude>
+    <ClInclude Include="LightSourceObject.h">
+      <Filter>Header Files\Lab01_Diffuse</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSourceGraphicsObject.h">
+      <Filter>Header Files\Lab01_Diffuse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -72,6 +78,12 @@
       <Filter>Source Files\Lab01_Diffuse</Filter>
     </ClCompile>
     <ClCompile Include="CameraTargetObject.cpp">
+      <Filter>Source Files\Lab01_Diffuse</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSourceObject.cpp">
+      <Filter>Source Files\Lab01_Diffuse</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSourceGraphicsObject.cpp">
       <Filter>Source Files\Lab01_Diffuse</Filter>
     </ClCompile>
   </ItemGroup>

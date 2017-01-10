@@ -68,7 +68,7 @@ namespace GlEngine
 
     void GameObject::Rotate(float radians, Vector<3> axis)
     {
-        orientation *= Matrix<4, 4>::Rotate3dMatrix(radians, axis);
+        orientation *= Matrix<4, 4>::RotateMatrix(radians, axis);
     }
 
     void GameObject::RotateX(float radians)
@@ -99,6 +99,19 @@ namespace GlEngine
     void GameObject::RotateDegreesZ(float degrees)
     {
         RotateZ((float)Util::degToRad(degrees));
+    }
+
+    void GameObject::Scale(float amt)
+    {
+        orientation *= Matrix<4, 4>::ScaleMatrix(amt);
+    }
+    void GameObject::Scale(float x, float y, float z)
+    {
+        Scale(Vector<3> { x, y, z });
+    }
+    void GameObject::Scale(Vector<3> amt)
+    {
+        orientation *= Matrix<4, 4>::ScaleMatrix(amt);
     }
 
     void GameObject::Activate()

@@ -4,15 +4,17 @@
 
 namespace GlEngine
 {
+    namespace ShaderFactory
+    {
+        class IPropertyProvider;
+    }
+
     class ENGINE_SHARED ObjGraphicsObject : public VboGraphicsObject
     {
     public:
-        ObjGraphicsObject() : VboGraphicsObject() {}
         ObjGraphicsObject(const char *const filename);
-        ObjGraphicsObject(const char *const filename, VaObject vao);
-        ObjGraphicsObject(const char *const filename, VaObject vao, Material *mat);
 
-        static ObjGraphicsObject *Create(const char *name, Material *mat);
+        static ObjGraphicsObject *Create(const char *name, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers);
 
         bool Initialize() override;
 

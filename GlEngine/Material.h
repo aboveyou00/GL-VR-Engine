@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGraphicsComponent.h"
+#include "IPropertyProvider.h"
 #include "TesselationType.h"
 #include "RenderTargetLayer.h"
 
@@ -10,12 +11,10 @@ namespace GlEngine
 
     namespace ShaderFactory
     {
-        class ShaderFactory;
-        class ShaderProp;
         class Attribute;
     }
 
-    class ENGINE_SHARED Material : public IGraphicsComponent
+    class ENGINE_SHARED Material : public IGraphicsComponent, public ShaderFactory::IPropertyProvider
     {
     public:
         Material(bool is2d = false);
@@ -25,8 +24,6 @@ namespace GlEngine
         void Shutdown() override;
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
-
-        virtual void Push(ShaderFactory::ShaderFactory &factory) = 0;
 
         virtual bool IsOpaque() = 0;
 
@@ -39,7 +36,6 @@ namespace GlEngine
 
         virtual TesselationType GetTesselationType() = 0;
 
-        virtual std::vector<ShaderFactory::ShaderProp*> properties() = 0;
         virtual std::vector<ShaderFactory::Attribute*> attributes() = 0;
 
     private:

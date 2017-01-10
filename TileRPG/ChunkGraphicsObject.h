@@ -7,7 +7,11 @@
 
 namespace GlEngine
 {
-    class ShaderFactory;
+    namespace ShaderFactory
+    {
+        class ShaderFactory;
+    }
+
     class Texture;
     template <VboType type, typename... TArgs>
     class InstancedGraphicsObject;

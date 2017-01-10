@@ -10,14 +10,16 @@ namespace GlEngine
 {
     namespace Impl
     {
-        VboGraphicsSection::VboGraphicsSection(Material *material)
+        VboGraphicsSection::VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers)
             : material(material),
               tris(new std::vector<Vector<3, uint16_t>>()),
               quads(new std::vector<Vector<4, uint16_t>>()),
-              factory(new ShaderFactory::ShaderFactory()),
+              _factory(new ShaderFactory::ShaderFactory()),
               finalized(false)
         {
-            factory->SetMaterial(material);
+            for (size_t q = 0; q < providers.size(); q++)
+                _factory->AddPropertyProvider(providers[q]);
+            _factory->SetMaterial(material);
         }
         VboGraphicsSection::~VboGraphicsSection()
         {
@@ -85,7 +87,7 @@ namespace GlEngine
                 return;
 
             //material->Push(false);
-            factory->Push();
+            _factory->Push();
 
             auto tesselation = material->GetTesselationType();
             if (tesselation == TesselationType::Disabled)
@@ -111,7 +113,7 @@ namespace GlEngine
             }
             else assert(false);
 
-            factory->Pop();
+            _factory->Pop();
             //material->Pop(false);
         }
 
@@ -154,9 +156,14 @@ namespace GlEngine
             //material->Pop(true);
         }
 
+        ShaderFactory::ShaderFactory &VboGraphicsSection::factory()
+        {
+            return *_factory;
+        }
+
         VboGraphicsSection::operator bool()
         {
-            return finalized && material && *material && factory && *factory;
+            return finalized && material && *material && _factory && *_factory;
         }
     }
 }

@@ -130,14 +130,13 @@ namespace GlEngine
                     }
 
                     // CANNOT RESOLVE DEPENDENCIES
-
-                    Util::Log(LogType::Error, "Could not resolve snippet dependencies when compiling %s shader", NameOf((ComponentType)i));
+                    Util::Log(LogType::Error, "Could not resolve snippet dependencies when compiling %s shader", NameOf((ComponentType)i).c_str());
                     for (Snippet* snippet : components[i]->unresolvedSnippets)
-                        Util::Log(LogType::Info, "\nSnippetDecl:\n%s\nSnippet Main:\n%s", snippet->declSource, snippet->mainSource);    
+                        Util::Log(LogType::Info, "\nSnippetDecl:\n%s\nSnippet Main:\n%s", snippet->declSource.c_str(), snippet->mainSource.c_str());
                     for (ShaderProp* prop : components[i]->unresolvedOutputs)
                         components[i]->availableLocalProps.insert(prop);
                     break;
-                
+                    
                 found:;
                 }
             }

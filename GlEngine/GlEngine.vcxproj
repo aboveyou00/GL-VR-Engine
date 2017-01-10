@@ -155,9 +155,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AmbientLightSource.h" />
+    <ClInclude Include="AmbientMaterial.h" />
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="Flags.h" />
+    <ClInclude Include="IPropertyProvider.h" />
+    <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="SnippetFlag.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
@@ -181,7 +185,6 @@
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="EmptyGraphicsObject.h" />
     <ClInclude Include="Environment.h" />
-    <ClInclude Include="EnvironmentAttribute.h" />
     <ClInclude Include="FactoryUtils.h" />
     <ClInclude Include="FbxGraphicsObject.h" />
     <ClInclude Include="FbxLoader.h" />
@@ -299,6 +302,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AmbientLightSource.cpp" />
+    <ClCompile Include="AmbientMaterial.cpp" />
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
@@ -321,7 +326,6 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="FbxGraphicsObject.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="EnvironmentAttribute.cpp" />
     <ClCompile Include="FactoryUtils.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -346,6 +350,7 @@
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="OrthoViewPort.cpp" />
     <ClCompile Include="PersperctiveViewPort.cpp" />
+    <ClCompile Include="PointLightSource.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Property.cpp" />
     <ClCompile Include="PropertyProvider.cpp" />

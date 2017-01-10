@@ -3,6 +3,7 @@
 
 #include "VboFactory.h"
 #include "VboGraphicsSection.h"
+#include "ShaderFactory.h"
 #include "VaoFactory.h"
 
 #include "OpenGl.h"
@@ -29,6 +30,21 @@ namespace GlEngine
         SafeDelete(facesFactory);
     }
 
+    void VboGraphicsObject::AddPropertyProvider(ShaderFactory::IPropertyProvider *provider)
+    {
+        ScopedLock _lock(mutex);
+        GraphicsObject::AddPropertyProvider(provider);
+        for (size_t q = 0; q < graphicsSections.size(); q++)
+            graphicsSections[q]->factory().AddPropertyProvider(provider);
+    }
+    void VboGraphicsObject::RemovePropertyProvider(ShaderFactory::IPropertyProvider *provider)
+    {
+        ScopedLock _lock(mutex);
+        GraphicsObject::RemovePropertyProvider(provider);
+        for (size_t q = 0; q < graphicsSections.size(); q++)
+            graphicsSections[q]->factory().RemovePropertyProvider(provider);
+    }
+
     void VboGraphicsObject::SetMaterial(Material *material)
     {
         ScopedLock _lock(mutex);
@@ -40,7 +56,7 @@ namespace GlEngine
                 currentGraphicsSection = graphicsSections[q];
                 return;
             }
-        graphicsSections.push_back(currentGraphicsSection = new Impl::VboGraphicsSection(material));
+        graphicsSections.push_back(currentGraphicsSection = new Impl::VboGraphicsSection(material, providers()));
     }
 
     int VboGraphicsObject::AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal)

@@ -51,6 +51,16 @@ namespace GlEngine
         graphicsInitialized = false;
     }
 
+    void GraphicsObject::AddPropertyProvider(ShaderFactory::IPropertyProvider *provider)
+    {
+        _providers.push_back(provider);
+    }
+    void GraphicsObject::RemovePropertyProvider(ShaderFactory::IPropertyProvider *provider)
+    {
+        auto it = std::find(_providers.begin(), _providers.end(), provider);
+        if (it != _providers.end()) _providers.erase(it);
+    }
+
     void GraphicsObject::Render(RenderTargetLayer layer)
     {
         PreRender(layer);
@@ -81,5 +91,10 @@ namespace GlEngine
     void GraphicsObject::SetInstanceCount(unsigned count)
     {
         instanceCount = count;
+    }
+
+    std::vector<ShaderFactory::IPropertyProvider*> &GraphicsObject::providers()
+    {
+        return _providers;
     }
 }

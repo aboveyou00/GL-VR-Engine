@@ -13,28 +13,25 @@ namespace GlEngine
         : filename(filename)
     {
     }
-    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VaObject vao)
-        : VboGraphicsObject(vao), filename(filename)
-    {
-    }
-    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, VaObject vao, Material *mat)
-        : ObjGraphicsObject(filename, vao)
-    {
-        SetMaterial(mat);
-    }
 
-    ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, Material *mat)
+    ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers)
     {
-        auto hashed = ([](const char *name, Material *mat) {
-            unsigned h = 0;
-            while (*name)
-                h = h << 1 ^ *name++;
-            return ((h << 3) ^ std::hash<Material*>()(mat));
-        })(name, mat);
+        //auto hashed = ([](const char *name, Material *mat) {
+        //    unsigned h = 0;
+        //    while (*name)
+        //        h = h << 1 ^ *name++;
+        //    return ((h << 3) ^ std::hash<Material*>()(mat));
+        //})(name, mat);
 
-        static std::unordered_map<unsigned, ObjGraphicsObject*> cache;
-        auto ptr = cache[hashed];
-        if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VaObject(), mat);
+        //static std::unordered_map<unsigned, ObjGraphicsObject*> cache;
+        //auto ptr = cache[hashed];
+        //if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VaObject(), mat);
+        //return ptr;
+
+        auto ptr = new ObjGraphicsObject(name);
+        for (size_t q = 0; q < providers.size(); q++)
+            ptr->AddPropertyProvider(providers[q]);
+        ptr->SetMaterial(mat);
         return ptr;
     }
 

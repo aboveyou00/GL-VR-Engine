@@ -2,6 +2,7 @@
 
 #include "IGraphicsComponent.h"
 #include "RenderTargetLayer.h"
+#include "IPropertyProvider.h"
 
 namespace GlEngine
 {
@@ -23,6 +24,9 @@ namespace GlEngine
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
+        virtual void AddPropertyProvider(ShaderFactory::IPropertyProvider *provider);
+        virtual void RemovePropertyProvider(ShaderFactory::IPropertyProvider *provider);
+
         virtual void BuildVao(VaoFactory &vao) = 0;
 
         void Render(RenderTargetLayer layer);
@@ -42,8 +46,12 @@ namespace GlEngine
 
         void SetInstanceCount(unsigned count);
 
+        std::vector<ShaderFactory::IPropertyProvider*> &providers();
+
     private:
         bool isInstanced;
         unsigned instanceCount;
+
+        std::vector<ShaderFactory::IPropertyProvider*> _providers;
     };
 }

@@ -473,7 +473,7 @@ private:
     inline void initialize(Vector<rows, ElemT> vec)
     {
         static_assert(cols == 1 && rows >= 2, "A matrix cannot be initialized unless it has one row or column");
-        for (auto q = 0; q < rows - 1; q++)
+        for (auto q = 0; q < rows; q++)
         {
             values[q][0] = vec[q];
         }
@@ -556,7 +556,7 @@ Vector<cols, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector
 template <int rows, int cols, typename ElemT = float>
 Vector<cols - 1, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<rows - 1, ElemT> &vec)
 {
-    auto rhs = Matrix<rows, 1, ElemT>(vec);
+    Matrix<rows, 1, ElemT> rhs(vec);
     auto result = mat * rhs;
     return result.AsTranslatedVector();
 }

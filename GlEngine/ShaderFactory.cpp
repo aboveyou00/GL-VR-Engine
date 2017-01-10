@@ -10,20 +10,31 @@
 #include "Material.h"
 
 #include "Shader.h"
-#include "Property.h"
-#include "MatrixStack.h"
+#include "Environment.h"
 
 namespace GlEngine
 {
     namespace ShaderFactory
     {
         ShaderFactory::ShaderFactory()
-            : _mat(nullptr), _shader(nullptr)
+            : _mat(nullptr), _shader(nullptr), _providers({})
         {
+            AddPropertyProvider(&Environment::GetInstance());
         }
         ShaderFactory::~ShaderFactory()
         {
             Shutdown();
+        }
+
+        void ShaderFactory::AddPropertyProvider(IPropertyProvider *provider)
+        {
+            _providers.push_back(provider);
+        }
+        void ShaderFactory::RemovePropertyProvider(IPropertyProvider *provider)
+        {
+            auto it = std::find(_providers.begin(), _providers.end(), provider);
+            if (it != _providers.end()) _providers.erase(it);
+            //TODO: check if program needs to be recompiled. (Have any of the provided properties been added or removed?)
         }
 
         Material *ShaderFactory::material()
@@ -33,20 +44,33 @@ namespace GlEngine
         void ShaderFactory::SetMaterial(Material *mat)
         {
             if (mat == this->_mat) return;
+            if (this->_mat != nullptr) (this->_mat);
 
             this->_mat = mat;
             this->_program = nullptr;
             this->_shader = nullptr;
+            
             if (mat == nullptr) return;
+            AddPropertyProvider(mat);
 
             this->_program = new Program(false, false);
 
             this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
 
-            this->_program->AddPropertySource(new UniformPropertySource(mat->properties()));
+            std::vector<ShaderProp*> properties;
+            for (size_t q = 0; q < _providers.size(); q++)
+            {
+                auto provider_props = _providers[q]->properties();
+                for (size_t w = 0; w < provider_props.size(); w++)
+                {
+                    properties.push_back(provider_props[w]);
+                }
+            }
+            this->_program->AddPropertySource(new UniformPropertySource(properties));
 
             for (auto *attr : mat->attributes())
                 this->_program->AddAttribute(attr);
+
             auto *source = this->_program->Compile();
 
             this->_shader = Shader::Create(source);
@@ -72,26 +96,15 @@ namespace GlEngine
             assert(!!*this);
             _shader->Push();
 
-            ProvideProperty(prop_ModelMatrix, MatrixStack::Model.head());
-            ProvideProperty(prop_ViewMatrix, MatrixStack::View.head());
-            ProvideProperty(prop_ProjectionMatrix, MatrixStack::Projection.head());
+            for (size_t q = 0; q < _providers.size(); q++)
+            {
+                _providers[q]->Push(*this);
+            }
 
-            _mat->Push(*this);
+            //ProvideProperty(prop_DiffuseLightPosition, { 0.0, 0.0, -2.5f });
+            //ProvideProperty(prop_DiffuseLightColor, { 1.0, 1.0, 1.0 });
 
-            /* Use environment here */
-
-            //ProvideProperty(prop_DiffuseLightDirection, {0, 0, 1.0} );
-            ProvideProperty(prop_DiffuseLightPosition, { 0.0, 0.0, 10.0 });
-            ProvideProperty(prop_DiffuseLightColor, { 1.0, 1.0, 1.0 });
-
-            //Vector<3> lightDir = { 1, 1.5, 1 };
-            //lightDir = lightDir.Normalized();
-            //glUniform3f(2, lightDir[0], lightDir[1], lightDir[2]);
-            //glUniform3f(3, .4f, .6f, 1.f);
-            //glUniform3f(4, .4f, .4f, .4f);
-
-            //theta += .01f;
-            //glUniform1f(6, theta);
+            //ProvideProperty(prop_AmbientLightColor, { 1.0, 1.0, 1.0 });
         }
         void ShaderFactory::Pop()
         {

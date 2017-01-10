@@ -4,16 +4,18 @@
 #include "DiffuseMaterial.h"
 #include "RandomUtils.h"
 #include "MatrixStack.h"
+#include "PointLightSource.h"
 
-LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed)
-    : LitTorus(color, reflectionCoef, rotationSpeed, randomRotateAxis())
+LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
+    : LitTorus(color, reflectionCoef, lightSource, randomRotateAxis(), distance, rotationSpeed)
 {
 }
-LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, float rotationSpeed, Vector<3> rotationAxis)
-    : color(color), reflectionCoef(reflectionCoef), rotationSpeed(rotationSpeed), rotationAxis(rotationAxis)
+LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
+    : color(color), reflectionCoef(reflectionCoef), _lightSource(lightSource), rotationAxis(rotationAxis), distance(distance), rotationSpeed(rotationSpeed), totalDelta(0)
 {
+    assert(lightSource != nullptr);
+    Rotate(GlEngine::Util::random(3.14159f * 2), randomRotateAxis());
     RequireTick(true);
-    std::cout << "Rotation Axis: " << rotationAxis << std::endl;
 }
 LitTorus::~LitTorus()
 {
@@ -21,7 +23,13 @@ LitTorus::~LitTorus()
 
 void LitTorus::Tick(float delta)
 {
-    this->Rotate(rotationSpeed * delta, rotationAxis);
+    totalDelta += delta;
+    auto rotationAmount = totalDelta * rotationSpeed;
+    auto transformMatrix = !!rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(position) :
+                           !!rotationAxis[1] ? Matrix<4, 4>::TranslateMatrix({ 0, 0, distance }) * Matrix<4, 4>::YawMatrix(rotationAmount)   * Matrix<4, 4>::TranslateMatrix(position) :
+                                               Matrix<4, 4>::TranslateMatrix({ distance, 0, 0 }) * Matrix<4, 4>::PitchMatrix(rotationAmount) * Matrix<4, 4>::TranslateMatrix(position);
+    auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
+    _lightSource->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
 }
 
 const char *LitTorus::name()
@@ -32,7 +40,8 @@ const char *LitTorus::name()
 GlEngine::GraphicsObject *LitTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
 {
     ctx;
-    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", new GlEngine::DiffuseMaterial(color, reflectionCoef));
+    auto mat = new GlEngine::DiffuseMaterial(color, reflectionCoef);
+    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { _lightSource });
 }
 
 float randomVecComponent()

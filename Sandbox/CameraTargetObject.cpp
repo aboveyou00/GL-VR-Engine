@@ -25,6 +25,8 @@ void CameraTargetObject::Tick(float delta)
     if (this->keysDown[VK_DOWN]) translation += { 0, 0, -1 };
     if (this->keysDown[VK_LEFT]) translation += { -1, 0, 0 };
     if (this->keysDown[VK_RIGHT]) translation += { 1, 0, 0 };
+    if (this->keysDown[VK_LETTER<'l'>()]) translation += { 0, -1, 0 };
+    if (this->keysDown[VK_LETTER<'o'>()]) translation += { 0, 1, 0 };
     translation *= delta * movementSpeed;
     position += translation;
 }

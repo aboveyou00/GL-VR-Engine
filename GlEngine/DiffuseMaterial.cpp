@@ -37,11 +37,6 @@ namespace GlEngine
     std::vector<ShaderFactory::ShaderProp*> DiffuseMaterial::properties()
     {
         return {
-            &ShaderFactory::prop_ModelMatrix,
-            &ShaderFactory::prop_ViewMatrix,
-            &ShaderFactory::prop_ProjectionMatrix,
-            &ShaderFactory::prop_DiffuseLightPosition,
-            &ShaderFactory::prop_DiffuseLightColor,
             &ShaderFactory::prop_RgbColor,
             &ShaderFactory::prop_ReflectionCoefficient
         };

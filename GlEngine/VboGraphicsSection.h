@@ -11,6 +11,7 @@ namespace GlEngine
     namespace ShaderFactory
     {
         class ShaderFactory;
+        class IPropertyProvider;
     }
     
     namespace Impl
@@ -18,7 +19,7 @@ namespace GlEngine
         class VboGraphicsSection
         {
         public:
-            VboGraphicsSection(Material *material);
+            VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers);
             ~VboGraphicsSection();
 
             void AddTriangle(Vector<3, uint16_t> indices);
@@ -33,6 +34,8 @@ namespace GlEngine
                 return material;
             }
 
+            ShaderFactory::ShaderFactory &factory();
+
         private:
             bool finalized;
             Material *material;
@@ -40,7 +43,7 @@ namespace GlEngine
             std::vector<Vector<4, uint16_t>> *quads;
             int triCount, quadCount, triOffset, quadOffset;
 
-            ShaderFactory::ShaderFactory *factory;
+            ShaderFactory::ShaderFactory *_factory;
 
             operator bool();
         };

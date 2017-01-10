@@ -74,6 +74,10 @@ namespace GlEngine
         void RotateDegreesY(float degrees);
         void RotateDegreesZ(float degrees);
 
+        void Scale(float amt);
+        void Scale(float x, float y, float z);
+        void Scale(Vector<3> amt);
+
         void Deactivate();
         void Activate();
         bool active() const;

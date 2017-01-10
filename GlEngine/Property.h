@@ -1,6 +1,5 @@
 #pragma once
 
-#include "EnvironmentAttribute.h"
 #include "ShaderProp.h"
 #include "PropertyType_attribs.h"
 #include <sstream>
@@ -41,6 +40,7 @@ namespace GlEngine
             }
         };
 
+#pragma region vertex-attributes
         extern ENGINE_SHARED Property<Vector<3>> prop_RgbColor;
         extern ENGINE_SHARED Property<Vector<4>> prop_RgbaColor;
        
@@ -49,13 +49,12 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<2>> prop_UV;
         extern ENGINE_SHARED Property<Vector<3>> prop_ReflectionCoefficient;
 
-        extern ENGINE_SHARED Property<Vector<4>> prop_Position_4;
-        extern ENGINE_SHARED Property<Vector<4>> prop_Normal_4;
-        
         extern ENGINE_SHARED Property<Vector<4>> prop_ModelViewNormal;
 
         extern ENGINE_SHARED Property<Vector<4>> prop_GlPosition;
+#pragma endregion
         
+#pragma region environment
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ModelMatrix;
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ViewMatrix;
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ProjectionMatrix;
@@ -63,19 +62,19 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ModelViewMatrix;
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ModelViewProjectionMatrix;
 
+        extern ENGINE_SHARED Property<float> prop_GameTime;
+#pragma endregion
+
+#pragma region lighting
         //Should these be vec4 or vec3?
-        extern ENGINE_SHARED Property<Vector<3>> prop_LightColor;
+        extern ENGINE_SHARED Property<Vector<3>> prop_LightColor; //calculated using SpecularLightColor, DiffuseLightColor, and AmbientLightColor
+
+        extern ENGINE_SHARED Property<Vector<3>> prop_SpecularLightColor;
+        extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightColor;
         extern ENGINE_SHARED Property<Vector<3>> prop_AmbientLightColor;
 
-        extern ENGINE_SHARED Property<Vector<4>> prop_LightColor_4;
-        extern ENGINE_SHARED Property<Vector<4>> prop_AmbientLightColor_4;
-        
-        extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightColor;
-        extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightPosition;
-        extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightDirection; //can be calculated using DiffuseLightPosition
-
-        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightColor_4;
-        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightPosition_4;
-        extern ENGINE_SHARED Property<Vector<4>> prop_DiffuseLightDirection_4;
+        extern ENGINE_SHARED Property<Vector<3>> prop_PointLightPosition;
+        extern ENGINE_SHARED Property<Vector<3>> prop_PointLightDirection; //calculated using PointLightPosition
+#pragma endregion
     }
 }

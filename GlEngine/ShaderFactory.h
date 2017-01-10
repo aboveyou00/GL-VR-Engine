@@ -12,12 +12,16 @@ namespace GlEngine
     namespace ShaderFactory
     {
         class Shader;
+        class IPropertyProvider;
 
         class ENGINE_SHARED ShaderFactory : public IGraphicsComponent
         {
         public:
             ShaderFactory();
             ~ShaderFactory();
+
+            void AddPropertyProvider(IPropertyProvider *provider);
+            void RemovePropertyProvider(IPropertyProvider *provider);
 
             Material *material();
             void SetMaterial(Material *mat);
@@ -47,6 +51,7 @@ namespace GlEngine
             Material *_mat;
             Program *_program;
             Shader *_shader;
+            std::vector<IPropertyProvider*> _providers;
         };
     }
 }
