@@ -12,13 +12,14 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        std::string resolveSnippetBody(Snippet *snippet, int tabulation)
+        std::string resolveSnippetBody(Snippet* snippet, int tabulation, std::string main)
         {
-            std::string tabulationStr;
-            for (int q = 0; q < tabulation; q++)
-                tabulationStr += " ";
+            if (main == "")
+                main = snippet->mainSource;
 
-            auto source = Util::regex_replace_callback(snippet->mainSource, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::smatch match) -> std::string {
+            auto tabulationStr = std::string(tabulation, ' ');
+
+            auto source = Util::regex_replace_callback(main, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::smatch match) -> std::string {
                 std::string type = match[1],
                             val = match[2];
 

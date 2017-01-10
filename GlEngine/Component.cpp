@@ -7,13 +7,14 @@
 
 #include "Snippet.h"
 #include "FactoryUtils.h"
+#include <regex>
 
 namespace GlEngine
 {
     namespace ShaderFactory
     {
         Component::Component(ComponentType type)
-            : type(type), ins({}), outs({}), unresolvedInputs({}), availableLocalProps({}), unresolvedOutputs({}), unresolvedSnippets({})
+            : type(type), ins({}), outs({}), unresolvedInputs({}), availableLocalProps({}), unresolvedOutputs({}), unresolvedSnippets({}), comments("")
         {
         }
         Component::~Component()
@@ -103,6 +104,7 @@ namespace GlEngine
             compilePropertyDeclarations(stream, 4);
 
             compileMain(stream, 4);
+            stream << "\n" << comments;
             stream << "}" << std::endl;
 
             compiled = stream.str();
@@ -113,10 +115,12 @@ namespace GlEngine
             return compiled;
         }
 
-        void Component::AddComment(std::string comment, int tabulation)
+        void Component::AddUnresolvedSnippet(Snippet* snippet, int tabulation)
         {
-            comment;
-            tabulation;
+            static std::regex newlineRegex(R"raw(\r?\n)raw"s);
+            std::string commented = "//" + std::regex_replace(snippet->mainSource, newlineRegex, "\n//"s);
+            commented = "// ********** UNRESOLVED SNIPPET **********\n"s + commented + "\n// *******************************"s;
+            comments += resolveSnippetBody(snippet, tabulation, commented) + "\n";
         }
 
         void Component::compileVersion(std::stringstream &stream)
@@ -165,9 +169,7 @@ namespace GlEngine
 
         void Component::compilePropertyDeclarations(std::stringstream &stream, int tabulation)
         {
-            auto tabulationString = ""s;
-            for (int q = 0; q < tabulation; q++)
-                tabulationString += " ";
+            auto tabulationString = std::string(tabulation, ' ');
 
             bool any = false;
             for (ShaderProp* prop : availableLocalProps)

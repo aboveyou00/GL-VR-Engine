@@ -100,11 +100,6 @@ namespace GlEngine
             {
                 _providers[q]->Push(*this);
             }
-
-            //ProvideProperty(prop_DiffuseLightPosition, { 0.0, 0.0, -2.5f });
-            //ProvideProperty(prop_DiffuseLightColor, { 1.0, 1.0, 1.0 });
-
-            //ProvideProperty(prop_AmbientLightColor, { 1.0, 1.0, 1.0 });
         }
         void ShaderFactory::Pop()
         {
