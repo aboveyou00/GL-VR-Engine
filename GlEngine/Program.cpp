@@ -14,7 +14,7 @@ namespace GlEngine
     namespace ShaderFactory
     {
         Program::Program(bool useTesselation, bool useGeometry)
-            : components(numComponents)
+            : components({})
         {
             components[ComponentType::Input] = new Component(ComponentType::Input);
             components[ComponentType::Output] = new Component(ComponentType::Output);
@@ -34,10 +34,13 @@ namespace GlEngine
         }
         Program::~Program()
         {
-            for (unsigned i = 0; i < numComponents; i++)
+            for (auto type = ComponentType::Input; type <= ComponentType::Output; type++)
             {
-                if (components[i] != nullptr)
-                    delete components[i];
+                if (components[type] != nullptr)
+                {
+                    delete components[type];
+                    components[type] = nullptr;
+                }
             }
         }
 
@@ -49,15 +52,23 @@ namespace GlEngine
         void Program::AddAttribute(Attribute* attribute)
         {
             assert(!compilationStarted);
-            for (unsigned i = 0; i < attribute->numComponents; i++)
+            if (std::find(addedAttributes.begin(), addedAttributes.end(), attribute) != addedAttributes.end()) return;
+
+            auto dependents = attribute->dependentAttributes();
+            for (size_t q = 0; q < dependents.size(); q++)
+                AddAttribute(dependents[q]);
+
+            for (auto type = ComponentType::Input; type <= ComponentType::Output; type++)
             {
-                if (components[i] == nullptr)
+                if (components[type] == nullptr)
                 {
-                    assert(attribute->snippets[i].size() == 0);
+                    auto &snippets = attribute->snippets()[type];
+                    for (size_t q = 0; q < snippets.size(); q++)
+                        assert(snippets[q]->fallback());
                     continue;
                 }
-                for (Snippet* snippet : attribute->snippets[i])
-                    components[i]->unresolvedSnippets.insert(snippet);
+                for (Snippet* snippet : attribute->snippets()[type])
+                    components[type]->unresolvedSnippets.insert(snippet);
             }
         }
 
@@ -94,28 +105,29 @@ namespace GlEngine
 
         void Program::ResolveProperties()
         {
-            for (unsigned i = 0; i < numComponents; i++)
+            for (auto resolvingType = ComponentType::Vertex; resolvingType <= ComponentType::Output; resolvingType++)
             {
-                if (components[i] == nullptr)
+                if (components[resolvingType] == nullptr)
                     continue;
 
                 while (true)
                 {
-                    components[i]->ResolveSnippets();
-                    if (components[i]->unresolvedSnippets.size() == 0)
+                    components[resolvingType]->ResolveSnippets();
+                    if (components[resolvingType]->unresolvedSnippets.size() == 0)
                         break;
 
-                    for (ShaderProp* input : components[i]->unresolvedInputs)
+                    for (ShaderProp* input : components[resolvingType]->unresolvedInputs)
                     {
-                        for (int j = i - 1; j >= 0; j--)
+                        ComponentType lookbehindType = resolvingType;
+                        while (lookbehindType-- != ComponentType::Input)
                         {
-                            if (components[j] == nullptr)
+                            if (components[lookbehindType] == nullptr)
                                 continue;
 
-                            auto props = components[j]->availableLocalProps;
+                            auto props = components[lookbehindType]->availableLocalProps;
                             if (std::find(props.begin(), props.end(), input) != props.end())
                             {
-                                ConnectComponentsProperty(j, i, input);
+                                ConnectComponentsProperty(lookbehindType, resolvingType, input);
                                 goto found;
                             }
                         }
@@ -123,19 +135,19 @@ namespace GlEngine
                         {
                             if (source->HasProperty(input))
                             {
-                                source->ProvideProperty(input, this, (ComponentType)i);
+                                source->ProvideProperty(input, this, resolvingType);
                                 goto found;
                             }
                         }
                     }
 
                     // CANNOT RESOLVE DEPENDENCIES
-                    Util::Log(LogType::Error, "Could not resolve snippet dependencies when compiling %s shader", NameOf((ComponentType)i).c_str());
-                    for (Snippet* snippet : components[i]->unresolvedSnippets)
+                    Util::Log(LogType::Error, "Could not resolve snippet dependencies when compiling %s shader", NameOf(resolvingType).c_str());
+                    for (Snippet* snippet : components[resolvingType]->unresolvedSnippets)
                         if (!snippet->fallback())
-                            components[i]->AddUnresolvedSnippet(snippet);
-                    for (ShaderProp* prop : components[i]->unresolvedOutputs)
-                        components[i]->availableLocalProps.insert(prop);
+                            components[resolvingType]->AddUnresolvedSnippet(snippet);
+                    for (ShaderProp* prop : components[resolvingType]->unresolvedOutputs)
+                        components[resolvingType]->availableLocalProps.insert(prop);
                     break;
                     
                 found:;
@@ -159,31 +171,33 @@ namespace GlEngine
             uniforms[idx] = prop;
             return idx;
         }
-        void Program::ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp * prop)
+        void Program::ConnectComponentsProperty(ComponentType first, ComponentType last, ShaderProp *prop)
         {
-            assert(firstIndex < lastIndex);
-            components[firstIndex]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, false, true));
-            unsigned idx = components[firstIndex]->FindOrCreateOutput(prop);
-            for (unsigned i = firstIndex + 1; i < lastIndex; i++)
+            assert(first < last);
+            components[first]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, false, true));
+            unsigned inputIndex = components[first]->FindOrCreateOutput(prop);
+            
+            ComponentType currentType = first;
+            while (++currentType < last)
             {
-                if (components[i] == nullptr)
+                if (components[currentType] == nullptr)
                     continue;
 
-                components[i]->ins[idx] = prop;
-                components[i]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, true, true));
-                idx = components[i]->FindOrCreateOutput(prop);
+                components[currentType]->ins[inputIndex] = prop;
+                components[currentType]->orderedSnippets.push_back(Snippet::IdentitySnippet(prop, true, true));
+                inputIndex = components[currentType]->FindOrCreateOutput(prop);
             }
-            components[lastIndex]->ins[idx] = prop;
-            components[lastIndex]->orderedSnippets.insert(components[lastIndex]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+
+            components[last]->ins[inputIndex] = prop;
+            components[last]->orderedSnippets.insert(components[last]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
         }
 
         void Program::WriteToDisk(std::string name)
         {
             assert(name.length() > 0);
             _mkdir("generated_shader");
-            for (unsigned i = 0; i < numComponents; i++)
+            for (auto type = ComponentType::Vertex; type != ComponentType::Output; type++)
             {
-                ComponentType type = (ComponentType)i;
                 if (type == ComponentType::Input || type == ComponentType::Output || components[type] == nullptr)
                     continue;
                 std::ofstream outFile;

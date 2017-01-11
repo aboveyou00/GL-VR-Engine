@@ -7,72 +7,101 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Attribute::Attribute(ComponentArray<std::vector<Snippet*>> snippets)
+        Attribute::Attribute(ComponentArray<std::vector<Snippet*>> snippets, std::vector<Attribute*> dependentAttrs)
+            : _snippets({}), _dependentAttrs({})
         {
-            std::vector<std::vector<Snippet*>> data;
-            for (unsigned i = 0; i < snippets.size(); i++)
-                data.push_back(std::vector<Snippet*>());
-            this->snippets = ComponentArray<std::vector<Snippet*>>(data);
-            
-            for (unsigned i = 0; i < this->snippets.size(); i++)
-                for (unsigned j = 0; j < snippets[i].size(); j++)
-                    this->snippets[i].push_back(snippets[i][j]->Copy());
-        }
-        Attribute::Attribute(std::vector<Snippet*> vertexSnippets, std::vector<Snippet*> fragmentSnippets)
-            : Attribute(ComponentArray<std::vector<Snippet*>>({ {}, vertexSnippets, {}, {}, {}, fragmentSnippets, {} }))
-        {
-        }
-        Attribute::Attribute(std::vector<Snippet*> vertexSnippets, std::vector<Snippet*> tessControlSnippets, std::vector<Snippet*> tessEvaluationSnippets, std::vector<Snippet*> fragmentSnippets)
-            : Attribute(ComponentArray<std::vector<Snippet*>>({ {}, vertexSnippets, tessControlSnippets, tessEvaluationSnippets, {}, fragmentSnippets, {} }))
-        {
-        }
-        Attribute::Attribute(std::vector<Snippet*> vertexSnippets, std::vector<Snippet*> tessControlSnippets, std::vector<Snippet*> tessEvaluationSnippets, std::vector<Snippet*> geometrySnippets, std::vector<Snippet*> fragmentSnippets)
-            : Attribute(ComponentArray<std::vector<Snippet*>>({ {}, vertexSnippets, tessControlSnippets, tessEvaluationSnippets, geometrySnippets, fragmentSnippets, {} }))
-        {
-        }
+            for (auto type = ComponentType::Input; type <= ComponentType::Output; type++)
+            {
+                auto &comp_snippets = snippets[type];
+                for (size_t q = 0; q < comp_snippets.size(); q++)
+                    this->_snippets[type].push_back(comp_snippets[q]->Copy());
+            }
 
+            for (size_t q = 0; q < dependentAttrs.size(); q++)
+                _dependentAttrs.push_back(dependentAttrs[q]);
+        }
         Attribute::~Attribute()
         {
-            for (unsigned i = 0; i < this->snippets.size(); i++)
-                for (unsigned j = 0; j < snippets[i].size(); j++)
-                    delete this->snippets[i][j];
+            for (auto type = ComponentType::Input; type <= ComponentType::Output; type++)
+            {
+                auto &comp_snippets = this->_snippets[type];
+                for (size_t q = 0; q < comp_snippets.size(); q++)
+                    delete comp_snippets[q];
+            }
+        }
+
+        const std::vector<Attribute*> &Attribute::dependentAttributes() const
+        {
+            return _dependentAttrs;
+        }
+        const ComponentArray<std::vector<Snippet*>> &Attribute::snippets() const
+        {
+            return _snippets;
         }
         
-        Attribute attr_GlPosition = Attribute(
-        { // Vertex
-            new Snippet("[out:0] = [in:0] * vec4([in:1], 1);", { &prop_ModelViewProjectionMatrix, &prop_Position }, { &prop_GlPosition }),
+#pragma region position
+        Attribute attr_GlPosition = Attribute({
+            { // Vertex
+                new Snippet("[out:0] = [in:0] * vec4([in:1], 1);",{ &prop_ModelViewProjectionMatrix, &prop_Position },{ &prop_GlPosition }),
 
-            //Fallback
-            new Snippet("[out:0] = [in:0] * [in:1];", { &prop_ViewMatrix, &prop_ModelMatrix }, { &prop_ModelViewMatrix }, SnippetFlag::Fallback),
-            new Snippet("[out:0] = [in:0] * [in:1];", { &prop_ProjectionMatrix, &prop_ModelViewMatrix }, { &prop_ModelViewProjectionMatrix }, SnippetFlag::Fallback),
+                //Fallback
+                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ViewMatrix, &prop_ModelMatrix },{ &prop_ModelViewMatrix }, SnippetFlag::Fallback),
+                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ProjectionMatrix, &prop_ModelViewMatrix },{ &prop_ModelViewProjectionMatrix }, SnippetFlag::Fallback),
 
-            new Snippet("[out:0] = [in:0] * vec4([in:1], 0);", { &prop_ModelViewMatrix, &prop_Normal }, { &prop_ModelViewNormal }, SnippetFlag::Fallback)
-        },
-        { // Fragment
-        }
-        );
-
-        Attribute attr_DiffuseLight = Attribute(
-        { // Vertex
-            new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal }, { &prop_DiffuseLightColor }),
-
-            //Fallback
-            (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);", { &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix }, { &prop_PointLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>, Vector<4>>(),
-            
+                new Snippet("[out:0] = [in:0] * vec4([in:1], 0);",{ &prop_ModelViewMatrix, &prop_Normal },{ &prop_ModelViewNormal }, SnippetFlag::Fallback)
             },
             { // Fragment
-                //new Snippet("[out:0] = [in:0] * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
-                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_DiffuseLightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
-                //new Snippet("[out:0] = [in:0];", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
             }
-        );
+        });
+#pragma endregion
 
-        Attribute attr_AmbientLight = Attribute(
-        { // Vertex
-        },
-        { // Fragment
-            new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_AmbientLightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
-        }
-        );
+#pragma region lighting
+        Attribute attr_Blinn = Attribute({
+            { //Vertex
+            },
+            { //Fragment
+            }
+        }, { &attr_SpecularLight, &attr_DiffuseLight, &attr_AmbientLight });
+        Attribute attr_BlinnPhong = Attribute({
+            { //Vertex
+            },
+            { //Fragment
+            }
+        }, { &attr_SpecularLight, &attr_DiffuseLight, &attr_AmbientLight });
+
+        Attribute attr_SpecularLight = Attribute({
+            { //Vertex
+            },
+            { //Fragment
+            }
+        }, { &attr_LightingFallbacks });
+        Attribute attr_DiffuseLight = Attribute({
+            { // Vertex
+                new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal }, { &prop_DiffuseLightColor }),
+
+                //Fallback
+                (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);", { &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix }, { &prop_PointLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>, Vector<4>>()
+            },
+            { // Fragment
+            }
+        }, { &attr_LightingFallbacks });
+        Attribute attr_AmbientLight = Attribute({
+            { // Vertex
+            },
+            { // Fragment
+                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_AmbientLightColor, &prop_RgbColor },{ &prop_RgbaColor }, SnippetFlag::Fallback)
+            }
+        }, { &attr_LightingFallbacks });
+
+        Attribute attr_LightingFallbacks = Attribute({
+            { //Vertex
+            },
+            { //Fragment
+                //new Snippet("[out:0] = vec4([in:0], 1) * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
+                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_DiffuseLightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
+                //new Snippet("[out:0] = vec4([in:0], 1);", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
+            }
+        });
+#pragma endregion
     }
 }

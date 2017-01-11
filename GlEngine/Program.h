@@ -18,14 +18,13 @@ namespace GlEngine
             Program(bool useTesselation, bool useGeometry);
             ~Program();
 
-            static const unsigned numComponents = static_cast<unsigned>(std::numeric_limits<ComponentType>::max()) - static_cast<unsigned>(std::numeric_limits<ComponentType>::min()) + 1;
             ComponentArray<Component*> components;
 
             void AddPropertySource(PropertySource *propSource);
             void AddAttribute(Attribute* attribute);
             int FindUniform(ShaderProp* prop);
             unsigned FindOrCreateUniform(ShaderProp* prop);
-            void ConnectComponentsProperty(unsigned firstIndex, unsigned lastIndex, ShaderProp* prop);
+            void ConnectComponentsProperty(ComponentType first, ComponentType last, ShaderProp* prop);
 
             ShaderSource *Compile();
 
@@ -39,6 +38,7 @@ namespace GlEngine
 
             std::map<unsigned, ShaderProp*> uniforms;
             std::vector<PropertySource*> propSources;
+            std::vector<Attribute*> addedAttributes;
             bool compilationStarted = false;
         };
     }

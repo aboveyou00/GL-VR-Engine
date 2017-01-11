@@ -34,7 +34,7 @@ namespace GlEngine
             assert(vboOuts[idx] == nullptr);
             vboOuts[idx] = prop;
 
-            program->ConnectComponentsProperty(static_cast<unsigned>(ComponentType::Input), static_cast<unsigned>(type), prop);
+            program->ConnectComponentsProperty(ComponentType::Input, type, prop);
         }
     }
 }

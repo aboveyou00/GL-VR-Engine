@@ -91,8 +91,7 @@ namespace GlEngine
         for (size_t i = 0; i < renderTargetCount; i++)
         {
             renderTargets[i]->PrePush();
-            auto layer = std::numeric_limits<RenderTargetLayer>::min();
-            do
+            for (auto layer = std::numeric_limits<RenderTargetLayer>::min(); layer <= std::numeric_limits<RenderTargetLayer>::max(); layer++)
             {
                 renderTargets[i]->Push(layer);
                 if (renderTargets[i]->GetShouldRender())
@@ -102,7 +101,17 @@ namespace GlEngine
                 }
                 renderTargets[i]->Pop(layer);
             }
-            while (++layer != std::numeric_limits<RenderTargetLayer>::min());
+            //auto layer = std::numeric_limits<RenderTargetLayer>::min();
+            //do
+            //{
+            //    renderTargets[i]->Push(layer);
+            //    if (renderTargets[i]->GetShouldRender())
+            //    {
+            //        for (auto it = transformed.begin(); it != transformed.end(); it++)
+            //            (*it).Render(layer);
+            //    }
+            //    renderTargets[i]->Pop(layer);
+            //} while (++layer != std::numeric_limits<RenderTargetLayer>::min());
         }
         camera.Pop();
 

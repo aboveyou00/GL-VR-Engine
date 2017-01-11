@@ -2,6 +2,7 @@
 
 #include "ComponentType.h"
 #include "limits.h"
+#include <map>
 
 namespace GlEngine
 {
@@ -12,33 +13,52 @@ namespace GlEngine
         class ComponentArray
         {
         public:
-            ComponentArray(unsigned length = (unsigned)std::numeric_limits<ComponentType>::max() - (unsigned)std::numeric_limits<ComponentType>::min())
+            ComponentArray(std::map<ComponentType, T> data = {})
+                : _components({})
             {
-                _components = std::vector<T>(length);
-                _size = length;
+                for (auto type = std::numeric_limits<ComponentType>::min(); type <= std::numeric_limits<ComponentType>::max(); type++)
+                {
+                    _components[type] = data[type];
+                    if (_components.find(type) == _components.end()) _components[type] = T();
+                }
             }
-            ComponentArray(std::vector<T> data)
+            ComponentArray(T vertex, T fragment)
+                : ComponentArray(vertex, T(), T(), T(), fragment)
             {
-                _components = std::vector<T>(data.size());
-                _size = data.size();
-                for (unsigned i = 0; i < data.size(); i++)
-                    _components[i] = data[i];
+            }
+            ComponentArray(T vertex, T tessControl, T tessEvaluation, T fragment)
+                : ComponentArray(vertex, tessControl, tessEvaluation, T(), fragment)
+            {
+            }
+            ComponentArray(T vertex, T tessControl, T tessEvaluation, T geometry, T fragment)
+            {
+                _components[ComponentType::Input] = T();
+                _components[ComponentType::Vertex] = vertex;
+                _components[ComponentType::TessControl] = tessControl;
+                _components[ComponentType::TessEvaluation] = tessEvaluation;
+                _components[ComponentType::Geometry] = geometry;
+                _components[ComponentType::Fragment] = fragment;
+                _components[ComponentType::Output] = T();
             }
             ~ComponentArray()
             {
             }
 
-            T& operator[](int index)
+            T& operator[](unsigned index)
             {
-                return _components[index];
+                return (*this)[static_cast<ComponentType>(index)];
             }
-            T& operator[](ComponentType index)
+            const T& operator[](unsigned index) const
             {
-                return _components[static_cast<unsigned>(index)];
+                return (*this)[static_cast<ComponentType>(index)];
             }
-            size_t size()
+            T& operator[](ComponentType type)
             {
-                return _size;
+                return _components.at(type);
+            }
+            const T& operator[](ComponentType type) const
+            {
+                return _components.at(type);
             }
 
             inline T& vertex()
@@ -63,8 +83,7 @@ namespace GlEngine
             }
 
         private:
-            size_t _size;
-            std::vector<T> _components;
+            std::map<ComponentType, T> _components;
         };
 
         typedef ComponentArray<std::string*> ShaderSource;

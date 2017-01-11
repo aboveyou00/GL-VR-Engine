@@ -69,26 +69,22 @@
     enum_name operator++(enum_name &ref, int) noexcept \
     { \
         auto oldval = ref; \
-        if (ref == std::numeric_limits<enum_name>::max()) ref = std::numeric_limits<enum_name>::min(); \
-        else ref = static_cast<enum_name>(static_cast<int>(ref) + 1); \
+        ref = static_cast<enum_name>(static_cast<unsigned>(ref) + 1); \
         return oldval; \
     } \
     enum_name operator--(enum_name &ref, int) noexcept \
     { \
         auto oldval = ref; \
-        if (ref == std::numeric_limits<enum_name>::min()) ref = std::numeric_limits<enum_name>::max(); \
-        else ref = static_cast<enum_name>(static_cast<int>(ref) - 1); \
+        ref = static_cast<enum_name>(static_cast<unsigned>(ref) - 1); \
         return oldval; \
     } \
     enum_name operator++(enum_name &ref) noexcept \
     { \
-        if (ref == std::numeric_limits<enum_name>::max()) ref = std::numeric_limits<enum_name>::min(); \
-        else ref = static_cast<enum_name>(static_cast<int>(ref) + 1); \
+        ref = static_cast<enum_name>(static_cast<unsigned>(ref) + 1); \
         return ref; \
     } \
     enum_name operator--(enum_name &ref) noexcept \
     { \
-        if (ref == std::numeric_limits<enum_name>::min()) ref = std::numeric_limits<enum_name>::max(); \
-        else ref = static_cast<enum_name>(static_cast<int>(ref) - 1); \
+        ref = static_cast<enum_name>(static_cast<unsigned>(ref) - 1); \
         return ref; \
     }
