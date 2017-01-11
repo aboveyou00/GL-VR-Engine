@@ -8,6 +8,6 @@ namespace GlEngine
         class Snippet;
         class ShaderProp;
 
-        std::string resolveSnippetBody(Snippet *snippet, int tabulation = 0);
+        std::string resolveSnippetBody(Snippet *snippet, int tabulation = 0, std::string main = "");
     }
 }

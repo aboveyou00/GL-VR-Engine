@@ -31,9 +31,11 @@ namespace GlEngine
             virtual std::string Compile();
             std::string compiled;
 
-            void AddComment(std::string comment, int tabulation = 4);
+            void AddUnresolvedSnippet(Snippet* snippet, int tabulation = 4);
 
         private:
+            std::string comments;
+
             void compileVersion(std::stringstream &stream);
             void compileLayouts(std::stringstream &stream);
             void compileDecl(std::stringstream &stream);
