@@ -23,8 +23,7 @@ namespace GlEngine
         template <typename T>
         std::string addressString(T *ptr)
         {
-            static std::stringstream stream;
-            stream.clear();
+            std::stringstream stream;
             stream << static_cast<const void*>(ptr);
             return stream.str();
         }
