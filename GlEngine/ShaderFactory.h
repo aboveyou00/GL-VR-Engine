@@ -20,8 +20,34 @@ namespace GlEngine
             ShaderFactory();
             ~ShaderFactory();
 
-            void AddPropertyProvider(IPropertyProvider *provider);
-            void RemovePropertyProvider(IPropertyProvider *provider);
+            void AddPropertyProviders(std::vector<IPropertyProvider*> providers, bool recompile = true);
+            
+            template<typename... T>
+            void AddPropertyProviders(IPropertyProvider* first, T... providers)
+            {
+                T arr[] = { providers... };
+                _providers.insert(_providers.end(), arr, arr + sizeof...(providers) + 1);
+                if (RefreshPropertyCache())
+                    Recompile();
+            }
+            
+            void RemovePropertyProviders(std::vector<IPropertyProvider*> providers, bool recompile = true);
+            
+            template<typename... T>
+            void RemovePropertyProviders(IPropertyProvider* first, T... providers)
+            {
+                T arr[] = { first, providers... };
+                for (int i = 0; i < sizeof...(providers) + 1; i++)
+                {
+                    auto it = std::find(_providers.begin(), _providers.end(), arr[i]);
+                    if (it != _providers.end())
+                        _providers.erase(it);
+                }
+                if (RefreshPropertyCache())
+                    Recompile();
+            }
+            
+            void AddRemovePropertyProviders(std::vector<IPropertyProvider*> addProviders, std::vector<IPropertyProvider*> removeProviders, bool recompile = true);
 
             Material *material();
             void SetMaterial(Material *mat);
@@ -34,6 +60,8 @@ namespace GlEngine
 
             void Push();
             void Pop();
+
+            void Recompile();
 
             template <typename T>
             void ProvideProperty(Property<T> &prop, const T &val)
@@ -52,6 +80,9 @@ namespace GlEngine
             Program *_program;
             Shader *_shader;
             std::vector<IPropertyProvider*> _providers;
+            std::set<ShaderProp*> _properties;
+
+            bool RefreshPropertyCache();
         };
     }
 }
