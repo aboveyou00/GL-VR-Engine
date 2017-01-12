@@ -169,7 +169,7 @@
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
     <ClInclude Include="BasicCollisionGroup.h" />
-    <ClInclude Include="BlinnMaterial.h" />
+    <ClInclude Include="PhongMaterial.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="BoxBody.h" />
     <ClInclude Include="CameraGameObject.h" />
@@ -308,7 +308,7 @@
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
-    <ClCompile Include="BlinnMaterial.cpp" />
+    <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />
     <ClCompile Include="BoxCollision.cpp" />

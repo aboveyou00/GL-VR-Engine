@@ -28,11 +28,17 @@
     <Filter Include="Source Files\Lab01_Diffuse">
       <UniqueIdentifier>{9e935da7-34b4-48b4-bafc-687005396290}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Shaders">
-      <UniqueIdentifier>{ac48cd1a-2493-469c-bebf-3edcfc9fe644}</UniqueIdentifier>
+    <Filter Include="Header Files\Lab02_Features">
+      <UniqueIdentifier>{c2bb85fc-7ba0-4f97-b6b3-9803b8dbe3ea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{25b55df0-7e83-4d30-b77e-f19f064c5988}</UniqueIdentifier>
+    <Filter Include="Source Files\Lab02_Features">
+      <UniqueIdentifier>{d22eba68-d9c7-43d2-b592-62fc2660e67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shared">
+      <UniqueIdentifier>{3e8e8d0e-a6dc-454c-bc94-021e0fecfa1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shared">
+      <UniqueIdentifier>{7622234f-53fd-4790-924c-9daec6f667a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,20 +51,26 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files\Entry</Filter>
     </ClInclude>
-    <ClInclude Include="DiffuseSceneFrame.h">
+    <ClInclude Include="Lab01_Diffuse\DiffuseSceneFrame.h">
       <Filter>Header Files\Lab01_Diffuse</Filter>
     </ClInclude>
-    <ClInclude Include="LitTorus.h">
+    <ClInclude Include="Lab01_Diffuse\LitTorus.h">
       <Filter>Header Files\Lab01_Diffuse</Filter>
     </ClInclude>
-    <ClInclude Include="CameraTargetObject.h">
-      <Filter>Header Files\Lab01_Diffuse</Filter>
+    <ClInclude Include="Lab02_Features\FeaturesSceneFrame.h">
+      <Filter>Header Files\Lab02_Features</Filter>
     </ClInclude>
     <ClInclude Include="LightSourceObject.h">
       <Filter>Header Files\Lab01_Diffuse</Filter>
     </ClInclude>
     <ClInclude Include="LightSourceGraphicsObject.h">
       <Filter>Header Files\Lab01_Diffuse</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraTargetObject.h">
+      <Filter>Header Files\Lab01_Diffuse</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab02_Features\PhongTorus.h">
+      <Filter>Header Files\Lab02_Features</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,20 +83,26 @@
     <ClCompile Include="SandboxLoop.cpp">
       <Filter>Source Files\Entry</Filter>
     </ClCompile>
-    <ClCompile Include="DiffuseSceneFrame.cpp">
+    <ClCompile Include="Lab01_Diffuse\DiffuseSceneFrame.cpp">
       <Filter>Source Files\Lab01_Diffuse</Filter>
     </ClCompile>
-    <ClCompile Include="LitTorus.cpp">
+    <ClCompile Include="Lab01_Diffuse\LitTorus.cpp">
       <Filter>Source Files\Lab01_Diffuse</Filter>
     </ClCompile>
-    <ClCompile Include="CameraTargetObject.cpp">
-      <Filter>Source Files\Lab01_Diffuse</Filter>
+    <ClCompile Include="Lab02_Features\FeaturesSceneFrame.cpp">
+      <Filter>Source Files\Lab02_Features</Filter>
     </ClCompile>
     <ClCompile Include="LightSourceObject.cpp">
       <Filter>Source Files\Lab01_Diffuse</Filter>
     </ClCompile>
     <ClCompile Include="LightSourceGraphicsObject.cpp">
       <Filter>Source Files\Lab01_Diffuse</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraTargetObject.cpp">
+      <Filter>Source Files\Lab01_Diffuse</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab02_Features\PhongTorus.cpp">
+      <Filter>Source Files\Lab02_Features</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,22 +112,5 @@
     <None Include="Resources\torus.obj">
       <Filter>Resource Files\Resources</Filter>
     </None>
-    <None Include="Shaders\diffuse.frag.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\diffuse.inst.frag.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\diffuse.inst.vert.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="Shaders\diffuse.vert.shader">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Textures\world-edit-select.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
   </ItemGroup>
 </Project>

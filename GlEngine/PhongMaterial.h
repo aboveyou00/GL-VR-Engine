@@ -4,14 +4,12 @@
 
 namespace GlEngine
 {
-    class ENGINE_SHARED BlinnMaterial : public Material
+    class ENGINE_SHARED PhongMaterial : public Material
     {
     public:
-        static BlinnMaterial *Create(Texture *texture);
-
-    private:
-        BlinnMaterial(Texture *texture);
-        ~BlinnMaterial();
+        PhongMaterial(Vector<3> color, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f });
+        PhongMaterial(Texture *texture, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f });
+        ~PhongMaterial();
 
     public:
         void Push(ShaderFactory::ShaderFactory &factory) override;
@@ -27,6 +25,6 @@ namespace GlEngine
 
     private:
         Texture *texture;
-        //ShaderFactory *instancedShader, *singleShader;
+        Vector<3> color, reflectionCoef;
     };
 }

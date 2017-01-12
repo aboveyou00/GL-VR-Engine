@@ -2,8 +2,8 @@
 #include "DiffuseSceneFrame.h"
 #include "LitTorus.h"
 #include "CameraGameObject.h"
-#include "CameraTargetObject.h"
-#include "LightSourceObject.h"
+#include "../CameraTargetObject.h"
+#include "../LightSourceObject.h"
 
 DiffuseSceneFrame::DiffuseSceneFrame()
 {

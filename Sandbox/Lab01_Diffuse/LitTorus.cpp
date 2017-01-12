@@ -4,6 +4,7 @@
 #include "DiffuseMaterial.h"
 #include "RandomUtils.h"
 #include "MatrixStack.h"
+#include "AmbientLightSource.h"
 #include "PointLightSource.h"
 
 LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
@@ -44,7 +45,7 @@ GlEngine::GraphicsObject *LitTorus::CreateGraphicsObject(GlEngine::GraphicsConte
     return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { _lightSource });
 }
 
-float randomVecComponent()
+static float randomVecComponent()
 {
     return GlEngine::Util::random(2.f) - 1;
 }

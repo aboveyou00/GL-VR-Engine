@@ -42,13 +42,13 @@ namespace GlEngine
 #pragma region position
         Attribute attr_GlPosition = Attribute({
             { // Vertex
-                new Snippet("[out:0] = [in:0] * vec4([in:1], 1);",{ &prop_ModelViewProjectionMatrix, &prop_Position },{ &prop_GlPosition }),
+                new Snippet("[out:0] = [in:0] * vec4([in:1], 1);", { &prop_ModelViewProjectionMatrix, &prop_Position }, { &prop_GlPosition }),
 
                 //Fallback
-                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ViewMatrix, &prop_ModelMatrix },{ &prop_ModelViewMatrix }, SnippetFlag::Fallback),
-                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ProjectionMatrix, &prop_ModelViewMatrix },{ &prop_ModelViewProjectionMatrix }, SnippetFlag::Fallback),
+                new Snippet("[out:0] = [in:0] * [in:1];", { &prop_ViewMatrix, &prop_ModelMatrix }, { &prop_ModelViewMatrix }, SnippetFlag::Fallback),
+                new Snippet("[out:0] = [in:0] * [in:1];", { &prop_ProjectionMatrix, &prop_ModelViewMatrix }, { &prop_ModelViewProjectionMatrix }, SnippetFlag::Fallback),
 
-                new Snippet("[out:0] = [in:0] * vec4([in:1], 0);",{ &prop_ModelViewMatrix, &prop_Normal },{ &prop_ModelViewNormal }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = [in:0] * vec4([in:1], 0);", { &prop_ModelViewMatrix, &prop_Normal }, { &prop_ModelViewNormal }, SnippetFlag::Fallback)
             },
             { // Fragment
             }
@@ -56,21 +56,9 @@ namespace GlEngine
 #pragma endregion
 
 #pragma region lighting
-        Attribute attr_Blinn = Attribute({
-            { //Vertex
-            },
-            { //Fragment
-            }
-        }, { &attr_SpecularLight, &attr_DiffuseLight, &attr_AmbientLight });
-        Attribute attr_BlinnPhong = Attribute({
-            { //Vertex
-            },
-            { //Fragment
-            }
-        }, { &attr_SpecularLight, &attr_DiffuseLight, &attr_AmbientLight });
-
         Attribute attr_SpecularLight = Attribute({
             { //Vertex
+                new Snippet("[out:0] = vec3(0, 0, 0);", { }, { &prop_SpecularLightColor })
             },
             { //Fragment
             }
@@ -85,21 +73,57 @@ namespace GlEngine
             { // Fragment
             }
         }, { &attr_LightingFallbacks });
-        Attribute attr_AmbientLight = Attribute({
+
+        Attribute attr_SpecularOnly = Attribute({
             { // Vertex
             },
             { // Fragment
-                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_AmbientLightColor, &prop_RgbColor },{ &prop_RgbaColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = [in:0];", { &prop_SpecularLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+            }
+        }, { &attr_SpecularLight, &attr_LightingFallbacks });
+        Attribute attr_DiffuseOnly = Attribute({
+            { // Vertex
+            },
+            { // Fragment
+                new Snippet("[out:0] = [in:0];", { &prop_DiffuseLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+            }
+        }, { &attr_DiffuseLight, &attr_LightingFallbacks });
+        Attribute attr_AmbientOnly = Attribute({
+            { // Vertex
+            },
+            { // Fragment
+                new Snippet("[out:0] = [in:0];", { &prop_AmbientLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
             }
         }, { &attr_LightingFallbacks });
+        
+        Attribute attr_AmbientDiffuse = Attribute({
+            { // Vertex
+            },
+            { // Fragment
+                new Snippet("[out:0] = [in:0] + [in:1];", { &prop_AmbientLightColor, &prop_DiffuseLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+            }
+        }, { &attr_DiffuseLight });
+
+        Attribute attr_Phong = Attribute({
+            { //Vertex
+            },
+            { //Fragment
+                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];", { &prop_AmbientLightColor, &prop_DiffuseLightColor, &prop_SpecularLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+            }
+        }, { &attr_SpecularLight, &attr_DiffuseLight });
+        Attribute attr_BlinnPhong = Attribute({
+            { //Vertex
+            },
+            { //Fragment
+                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];", { &prop_AmbientLightColor, &prop_DiffuseLightColor, &prop_SpecularLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+            }
+        }, { &attr_SpecularLight, &attr_DiffuseLight });
 
         Attribute attr_LightingFallbacks = Attribute({
             { //Vertex
             },
             { //Fragment
-                //new Snippet("[out:0] = vec4([in:0], 1) * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
-                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_DiffuseLightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
-                //new Snippet("[out:0] = vec4([in:0], 1);", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_LightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
             }
         });
 #pragma endregion

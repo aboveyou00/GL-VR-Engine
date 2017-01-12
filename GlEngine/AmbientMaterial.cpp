@@ -45,9 +45,9 @@ namespace GlEngine
     }
     std::vector<ShaderFactory::Attribute*> AmbientMaterial::attributes()
     {
-        return{
+        return {
             &ShaderFactory::attr_GlPosition,
-            &ShaderFactory::attr_AmbientLight
+            &ShaderFactory::attr_AmbientOnly
         };
     }
 
