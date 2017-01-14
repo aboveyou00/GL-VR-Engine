@@ -7,8 +7,8 @@ namespace GlEngine
     class ENGINE_SHARED PhongMaterial : public Material
     {
     public:
-        PhongMaterial(Vector<3> color, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f });
-        PhongMaterial(Texture *texture, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f });
+        PhongMaterial(Vector<3> color, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f }, float shininess = 8);
+        PhongMaterial(Texture *texture, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f }, float shininess = 8);
         ~PhongMaterial();
 
     public:
@@ -26,5 +26,6 @@ namespace GlEngine
     private:
         Texture *texture;
         Vector<3> color, reflectionCoef;
+        float shininess;
     };
 }

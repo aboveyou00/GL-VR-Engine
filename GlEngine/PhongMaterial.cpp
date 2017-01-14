@@ -8,12 +8,12 @@
 
 namespace GlEngine
 {
-    PhongMaterial::PhongMaterial(Vector<3> color, Vector<3> reflectionCoef)
-        : texture(nullptr), color(color), reflectionCoef(reflectionCoef)
+    PhongMaterial::PhongMaterial(Vector<3> color, Vector<3> reflectionCoef, float shininess)
+        : texture(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
     {
     }
-    PhongMaterial::PhongMaterial(Texture *texture, Vector<3> reflectionCoef)
-        : texture(texture), reflectionCoef(reflectionCoef)
+    PhongMaterial::PhongMaterial(Texture *texture, Vector<3> reflectionCoef, float shininess)
+        : texture(texture), reflectionCoef(reflectionCoef), shininess(shininess)
     {
     }
     PhongMaterial::~PhongMaterial()
@@ -31,6 +31,7 @@ namespace GlEngine
             assert(false);
         }
         factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
+        factory.ProvideProperty(ShaderFactory::prop_Shininess, shininess);
 
         //auto shader = instanced ? instancedShader : singleShader;
         //if (shader && *shader) shader->Push();
@@ -61,7 +62,8 @@ namespace GlEngine
         {
             return {
                 &ShaderFactory::prop_RgbColor,
-                &ShaderFactory::prop_ReflectionCoefficient
+                &ShaderFactory::prop_ReflectionCoefficient,
+                &ShaderFactory::prop_Shininess
             };
         }
         else
@@ -70,7 +72,8 @@ namespace GlEngine
             return {};
             //return {
             //    &ShaderFactory::prop_Texture,
-            //    &ShaderFactory::prop_ReflectionCoefficient
+            //    &ShaderFactory::prop_ReflectionCoefficient,
+            //    &ShaderFactory::prop_Shininess
             //};
         }
     }

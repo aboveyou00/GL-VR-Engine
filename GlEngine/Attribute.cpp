@@ -56,16 +56,19 @@ namespace GlEngine
 #pragma endregion
 
 #pragma region lighting
+        static Property<Vector<3>> prop_SurfaceToCamera = Property<Vector<3>>("surface_to_camera");
         Attribute attr_SpecularLight = Attribute({
             { //Vertex
-                new Snippet("[out:0] = vec3(0, 0, 0);", { }, { &prop_SpecularLightColor })
+                new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position", { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position }, { &prop_SurfaceToCamera })
             },
             { //Fragment
+                (new Snippet(R"raw([temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal
+[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation)raw"s, { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_PointLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess }, { &prop_SpecularLightComponent }))->WithTemps<Vector<3>>()
             }
         }, { &attr_LightingFallbacks });
         Attribute attr_DiffuseLight = Attribute({
             { // Vertex
-                new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal }, { &prop_DiffuseLightColor }),
+                new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal }, { &prop_DiffuseLightComponent }),
 
                 //Fallback
                 (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);", { &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix }, { &prop_PointLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>, Vector<4>>()
@@ -78,14 +81,14 @@ namespace GlEngine
             { // Vertex
             },
             { // Fragment
-                new Snippet("[out:0] = [in:0];", { &prop_SpecularLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback)
             }
         }, { &attr_SpecularLight, &attr_LightingFallbacks });
         Attribute attr_DiffuseOnly = Attribute({
             { // Vertex
             },
             { // Fragment
-                new Snippet("[out:0] = [in:0];", { &prop_DiffuseLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = [in:0];", { &prop_DiffuseLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback)
             }
         }, { &attr_DiffuseLight, &attr_LightingFallbacks });
         Attribute attr_AmbientOnly = Attribute({
@@ -100,7 +103,7 @@ namespace GlEngine
             { // Vertex
             },
             { // Fragment
-                new Snippet("[out:0] = [in:0] + [in:1];", { &prop_AmbientLightColor, &prop_DiffuseLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = [in:0] + [in:1];", { &prop_AmbientLightColor, &prop_DiffuseLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback)
             }
         }, { &attr_DiffuseLight });
 
@@ -108,14 +111,16 @@ namespace GlEngine
             { //Vertex
             },
             { //Fragment
-                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];", { &prop_AmbientLightColor, &prop_DiffuseLightColor, &prop_SpecularLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+                //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+                //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];", { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback)
             }
         }, { &attr_SpecularLight, &attr_DiffuseLight });
         Attribute attr_BlinnPhong = Attribute({
             { //Vertex
             },
             { //Fragment
-                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];", { &prop_AmbientLightColor, &prop_DiffuseLightColor, &prop_SpecularLightColor }, { &prop_LightColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];", { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback)
             }
         }, { &attr_SpecularLight, &attr_DiffuseLight });
 

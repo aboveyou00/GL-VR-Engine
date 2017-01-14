@@ -42,7 +42,7 @@ GlEngine::GraphicsObject *PhongTorus::CreateGraphicsObject(GlEngine::GraphicsCon
 {
     ctx;
     auto mat = new GlEngine::PhongMaterial(color, reflectionCoef);
-    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { new GlEngine::AmbientLightSource({ .0f, .0f, .2f }), _lightSource });
+    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { new GlEngine::AmbientLightSource({ .1f, .1f, .1f }), _lightSource });
 }
 
 static float randomVecComponent()

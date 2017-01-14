@@ -8,6 +8,7 @@
 namespace GlEngine::ShaderFactory
 {
     Environment::Environment()
+        : _cameraPos(_cameraPos)
     {
     }
     Environment::~Environment()
@@ -30,6 +31,7 @@ namespace GlEngine::ShaderFactory
             &prop_ModelViewMatrix,
             &prop_ModelViewProjectionMatrix,
 #endif
+            &prop_CameraPosition,
             &prop_GameTime
         };
     }
@@ -43,11 +45,21 @@ namespace GlEngine::ShaderFactory
         factory.ProvideProperty(prop_ModelViewMatrix, modelView);
         factory.ProvideProperty(prop_ModelViewProjectionMatrix, MatrixStack::Projection.head() * modelView);
 #endif
+        factory.ProvideProperty(prop_CameraPosition, _cameraPos);
         factory.ProvideProperty(prop_GameTime, GetGameTime());
     }
 
     float Environment::GetGameTime()
     {
         return Util::getGameMillis() / 1000.0f;
+    }
+
+    void Environment::SetCameraPosition(Vector<3> position)
+    {
+        _cameraPos = position;
+    }
+    Vector<3> Environment::cameraPosition() const
+    {
+        return _cameraPos;
     }
 }

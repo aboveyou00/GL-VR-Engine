@@ -2,6 +2,7 @@
 #include "CameraImpl.h"
 #include "OpenGl.h"
 #include "MatrixStack.h"
+#include "Environment.h"
 
 namespace GlEngine
 {
@@ -15,6 +16,7 @@ namespace GlEngine
             Vector<3> side, forwardN;
             if (gameObject != nullptr)
             {
+                ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject->position);
                 eye = gameObject->position;
                 forwardN = gameObject->orientation * Vector<3>{ 0, 0, 1 };
                 side = gameObject->orientation * Vector<3>{ 1, 0, 0 };
@@ -22,6 +24,7 @@ namespace GlEngine
             }
             else
             {
+                ShaderFactory::Environment::GetInstance().SetCameraPosition({ 0, 0, 0 });
                 forwardN = forward.Normalized();
                 side = up.Cross(forwardN).Normalized();
                 up = forwardN.Cross(side);

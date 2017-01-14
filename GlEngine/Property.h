@@ -48,6 +48,7 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<3>> prop_Normal;
         extern ENGINE_SHARED Property<Vector<2>> prop_UV;
         extern ENGINE_SHARED Property<Vector<3>> prop_ReflectionCoefficient;
+        extern ENGINE_SHARED Property<float> prop_Shininess;
 
         extern ENGINE_SHARED Property<Vector<4>> prop_ModelViewNormal;
 
@@ -62,12 +63,17 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ModelViewMatrix;
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ModelViewProjectionMatrix;
 
+        extern ENGINE_SHARED Property<Vector<3>> prop_CameraPosition;
+
         extern ENGINE_SHARED Property<float> prop_GameTime;
 #pragma endregion
 
 #pragma region lighting
         //Should these be vec4 or vec3?
         extern ENGINE_SHARED Property<Vector<3>> prop_LightColor; //calculated using SpecularLightColor, DiffuseLightColor, and AmbientLightColor
+
+        extern ENGINE_SHARED Property<Vector<3>> prop_SpecularLightComponent;
+        extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightComponent;
 
         extern ENGINE_SHARED Property<Vector<3>> prop_SpecularLightColor;
         extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightColor;
