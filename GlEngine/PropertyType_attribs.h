@@ -9,7 +9,7 @@ namespace GlEngine
 
 #pragma region primitive
         template <>
-        struct PropertyType_attribs<bool>
+        struct ENGINE_SHARED PropertyType_attribs<bool>
         {
             typedef bool T;
             static const std::string glsl_name;
@@ -18,7 +18,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<int>
+        struct ENGINE_SHARED PropertyType_attribs<int>
         {
             typedef int T;
             static const std::string glsl_name;
@@ -27,7 +27,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<unsigned>
+        struct ENGINE_SHARED PropertyType_attribs<unsigned>
         {
             typedef unsigned T;
             static const std::string glsl_name;
@@ -36,7 +36,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<float>
+        struct ENGINE_SHARED PropertyType_attribs<float>
         {
             typedef float T;
             static const std::string glsl_name;
@@ -45,7 +45,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<double>
+        struct ENGINE_SHARED PropertyType_attribs<double>
         {
             typedef double T;
             static const std::string glsl_name;
@@ -56,7 +56,7 @@ namespace GlEngine
 
 #pragma region bvec
         template <>
-        struct PropertyType_attribs<Vector<2, bool>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<2, bool>>
         {
             typedef Vector<2, bool> T;
             static const std::string glsl_name;
@@ -65,7 +65,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<3, bool>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<3, bool>>
         {
             typedef Vector<3, bool> T;
             static const std::string glsl_name;
@@ -74,7 +74,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<4, bool>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<4, bool>>
         {
             typedef Vector<4, bool> T;
             static const std::string glsl_name;
@@ -85,7 +85,7 @@ namespace GlEngine
 
 #pragma region ivec
         template <>
-        struct PropertyType_attribs<Vector<2, int>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<2, int>>
         {
             typedef Vector<2, int> T;
             static const std::string glsl_name;
@@ -94,7 +94,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<3, int>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<3, int>>
         {
             typedef Vector<3, int> T;
             static const std::string glsl_name;
@@ -103,7 +103,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<4, int>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<4, int>>
         {
             typedef Vector<4, int> T;
             static const std::string glsl_name;
@@ -114,7 +114,7 @@ namespace GlEngine
 
 #pragma region uvec
         template <>
-        struct PropertyType_attribs<Vector<2, unsigned>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<2, unsigned>>
         {
             typedef Vector<2, unsigned> T;
             static const std::string glsl_name;
@@ -123,7 +123,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<3, unsigned>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<3, unsigned>>
         {
             typedef Vector<3, unsigned> T;
             static const std::string glsl_name;
@@ -132,7 +132,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<4, unsigned>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<4, unsigned>>
         {
             typedef Vector<4, unsigned> T;
             static const std::string glsl_name;
@@ -143,7 +143,7 @@ namespace GlEngine
 
 #pragma region vec
         template <>
-        struct PropertyType_attribs<Vector<2>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<2>>
         {
             typedef Vector<2> T;
             static const std::string glsl_name;
@@ -152,7 +152,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<3>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<3>>
         {
             typedef Vector<3> T;
             static const std::string glsl_name;
@@ -161,7 +161,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<4>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<4>>
         {
             typedef Vector<4> T;
             static const std::string glsl_name;
@@ -172,7 +172,7 @@ namespace GlEngine
 
 #pragma region dvec
         template <>
-        struct PropertyType_attribs<Vector<2, double>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<2, double>>
         {
             typedef Vector<2, double> T;
             static const std::string glsl_name;
@@ -181,7 +181,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<3, double>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<3, double>>
         {
             typedef Vector<3, double> T;
             static const std::string glsl_name;
@@ -190,7 +190,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Vector<4, double>>
+        struct ENGINE_SHARED PropertyType_attribs<Vector<4, double>>
         {
             typedef Vector<4, double> T;
             static const std::string glsl_name;
@@ -201,7 +201,7 @@ namespace GlEngine
 
 #pragma region mat
         template <>
-        struct PropertyType_attribs<Matrix<2, 2>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<2, 2>>
         {
             typedef Matrix<2, 2> T;
             static const std::string glsl_name;
@@ -210,7 +210,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<2, 3>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<2, 3>>
         {
             typedef Matrix<2, 3> T;
             static const std::string glsl_name;
@@ -219,7 +219,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<2, 4>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<2, 4>>
         {
             typedef Matrix<2, 4> T;
             static const std::string glsl_name;
@@ -228,7 +228,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<3, 2>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<3, 2>>
         {
             typedef Matrix<3, 2> T;
             static const std::string glsl_name;
@@ -237,7 +237,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<3, 3>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<3, 3>>
         {
             typedef Matrix<3, 3> T;
             static const std::string glsl_name;
@@ -246,7 +246,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<3, 4>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<3, 4>>
         {
             typedef Matrix<3, 4> T;
             static const std::string glsl_name;
@@ -255,7 +255,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<4, 2>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<4, 2>>
         {
             typedef Matrix<4, 2> T;
             static const std::string glsl_name;
@@ -264,7 +264,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<4, 3>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<4, 3>>
         {
             typedef Matrix<4, 3> T;
             static const std::string glsl_name;
@@ -273,7 +273,7 @@ namespace GlEngine
         };
 
         template <>
-        struct PropertyType_attribs<Matrix<4, 4>>
+        struct ENGINE_SHARED PropertyType_attribs<Matrix<4, 4>>
         {
             typedef Matrix<4, 4> T;
             static const std::string glsl_name;

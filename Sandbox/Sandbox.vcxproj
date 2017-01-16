@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Lab02_Features\PhongFlatMaterial.h" />
     <ClInclude Include="LightSourceGraphicsObject.h" />
     <ClInclude Include="LightSourceObject.h" />
     <ClInclude Include="Lab01_Diffuse\LitTorus.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="CameraTargetObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Lab02_Features\PhongFlatMaterial.cpp" />
     <ClCompile Include="LightSourceGraphicsObject.cpp" />
     <ClCompile Include="LightSourceObject.cpp" />
     <ClCompile Include="Lab01_Diffuse\LitTorus.cpp" />

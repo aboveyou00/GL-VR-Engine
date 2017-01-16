@@ -28,6 +28,7 @@ namespace GlEngine
 #pragma region lighting
         extern ENGINE_SHARED Attribute attr_SpecularLight;
         extern ENGINE_SHARED Attribute attr_DiffuseLight;
+        extern ENGINE_SHARED Attribute attr_DiffuseLightFlat;
 
         extern ENGINE_SHARED Attribute attr_SpecularOnly;
         extern ENGINE_SHARED Attribute attr_DiffuseOnly;
@@ -36,6 +37,7 @@ namespace GlEngine
         extern ENGINE_SHARED Attribute attr_AmbientDiffuse;
 
         extern ENGINE_SHARED Attribute attr_Phong;
+        extern ENGINE_SHARED Attribute attr_PhongFlat;
         extern ENGINE_SHARED Attribute attr_BlinnPhong;
 
         extern ENGINE_SHARED Attribute attr_LightingFallbacks;

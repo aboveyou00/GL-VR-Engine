@@ -77,6 +77,17 @@ namespace GlEngine
             }
         }, { &attr_LightingFallbacks });
 
+        Attribute attr_DiffuseLightFlat = Attribute({
+            { // Vertex
+                new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);",{ &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal },{ &prop_DiffuseLightComponentFlat }),
+
+                //Fallback
+                (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",{ &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix },{ &prop_PointLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>, Vector<4>>()
+            },
+            { // Fragment
+            }
+        }, { &attr_LightingFallbacks });
+
         Attribute attr_SpecularOnly = Attribute({
             { // Vertex
             },
@@ -116,6 +127,17 @@ namespace GlEngine
                 new Snippet("[out:0] = [in:0] + [in:1] + [in:2];", { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback)
             }
         }, { &attr_SpecularLight, &attr_DiffuseLight });
+        
+        Attribute attr_PhongFlat = Attribute({
+            { //Vertex
+            },
+            { //Fragment
+              //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+              //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",{ &prop_AmbientLightColor, &prop_DiffuseLightComponentFlat, &prop_SpecularLightComponent },{ &prop_LightColor }, SnippetFlag::Fallback)
+            }
+        }, { &attr_SpecularLight, &attr_DiffuseLightFlat });
+
         Attribute attr_BlinnPhong = Attribute({
             { //Vertex
             },

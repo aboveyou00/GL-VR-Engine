@@ -74,6 +74,7 @@ namespace GlEngine
 
         extern ENGINE_SHARED Property<Vector<3>> prop_SpecularLightComponent;
         extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightComponent;
+        extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightComponentFlat;
 
         extern ENGINE_SHARED Property<Vector<3>> prop_SpecularLightColor;
         extern ENGINE_SHARED Property<Vector<3>> prop_DiffuseLightColor;

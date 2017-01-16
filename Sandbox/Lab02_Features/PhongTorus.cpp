@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "PhongTorus.h"
 #include "ObjGraphicsObject.h"
 #include "PhongMaterial.h"
@@ -6,13 +7,14 @@
 #include "MatrixStack.h"
 #include "AmbientLightSource.h"
 #include "PointLightSource.h"
+#include "PhongFlatMaterial.h"
 
-PhongTorus::PhongTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
-    : PhongTorus(color, reflectionCoef, lightSource, randomRotateAxis(), distance, rotationSpeed)
+PhongTorus::PhongTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed, bool flat)
+    : PhongTorus(color, reflectionCoef, lightSource, randomRotateAxis(), distance, rotationSpeed, flat)
 {
 }
-PhongTorus::PhongTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
-    : color(color), reflectionCoef(reflectionCoef), _lightSource(lightSource), rotationAxis(rotationAxis), distance(distance), rotationSpeed(rotationSpeed), totalDelta(0)
+PhongTorus::PhongTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed, bool flat)
+    : color(color), reflectionCoef(reflectionCoef), _lightSource(lightSource), rotationAxis(rotationAxis), distance(distance), rotationSpeed(rotationSpeed), totalDelta(0), flat(flat)
 {
     assert(lightSource != nullptr);
     Rotate(GlEngine::Util::random(3.14159f * 2), randomRotateAxis());
@@ -41,7 +43,7 @@ const char *PhongTorus::name()
 GlEngine::GraphicsObject *PhongTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
 {
     ctx;
-    auto mat = new GlEngine::PhongMaterial(color, reflectionCoef);
+    GlEngine::Material* mat = flat ? (GlEngine::Material*)new PhongFlatMaterial(color, reflectionCoef) : new GlEngine::PhongMaterial(color, reflectionCoef);
     return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { new GlEngine::AmbientLightSource({ .1f, .1f, .1f }), _lightSource });
 }
 

@@ -30,7 +30,7 @@ bool FeaturesSceneFrame::Initialize()
     torus2->SetPosition({ -5, 0, -5 });
 
     auto lightSource3 = CreateGameObject<LightSourceObject>();
-    auto torus3 = CreateGameObject<PhongTorus>(Vector<3> { .4f, .4f, .4f }, Vector<3> { .9f, .9f, .9f }, lightSource3->lightSource(), Vector<3> { 0, 1, 0 });
+    auto torus3 = CreateGameObject<PhongTorus>(Vector<3> { .4f, .4f, .4f }, Vector<3> { .9f, .9f, .9f }, lightSource3->lightSource(), Vector<3> { 0, 1, 0 }, 3.f, .5f, true);
     torus3->SetPosition({ 5, 0, -5 });
 
     return true;
