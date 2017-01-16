@@ -12,22 +12,27 @@ namespace GlEngine
 {
     class ENGINE_SHARED ObjLoader
     {
+    private:
+        ObjLoader();
+        ~ObjLoader();
+
     public:
-        static std::vector<Vector<3>> positions;
-        static std::vector<Vector<3>> normals;
-        static std::vector<Vector<2>> texCoords;
-        
-        static std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> glVertices;
-
-        static std::vector<int> triangleIndices;
-        static std::vector<int> quadIndices;
-
-        static bool Load(const char * const filename, ObjGraphicsObject * out);
-        static bool Load(std::istream & in, ObjGraphicsObject * out);
+        static bool Load(const char *const filename, ObjGraphicsObject *out);
+        static bool Load(std::istream &in, ObjGraphicsObject *out);
 
     private:
-        static int ParseVertex(std::string faceString);
-        static int ObjLoader::FindOrAddGlVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
-        static bool CreateFromData(ObjGraphicsObject * out);
+        std::vector<Vector<3>> positions;
+        std::vector<Vector<3>> normals;
+        std::vector<Vector<2>> texCoords;
+        
+        std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> glVertices;
+
+        std::vector<int> triangleIndices;
+        std::vector<int> quadIndices;
+
+        bool _Load(std::istream &in, ObjGraphicsObject *out);
+        int ParseVertex(std::string faceString);
+        int ObjLoader::FindOrAddGlVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal);
+        bool CreateFromData(ObjGraphicsObject * out);
     };
 }

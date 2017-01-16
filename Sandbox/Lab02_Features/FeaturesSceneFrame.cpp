@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FeaturesSceneFrame.h"
 #include "PhongTorus.h"
+#include "NoLidTeapot.h"
 #include "CameraGameObject.h"
 #include "../CameraTargetObject.h"
 #include "../LightSourceObject.h"
@@ -32,6 +33,10 @@ bool FeaturesSceneFrame::Initialize()
     auto lightSource3 = CreateGameObject<LightSourceObject>();
     auto torus3 = CreateGameObject<PhongTorus>(Vector<3> { .4f, .4f, .4f }, Vector<3> { .9f, .9f, .9f }, lightSource3->lightSource(), Vector<3> { 0, 1, 0 }, 3.f, .5f, true);
     torus3->SetPosition({ 5, 0, -5 });
+
+    auto lightSource4 = CreateGameObject<LightSourceObject>();
+    auto teapot = CreateGameObject<NoLidTeapot>(Vector<3> { .4f, .4f, .4f }, Vector<3> { .9f, .9f, .9f }, lightSource4->lightSource(), Vector<3> { 0, 1, 0 });
+    teapot->SetPosition({ 7, 0, 2 });
 
     return true;
 }

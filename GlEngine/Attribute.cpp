@@ -62,18 +62,20 @@ namespace GlEngine
                 new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position", { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position }, { &prop_SurfaceToCamera })
             },
             { //Fragment
-                (new Snippet(R"raw([temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal
+                (new Snippet(R"raw(if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal\nelse [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
 [out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation)raw"s, { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_PointLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess }, { &prop_SpecularLightComponent }))->WithTemps<Vector<3>>()
             }
         }, { &attr_LightingFallbacks });
+        static Property<float> prop_DiffuseComponentIntensity = Property<float>("diffuse_component_intensity");
         Attribute attr_DiffuseLight = Attribute({
             { // Vertex
-                new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal }, { &prop_DiffuseLightComponent }),
+                new Snippet("[out:0] = dot([in:0], [in:1].xyz);", { &prop_PointLightDirection, &prop_ModelViewNormal }, { &prop_DiffuseComponentIntensity }),
 
                 //Fallback
                 (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);", { &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix }, { &prop_PointLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>, Vector<4>>()
             },
             { // Fragment
+                new Snippet("if (!gl_FrontFacing) [out:0] = -[in:2];\n[out:1] = [in:0] * [in:1] * clamp([in:2], 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseComponentIntensity }, { &prop_DiffuseComponentIntensity, &prop_DiffuseLightComponent }),
             }
         }, { &attr_LightingFallbacks });
 

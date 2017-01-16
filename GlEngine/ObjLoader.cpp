@@ -9,26 +9,14 @@
 
 namespace GlEngine
 {
-    std::vector<Vector<3>> ObjLoader::positions;
-    std::vector<Vector<3>> ObjLoader::normals;
-    std::vector<Vector<2>> ObjLoader::texCoords;
-
-    std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> ObjLoader::glVertices;
-
-    std::vector<int> ObjLoader::triangleIndices;
-    std::vector<int> ObjLoader::quadIndices;
-
-    bool isWhiteSpace(char c)
+    ObjLoader::ObjLoader()
     {
-        return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v';
+    }
+    ObjLoader::~ObjLoader()
+    {
     }
 
-    bool isNewLine(char c)
-    {
-        return c == '\n' || c == '\r';
-    }
-
-    bool ObjLoader::Load(const char * const filename, ObjGraphicsObject * out)
+    bool ObjLoader::Load(const char *const filename, ObjGraphicsObject *out)
     {
         std::ifstream in;
         in.open(filename);
@@ -39,8 +27,13 @@ namespace GlEngine
         in.close();
         return true;
     }
+    bool ObjLoader::Load(std::istream &in, ObjGraphicsObject *out)
+    {
+        ObjLoader loader;
+        return loader._Load(in, out);
+    }
 
-    bool ObjLoader::Load(std::istream & in, ObjGraphicsObject * out)
+    bool ObjLoader::_Load(std::istream &in, ObjGraphicsObject *out)
     {
         std::string line;
         while (std::getline(in, line))

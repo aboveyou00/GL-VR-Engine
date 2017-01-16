@@ -72,7 +72,11 @@
     <ClInclude Include="Lab02_Features\PhongTorus.h">
       <Filter>Header Files\Lab02_Features</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Lab02_Features\PhongFlatMaterial.h">
+=======
+    <ClInclude Include="Lab02_Features\NoLidTeapot.h">
+>>>>>>> bc826392be73e192c5ef06ae34a5010dd082e05b
       <Filter>Header Files\Lab02_Features</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,7 +111,11 @@
     <ClCompile Include="Lab02_Features\PhongTorus.cpp">
       <Filter>Source Files\Lab02_Features</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Lab02_Features\PhongFlatMaterial.cpp">
+=======
+    <ClCompile Include="Lab02_Features\NoLidTeapot.cpp">
+>>>>>>> bc826392be73e192c5ef06ae34a5010dd082e05b
       <Filter>Source Files\Lab02_Features</Filter>
     </ClCompile>
   </ItemGroup>

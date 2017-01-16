@@ -11,6 +11,7 @@
 
 #include "Shader.h"
 #include "Environment.h"
+#include "OpenGl.h"
 
 namespace GlEngine
 {
@@ -94,6 +95,7 @@ namespace GlEngine
         void ShaderFactory::Push()
         {
             assert(!!*this);
+            glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
             _shader->Push();
 
             for (size_t q = 0; q < _providers.size(); q++)
@@ -103,6 +105,7 @@ namespace GlEngine
         }
         void ShaderFactory::Pop()
         {
+            glEnable(GL_CULL_FACE);
             if (_shader != nullptr) _shader->Pop();
         }
 
