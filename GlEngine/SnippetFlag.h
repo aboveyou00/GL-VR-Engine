@@ -8,7 +8,7 @@ namespace GlEngine
         {
             None          = 0b00000000,
             Fallback      = 0b00000001,
-            NoSideEffects = 0b00000010
+            NoSideEffects = 0b00000010,
         };
 
         FLAGS_H(SnippetFlag)

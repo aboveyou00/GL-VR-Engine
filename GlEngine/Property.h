@@ -12,8 +12,8 @@ namespace GlEngine
         class ENGINE_SHARED Property : public ShaderProp
         {
         public:
-            Property(std::string name, bool isBuiltIn = false, int arrayLength = -1)
-                : ShaderProp(name, isBuiltIn, arrayLength)
+            Property(std::string name, bool isBuiltIn = false, bool isFlat = false, int arrayLength = -1)
+                : ShaderProp(name, isBuiltIn, isFlat, arrayLength)
             {
             }
             ~Property()

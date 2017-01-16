@@ -38,7 +38,7 @@ namespace GlEngine
         Property<Vector<3>> prop_LightColor("light_color");
 
         Property<Vector<3>> prop_SpecularLightComponent("specular_light_component");
-        Property<Vector<3>> prop_DiffuseLightComponent("diffuse_light_component");
+        Property<Vector<3>> prop_DiffuseLightComponent("diffuse_light_component", false, true);
 
         Property<Vector<3>> prop_SpecularLightColor("specular_light_color");
         Property<Vector<3>> prop_DiffuseLightColor("diffuse_light_color");

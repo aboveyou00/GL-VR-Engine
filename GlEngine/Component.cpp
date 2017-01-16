@@ -141,13 +141,27 @@ namespace GlEngine
             if (ins.size() > 0)
             {
                 for (auto it : ins)
-                    stream << "layout(location = " << it.first << ") in " << it.second->DeclarationString("in_") << ";" << std::endl;
+                {
+                    std::string modifier = "";
+                    if (type == ComponentType::Fragment || type == ComponentType::TessControl || type == ComponentType::Geometry)
+                        modifier = it.second->modifier();
+                    if (modifier.size() > 0)
+                        modifier += " ";
+                    stream << "layout(location = " << it.first << ") " << modifier << "in " << it.second->DeclarationString("in_") << ";" << std::endl;
+                }
                 stream << std::endl;
             }
             if (outs.size() > 0)
             {
                 for (auto it : outs)
-                    stream << "layout(location = " << it.first << ") out " << it.second->DeclarationString("out_") << ";" << std::endl;
+                {
+                    std::string modifier = "";
+                    if (type == ComponentType::Vertex || type == ComponentType::TessEvaluation || type == ComponentType::Geometry)
+                        modifier = it.second->modifier();
+                    if (modifier.size() > 0)
+                        modifier += " ";
+                    stream << "layout(location = " << it.first << ") " << modifier << "out " << it.second->DeclarationString("out_") << ";" << std::endl;
+                }
                 stream << std::endl;
             }
         }
