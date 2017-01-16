@@ -2,6 +2,9 @@
 
 #include "ComponentArray.h"
 #include "Component.h"
+#include "ShaderFactoryError.h"
+#include "PropertyResolutionEagerness.h"
+#include "PerformanceLevel.h"
 #include <map>
 
 namespace GlEngine
@@ -15,31 +18,53 @@ namespace GlEngine
         class ENGINE_SHARED Program
         {
         public:
-            Program(bool useTesselation, bool useGeometry);
+            Program(PerformanceLevel perforamceLevel = PerformanceLevel::Unset);
             ~Program();
 
+            ShaderFactoryError error = ShaderFactoryError::None;
             ComponentArray<Component*> components;
+
+            void SetPerformanceLevel(PerformanceLevel performanceLevel);
+            void SetPropertyResolutionEagerness(PropertyResolutionEagerness eagerness);
 
             void AddPropertySource(PropertySource *propSource);
             void AddAttribute(Attribute* attribute);
-            int FindUniform(ShaderProp* prop);
-            unsigned FindOrCreateUniform(ShaderProp* prop);
+
             void ConnectComponentsProperty(ComponentType first, ComponentType last, ShaderProp* prop);
 
             ShaderSource *Compile();
-
             void WriteToDisk(std::string name);
 
         private:
-            void BootstrapInputs();
-            void BootstrapOutputs();
+            PerformanceLevel performanceLevel;
+            PropertyResolutionEagerness propertyResolutionEagerness;
 
-            void ResolveProperties();
+            void SetDefaultFlags();
 
-            std::map<unsigned, ShaderProp*> uniforms;
-            std::vector<PropertySource*> propSources;
-            std::vector<Attribute*> addedAttributes;
+            ComponentArray<std::vector<PropertySource*>> resolvedComponents;
+            std::vector<Attribute*> attributes;
+            std::vector<PropertySource*> propertySources;
+            std::vector<PropertySource*> fallbackSources;
+            
+            std::map<PropertySource*, std::vector<PropertySource*>> propertySourceInputs, propertySourceOutputs;
+            std::map<ShaderProp*, PropertySource*> currentPropertySources;
             bool compilationStarted = false;
+
+            size_t AddAttributeInternal(Attribute* attribute, size_t earliest);
+
+            ComponentType latest(std::vector<ComponentType> components);
+            ComponentType earliest(std::vector<ComponentType> components);
+            std::vector<ComponentType> orderedComponents(PropertySource* source);
+            std::map<PropertySource*, std::vector<ComponentType>> sourceConstraints();
+            std::set<std::pair<ShaderProp*, PropertySource*>> unresolvedProperties();
+
+            std::vector<PropertySource*> sourceDependencies(PropertySource* source, std::vector<PropertySource*> dependencySources = std::vector<PropertySource*>());
+            bool sourceDependenciesMet(PropertySource* source, std::vector<PropertySource*> dependencySources);
+            void AddToDependencyTree(PropertySource* source, std::vector<PropertySource*> dependencies);
+            void ResolveAttributeDependencies(Attribute* attribute);
+            bool TryResolveComponents(std::map<PropertySource*, std::vector<ComponentType>> constraints);
+            void ResolveFallbacks();
+            void BuildDependencyTree();
         };
     }
 }

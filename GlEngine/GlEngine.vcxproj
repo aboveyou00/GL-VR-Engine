@@ -161,8 +161,11 @@
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="IPropertyProvider.h" />
+    <ClInclude Include="PerformanceLevel.h" />
     <ClInclude Include="PointLightSource.h" />
-    <ClInclude Include="SnippetFlag.h" />
+    <ClInclude Include="PropertyResolutionEagerness.h" />
+    <ClInclude Include="ShaderFactoryError.h" />
+    <ClInclude Include="PropertySourceFlag.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Attribute.h" />
@@ -366,7 +369,7 @@
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
-    <ClCompile Include="SnippetFlag.cpp" />
+    <ClCompile Include="PropertySourceFlag.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />

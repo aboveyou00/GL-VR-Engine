@@ -6,31 +6,16 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Snippet::Snippet(std::string mainSource, SnippetFlag flags, std::string declSource)
-            : mainSource(mainSource), flags(flags), declSource(declSource)
+        Snippet::Snippet(std::string mainSource, PropertySourceFlag flags, std::string declSource)
+            : PropertySource(flags), mainSource(mainSource), declSource(declSource)
         {
         }
-        Snippet::Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, SnippetFlag flags, std::string declSource)
-            : mainSource(mainSource), propertiesIn(propertiesIn), propertiesOut(propertiesOut), flags(flags), declSource(declSource)
+        Snippet::Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, PropertySourceFlag flags, std::string declSource)
+            : PropertySource(flags), mainSource(mainSource), propertiesIn(propertiesIn), propertiesOut(propertiesOut), declSource(declSource)
         {
         }
         Snippet::~Snippet()
         {
-        }
-        Snippet *Snippet::Copy()
-        {
-            std::vector<ShaderProp*> propertiesIn;
-            std::vector<ShaderProp*> propertiesOut;
-            std::vector<ShaderProp*> tempProperties;
-            for (ShaderProp* prop : this->propertiesIn)
-                propertiesIn.push_back(prop);
-            for (ShaderProp* prop : this->propertiesOut)
-                propertiesOut.push_back(prop);
-            for (ShaderProp* prop : this->tempProperties)
-                tempProperties.push_back(prop);
-            auto snippet = new Snippet(mainSource, propertiesIn, propertiesOut, flags, declSource);
-            snippet->tempProperties = tempProperties;
-            return snippet;
         }
         Snippet * Snippet::IdentitySnippet(ShaderProp * prop, bool input, bool output)
         {
@@ -45,42 +30,19 @@ namespace GlEngine
         {
             return std::find(propertiesOut.begin(), propertiesOut.end(), prop) != propertiesOut.end();
         }
+        const std::vector<ShaderProp*> Snippet::inProperties()
+        {
+            return propertiesIn;
+        }
+        const std::vector<ShaderProp*> Snippet::outProperties()
+        {
+            return propertiesOut;
+        }
         void Snippet::ProvideProperty(ShaderProp * prop, Program * program, ComponentType type)
         {
             prop;
             program;
             type;
-        }
-
-        bool Snippet::HasFlag(SnippetFlag flag) const
-        {
-            return (flags & flag) != SnippetFlag::None;
-        }
-        void Snippet::SetFlag(SnippetFlag flag, bool val)
-        {
-            if (val) flags |= flag;
-            else flags &= ~flag;
-        }
-        void Snippet::SetFlag(SnippetFlag flag)
-        {
-            SetFlag(flag, true);
-        }
-        void Snippet::ResetFlag(SnippetFlag flag)
-        {
-            SetFlag(flag, false);
-        }
-
-        bool Snippet::fallback() const
-        {
-            return HasFlag(SnippetFlag::Fallback);
-        }
-        bool Snippet::noSideEffects() const
-        {
-            return HasFlag(SnippetFlag::NoSideEffects);
-        }
-        bool Snippet::hasSideEffects() const
-        {
-            return !HasFlag(SnippetFlag::NoSideEffects);
         }
     }
 }

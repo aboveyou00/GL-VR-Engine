@@ -25,12 +25,17 @@ namespace GlEngine
             return std::find(_props.begin(), _props.end(), prop) != _props.end();
         }
 
+        const std::vector<ShaderProp*> UniformPropertySource::outProperties()
+        {
+            return properties;
+        }
+
         void UniformPropertySource::ProvideProperty(ShaderProp *prop, Program *program, ComponentType type)
         {
             assert(HasProperty(prop));
             unsigned idx = program->FindOrCreateUniform(prop);
             program->components[type]->uniforms[idx] = prop;
-            program->components[type]->orderedSnippets.insert(program->components[type]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+            program->components[type]->snippets.insert(program->components[type]->snippets.begin(), Snippet::IdentitySnippet(prop, true, false));
         }
     }
 }

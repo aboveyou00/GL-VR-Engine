@@ -7,36 +7,30 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Attribute::Attribute(ComponentArray<std::vector<Snippet*>> snippets, std::vector<Attribute*> dependentAttrs)
-            : _snippets({}), _dependentAttrs({})
+        Attribute::Attribute(std::vector<PropertySource*> propertySources, std::vector<Attribute*> dependentAttrs, std::vector<PropertySource*> fallbackSources)
+            : _propertySources(propertySources), _dependentAttrs(), _fallbackSources(fallbackSources)
         {
-            for (auto type = ComponentType::Input; type <= ComponentType::Output; type++)
-            {
-                auto &comp_snippets = snippets[type];
-                for (size_t q = 0; q < comp_snippets.size(); q++)
-                    this->_snippets[type].push_back(comp_snippets[q]->Copy());
-            }
-
-            for (size_t q = 0; q < dependentAttrs.size(); q++)
-                _dependentAttrs.push_back(dependentAttrs[q]);
+            for (PropertySource* source : propertySources)
+                _propertySources.push_back(source);
+            for (Attribute* attr : dependentAttrs)
+                _dependentAttrs.push_back(attr);
         }
         Attribute::~Attribute()
         {
-            for (auto type = ComponentType::Input; type <= ComponentType::Output; type++)
-            {
-                auto &comp_snippets = this->_snippets[type];
-                for (size_t q = 0; q < comp_snippets.size(); q++)
-                    delete comp_snippets[q];
-            }
         }
 
         const std::vector<Attribute*> &Attribute::dependentAttributes() const
         {
             return _dependentAttrs;
         }
-        const ComponentArray<std::vector<Snippet*>> &Attribute::snippets() const
+        const std::vector<PropertySource*> Attribute::propertySources() const
         {
-            return _snippets;
+            return _propertySources;
+        }
+
+        const std::vector<PropertySource*> Attribute::fallbackSources() const
+        {
+            return _fallbackSources;
         }
         
 #pragma region position
@@ -45,10 +39,10 @@ namespace GlEngine
                 new Snippet("[out:0] = [in:0] * vec4([in:1], 1);",{ &prop_ModelViewProjectionMatrix, &prop_Position },{ &prop_GlPosition }),
 
                 //Fallback
-                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ViewMatrix, &prop_ModelMatrix },{ &prop_ModelViewMatrix }, SnippetFlag::Fallback),
-                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ProjectionMatrix, &prop_ModelViewMatrix },{ &prop_ModelViewProjectionMatrix }, SnippetFlag::Fallback),
+                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ViewMatrix, &prop_ModelMatrix },{ &prop_ModelViewMatrix }, PropertySourceFlag::Fallback),
+                new Snippet("[out:0] = [in:0] * [in:1];",{ &prop_ProjectionMatrix, &prop_ModelViewMatrix },{ &prop_ModelViewProjectionMatrix }, PropertySourceFlag::Fallback),
 
-                new Snippet("[out:0] = [in:0] * vec4([in:1], 0);",{ &prop_ModelViewMatrix, &prop_Normal },{ &prop_ModelViewNormal }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = [in:0] * vec4([in:1], 0);",{ &prop_ModelViewMatrix, &prop_Normal },{ &prop_ModelViewNormal }, PropertySourceFlag::Fallback)
             },
             { // Fragment
             }
@@ -80,7 +74,7 @@ namespace GlEngine
                 new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);", { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal }, { &prop_DiffuseLightColor }),
 
                 //Fallback
-                (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);", { &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix }, { &prop_PointLightDirection }, SnippetFlag::Fallback))->WithTemps<Vector<4>, Vector<4>>()
+                (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);", { &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix }, { &prop_PointLightDirection }, PropertySourceFlag::Fallback))->WithTemps<Vector<4>, Vector<4>>()
             },
             { // Fragment
             }
@@ -89,7 +83,7 @@ namespace GlEngine
             { // Vertex
             },
             { // Fragment
-                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_AmbientLightColor, &prop_RgbColor },{ &prop_RgbaColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_AmbientLightColor, &prop_RgbColor },{ &prop_RgbaColor }, PropertySourceFlag::Fallback)
             }
         }, { &attr_LightingFallbacks });
 
@@ -97,9 +91,9 @@ namespace GlEngine
             { //Vertex
             },
             { //Fragment
-                //new Snippet("[out:0] = vec4([in:0], 1) * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
-                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_DiffuseLightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback),
-                //new Snippet("[out:0] = vec4([in:0], 1);", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
+                //new Snippet("[out:0] = vec4([in:0], 1) * [in:1];", { &prop_DiffuseLightColor, &prop_RgbaColor }, { &prop_RgbaColor }, PropertySourceFlag::Fallback),
+                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_DiffuseLightColor, &prop_RgbColor }, { &prop_RgbaColor }, PropertySourceFlag::Fallback),
+                //new Snippet("[out:0] = vec4([in:0], 1);", { &prop_DiffuseLightColor }, { &prop_RgbaColor }, PropertySourceFlag::Fallback)
             }
         });
 #pragma endregion

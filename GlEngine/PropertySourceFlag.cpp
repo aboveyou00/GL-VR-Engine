@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "SnippetFlag.h"
+#include "PropertySourceFlag.h"
 
 namespace GlEngine
 {

@@ -24,6 +24,10 @@ namespace GlEngine
             virtual void ProvideProperty(ShaderProp * prop, Program * program, ComponentType type) override
             {
             }
+            virtual std::vector<ShaderProp*> outProperties() override
+            {
+                return {prop};
+            }
             virtual std::string PropertyName(ShaderProp * prop)
             {
                 if (HasProperty())

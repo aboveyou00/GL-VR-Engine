@@ -23,6 +23,10 @@ namespace GlEngine
         {
             return std::find(_props.begin(), _props.end(), prop) != _props.end();
         }
+        const std::vector<ShaderProp*> VboPropertySource::outProperties()
+        {
+            return _props;
+        }
         void VboPropertySource::ProvideProperty(ShaderProp *prop, Program *program, ComponentType type)
         {
             auto &vboOuts = program->components[ComponentType::Input]->outs;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ComponentArray.h"
-#include "Snippet.h"
+#include "PropertySource.h"
 
 namespace GlEngine
 {
@@ -10,15 +10,17 @@ namespace GlEngine
         class ENGINE_SHARED Attribute
         {
         public:
-            Attribute(ComponentArray<std::vector<Snippet*>> snippets, std::vector<Attribute*> dependentAttrs = {});
+            Attribute(std::vector<PropertySource*> propertySources, std::vector<Attribute*> dependentAttrs = {}, std::vector<PropertySource*> fallbackSources = {});
             ~Attribute();
 
             const std::vector<Attribute*> &dependentAttributes() const;
-            const ComponentArray<std::vector<Snippet*>> &snippets() const;
+            const std::vector<PropertySource*> propertySources() const;
+            const std::vector<PropertySource*> fallbackSources() const;
 
         private:
             std::vector<Attribute*> _dependentAttrs;
-            ComponentArray<std::vector<Snippet*>> _snippets;
+            std::vector<PropertySource*> _propertySources;
+            std::vector<PropertySource*> _fallbackSources;
         };
 
 #pragma region position

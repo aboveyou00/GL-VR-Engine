@@ -20,6 +20,7 @@ namespace GlEngine
             ~VboPropertySource();
 
             virtual bool HasProperty(ShaderProp * prop) override;
+            virtual const std::vector<ShaderProp*> outProperties() override;
             virtual void ProvideProperty(ShaderProp * prop, Program * program, ComponentType type) override;
 
         private:

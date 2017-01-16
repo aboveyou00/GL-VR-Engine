@@ -21,66 +21,6 @@ namespace GlEngine
         {
         }
 
-        bool Component::ResolveSnippets()
-        {
-            for (auto it: ins)
-                addLocalProp(it.second);
-            for (auto it : uniforms)
-                addLocalProp(it.second);
-
-            unsigned last_size = 0;
-            bool changed = false;
-            while (unresolvedSnippets.size() > 0)
-            {
-                if (unresolvedSnippets.size() == last_size)
-                    break;
-                last_size = unresolvedSnippets.size();
-
-                std::vector<Snippet*> resolved;
-                for (Snippet* snippet : unresolvedSnippets)
-                {
-                    if (snippetDependenciesMet(snippet))
-                    {
-                        orderedSnippets.push_back(snippet);
-                        resolved.push_back(snippet);
-                        for (ShaderProp* prop : snippet->propertiesOut)
-                            addLocalProp(prop);
-                        changed = true;
-                    }
-                }
-                for (Snippet* snippet : resolved)
-                    unresolvedSnippets.erase(snippet);
-            }
-            unresolvedOutputs.clear();
-            unresolvedInputs.clear();
-            for (Snippet* snippet : unresolvedSnippets)
-            {
-                for (size_t q = 0; q < snippet->propertiesIn.size(); q++)
-                    if (std::find(availableLocalProps.begin(), availableLocalProps.end(), snippet->propertiesIn[q]) == availableLocalProps.end())
-                        unresolvedInputs.insert(snippet->propertiesIn[q]);
-                for (size_t q = 0; q < snippet->propertiesOut.size(); q++)
-                    unresolvedOutputs.insert(snippet->propertiesOut[q]);
-            }
-            return changed;
-        }
-        bool Component::IsResolved()
-        {
-            return unresolvedSnippets.size() == 0;
-        }
-
-        bool Component::snippetDependenciesMet(Snippet* snippet)
-        {
-            for (ShaderProp* prop : snippet->propertiesIn)
-                if (std::find(availableLocalProps.begin(), availableLocalProps.end(), prop) == availableLocalProps.end())
-                    return false;
-            return true;
-        }
-        void Component::addLocalProp(ShaderProp *prop)
-        {
-            if (std::find(availableLocalProps.begin(), availableLocalProps.end(), prop) == availableLocalProps.end())
-                availableLocalProps.insert(prop);
-        }
-
         unsigned Component::FindOrCreateOutput(ShaderProp * prop)
         {
             for (auto it : outs)
@@ -156,7 +96,7 @@ namespace GlEngine
         {
             std::string result = "";
             bool any = false;
-            for (Snippet* snippet : orderedSnippets)
+            for (Snippet* snippet : snippets)
             {
                 if (!Util::is_empty_or_ws(snippet->declSource.c_str()))
                 {
@@ -178,9 +118,9 @@ namespace GlEngine
                 stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
                 any = true;
             }
-            for (size_t q = 0; q < orderedSnippets.size(); q++)
+            for (size_t q = 0; q < snippets.size(); q++)
             {
-                auto snippet = orderedSnippets[q];
+                auto snippet = snippets[q];
                 for (ShaderProp* prop : snippet->tempProperties)
                 {
                     stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
@@ -192,7 +132,7 @@ namespace GlEngine
 
         void Component::compileMain(std::stringstream &stream, int tabulation)
         {            
-            for (Snippet* snippet : orderedSnippets)
+            for (Snippet* snippet : snippets)
                 stream << resolveSnippetBody(snippet, tabulation) << std::endl;
         }
     }
