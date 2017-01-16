@@ -149,6 +149,7 @@
     <ClInclude Include="Lab01_Diffuse\LitTorus.h" />
     <ClInclude Include="Lab02_Features\FeaturesSceneFrame.h" />
     <ClInclude Include="Lab02_Features\PhongTorus.h" />
+    <ClInclude Include="Lab02_Features\NoLidTeapot.h" />
     <ClInclude Include="Sandbox.h" />
     <ClInclude Include="SandboxLoop.h" />
     <ClInclude Include="Lab01_Diffuse\DiffuseSceneFrame.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Lab02_Features\FeaturesSceneFrame.cpp" />
     <ClCompile Include="Lab02_Features\PhongTorus.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Lab02_Features\NoLidTeapot.cpp" />
     <ClCompile Include="Sandbox.cpp" />
     <ClCompile Include="SandboxLoop.cpp" />
     <ClCompile Include="Lab01_Diffuse\DiffuseSceneFrame.cpp" />
