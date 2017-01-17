@@ -45,12 +45,20 @@ namespace GlEngine
         return "ResourceLoader";
     }
 
-    void ResourceLoader::QueueResource(IComponent *c)
+    void ResourceLoader::QueueResource(IComponent *c, bool reentrant)
     {
         assert(c != nullptr);
 
         ScopedLock _lock(_mutex);
-        c_queue.push_back(c);
+        auto find_c = std::find(c_queue.begin(), c_queue.end(), c);
+        auto find_g = std::find(graphics_queue.begin(), graphics_queue.end(), c);
+        auto find_complete = std::find(complete_resources.begin(), complete_resources.end(), c);
+
+        if (!reentrant) assert(find_c == c_queue.end() && find_g == graphics_queue.end() && find_complete == complete_resources.end());
+        if (find_c == c_queue.end()) c_queue.push_back(c);
+
+        if (find_g != graphics_queue.end()) graphics_queue.erase(find_g);
+        if (find_complete != complete_resources.end()) complete_resources.erase(find_complete);
     }
     void ResourceLoader::QueueShutdown(IComponent *c)
     {

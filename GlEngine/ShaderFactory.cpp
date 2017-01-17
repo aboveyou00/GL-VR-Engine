@@ -13,6 +13,9 @@
 #include "Environment.h"
 #include "OpenGl.h"
 
+#include "Engine.h"
+#include "ResourceLoader.h"
+
 namespace GlEngine
 {
     namespace ShaderFactory
@@ -40,19 +43,31 @@ namespace GlEngine
 
         Material *ShaderFactory::material()
         {
+            ScopedLock lock(_mux);
             return _mat;
         }
         void ShaderFactory::SetMaterial(Material *mat)
         {
+            ScopedLock lock(_mux);
+
             if (mat == this->_mat) return;
-            if (this->_mat != nullptr) (this->_mat);
+            if (this->_mat != nullptr) RemovePropertyProvider(this->_mat);
 
             this->_mat = mat;
             this->_program = nullptr;
             this->_shader = nullptr;
             
-            if (mat == nullptr) return;
-            AddPropertyProvider(mat);
+            if (mat != nullptr)
+            {
+                AddPropertyProvider(mat);
+                auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+                resources->QueueResource(this, true);
+            }
+        }
+
+        bool ShaderFactory::Initialize()
+        {
+            ScopedLock lock(_mux);
 
             this->_program = new Program(false, false);
 
@@ -69,16 +84,13 @@ namespace GlEngine
             }
             this->_program->AddPropertySource(new UniformPropertySource(properties));
 
-            for (auto *attr : mat->attributes())
+            for (auto *attr : this->_mat->attributes())
                 this->_program->AddAttribute(attr);
 
             auto *source = this->_program->Compile();
 
             this->_shader = Shader::Create(source);
-        }
 
-        bool ShaderFactory::Initialize()
-        {
             return true;
         }
         void ShaderFactory::Shutdown()
@@ -94,6 +106,7 @@ namespace GlEngine
 
         void ShaderFactory::Push()
         {
+            ScopedLock lock(_mux);
             assert(!!*this);
             glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
             _shader->Push();
@@ -105,12 +118,14 @@ namespace GlEngine
         }
         void ShaderFactory::Pop()
         {
+            ScopedLock lock(_mux);
             glEnable(GL_CULL_FACE);
             if (_shader != nullptr) _shader->Pop();
         }
 
         ShaderFactory::operator bool()
         {
+            ScopedLock lock(_mux);
             return _shader != nullptr && !!*_shader;
         }
 

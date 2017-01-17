@@ -18,6 +18,7 @@ namespace GlEngine
 
     bool ObjLoader::Load(const char *const filename, ObjGraphicsObject *out)
     {
+        //TODO: cache mesh data
         std::ifstream in;
         in.open(filename);
         if (!in)
@@ -35,6 +36,7 @@ namespace GlEngine
 
     bool ObjLoader::_Load(std::istream &in, ObjGraphicsObject *out)
     {
+        assert(strcmp(this_thread_name(), "rscloadr") == 0);
         std::string line;
         while (std::getline(in, line))
         {

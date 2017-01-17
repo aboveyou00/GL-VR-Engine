@@ -52,6 +52,8 @@ namespace GlEngine
             Program *_program;
             Shader *_shader;
             std::vector<IPropertyProvider*> _providers;
+
+            rt_mutex _mux;
         };
     }
 }

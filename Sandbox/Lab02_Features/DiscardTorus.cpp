@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DiscardTorus.h"
 #include "ObjGraphicsObject.h"
-#include "PhongMaterial.h"
+#include "DiscardPhongMaterial.h"
 #include "RandomUtils.h"
 #include "MatrixStack.h"
 #include "AmbientLightSource.h"
@@ -41,7 +41,7 @@ const char *DiscardTorus::name()
 GlEngine::GraphicsObject *DiscardTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
 {
     ctx;
-    auto mat = new GlEngine::DiscardPhongMaterial(color, reflectionCoef);
+    auto mat = new DiscardPhongMaterial(color, reflectionCoef);
     return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { new GlEngine::AmbientLightSource({ .1f, .1f, .1f }), _lightSource });
 }
 

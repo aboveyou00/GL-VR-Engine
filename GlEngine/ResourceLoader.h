@@ -19,7 +19,7 @@ namespace GlEngine
 
         const char *name() override;
 
-        void QueueResource(IComponent *c);
+        void QueueResource(IComponent *c, bool reentrant = false);
         void QueueShutdown(IComponent *c);
         bool InitializeResourceGraphics();
         void ShutdownResourceGraphics();

@@ -74,6 +74,7 @@ namespace GlEngine
 
         ShaderSource *Program::Compile()
         {
+            assert(strcmp(this_thread_name(), "rscloadr") == 0); //TODO: only call Program::Compile on the resource loader thread
             assert(!compilationStarted);
             compilationStarted = true;
             

@@ -317,7 +317,6 @@
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="ComponentType.cpp" />
     <ClCompile Include="ComponentType_attribs.cpp" />
-    <ClCompile Include="ConstantPropertySource.cpp" />
     <ClCompile Include="CompoundGraphicsObject.cpp" />
     <ClCompile Include="CompoundGraphicsObjectImpl.cpp" />
     <ClCompile Include="DiffuseMaterial.cpp" />
