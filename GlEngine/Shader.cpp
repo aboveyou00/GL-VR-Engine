@@ -26,7 +26,7 @@ namespace GlEngine
             assert(!Util::is_empty_or_ws(source->fragment()));
 
             auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-            resources->QueueResource(this);
+            resources->QueueInitialize(this);
         }
         Shader::~Shader()
         {

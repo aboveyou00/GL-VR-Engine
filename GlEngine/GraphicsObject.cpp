@@ -19,7 +19,7 @@ namespace GlEngine
         if (autoinit)
         {
             auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-            resources->QueueResource(this);
+            resources->QueueInitialize(this);
         }
     }
     GraphicsObject::~GraphicsObject()

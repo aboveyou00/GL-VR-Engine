@@ -163,6 +163,9 @@
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="SnippetFlag.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="TaskState.h" />
+    <ClInclude Include="TaskType.h" />
     <ClInclude Include="ThreadType.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
@@ -367,6 +370,7 @@
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="SnippetFlag.cpp" />
+    <ClCompile Include="Task.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />

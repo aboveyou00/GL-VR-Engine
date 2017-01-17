@@ -3,37 +3,53 @@
 #include "IService.h"
 #include "IComponent.h"
 #include "IGraphicsComponent.h"
+#include "TaskType.h"
 #include <queue>
 #include "GameLoop.h"
 
 namespace GlEngine
 {
+    class Task;
+
     class ENGINE_SHARED ResourceLoader : public IService, public IComponent
     {
     public:
         ResourceLoader();
         ~ResourceLoader();
 
+        static const size_t THREAD_POOL_SIZE = 4;
+
         bool Initialize() override;
         void Shutdown() override;
 
         const char *name() override;
 
-        void QueueResource(IComponent *c, bool reentrant = false);
+        void QueueInitialize(IComponent *c, bool reentrant = false);
         void QueueShutdown(IComponent *c);
-        bool InitializeResourceGraphics();
-        void ShutdownResourceGraphics();
+
+        bool TickGraphics();
+        void ShutdownGraphics();
 
     private:
         rt_mutex _mutex;
-        std::deque<IComponent*> c_queue, complete_resources, c_shutdown_queue;
-        std::deque<IGraphicsComponent*> graphics_queue, graphics_shutdown_queue;
-        GameLoop _gameLoop;
+        std::vector<GameLoop*> thread_pool;
+        int worker_count = 0;
+        std::deque<Task*> task_queue;
+        std::vector<IComponent*> complete_resources;
+
+        void queueTask(TaskType type, IComponent *c);
+
+        bool isInitialized = false, isShuttingDown = false;
+        void cancelInitializeTasks();
+        void waitForShutdown();
+
         bool initLoop();
         void loop(float delta);
+        Task *nextWorkerTask();
         void shutdownLoop();
 
-        void clearShutdownGraphicsQueue();
-        void clearShutdownQueue();
+        Task *nextGraphicsTask();
+
+        void removeTask(Task *task);
     };
 }

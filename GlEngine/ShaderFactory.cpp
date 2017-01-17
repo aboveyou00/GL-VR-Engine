@@ -61,7 +61,7 @@ namespace GlEngine
             {
                 AddPropertyProvider(mat);
                 auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-                resources->QueueResource(this, true);
+                resources->QueueInitialize(this, true);
             }
         }
 

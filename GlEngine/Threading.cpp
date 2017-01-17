@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-const char *&this_thread_name()
+std::string &this_thread_name()
 {
-    static thread_local const char *ttn = "unknown";
+    static thread_local std::string ttn = "unknown";
     return ttn;
 }
 

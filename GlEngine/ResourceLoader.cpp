@@ -4,16 +4,11 @@
 #include "Engine.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
+#include "Task.h"
 
 namespace GlEngine
 {
     ResourceLoader::ResourceLoader()
-        : _gameLoop(
-            [&]() { return this->initLoop(); },
-            [&](float delta) { this->loop(delta); },
-            [&]() { this->shutdownLoop(); },
-            15
-          )
     {
     }
     ResourceLoader::~ResourceLoader()
@@ -22,22 +17,44 @@ namespace GlEngine
 
     bool ResourceLoader::Initialize()
     {
-        _gameLoop.RunLoop();
+        assert(!isInitialized);
+        isInitialized = true;
+        for (size_t q = 0; q < THREAD_POOL_SIZE; q++)
+        {
+            auto loop = new GameLoop {
+                [&]() { return this->initLoop(); },
+                [&](float delta) { this->loop(delta); },
+                [&]() { this->shutdownLoop(); },
+                15
+            };
+            thread_pool.push_back(loop);
+            loop->RunLoop();
+        }
         return true;
     }
     void ResourceLoader::Shutdown()
     {
-        _gameLoop.StopLoop();
+        if (!isInitialized || isShuttingDown) return;
+        isShuttingDown = true;
 
-        for (size_t q = 0; q < complete_resources.size(); q++)
-            complete_resources[q]->Shutdown();
-        complete_resources.clear();
+        cancelInitializeTasks();
+        waitForShutdown();
 
-        for (size_t q = 0; q < graphics_queue.size(); q++)
-            graphics_queue[q]->Shutdown();
-        graphics_queue.clear();
+        for (size_t q = 0; q < THREAD_POOL_SIZE; q++)
+        {
+            auto loop = thread_pool[q];
+            loop->StopLoop(true);
+        }
+        for (size_t q = 0; q < THREAD_POOL_SIZE; q++)
+        {
+            auto loop = thread_pool[q];
+            loop->Join();
+            delete loop;
+        }
+        thread_pool.clear();
 
-        c_queue.clear();
+        isInitialized = false;
+        isShuttingDown = false;
     }
 
     const char *ResourceLoader::name()
@@ -45,148 +62,280 @@ namespace GlEngine
         return "ResourceLoader";
     }
 
-    void ResourceLoader::QueueResource(IComponent *c, bool reentrant)
+    void ResourceLoader::cancelInitializeTasks()
+    {
+        ScopedLock _lock(_mutex);
+        for (size_t q = 0; q < task_queue.size(); q++)
+        {
+            auto &task = *task_queue[q];
+            if (task.state == TaskState::Working || task.state == TaskState::ThrowAway) continue;
+            switch (task.type)
+            {
+            case TaskType::Initialize:
+                task_queue.erase(task_queue.begin() + q--);
+                delete &task;
+                break;
+
+            case TaskType::InitializeGraphics:
+                task.type = TaskType::Shutdown;
+                break;
+            }
+        }
+        for (size_t q = 0; q < complete_resources.size(); q++)
+        {
+            auto c = complete_resources[q];
+            if (dynamic_cast<IGraphicsComponent*>(c) != nullptr) queueTask(TaskType::ShutdownGraphics, c);
+            queueTask(TaskType::Shutdown, c);
+        }
+        complete_resources.clear();
+    }
+    void ResourceLoader::waitForShutdown()
+    {
+        while (true)
+        {
+            {
+                ScopedLock _lock(_mutex);
+                if (task_queue.size() == 0) break;
+            }
+            std::this_thread::sleep_for(15ms);
+        }
+    }
+
+    void ResourceLoader::QueueInitialize(IComponent *c, bool reentrant)
     {
         assert(c != nullptr);
 
         ScopedLock _lock(_mutex);
-        auto find_c = std::find(c_queue.begin(), c_queue.end(), c);
-        auto find_g = std::find(graphics_queue.begin(), graphics_queue.end(), c);
+
         auto find_complete = std::find(complete_resources.begin(), complete_resources.end(), c);
-
-        if (!reentrant) assert(find_c == c_queue.end() && find_g == graphics_queue.end() && find_complete == complete_resources.end());
-        if (find_c == c_queue.end()) c_queue.push_back(c);
-
-        if (find_g != graphics_queue.end()) graphics_queue.erase(find_g);
+        if (!reentrant) assert(find_complete == complete_resources.end());
         if (find_complete != complete_resources.end()) complete_resources.erase(find_complete);
+        
+        for (size_t q = 0; q < task_queue.size(); q++)
+        {
+            auto &task = *task_queue[q];
+            if (&task.component() != c) continue;
+
+            if (task.state != TaskState::ThrowAway) assert(reentrant);
+            if (task.state == TaskState::Unassigned)
+            {
+                task_queue.erase(task_queue.begin() + q--);
+                delete &task;
+            }
+            else task.state = TaskState::ThrowAway;
+        }
+
+        queueTask(TaskType::Initialize, c);
     }
     void ResourceLoader::QueueShutdown(IComponent *c)
     {
         assert(c != nullptr);
 
         ScopedLock _lock(_mutex);
-        auto gfx = dynamic_cast<IGraphicsComponent*>(c);
-        if (gfx != nullptr)
-        {
-            graphics_shutdown_queue.push_back(gfx);
-            collection_remove(graphics_queue, gfx);
-        }
-        else c_shutdown_queue.push_back(c);
 
-        collection_remove(c_queue, c);
-        collection_remove(complete_resources, c);
+        for (size_t q = 0; q < task_queue.size(); q++)
+        {
+            auto &task = *task_queue[q];
+            if (&task.component() != c) continue;
+            assert(task.state == TaskState::ThrowAway);
+        }
+
+        auto find_complete = std::find(complete_resources.begin(), complete_resources.end(), c);
+        assert(find_complete != complete_resources.end());
+        complete_resources.erase(find_complete);
+
+        auto gfx = dynamic_cast<IGraphicsComponent*>(c);
+        if (gfx != nullptr) queueTask(TaskType::ShutdownGraphics, c);
+        else queueTask(TaskType::Shutdown, c);
+    }
+    void ResourceLoader::queueTask(TaskType type, IComponent *c)
+    {
+        assert(c != nullptr);
+
+        ScopedLock _lock(_mutex);
+        task_queue.push_back(new Task(type, c));
     }
 
-    bool ResourceLoader::InitializeResourceGraphics()
+    bool ResourceLoader::TickGraphics()
     {
         bool worked = true;
+        auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
+
         for (;;)
         {
-            IGraphicsComponent *c;
+            auto task = nextGraphicsTask();
+            if (task == nullptr) break;
+
+            IGraphicsComponent &c = task->graphicsComponent();
+
+            switch (task->type)
             {
-                ScopedLock _lock(_mutex);
-                if (graphics_queue.size() == 0) break;
-                c = graphics_queue.at(0);
-                graphics_queue.pop_front();
+            case TaskType::InitializeGraphics:
+                logger->Log(LogType::Info, "Asynchronous resource loader initializing graphics for %s (IGraphicsComponent)...", c.name());
+                if (!c.InitializeGraphics())
+                {
+                    logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize graphics for %s (IGraphicsComponent)", c.name());
+                    worked = false;
+
+                    ScopedLock _lock(_mutex);
+                    if (task->state == TaskState::ThrowAway) removeTask(task);
+                    else
+                    {
+                        task->type = TaskType::Shutdown;
+                        task->state = TaskState::Unassigned;
+                    }
+                }
+                else
+                {
+                    logger->Log(LogType::Info, "Asynchronous resource loader initialized graphics for %s (IGraphicsComponent).", c.name());
+                    ScopedLock _lock(_mutex);
+                    if (task->state == TaskState::ThrowAway) removeTask(task);
+                    else if (isShuttingDown)
+                    {
+                        task->state = TaskState::Unassigned;
+                        task->type = TaskType::ShutdownGraphics;
+                    }
+                    else
+                    {
+                        removeTask(task);
+                        complete_resources.push_back(&c);
+                    }
+                }
+                break;
+
+            case TaskType::ShutdownGraphics:
+                logger->Log(LogType::Info, "Asynchronous resource loader shutting down graphics for %s (IGraphicsComponent)...", c.name());
+                c.ShutdownGraphics();
+                {
+                    logger->Log(LogType::Info, "Asynchronous resource loader shut down graphics for %s (IGraphicsComponent).", c.name());
+                    ScopedLock _lock(_mutex);
+                    if (task->state == TaskState::ThrowAway) removeTask(task);
+                    else
+                    {
+                        task->type = TaskType::Shutdown;
+                        task->state = TaskState::Unassigned;
+                    }
+                }
+                break;
+
+            default:
+                assert(false);
             }
-            if (!c->InitializeGraphics())
-            {
-                auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IGraphicsComponent)", c->name());
-                worked = false;
-                continue;
-            }
-            {
-                ScopedLock _lock(_mutex);
-                complete_resources.push_back(c);
-            }
+            
         }
-        clearShutdownGraphicsQueue();
         return worked;
     }
-    void ResourceLoader::ShutdownResourceGraphics()
+    void ResourceLoader::ShutdownGraphics()
     {
-        ScopedLock _lock(_mutex);
-        for (size_t q = 0; q < complete_resources.size(); q++)
-        {
-            IComponent *c;
-            IGraphicsComponent *g;
-            c = complete_resources.at(q);
-            if ((g = dynamic_cast<IGraphicsComponent*>(c)) != nullptr) g->ShutdownGraphics();
-        }
-        clearShutdownGraphicsQueue();
-    }
-    void ResourceLoader::clearShutdownGraphicsQueue()
-    {
-        for (;;)
-        {
-            IGraphicsComponent *c;
-            {
-                ScopedLock _lock(_mutex);
-                if (graphics_shutdown_queue.size() == 0) break;
-                c = graphics_shutdown_queue.at(0);
-                graphics_shutdown_queue.pop_front();
-            }
-            c->ShutdownGraphics();
-            {
-                ScopedLock _lock(_mutex);
-                c_shutdown_queue.push_back(c);
-            }
-        }
+        cancelInitializeTasks();
+        TickGraphics();
     }
 
     bool ResourceLoader::initLoop()
     {
-        this_thread_name() = "rscloadr";
+        ScopedLock _lock(_mutex);
+        this_thread_name() = "rscld"s + std::to_string(++worker_count);
         this_thread_type() = ThreadType::ResourceLoader;
+
         auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-        logger->Log(LogType::Info, "Beginning resource loader thread...");
+        logger->Log(LogType::Info, "Beginning resource loader worker...");
         return true;
     }
     void ResourceLoader::loop(float)
     {
-        IComponent *c;
-        for (;;)
+        Task *task = nextWorkerTask();
+        if (task == nullptr) return;
+        IComponent &c = task->component();
+
+        auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
+
+        switch (task->type)
         {
+        case TaskType::Initialize:
+            logger->Log(LogType::Info, "Asynchronous resource loader initializing %s (IComponent)...", c.name());
+            if (!c.Initialize())
             {
+                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c.name());
+                removeTask(task);
+            }
+            else
+            {
+                logger->Log(LogType::Info, "Asynchronous resource loader initialized %s (IComponent).", c.name());
                 ScopedLock _lock(_mutex);
-                if (c_queue.size() == 0) break;
-                c = c_queue.at(0);
-                c_queue.pop_front();
+                if (task->state == TaskState::ThrowAway || dynamic_cast<IGraphicsComponent*>(&c) == nullptr) removeTask(task);
+                else
+                {
+                    task->type = TaskType::InitializeGraphics;
+                    task->state = TaskState::Unassigned;
+                }
             }
-            if (!c->Initialize())
-            {
-                auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c->name());
-                continue;
-            }
-            {
-                ScopedLock _lock(_mutex);
-                IGraphicsComponent *g = dynamic_cast<IGraphicsComponent*>(c);
-                if (g != nullptr) graphics_queue.push_back(g);
-                else complete_resources.push_back(c);
-            }
+            break;
+
+        case TaskType::Shutdown:
+            logger->Log(LogType::Info, "Asynchronous resource loader shutting down %s (IComponent)...", c.name());
+            c.Shutdown();
+            logger->Log(LogType::Info, "Asynchronous resource loader shut down %s (IComponent).", c.name());
+            removeTask(task);
+            break;
+
+        default:
+            assert(false);
         }
-        clearShutdownQueue();
+    }
+    Task *ResourceLoader::nextWorkerTask()
+    {
+        ScopedLock _lock(_mutex);
+
+        Task *task = nullptr;
+        auto count = task_queue.size();
+        for (int q = count; q > 0; q--)
+        {
+            task = task_queue.at(0);
+            task_queue.pop_front();
+
+            if (task->state == TaskState::Unassigned && (task->type == TaskType::Initialize || task->type == TaskType::Shutdown)) break;
+            task_queue.push_back(task);
+            task = nullptr;
+        }
+        if (task != nullptr)
+        {
+            task->state = TaskState::Working;
+            task_queue.push_back(task);
+        }
+        return task;
     }
     void ResourceLoader::shutdownLoop()
     {
         auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-        logger->Log(LogType::Info, "~Terminating resource loader thread...");
+        logger->Log(LogType::Info, "~Terminating resource loader worker...");
     }
 
-    void ResourceLoader::clearShutdownQueue()
+    Task *ResourceLoader::nextGraphicsTask()
     {
-        IComponent *c;
-        for (;;)
+        ScopedLock _lock(_mutex);
+
+        Task *task = nullptr;
+        auto count = task_queue.size();
+        for (int q = count; q > 0; q--)
         {
-            {
-                ScopedLock _lock(_mutex);
-                if (c_shutdown_queue.size() == 0) break;
-                c = c_shutdown_queue.at(0);
-                c_shutdown_queue.pop_front();
-            }
-            c->Shutdown();
+            task = task_queue.at(0);
+            task_queue.pop_front();
+
+            if (task->state == TaskState::Unassigned && (task->type == TaskType::InitializeGraphics || task->type == TaskType::ShutdownGraphics)) break;
+            task_queue.push_back(task);
+            task = nullptr;
         }
+        if (task != nullptr)
+        {
+            task->state = TaskState::Working;
+            task_queue.push_back(task);
+        }
+        return task;
+    }
+
+    void ResourceLoader::removeTask(Task *task)
+    {
+        ScopedLock _lock(_mutex);
+        collection_remove(task_queue, task);
     }
 }
