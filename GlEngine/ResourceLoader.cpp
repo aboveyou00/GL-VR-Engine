@@ -138,6 +138,7 @@ namespace GlEngine
     bool ResourceLoader::initLoop()
     {
         this_thread_name() = "rscloadr";
+        this_thread_type() = ThreadType::ResourceLoader;
         auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
         logger->Log(LogType::Info, "Beginning resource loader thread...");
         return true;

@@ -36,7 +36,7 @@ namespace GlEngine
 
     bool ObjLoader::_Load(std::istream &in, ObjGraphicsObject *out)
     {
-        assert(strcmp(this_thread_name(), "rscloadr") == 0);
+        assert(this_thread_type() == ThreadType::ResourceLoader);
         std::string line;
         while (std::getline(in, line))
         {

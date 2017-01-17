@@ -42,6 +42,8 @@ const char *SandboxLoop::name()
 bool SandboxLoop::initLoop()
 {
     this_thread_name() = "logic";
+    this_thread_type() = ThreadType::Logic;
+
     auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
     logger->Log(GlEngine::LogType::Info, "Beginning logic thread");
 

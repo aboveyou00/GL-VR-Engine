@@ -104,6 +104,8 @@ namespace TileRPG
     bool World::initializeLoop()
     {
         this_thread_name() = "chunkldr";
+        this_thread_type() = ThreadType::ResourceLoader;
+
         return provider->Initialize();
     }
     void World::tickLoop(float)

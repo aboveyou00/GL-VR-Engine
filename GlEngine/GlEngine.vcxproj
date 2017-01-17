@@ -163,6 +163,7 @@
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="SnippetFlag.h" />
+    <ClInclude Include="ThreadType.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Attribute.h" />
