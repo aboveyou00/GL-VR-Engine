@@ -16,10 +16,10 @@ FeaturesSceneFrame::~FeaturesSceneFrame()
 
 bool FeaturesSceneFrame::Initialize()
 {
-    auto testObject = this->CreateGameObject<CameraTargetObject>();
+    auto cameraTarget = this->CreateGameObject<CameraTargetObject>();
 
     auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
-    cameraObject->SetTargetObject(testObject);
+    cameraObject->SetTargetObject(cameraTarget);
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 

@@ -40,6 +40,12 @@
     <Filter Include="Source Files\Shared">
       <UniqueIdentifier>{7622234f-53fd-4790-924c-9daec6f667a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Lab03_LightsAndEffects">
+      <UniqueIdentifier>{9af52dbf-5fc2-46fc-a27b-c27f21e917c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lab03_LightsAndEffects">
+      <UniqueIdentifier>{344346f9-3599-489a-85b2-05df4f602e32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sandbox.h">
@@ -84,6 +90,9 @@
     <ClInclude Include="Lab02_Features\DiscardPhongMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.h">
+      <Filter>Header Files\Lab03_LightsAndEffects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -127,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.cpp">
+      <Filter>Source Files\Lab03_LightsAndEffects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

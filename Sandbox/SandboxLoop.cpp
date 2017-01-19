@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "SandboxLoop.h"
-#include "Lab02_Features/FeaturesSceneFrame.h"
+//#include "Lab01_Diffuse/DiffuseSceneFrame.h"
+//#include "Lab02_Features/FeaturesSceneFrame.h"
+#include "Lab03_LightsAndEffects/LightsAndEffectsSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -50,7 +52,7 @@ bool SandboxLoop::initLoop()
     if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
 
     if (!frames.Initialize()) return false;
-    frames.PushNewFrame<FeaturesSceneFrame>();
+    frames.PushNewFrame<LightsAndEffectsSceneFrame>();
 
     return true;
 }
