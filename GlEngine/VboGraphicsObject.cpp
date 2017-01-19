@@ -35,14 +35,14 @@ namespace GlEngine
         ScopedLock _lock(mutex);
         GraphicsObject::AddPropertyProvider(provider);
         for (size_t q = 0; q < graphicsSections.size(); q++)
-            graphicsSections[q]->factory().AddPropertyProvider(provider);
+            graphicsSections[q]->factory().AddPropertyProviders(provider);
     }
     void VboGraphicsObject::RemovePropertyProvider(ShaderFactory::IPropertyProvider *provider)
     {
         ScopedLock _lock(mutex);
         GraphicsObject::RemovePropertyProvider(provider);
         for (size_t q = 0; q < graphicsSections.size(); q++)
-            graphicsSections[q]->factory().RemovePropertyProvider(provider);
+            graphicsSections[q]->factory().RemovePropertyProviders(provider);
     }
 
     void VboGraphicsObject::SetMaterial(Material *material)

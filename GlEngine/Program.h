@@ -35,9 +35,15 @@ namespace GlEngine
             ShaderSource *Compile();
             void WriteToDisk(std::string name);
 
+            int FindUniform(ShaderProp* prop);
+            unsigned FindOrCreateUniform(ShaderProp* prop);
+
         private:
             PerformanceLevel performanceLevel;
             PropertyResolutionEagerness propertyResolutionEagerness;
+
+            std::map<size_t, ShaderProp*> uniforms;
+            ComponentArray<std::vector<PropertySource*>> componentSources;
 
             void SetDefaultFlags();
 
@@ -46,24 +52,36 @@ namespace GlEngine
             std::vector<PropertySource*> propertySources;
             std::vector<PropertySource*> fallbackSources;
             
-            std::map<PropertySource*, std::vector<PropertySource*>> propertySourceInputs, propertySourceOutputs;
+            // maybe rename; inputs correspond to ordered propertysource input properties but outputs ARE NOT THIS
+            std::map<PropertySource*, std::vector<PropertySource*>> propertySourceInputs, propertySourceDependents;
+            std::vector<PropertySource*> allSources;
+            std::map<ShaderProp*, std::vector<PropertySource*>> allPropertySources;
             std::map<ShaderProp*, PropertySource*> currentPropertySources;
+            std::map<PropertySource*, std::vector<ComponentType>> constraints;
             bool compilationStarted = false;
 
             size_t AddAttributeInternal(Attribute* attribute, size_t earliest);
 
-            ComponentType latest(std::vector<ComponentType> components);
-            ComponentType earliest(std::vector<ComponentType> components);
+            ComponentType latestComponent(std::vector<ComponentType> components);
+            ComponentType earliestComponent(std::vector<ComponentType> components);
             std::vector<ComponentType> orderedComponents(PropertySource* source);
-            std::map<PropertySource*, std::vector<ComponentType>> sourceConstraints();
-            std::set<std::pair<ShaderProp*, PropertySource*>> unresolvedProperties();
+            std::map<ShaderProp*, std::set<PropertySource*>> unresolvedProperties();
+            std::map<ShaderProp*, std::vector<PropertySource*>> propertyFallbacks();
+            bool isEventualChild(PropertySource* parent, PropertySource* child);
+            bool isEventualChild(std::set<PropertySource*> parent, std::set<PropertySource*> children);
 
             std::vector<PropertySource*> sourceDependencies(PropertySource* source, std::vector<PropertySource*> dependencySources = std::vector<PropertySource*>());
             bool sourceDependenciesMet(PropertySource* source, std::vector<PropertySource*> dependencySources);
             void AddToDependencyTree(PropertySource* source, std::vector<PropertySource*> dependencies);
+            
+            void AddFallbackToDependencyTree(PropertySource* prop, std::set<PropertySource*> outputs, std::map<PropertySource*, std::vector<ComponentType>> constraints, std::map<PropertySource*, std::vector<ComponentType>> newConstraints);
+            void RemoveFallbackFromDependencyTree(PropertySource* prop);
+            bool FindFallback(ShaderProp* prop, std::map<ShaderProp*, std::set<PropertySource*>> unresolvedProps, std::map<ShaderProp*, std::vector<PropertySource*>> propFallbacks, std::map<PropertySource*, std::vector<ComponentType>> currentConstraints, std::map<PropertySource*, std::vector<ComponentType>> newConstraints);
+            bool ResolveFallbacks();
+
+            void CalculateConstraints();
             void ResolveAttributeDependencies(Attribute* attribute);
-            bool TryResolveComponents(std::map<PropertySource*, std::vector<ComponentType>> constraints);
-            void ResolveFallbacks();
+            bool TryResolveComponents(std::map<PropertySource*, ComponentType> out);
             void BuildDependencyTree();
         };
     }

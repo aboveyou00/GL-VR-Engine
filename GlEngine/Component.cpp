@@ -14,7 +14,7 @@ namespace GlEngine
     namespace ShaderFactory
     {
         Component::Component(ComponentType type)
-            : type(type), ins({}), outs({}), unresolvedInputs({}), availableLocalProps({}), unresolvedOutputs({}), unresolvedSnippets({}), comments("")
+            : type(type), ins({}), outs({}), comments("")
         {
         }
         Component::~Component()
@@ -109,25 +109,26 @@ namespace GlEngine
 
         void Component::compilePropertyDeclarations(std::stringstream &stream, int tabulation)
         {
-            auto tabulationString = std::string(tabulation, ' ');
+            stream; tabulation;
+            //auto tabulationString = std::string(tabulation, ' ');
 
-            bool any = false;
-            for (ShaderProp* prop : availableLocalProps)
-            {
-                if (prop->isBuiltIn) continue;
-                stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
-                any = true;
-            }
-            for (size_t q = 0; q < snippets.size(); q++)
-            {
-                auto snippet = snippets[q];
-                for (ShaderProp* prop : snippet->tempProperties)
-                {
-                    stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
-                    any = true;
-                }
-            }
-            if (any) stream << tabulationString << std::endl;
+            //bool any = false;
+            //for (ShaderProp* prop : availableLocalProps)
+            //{
+            //    if (prop->isBuiltIn) continue;
+            //    stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
+            //    any = true;
+            //}
+            //for (size_t q = 0; q < snippets.size(); q++)
+            //{
+            //    auto snippet = snippets[q];
+            //    for (ShaderProp* prop : snippet->tempProperties)
+            //    {
+            //        stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
+            //        any = true;
+            //    }
+            //}
+            //if (any) stream << tabulationString << std::endl;
         }
 
         void Component::compileMain(std::stringstream &stream, int tabulation)

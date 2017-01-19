@@ -17,21 +17,16 @@ namespace GlEngine
             : components({})
         {
             SetPerformanceLevel(performanceLevel);
-            //components[ComponentType::Input] = new Component(ComponentType::Input);
-            //components[ComponentType::Output] = new Component(ComponentType::Output);
+            components[ComponentType::Input] = new Component(ComponentType::Input);
+            components[ComponentType::Output] = new Component(ComponentType::Output);
 
-            //components[ComponentType::Vertex] = new Component(ComponentType::Vertex);
-            //components[ComponentType::Fragment] = new Component(ComponentType::Fragment);
+            components[ComponentType::Vertex] = new Component(ComponentType::Vertex);
+            components[ComponentType::Fragment] = new Component(ComponentType::Fragment);
 
-            //if (useTesselation)
-            //{
-            //    components[ComponentType::TessControl] = new Component(ComponentType::TessControl);
-            //    components[ComponentType::TessEvaluation] = new Component(ComponentType::TessEvaluation);
-            //}
-            //if (useGeometry)
-            //{
-            //    components[ComponentType::Geometry] = new Component(ComponentType::Geometry);
-            //}
+            components[ComponentType::TessControl] = new Component(ComponentType::TessControl);
+            components[ComponentType::TessEvaluation] = new Component(ComponentType::TessEvaluation);
+            
+            components[ComponentType::Geometry] = new Component(ComponentType::Geometry);
         }
 
         Program::~Program()
@@ -109,22 +104,23 @@ namespace GlEngine
                 SetPerformanceLevel(PerformanceLevel::Balanced);
         }
 
-        //int Program::FindUniform(ShaderProp *prop)
-        //{
-        //    for (auto it : uniforms)
-        //        if (it.second == prop)
-        //            return it.first;
-        //    return -1;
-        //}
-        //unsigned Program::FindOrCreateUniform(ShaderProp *prop)
-        //{
-        //    auto location = FindUniform(prop);
-        //    if (location != -1) return static_cast<unsigned>(location);
+        int Program::FindUniform(ShaderProp *prop)
+        {
+            for (auto it : uniforms)
+                if (it.second == prop)
+                    return it.first;
+            return -1;
+        }
+        unsigned Program::FindOrCreateUniform(ShaderProp *prop)
+        {
+            auto location = FindUniform(prop);
+            if (location != -1) return static_cast<unsigned>(location);
 
-        //    unsigned idx = uniforms.size();
-        //    uniforms[idx] = prop;
-        //    return idx;
-        //}
+            unsigned idx = uniforms.size();
+            uniforms[idx] = prop;
+            return idx;
+        }
+
         void Program::ConnectComponentsProperty(ComponentType first, ComponentType last, ShaderProp *prop)
         {
             assert(first < last);
@@ -181,7 +177,7 @@ namespace GlEngine
             }
             earliest = max(earliest + attributes.size() - origSize, lastPos);
 
-            auto attributePos = std::find(attributes.begin(), attributes.end(), attribute) - attributes.begin();
+            size_t attributePos = std::find(attributes.begin(), attributes.end(), attribute) - attributes.begin();
             if (attributePos < earliest)
             {
                 error = ShaderFactoryError::AttributeDependencyError;
@@ -197,7 +193,7 @@ namespace GlEngine
                 return attributePos;
         }
 
-        ComponentType Program::latest(std::vector<ComponentType> components)
+        ComponentType Program::latestComponent(std::vector<ComponentType> components)
         {
             ComponentType result = components[0];
             for (size_t i = 1; i < components.size(); i++)
@@ -206,7 +202,7 @@ namespace GlEngine
             return result;
         }
 
-        ComponentType Program::earliest(std::vector<ComponentType> components)
+        ComponentType Program::earliestComponent(std::vector<ComponentType> components)
         {
             ComponentType result = components[0];
             for (size_t i = 1; i < components.size(); i++)
@@ -226,22 +222,23 @@ namespace GlEngine
             case PropertyResolutionEagerness::Default:
                 return source->componentsDefault();
             }
-            assert(false);
+            __assume(false);
         }
 
-        std::map<PropertySource*, std::vector<ComponentType>> Program::sourceConstraints()
+        void Program::CalculateConstraints()
         {
-            std::map<PropertySource*, std::vector<ComponentType>> result;
-            for (auto pair : propertySourceInputs)
-                result[pair.first] = orderedComponents(pair.first);
+            constraints.clear();
 
-            for (auto pair : result)
+            for (auto pair : propertySourceInputs)
+                constraints[pair.first] = orderedComponents(pair.first);
+
+            for (auto pair : constraints)
             {
-                auto constraintLatest = latest(pair.second);
+                auto constraintLatest = latestComponent(pair.second);
                 for (auto input : propertySourceInputs[pair.first])
                 {
-                    std::vector<ComponentType> inputConstraints = result[input];
-                    auto inputConstraintEarliest = earliest(inputConstraints);
+                    std::vector<ComponentType> inputConstraints = constraints[input];
+                    auto inputConstraintEarliest = earliestComponent(inputConstraints);
                     
                     for (auto it = pair.second.begin(); it != pair.second.end(); it++)
                         if (*it < inputConstraintEarliest)
@@ -251,20 +248,59 @@ namespace GlEngine
                             inputConstraints.erase(it);
                 }
             }
+        }
+
+        std::map<ShaderProp*, std::set<PropertySource*>> Program::unresolvedProperties()
+        {
+            std::map<ShaderProp*, std::set<PropertySource*>> result;
+            for (PropertySource* source : allSources)
+            {
+                auto inProperties = source->inProperties();
+                for (size_t i = 0; i < inProperties.size(); i++)
+                {
+                    if (propertySourceInputs[source][i] == nullptr)
+                    {
+                        if (result.find(inProperties[i]) == result.end())
+                            result[inProperties[i]] = {};
+                        result[inProperties[i]].insert(source);
+                    }
+                }
+            }
             return result;
         }
 
-        std::set<std::pair<ShaderProp*, PropertySource*>> Program::unresolvedProperties()
+        std::map<ShaderProp*, std::vector<PropertySource*>> Program::propertyFallbacks()
         {
-            std::set<std::pair<ShaderProp*, PropertySource*>> unresolvedProperties;
-            for (auto pair : propertySourceInputs)
+            std::map<ShaderProp*, std::vector<PropertySource*>> result;
+            for (PropertySource* fallback : fallbackSources)
             {
-                auto inProperties = pair.first->inProperties();
-                for (int i = 0; i < inProperties.size(); i++)
-                    if (pair.second[i] == nullptr)
-                        unresolvedProperties.insert({ inProperties[i], pair.first });
+                auto prop = fallback->outProperties()[0];
+                if (result.find(prop) == result.end())
+                    result[fallback->outProperties()[0]] = {};
+                result[fallback->outProperties()[0]].push_back(fallback);
             }
-            return unresolvedProperties;
+            return result;
+        }
+
+        bool Program::isEventualChild(PropertySource* parent, PropertySource* child)
+        {
+            return isEventualChild(std::set<PropertySource*>{ parent }, std::set<PropertySource*>{ child });
+        }
+        bool Program::isEventualChild(std::set<PropertySource*> parents, std::set<PropertySource*> children)
+        {
+            std::set<PropertySource*> level = children;
+            while (level.size() > 0)
+            {
+                std::set<PropertySource*> newLevel;
+                for (auto source : level)
+                {
+                    if (parents.find(source) != parents.end())
+                        return true;
+                    newLevel.insert(propertySourceDependents[source].begin(), propertySourceDependents[source].end());
+                }
+                level = newLevel;
+            }
+            return false;
         }
 
         std::vector<PropertySource*> Program::sourceDependencies(PropertySource* source, std::vector<PropertySource*> dependencySources)
@@ -295,14 +331,144 @@ namespace GlEngine
 
         void Program::AddToDependencyTree(PropertySource* source, std::vector<PropertySource*> dependencies)
         {
+            allSources.push_back(source);
             for (ShaderProp* prop : source->outProperties())
+            {
                 currentPropertySources[prop] = source;
+                if (allPropertySources.find(prop) == allPropertySources.end())
+                    allPropertySources[prop] = {};
+                allPropertySources[prop].push_back(source);
+            }
 
             propertySourceInputs[source] = dependencies;
-            propertySourceOutputs[source] = {};
+            propertySourceDependents[source] = {};
             for (PropertySource* dependency : dependencies)
                 if (dependency != nullptr)
-                    propertySourceOutputs[dependency].push_back(source);
+                    propertySourceDependents[dependency].push_back(source);
+        }
+
+        void Program::AddFallbackToDependencyTree(PropertySource* fallback, std::set<PropertySource*> outputs, std::map<PropertySource*, std::vector<ComponentType>> constraints, std::map<PropertySource*, std::vector<ComponentType>> newConstraints)
+        {
+            newConstraints.clear();
+            for (auto pair : constraints)
+            {
+                std::vector<ComponentType> sourceConstraints;
+                sourceConstraints.insert(sourceConstraints.begin(), pair.second.begin(), pair.second.end());
+                newConstraints[pair.first] = sourceConstraints;
+            }
+
+            auto prop = fallback->outProperties()[0];
+            ComponentType parentLatest = ComponentType::Fragment;
+
+            propertySourceDependents[fallback] = {};
+            for (auto output : outputs)
+            {
+                size_t inputPos = std::find(output->inProperties().begin(), output->inProperties().end(), prop) - output->inProperties().begin();
+                propertySourceInputs[output][inputPos] = fallback;
+                propertySourceDependents[fallback].push_back(output);
+                
+                parentLatest = max(parentLatest, latestComponent(constraints[output]));
+            }
+            
+            propertySourceInputs[fallback] = {};
+            for (auto inProp : fallback->inProperties())
+            {
+                auto childPtr = allPropertySources[inProp].begin();
+                PropertySource* child;
+                // These defaults will never be used, I am guaranteeing to the compiler they are initialized
+                ComponentType fallbackEarliest = ComponentType::Input;
+                ComponentType fallbackLatest = ComponentType::Input;
+                ComponentType childEarliest = ComponentType::Input;
+
+                for (; childPtr != allPropertySources[inProp].end(); childPtr++)
+                {
+                    child = *childPtr;
+                    fallbackEarliest = earliestComponent(fallback->componentsDefault());
+                    fallbackLatest = latestComponent(fallback->componentsDefault());
+                    childEarliest = earliestComponent(constraints[child]);
+                
+                    if (childEarliest <= fallbackLatest && fallbackEarliest <= parentLatest && !isEventualChild({ child }, outputs))
+                        break;
+                }
+
+                if (childPtr == allPropertySources[inProp].end())
+                {
+                    propertySourceInputs[fallback].push_back(nullptr);
+                }
+                else
+                {
+                    propertySourceDependents[child].push_back(fallback);
+                    propertySourceInputs[fallback].push_back(child);
+
+                    newConstraints[fallback] = std::vector<ComponentType>();
+                    for (auto c : fallback->componentsDefault())
+                        if (childEarliest <= c && c <= parentLatest)
+                            newConstraints[fallback].push_back(c);
+                    for (auto cPtr = constraints[child].begin(); cPtr != constraints[child].end(); cPtr++)
+                        if (*cPtr > fallbackLatest)
+                            newConstraints[child].erase(cPtr - constraints[child].begin() + newConstraints[child].begin());
+                    for (auto parent : outputs)
+                        for (auto cPtr = constraints[parent].begin(); cPtr != constraints[child].end(); cPtr++)
+                            if (*cPtr < fallbackEarliest)
+                                newConstraints[parent].erase(cPtr - constraints[parent].begin() + newConstraints[parent].begin());
+                }
+            }
+        }
+
+        void Program::RemoveFallbackFromDependencyTree(PropertySource* fallback)
+        {
+            auto inputs = propertySourceInputs.find(fallback);
+            if (inputs != propertySourceInputs.end())
+            {
+                for (auto input : inputs->second)
+                {
+                    auto fallbackPtr = std::find(propertySourceDependents[input].begin(), propertySourceDependents[input].end(), fallback);
+                    if (fallbackPtr != propertySourceDependents[input].end())
+                        propertySourceDependents[input].erase(fallbackPtr);
+                }
+                propertySourceInputs.erase(inputs);
+            }
+            auto outputs = propertySourceDependents.find(fallback);
+            if (outputs != propertySourceDependents.end())
+            {
+                for (auto output : outputs->second)
+                {
+                    auto fallbackPtr = std::find(propertySourceInputs[output].begin(), propertySourceInputs[output].end(), fallback);
+                    if (fallbackPtr != propertySourceInputs[output].end())
+                        propertySourceInputs[output].erase(fallbackPtr);
+                }
+                propertySourceDependents.erase(outputs);
+            }
+        }
+
+        bool Program::FindFallback(ShaderProp * prop, std::map<ShaderProp*, std::set<PropertySource*>> unresolvedProps, std::map<ShaderProp*, std::vector<PropertySource*>> propFallbacks, std::map<PropertySource*, std::vector<ComponentType>> currentConstraints, std::map<PropertySource*, std::vector<ComponentType>> newConstraints)
+        {    
+            for (auto fallback : propFallbacks[prop])
+            {
+                newConstraints.clear();
+                for (auto pair : constraints)
+                {
+                    std::vector<ComponentType> sourceConstraints;
+                    sourceConstraints.insert(sourceConstraints.begin(), pair.second.begin(), pair.second.end());
+                    newConstraints[pair.first] = sourceConstraints;
+                }
+
+                AddFallbackToDependencyTree(fallback, unresolvedProps[prop], currentConstraints, newConstraints);
+                size_t i = 0;
+                for (; i < fallback->inProperties().size(); i++)
+                {
+                    std::map<PropertySource*, std::vector<ComponentType>> foundConstraints;
+                    if (propertySourceInputs[fallback][i] == nullptr)
+                        if (!FindFallback(fallback->inProperties()[i], unresolvedProps, propFallbacks, newConstraints, foundConstraints))
+                            break;
+                    newConstraints = foundConstraints;
+                }
+                if (i == fallback->inProperties().size())
+                    return true;
+                RemoveFallbackFromDependencyTree(fallback);
+            }
+            
+            return false;
         }
 
         void Program::ResolveAttributeDependencies(Attribute* attribute)
@@ -336,70 +502,73 @@ namespace GlEngine
             }
         }
 
-        bool Program::TryResolveComponents(std::map<PropertySource*, std::vector<ComponentType>> constraints)
+        bool Program::TryResolveComponents(std::map<PropertySource*, ComponentType> out)
         {
             std::map<PropertySource*, size_t> assignedComponents;
             
-            auto it = propertySourceInputs.begin();
-            while (it != propertySourceInputs.end())
+            auto it = allSources.begin();
+            while (it != allSources.end())
             {
+                auto source = *it;
                 ComponentType early = ComponentType::Vertex;
-                for (PropertySource* input : it->second)
+                for (PropertySource* input : propertySourceInputs[source])
                 {
                     if (assignedComponents.find(input) != assignedComponents.end())
                         early = max(early, constraints[input][assignedComponents[input]]);
                     else
-                        early = max(early, earliest(constraints[input]));
+                        early = max(early, earliestComponent(constraints[input]));
                 }
 
-                size_t componentIndex = (assignedComponents.find(it->first) != assignedComponents.end()) ? assignedComponents[it->first] + 1 : 0;
-                for (; componentIndex < constraints[it->first].size(); componentIndex++)
-                    if (constraints[it->first][componentIndex] >= early)
+                size_t componentIndex = (assignedComponents.find(source) != assignedComponents.end()) ? assignedComponents[source] + 1 : 0;
+                for (; componentIndex < constraints[source].size(); componentIndex++)
+                    if (constraints[source][componentIndex] >= early)
                         break;
 
-                if (componentIndex == constraints[it->first].size())
+                if (componentIndex == constraints[source].size())
                 {
-                    if (it == propertySourceInputs.begin())
+                    if (it == allSources.begin())
                         return false;
-                    assignedComponents.erase(it->first);
+                    assignedComponents.erase(source);
                     it--;
                 }
                 else
                 {
-                    assignedComponents[it->first] = componentIndex;
+                    assignedComponents[source] = componentIndex;
                     it++;
                 }
             }
 
-            for (auto pair : propertySourceInputs)
-            {
-                pair.first
-            }
+            for (auto pair : assignedComponents)
+                out[pair.first] = constraints[pair.first][pair.second];
+            return true;
         }
 
-        void Program::ResolveFallbacks()
+        bool Program::ResolveFallbacks()
         {
-            auto constraints = sourceConstraints();
+            CalculateConstraints();
             auto unresolvedProps = unresolvedProperties();
-
-            size_t lastSize = 0;
-            while (unresolvedProps.size() != lastSize)
+            auto propFallbacks = propertyFallbacks();
+            
+            for (auto source : allSources)
             {
-                for (PropertySource* fallback : fallbackSources)
+                for (size_t i = 0; i < propertySourceInputs[source].size(); i++)
                 {
-                    ShaderProp* prop = fallback->outProperties()[0];
-                    if (unresolvedProps.find(prop) != unresolvedProps.end() && u)
+                    if (propertySourceInputs[source][i] == nullptr)
                     {
-
+                        ShaderProp* prop = source->inProperties()[i];
+                        auto fallbacksPtr = propFallbacks.find(prop);
+                        std::map<PropertySource*, std::vector<ComponentType>> newConstraints;
+                        if (fallbacksPtr == propFallbacks.end() || !FindFallback(prop, unresolvedProps, propFallbacks, constraints, newConstraints))
+                        {
+                            Util::Log(LogType::ErrorC, "Could not resolve properties in Program compilation");
+                            // TODO: more info, set error
+                            return false;
+                        }
+                        constraints = newConstraints;
                     }
                 }
             }
-
-            if (unresolvedProperties.size() > 0)
-            {
-                Util::Log(LogType::ErrorC, "Could not resolve properties in Program compilation");
-                // TODO: more info, set error
-            }
+            return true;
         }
 
         void Program::BuildDependencyTree()
@@ -413,6 +582,14 @@ namespace GlEngine
                 ResolveAttributeDependencies(attribute);
             }
             ResolveFallbacks();
+
+            std::map<PropertySource*, ComponentType> out;
+            if (!TryResolveComponents(out)) {
+                Util::Log(LogType::ErrorC, "Could not resolve propeerties into components in Program compilation");
+                return;
+            }
+            for (auto pair : out)
+                componentSources[pair.second].push_back(pair.first);
         }
     }
 }

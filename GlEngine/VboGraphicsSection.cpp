@@ -17,8 +17,7 @@ namespace GlEngine
               _factory(new ShaderFactory::ShaderFactory()),
               finalized(false)
         {
-            for (size_t q = 0; q < providers.size(); q++)
-                _factory->AddPropertyProvider(providers[q]);
+            _factory->AddPropertyProviders(providers);
             _factory->SetMaterial(material);
         }
         VboGraphicsSection::~VboGraphicsSection()

@@ -110,7 +110,7 @@ namespace GlEngine
             this->_program = nullptr;
             this->_shader = nullptr;
 
-            this->_program = new Program(false, false);
+            this->_program = new Program();
 
             this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
 

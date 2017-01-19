@@ -25,7 +25,7 @@ namespace GlEngine
             template<typename... T>
             void AddPropertyProviders(IPropertyProvider* first, T... providers)
             {
-                T arr[] = { providers... };
+                IPropertyProvider* arr[] = { first, providers... };
                 _providers.insert(_providers.end(), arr, arr + sizeof...(providers) + 1);
                 if (RefreshPropertyCache())
                     Recompile();
@@ -36,7 +36,7 @@ namespace GlEngine
             template<typename... T>
             void RemovePropertyProviders(IPropertyProvider* first, T... providers)
             {
-                T arr[] = { first, providers... };
+                IPropertyProvider* arr[] = { first, providers... };
                 for (int i = 0; i < sizeof...(providers) + 1; i++)
                 {
                     auto it = std::find(_providers.begin(), _providers.end(), arr[i]);
