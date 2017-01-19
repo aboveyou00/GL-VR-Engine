@@ -159,10 +159,12 @@
     <ClInclude Include="AmbientMaterial.h" />
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="DiffuseMaterial.h" />
+    <ClInclude Include="DirectionalLightSource.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="SnippetFlag.h" />
+    <ClInclude Include="SpotlightSource.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskState.h" />
     <ClInclude Include="TaskType.h" />
@@ -312,6 +314,7 @@
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
+    <ClCompile Include="DirectionalLightSource.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />
@@ -370,6 +373,7 @@
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="SnippetFlag.cpp" />
+    <ClCompile Include="SpotlightSource.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
