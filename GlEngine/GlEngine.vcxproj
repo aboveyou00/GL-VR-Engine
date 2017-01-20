@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="AmbientLightSource.h" />
     <ClInclude Include="AmbientMaterial.h" />
+    <ClInclude Include="Array.h" />
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="DirectionalLightSource.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="SnippetFlag.h" />
     <ClInclude Include="SpotlightSource.h" />
+    <ClInclude Include="Struct.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskState.h" />
     <ClInclude Include="TaskType.h" />

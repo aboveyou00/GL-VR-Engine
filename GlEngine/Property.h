@@ -6,6 +6,8 @@
 
 namespace GlEngine
 {
+    class Texture;
+
     namespace ShaderFactory
     {
         template <typename T>
@@ -28,7 +30,7 @@ namespace GlEngine
             std::string DeclarationString(std::string prefix = "") override
             {
                 std::stringstream stream;
-                stream << PropertyType_attribs<T>::glsl_name << " ";
+                stream << PropertyType_attribs<T>::glsl_name() << " ";
                 stream << prefix << name;
                 if (arrayLength != -1) stream << "[" << arrayLength << "]";
                 return stream.str();
@@ -53,6 +55,8 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<4>> prop_ModelViewNormal;
 
         extern ENGINE_SHARED Property<Vector<4>> prop_GlPosition;
+
+        extern ENGINE_SHARED Property<Texture*> prop_Texture;
 #pragma endregion
         
 #pragma region environment
