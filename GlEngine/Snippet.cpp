@@ -52,7 +52,7 @@ namespace GlEngine
             type;
         }
 
-        bool Snippet::HasFlag(SnippetFlag flag) const
+        bool Snippet::hasFlag(SnippetFlag flag) const
         {
             return (flags & flag) != SnippetFlag::None;
         }
@@ -72,15 +72,15 @@ namespace GlEngine
 
         bool Snippet::fallback() const
         {
-            return HasFlag(SnippetFlag::Fallback);
+            return hasFlag(SnippetFlag::Fallback);
         }
         bool Snippet::noSideEffects() const
         {
-            return HasFlag(SnippetFlag::NoSideEffects);
+            return hasFlag(SnippetFlag::NoSideEffects);
         }
         bool Snippet::hasSideEffects() const
         {
-            return !HasFlag(SnippetFlag::NoSideEffects);
+            return !hasFlag(SnippetFlag::NoSideEffects);
         }
     }
 }

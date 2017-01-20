@@ -164,6 +164,7 @@
     <ClInclude Include="Flags.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PointLightSource.h" />
+    <ClInclude Include="PropertyFlag.h" />
     <ClInclude Include="SnippetFlag.h" />
     <ClInclude Include="SpotlightSource.h" />
     <ClInclude Include="Struct.h" />
@@ -374,7 +375,6 @@
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
-    <ClCompile Include="SnippetFlag.cpp" />
     <ClCompile Include="SpotlightSource.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />

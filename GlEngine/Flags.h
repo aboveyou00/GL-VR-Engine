@@ -14,6 +14,7 @@
     inline ENGINE_SHARED flags_name operator^=(flags_name &one, flags_name two);
 
 #define FLAGS_H_DECL(flags_name) \
+    FLAGS_H_PREDECL(flags_name) \
     enum class ENGINE_SHARED flags_name : unsigned
 
 #define FLAGS_H(flags_name) \

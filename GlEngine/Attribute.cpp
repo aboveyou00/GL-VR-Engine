@@ -38,7 +38,24 @@ namespace GlEngine
         {
             return _snippets;
         }
-        
+
+#pragma region base-color
+        Attribute attr_RgbBaseColor = Attribute({
+            { // Vertex
+                new Snippet("[out:0] = vec4([in:0], 1);", { &prop_RgbColor }, { &prop_BaseColor })
+            },
+            { // Fragment
+            }
+        });
+        Attribute attr_TextureBaseColor = Attribute({
+            { // Vertex
+            },
+            { // Fragment
+                new Snippet("[out:0] = texture2D([in:0], [in:1]);", { &prop_Texture, &prop_UV }, { &prop_BaseColor })
+            }
+        });
+#pragma endregion
+
 #pragma region position
         Attribute attr_GlPosition = Attribute({
             { // Vertex
@@ -62,7 +79,8 @@ namespace GlEngine
                 new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position", { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position }, { &prop_SurfaceToCamera })
             },
             { //Fragment
-                (new Snippet(R"raw(if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal\nelse [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
+                (new Snippet(R"raw(if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal
+else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
 [out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation)raw"s, { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_PointLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess }, { &prop_SpecularLightComponent }))->WithTemps<Vector<3>>()
             }
         }, { &attr_LightingFallbacks });
@@ -152,7 +170,7 @@ namespace GlEngine
             { //Vertex
             },
             { //Fragment
-                new Snippet("[out:0] = vec4([in:0] * [in:1], 1);", { &prop_LightColor, &prop_RgbColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
+                new Snippet("[out:0] = vec4([in:0], 1) * [in:1];", { &prop_LightColor, &prop_BaseColor }, { &prop_RgbaColor }, SnippetFlag::Fallback)
             }
         });
 #pragma endregion

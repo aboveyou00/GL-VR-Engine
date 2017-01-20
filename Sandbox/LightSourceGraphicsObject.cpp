@@ -2,6 +2,7 @@
 #include "LightSourceGraphicsObject.h"
 #include "AmbientMaterial.h"
 #include "AmbientLightSource.h"
+#include "Texture.h"
 
 LightSourceGraphicsObject::LightSourceGraphicsObject()
 {
@@ -12,7 +13,8 @@ LightSourceGraphicsObject::~LightSourceGraphicsObject()
 
 bool LightSourceGraphicsObject::Initialize()
 {
-    auto mat = new GlEngine::AmbientMaterial({ 1.f, 1.f, 1.f });
+    auto tex = GlEngine::Texture::FromFile("Textures/warning.png", true);
+    auto mat = new GlEngine::AmbientMaterial(tex);// ({ 1.f, 1.f, 1.f });
     AddPropertyProvider(new GlEngine::AmbientLightSource(Vector<3> { 1, 1, 1 }));
     SetMaterial(mat);
 

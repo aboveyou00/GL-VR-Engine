@@ -14,8 +14,8 @@ namespace GlEngine
         class ENGINE_SHARED Property : public ShaderProp
         {
         public:
-            Property(std::string name, bool isBuiltIn = false, bool isFlat = false, int arrayLength = -1)
-                : ShaderProp(name, isBuiltIn, isFlat, arrayLength)
+            Property(std::string name, PropertyFlag flags = PropertyFlag::None)
+                : ShaderProp(name, PropertyType_attribs<T>::default_property_flags | flags)
             {
             }
             ~Property()
@@ -32,20 +32,20 @@ namespace GlEngine
                 std::stringstream stream;
                 stream << PropertyType_attribs<T>::glsl_name() << " ";
                 stream << prefix << name;
-                if (arrayLength != -1) stream << "[" << arrayLength << "]";
                 return stream.str();
             }
 
-            virtual unsigned LayoutSize() override
+            virtual unsigned layoutSize() override
             {
-                return arrayLength == -1 ? 1 : arrayLength;
+                return PropertyType_attribs<T>::glsl_layout_size;
             }
         };
 
 #pragma region vertex-attributes
         extern ENGINE_SHARED Property<Vector<3>> prop_RgbColor;
+        extern ENGINE_SHARED Property<Vector<4>> prop_BaseColor;
         extern ENGINE_SHARED Property<Vector<4>> prop_RgbaColor;
-       
+
         extern ENGINE_SHARED Property<Vector<3>> prop_Position;
         extern ENGINE_SHARED Property<Vector<3>> prop_Normal;
         extern ENGINE_SHARED Property<Vector<2>> prop_UV;
@@ -58,7 +58,7 @@ namespace GlEngine
 
         extern ENGINE_SHARED Property<Texture*> prop_Texture;
 #pragma endregion
-        
+
 #pragma region environment
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ModelMatrix;
         extern ENGINE_SHARED Property<Matrix<4, 4>> prop_ViewMatrix;

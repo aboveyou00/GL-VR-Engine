@@ -8,6 +8,8 @@
 #include "AmbientLightSource.h"
 #include "PointLightSource.h"
 
+#include "Texture.h"
+
 NoLidTeapot::NoLidTeapot(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
     : NoLidTeapot(color, reflectionCoef, lightSource, randomRotateAxis(), distance, rotationSpeed)
 {
@@ -39,9 +41,8 @@ const char *NoLidTeapot::name()
     return "NoLidTeapot";
 }
 
-GlEngine::GraphicsObject *NoLidTeapot::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+GlEngine::GraphicsObject *NoLidTeapot::CreateGraphicsObject(GlEngine::GraphicsContext&)
 {
-    ctx;
     auto mat = new GlEngine::PhongMaterial(color, reflectionCoef);
     return GlEngine::ObjGraphicsObject::Create("Resources/teapot.obj", mat, { new GlEngine::AmbientLightSource({ .1f, .1f, .1f }), _lightSource });
 }

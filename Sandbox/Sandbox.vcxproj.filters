@@ -66,15 +66,6 @@
     <ClInclude Include="Lab02_Features\FeaturesSceneFrame.h">
       <Filter>Header Files\Lab02_Features</Filter>
     </ClInclude>
-    <ClInclude Include="LightSourceObject.h">
-      <Filter>Header Files\Lab01_Diffuse</Filter>
-    </ClInclude>
-    <ClInclude Include="LightSourceGraphicsObject.h">
-      <Filter>Header Files\Lab01_Diffuse</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraTargetObject.h">
-      <Filter>Header Files\Lab01_Diffuse</Filter>
-    </ClInclude>
     <ClInclude Include="Lab02_Features\PhongTorus.h">
       <Filter>Header Files\Lab02_Features</Filter>
     </ClInclude>
@@ -92,6 +83,18 @@
     </ClInclude>
     <ClInclude Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.h">
       <Filter>Header Files\Lab03_LightsAndEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiPhongMaterial.h">
+      <Filter>Header Files\Lab03_LightsAndEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSourceGraphicsObject.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSourceObject.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraTargetObject.h">
+      <Filter>Header Files\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,15 +116,6 @@
     <ClCompile Include="Lab02_Features\FeaturesSceneFrame.cpp">
       <Filter>Source Files\Lab02_Features</Filter>
     </ClCompile>
-    <ClCompile Include="LightSourceObject.cpp">
-      <Filter>Source Files\Lab01_Diffuse</Filter>
-    </ClCompile>
-    <ClCompile Include="LightSourceGraphicsObject.cpp">
-      <Filter>Source Files\Lab01_Diffuse</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraTargetObject.cpp">
-      <Filter>Source Files\Lab01_Diffuse</Filter>
-    </ClCompile>
     <ClCompile Include="Lab02_Features\PhongTorus.cpp">
       <Filter>Source Files\Lab02_Features</Filter>
     </ClCompile>
@@ -139,6 +133,18 @@
     </ClCompile>
     <ClCompile Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.cpp">
       <Filter>Source Files\Lab03_LightsAndEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiPhongMaterial.cpp">
+      <Filter>Source Files\Lab03_LightsAndEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSourceObject.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSourceGraphicsObject.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraTargetObject.cpp">
+      <Filter>Source Files\Shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

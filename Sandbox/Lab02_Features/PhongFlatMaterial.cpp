@@ -20,28 +20,11 @@ PhongFlatMaterial::~PhongFlatMaterial()
 
 void PhongFlatMaterial::Push(GlEngine::ShaderFactory::ShaderFactory &factory)
 {
-    if (texture == nullptr)
-    {
-        factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, color);
-    }
-    else
-    {
-        assert(false);
-    }
+    if (texture == nullptr) factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, color);
+    else factory.ProvideProperty(GlEngine::ShaderFactory::prop_Texture, texture);
     factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
     factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, shininess);
-
-    //auto shader = instanced ? instancedShader : singleShader;
-    //if (shader && *shader) shader->Push();
-    //texture->Push();
 }
-//void PhongFlatMaterial::Pop(bool instanced)
-//{
-//    instanced;
-//    texture->Pop();
-//    //auto shader = instanced ? instancedShader : singleShader;
-//    //if (shader && *shader) shader->Pop();
-//}
 
 bool PhongFlatMaterial::IsOpaque()
 {
@@ -56,31 +39,21 @@ GlEngine::TesselationType PhongFlatMaterial::GetTesselationType()
 
 std::vector<GlEngine::ShaderFactory::ShaderProp*> PhongFlatMaterial::properties()
 {
-    if (texture == nullptr)
-    {
-        return {
-            &GlEngine::ShaderFactory::prop_RgbColor,
-            &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
-            &GlEngine::ShaderFactory::prop_Shininess
-        };
-    }
-    else
-    {
-        assert(false);
-        return {};
-        //return {
-        //    &ShaderFactory::prop_Texture,
-        //    &ShaderFactory::prop_ReflectionCoefficient,
-        //    &ShaderFactory::prop_Shininess
-        //};
-    }
+    std::vector<GlEngine::ShaderFactory::ShaderProp*> props = {};
+    if (texture == nullptr) props.push_back(&GlEngine::ShaderFactory::prop_RgbColor);
+    else props.push_back(&GlEngine::ShaderFactory::prop_Texture);
+    props.push_back(&GlEngine::ShaderFactory::prop_ReflectionCoefficient);
+    props.push_back(&GlEngine::ShaderFactory::prop_Shininess);
+    return props;
 }
 std::vector<GlEngine::ShaderFactory::Attribute*> PhongFlatMaterial::attributes()
 {
-    return {
-        &GlEngine::ShaderFactory::attr_GlPosition,
-        &GlEngine::ShaderFactory::attr_PhongFlat
-    };
+    std::vector<GlEngine::ShaderFactory::Attribute*> attrs = {};
+    if (texture == nullptr) attrs.push_back(&GlEngine::ShaderFactory::attr_RgbBaseColor);
+    else attrs.push_back(&GlEngine::ShaderFactory::attr_TextureBaseColor);
+    attrs.push_back(&GlEngine::ShaderFactory::attr_GlPosition);
+    attrs.push_back(&GlEngine::ShaderFactory::attr_PhongFlat);
+    return attrs;
 }
 
 const char *PhongFlatMaterial::name()

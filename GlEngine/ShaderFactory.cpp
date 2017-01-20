@@ -10,6 +10,7 @@
 #include "Material.h"
 
 #include "Shader.h"
+#include "Texture.h"
 #include "Environment.h"
 #include "OpenGl.h"
 
@@ -108,19 +109,37 @@ namespace GlEngine
         {
             ScopedLock lock(_mux);
             assert(!!*this);
-            glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
-            _shader->Push();
 
+            glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
+            
+            _shader->Push();
+            _textures.clear();
             for (size_t q = 0; q < _providers.size(); q++)
             {
                 _providers[q]->Push(*this);
+            }
+
+            unsigned texIdx = 0;
+            auto blend = false;
+            for (auto &it : _textures)
+            {
+                if (!it.second->IsOpaque()) blend = true;
+                PropertyType_attribs<Texture*>::set_gl_uniform(it.first, it.second, texIdx++);
+            }
+            if (blend)
+            {
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             }
         }
         void ShaderFactory::Pop()
         {
             ScopedLock lock(_mux);
-            glEnable(GL_CULL_FACE);
+
             if (_shader != nullptr) _shader->Pop();
+
+            glEnable(GL_CULL_FACE);
+            glDisable(GL_BLEND);
         }
 
         ShaderFactory::operator bool()
@@ -132,6 +151,14 @@ namespace GlEngine
         const char *ShaderFactory::name()
         {
             return "ShaderFactory";
+        }
+
+        template <>
+        void ShaderFactory::ProvideProperty<Texture*>(Property<Texture*> &prop, Texture *const &val)
+        {
+            assert(!!this);
+            auto uniformLocation = _program->FindUniform(&prop);
+            if (uniformLocation != -1) _textures[uniformLocation] = val;
         }
     }
 }

@@ -3,6 +3,7 @@
 #include "Struct.h"
 #include "Array.h"
 #include <sstream>
+#include "PropertyFlag.h"
 
 namespace GlEngine
 {
@@ -21,6 +22,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -30,6 +33,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -39,6 +44,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -48,6 +55,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -57,6 +66,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 #pragma endregion
 
@@ -68,6 +79,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -77,6 +90,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -86,6 +101,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 #pragma endregion
 
@@ -97,6 +114,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -106,6 +125,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -115,6 +136,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 #pragma endregion
 
@@ -126,6 +149,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -135,6 +160,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -144,6 +171,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 #pragma endregion
 
@@ -155,6 +184,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -164,6 +195,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -173,6 +206,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 #pragma endregion
 
@@ -184,6 +219,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -193,6 +230,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -202,6 +241,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 #pragma endregion
 
@@ -213,6 +254,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -222,6 +265,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -231,6 +276,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -240,6 +287,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -249,6 +298,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -258,6 +309,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -267,6 +320,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -276,6 +331,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <>
@@ -285,6 +342,8 @@ namespace GlEngine
             static std::string glsl_name();
             static std::string glsl_value(const T &value);
             static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = 1;
         };
 #pragma endregion
 
@@ -294,7 +353,9 @@ namespace GlEngine
         {
             typedef Texture *T;
             static std::string glsl_name();
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
+            static void set_gl_uniform(unsigned uniformLocation, const T &value, unsigned texIdx);
+            static const PropertyFlag default_property_flags = PropertyFlag::Readonly;
+            static const unsigned glsl_layout_size = 1;
         };
 
         template <typename... TArgs>
@@ -313,8 +374,11 @@ namespace GlEngine
             static void set_gl_uniform(unsigned uniformLocation, const T &value)
             {
                 uniformLocation; value;
+                static_assert((true && ... && (PropertyType_attribs<TArgs>::default_property_flags & PropertyFlag::Readonly) == PropertyFlag::None));
                 assert(false);
             }
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size);
         };
 
         template <typename TElem, unsigned size>
@@ -325,7 +389,6 @@ namespace GlEngine
             {
                 std::stringstream stream;
                 stream << PropertyType_attribs<TElem>::glsl_name();
-                stream << "["s << size << "]"s;
                 return stream.str();
             }
             static void set_gl_uniform(unsigned uniformLocation, const T &value)
@@ -333,7 +396,17 @@ namespace GlEngine
                 uniformLocation; value;
                 assert(false);
             }
+            static const PropertyFlag default_property_flags = PropertyFlag::None;
+            static const unsigned glsl_layout_size = size * PropertyType_attribs<TElem>::glsl_layout_size;
         };
+        //template <typename TElem, unsigned size>
+        //std::string Property<Array<TElem, size>>::DeclarationString(std::string prefix = "")
+        //{
+        //    std::stringstream stream;
+        //    stream << PropertyType_attribs<Array<TElem, size>>::glsl_name() << " ";
+        //    stream << prefix << name << "[" << size << "]";
+        //    return stream.str();
+        //}
 #pragma endregion
     }
 }

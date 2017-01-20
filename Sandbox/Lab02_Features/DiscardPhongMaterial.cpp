@@ -24,11 +24,16 @@ static Attribute attr_Discard = Attribute({
     { //Fragment
         (new Snippet("[temp:0] = dot([in:0], [in:0]);\n[temp:1] = dot([in:1], [in:1]);\nif ([temp:0] > .75 && [temp:1] < .75) discard;", { &GlEngine::ShaderFactory::prop_DiffuseLightComponent, &GlEngine::ShaderFactory::prop_SpecularLightComponent }, {}))->WithTemps<float, float>()
     }
-}, { &GlEngine::ShaderFactory::attr_GlPosition, &GlEngine::ShaderFactory::attr_Phong });
+}, {
+    &GlEngine::ShaderFactory::attr_GlPosition,
+    &GlEngine::ShaderFactory::attr_Phong
+});
 
 std::vector<GlEngine::ShaderFactory::Attribute*> DiscardPhongMaterial::attributes()
 {
-    return { &attr_Discard };
+    auto attrs = PhongMaterial::attributes();
+    attrs.push_back(&attr_Discard);
+    return attrs;
 }
 const char *DiscardPhongMaterial::name()
 {

@@ -30,7 +30,12 @@ namespace GlEngine
             assert(HasProperty(prop));
             unsigned idx = program->FindOrCreateUniform(prop);
             program->components[type]->uniforms[idx] = prop;
-            program->components[type]->orderedSnippets.insert(program->components[type]->orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+
+            if (!prop->isReadonly())
+            {
+                auto &orderedSnippets = program->components[type]->orderedSnippets;
+                orderedSnippets.insert(orderedSnippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+            }
         }
     }
 }

@@ -52,8 +52,12 @@ namespace GlEngine
             Program *_program;
             Shader *_shader;
             std::vector<IPropertyProvider*> _providers;
+            std::map<unsigned, Texture *> _textures;
 
             rt_mutex _mux;
         };
+
+        template <>
+        ENGINE_SHARED void ShaderFactory::ProvideProperty<Texture*>(Property<Texture*> &prop, Texture *const &val);
     }
 }

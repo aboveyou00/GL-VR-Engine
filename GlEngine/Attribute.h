@@ -21,6 +21,11 @@ namespace GlEngine
             ComponentArray<std::vector<Snippet*>> _snippets;
         };
 
+#pragma region base-color
+        extern ENGINE_SHARED Attribute attr_RgbBaseColor;
+        extern ENGINE_SHARED Attribute attr_TextureBaseColor;
+#pragma endregion
+
 #pragma region position
         extern ENGINE_SHARED Attribute attr_GlPosition;
 #pragma endregion

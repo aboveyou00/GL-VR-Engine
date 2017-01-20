@@ -135,7 +135,11 @@ namespace GlEngine
             if (uniforms.size() > 0)
             {
                 for (auto it : uniforms)
-                    stream << "layout(location = " << it.first << ") uniform " << it.second->DeclarationString("in_") << ";" << std::endl;
+                {
+                    stream << "layout(location = " << it.first << ") uniform ";
+                    stream << it.second->DeclarationString(it.second->isReadonly() ? ""s : "in_"s);
+                    stream << ";" << std::endl;
+                }
                 stream << std::endl;
             }
             if (ins.size() > 0)
@@ -188,10 +192,16 @@ namespace GlEngine
             bool any = false;
             for (ShaderProp* prop : availableLocalProps)
             {
-                if (prop->isBuiltIn) continue;
+                if (prop->isBuiltIn() || prop->isReadonly()) continue;
                 stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
                 any = true;
             }
+            if (any)
+            {
+                stream << tabulationString << std::endl;
+                any = false;
+            }
+
             for (size_t q = 0; q < orderedSnippets.size(); q++)
             {
                 auto snippet = orderedSnippets[q];
@@ -201,7 +211,11 @@ namespace GlEngine
                     any = true;
                 }
             }
-            if (any) stream << tabulationString << std::endl;
+            if (any)
+            {
+                stream << tabulationString << std::endl;
+                any = false;
+            }
         }
 
         void Component::compileMain(std::stringstream &stream, int tabulation)

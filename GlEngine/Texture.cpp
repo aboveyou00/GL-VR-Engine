@@ -105,23 +105,6 @@ namespace GlEngine
         return gl_tex != 0;// && gl_sampler != 0;
     }
 
-    void Texture::Push()
-    {
-        assert(!!*this);
-        glUniform1i(5, 0);
-        glActiveTexture(GL_TEXTURE0);
-        if (alpha)
-        {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        }
-        glBindTexture(GL_TEXTURE_2D, gl_tex);
-    }
-    void Texture::Pop()
-    {
-        if (alpha) glDisable(GL_BLEND);
-    }
-
     const char *Texture::GetSource()
     {
         return path;
@@ -144,5 +127,10 @@ namespace GlEngine
     bool Texture::IsOpaque()
     {
         return !alpha;
+    }
+
+    unsigned Texture::glslIndex()
+    {
+        return gl_tex;
     }
 }

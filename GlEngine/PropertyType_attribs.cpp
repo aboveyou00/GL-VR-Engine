@@ -4,6 +4,7 @@
 #include "StringUtils.h"
 
 #include "OpenGl.h"
+#include "Texture.h"
 
 namespace GlEngine
 {
@@ -432,32 +433,19 @@ namespace GlEngine
 #pragma region advanced
         std::string PropertyType_attribs<Texture*>::glsl_name()
         {
-            return "sampler2d"s;
+            return "sampler2D"s;
         }
 
-        void PropertyType_attribs<Texture*>::set_gl_uniform(unsigned uniformLocation, const T &value)
+        void PropertyType_attribs<Texture*>::set_gl_uniform(unsigned uniformLocation, const T &value, unsigned texIdx)
         {
-            uniformLocation; value;
-            assert(false);
+            assert(!!*value);
+            assert(texIdx < 32);
+            
+            glUniform1i(uniformLocation, texIdx);
+
+            glActiveTexture(GL_TEXTURE0 + texIdx);
+            glBindTexture(GL_TEXTURE_2D, value->glslIndex());
         }
-
-        //template <>
-        //template <typename... TArgs>
-        //struct ENGINE_SHARED PropertyType_attribs<Struct<TArgs...>>
-        //{
-        //    typedef Struct<TArgs...> T;
-        //    static std::string glsl_name();
-        //    static void set_gl_uniform(unsigned uniformLocation, const T &value);
-        //};
-
-        //template <>
-        //template <typename TElem, unsigned size>
-        //struct ENGINE_SHARED PropertyType_attribs<Array<TElem, size>>
-        //{
-        //    typedef Array<TElem, size> T;
-        //    static std::string glsl_name();
-        //    static void set_gl_uniform(unsigned uniformLocation, const T &value);
-        //};
 #pragma endregion
     }
 }

@@ -34,7 +34,7 @@ namespace GlEngine
             virtual bool HasProperty(ShaderProp* prop) override;
             virtual void ProvideProperty(ShaderProp * prop, Program * program, ComponentType type) override;
 
-            bool HasFlag(SnippetFlag flag) const;
+            bool hasFlag(SnippetFlag flag) const;
             void SetFlag(SnippetFlag flag, bool val);
             void SetFlag(SnippetFlag flag);
             void ResetFlag(SnippetFlag flag);

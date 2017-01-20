@@ -24,9 +24,6 @@ namespace GlEngine
 
         operator bool();
 
-        void Push();
-        void Pop();
-
         const char *GetSource();
 
         unsigned GetWidth();
@@ -35,6 +32,8 @@ namespace GlEngine
         unsigned GetGlTexture();
 
         bool IsOpaque();
+
+        unsigned glslIndex();
 
     private:
         bool initialized, alpha;

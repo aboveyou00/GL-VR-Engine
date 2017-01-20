@@ -5,6 +5,7 @@ namespace GlEngine::ShaderFactory
 {
 #pragma region vertex-attributes
     Property<Vector<3>> prop_RgbColor("rgb_color");
+    Property<Vector<4>> prop_BaseColor("base_color");
     Property<Vector<4>> prop_RgbaColor("color");
 
     Property<Vector<3>> prop_Position("xyz_position");
@@ -15,7 +16,7 @@ namespace GlEngine::ShaderFactory
 
     Property<Vector<4>> prop_ModelViewNormal("modelview_normal");
         
-    Property<Vector<4>> prop_GlPosition("gl_Position", true);
+    Property<Vector<4>> prop_GlPosition("gl_Position", PropertyFlag::BuiltIn);
 
     Property<Texture*> prop_Texture("texture");
 #pragma endregion
@@ -39,7 +40,7 @@ namespace GlEngine::ShaderFactory
 
     Property<Vector<3>> prop_SpecularLightComponent("specular_light_component");
     Property<Vector<3>> prop_DiffuseLightComponent("diffuse_light_component");
-    Property<Vector<3>> prop_DiffuseLightComponentFlat("diffuse_light_component", false, true);
+    Property<Vector<3>> prop_DiffuseLightComponentFlat("diffuse_light_component", PropertyFlag::Flat);
 
     Property<Vector<3>> prop_SpecularLightColor("specular_light_color");
     Property<Vector<3>> prop_DiffuseLightColor("diffuse_light_color");

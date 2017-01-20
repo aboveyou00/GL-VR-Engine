@@ -2,8 +2,6 @@
 
 namespace GlEngine
 {
-    FLAGS_H_PREDECL(LogType)
-
     FLAGS_H_DECL(LogType)
     {
         Ignore      = 0,
