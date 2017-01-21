@@ -14,9 +14,11 @@ namespace GlEngine
     namespace ShaderFactory
     {
         Program::Program(PerformanceLevel performanceLevel)
-            : components({})
+            : components({}), performanceLevel(PerformanceLevel::Unset), propertyResolutionEagerness(PropertyResolutionEagerness::Unset)
         {
-            SetPerformanceLevel(performanceLevel);
+            if (performanceLevel != PerformanceLevel::Unset)
+                SetPerformanceLevel(performanceLevel);
+            
             components[ComponentType::Input] = new Component(ComponentType::Input);
             components[ComponentType::Output] = new Component(ComponentType::Output);
 
@@ -83,9 +85,9 @@ namespace GlEngine
         ShaderSource *Program::Compile()
         {
             assert(!compilationStarted);
+            SetDefaultFlags();
             compilationStarted = true;
             
-            SetDefaultFlags();
             BuildDependencyTree();
 
             auto source = new ComponentArray<std::string*>();

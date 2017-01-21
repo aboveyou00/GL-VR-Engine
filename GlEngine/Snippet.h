@@ -12,8 +12,8 @@ namespace GlEngine
         class ENGINE_SHARED Snippet : public PropertySource 
         {
         public:
-            Snippet(std::string mainSource, PropertySourceFlag flags = PropertySourceFlag::None, std::string declSource = ""s);
-            Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, PropertySourceFlag flags = PropertySourceFlag::None, std::string declSource = ""s);
+            Snippet(std::string mainSource, PropertySourceFlag flags = PropertySourceFlag::None, std::vector<ComponentType> supportedComponents = { ComponentType::Vertex, ComponentType::Fragment }, std::string declSource = ""s);
+            Snippet(std::string mainSource, std::vector<ShaderProp*> propertiesIn, std::vector<ShaderProp*> propertiesOut, PropertySourceFlag flags = PropertySourceFlag::None, std::vector<ComponentType> supportedComponents = { ComponentType::Vertex, ComponentType::Fragment }, std::string declSource = ""s);
             ~Snippet();
 
             template <typename... TArgs>

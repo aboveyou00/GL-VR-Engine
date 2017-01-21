@@ -20,18 +20,18 @@ namespace GlEngine
             ShaderFactory();
             ~ShaderFactory();
 
-            void AddPropertyProviders(std::vector<IPropertyProvider*> providers, bool recompile = true);
+            void AddPropertyProviders(std::vector<IPropertyProvider*> providers);
             
             template<typename... T>
             void AddPropertyProviders(IPropertyProvider* first, T... providers)
             {
                 IPropertyProvider* arr[] = { first, providers... };
                 _providers.insert(_providers.end(), arr, arr + sizeof...(providers) + 1);
-                if (RefreshPropertyCache())
+                if (recompileOnChange, RefreshPropertyCache())
                     Recompile();
             }
             
-            void RemovePropertyProviders(std::vector<IPropertyProvider*> providers, bool recompile = true);
+            void RemovePropertyProviders(std::vector<IPropertyProvider*> providers);
             
             template<typename... T>
             void RemovePropertyProviders(IPropertyProvider* first, T... providers)
@@ -43,11 +43,11 @@ namespace GlEngine
                     if (it != _providers.end())
                         _providers.erase(it);
                 }
-                if (RefreshPropertyCache())
+                if (recompileOnChange && RefreshPropertyCache())
                     Recompile();
             }
             
-            void AddRemovePropertyProviders(std::vector<IPropertyProvider*> addProviders, std::vector<IPropertyProvider*> removeProviders, bool recompile = true);
+            void AddRemovePropertyProviders(std::vector<IPropertyProvider*> addProviders, std::vector<IPropertyProvider*> removeProviders);
 
             Material *material();
             void SetMaterial(Material *mat);
@@ -74,7 +74,9 @@ namespace GlEngine
             virtual operator bool() override;
             
             virtual const char *name() override;
-            
+
+            bool recompileOnChange = true;
+
         private:
             Material *_mat;
             Program *_program;

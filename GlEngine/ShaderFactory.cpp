@@ -19,22 +19,24 @@ namespace GlEngine
         ShaderFactory::ShaderFactory()
             : _mat(nullptr), _shader(nullptr), _providers({})
         {
+            recompileOnChange = false;
             AddPropertyProviders(&Environment::GetInstance());
+            recompileOnChange = true;
         }
         ShaderFactory::~ShaderFactory()
         {
             Shutdown();
         }
 
-        void ShaderFactory::AddPropertyProviders(std::vector<IPropertyProvider*> providers, bool recompile)
+        void ShaderFactory::AddPropertyProviders(std::vector<IPropertyProvider*> providers)
         {
             for (auto provider : providers)
                 _providers.push_back(provider);
 
-            if (recompile && RefreshPropertyCache())
+            if (recompileOnChange && RefreshPropertyCache())
                 Recompile();
         }
-        void ShaderFactory::RemovePropertyProviders(std::vector<IPropertyProvider*> providers, bool recompile)
+        void ShaderFactory::RemovePropertyProviders(std::vector<IPropertyProvider*> providers)
         {
             for (auto provider : providers)
             {
@@ -42,16 +44,20 @@ namespace GlEngine
                 if (it != _providers.end()) _providers.erase(it);
             }
 
-            if (recompile && RefreshPropertyCache())
+            if (recompileOnChange && RefreshPropertyCache())
                 Recompile();
         }
 
-        void ShaderFactory::AddRemovePropertyProviders(std::vector<IPropertyProvider*> addProviders, std::vector<IPropertyProvider*> removeProviders, bool recompile)
+        void ShaderFactory::AddRemovePropertyProviders(std::vector<IPropertyProvider*> addProviders, std::vector<IPropertyProvider*> removeProviders)
         {
-            AddPropertyProviders(addProviders, false);
-            RemovePropertyProviders(removeProviders, false);
+            bool oldRecompileOnChange = recompileOnChange;
+            recompileOnChange = false;
 
-            if (recompile && RefreshPropertyCache())
+            AddPropertyProviders(addProviders);
+            RemovePropertyProviders(removeProviders);
+
+            recompileOnChange = oldRecompileOnChange;
+            if (recompileOnChange && RefreshPropertyCache())
                 Recompile();
         }
 
@@ -65,14 +71,19 @@ namespace GlEngine
             if (this->_mat != nullptr) (this->_mat); //?
 
             if (mat == nullptr) return;
+            
+            bool oldRecompileOnChange = recompileOnChange;
+            recompileOnChange = false;
+
             AddPropertyProviders(mat);
-
             this->_mat = mat;
-
             for (auto *attr : mat->attributes())
                 this->_program->AddAttribute(attr);
+            
+            recompileOnChange = oldRecompileOnChange;
 
-            this->Recompile();
+            if (recompileOnChange)
+                this->Recompile();
         }
 
         bool ShaderFactory::Initialize()
@@ -127,7 +138,6 @@ namespace GlEngine
 
             auto *source = this->_program->Compile();
             this->_shader = Shader::Create(source);
-
         }
 
         ShaderFactory::operator bool()
@@ -143,7 +153,10 @@ namespace GlEngine
         {
             std::set<ShaderProp*> newProperties;
             for (IPropertyProvider* provider : _providers)
-                newProperties.insert(provider->properties().begin(), provider->properties().end());
+            {
+                auto props = provider->properties();
+                newProperties.insert(props.begin(), props.end());
+            }
             if (_properties != newProperties)
             {
                 _properties = newProperties;

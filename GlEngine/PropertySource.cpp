@@ -7,7 +7,7 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        PropertySource::PropertySource(PropertySourceFlag flags, std::vector<ComponentType> supportComponents)
+        PropertySource::PropertySource(PropertySourceFlag flags, std::vector<ComponentType> supportedComponents)
             : flags(flags), supportedComponents(supportedComponents)
         {
             assert(supportedComponents.size() > 0);
