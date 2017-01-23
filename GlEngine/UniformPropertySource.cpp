@@ -30,13 +30,14 @@ namespace GlEngine
             return _props;
         }
 
-        void UniformPropertySource::ProvideProperty(ShaderProp *prop, Program *program, ComponentType type)
+        void UniformPropertySource::Inject(Program *program, ComponentType type)
         {
-            assert(HasProperty(prop));
-            assert(false);
-            unsigned idx = program->FindOrCreateUniform(prop);
-            program->components[type]->uniforms[idx] = prop;
-            program->components[type]->snippets.insert(program->components[type]->snippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+			for (auto prop : _props)
+			{
+				unsigned idx = program->FindOrCreateUniform(prop);
+				program->components[type]->uniforms[idx] = prop;
+				program->components[type]->AddIdentitySnippet(prop, true, false);
+			}
         }
     }
 }

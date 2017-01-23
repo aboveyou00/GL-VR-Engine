@@ -17,7 +17,7 @@ namespace GlEngine
             ~PropertySource();
 
             virtual bool HasProperty(ShaderProp* prop) = 0;
-            virtual void ProvideProperty(ShaderProp* prop, Program* program, ComponentType type) = 0;
+            virtual void Inject(Program* program, ComponentType type) = 0;
             virtual const std::vector<ShaderProp*> outProperties() = 0;
             virtual const std::vector<ShaderProp*> inProperties();
             virtual std::string PropertyName(ShaderProp* prop);

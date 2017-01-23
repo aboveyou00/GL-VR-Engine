@@ -29,6 +29,8 @@ namespace GlEngine
             components[ComponentType::TessEvaluation] = new Component(ComponentType::TessEvaluation);
             
             components[ComponentType::Geometry] = new Component(ComponentType::Geometry);
+
+			AddAttribute(&attr_OutColor);
         }
 
         Program::~Program()
@@ -89,12 +91,26 @@ namespace GlEngine
             compilationStarted = true;
             
             BuildDependencyTree();
+			
+			ComponentArray<bool> usedComponents;
+			for (ComponentType type = ComponentType::Input; type <= ComponentType::Output; type++)
+			{
+				usedComponents[type] = false;
+				for (PropertySource* source : componentSources[type])
+				{
+					source->Inject(this, type);
+					usedComponents[type] = true;
+				}
+			}
+			usedComponents[ComponentType::Vertex] = true;
+			usedComponents[ComponentType::Fragment] = true;
 
             auto source = new ComponentArray<std::string*>();
             for (auto type = ComponentType::Vertex; type != ComponentType::Output; type++)
             {
-                if (components[type] == nullptr) continue;
-                (*source)[type] = new std::string(components[type]->Compile());
+				if (!usedComponents[type])
+					continue;
+				(*source)[type] = new std::string(components[type]->Compile());
                 Util::Log(LogType::Info, "%s:\n%s", NameOf(type).c_str(), (*source)[type]->c_str());
             }
             return source;
@@ -126,7 +142,7 @@ namespace GlEngine
         void Program::ConnectComponentsProperty(ComponentType first, ComponentType last, ShaderProp *prop)
         {
             assert(first < last);
-            components[first]->snippets.push_back(Snippet::IdentitySnippet(prop, false, true));
+			components[first]->AddIdentitySnippet(prop, false, true);
             unsigned inputIndex = components[first]->FindOrCreateOutput(prop);
             
             ComponentType currentType = first;
@@ -136,12 +152,12 @@ namespace GlEngine
                     continue;
 
                 components[currentType]->ins[inputIndex] = prop;
-                components[currentType]->snippets.push_back(Snippet::IdentitySnippet(prop, true, true));
+				components[currentType]->AddIdentitySnippet(prop, true, true);
                 inputIndex = components[currentType]->FindOrCreateOutput(prop);
             }
 
             components[last]->ins[inputIndex] = prop;
-            components[last]->snippets.insert(components[last]->snippets.begin(), Snippet::IdentitySnippet(prop, true, false));
+			components[last]->AddIdentitySnippet(prop, true, false);
         }
 
         void Program::WriteToDisk(std::string name)
@@ -159,17 +175,17 @@ namespace GlEngine
             }
         }
 
-        size_t Program::AddAttributeInternal(Attribute* attribute, size_t earliest)
+        int Program::AddAttributeInternal(Attribute* attribute, int earliest)
         {
             assert(!compilationStarted);
             auto dependents = attribute->dependentAttributes();
             
-            size_t origSize = attributes.size();
-            size_t lastPos = 0;
+            int origSize = attributes.size();
+            int lastPos = -1;
             
             for (size_t q = 0; q < dependents.size(); q++)
             {
-                size_t pos = AddAttributeInternal(dependents[q], lastPos);
+                int pos = AddAttributeInternal(dependents[q], lastPos);
                 if (pos < lastPos)
                 {
                     error = ShaderFactoryError::AttributeDependencyError;
@@ -177,16 +193,16 @@ namespace GlEngine
                 }
                 lastPos = pos;
             }
-            earliest = max(earliest + attributes.size() - origSize, lastPos);
+            earliest = max(earliest + (int)attributes.size() - origSize, lastPos + 1);
 
-            size_t attributePos = std::find(attributes.begin(), attributes.end(), attribute) - attributes.begin();
+            int attributePos = std::find(attributes.begin(), attributes.end(), attribute) - attributes.begin();
             if (attributePos < earliest)
             {
                 error = ShaderFactoryError::AttributeDependencyError;
                 Util::Log(LogType::ErrorC, "Could not resolve attribute dependencies in ShaderFactory::Program");
             }
 
-            if (attributePos == attributes.size())
+            if (attributePos == (int)attributes.size())
             {
                 attributes.insert(attributes.begin() + earliest, attribute);
                 return earliest;
@@ -239,15 +255,23 @@ namespace GlEngine
                 auto constraintLatest = latestComponent(pair.second);
                 for (auto input : propertySourceInputs[pair.first])
                 {
+                    if (input == nullptr)
+                        continue;
+
                     std::vector<ComponentType> inputConstraints = constraints[input];
                     auto inputConstraintEarliest = earliestComponent(inputConstraints);
                     
                     for (auto it = pair.second.begin(); it != pair.second.end(); it++)
                         if (*it < inputConstraintEarliest)
                             pair.second.erase(it);
-                    for (auto it = inputConstraints.begin(); it != inputConstraints.end(); it++)
-                        if (*it > constraintLatest)
-                            inputConstraints.erase(it);
+					size_t i = 0;
+					while (i < inputConstraints.size())
+					{
+						if (inputConstraints[i] > constraintLatest)
+							inputConstraints.erase(inputConstraints.begin() + i);
+						else
+							i++;
+					}
                 }
             }
         }
@@ -318,7 +342,7 @@ namespace GlEngine
             return dependencySources;
         }
 
-        bool Program::sourceDependenciesMet(PropertySource* source, std::vector<PropertySource*> dependencySources)
+        bool Program::SourceDependenciesMet(PropertySource* source, std::vector<PropertySource*> &dependencySources)
         {
             for (ShaderProp* dependency : source->inProperties())
             {
@@ -488,7 +512,7 @@ namespace GlEngine
                 {
                     PropertySource* source = *ptr;
                     dependencySources.clear();
-                    if (sourceDependenciesMet(source, dependencySources))
+                    if (SourceDependenciesMet(source, dependencySources))
                     {
                         AddToDependencyTree(source, dependencySources);
                         unresolvedSources.erase(ptr);
@@ -504,17 +528,16 @@ namespace GlEngine
             }
         }
 
-        bool Program::TryResolveComponents(std::map<PropertySource*, ComponentType> out)
+        void Program::ResolveComponents()
         {
-            std::map<PropertySource*, size_t> assignedComponents;
+			std::map<PropertySource*, size_t> assignedComponents;
             
-            auto it = allSources.begin();
-            while (it != allSources.end())
+            for (auto source : allSources)
             {
-                auto source = *it;
                 ComponentType early = ComponentType::Vertex;
                 for (PropertySource* input : propertySourceInputs[source])
                 {
+                    assert(input != nullptr);
                     if (assignedComponents.find(input) != assignedComponents.end())
                         early = max(early, constraints[input][assignedComponents[input]]);
                     else
@@ -525,24 +548,11 @@ namespace GlEngine
                 for (; componentIndex < constraints[source].size(); componentIndex++)
                     if (constraints[source][componentIndex] >= early)
                         break;
-
-                if (componentIndex == constraints[source].size())
-                {
-                    if (it == allSources.begin())
-                        return false;
-                    assignedComponents.erase(source);
-                    it--;
-                }
-                else
-                {
-                    assignedComponents[source] = componentIndex;
-                    it++;
-                }
+				
+				assignedComponents[source] = componentIndex;
+				sourceComponents[source] = constraints[source][componentIndex];
+				componentSources[constraints[source][componentIndex]].push_back(source);
             }
-
-            for (auto pair : assignedComponents)
-                out[pair.first] = constraints[pair.first][pair.second];
-            return true;
         }
 
         bool Program::ResolveFallbacks()
@@ -580,18 +590,14 @@ namespace GlEngine
 
             for (Attribute* attribute : attributes)
             {
-                fallbackSources.insert(fallbackSources.begin(), attribute->fallbackSources().begin(), attribute->fallbackSources().end());
+                auto attributeFallbacks = attribute->fallbackSources();
+                fallbackSources.insert(fallbackSources.begin(), attributeFallbacks.begin(), attributeFallbacks.end());
                 ResolveAttributeDependencies(attribute);
             }
-            ResolveFallbacks();
-
-            std::map<PropertySource*, ComponentType> out;
-            if (!TryResolveComponents(out)) {
-                Util::Log(LogType::ErrorC, "Could not resolve propeerties into components in Program compilation");
-                return;
-            }
-            for (auto pair : out)
-                componentSources[pair.second].push_back(pair.first);
-        }
+			
+            //ResolveFallbacks();
+            CalculateConstraints();
+			ResolveComponents();
+		}
     }
 }

@@ -21,7 +21,7 @@ namespace GlEngine
             {
                 return this->prop == prop;
             }
-            virtual void ProvideProperty(ShaderProp * prop, Program * program, ComponentType type) override
+            virtual void Inject(Program * program, ComponentType type) override
             {
             }
             virtual std::vector<ShaderProp*> outProperties() override

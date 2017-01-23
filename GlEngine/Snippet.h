@@ -28,10 +28,11 @@ namespace GlEngine
             std::vector<ShaderProp*> propertiesIn, propertiesOut, tempProperties;
 
             static Snippet* IdentitySnippet(ShaderProp* prop, bool input, bool output);
+
             virtual bool HasProperty(ShaderProp* prop) override;
             virtual const std::vector<ShaderProp*> inProperties() override;
             virtual const std::vector<ShaderProp*> outProperties() override;
-            virtual void ProvideProperty(ShaderProp * prop, Program * program, ComponentType type) override;
+            virtual void Inject(Program * program, ComponentType type) override;
 
         private:
             template <unsigned idx = 0, typename T, typename... TArgs>

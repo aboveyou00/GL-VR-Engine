@@ -27,8 +27,8 @@ namespace GlEngine
             {
                 IPropertyProvider* arr[] = { first, providers... };
                 _providers.insert(_providers.end(), arr, arr + sizeof...(providers) + 1);
-                if (recompileOnChange, RefreshPropertyCache())
-                    Recompile();
+                //if (RefreshPropertyCache())
+                //    Recompile();
             }
             
             void RemovePropertyProviders(std::vector<IPropertyProvider*> providers);
@@ -43,8 +43,8 @@ namespace GlEngine
                     if (it != _providers.end())
                         _providers.erase(it);
                 }
-                if (recompileOnChange && RefreshPropertyCache())
-                    Recompile();
+                //if (RefreshPropertyCache())
+                //    Recompile();
             }
             
             void AddRemovePropertyProviders(std::vector<IPropertyProvider*> addProviders, std::vector<IPropertyProvider*> removeProviders);
@@ -74,8 +74,6 @@ namespace GlEngine
             virtual operator bool() override;
             
             virtual const char *name() override;
-
-            bool recompileOnChange = true;
 
         private:
             Material *_mat;

@@ -38,12 +38,15 @@ namespace GlEngine
             int FindUniform(ShaderProp* prop);
             unsigned FindOrCreateUniform(ShaderProp* prop);
 
+            std::map<PropertySource*, std::vector<PropertySource*>> propertySourceInputs, propertySourceDependents;
+            ComponentArray<std::vector<PropertySource*>> componentSources;
+			std::map<PropertySource*, ComponentType> sourceComponents;
+
         private:
             PerformanceLevel performanceLevel;
             PropertyResolutionEagerness propertyResolutionEagerness;
 
             std::map<size_t, ShaderProp*> uniforms;
-            ComponentArray<std::vector<PropertySource*>> componentSources;
 
             void SetDefaultFlags();
 
@@ -52,15 +55,13 @@ namespace GlEngine
             std::vector<PropertySource*> propertySources;
             std::vector<PropertySource*> fallbackSources;
             
-            // maybe rename; inputs correspond to ordered propertysource input properties but outputs ARE NOT THIS
-            std::map<PropertySource*, std::vector<PropertySource*>> propertySourceInputs, propertySourceDependents;
             std::vector<PropertySource*> allSources;
             std::map<ShaderProp*, std::vector<PropertySource*>> allPropertySources;
             std::map<ShaderProp*, PropertySource*> currentPropertySources;
             std::map<PropertySource*, std::vector<ComponentType>> constraints;
             bool compilationStarted = false;
 
-            size_t AddAttributeInternal(Attribute* attribute, size_t earliest);
+            int AddAttributeInternal(Attribute* attribute, int earliest);
 
             ComponentType latestComponent(std::vector<ComponentType> components);
             ComponentType earliestComponent(std::vector<ComponentType> components);
@@ -71,7 +72,7 @@ namespace GlEngine
             bool isEventualChild(std::set<PropertySource*> parent, std::set<PropertySource*> children);
 
             std::vector<PropertySource*> sourceDependencies(PropertySource* source, std::vector<PropertySource*> dependencySources = std::vector<PropertySource*>());
-            bool sourceDependenciesMet(PropertySource* source, std::vector<PropertySource*> dependencySources);
+            bool SourceDependenciesMet(PropertySource* source, std::vector<PropertySource*> &dependencySources);
             void AddToDependencyTree(PropertySource* source, std::vector<PropertySource*> dependencies);
             
             void AddFallbackToDependencyTree(PropertySource* prop, std::set<PropertySource*> outputs, std::map<PropertySource*, std::vector<ComponentType>> constraints, std::map<PropertySource*, std::vector<ComponentType>> newConstraints);
@@ -81,7 +82,7 @@ namespace GlEngine
 
             void CalculateConstraints();
             void ResolveAttributeDependencies(Attribute* attribute);
-            bool TryResolveComponents(std::map<PropertySource*, ComponentType> out);
+            void ResolveComponents();
             void BuildDependencyTree();
         };
     }

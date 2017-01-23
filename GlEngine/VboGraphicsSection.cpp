@@ -17,10 +17,9 @@ namespace GlEngine
               _factory(new ShaderFactory::ShaderFactory()),
               finalized(false)
         {
-            _factory->recompileOnChange = false;
             _factory->AddPropertyProviders(providers);
-            _factory->recompileOnChange = true;
             _factory->SetMaterial(material);
+            _factory->Recompile();
         }
         VboGraphicsSection::~VboGraphicsSection()
         {

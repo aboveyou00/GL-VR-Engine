@@ -21,7 +21,7 @@ namespace GlEngine
 
             virtual bool HasProperty(ShaderProp * prop) override;
             virtual const std::vector<ShaderProp*> outProperties() override;
-            virtual void ProvideProperty(ShaderProp * prop, Program * program, ComponentType type) override;
+            virtual void Inject(Program * program, ComponentType type) override;
 
         private:
             template <typename T, typename... TArgs>

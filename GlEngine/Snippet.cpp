@@ -21,9 +21,9 @@ namespace GlEngine
         {
             if (!input && !output)
                 assert(false);
-            std::string format = (input && !output) ? "/* identity */ [out:0] = in_[in:0];" :
-                                 (!input && output) ? "/* identity */ out_[out:0] = [in:0];" :
-                                                      "/* identity */ out_[out:0] = in_[in:0];";
+            std::string format = (input && !output) ? "[out:0] = in_[in:0];" :
+                                 (!input && output) ? "out_[out:0] = [in:0];" :
+                                                      "out_[out:0] = in_[in:0];";
             return new Snippet(format, { prop }, { prop });
         }
         bool Snippet::HasProperty(ShaderProp* prop)
@@ -38,11 +38,18 @@ namespace GlEngine
         {
             return propertiesOut;
         }
-        void Snippet::ProvideProperty(ShaderProp * prop, Program * program, ComponentType type)
+        void Snippet::Inject(Program * program, ComponentType type)
         {
-            prop;
-            program;
-            type;
+			for (size_t i = 0; i < propertiesIn.size(); i++)
+			{
+				if (program->components[type]->allProps.find(propertiesIn[i]) == program->components[type]->allProps.end())
+				{
+					ComponentType inputType = program->sourceComponents[program->propertySourceInputs[this][i]];
+					if (inputType < type)
+						program->ConnectComponentsProperty(inputType, type, propertiesIn[i]);
+				}
+			}
+			program->components[type]->AddSnippet(this);
         }
     }
 }

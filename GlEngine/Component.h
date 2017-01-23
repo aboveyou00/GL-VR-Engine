@@ -20,15 +20,21 @@ namespace GlEngine
             ComponentType type;
 
             std::map<unsigned, ShaderProp*> ins, outs, uniforms;
-            std::vector<Snippet*> snippets;
 
             unsigned FindOrCreateOutput(ShaderProp* prop);
             virtual std::string Compile();
             std::string compiled;
 
+			void AddIdentitySnippet(ShaderProp* prop, bool input, bool output);
+			void AddSnippet(Snippet* snippet);
             void AddUnresolvedSnippet(Snippet* snippet, int tabulation = 4);
+			std::set<ShaderProp*> allProps;
 
         private:
+            std::vector<Snippet*> snippets;
+			std::vector<Snippet*> inputSnippets;
+			std::vector<Snippet*> outputSnippets;
+
             std::string comments;
 
             void compileVersion(std::stringstream &stream);

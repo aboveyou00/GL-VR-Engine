@@ -10,7 +10,7 @@ namespace GlEngine
         class ENGINE_SHARED Attribute
         {
         public:
-            Attribute(std::vector<PropertySource*> propertySources, std::vector<Attribute*> dependentAttrs = {}, std::vector<PropertySource*> fallbackSources = {});
+            Attribute(std::vector<PropertySource*> propertySources, std::vector<PropertySource*> fallbackSources = {}, std::vector<Attribute*> dependentAttrs = {});
             ~Attribute();
 
             const std::vector<Attribute*> &dependentAttributes() const;
@@ -23,8 +23,13 @@ namespace GlEngine
             std::vector<PropertySource*> _fallbackSources;
         };
 
+#pragma region outcolor
+		extern ENGINE_SHARED Attribute attr_OutColor;
+#pragma endregion
+
 #pragma region position
         extern ENGINE_SHARED Attribute attr_GlPosition;
+        extern ENGINE_SHARED Attribute attr_ModelViewNormal;
 #pragma endregion
 
 #pragma region lighting

@@ -19,9 +19,7 @@ namespace GlEngine
         ShaderFactory::ShaderFactory()
             : _mat(nullptr), _shader(nullptr), _providers({})
         {
-            recompileOnChange = false;
             AddPropertyProviders(&Environment::GetInstance());
-            recompileOnChange = true;
         }
         ShaderFactory::~ShaderFactory()
         {
@@ -33,8 +31,8 @@ namespace GlEngine
             for (auto provider : providers)
                 _providers.push_back(provider);
 
-            if (recompileOnChange && RefreshPropertyCache())
-                Recompile();
+            //if (RefreshPropertyCache())
+            //    Recompile();
         }
         void ShaderFactory::RemovePropertyProviders(std::vector<IPropertyProvider*> providers)
         {
@@ -44,21 +42,17 @@ namespace GlEngine
                 if (it != _providers.end()) _providers.erase(it);
             }
 
-            if (recompileOnChange && RefreshPropertyCache())
-                Recompile();
+            //if (RefreshPropertyCache())
+            //    Recompile();
         }
 
         void ShaderFactory::AddRemovePropertyProviders(std::vector<IPropertyProvider*> addProviders, std::vector<IPropertyProvider*> removeProviders)
         {
-            bool oldRecompileOnChange = recompileOnChange;
-            recompileOnChange = false;
-
             AddPropertyProviders(addProviders);
             RemovePropertyProviders(removeProviders);
 
-            recompileOnChange = oldRecompileOnChange;
-            if (recompileOnChange && RefreshPropertyCache())
-                Recompile();
+            //if (RefreshPropertyCache())
+            //    Recompile();
         }
 
         Material *ShaderFactory::material()
@@ -71,19 +65,11 @@ namespace GlEngine
             if (this->_mat != nullptr) (this->_mat); //?
 
             if (mat == nullptr) return;
-            
-            bool oldRecompileOnChange = recompileOnChange;
-            recompileOnChange = false;
 
             AddPropertyProviders(mat);
             this->_mat = mat;
-            for (auto *attr : mat->attributes())
-                this->_program->AddAttribute(attr);
             
-            recompileOnChange = oldRecompileOnChange;
-
-            if (recompileOnChange)
-                this->Recompile();
+            //this->Recompile();
         }
 
         bool ShaderFactory::Initialize()
@@ -135,6 +121,9 @@ namespace GlEngine
                 }
             }
             this->_program->AddPropertySource(new UniformPropertySource(properties));
+
+            for (auto *attr : _mat->attributes())
+                this->_program->AddAttribute(attr);
 
             auto *source = this->_program->Compile();
             this->_shader = Shader::Create(source);

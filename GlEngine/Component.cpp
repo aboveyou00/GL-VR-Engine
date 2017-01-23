@@ -55,6 +55,24 @@ namespace GlEngine
             return compiled;
         }
 
+		void Component::AddIdentitySnippet(ShaderProp* prop, bool input, bool output)
+		{
+			if (output)
+				outputSnippets.push_back(Snippet::IdentitySnippet(prop, input, output));
+			else
+				inputSnippets.push_back(Snippet::IdentitySnippet(prop, input, output));
+			allProps.insert(prop);
+		}
+
+		void Component::AddSnippet(Snippet* snippet)
+		{
+			snippets.push_back(snippet);
+			for (auto prop : snippet->inProperties())
+				allProps.insert(prop);
+			for (auto prop : snippet->outProperties())
+				allProps.insert(prop);
+		}
+
         void Component::AddUnresolvedSnippet(Snippet* snippet, int tabulation)
         {
             static std::regex newlineRegex(R"raw(\r?\n)raw"s);
@@ -109,32 +127,41 @@ namespace GlEngine
 
         void Component::compilePropertyDeclarations(std::stringstream &stream, int tabulation)
         {
-            stream; tabulation;
-            //auto tabulationString = std::string(tabulation, ' ');
+            auto tabulationString = std::string(tabulation, ' ');
 
-            //bool any = false;
-            //for (ShaderProp* prop : availableLocalProps)
-            //{
-            //    if (prop->isBuiltIn) continue;
-            //    stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
-            //    any = true;
-            //}
-            //for (size_t q = 0; q < snippets.size(); q++)
-            //{
-            //    auto snippet = snippets[q];
-            //    for (ShaderProp* prop : snippet->tempProperties)
-            //    {
-            //        stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
-            //        any = true;
-            //    }
-            //}
-            //if (any) stream << tabulationString << std::endl;
+            bool any = false;
+            for (ShaderProp* prop : allProps)
+            {
+                if (prop->isBuiltIn) continue;
+                stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
+                any = true;
+            }
+            for (size_t q = 0; q < snippets.size(); q++)
+            {
+                auto snippet = snippets[q];
+                for (ShaderProp* prop : snippet->tempProperties)
+                {
+                    stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
+                    any = true;
+                }
+            }
+            if (any) stream << tabulationString << std::endl;
         }
 
         void Component::compileMain(std::stringstream &stream, int tabulation)
         {            
+			stream << "/* BEGIN INPUT IDENTITIES */ " << std::endl;
+			for (Snippet* snippet : inputSnippets)
+				stream << resolveSnippetBody(snippet, tabulation) << std::endl;
+			stream << "/* END INPUT IDENTITIES */ " << std::endl << std::endl;
+
             for (Snippet* snippet : snippets)
                 stream << resolveSnippetBody(snippet, tabulation) << std::endl;
+
+			stream << std::endl << "/* BEGIN OUTPUT IDENTITIES */" << std::endl;
+			for (Snippet* snippet : outputSnippets)
+				stream << resolveSnippetBody(snippet, tabulation) << std::endl;
+			stream << "/* END OUTPUT IDENTITIES */" << std::endl;
         }
     }
 }

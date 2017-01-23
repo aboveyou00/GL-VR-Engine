@@ -19,18 +19,4 @@ int main(int, char**)
     sandbox.Shutdown();
     return 0;
 
-    //auto prog = Program(false, false);
-
-    //prog.AddPropertySource(new VboPropertySource(&prop_Position, &prop_Normal, &prop_UV));
-
-    //prog.AddPropertySource(new UniformPropertySource(&prop_ModelViewMatrix, &prop_ProjectionMatrix, &prop_DiffuseLightPosition, &prop_DiffuseLightColor, &prop_RgbColor, &prop_ReflectionCoefficient));
-
-    //prog.AddAttribute(&attr_GlPosition);
-    //prog.AddAttribute(&attr_DiffuseLight);
-
-    //prog.Compile();
-
-    //prog.WriteToDisk("diffuse");
-
-    //return 0;
 }
