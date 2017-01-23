@@ -11,6 +11,7 @@ using namespace GlEngine::ShaderFactory;
 int main(int, char**)
 {
     this_thread_name() = "main";
+    this_thread_type() = ThreadType::WndProc;
 
     Sandbox sandbox;
 

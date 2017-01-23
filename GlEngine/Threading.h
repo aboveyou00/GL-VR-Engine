@@ -36,4 +36,7 @@ static inline void LockSet(T &val, T newVal, rt_mutex &mutex)
     val = newVal;
 }
 
-ENGINE_SHARED const char *&this_thread_name();
+#include "ThreadType.h"
+
+ENGINE_SHARED std::string &this_thread_name();
+ENGINE_SHARED ThreadType &this_thread_type();

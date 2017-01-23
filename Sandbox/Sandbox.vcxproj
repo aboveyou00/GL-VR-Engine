@@ -144,42 +144,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Lab02_Features\DiscardPhongMaterial.h" />
+    <ClInclude Include="Lab02_Features\DiscardTorus.h" />
+    <ClInclude Include="Lab02_Features\PhongFlatMaterial.h" />
+    <ClInclude Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.h" />
     <ClInclude Include="LightSourceGraphicsObject.h" />
     <ClInclude Include="LightSourceObject.h" />
-    <ClInclude Include="LitTorus.h" />
+    <ClInclude Include="Lab01_Diffuse\LitTorus.h" />
+    <ClInclude Include="Lab02_Features\FeaturesSceneFrame.h" />
+    <ClInclude Include="Lab02_Features\PhongTorus.h" />
+    <ClInclude Include="Lab02_Features\NoLidTeapot.h" />
+    <ClInclude Include="MultiPhongMaterial.h" />
     <ClInclude Include="Sandbox.h" />
     <ClInclude Include="SandboxLoop.h" />
-    <ClInclude Include="DiffuseSceneFrame.h" />
+    <ClInclude Include="Lab01_Diffuse\DiffuseSceneFrame.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="CameraTargetObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />
+    <ClCompile Include="Lab02_Features\DiscardTorus.cpp" />
+    <ClCompile Include="Lab02_Features\PhongFlatMaterial.cpp" />
+    <ClCompile Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.cpp" />
     <ClCompile Include="LightSourceGraphicsObject.cpp" />
     <ClCompile Include="LightSourceObject.cpp" />
-    <ClCompile Include="LitTorus.cpp" />
+    <ClCompile Include="Lab01_Diffuse\LitTorus.cpp" />
+    <ClCompile Include="Lab02_Features\FeaturesSceneFrame.cpp" />
+    <ClCompile Include="Lab02_Features\PhongTorus.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Lab02_Features\NoLidTeapot.cpp" />
+    <ClCompile Include="MultiPhongMaterial.cpp" />
     <ClCompile Include="Sandbox.cpp" />
     <ClCompile Include="SandboxLoop.cpp" />
-    <ClCompile Include="DiffuseSceneFrame.cpp" />
+    <ClCompile Include="Lab01_Diffuse\DiffuseSceneFrame.cpp" />
     <ClCompile Include="CameraTargetObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Shaders\diffuse.frag.shader" />
-    <None Include="Shaders\diffuse.inst.frag.shader" />
-    <None Include="Shaders\diffuse.inst.vert.shader" />
-    <None Include="Shaders\diffuse.vert.shader" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\torus.obj">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Textures\world-edit-select.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

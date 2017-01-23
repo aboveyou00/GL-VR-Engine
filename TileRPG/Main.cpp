@@ -7,6 +7,7 @@ int main(int argc, char **argv)
     //TODO: Parse arguments
 
     this_thread_name() = "main";
+    this_thread_type() = ThreadType::WndProc;
 
     TileRPG::TileRPGGame game;
 

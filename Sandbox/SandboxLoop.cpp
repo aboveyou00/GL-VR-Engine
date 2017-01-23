@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "SandboxLoop.h"
-#include "DiffuseSceneFrame.h"
+#include "Lab01_Diffuse/DiffuseSceneFrame.h"
+#include "Lab02_Features/FeaturesSceneFrame.h"
+#include "Lab03_LightsAndEffects/LightsAndEffectsSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -42,6 +44,8 @@ const char *SandboxLoop::name()
 bool SandboxLoop::initLoop()
 {
     this_thread_name() = "logic";
+    this_thread_type() = ThreadType::Logic;
+
     auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
     logger->Log(GlEngine::LogType::Info, "Beginning logic thread");
 

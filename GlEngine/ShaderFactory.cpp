@@ -10,7 +10,12 @@
 #include "Material.h"
 
 #include "Shader.h"
+#include "Texture.h"
 #include "Environment.h"
+#include "OpenGl.h"
+
+#include "Engine.h"
+#include "ResourceLoader.h"
 
 namespace GlEngine
 {
@@ -57,23 +62,50 @@ namespace GlEngine
 
         Material *ShaderFactory::material()
         {
+            ScopedLock lock(_mux);
             return _mat;
         }
         void ShaderFactory::SetMaterial(Material *mat)
         {
+            ScopedLock lock(_mux);
+
             if (mat == this->_mat) return;
-            if (this->_mat != nullptr) (this->_mat); //?
+            if (this->_mat != nullptr) RemovePropertyProviders(this->_mat);
 
-            if (mat == nullptr) return;
-
-            AddPropertyProviders(mat);
             this->_mat = mat;
+            this->_program = nullptr;
+            this->_shader = nullptr;
             
-            //this->Recompile();
+            if (mat != nullptr)
+                AddPropertyProviders(mat);
         }
 
         bool ShaderFactory::Initialize()
         {
+            ScopedLock lock(_mux);
+
+            this->_program = new Program();
+
+            this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
+
+            std::vector<ShaderProp*> properties;
+            for (size_t q = 0; q < _providers.size(); q++)
+            {
+                auto provider_props = _providers[q]->properties();
+                for (size_t w = 0; w < provider_props.size(); w++)
+                {
+                    properties.push_back(provider_props[w]);
+                }
+            }
+            this->_program->AddPropertySource(new UniformPropertySource(properties));
+
+            for (auto *attr : this->_mat->attributes())
+                this->_program->AddAttribute(attr);
+
+            auto *source = this->_program->Compile();
+
+            this->_shader = Shader::Create(source);
+
             return true;
         }
         void ShaderFactory::Shutdown()
@@ -89,21 +121,50 @@ namespace GlEngine
 
         void ShaderFactory::Push()
         {
+            ScopedLock lock(_mux);
             assert(!!*this);
-            _shader->Push();
 
+            glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
+            
+            _shader->Push();
+            _textures.clear();
             for (size_t q = 0; q < _providers.size(); q++)
             {
                 _providers[q]->Push(*this);
             }
+
+            unsigned texIdx = 0;
+            auto blend = false;
+            for (auto &it : _textures)
+            {
+                if (!it.second->IsOpaque()) blend = true;
+                PropertyType_attribs<Texture*>::set_gl_uniform(it.first, it.second, texIdx++);
+            }
+            if (blend)
+            {
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            }
         }
         void ShaderFactory::Pop()
         {
+            ScopedLock lock(_mux);
+
             if (_shader != nullptr) _shader->Pop();
+
+            glEnable(GL_CULL_FACE);
+            glDisable(GL_BLEND);
         }
 
         void ShaderFactory::Recompile()
         {
+            if (this_thread_type() != ThreadType::ResourceLoader)
+            {
+                auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+                resources->QueueInitialize(this, true);
+                return;
+            }
+
             this->_program = nullptr;
             this->_shader = nullptr;
 
@@ -131,6 +192,7 @@ namespace GlEngine
 
         ShaderFactory::operator bool()
         {
+            ScopedLock lock(_mux);
             return _shader != nullptr && !!*_shader;
         }
 
@@ -138,6 +200,7 @@ namespace GlEngine
         {
             return "ShaderFactory";
         }
+        
         bool ShaderFactory::RefreshPropertyCache()
         {
             std::set<ShaderProp*> newProperties;
@@ -152,6 +215,14 @@ namespace GlEngine
                 return true;
             }
             return false;
+        }
+
+        template <>
+        void ShaderFactory::ProvideProperty<Texture*>(Property<Texture*> &prop, Texture *const &val)
+        {
+            assert(!!this);
+            auto uniformLocation = _program->FindUniform(&prop);
+            if (uniformLocation != -1) _textures[uniformLocation] = val;
         }
     }
 }

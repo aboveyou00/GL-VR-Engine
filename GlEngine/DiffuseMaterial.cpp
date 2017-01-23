@@ -45,7 +45,8 @@ namespace GlEngine
     {
         return {
             &ShaderFactory::attr_GlPosition,
-            &ShaderFactory::attr_DiffuseLight
+            &ShaderFactory::attr_DiffuseOnly,
+            &ShaderFactory::attr_RgbBaseColor
         };
     }
 

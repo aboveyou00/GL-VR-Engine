@@ -8,6 +8,7 @@ namespace GlEngine
     {
     public:
         AmbientMaterial(Vector<3> color);
+        AmbientMaterial(Texture *texture);
         ~AmbientMaterial();
 
     public:
@@ -23,7 +24,7 @@ namespace GlEngine
         operator bool() override;
 
     private:
-        Vector<3> color;
-        Vector<3> reflectionCoef;
+        Vector<3> color, reflectionCoef;
+        Texture *texture;
     };
 }

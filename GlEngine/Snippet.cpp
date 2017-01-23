@@ -30,26 +30,27 @@ namespace GlEngine
         {
             return std::find(propertiesOut.begin(), propertiesOut.end(), prop) != propertiesOut.end();
         }
+
         const std::vector<ShaderProp*> Snippet::inProperties()
         {
             return propertiesIn;
         }
+
         const std::vector<ShaderProp*> Snippet::outProperties()
         {
             return propertiesOut;
         }
         void Snippet::Inject(Program * program, ComponentType type)
         {
-			for (size_t i = 0; i < propertiesIn.size(); i++)
-			{
-				if (program->components[type]->allProps.find(propertiesIn[i]) == program->components[type]->allProps.end())
-				{
-					ComponentType inputType = program->sourceComponents[program->propertySourceInputs[this][i]];
-					if (inputType < type)
-						program->ConnectComponentsProperty(inputType, type, propertiesIn[i]);
-				}
-			}
-			program->components[type]->AddSnippet(this);
+            for (size_t i = 0; i < propertiesIn.size(); i++)
+            {
+                if (program->components[type]->allProps.find(propertiesIn[i]) == program->components[type]->allProps.end())
+                {
+                    ComponentType inputType = program->sourceComponents[program->propertySourceInputs[this][i]];
+                    program->propertySourceInputs[this][i]->ProvideInput(program, propertiesIn[i], inputType, type);
+                }
+            }
+            program->components[type]->AddSnippet(this);
         }
     }
 }

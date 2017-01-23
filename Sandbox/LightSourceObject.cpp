@@ -17,7 +17,6 @@ LightSourceObject::~LightSourceObject()
 void LightSourceObject::Tick(float delta)
 {
     delta;
-    //lightSource()->SetPosition(lightSource()->position() + Vector<3> { delta, 0, 0 });
     SetPosition(lightSource()->position());
 }
 

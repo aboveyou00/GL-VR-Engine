@@ -157,8 +157,10 @@
   <ItemGroup>
     <ClInclude Include="AmbientLightSource.h" />
     <ClInclude Include="AmbientMaterial.h" />
+    <ClInclude Include="Array.h" />
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="DiffuseMaterial.h" />
+    <ClInclude Include="DirectionalLightSource.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PerformanceLevel.h" />
@@ -166,13 +168,20 @@
     <ClInclude Include="PropertyResolutionEagerness.h" />
     <ClInclude Include="ShaderFactoryError.h" />
     <ClInclude Include="PropertySourceFlag.h" />
+    <ClInclude Include="PropertyFlag.h" />
+    <ClInclude Include="SpotlightSource.h" />
+    <ClInclude Include="Struct.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="TaskState.h" />
+    <ClInclude Include="TaskType.h" />
+    <ClInclude Include="ThreadType.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="AudioController.h" />
     <ClInclude Include="AudioControllerImpl.h" />
     <ClInclude Include="BasicCollisionGroup.h" />
-    <ClInclude Include="BlinnMaterial.h" />
+    <ClInclude Include="PhongMaterial.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="BoxBody.h" />
     <ClInclude Include="CameraGameObject.h" />
@@ -311,7 +320,8 @@
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
-    <ClCompile Include="BlinnMaterial.cpp" />
+    <ClCompile Include="DirectionalLightSource.cpp" />
+    <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />
     <ClCompile Include="BoxCollision.cpp" />
@@ -320,7 +330,6 @@
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="ComponentType.cpp" />
     <ClCompile Include="ComponentType_attribs.cpp" />
-    <ClCompile Include="ConstantPropertySource.cpp" />
     <ClCompile Include="CompoundGraphicsObject.cpp" />
     <ClCompile Include="CompoundGraphicsObjectImpl.cpp" />
     <ClCompile Include="DiffuseMaterial.cpp" />
@@ -369,7 +378,8 @@
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
-    <ClCompile Include="PropertySourceFlag.cpp" />
+    <ClCompile Include="SpotlightSource.cpp" />
+    <ClCompile Include="Task.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />

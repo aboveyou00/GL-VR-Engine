@@ -7,7 +7,7 @@ namespace GlEngine
     namespace ShaderFactory
     {
         VboPropertySource::VboPropertySource(std::vector<ShaderProp*> properties, PropertySourceFlag flags)
-			: PropertySource(flags, { ComponentType::Input })
+            : PropertySource(flags, { ComponentType::Input })
         {
             assert(properties.size() >= 1);
             for (size_t q = 0; q < properties.size(); q++)
@@ -32,17 +32,17 @@ namespace GlEngine
         {
             auto &vboOuts = program->components[ComponentType::Input]->outs;
 
-			for (auto prop : _props)
-			{
-				auto it = std::find(_props.begin(), _props.end(), prop);
-				assert(it != _props.end());
-				auto idx = it - _props.begin();
+            for (auto prop : _props)
+            {
+                auto it = std::find(_props.begin(), _props.end(), prop);
+                assert(it != _props.end());
+                auto idx = it - _props.begin();
             
-				assert(vboOuts[idx] == nullptr);
-				vboOuts[idx] = prop;
+                assert(vboOuts[idx] == nullptr);
+                vboOuts[idx] = prop;
 
-				program->ConnectComponentsProperty(ComponentType::Input, type, prop);
-			}
+                program->ConnectComponentsProperty(ComponentType::Input, type, prop);
+            }
         }
     }
 }

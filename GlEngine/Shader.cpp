@@ -26,7 +26,7 @@ namespace GlEngine
             assert(!Util::is_empty_or_ws(source->fragment()));
 
             auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-            resources->QueueResource(this);
+            resources->QueueInitialize(this);
         }
         Shader::~Shader()
         {
@@ -294,43 +294,43 @@ namespace GlEngine
         std::string Shader::typeString(int type) {
             switch (type)
             {
-            case GL_BOOL: return PropertyType_attribs<bool>::glsl_name;
-            case GL_INT: return PropertyType_attribs<int>::glsl_name;
-            case GL_UNSIGNED_INT: return PropertyType_attribs<unsigned>::glsl_name;
-            case GL_FLOAT: return PropertyType_attribs<float>::glsl_name;
-            case GL_DOUBLE: return PropertyType_attribs<double>::glsl_name;
+            case GL_BOOL: return PropertyType_attribs<bool>::glsl_name();
+            case GL_INT: return PropertyType_attribs<int>::glsl_name();
+            case GL_UNSIGNED_INT: return PropertyType_attribs<unsigned>::glsl_name();
+            case GL_FLOAT: return PropertyType_attribs<float>::glsl_name();
+            case GL_DOUBLE: return PropertyType_attribs<double>::glsl_name();
 
-            case GL_BOOL_VEC2: return PropertyType_attribs<Vector<2, bool>>::glsl_name;
-            case GL_BOOL_VEC3: return PropertyType_attribs<Vector<3, bool>>::glsl_name;
-            case GL_BOOL_VEC4: return PropertyType_attribs<Vector<4, bool>>::glsl_name;
+            case GL_BOOL_VEC2: return PropertyType_attribs<Vector<2, bool>>::glsl_name();
+            case GL_BOOL_VEC3: return PropertyType_attribs<Vector<3, bool>>::glsl_name();
+            case GL_BOOL_VEC4: return PropertyType_attribs<Vector<4, bool>>::glsl_name();
 
-            case GL_INT_VEC2: return PropertyType_attribs<Vector<2, int>>::glsl_name;
-            case GL_INT_VEC3: return PropertyType_attribs<Vector<3, int>>::glsl_name;
-            case GL_INT_VEC4: return PropertyType_attribs<Vector<4, int>>::glsl_name;
+            case GL_INT_VEC2: return PropertyType_attribs<Vector<2, int>>::glsl_name();
+            case GL_INT_VEC3: return PropertyType_attribs<Vector<3, int>>::glsl_name();
+            case GL_INT_VEC4: return PropertyType_attribs<Vector<4, int>>::glsl_name();
 
-            case GL_UNSIGNED_INT_VEC2: return PropertyType_attribs<Vector<2, unsigned>>::glsl_name;
-            case GL_UNSIGNED_INT_VEC3: return PropertyType_attribs<Vector<3, unsigned>>::glsl_name;
-            case GL_UNSIGNED_INT_VEC4: return PropertyType_attribs<Vector<4, unsigned>>::glsl_name;
+            case GL_UNSIGNED_INT_VEC2: return PropertyType_attribs<Vector<2, unsigned>>::glsl_name();
+            case GL_UNSIGNED_INT_VEC3: return PropertyType_attribs<Vector<3, unsigned>>::glsl_name();
+            case GL_UNSIGNED_INT_VEC4: return PropertyType_attribs<Vector<4, unsigned>>::glsl_name();
 
-            case GL_FLOAT_VEC2: return PropertyType_attribs<Vector<2>>::glsl_name;
-            case GL_FLOAT_VEC3: return PropertyType_attribs<Vector<3>>::glsl_name;
-            case GL_FLOAT_VEC4: return PropertyType_attribs<Vector<4>>::glsl_name;
+            case GL_FLOAT_VEC2: return PropertyType_attribs<Vector<2>>::glsl_name();
+            case GL_FLOAT_VEC3: return PropertyType_attribs<Vector<3>>::glsl_name();
+            case GL_FLOAT_VEC4: return PropertyType_attribs<Vector<4>>::glsl_name();
 
-            case GL_DOUBLE_VEC2: return PropertyType_attribs<Vector<2, double>>::glsl_name;
-            case GL_DOUBLE_VEC3: return PropertyType_attribs<Vector<3, double>>::glsl_name;
-            case GL_DOUBLE_VEC4: return PropertyType_attribs<Vector<4, double>>::glsl_name;
+            case GL_DOUBLE_VEC2: return PropertyType_attribs<Vector<2, double>>::glsl_name();
+            case GL_DOUBLE_VEC3: return PropertyType_attribs<Vector<3, double>>::glsl_name();
+            case GL_DOUBLE_VEC4: return PropertyType_attribs<Vector<4, double>>::glsl_name();
 
-            case GL_FLOAT_MAT2: return PropertyType_attribs<Matrix<2, 2>>::glsl_name;
-            case GL_FLOAT_MAT2x3: return PropertyType_attribs<Matrix<2, 3>>::glsl_name;
-            case GL_FLOAT_MAT2x4: return PropertyType_attribs<Matrix<2, 4>>::glsl_name;
+            case GL_FLOAT_MAT2: return PropertyType_attribs<Matrix<2, 2>>::glsl_name();
+            case GL_FLOAT_MAT2x3: return PropertyType_attribs<Matrix<2, 3>>::glsl_name();
+            case GL_FLOAT_MAT2x4: return PropertyType_attribs<Matrix<2, 4>>::glsl_name();
 
-            case GL_FLOAT_MAT3x2: return PropertyType_attribs<Matrix<3, 2>>::glsl_name;
-            case GL_FLOAT_MAT3: return PropertyType_attribs<Matrix<3, 3>>::glsl_name;
-            case GL_FLOAT_MAT3x4: return PropertyType_attribs<Matrix<3, 4>>::glsl_name;
+            case GL_FLOAT_MAT3x2: return PropertyType_attribs<Matrix<3, 2>>::glsl_name();
+            case GL_FLOAT_MAT3: return PropertyType_attribs<Matrix<3, 3>>::glsl_name();
+            case GL_FLOAT_MAT3x4: return PropertyType_attribs<Matrix<3, 4>>::glsl_name();
 
-            case GL_FLOAT_MAT4x2: return PropertyType_attribs<Matrix<4, 2>>::glsl_name;
-            case GL_FLOAT_MAT4x3: return PropertyType_attribs<Matrix<4, 3>>::glsl_name;
-            case GL_FLOAT_MAT4: return PropertyType_attribs<Matrix<4, 4>>::glsl_name;
+            case GL_FLOAT_MAT4x2: return PropertyType_attribs<Matrix<4, 2>>::glsl_name();
+            case GL_FLOAT_MAT4x3: return PropertyType_attribs<Matrix<4, 3>>::glsl_name();
+            case GL_FLOAT_MAT4: return PropertyType_attribs<Matrix<4, 4>>::glsl_name();
 
             default:
                 return "Unknown type"s;

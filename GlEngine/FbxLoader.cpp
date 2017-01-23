@@ -5,7 +5,7 @@
 #include "VboFactory.h"
 #include "VbObject.h"
 #include "Texture.h"
-#include "BlinnMaterial.h"
+#include "PhongMaterial.h"
 
 namespace GlEngine
 {
@@ -35,13 +35,13 @@ namespace GlEngine
 
                 // TODO: get texture instance from filename;
                 auto tex = Texture::FromFile(filename, fileTexture->GetAlphaSource() != fbxsdk::FbxTexture::EAlphaSource::eNone);
-                return BlinnMaterial::Create(tex);
+                return new PhongMaterial(tex);
             }
             else
             {
                 //Default texture
                 auto tex = Texture::FromFile("Textures/dirt.png", false);
-                return BlinnMaterial::Create(tex);
+                return new PhongMaterial(tex);
             }
         }
     }

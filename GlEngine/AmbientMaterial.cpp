@@ -6,12 +6,17 @@
 #include "Property.h"
 #include "Attribute.h"
 
+#include "Texture.h"
 #include "OpenGl.h"
 
 namespace GlEngine
 {
     AmbientMaterial::AmbientMaterial(Vector<3> color)
         : color(color)
+    {
+    }
+    AmbientMaterial::AmbientMaterial(Texture *texture)
+        : texture(texture)
     {
     }
     AmbientMaterial::~AmbientMaterial()
@@ -25,7 +30,8 @@ namespace GlEngine
 
     bool AmbientMaterial::IsOpaque()
     {
-        return true;
+        if (texture == nullptr) return true;
+        else return texture->IsOpaque();
     }
 
     TesselationType AmbientMaterial::GetTesselationType()
@@ -35,20 +41,19 @@ namespace GlEngine
 
     std::vector<ShaderFactory::ShaderProp*> AmbientMaterial::properties()
     {
-        return{
-            &ShaderFactory::prop_ModelMatrix,
-            &ShaderFactory::prop_ViewMatrix,
-            &ShaderFactory::prop_ProjectionMatrix,
-            &ShaderFactory::prop_AmbientLightColor,
-            &ShaderFactory::prop_RgbColor
-        };
+        std::vector<ShaderFactory::ShaderProp*> props = { };
+        if (texture == nullptr) props.push_back(&ShaderFactory::prop_RgbColor);
+        else props.push_back(&ShaderFactory::prop_Texture);
+        return props;
     }
     std::vector<ShaderFactory::Attribute*> AmbientMaterial::attributes()
     {
-        return{
-            &ShaderFactory::attr_GlPosition,
-            &ShaderFactory::attr_AmbientLight
-        };
+        std::vector<ShaderFactory::Attribute*> attrs = { };
+        if (texture == nullptr) attrs.push_back(&ShaderFactory::attr_RgbBaseColor);
+        else attrs.push_back(&ShaderFactory::attr_TextureBaseColor);
+        attrs.push_back(&ShaderFactory::attr_GlPosition);
+        attrs.push_back(&ShaderFactory::attr_AmbientOnly);
+        return attrs;
     }
 
     const char *AmbientMaterial::name()

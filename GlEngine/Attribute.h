@@ -1,5 +1,4 @@
 #pragma once
-
 #include "ComponentArray.h"
 #include "PropertySource.h"
 
@@ -24,7 +23,12 @@ namespace GlEngine
         };
 
 #pragma region outcolor
-		extern ENGINE_SHARED Attribute attr_OutColor;
+        extern ENGINE_SHARED Attribute attr_OutColor;
+#pragma endregion
+
+#pragma region base-color
+        extern ENGINE_SHARED Attribute attr_RgbBaseColor;
+        extern ENGINE_SHARED Attribute attr_TextureBaseColor;
 #pragma endregion
 
 #pragma region position
@@ -33,14 +37,24 @@ namespace GlEngine
 #pragma endregion
 
 #pragma region lighting
-        extern ENGINE_SHARED Attribute attr_Blinn;
-        extern ENGINE_SHARED Attribute attr_BlinnPhong;
-
         extern ENGINE_SHARED Attribute attr_SpecularLight;
         extern ENGINE_SHARED Attribute attr_DiffuseLight;
-        extern ENGINE_SHARED Attribute attr_AmbientLight;
+        extern ENGINE_SHARED Attribute attr_DiffuseLightFlat;
+
+        extern ENGINE_SHARED Attribute attr_PointLightDirection;
+
+        extern ENGINE_SHARED Attribute attr_SpecularOnly;
+        extern ENGINE_SHARED Attribute attr_DiffuseOnly;
+        extern ENGINE_SHARED Attribute attr_AmbientOnly;
+
+        extern ENGINE_SHARED Attribute attr_AmbientDiffuse;
+
+        extern ENGINE_SHARED Attribute attr_Phong;
+        extern ENGINE_SHARED Attribute attr_PhongFlat;
+        extern ENGINE_SHARED Attribute attr_BlinnPhong;
 
         extern ENGINE_SHARED Attribute attr_LightingFallbacks;
+
 #pragma endregion
     }
 }

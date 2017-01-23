@@ -55,23 +55,23 @@ namespace GlEngine
             return compiled;
         }
 
-		void Component::AddIdentitySnippet(ShaderProp* prop, bool input, bool output)
-		{
-			if (output)
-				outputSnippets.push_back(Snippet::IdentitySnippet(prop, input, output));
-			else
-				inputSnippets.push_back(Snippet::IdentitySnippet(prop, input, output));
-			allProps.insert(prop);
-		}
+        void Component::AddIdentitySnippet(ShaderProp* prop, bool input, bool output)
+        {
+            if (output)
+                outputSnippets.push_back(Snippet::IdentitySnippet(prop, input, output));
+            else
+                inputSnippets.push_back(Snippet::IdentitySnippet(prop, input, output));
+            allProps.insert(prop);
+        }
 
-		void Component::AddSnippet(Snippet* snippet)
-		{
-			snippets.push_back(snippet);
-			for (auto prop : snippet->inProperties())
-				allProps.insert(prop);
-			for (auto prop : snippet->outProperties())
-				allProps.insert(prop);
-		}
+        void Component::AddSnippet(Snippet* snippet)
+        {
+            snippets.push_back(snippet);
+            for (auto prop : snippet->inProperties())
+                allProps.insert(prop);
+            for (auto prop : snippet->outProperties())
+                allProps.insert(prop);
+        }
 
         void Component::AddUnresolvedSnippet(Snippet* snippet, int tabulation)
         {
@@ -93,19 +93,37 @@ namespace GlEngine
             if (uniforms.size() > 0)
             {
                 for (auto it : uniforms)
-                    stream << "layout(location = " << it.first << ") uniform " << it.second->DeclarationString("in_") << ";" << std::endl;
+                {
+                    stream << "layout(location = " << it.first << ") uniform ";
+                    stream << it.second->DeclarationString(it.second->isReadonly() ? ""s : "in_"s);
+                    stream << ";" << std::endl;
+                }
                 stream << std::endl;
             }
             if (ins.size() > 0)
             {
                 for (auto it : ins)
-                    stream << "layout(location = " << it.first << ") in " << it.second->DeclarationString("in_") << ";" << std::endl;
+                {
+                    std::string modifier = "";
+                    if (type == ComponentType::Fragment || type == ComponentType::TessControl || type == ComponentType::Geometry)
+                        modifier = it.second->modifier();
+                    if (modifier.size() > 0)
+                        modifier += " ";
+                    stream << "layout(location = " << it.first << ") " << modifier << "in " << it.second->DeclarationString("in_") << ";" << std::endl;
+                }
                 stream << std::endl;
             }
             if (outs.size() > 0)
             {
                 for (auto it : outs)
-                    stream << "layout(location = " << it.first << ") out " << it.second->DeclarationString("out_") << ";" << std::endl;
+                {
+                    std::string modifier = "";
+                    if (type == ComponentType::Vertex || type == ComponentType::TessEvaluation || type == ComponentType::Geometry)
+                        modifier = it.second->modifier();
+                    if (modifier.size() > 0)
+                        modifier += " ";
+                    stream << "layout(location = " << it.first << ") " << modifier << "out " << it.second->DeclarationString("out_") << ";" << std::endl;
+                }
                 stream << std::endl;
             }
         }
@@ -132,10 +150,17 @@ namespace GlEngine
             bool any = false;
             for (ShaderProp* prop : allProps)
             {
-                if (prop->isBuiltIn) continue;
+                if (prop->isBuiltIn() || prop->isReadonly())
+                    continue;
                 stream << tabulationString << prop->DeclarationString() + ";" << std::endl;
                 any = true;
             }
+            if (any)
+            {
+                stream << tabulationString << std::endl;
+                any = false;
+            }
+            
             for (size_t q = 0; q < snippets.size(); q++)
             {
                 auto snippet = snippets[q];
@@ -145,23 +170,27 @@ namespace GlEngine
                     any = true;
                 }
             }
-            if (any) stream << tabulationString << std::endl;
+            if (any)
+            {
+                stream << tabulationString << std::endl;
+                any = false;
+            }
         }
 
         void Component::compileMain(std::stringstream &stream, int tabulation)
         {            
-			stream << "/* BEGIN INPUT IDENTITIES */ " << std::endl;
-			for (Snippet* snippet : inputSnippets)
-				stream << resolveSnippetBody(snippet, tabulation) << std::endl;
-			stream << "/* END INPUT IDENTITIES */ " << std::endl << std::endl;
+            stream << "/* BEGIN INPUT IDENTITIES */ " << std::endl;
+            for (Snippet* snippet : inputSnippets)
+                stream << resolveSnippetBody(snippet, tabulation) << std::endl;
+            stream << "/* END INPUT IDENTITIES */ " << std::endl << std::endl;
 
             for (Snippet* snippet : snippets)
                 stream << resolveSnippetBody(snippet, tabulation) << std::endl;
 
-			stream << std::endl << "/* BEGIN OUTPUT IDENTITIES */" << std::endl;
-			for (Snippet* snippet : outputSnippets)
-				stream << resolveSnippetBody(snippet, tabulation) << std::endl;
-			stream << "/* END OUTPUT IDENTITIES */" << std::endl;
+            stream << std::endl << "/* BEGIN OUTPUT IDENTITIES */" << std::endl;
+            for (Snippet* snippet : outputSnippets)
+                stream << resolveSnippetBody(snippet, tabulation) << std::endl;
+            stream << "/* END OUTPUT IDENTITIES */" << std::endl;
         }
     }
 }

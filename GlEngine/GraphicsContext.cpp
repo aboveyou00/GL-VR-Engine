@@ -123,6 +123,7 @@ namespace GlEngine
     bool GraphicsContext::InitializeRenderTargets()
     {
         this_thread_name() = "graphics";
+        this_thread_type() = ThreadType::Graphics;
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
         logger->Log(GlEngine::LogType::Info, "Beginning OpenGL graphics thread");
         for (size_t q = 0; q < renderTargetCount; q++)
@@ -132,7 +133,7 @@ namespace GlEngine
     void GraphicsContext::Tick(float)
     {
         auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-        resources.InitializeResourceGraphics();
+        resources.TickGraphics();
 
         frames->Update(*this);
         Render();
@@ -140,7 +141,7 @@ namespace GlEngine
     void GraphicsContext::ShutdownRenderTargets()
     {
         auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-        resources.ShutdownResourceGraphics();
+        resources.ShutdownGraphics();
 
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
         logger->Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");

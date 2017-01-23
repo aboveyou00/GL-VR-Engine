@@ -40,7 +40,7 @@ namespace GlEngine
 
             std::map<PropertySource*, std::vector<PropertySource*>> propertySourceInputs, propertySourceDependents;
             ComponentArray<std::vector<PropertySource*>> componentSources;
-			std::map<PropertySource*, ComponentType> sourceComponents;
+            std::map<PropertySource*, ComponentType> sourceComponents;
 
         private:
             PerformanceLevel performanceLevel;

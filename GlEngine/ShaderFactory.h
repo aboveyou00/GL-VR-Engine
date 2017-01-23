@@ -83,6 +83,12 @@ namespace GlEngine
             std::set<ShaderProp*> _properties;
 
             bool RefreshPropertyCache();
+            std::map<unsigned, Texture *> _textures;
+
+            rt_mutex _mux;
         };
+
+        template <>
+        ENGINE_SHARED void ShaderFactory::ProvideProperty<Texture*>(Property<Texture*> &prop, Texture *const &val);
     }
 }

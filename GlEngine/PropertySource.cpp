@@ -2,6 +2,7 @@
 #include "PropertySource.h"
 #include "FactoryUtils.h"
 #include "ShaderProp.h"
+#include "Program.h"
 
 namespace GlEngine
 {
@@ -16,6 +17,12 @@ namespace GlEngine
         {
         }
 
+        void PropertySource::ProvideInput(Program * program, ShaderProp * prop, ComponentType inputType, ComponentType sourceType)
+        {
+            if (inputType < sourceType)
+                program->ConnectComponentsProperty(inputType, sourceType, prop);
+        }
+
         const std::vector<ShaderProp*> PropertySource::inProperties()
         {
             return std::vector<ShaderProp*>();
@@ -26,7 +33,7 @@ namespace GlEngine
             return prop->name;
         }
 
-        bool PropertySource::HasFlag(PropertySourceFlag flag) const
+        bool PropertySource::hasFlag(PropertySourceFlag flag) const
         {
             return (flags & flag) != PropertySourceFlag::None;
         }
@@ -69,11 +76,11 @@ namespace GlEngine
 
         bool PropertySource::noSideEffects() const
         {
-            return HasFlag(PropertySourceFlag::NoSideEffects);
+            return hasFlag(PropertySourceFlag::NoSideEffects);
         }
         bool PropertySource::hasSideEffects() const
         {
-            return !HasFlag(PropertySourceFlag::NoSideEffects);
+            return !hasFlag(PropertySourceFlag::NoSideEffects);
         }
     }
 }

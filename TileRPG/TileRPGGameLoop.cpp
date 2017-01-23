@@ -45,7 +45,9 @@ namespace TileRPG
 
     bool TileRPGGameLoop::initLoop()
     {
-        this_thread_name() = "gameloop";
+        this_thread_name() = "logic";
+        this_thread_type() = ThreadType::Logic;
+
         auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
         logger->Log(GlEngine::LogType::Info, "Beginning game loop thread");
 

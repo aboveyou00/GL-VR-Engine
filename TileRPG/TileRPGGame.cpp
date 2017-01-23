@@ -128,12 +128,12 @@ namespace TileRPG
 
     void TileRPGGame::MessageLoop()
     {
-        logger->Log(GlEngine::LogType::Info, "Beginning MessageLoop on thread [%s]...", this_thread_name());
+        logger->Log(GlEngine::LogType::Info, "Beginning WndProc on thread [%s]...", this_thread_name().c_str());
 
         auto &engine = GlEngine::Engine::GetInstance();
         engine.MessageLoop();
 
-        logger->Log(GlEngine::LogType::Info, "~Terminating MessageLoop...");
+        logger->Log(GlEngine::LogType::Info, "~Terminating WndProc...");
     }
 
     GlEngine::ILogger *TileRPGGame::registerLogger()

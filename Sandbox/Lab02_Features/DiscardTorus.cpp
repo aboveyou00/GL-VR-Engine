@@ -1,27 +1,28 @@
 #include "stdafx.h"
-#include "LitTorus.h"
+#include "DiscardTorus.h"
 #include "ObjGraphicsObject.h"
-#include "DiffuseMaterial.h"
+#include "DiscardPhongMaterial.h"
 #include "RandomUtils.h"
 #include "MatrixStack.h"
+#include "AmbientLightSource.h"
 #include "PointLightSource.h"
 
-LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
-    : LitTorus(color, reflectionCoef, lightSource, randomRotateAxis(), distance, rotationSpeed)
+DiscardTorus::DiscardTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
+    : DiscardTorus(color, reflectionCoef, lightSource, randomRotateAxis(), distance, rotationSpeed)
 {
 }
-LitTorus::LitTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
+DiscardTorus::DiscardTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
     : color(color), reflectionCoef(reflectionCoef), _lightSource(lightSource), rotationAxis(rotationAxis), distance(distance), rotationSpeed(rotationSpeed), totalDelta(0)
 {
     assert(lightSource != nullptr);
     Rotate(GlEngine::Util::random(3.14159f * 2), randomRotateAxis());
     RequireTick(true);
 }
-LitTorus::~LitTorus()
+DiscardTorus::~DiscardTorus()
 {
 }
 
-void LitTorus::Tick(float delta)
+void DiscardTorus::Tick(float delta)
 {
     totalDelta += delta;
     auto rotationAmount = totalDelta * rotationSpeed;
@@ -32,23 +33,23 @@ void LitTorus::Tick(float delta)
     _lightSource->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
 }
 
-const char *LitTorus::name()
+const char *DiscardTorus::name()
 {
-    return "LitTorus";
+    return "DiscardTorus";
 }
 
-GlEngine::GraphicsObject *LitTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+GlEngine::GraphicsObject *DiscardTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
 {
     ctx;
-    auto mat = new GlEngine::DiffuseMaterial(color, reflectionCoef);
-    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { _lightSource });
+    auto mat = new DiscardPhongMaterial(color, reflectionCoef);
+    return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { new GlEngine::AmbientLightSource({ .1f, .1f, .1f }), _lightSource });
 }
 
-float randomVecComponent()
+static float randomVecComponent()
 {
     return GlEngine::Util::random(2.f) - 1;
 }
-Vector<3> LitTorus::randomRotateAxis()
+Vector<3> DiscardTorus::randomRotateAxis()
 {
     while (true)
     {
