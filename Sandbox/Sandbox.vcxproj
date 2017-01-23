@@ -156,12 +156,13 @@
     <ClInclude Include="Lab02_Features\FeaturesSceneFrame.h" />
     <ClInclude Include="Lab02_Features\PhongTorus.h" />
     <ClInclude Include="Lab02_Features\NoLidTeapot.h" />
-    <ClInclude Include="MultiPhongMaterial.h" />
+    <ClInclude Include="Lab03_LightsAndEffects\MultiPhongMaterial.h" />
     <ClInclude Include="Sandbox.h" />
     <ClInclude Include="SandboxLoop.h" />
     <ClInclude Include="Lab01_Diffuse\DiffuseSceneFrame.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="CameraTargetObject.h" />
+    <ClInclude Include="Lab03_LightsAndEffects\Tree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />
@@ -177,11 +178,12 @@
     <ClCompile Include="Lab02_Features\PhongTorus.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Lab02_Features\NoLidTeapot.cpp" />
-    <ClCompile Include="MultiPhongMaterial.cpp" />
+    <ClCompile Include="Lab03_LightsAndEffects\MultiPhongMaterial.cpp" />
     <ClCompile Include="Sandbox.cpp" />
     <ClCompile Include="SandboxLoop.cpp" />
     <ClCompile Include="Lab01_Diffuse\DiffuseSceneFrame.cpp" />
     <ClCompile Include="CameraTargetObject.cpp" />
+    <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox.config">

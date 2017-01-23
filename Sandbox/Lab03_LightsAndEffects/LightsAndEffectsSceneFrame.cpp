@@ -1,12 +1,18 @@
 #include "stdafx.h"
 #include "LightsAndEffectsSceneFrame.h"
-//#include "PhongTorus.h"
-//#include "NoLidTeapot.h"
-//#include "DiscardTorus.h"
+#include "Tree.h"
+
 #include "CameraGameObject.h"
 #include "Lab3Controls.h"
 #include "../CameraTargetObject.h"
+
+#include "RandomUtils.h"
 #include "../LightSourceObject.h"
+#include "PointLightSource.h"
+#include "AmbientLightSource.h"
+#include "FogSource.h"
+
+typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
 
 LightsAndEffectsSceneFrame::LightsAndEffectsSceneFrame()
 {
@@ -26,25 +32,20 @@ bool LightsAndEffectsSceneFrame::Initialize()
 
     CreateGameObject<Lab3Controls>();
 
-    //auto lightSource1 = CreateGameObject<LightSourceObject>();
-    //auto torus1 = CreateGameObject<PhongTorus>(Vector<3> { 1, .15f, .3f }, Vector<3> { .4f, .6f, .6f }, lightSource1->lightSource(), Vector<3> { 0, 0, 1 });
-    //torus1->SetPosition({ 0, 0, 0 });
+    auto ambientLightSource = new GlEngine::AmbientLightSource({ .1f, .1f, .1f });
+    auto lightGobj = CreateGameObject<LightSourceObject>();
+    auto fog = new GlEngine::FogSource(0, 15.f, { 0.f, 0.f, 0.f, 1.f });
+    lightGobj->lightSource()->SetPosition({ 0, 6.f, -6.f });
 
-    //auto lightSource2 = CreateGameObject<LightSourceObject>();
-    //auto torus2 = CreateGameObject<PhongTorus>(Vector<3> { .2f, .6f, .75f }, Vector<3> { .05f, .05f, .05f }, lightSource2->lightSource(), Vector<3> { 1, 0, 0 });
-    //torus2->SetPosition({ -5, 0, -5 });
-
-    //auto lightSource3 = CreateGameObject<LightSourceObject>();
-    //auto torus3 = CreateGameObject<PhongTorus>(Vector<3> { .4f, .4f, .4f }, Vector<3> { .9f, .9f, .9f }, lightSource3->lightSource(), Vector<3> { 0, 1, 0 }, 3.f, .5f, true);
-    //torus3->SetPosition({ 5, 0, -5 });
-
-    //auto lightSource4 = CreateGameObject<LightSourceObject>();
-    //auto teapot = CreateGameObject<NoLidTeapot>(Vector<3> { .4f, .4f, .4f }, Vector<3> { .9f, .9f, .9f }, lightSource4->lightSource(), Vector<3> { 0, 1, 0 });
-    //teapot->SetPosition({ 7, 0, 2 });
-
-    //auto lightSource5 = CreateGameObject<LightSourceObject>();
-    //auto discard = CreateGameObject<DiscardTorus>(Vector<3> { .7f, .0f, .9f }, Vector<3> { .9f, .9f, .9f }, lightSource5->lightSource(), Vector<3> { 1, 0, 0 });
-    //discard->SetPosition({ -7, 0, 2 });
+    for (int q = -2; q <= 2; q++)
+    {
+        for (int w = -2; w <= 2; w++)
+        {
+            float rndX = GlEngine::Util::random(2.f) - 1,
+                  rndZ = GlEngine::Util::random(2.f) - 1;
+            CreateGameObject<Tree>(Vector<3> { (q * 5) + rndX, 0, (w * 5) + rndZ }, std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
+        }
+    }
 
     return true;
 }

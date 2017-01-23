@@ -162,6 +162,8 @@
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="DirectionalLightSource.h" />
     <ClInclude Include="Flags.h" />
+    <ClInclude Include="FogInterpolationMode.h" />
+    <ClInclude Include="FogSource.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PerformanceLevel.h" />
     <ClInclude Include="PointLightSource.h" />
@@ -321,6 +323,7 @@
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
     <ClCompile Include="DirectionalLightSource.cpp" />
+    <ClCompile Include="FogSource.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />
