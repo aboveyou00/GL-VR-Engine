@@ -15,8 +15,9 @@ namespace GlEngine::ShaderFactory
     Property<float> prop_Shininess("shininess");
 
     Property<Vector<4>> prop_ModelViewNormal("modelview_normal");
-        
+
     Property<Vector<4>> prop_GlPosition("gl_Position", PropertyFlag::BuiltIn);
+    Property<Vector<4>> prop_GlFragCoord("gl_FragCoord", PropertyFlag::BuiltIn | PropertyFlag::Resolved);
 
     Property<Texture*> prop_Texture("texture");
 #pragma endregion

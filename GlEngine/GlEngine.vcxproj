@@ -161,6 +161,7 @@
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="DirectionalLightSource.h" />
+    <ClInclude Include="DummyPropertySource.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="FogInterpolationMode.h" />
     <ClInclude Include="FogSource.h" />
@@ -323,6 +324,7 @@
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
     <ClCompile Include="DirectionalLightSource.cpp" />
+    <ClCompile Include="DummyPropertySource.cpp" />
     <ClCompile Include="FogSource.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />

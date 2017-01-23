@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Lab03_LightsAndEffects\PhongFogMaterial.h" />
     <ClInclude Include="Lab02_Features\DiscardPhongMaterial.h" />
     <ClInclude Include="Lab02_Features\DiscardTorus.h" />
     <ClInclude Include="Lab02_Features\PhongFlatMaterial.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="TemplateTorus.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Lab03_LightsAndEffects\PhongFogMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardTorus.cpp" />
     <ClCompile Include="Lab02_Features\PhongFlatMaterial.cpp" />

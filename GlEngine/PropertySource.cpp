@@ -3,6 +3,7 @@
 #include "FactoryUtils.h"
 #include "ShaderProp.h"
 #include "Program.h"
+#include "DummyPropertySource.h"
 
 namespace GlEngine
 {
@@ -82,5 +83,7 @@ namespace GlEngine
         {
             return !hasFlag(PropertySourceFlag::NoSideEffects);
         }
+
+        PropertySource *PropertySource::resolvedPropertySource = &DummyPropertySource::instance();
     }
 }

@@ -39,6 +39,8 @@ namespace GlEngine
 
             bool noSideEffects() const;
             bool hasSideEffects() const;
+
+            static PropertySource *resolvedPropertySource;
         };
     }
 }

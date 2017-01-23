@@ -8,8 +8,10 @@ namespace GlEngine::ShaderFactory
 
         BuiltIn  = 0b00000001,
         Readonly = 0b00000010,
-        Flat     = 0b00000100,
-        Array    = 0b00001000
+        Resolved = 0b00000100,
+
+        Flat     = 0b00001000,
+        Array    = 0b00010000
     };
 
     FLAGS_H(PropertyFlag)

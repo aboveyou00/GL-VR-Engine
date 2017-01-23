@@ -259,6 +259,8 @@ namespace GlEngine
                 {
                     if (input == nullptr)
                         continue;
+                    if (input == PropertySource::resolvedPropertySource)
+                        continue;
 
                     std::vector<ComponentType> inputConstraints = constraints[input];
                     auto inputConstraintEarliest = earliestComponent(inputConstraints);
@@ -348,11 +350,18 @@ namespace GlEngine
         {
             for (ShaderProp* dependency : source->inProperties())
             {
-                auto pos = currentPropertySources.find(dependency);
-                if (pos == currentPropertySources.end())
-                    return false;
+                if (dependency->hasFlag(PropertyFlag::Resolved))
+                {
+                    dependencySources.push_back(PropertySource::resolvedPropertySource);
+                }
                 else
-                    dependencySources.push_back(pos->second);
+                {
+                    auto pos = currentPropertySources.find(dependency);
+                    if (pos == currentPropertySources.end())
+                        return false;
+                    else
+                        dependencySources.push_back(pos->second);
+                }
             }
             return true;
         }
@@ -414,7 +423,7 @@ namespace GlEngine
                     fallbackEarliest = earliestComponent(fallback->componentsDefault());
                     fallbackLatest = latestComponent(fallback->componentsDefault());
                     childEarliest = earliestComponent(constraints[child]);
-                
+
                     if (childEarliest <= fallbackLatest && fallbackEarliest <= parentLatest && !isEventualChild({ child }, outputs))
                         break;
                 }
@@ -540,7 +549,9 @@ namespace GlEngine
                 for (PropertySource* input : propertySourceInputs[source])
                 {
                     assert(input != nullptr);
-                    if (assignedComponents.find(input) != assignedComponents.end())
+                    if (input == PropertySource::resolvedPropertySource)
+                        early = early;
+                    else if (assignedComponents.find(input) != assignedComponents.end())
                         early = max(early, constraints[input][assignedComponents[input]]);
                     else
                         early = max(early, earliestComponent(constraints[input]));

@@ -40,7 +40,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 
-    auto controls = CreateGameObject<Lab3Controls>();
+    CreateGameObject<Lab3Controls>();
 
     auto ambientLightSource = new GlEngine::AmbientLightSource({ .1f, .1f, .1f });
     auto lightGobj = CreateGameObject<LightSourceObject<PointLightSource>>(new PointLightSource());
@@ -138,7 +138,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
                     &GlEngine::ShaderFactory::attr_RgbBaseColor,
                     &GlEngine::ShaderFactory::attr_Spotlight
                 },
-                [spotData, controls](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
+                [spotData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
                 {
                     factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, spotData.color);
                     factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, spotData.reflectionCoef);

@@ -55,6 +55,7 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<4>> prop_ModelViewNormal;
 
         extern ENGINE_SHARED Property<Vector<4>> prop_GlPosition;
+        extern ENGINE_SHARED Property<Vector<4>> prop_GlFragCoord;
 
         extern ENGINE_SHARED Property<Texture*> prop_Texture;
 #pragma endregion
