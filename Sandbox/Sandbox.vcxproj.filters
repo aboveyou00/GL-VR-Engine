@@ -84,9 +84,6 @@
     <ClInclude Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.h">
       <Filter>Header Files\Lab03_LightsAndEffects</Filter>
     </ClInclude>
-    <ClInclude Include="MultiPhongMaterial.h">
-      <Filter>Header Files\Lab03_LightsAndEffects</Filter>
-    </ClInclude>
     <ClInclude Include="LightSourceGraphicsObject.h">
       <Filter>Header Files\Shared</Filter>
     </ClInclude>
@@ -100,6 +97,12 @@
       <Filter>Header Files\Shared</Filter>
     </ClInclude>
     <ClInclude Include="Lab03_LightsAndEffects\Lab3Controls.h">
+      <Filter>Header Files\Lab03_LightsAndEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab03_LightsAndEffects\Tree.h">
+      <Filter>Header Files\Lab03_LightsAndEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="Lab03_LightsAndEffects\MultiPhongMaterial.h">
       <Filter>Header Files\Lab03_LightsAndEffects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,9 +143,6 @@
     <ClCompile Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.cpp">
       <Filter>Source Files\Lab03_LightsAndEffects</Filter>
     </ClCompile>
-    <ClCompile Include="MultiPhongMaterial.cpp">
-      <Filter>Source Files\Lab03_LightsAndEffects</Filter>
-    </ClCompile>
     <ClCompile Include="LightSourceObject.cpp">
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
@@ -156,6 +156,12 @@
       <Filter>Source Files\Shared</Filter>
     </ClCompile>
     <ClCompile Include="Lab03_LightsAndEffects\Lab3Controls.cpp">
+      <Filter>Source Files\Lab03_LightsAndEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp">
+      <Filter>Source Files\Lab03_LightsAndEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab03_LightsAndEffects\MultiPhongMaterial.cpp">
       <Filter>Source Files\Lab03_LightsAndEffects</Filter>
     </ClCompile>
   </ItemGroup>
