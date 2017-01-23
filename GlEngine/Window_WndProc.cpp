@@ -46,18 +46,18 @@ namespace GlEngine
                 SetFullscreen(!GetFullscreen());
                 break;
             }
-            ctrl = !!GetKeyState(VK_CONTROL);
-            shift = !!GetKeyState(VK_SHIFT);
-            alt = !!GetKeyState(VK_ALT);
+            ctrl = (GetKeyState(VK_CONTROL) & 0b10000000) != 0;
+            shift = (GetKeyState(VK_SHIFT) & 0b10000000) != 0;
+            alt = (GetKeyState(VK_ALT) & 0b10000000) != 0;
             if ((lParam & (1 << 30)) == 0) events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyPressed, ctrl, shift, alt));
             events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyTyped, ctrl, shift, alt));
             break;
 
         case WM_KEYUP:
             vkCode = (unsigned)wParam;
-            ctrl = !!GetKeyState(VK_CONTROL);
-            shift = !!GetKeyState(VK_SHIFT);
-            alt = !!GetKeyState(VK_ALT);
+            ctrl = (GetKeyState(VK_CONTROL) & 0b10000000) != 0;
+            shift = (GetKeyState(VK_SHIFT) & 0b10000000) != 0;
+            alt = (GetKeyState(VK_ALT) & 0b10000000) != 0;
             events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyReleased, ctrl, shift, alt));
             break;
 
