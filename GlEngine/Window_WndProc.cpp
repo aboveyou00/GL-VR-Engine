@@ -9,6 +9,7 @@ namespace GlEngine
     {
         auto &events = Engine::GetInstance().GetEventQueue();
         unsigned vkCode;
+        bool ctrl, shift, alt;
         Vector<2> size;
         switch (message)
         {
@@ -45,13 +46,19 @@ namespace GlEngine
                 SetFullscreen(!GetFullscreen());
                 break;
             }
-            if ((lParam & (1 << 30)) == 0) events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyPressed));
-            events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyTyped));
+            ctrl = !!GetKeyState(VK_CONTROL);
+            shift = !!GetKeyState(VK_SHIFT);
+            alt = !!GetKeyState(VK_ALT);
+            if ((lParam & (1 << 30)) == 0) events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyPressed, ctrl, shift, alt));
+            events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyTyped, ctrl, shift, alt));
             break;
 
         case WM_KEYUP:
             vkCode = (unsigned)wParam;
-            events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyReleased));
+            ctrl = !!GetKeyState(VK_CONTROL);
+            shift = !!GetKeyState(VK_SHIFT);
+            alt = !!GetKeyState(VK_ALT);
+            events.PushEvent(new Events::KeyboardEvent(vkCode, Events::KeyboardEventType::KeyReleased, ctrl, shift, alt));
             break;
 
         case WM_MOUSEMOVE:
@@ -63,9 +70,9 @@ namespace GlEngine
         case WM_RBUTTONUP:
             {
                 auto mousePos = Vector<2>(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-                bool shift = (wParam & MK_SHIFT) > 0,
-                     control = (wParam & MK_CONTROL) > 0,
-                     alt = (GetKeyState(VK_MENU) & ~1) > 0;
+                shift = (wParam & MK_SHIFT) > 0;
+                ctrl = (wParam & MK_CONTROL) > 0;
+                alt = (GetKeyState(VK_MENU) & ~1) > 0;
                 Events::MouseButton btn = Events::MouseButton::None;
                 if (message == WM_LBUTTONDOWN || message == WM_LBUTTONUP) btn |= Events::MouseButton::Left;
                 if (message == WM_MBUTTONDOWN || message == WM_MBUTTONUP) btn |= Events::MouseButton::Middle;
@@ -74,7 +81,7 @@ namespace GlEngine
                 auto type = (message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN) ? Events::MouseEventType::Pressed :
                                                                                        (message == WM_MOUSEMOVE)  ? Events::MouseEventType::Moved :
                                                                                                                     Events::MouseEventType::Released;
-                events.PushEvent(new Events::MouseEvent(mousePos, control, shift, alt, type, btn));
+                events.PushEvent(new Events::MouseEvent(mousePos, ctrl, shift, alt, type, btn));
             }
             break;
 

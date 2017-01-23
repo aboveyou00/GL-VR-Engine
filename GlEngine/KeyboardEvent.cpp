@@ -5,8 +5,8 @@ namespace GlEngine
 {
     namespace Events
     {
-        KeyboardEvent::KeyboardEvent(unsigned int vkCode, KeyboardEventType type)
-            : _vkCode(vkCode), _type(type)
+        KeyboardEvent::KeyboardEvent(unsigned int vkCode, KeyboardEventType type, bool control, bool shift, bool alt)
+            : _vkCode(vkCode), _type(type), _ctrl(control), _shift(shift), _alt(alt)
         {
         }
         KeyboardEvent::~KeyboardEvent()
@@ -34,9 +34,26 @@ namespace GlEngine
             return _type == KeyboardEventType::KeyTyped;
         }
 
+        bool KeyboardEvent::IsControlPressed() const
+        {
+            return _ctrl;
+        }
+        bool KeyboardEvent::IsAltPressed() const
+        {
+            return _alt;
+        }
+        bool KeyboardEvent::IsShiftPressed() const
+        {
+            return _shift;
+        }
+
         std::ostream &KeyboardEvent::stringify(std::ostream &stream) const
         {
-            return stream << _type << ": " << _vkCode;
+            stream << _type << ": " << _vkCode;
+            if (_ctrl) stream << " +ctrl";
+            if (_alt) stream << " +alt";
+            if (_shift) stream << " +shift";
+            return stream;
         }
     }
 }
