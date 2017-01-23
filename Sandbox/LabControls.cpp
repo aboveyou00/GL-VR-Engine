@@ -16,27 +16,25 @@ LabControls::~LabControls()
 void LabControls::HandleEvent(Event &evt)
 {
     auto *kbdEvt = dynamic_cast<KeyboardEvent*>(&evt);
-    if (kbdEvt == nullptr) return;
-    if (kbdEvt->GetEventType() != KeyboardEventType::KeyTyped) return;
-
-    if (kbdEvt->GetVirtualKeyCode() == VK_SPACE || kbdEvt->GetVirtualKeyCode() == VK_LETTER<'P'>())
+    if (kbdEvt != nullptr && kbdEvt->GetEventType() == KeyboardEventType::KeyTyped)
     {
-        LabControls::isPaused = !LabControls::isPaused;
-        evt.Handle();
-        return;
+        if (kbdEvt->GetVirtualKeyCode() == VK_SPACE || kbdEvt->GetVirtualKeyCode() == VK_LETTER<'P'>())
+        {
+            LabControls::isPaused = !LabControls::isPaused;
+            evt.Handle();
+        }
+
+        if (kbdEvt->GetVirtualKeyCode() >= VK_LETTER<'0'>() && kbdEvt->GetVirtualKeyCode() < VK_LETTER<'8'>())
+        {
+            auto flags = kbdEvt->GetVirtualKeyCode() - VK_NUMPAD0;
+            LabControls::rotateX = (flags & 0b001) != 0;
+            LabControls::rotateY = (flags & 0b010) != 0;
+            LabControls::rotateZ = (flags & 0b100) != 0;
+            evt.Handle();
+        }
     }
 
-    if (kbdEvt->GetVirtualKeyCode() >= VK_LETTER<'0'>() && kbdEvt->GetVirtualKeyCode() < VK_LETTER<'8'>())
-    {
-        auto flags = kbdEvt->GetVirtualKeyCode() - VK_NUMPAD0;
-        LabControls::rotateX = (flags & 0b001) != 0;
-        LabControls::rotateY = (flags & 0b010) != 0;
-        LabControls::rotateZ = (flags & 0b100) != 0;
-        evt.Handle();
-        return;
-    }
-
-    GlEngine::GameObject::HandleEvent(evt);
+    if (!evt.IsHandled()) GlEngine::GameObject::HandleEvent(evt);
 }
 
 const char *LabControls::name()

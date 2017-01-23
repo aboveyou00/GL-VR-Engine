@@ -4,9 +4,9 @@
 //#include "NoLidTeapot.h"
 //#include "DiscardTorus.h"
 #include "CameraGameObject.h"
+#include "Lab3Controls.h"
 #include "../CameraTargetObject.h"
 #include "../LightSourceObject.h"
-#include "../LabControls.h"
 
 LightsAndEffectsSceneFrame::LightsAndEffectsSceneFrame()
 {
@@ -24,7 +24,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 
-    CreateGameObject<LabControls>();
+    CreateGameObject<Lab3Controls>();
 
     //auto lightSource1 = CreateGameObject<LightSourceObject>();
     //auto torus1 = CreateGameObject<PhongTorus>(Vector<3> { 1, .15f, .3f }, Vector<3> { .4f, .6f, .6f }, lightSource1->lightSource(), Vector<3> { 0, 0, 1 });

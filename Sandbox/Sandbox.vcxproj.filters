@@ -99,6 +99,9 @@
     <ClInclude Include="LabControls.h">
       <Filter>Header Files\Shared</Filter>
     </ClInclude>
+    <ClInclude Include="Lab03_LightsAndEffects\Lab3Controls.h">
+      <Filter>Header Files\Lab03_LightsAndEffects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -151,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="LabControls.cpp">
       <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab03_LightsAndEffects\Lab3Controls.cpp">
+      <Filter>Source Files\Lab03_LightsAndEffects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
