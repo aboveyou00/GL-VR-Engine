@@ -148,6 +148,7 @@
     <ClInclude Include="Lab02_Features\DiscardTorus.h" />
     <ClInclude Include="Lab02_Features\PhongFlatMaterial.h" />
     <ClInclude Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.h" />
+    <ClInclude Include="LabControls.h" />
     <ClInclude Include="LightSourceGraphicsObject.h" />
     <ClInclude Include="LightSourceObject.h" />
     <ClInclude Include="Lab01_Diffuse\LitTorus.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Lab02_Features\DiscardTorus.cpp" />
     <ClCompile Include="Lab02_Features\PhongFlatMaterial.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.cpp" />
+    <ClCompile Include="LabControls.cpp" />
     <ClCompile Include="LightSourceGraphicsObject.cpp" />
     <ClCompile Include="LightSourceObject.cpp" />
     <ClCompile Include="Lab01_Diffuse\LitTorus.cpp" />

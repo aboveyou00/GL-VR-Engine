@@ -8,6 +8,7 @@
 #include "AmbientLightSource.h"
 #include "PointLightSource.h"
 #include "PhongFlatMaterial.h"
+#include "../LabControls.h"
 
 PhongTorus::PhongTorus(Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed, bool flat)
     : PhongTorus(color, reflectionCoef, lightSource, randomRotateAxis(), distance, rotationSpeed, flat)
@@ -26,6 +27,11 @@ PhongTorus::~PhongTorus()
 
 void PhongTorus::Tick(float delta)
 {
+    if (LabControls::isPaused) return;
+    else if (!!rotationAxis[0] && !LabControls::rotateZ) return;
+    else if (!!rotationAxis[1] && !LabControls::rotateY) return;
+    else if (!!rotationAxis[2] && !LabControls::rotateX) return;
+
     totalDelta += delta;
     auto rotationAmount = totalDelta * rotationSpeed;
     auto transformMatrix = !!rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(position) :
