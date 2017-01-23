@@ -37,9 +37,19 @@ constexpr inline unsigned VK_LETTER()
 {
     static_assert(('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9'), "Only numbers and letters are allowed");
     return (c >= 'a' && c <= 'z') ? 65 + (c - 'a') : c;
-           //(c >= 'A' && c <= 'Z') ? 65 + (c - 'A') :
-           //                         c;
 }
 
 const double PI_d = 3.1415926535897932;
 const float PI_f = 3.1415926f;
+
+static const unsigned VK_PAGE_UP = VK_PRIOR;
+static const unsigned VK_PAGE_DOWN = VK_NEXT;
+
+static const unsigned VK_SQUARE_BRACKET_LEFT = VK_OEM_4;
+static const unsigned VK_SQUARE_BRACKET_RIGHT = VK_OEM_6;
+static const unsigned VK_BACKSLASH = VK_OEM_5;
+static const unsigned VK_FORWARD_SLASH = VK_OEM_2;
+
+static const unsigned VK_ALT = VK_MENU;
+static const unsigned VK_LALT = VK_LMENU;
+static const unsigned VK_RALT = VK_RMENU;
