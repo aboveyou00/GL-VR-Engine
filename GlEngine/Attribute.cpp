@@ -143,7 +143,7 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             },
             {
             },
-            { &attr_PointLightDirection }
+            { &attr_ModelViewNormal, &attr_PointLightDirection }
         );
 
         static Property<float> prop_DiffuseComponentIntensity = Property<float>("diffuse_component_intensity");
@@ -163,7 +163,7 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             },
             {
             }, 
-            { &attr_PointLightDirection, &attr_ModelViewNormal }
+            { &attr_ModelViewNormal, &attr_PointLightDirection }
         );
 
         Attribute attr_DiffuseLightFlat = Attribute(
