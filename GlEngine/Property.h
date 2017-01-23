@@ -86,6 +86,10 @@ namespace GlEngine
 
         extern ENGINE_SHARED Property<Vector<3>> prop_PointLightPosition;
         extern ENGINE_SHARED Property<Vector<3>> prop_PointLightDirection; //calculated using PointLightPosition
+
+        extern ENGINE_SHARED Property<float> prop_FogMinDistance;
+        extern ENGINE_SHARED Property<float> prop_FogMaxDistance;
+        extern ENGINE_SHARED Property<Vector<4>> prop_FogColor;
 #pragma endregion
     }
 }

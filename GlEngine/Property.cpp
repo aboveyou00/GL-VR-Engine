@@ -48,5 +48,9 @@ namespace GlEngine::ShaderFactory
 
     Property<Vector<3>> prop_PointLightPosition("point_light_position");
     Property<Vector<3>> prop_PointLightDirection("point_light_direction");
+
+    Property<float> prop_FogMinDistance("fog_min_distance");
+    Property<float> prop_FogMaxDistance("fog_max_distance");
+    Property<Vector<4>> prop_FogColor("fog_color");
 #pragma endregion
 }

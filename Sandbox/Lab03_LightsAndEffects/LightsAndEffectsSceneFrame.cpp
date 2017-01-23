@@ -10,6 +10,7 @@
 #include "../LightSourceObject.h"
 #include "PointLightSource.h"
 #include "AmbientLightSource.h"
+#include "FogSource.h"
 
 typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
 
@@ -33,6 +34,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
 
     auto ambientLightSource = new GlEngine::AmbientLightSource({ .1f, .1f, .1f });
     auto lightGobj = CreateGameObject<LightSourceObject>();
+    auto fog = new GlEngine::FogSource(0, 15.f, { 0.f, 0.f, 0.f, 1.f });
     lightGobj->lightSource()->SetPosition({ 0, 6.f, -6.f });
 
     for (int q = -2; q <= 2; q++)
@@ -41,7 +43,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
         {
             float rndX = GlEngine::Util::random(2.f) - 1,
                   rndZ = GlEngine::Util::random(2.f) - 1;
-            CreateGameObject<Tree>(Vector<3> { (q * 5) + rndX, 0, (w * 5) + rndZ }, std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource() });
+            CreateGameObject<Tree>(Vector<3> { (q * 5) + rndX, 0, (w * 5) + rndZ }, std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
         }
     }
 
