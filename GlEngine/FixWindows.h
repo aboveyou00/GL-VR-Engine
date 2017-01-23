@@ -35,8 +35,10 @@ const auto RELATIVE = COORDINATE_MODE_RELATIVE;
 template<char c>
 constexpr inline unsigned VK_LETTER()
 {
-    static_assert('a' <= c && c <= 'z' || 'A' <= c && c <= 'Z', "Only letters are allowed");
-    return 65 + (c <= 'z' ? c - 'a' : c - 'A');
+    static_assert(('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9'), "Only numbers and letters are allowed");
+    return (c >= 'a' && c <= 'z') ? 65 + (c - 'a') : c;
+           //(c >= 'A' && c <= 'Z') ? 65 + (c - 'A') :
+           //                         c;
 }
 
 const double PI_d = 3.1415926535897932;

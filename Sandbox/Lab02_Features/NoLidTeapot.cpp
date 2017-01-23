@@ -7,6 +7,7 @@
 #include "MatrixStack.h"
 #include "AmbientLightSource.h"
 #include "PointLightSource.h"
+#include "../LabControls.h"
 
 #include "Texture.h"
 
@@ -27,6 +28,11 @@ NoLidTeapot::~NoLidTeapot()
 
 void NoLidTeapot::Tick(float delta)
 {
+    if (LabControls::isPaused) return;
+    else if (!!rotationAxis[0] && !LabControls::rotateZ) return;
+    else if (!!rotationAxis[1] && !LabControls::rotateY) return;
+    else if (!!rotationAxis[2] && !LabControls::rotateX) return;
+
     totalDelta += delta;
     auto rotationAmount = totalDelta * rotationSpeed;
     auto transformMatrix = !!rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(position) :

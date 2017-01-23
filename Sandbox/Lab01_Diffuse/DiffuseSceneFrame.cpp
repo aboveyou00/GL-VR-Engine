@@ -4,6 +4,7 @@
 #include "CameraGameObject.h"
 #include "../CameraTargetObject.h"
 #include "../LightSourceObject.h"
+#include "../LabControls.h"
 
 DiffuseSceneFrame::DiffuseSceneFrame()
 {
@@ -20,6 +21,8 @@ bool DiffuseSceneFrame::Initialize()
     cameraObject->SetTargetObject(cameraTarget);
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
+
+    CreateGameObject<LabControls>();
 
     auto lightSource1 = CreateGameObject<LightSourceObject>();
     auto torus1 = CreateGameObject<LitTorus>(Vector<3> { 1, 1, 1 }, Vector<3> { 0.f, 0.f, .9f }, lightSource1->lightSource(), Vector<3> { 0, 0, 1 });
