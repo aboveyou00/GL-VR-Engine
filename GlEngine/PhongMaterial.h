@@ -9,6 +9,7 @@ namespace GlEngine
     public:
         PhongMaterial(Vector<3> color, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f }, float shininess = 8);
         PhongMaterial(Texture *texture, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f }, float shininess = 8);
+        PhongMaterial(Texture *texture1, Texture *texture2, Vector<3> reflectionCoef = { 1.f, 1.f, 1.f }, float shininess = 8);
         ~PhongMaterial();
 
     public:
@@ -24,7 +25,7 @@ namespace GlEngine
         operator bool() override;
 
     private:
-        Texture *texture;
+        Texture *texture, *texture2;
         Vector<3> color, reflectionCoef;
         float shininess;
     };

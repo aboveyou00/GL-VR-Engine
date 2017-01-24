@@ -32,7 +32,7 @@ namespace GlEngine
         {
             return _fallbackSources;
         }
-        
+
 #pragma region outcolor
         Attribute attr_OutColor = Attribute(
             {
@@ -46,7 +46,6 @@ namespace GlEngine
             },
             { &attr_LightingFallbacks }
         );
-
 #pragma endregion
 
 #pragma region position
@@ -82,7 +81,6 @@ namespace GlEngine
             },
             { &attr_GlPosition }
         );
-
 #pragma endregion
 
 #pragma region base-color
@@ -111,7 +109,6 @@ namespace GlEngine
 #pragma endregion
 
 #pragma region lighting
-
         Attribute attr_PointLightDirection = Attribute(
             {
                 (new Snippet("[temp:0] = [in:2] * [in:1] * vec4([in:0], 1);\n[temp:1] = [in:4] * vec4([in:3], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
@@ -139,10 +136,10 @@ namespace GlEngine
                 (new Snippet(R"raw(if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal
 else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
 [out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation)raw"s,
-                             { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_PointLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
-                             { &prop_SpecularLightComponent },
-                             PropertySourceFlag::None,
-                             { ComponentType::Fragment })
+                                { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_PointLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
+                                { &prop_SpecularLightComponent },
+                                PropertySourceFlag::None,
+                                { ComponentType::Fragment })
                 )->WithTemps<Vector<3>>()
             },
             {
@@ -244,8 +241,8 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
 
         Attribute attr_Phong = Attribute(
             { 
-              //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
-              //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+                //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+                //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
                 new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",
                             { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent },
                             { &prop_LightColor }, 
@@ -259,8 +256,8 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
 
         Attribute attr_PhongFlat = Attribute(
             {
-              //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
-              //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+                //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
+                //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
                 new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",
                             { &prop_AmbientLightColor, &prop_DiffuseLightComponentFlat, &prop_SpecularLightComponent },
                             { &prop_LightColor }, 
@@ -350,6 +347,5 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
         );
 
 #pragma endregion
-
     }
 }

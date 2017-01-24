@@ -47,7 +47,7 @@ namespace GlEngine
         return textures[hashed] = new Texture(path, hasAlphaChannel);
     }
 
-    Texture::Texture(const char * const path, bool hasAlphaChannel)
+    Texture::Texture(const char *const path, bool hasAlphaChannel)
         : path(path), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), alpha(hasAlphaChannel)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
@@ -68,7 +68,7 @@ namespace GlEngine
     }
     void Texture::Shutdown()
     {
-        if (initialized) freePng(image);
+        if (initialized && !!image) freePng(image);
         image = nullptr;
         initialized = false;
     }

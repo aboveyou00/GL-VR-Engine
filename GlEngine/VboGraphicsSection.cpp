@@ -86,7 +86,6 @@ namespace GlEngine
             if (layer != material->GetRenderTargetLayer())
                 return;
 
-            //material->Push(false);
             _factory->Push();
 
             auto tesselation = material->GetTesselationType();
@@ -114,7 +113,6 @@ namespace GlEngine
             else assert(false);
 
             _factory->Pop();
-            //material->Pop(false);
         }
 
         void VboGraphicsSection::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)

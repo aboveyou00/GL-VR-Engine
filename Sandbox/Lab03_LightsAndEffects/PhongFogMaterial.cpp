@@ -16,7 +16,6 @@ Attribute attr_PhongFog(
                     PropertySourceFlag::None,
                     { ComponentType::Vertex }),
         (new Snippet("[temp:0] = clamp(([in:0] - [in:1]) / ([in:2] - [in:1]), 0.0, 1.0) * [in:3].a;\n[out:0] = vec4(mix([in:4].xyz, [in:3].xyz, [temp:0]), [in:4].a);"s,
-        //(new Snippet("[temp:0] = ([in:0] - [in:1]) / ([in:2] - [in:1]); [out:0] = vec4(mix([in:4].xyz, [in:3].xyz, [temp:0]), [in:4].a);"s,
                      { &prop_FogDistanceToCamera, &prop_FogMinDistance, &prop_FogMaxDistance, &prop_FogColor, &prop_RgbaColor },
                      { &prop_RgbaColor },
                      PropertySourceFlag::None,
@@ -34,17 +33,21 @@ PhongFogMaterial::PhongFogMaterial(Vector<3> color, Vector<3> reflectionCoef, fl
     : PhongMaterial(color, reflectionCoef, shininess)
 {
 }
-PhongFogMaterial::PhongFogMaterial(GlEngine::Texture * texture, Vector<3> reflectionCoef, float shininess)
+PhongFogMaterial::PhongFogMaterial(GlEngine::Texture *texture, Vector<3> reflectionCoef, float shininess)
     : PhongMaterial(texture, reflectionCoef, shininess)
+{
+}
+PhongFogMaterial::PhongFogMaterial(GlEngine::Texture *texture, GlEngine::Texture *texture2, Vector<3> reflectionCoef, float shininess)
+    : PhongMaterial(texture, texture2, reflectionCoef, shininess)
 {
 }
 PhongFogMaterial::~PhongFogMaterial()
 {
 }
 
-std::vector<GlEngine::ShaderFactory::Attribute*> PhongFogMaterial::attributes()
+std::vector<Attribute*> PhongFogMaterial::attributes()
 {
-    auto attrs = PhongMaterial::attributes();
+    auto attrs = GlEngine::PhongMaterial::attributes();
     attrs.push_back(&attr_PhongFog);
     return attrs;
 }

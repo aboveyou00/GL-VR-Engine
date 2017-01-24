@@ -161,6 +161,8 @@
     <ClInclude Include="Sandbox.h" />
     <ClInclude Include="SandboxLoop.h" />
     <ClInclude Include="Lab01_Diffuse\DiffuseSceneFrame.h" />
+    <ClInclude Include="Lab03_LightsAndEffects\StageGameObject.h" />
+    <ClInclude Include="Lab03_LightsAndEffects\StageGraphicsObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="CameraTargetObject.h" />
     <ClInclude Include="Lab03_LightsAndEffects\Tree.h" />
@@ -190,6 +192,8 @@
     <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp" />
     <ClCompile Include="TemplateMaterial.cpp" />
     <ClCompile Include="TemplateTorus.cpp" />
+    <ClCompile Include="Lab03_LightsAndEffects\StageGameObject.cpp" />
+    <ClCompile Include="Lab03_LightsAndEffects\StageGraphicsObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox.config">

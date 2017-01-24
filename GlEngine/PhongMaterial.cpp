@@ -9,11 +9,15 @@
 namespace GlEngine
 {
     PhongMaterial::PhongMaterial(Vector<3> color, Vector<3> reflectionCoef, float shininess)
-        : texture(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
+        : texture(nullptr), texture2(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
     {
     }
     PhongMaterial::PhongMaterial(Texture *texture, Vector<3> reflectionCoef, float shininess)
-        : texture(texture), reflectionCoef(reflectionCoef), shininess(shininess)
+        : texture(texture), texture2(nullptr), reflectionCoef(reflectionCoef), shininess(shininess)
+    {
+    }
+    PhongMaterial::PhongMaterial(Texture *texture, Texture *texture2, Vector<3> reflectionCoef, float shininess)
+        : texture(texture), texture2(texture2), reflectionCoef(reflectionCoef), shininess(shininess)
     {
     }
     PhongMaterial::~PhongMaterial()
@@ -23,7 +27,11 @@ namespace GlEngine
     void PhongMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
         if (texture == nullptr) factory.ProvideProperty(ShaderFactory::prop_RgbColor, color);
-        else factory.ProvideProperty(ShaderFactory::prop_Texture, texture);
+        else
+        {
+            factory.ProvideProperty(ShaderFactory::prop_Texture, texture);
+            if (texture2 != nullptr) factory.ProvideProperty(ShaderFactory::prop_Texture2, texture2);
+        }
         factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
         factory.ProvideProperty(ShaderFactory::prop_Shininess, shininess);
     }
@@ -43,7 +51,11 @@ namespace GlEngine
     {
         std::vector<ShaderFactory::ShaderProp*> props = { };
         if (texture == nullptr) props.push_back(&ShaderFactory::prop_RgbColor);
-        else props.push_back(&ShaderFactory::prop_Texture);
+        else
+        {
+            props.push_back(&ShaderFactory::prop_Texture);
+            if (texture2 != nullptr) props.push_back(&GlEngine::ShaderFactory::prop_Texture2);
+        }
         props.push_back(&ShaderFactory::prop_ReflectionCoefficient);
         props.push_back(&ShaderFactory::prop_Shininess);
         return props;
@@ -52,7 +64,11 @@ namespace GlEngine
     {
         std::vector<ShaderFactory::Attribute*> attrs = { };
         if (texture == nullptr) attrs.push_back(&ShaderFactory::attr_RgbBaseColor);
-        else attrs.push_back(&ShaderFactory::attr_TextureBaseColor);
+        else
+        {
+            if (texture2 != nullptr) attrs.push_back(&ShaderFactory::attr_NoiseTextureBaseColor);
+            else attrs.push_back(&ShaderFactory::attr_TextureBaseColor);
+        }
         attrs.push_back(&ShaderFactory::attr_GlPosition);
         attrs.push_back(&ShaderFactory::attr_Phong);
         return attrs;
@@ -65,6 +81,6 @@ namespace GlEngine
     PhongMaterial::operator bool()
     {
         if (texture == nullptr) return true;
-        return !!*texture;
+        return !!*texture && (texture2 == nullptr || !!*texture2);
     }
 }

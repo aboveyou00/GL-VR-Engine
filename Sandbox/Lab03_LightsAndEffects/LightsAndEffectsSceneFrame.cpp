@@ -1,17 +1,18 @@
 #include "stdafx.h"
 #include "LightsAndEffectsSceneFrame.h"
-#include "Tree.h"
 
 #include "CameraGameObject.h"
 #include "Lab3Controls.h"
 #include "../CameraTargetObject.h"
 
+#include "Tree.h"
 #include "RandomUtils.h"
 #include "../LightSourceObject.h"
 #include "../TemplateTorus.h"
 #include "PointLightSource.h"
 #include "AmbientLightSource.h"
 #include "FogSource.h"
+#include "StageGameObject.h"
 
 #include "Property.h"
 #include "Attribute.h"
@@ -56,6 +57,9 @@ bool LightsAndEffectsSceneFrame::Initialize()
             CreateGameObject<Tree>(Vector<3> { (q * 5) + rndX, 0, (w * 5) + rndZ }, std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
         }
     }
+
+    ambientLightSource = new GlEngine::AmbientLightSource({ .3f, .3f, .3f });
+    CreateGameObject<StageGameObject>(std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
 
     struct {
         Vector<3> color = { 1.0f, 0.2f, 1.0f };

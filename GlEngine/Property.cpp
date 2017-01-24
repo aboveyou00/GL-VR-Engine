@@ -20,6 +20,7 @@ namespace GlEngine::ShaderFactory
     Property<Vector<4>> prop_GlFragCoord("gl_FragCoord", PropertyFlag::BuiltIn | PropertyFlag::Resolved);
 
     Property<Texture*> prop_Texture("texture");
+    Property<Texture*> prop_Texture2("texture2");
 #pragma endregion
 
 #pragma region environment
