@@ -9,7 +9,7 @@
 #include "LabControls.h"
 #include "LightSourceObject.h"
 
-TemplateTorus::TemplateTorus(TemplateMaterial* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateTorus*, float)> tick)
+TemplateTorus::TemplateTorus(Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateTorus*, float)> tick)
     : templateMat(mat), providers(providers), tick(tick)
 {
     RequireTick(true);

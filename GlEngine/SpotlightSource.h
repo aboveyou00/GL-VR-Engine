@@ -8,7 +8,7 @@ namespace GlEngine
     class ENGINE_SHARED SpotlightSource : public ShaderFactory::IPropertyProvider
     {
     public:
-        SpotlightSource(Vector<3> position, Vector<3> color, float angleAttenuation = .5f, Vector<3> direction = { 0, 0, 0 }, float cutoffTheta = 45deg);
+        SpotlightSource(Vector<3> position = { 0, 0, 0 }, Vector<3> color = { 1.f, 1.f, 1.f }, float angleAttenuation = .5f, Vector<3> direction = { 0, 0, 0 }, float cutoffTheta = 45deg);
         ~SpotlightSource();
 
         virtual std::vector<ShaderFactory::ShaderProp*> properties() override;

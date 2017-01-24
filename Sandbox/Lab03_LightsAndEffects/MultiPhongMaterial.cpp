@@ -27,9 +27,17 @@ GlEngine::TesselationType MultiPhongMaterial::GetTesselationType()
 }
 
 static Attribute attr_multi_phong = Attribute({
-    { //Vertex
+    { // Snippets
+        new Snippet("[out:0] = [in:1].xyz;",
+                    { &GlEngine::ShaderFactory::prop_PointLightInfo, &GlEngine::ShaderFactory::prop_GlPosition },
+                    { &GlEngine::ShaderFactory::prop_LightColor },
+                    GlEngine::ShaderFactory::PropertySourceFlag::None,
+                    { GlEngine::ShaderFactory::ComponentType::Vertex })
     },
-    { //Fragment
+    { // Fallback Snippets
+    },
+    { //Dependent attributes
+        &GlEngine::ShaderFactory::attr_GlPosition
     }
 });
 
@@ -58,4 +66,14 @@ std::vector<Attribute*> MultiPhongMaterial::attributes()
     attrs.push_back(&GlEngine::ShaderFactory::attr_GlPosition);
     attrs.push_back(&attr_multi_phong);
     return attrs;
+}
+
+const char *MultiPhongMaterial::name()
+{
+    return "MultiPhongMaterial";
+}
+
+MultiPhongMaterial::operator bool()
+{
+    return true;
 }

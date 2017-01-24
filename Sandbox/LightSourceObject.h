@@ -9,10 +9,11 @@ template<typename T>
 class LightSourceObject : public GlEngine::GameObject
 {
 public:
-    LightSourceObject(T* lightSource)
+    LightSourceObject(T* lightSource = nullptr)
         : _lightSource(lightSource)
     {
         static_assert(std::is_base_of<GlEngine::ShaderFactory::IPropertyProvider, T>::value, "LightSourceObject template argument does not implement IPropertyProvider");
+        if (_lightSource == nullptr) _lightSource = new T();
         RequireTick(true);
         Scale(.2f);
     }

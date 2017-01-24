@@ -78,9 +78,6 @@
     <ClInclude Include="Lab02_Features\DiscardTorus.h">
       <Filter>Header Files\Lab02_Features</Filter>
     </ClInclude>
-    <ClInclude Include="Lab02_Features\DiscardPhongMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.h">
       <Filter>Header Files\Lab03_LightsAndEffects</Filter>
     </ClInclude>
@@ -114,6 +111,15 @@
     <ClInclude Include="Lab03_LightsAndEffects\StageGraphicsObject.h">
       <Filter>Header Files\Lab03_LightsAndEffects</Filter>
     </ClInclude>
+    <ClInclude Include="Lab02_Features\DiscardPhongMaterial.h">
+      <Filter>Header Files\Lab02_Features</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateMaterial.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateTorus.h">
+      <Filter>Header Files\Shared</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -145,9 +151,6 @@
     </ClCompile>
     <ClCompile Include="Lab02_Features\DiscardTorus.cpp">
       <Filter>Source Files\Lab02_Features</Filter>
-    </ClCompile>
-    <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lab03_LightsAndEffects\LightsAndEffectsSceneFrame.cpp">
       <Filter>Source Files\Lab03_LightsAndEffects</Filter>
@@ -181,6 +184,15 @@
     </ClCompile>
     <ClCompile Include="Lab03_LightsAndEffects\StageGraphicsObject.cpp">
       <Filter>Source Files\Lab03_LightsAndEffects</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateMaterial.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateTorus.cpp">
+      <Filter>Source Files\Shared</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp">
+      <Filter>Source Files\Lab02_Features</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

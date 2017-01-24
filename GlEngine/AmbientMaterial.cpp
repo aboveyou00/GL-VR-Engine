@@ -12,7 +12,7 @@
 namespace GlEngine
 {
     AmbientMaterial::AmbientMaterial(Vector<3> color)
-        : color(color)
+        : texture(nullptr), color(color)
     {
     }
     AmbientMaterial::AmbientMaterial(Texture *texture)

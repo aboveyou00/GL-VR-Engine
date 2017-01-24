@@ -47,6 +47,7 @@ namespace GlEngine
             PropertyResolutionEagerness propertyResolutionEagerness;
 
             std::map<size_t, ShaderProp*> uniforms;
+            unsigned nextUniformIdx = 0;
 
             void SetDefaultFlags();
 

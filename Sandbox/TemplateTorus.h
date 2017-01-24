@@ -18,7 +18,7 @@ namespace GlEngine
 class TemplateTorus : public GlEngine::GameObject
 {
 public:
-    TemplateTorus(TemplateMaterial* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateTorus*, float)> tick);
+    TemplateTorus(Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateTorus*, float)> tick);
     ~TemplateTorus();
 
     virtual void Tick(float delta) override;

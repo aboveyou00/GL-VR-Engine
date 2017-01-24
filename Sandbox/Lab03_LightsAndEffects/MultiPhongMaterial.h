@@ -34,4 +34,8 @@ private:
     GlEngine::Texture *texture;
     Vector<3> color, reflectionCoef;
     float shininess;
+
+    // Inherited via Material
+    virtual const char * name() override;
+    virtual operator bool() override;
 };

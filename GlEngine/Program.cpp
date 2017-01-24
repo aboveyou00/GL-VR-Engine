@@ -135,8 +135,9 @@ namespace GlEngine
             auto location = FindUniform(prop);
             if (location != -1) return static_cast<unsigned>(location);
 
-            unsigned idx = uniforms.size();
+            unsigned idx = nextUniformIdx;
             uniforms[idx] = prop;
+            nextUniformIdx += prop->layoutSize();
             return idx;
         }
 
@@ -231,7 +232,7 @@ namespace GlEngine
             return result;
         }
 
-        std::vector<ComponentType> Program::orderedComponents(PropertySource * source)
+        std::vector<ComponentType> Program::orderedComponents(PropertySource *source)
         {
             switch (propertyResolutionEagerness)
             {

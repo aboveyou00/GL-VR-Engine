@@ -76,8 +76,7 @@ namespace GlEngine
 
         void PropertyType_attribs<bool>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            glUniform1i(uniformLocation, val);
         }
         void PropertyType_attribs<int>::set_gl_uniform(unsigned uniformLocation, const T &val)
         {
