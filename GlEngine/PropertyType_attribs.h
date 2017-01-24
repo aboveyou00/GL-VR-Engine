@@ -4,6 +4,7 @@
 #include "Array.h"
 #include <sstream>
 #include "PropertyFlag.h"
+#include "TemplateUtils.h"
 
 namespace GlEngine
 {
@@ -13,6 +14,40 @@ namespace GlEngine
     {
         template <typename T>
         struct PropertyType_attribs;
+
+        template<typename ThisArg = void, typename... TArgs>
+        struct compound_PropertyType_attribs
+        {
+            static const unsigned glsl_layout_size = PropertyType_attribs<ThisArg>::glsl_layout_size + compound_PropertyType_attribs<TArgs...>::glsl_layout_size;
+
+            template <unsigned idx = 0>
+            static void struct_decl(std::stringstream &stream)
+            {
+                stream << "    " << PropertyType_attribs<ThisArg>::glsl_name() << " v" << idx << ";\n";
+                compound_PropertyType_attribs<TArgs...>::struct_decl<idx + 1>(stream);
+            }
+
+            static void set_gl_uniform(unsigned uniformIdx, ThisArg val, TArgs... otherVals)
+            {
+                PropertyType_attribs<ThisArg>::set_gl_uniform(uniformIdx, val);
+                compound_PropertyType_attribs<TArgs...>::set_gl_uniform(uniformIdx + PropertyType_attribs<ThisArg>::glsl_layout_size, otherVals...);
+            }
+        };
+
+        template <>
+        struct compound_PropertyType_attribs<void>
+        {
+            static const unsigned glsl_layout_size = 0;
+            
+            template <unsigned idx = 0>
+            static void struct_decl(std::stringstream&)
+            {
+            }
+
+            static void set_gl_uniform(unsigned)
+            {
+            }
+        };
 
 #pragma region primitive
         template <>
@@ -366,19 +401,20 @@ namespace GlEngine
             {
                 std::stringstream stream;
                 stream << "struct {\n";
-                unsigned idx = ;
-                (stream << ... << (PropertyType_attribs<TArgs>::glsl_name() << idx++));
+                //(stream << ... << (PropertyType_attribs<TArgs>::glsl_name() << idx++));
+                compound_PropertyType_attribs<TArgs...>::struct_decl(stream);
                 stream << "}";
                 return stream.str();
             }
             static void set_gl_uniform(unsigned uniformLocation, const T &value)
             {
                 uniformLocation; value;
-                static_assert((true && ... && (PropertyType_attribs<TArgs>::default_property_flags & PropertyFlag::Readonly) == PropertyFlag::None));
-                assert(false);
+                //static_assert((true && ... && (PropertyType_attribs<TArgs>::default_property_flags & PropertyFlag::Readonly) == PropertyFlag::None), "Structs cannot contain readonly property types! (Example: Texture*)");
+                Util::call(compound_PropertyType_attribs<TArgs...>::set_gl_uniform, value._tup, uniformLocation);
             }
             static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size);
+            static const unsigned glsl_layout_size = compound_PropertyType_attribs<TArgs...>::glsl_layout_size;
+            //static const unsigned glsl_layout_size = (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size);
         };
 
         template <typename TElem, unsigned size>

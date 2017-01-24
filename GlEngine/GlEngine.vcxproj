@@ -167,6 +167,7 @@
     <ClInclude Include="FogSource.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PerformanceLevel.h" />
+    <ClInclude Include="PointLightInfo.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="PropertyResolutionEagerness.h" />
     <ClInclude Include="ShaderFactoryError.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskState.h" />
     <ClInclude Include="TaskType.h" />
+    <ClInclude Include="TemplateUtils.h" />
     <ClInclude Include="ThreadType.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />

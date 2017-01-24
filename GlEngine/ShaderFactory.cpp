@@ -128,6 +128,7 @@ namespace GlEngine
             
             _shader->Push();
             _textures.clear();
+            _arrayIndices.clear();
             for (size_t q = 0; q < _providers.size(); q++)
             {
                 _providers[q]->Push(*this);

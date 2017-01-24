@@ -40,6 +40,6 @@ namespace GlEngine::ShaderFactory
             _elems[idx] = elem;
         }
 
-        TElem _elems[size];
+        TElem _elems[size_arr];
     };
 }

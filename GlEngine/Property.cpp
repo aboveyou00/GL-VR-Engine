@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Property.h"
+#include "PointLightInfo.h"
 
 namespace GlEngine::ShaderFactory
 {
@@ -50,6 +51,8 @@ namespace GlEngine::ShaderFactory
 
     Property<Vector<3>> prop_PointLightPosition("point_light_position");
     Property<Vector<3>> prop_PointLightDirection("point_light_direction");
+
+    Property<Array<PointLightInfo, 4>> prop_PointLightInfo("point_light_info");
 
     Property<float> prop_FogMinDistance("fog_min_distance");
     Property<float> prop_FogMaxDistance("fog_max_distance");

@@ -71,6 +71,36 @@ namespace GlEngine
                 if (uniformLocation != -1) PropertyType_attribs<T>::set_gl_uniform(uniformLocation, val);
             }
 
+            template <typename TElem, unsigned size_arr, typename... TArgs>
+            void ProvideArrayProperty(Property<Array<TElem, size_arr>> &prop, TArgs... args)
+            {
+                static_assert(sizeof...(args) <= size_arr, "This array isn't big enough to fit so many arguments!");
+                assert(!!this);
+
+                auto idx = _arrayIndices[&prop];
+                assert(idx + sizeof...(args) <= size_arr);
+                _arrayIndices[&prop] += sizeof...(args);
+
+                auto uniformLocation = _program->FindUniform(&prop);
+                if (uniformLocation == -1) return;
+                auto layout_size = PropertyType_attribs<TElem>::glsl_layout_size;
+                uniformLocation += layout_size * idx;
+
+                //((PropertyType_attribs<TElem>::set_gl_uniform(uniformLocation, args), uniformLocation += layout_size) + ... + 0);
+                compound_PropertyType_attribs<TArgs...>::set_gl_uniform(uniformLocation, args...);
+            }
+
+            template <typename... TArgs>
+            void ProvideStructProperty(Property<Struct<TArgs...>> &prop, TArgs... args)
+            {
+                ProvideProperty(prop, Struct(args...));
+            }
+            template <typename... TArgs, unsigned size_arr>
+            void ProvideStructProperty(Property<Array<Struct<TArgs...>, size_arr>> &prop, TArgs... args)
+            {
+                ProvideArrayProperty(prop, Struct<TArgs...>(args...));
+            }
+
             virtual operator bool() override;
             
             virtual const char *name() override;
@@ -84,6 +114,7 @@ namespace GlEngine
 
             bool RefreshPropertyCache();
             std::map<unsigned, Texture *> _textures;
+            std::map<ShaderProp*, unsigned> _arrayIndices;
 
             rt_mutex _mux;
         };
