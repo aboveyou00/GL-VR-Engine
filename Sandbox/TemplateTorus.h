@@ -4,8 +4,11 @@
 #include <functional>
 #include "TemplateMaterial.h"
 #include "Material.h"
+#include "IPropertyProvider.h"
+#include <functional>
 
 typedef GlEngine::Material Material;
+typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
 
 namespace GlEngine
 {
@@ -15,8 +18,7 @@ namespace GlEngine
 class TemplateTorus : public GlEngine::GameObject
 {
 public:
-    TemplateTorus(TemplateMaterial* mat, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance = 3.f, float rotationSpeed = .5f);
-    TemplateTorus(TemplateMaterial* mat, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance = 3.f, float rotationSpeed = .5f);
+    TemplateTorus(TemplateMaterial* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateTorus*, float)> tick);
     ~TemplateTorus();
 
     virtual void Tick(float delta) override;
@@ -24,16 +26,8 @@ public:
     virtual const char *name() override;
 
     virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
-
-private:
+    
     Material* templateMat;
-
-    Vector<3> color;
-    Vector<3> reflectionCoef;
-    GlEngine::PointLightSource *_lightSource;
-
-    Vector<3> rotationAxis;
-    float distance, totalDelta, rotationSpeed;
-
-    static Vector<3> randomRotateAxis();
+    std::vector<IPropertyProvider*> providers;
+    std::function<void(TemplateTorus*, float)> tick;
 };

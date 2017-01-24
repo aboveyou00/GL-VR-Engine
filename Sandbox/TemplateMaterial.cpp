@@ -6,7 +6,7 @@
 #include "Property.h"
 #include "Attribute.h"
 
-TemplateMaterial::TemplateMaterial(std::vector<ShaderProp*> props, std::vector<Attribute*> attribs, std::function<void(ShaderFactory&)> push)
+TemplateMaterial::TemplateMaterial(std::vector<ShaderProp*> props, std::vector<Attribute*> attribs, std::function<void(TemplateMaterial*, ShaderFactory&)> push)
     : props(props), attribs(attribs), push(push)
 {
 }
@@ -16,7 +16,7 @@ TemplateMaterial::~TemplateMaterial()
 
 void TemplateMaterial::Push(ShaderFactory &factory)
 {
-    push(factory);
+    push(this, factory);
 }
 
 bool TemplateMaterial::IsOpaque()

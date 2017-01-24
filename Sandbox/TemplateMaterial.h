@@ -11,7 +11,7 @@ typedef GlEngine::TesselationType TesselationType;
 class TemplateMaterial : public GlEngine::Material
 {
 public:
-    TemplateMaterial(std::vector<ShaderProp*> props, std::vector<Attribute*> attributes, std::function<void(ShaderFactory&)> push);
+    TemplateMaterial(std::vector<ShaderProp*> props, std::vector<Attribute*> attributes, std::function<void(TemplateMaterial*, ShaderFactory&)> push);
     ~TemplateMaterial();
 
 public:
@@ -26,8 +26,7 @@ public:
     const char *name() override;
     operator bool() override;
 
-private:
     std::vector<ShaderProp*> props;
     std::vector<Attribute*> attribs;
-    std::function<void(ShaderFactory&)> push;
+    std::function<void(TemplateMaterial*, ShaderFactory&)> push;
 };

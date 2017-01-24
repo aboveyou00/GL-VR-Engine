@@ -92,6 +92,12 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<4>> prop_FogColor;
 
         extern ENGINE_SHARED Property<int> prop_CelLevels;
+
+        extern ENGINE_SHARED Property<Vector<3>> prop_SpotlightPosition;
+        extern ENGINE_SHARED Property<Vector<3>> prop_SpotlightColor;
+        extern ENGINE_SHARED Property<Vector<3>> prop_SpotlightDirection;
+        extern ENGINE_SHARED Property<float> prop_SpotlightAttenuation;
+        extern ENGINE_SHARED Property<float> prop_SpotlightCutoffAngle;
 #pragma endregion
     }
 }

@@ -97,7 +97,7 @@ namespace GlEngine
             {
             }
         );
-        Attribute attr_TextureBaseColor = Attribute({
+        Attribute attr_TextureBaseColor = Attribute(
             {
                 new Snippet("[out:0] = texture2D([in:0], [in:1]);",
                             { &prop_Texture, &prop_UV },
@@ -107,7 +107,7 @@ namespace GlEngine
             },
             {
             }
-        });
+        );
 #pragma endregion
 
 #pragma region lighting
@@ -296,6 +296,45 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             {
             },
             { &attr_DiffuseIntensity }
+        );
+
+        static Property<float> prop_SpotFactor = Property<float>("spotlight_spot_factor");
+        //static Property<float> prop_SpotlightRelativeDirection = Property<float>("spotlight_relative_direction");
+
+        Attribute attr_Spotlight = Attribute(
+            {
+                //(new Snippet("[temp:0] = [in:2] * [in:1] * vec4([in:0], 1);\n[temp:1] = [in:4] * vec4([in:3], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
+                //             { &prop_Position, &prop_ModelMatrix, &prop_ViewMatrix, &prop_SpotlightPosition, &prop_ViewMatrix },
+                //             { &prop_SpotlightRelativeDirection },
+                //             PropertySourceFlag::Fallback,
+                //             { ComponentType::Fragment })
+                //)->WithTemps<Vector<4>, Vector<4>>(),
+
+                (new Snippet("[temp:0] = dot(-[in:0], [in:1]);\n"s +
+                             "[temp:1] = acos([temp:0]);\n"s +
+                             "if ([temp:1] < [in:3]) [out:0] = pow([temp:0], [in:2]);\n"s +
+                             "else [out:0] = 0;", 
+                             { &prop_PointLightDirection, &prop_SpotlightDirection, &prop_SpotlightAttenuation, &prop_SpotlightCutoffAngle },
+                             { &prop_SpotFactor },
+                             PropertySourceFlag::None,
+                             { ComponentType::Fragment })
+                )->WithTemps<float, float>(),
+
+                new Snippet("[out:0] = [in:0] * [in:1];",
+                            { &prop_DiffuseLightComponent, &prop_SpotFactor },
+                            { &prop_DiffuseLightComponent },
+                            PropertySourceFlag::None,
+                            { ComponentType::Fragment }),
+
+                new Snippet("[out:0] = [in:0] * [in:1];",
+                            { &prop_SpecularLightComponent, &prop_SpotFactor },
+                            { &prop_SpecularLightComponent },
+                            PropertySourceFlag::None,
+                            { ComponentType::Fragment })
+            },
+            {
+            },
+            { &attr_PointLightDirection, &attr_DiffuseLight, &attr_SpecularLight }
         );
 
         Attribute attr_LightingFallbacks = Attribute(

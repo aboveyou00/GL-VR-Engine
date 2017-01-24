@@ -192,7 +192,8 @@ namespace GlEngine
                     error = ShaderFactoryError::AttributeDependencyError;
                     Util::Log(LogType::ErrorC, "Could not resolve attribute dependencies in ShaderFactory::Program");
                 }
-                lastPos = pos;
+                else
+                    lastPos = pos;
             }
             earliest = max(earliest + (int)attributes.size() - origSize, lastPos + 1);
 

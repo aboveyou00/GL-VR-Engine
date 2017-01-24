@@ -54,5 +54,11 @@ namespace GlEngine::ShaderFactory
     Property<Vector<4>> prop_FogColor("fog_color");
 
     Property<int> prop_CelLevels("cel_levels");
+
+    Property<Vector<3>> prop_SpotlightPosition("spotlight_position");
+    Property<Vector<3>> prop_SpotlightColor("spotlight_color");
+    Property<Vector<3>> prop_SpotlightDirection("spotlight_direction");
+    Property<float> prop_SpotlightAttenuation("spotlight_attenuation");
+    Property<float> prop_SpotlightCutoffAngle("spotlight_cutoff_angle");
 #pragma endregion
 }

@@ -1,28 +1,48 @@
 #pragma once
 
 #include "GameObject.h"
+#include "IPropertyProvider.h"
+#include "LightSourceGraphicsObject.h"
 #include <map>
 
-namespace GlEngine
-{
-    class PointLightSource;
-}
-
+template<typename T>
 class LightSourceObject : public GlEngine::GameObject
 {
 public:
-    LightSourceObject(GlEngine::PointLightSource *lightSource = nullptr, float movementSpeed = 4.f);
-    ~LightSourceObject();
+    LightSourceObject(T* lightSource)
+        : _lightSource(lightSource)
+    {
+        static_assert(std::is_base_of<GlEngine::ShaderFactory::IPropertyProvider, T>::value, "LightSourceObject template argument does not implement IPropertyProvider");
+        RequireTick(true);
+        Scale(.2f);
+    }
+    ~LightSourceObject()
+    {
+    }
 
-    virtual void Tick(float delta) override;
+    virtual void Tick(float delta) override
+    {
+        delta;
+        SetPosition(lightSource()->position());
+    }
 
-    const char *name() override;
+    const char *name() override
+    {
+        return "LightSourceObject";
+    }
 
-    GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+    GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override
+    {
+        ctx;
+        return new LightSourceGraphicsObject();
+    }
 
-    GlEngine::PointLightSource *lightSource();
+    T* lightSource()
+    {
+        return _lightSource;
+    }
 
 private:
-    GlEngine::PointLightSource *_lightSource;
+    T* _lightSource;
     float movementSpeed;
 };

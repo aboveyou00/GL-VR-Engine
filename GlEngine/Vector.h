@@ -133,6 +133,14 @@ public:
         return result;
     }
 
+    friend Vector<dimension, ElemT> operator-(Vector<dimension, ElemT> &&operand)
+    {
+        auto result = Vector<dimension, ElemT>();
+        for (auto q = 0; q < dimension; q++)
+            result.values[q] = -operand[q];
+        return result;
+    }
+
     friend Vector<dimension, ElemT> operator*(ElemT left, const Vector<dimension, ElemT> &right)
     {
         auto result = Vector<dimension, ElemT>();

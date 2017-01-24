@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-    class SpotlightSource : public ShaderFactory::IPropertyProvider
+    class ENGINE_SHARED SpotlightSource : public ShaderFactory::IPropertyProvider
     {
     public:
         SpotlightSource(Vector<3> position, Vector<3> color, float angleAttenuation = .5f, Vector<3> direction = { 0, 0, 0 }, float cutoffTheta = 45deg);

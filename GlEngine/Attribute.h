@@ -57,6 +57,8 @@ namespace GlEngine
 
         extern ENGINE_SHARED Attribute attr_CelShading;
 
+        extern ENGINE_SHARED Attribute attr_Spotlight;
+
         extern ENGINE_SHARED Attribute attr_LightingFallbacks;
 
 #pragma endregion
