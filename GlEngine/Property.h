@@ -90,6 +90,8 @@ namespace GlEngine
         extern ENGINE_SHARED Property<float> prop_FogMinDistance;
         extern ENGINE_SHARED Property<float> prop_FogMaxDistance;
         extern ENGINE_SHARED Property<Vector<4>> prop_FogColor;
+
+        extern ENGINE_SHARED Property<int> prop_CelLevels;
 #pragma endregion
     }
 }

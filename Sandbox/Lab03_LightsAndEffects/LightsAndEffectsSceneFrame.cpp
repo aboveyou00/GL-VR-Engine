@@ -8,9 +8,14 @@
 
 #include "RandomUtils.h"
 #include "../LightSourceObject.h"
+#include "../TemplateTorus.h"
 #include "PointLightSource.h"
 #include "AmbientLightSource.h"
 #include "FogSource.h"
+
+#include "Property.h"
+#include "Attribute.h"
+#include "ShaderFactory.h"
 
 typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
 
@@ -30,7 +35,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 
-    CreateGameObject<Lab3Controls>();
+    auto controls = CreateGameObject<Lab3Controls>();
 
     auto ambientLightSource = new GlEngine::AmbientLightSource({ .1f, .1f, .1f });
     auto lightGobj = CreateGameObject<LightSourceObject>();
@@ -46,6 +51,33 @@ bool LightsAndEffectsSceneFrame::Initialize()
             CreateGameObject<Tree>(Vector<3> { (q * 5) + rndX, 0, (w * 5) + rndZ }, std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
         }
     }
+
+    auto color = Vector<3>{ 1.0, 1.0, 0.0 };
+    auto reflectionCoef = Vector<3>{ .9f, .9f, .9f };
+
+    auto lightSource6 = CreateGameObject<LightSourceObject>();
+    auto cel = CreateGameObject<TemplateTorus>(
+        new TemplateMaterial(
+    {
+        &GlEngine::ShaderFactory::prop_RgbColor,
+        &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
+        &GlEngine::ShaderFactory::prop_CelLevels
+    },
+    {
+        &GlEngine::ShaderFactory::attr_GlPosition,
+        &GlEngine::ShaderFactory::attr_DiffuseOnly,
+        &GlEngine::ShaderFactory::attr_RgbBaseColor,
+        &GlEngine::ShaderFactory::attr_CelShading
+    },
+            [color, reflectionCoef, controls](GlEngine::ShaderFactory::ShaderFactory& factory)
+    {
+        factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, color);
+        factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
+        factory.ProvideProperty(GlEngine::ShaderFactory::prop_CelLevels, (int)controls->celShadingSteps);
+    }
+        ), color, reflectionCoef, lightSource6->lightSource(), Vector<3> {1, 0, 0}
+    );
+    cel->SetPosition({ 0, 10, 0 });
 
     return true;
 }

@@ -163,6 +163,8 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="CameraTargetObject.h" />
     <ClInclude Include="Lab03_LightsAndEffects\Tree.h" />
+    <ClInclude Include="TemplateMaterial.h" />
+    <ClInclude Include="TemplateTorus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />
@@ -184,6 +186,8 @@
     <ClCompile Include="Lab01_Diffuse\DiffuseSceneFrame.cpp" />
     <ClCompile Include="CameraTargetObject.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp" />
+    <ClCompile Include="TemplateMaterial.cpp" />
+    <ClCompile Include="TemplateTorus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox.config">

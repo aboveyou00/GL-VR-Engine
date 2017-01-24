@@ -52,5 +52,7 @@ namespace GlEngine::ShaderFactory
     Property<float> prop_FogMinDistance("fog_min_distance");
     Property<float> prop_FogMaxDistance("fog_max_distance");
     Property<Vector<4>> prop_FogColor("fog_color");
+
+    Property<int> prop_CelLevels("cel_levels");
 #pragma endregion
 }

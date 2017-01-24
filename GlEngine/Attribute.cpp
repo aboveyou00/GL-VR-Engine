@@ -72,7 +72,11 @@ namespace GlEngine
 
         Attribute attr_ModelViewNormal = Attribute(
             {
-                new Snippet("[out:0] = [in:0] * vec4([in:1], 0);",{ &prop_ModelViewMatrix, &prop_Normal },{ &prop_ModelViewNormal }, PropertySourceFlag::Fallback)
+                new Snippet("[out:0] = [in:0] * vec4([in:1], 0);",
+                            { &prop_ModelViewMatrix, &prop_Normal },
+                            { &prop_ModelViewNormal }, 
+                            PropertySourceFlag::Fallback,
+                            { ComponentType::Vertex })
             },
             {
             },
@@ -110,11 +114,11 @@ namespace GlEngine
 
         Attribute attr_PointLightDirection = Attribute(
             {
-                (new Snippet("[temp:0] = [in:1] * vec4([in:0], 1);\n[temp:1] = [in:3] * vec4([in:2], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
-                             { &prop_Position, &prop_ModelViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix },
+                (new Snippet("[temp:0] = [in:2] * [in:1] * vec4([in:0], 1);\n[temp:1] = [in:4] * vec4([in:3], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
+                             { &prop_Position, &prop_ModelMatrix, &prop_ViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix },
                              { &prop_PointLightDirection },
                              PropertySourceFlag::Fallback,
-                             { ComponentType::Vertex })
+                             { ComponentType::Fragment })
                 )->WithTemps<Vector<4>, Vector<4>>()
             },
             {
@@ -148,13 +152,21 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
 
         static Property<float> prop_DiffuseComponentIntensity = Property<float>("diffuse_component_intensity");
         
-        Attribute attr_DiffuseLight = Attribute(
+        Attribute attr_DiffuseIntensity = Attribute(
             {
                 new Snippet("[out:0] = dot([in:0], [in:1].xyz);",
                             { &prop_PointLightDirection, &prop_ModelViewNormal },
                             { &prop_DiffuseComponentIntensity },
                             PropertySourceFlag::None,
-                            { ComponentType::Vertex }),
+                            { ComponentType::Fragment })
+            },
+            {
+            },
+            { &attr_ModelViewNormal, &attr_PointLightDirection }
+        );
+
+        Attribute attr_DiffuseLight = Attribute(
+            {
                 new Snippet("if (!gl_FrontFacing) [out:0] = -[in:2];\n[out:1] = [in:0] * [in:1] * clamp([in:2], 0.0, 1.0);",
                             { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseComponentIntensity },
                             { &prop_DiffuseComponentIntensity, &prop_DiffuseLightComponent },
@@ -163,7 +175,7 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             },
             {
             }, 
-            { &attr_ModelViewNormal, &attr_PointLightDirection }
+            { &attr_DiffuseIntensity }
         );
 
         Attribute attr_DiffuseLightFlat = Attribute(
@@ -172,7 +184,7 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
                             { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal },
                             { &prop_DiffuseLightComponentFlat },
                             PropertySourceFlag::None,
-                            { ComponentType::Vertex })
+                            { ComponentType::Fragment })
             },
             {
             }, 
@@ -271,6 +283,19 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             {
             },
             { &attr_SpecularLight, &attr_DiffuseLight }
+        );
+
+        Attribute attr_CelShading = Attribute(
+            {
+                new Snippet("[out:0] = round([in:0] * ([in:1] - 1)) / ([in:1] - 1);",
+                            { &prop_DiffuseComponentIntensity, &prop_CelLevels },
+                            { &prop_DiffuseComponentIntensity },
+                            PropertySourceFlag::None,
+                            { ComponentType::Fragment })
+            },
+            {
+            },
+            { &attr_DiffuseIntensity }
         );
 
         Attribute attr_LightingFallbacks = Attribute(

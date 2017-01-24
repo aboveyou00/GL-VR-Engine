@@ -4,9 +4,11 @@
 #include "NoLidTeapot.h"
 #include "DiscardTorus.h"
 #include "CameraGameObject.h"
+
 #include "../CameraTargetObject.h"
 #include "../LightSourceObject.h"
 #include "../LabControls.h"
+#include "../TemplateTorus.h"
 
 FeaturesSceneFrame::FeaturesSceneFrame()
 {
