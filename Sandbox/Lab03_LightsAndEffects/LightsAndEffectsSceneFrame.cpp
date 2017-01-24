@@ -63,6 +63,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
 
     struct {
         Vector<3> color = { 1.0f, 0.2f, 1.0f };
+        Vector<3> ambient = { 0.1f, 0.1f, 0.1f };
         Vector<3> reflectionCoef = { 0.9f, 0.9f, 0.9f };
         Vector<3> rotationAxis = { 1, 0, 0 };
         float totalDelta = 0.0;
@@ -77,11 +78,12 @@ bool LightsAndEffectsSceneFrame::Initialize()
             {
                 &GlEngine::ShaderFactory::prop_RgbColor,
                 &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
+                &GlEngine::ShaderFactory::prop_AmbientLightColor,
                 &GlEngine::ShaderFactory::prop_CelLevels
             },
             {
                 &GlEngine::ShaderFactory::attr_GlPosition,
-                &GlEngine::ShaderFactory::attr_DiffuseOnly,
+                &GlEngine::ShaderFactory::attr_AmbientDiffuse,
                 &GlEngine::ShaderFactory::attr_RgbBaseColor,
                 &GlEngine::ShaderFactory::attr_CelShading
             },
@@ -89,6 +91,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
             {
                 factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, celData.color);
                 factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, celData.reflectionCoef);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, celData.ambient);
                 factory.ProvideProperty(GlEngine::ShaderFactory::prop_CelLevels, (int)Lab3Controls::celShadingSteps);
             }
         ), 
@@ -117,7 +120,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
         Vector<3> color = { 1.0f, 1.0f, 0.2f };
         Vector<3> reflectionCoef = { 0.9f, 0.9f, 0.9f };
         Vector<3> rotationAxis = { 0, 1, 0 };
-        Vector<3> lightPosition = { -25, 0, 0 };
+        Vector<3> lightPosition = { -120, 0, -15 };
         float totalDelta = 0.0;
         float rotationSpeed = 0.5;
         float distance = 2.0;
@@ -126,7 +129,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     } spotData;
     spotData.lightSource = CreateGameObject<LightSourceObject<SpotlightSource>>(new SpotlightSource({ 0, 1, 0 }, { 1.0, 1.0, 1.0 }, 3.0f, { 1, 0, 0 }, 10deg));
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 150; i++)
     {
         auto spotTorus = CreateGameObject<TemplateTorus>(
             new TemplateMaterial(
@@ -174,17 +177,22 @@ bool LightsAndEffectsSceneFrame::Initialize()
                     auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
                     Vector<3> tPos = { transformedPosition[0], transformedPosition[1], transformedPosition[2] };
                     auto relPosition = spotData.lightPosition - tPos;
-                    auto direction = Vector<3>{ relPosition[0], relPosition[1], -relPosition[2] }.Normalized();
+                    auto direction = Vector<3>{ relPosition[0], relPosition[1], relPosition[2] }.Normalized();
 
                     spotData.lightSource->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
                     spotData.lightSource->lightSource()->SetDirection(direction);
                 }
             }
         );
-        float rndX = GlEngine::Util::random(2.f) - 1,
-              rndY = GlEngine::Util::random(2.f) - 1,
-              rndZ = GlEngine::Util::random(2.f) - 1;
-        spotTorus->SetPosition({ -25 + rndX * 10, rndY * 5, rndZ * 10 });
+        float rndX = GlEngine::Util::random(2.f) - 1;
+        float rndY = GlEngine::Util::random(2.f) - 1;
+        float rndZ = GlEngine::Util::random(2.f) - 1;
+        float rotX = GlEngine::Util::random(GlEngine::Util::PI_f);
+        float rotZ = GlEngine::Util::random(GlEngine::Util::PI_f);
+
+        spotTorus->SetPosition({ -100 + rndX * 15, rndY * 15, rndZ * 15 });
+        spotTorus->RotateX(rotX);
+        spotTorus->RotateZ(rotZ);
     }
 
     return true;

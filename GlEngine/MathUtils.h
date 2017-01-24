@@ -5,6 +5,7 @@ namespace GlEngine
     namespace Util
     {
         constexpr extern double PI = 3.1415926535897932;
+        constexpr extern float PI_f = 3.14159265f;
 
         ENGINE_SHARED constexpr float radToDeg(const float rad);
         ENGINE_SHARED constexpr float degToRad(const float deg);
