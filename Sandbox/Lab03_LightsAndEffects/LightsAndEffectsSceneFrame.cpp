@@ -174,8 +174,6 @@ bool LightsAndEffectsSceneFrame::Initialize()
 
                     spotData.lightSource->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
                     spotData.lightSource->lightSource()->SetDirection(direction);
-
-                    GlEngine::Util::Log(GlEngine::LogType::InfoC, "spotlight direction: %10.3f, %10.3f, %10.3f", direction[0], direction[1], direction[2]);
                 }
             }
         );

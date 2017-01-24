@@ -310,15 +310,14 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
                 //             { ComponentType::Fragment })
                 //)->WithTemps<Vector<4>, Vector<4>>(),
 
-                (new Snippet("[temp:0] = dot(-[in:0], [in:1]);\n"s +
-                             "[temp:1] = acos([temp:0]);\n"s +
-                             "if ([temp:1] < [in:3]) [out:0] = pow([temp:0], [in:2]);\n"s +
-                             "else [out:0] = 0;", 
-                             { &prop_PointLightDirection, &prop_SpotlightDirection, &prop_SpotlightAttenuation, &prop_SpotlightCutoffAngle },
+                (new Snippet("[temp:0] = dot(-[in:0], ([in:1] * vec4([in:2], 0)).xyz);\n"s +
+                             "if ([temp:0] > cos([in:4])) [out:0] = pow([temp:0], [in:3]);\n"s +
+                             "else [out:0] = 0;",
+                             { &prop_PointLightDirection, &prop_ViewMatrix, &prop_SpotlightDirection, &prop_SpotlightAttenuation, &prop_SpotlightCutoffAngle },
                              { &prop_SpotFactor },
                              PropertySourceFlag::None,
                              { ComponentType::Fragment })
-                )->WithTemps<float, float>(),
+                )->WithTemps<float>(),
 
                 new Snippet("[out:0] = [in:0] * [in:1];",
                             { &prop_DiffuseLightComponent, &prop_SpotFactor },
