@@ -4,7 +4,7 @@
 
 #include "ChunkGraphicsObject.h"
 #include "Texture.h"
-#include "BlinnMaterial.h"
+#include "PhongMaterial.h"
 
 namespace TileRPG
 {
@@ -21,7 +21,7 @@ namespace TileRPG
     void DirtTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
         auto texture = GlEngine::Texture::FromFile("Textures/sand.png");
-        auto mat = GlEngine::BlinnMaterial::Create(texture);
+        auto mat = new GlEngine::PhongMaterial(texture);
         chunkGobj.SetMaterial(mat);
         ITile::AddToChunkGraphicsObject(chunkGobj, x, y, z);
     }

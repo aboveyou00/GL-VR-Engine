@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "WorldEditorTargetGraphicsObject.h"
 #include "Texture.h"
-#include "BlinnMaterial.h"
+#include "PhongMaterial.h"
 
 namespace TileRPG
 {
@@ -15,7 +15,7 @@ namespace TileRPG
     bool WorldEditorTargetGraphicsObject::Initialize()
     {
         auto texture = GlEngine::Texture::FromFile("Textures/world-edit-select.png", true);
-        auto mat = GlEngine::BlinnMaterial::Create(texture);
+        auto mat = new GlEngine::PhongMaterial(texture);
         SetMaterial(mat);
 
         static const float x = -.1f, y = -.1f, z = -.1f;

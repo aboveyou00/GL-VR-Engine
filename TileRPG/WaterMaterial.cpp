@@ -2,6 +2,7 @@
 #include "WaterMaterial.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "Property.h"
 
 namespace TileRPG
 {
@@ -13,27 +14,43 @@ namespace TileRPG
     }
     
     WaterMaterial::WaterMaterial()
-//        : texture(GlEngine::Texture::FromFile("Textures/water.png", true)), shader(GlEngine::ShaderFactory::Create("Shaders", "water"))
+        : texture(GlEngine::Texture::FromFile("Textures/water.png", true))//, shader(GlEngine::ShaderFactory::Create("Shaders", "water"))
     {
     }
     WaterMaterial::~WaterMaterial()
     {
     }
 
-    void WaterMaterial::Push(bool instanced)
+    void WaterMaterial::Push(GlEngine::ShaderFactory::ShaderFactory &factory)
     {
-        instanced;
-        //assert(!instanced);
-        //if (shader && *shader) shader->Push();
-        //texture->Push();
+        factory;
     }
-    void WaterMaterial::Pop(bool instanced)
+
+    std::vector<GlEngine::ShaderFactory::ShaderProp*> WaterMaterial::properties()
     {
-        instanced;
-        //assert(!instanced);
-        //texture->Pop();
-        //if (shader && *shader) shader->Pop();
+        return {
+            &GlEngine::ShaderFactory::prop_Texture
+        };
     }
+    std::vector<GlEngine::ShaderFactory::Attribute*> WaterMaterial::attributes()
+    {
+        return { };
+    }
+
+    //void WaterMaterial::Push(bool instanced)
+    //{
+    //    instanced;
+    //    //assert(!instanced);
+    //    //if (shader && *shader) shader->Push();
+    //    //texture->Push();
+    //}
+    //void WaterMaterial::Pop(bool instanced)
+    //{
+    //    instanced;
+    //    //assert(!instanced);
+    //    //texture->Pop();
+    //    //if (shader && *shader) shader->Pop();
+    //}
 
     bool WaterMaterial::IsOpaque()
     {
@@ -50,7 +67,6 @@ namespace TileRPG
     }
     WaterMaterial::operator bool()
     {
-        return true;
-        //return texture && *texture && shader && *shader;
+        return texture && *texture;
     }
 }

@@ -5,7 +5,7 @@
 #include "TileManager.h"
 
 #include "Texture.h"
-#include "BlinnMaterial.h"
+#include "PhongMaterial.h"
 #include "VBOFactory.h"
 #include "MatrixStack.h"
 #include "InstancedGraphicsObject.h"
@@ -28,7 +28,7 @@ namespace TileRPG
         ScopedLock _lock(mutex);
 
         auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
-        auto mat = GlEngine::BlinnMaterial::Create(texture);
+        auto mat = new GlEngine::PhongMaterial(texture);
         SetMaterial(mat);
 
         auto &tileManager = TileManager::GetInstance();
@@ -85,7 +85,7 @@ namespace TileRPG
     void ChunkGraphicsObject::PreRender(GlEngine::RenderTargetLayer layer)
     {
         VboGraphicsObject::PreRender(layer);
-        GlEngine::MatrixStack::ModelView.mult(GetTransformation());
+        GlEngine::MatrixStack::Model.mult(GetTransformation());
     }
     void ChunkGraphicsObject::RenderImpl(GlEngine::RenderTargetLayer layer)
     {
@@ -99,7 +99,7 @@ namespace TileRPG
     }
     void ChunkGraphicsObject::PostRender(GlEngine::RenderTargetLayer layer)
     {
-        GlEngine::MatrixStack::ModelView.pop();
+        GlEngine::MatrixStack::Model.pop();
         VboGraphicsObject::PostRender(layer);
     }
 

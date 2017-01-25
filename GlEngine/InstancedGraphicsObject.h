@@ -45,7 +45,7 @@ namespace GlEngine
             {
                 queued = true;
                 auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-                resources->QueueResource(this);
+                resources->QueueInitialize(this);
             }
         }
         
@@ -93,7 +93,7 @@ namespace GlEngine
             {
                 queued = true;
                 auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-                resources->QueueResource(this);
+                resources->QueueInitialize(this);
             }
             return finalized && _vao && gobj && *gobj;
         }

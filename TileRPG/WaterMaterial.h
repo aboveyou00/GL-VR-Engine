@@ -14,8 +14,10 @@ namespace TileRPG
         ~WaterMaterial();
 
     public:
-        void Push(bool instanced = false) override;
-        void Pop(bool instanced = false) override;
+        virtual void Push(GlEngine::ShaderFactory::ShaderFactory &factory) override;
+
+        virtual std::vector<GlEngine::ShaderFactory::ShaderProp*> properties() override;
+        virtual std::vector<GlEngine::ShaderFactory::Attribute*> attributes() override;
 
         bool IsOpaque() override;
         GlEngine::TesselationType GetTesselationType() override;
@@ -25,6 +27,5 @@ namespace TileRPG
 
     private:
         GlEngine::Texture *texture;
-        //GlEngine::ShaderFactory *shader;
     };
 }

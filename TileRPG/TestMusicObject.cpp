@@ -7,7 +7,7 @@
 #include "GraphicsContext.h"
 #include "ObjGraphicsObject.h"
 #include "Texture.h"
-#include "BlinnMaterial.h"
+#include "PhongMaterial.h"
 
 namespace TileRPG
 {
@@ -70,7 +70,7 @@ namespace TileRPG
     GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
     {
         auto texture = GlEngine::Texture::FromFile("Textures/checkers.png", false);
-        auto mat = GlEngine::BlinnMaterial::Create(texture);
-        return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", mat);
+        auto mat = new GlEngine::PhongMaterial(texture);
+        return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", mat, { });
     }
 }
