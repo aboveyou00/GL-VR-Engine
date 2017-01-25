@@ -169,7 +169,7 @@
     <ClInclude Include="CameraTargetObject.h" />
     <ClInclude Include="Lab03_LightsAndEffects\Tree.h" />
     <ClInclude Include="TemplateMaterial.h" />
-    <ClInclude Include="TemplateTorus.h" />
+    <ClInclude Include="TemplateObj.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lab03_LightsAndEffects\PhongFogMaterial.cpp" />
@@ -194,7 +194,7 @@
     <ClCompile Include="CameraTargetObject.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp" />
     <ClCompile Include="TemplateMaterial.cpp" />
-    <ClCompile Include="TemplateTorus.cpp" />
+    <ClCompile Include="TemplateObj.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\StageGameObject.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\StageGraphicsObject.cpp" />
   </ItemGroup>

@@ -342,7 +342,10 @@ namespace GlEngine
             {
                 auto pos = currentPropertySources.find(dependency);
                 if (pos == currentPropertySources.end())
+                {
+                    assert(false);
                     dependencySources.push_back(nullptr);
+                }
                 else
                     dependencySources.push_back(pos->second);
             }

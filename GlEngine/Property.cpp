@@ -53,6 +53,7 @@ namespace GlEngine::ShaderFactory
 
     Property<Vector<3>> prop_PointLightPosition("point_light_position");
     Property<Vector<3>> prop_PointLightDirection("point_light_direction");
+    Property<Vector<3>> prop_DirectionalLightDirection("directional_light_direction");
 
     Property<Array<PointLightInfo, 4>> prop_PointLightInfo("point_light_info");
 

@@ -94,6 +94,7 @@ namespace GlEngine
 
         extern ENGINE_SHARED Property<Vector<3>> prop_PointLightPosition;
         extern ENGINE_SHARED Property<Vector<3>> prop_PointLightDirection; //calculated using PointLightPosition
+        extern ENGINE_SHARED Property<Vector<3>> prop_DirectionalLightDirection;
 
         extern ENGINE_SHARED Property<Array<PointLightInfo, 4>> prop_PointLightInfo;
 

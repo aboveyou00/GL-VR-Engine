@@ -8,7 +8,8 @@
 #include "Tree.h"
 #include "RandomUtils.h"
 #include "../LightSourceObject.h"
-#include "../TemplateTorus.h"
+#include "../TemplateObj.h"
+#include "StageGraphicsObject.h"
 #include "PointLightSource.h"
 #include "AmbientLightSource.h"
 #include "FogSource.h"
@@ -45,77 +46,78 @@ bool LightsAndEffectsSceneFrame::Initialize()
 
     CreateGameObject<Lab3Controls>();
 
-    auto ambientLightSource = new GlEngine::AmbientLightSource({ .1f, .1f, .1f });
-    auto lightGobj = CreateGameObject<LightSourceObject<PointLightSource>>(new PointLightSource());
-    auto fog = new GlEngine::FogSource(0, 15.f, { 0.f, 0.f, 0.f, 1.f });
-    lightGobj->lightSource()->SetPosition({ 0, 6.f, -6.f });
+    //auto ambientLightSource = new GlEngine::AmbientLightSource({ .1f, .1f, .1f });
+    //auto lightGobj = CreateGameObject<LightSourceObject<PointLightSource>>(new PointLightSource());
+    //auto fog = new GlEngine::FogSource(10.f, 25.f, { 0.f, 0.f, 0.f, 1.f });
+    //lightGobj->lightSource()->SetPosition({ 0, 6.f, -6.f });
 
-    for (int q = -2; q <= 2; q++)
-    {
-        for (int w = -2; w <= 2; w++)
-        {
-            float rndX = GlEngine::Util::random(2.f) - 1,
-                  rndZ = GlEngine::Util::random(2.f) - 1;
-            CreateGameObject<Tree>(Vector<3> { (q * 5) + rndX, 0, (w * 5) + rndZ }, std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
-        }
-    }
+    //for (int q = -2; q <= 2; q++)
+    //{
+    //    for (int w = -2; w <= 2; w++)
+    //    {
+    //        float rndX = GlEngine::Util::random(2.f) - 1,
+    //              rndZ = GlEngine::Util::random(2.f) - 1;
+    //        CreateGameObject<Tree>(Vector<3> { (q * 5) + rndX, 0, (w * 5) + rndZ }, std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
+    //    }
+    //}
 
-    ambientLightSource = new GlEngine::AmbientLightSource({ .3f, .3f, .3f });
-    CreateGameObject<StageGameObject>(std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
+    //ambientLightSource = new GlEngine::AmbientLightSource({ .3f, .3f, .3f });
+    //CreateGameObject<StageGameObject>(std::vector<IPropertyProvider*> { ambientLightSource, lightGobj->lightSource(), fog });
 
-    struct {
-        Vector<3> color = { 1.0f, 0.2f, 1.0f };
-        Vector<3> ambient = { 0.1f, 0.1f, 0.1f };
-        Vector<3> reflectionCoef = { 0.9f, 0.9f, 0.9f };
-        Vector<3> rotationAxis = { 1, 0, 0 };
-        float totalDelta = 0.0;
-        float rotationSpeed = 0.5;
-        float distance = 3.0;
-        LightSourceObject<PointLightSource>* lightSource = nullptr;
-    } celData;
-    celData.lightSource = CreateGameObject<LightSourceObject<PointLightSource>>(new PointLightSource());
+    //struct {
+    //    Vector<3> color = { 1.0f, 0.2f, 1.0f };
+    //    Vector<3> ambient = { 0.1f, 0.1f, 0.1f };
+    //    Vector<3> reflectionCoef = { 0.9f, 0.9f, 0.9f };
+    //    Vector<3> rotationAxis = { 1, 0, 0 };
+    //    float totalDelta = 0.0;
+    //    float rotationSpeed = 0.5;
+    //    float distance = 3.0;
+    //    LightSourceObject<PointLightSource>* lightSource = nullptr;
+    //} celData;
+    //celData.lightSource = CreateGameObject<LightSourceObject<PointLightSource>>(new PointLightSource());
 
-    auto cel = CreateGameObject<TemplateTorus>(
-        new TemplateMaterial(
-            {
-                &GlEngine::ShaderFactory::prop_RgbColor,
-                &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
-                &GlEngine::ShaderFactory::prop_AmbientLightColor,
-                &GlEngine::ShaderFactory::prop_CelLevels
-            },
-            {
-                &GlEngine::ShaderFactory::attr_GlPosition,
-                &GlEngine::ShaderFactory::attr_AmbientDiffuse,
-                &GlEngine::ShaderFactory::attr_RgbBaseColor,
-                &GlEngine::ShaderFactory::attr_CelShading
-            },
-            [celData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
-            {
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, celData.color);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, celData.reflectionCoef);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, celData.ambient);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_CelLevels, (int)Lab3Controls::celShadingSteps);
-            }
-        ), 
-        std::vector<IPropertyProvider*> {
-            celData.lightSource->lightSource()
-        },
-        [celData](TemplateTorus* self, float delta) mutable {
-            if (LabControls::isPaused) return;
-            else if (!!celData.rotationAxis[0] && !LabControls::rotateZ) return;
-            else if (!!celData.rotationAxis[1] && !LabControls::rotateY) return;
-            else if (!!celData.rotationAxis[2] && !LabControls::rotateX) return;
+    //auto cel = CreateGameObject<TemplateObj>(
+    //    "Resources/torus.obj",
+    //    new TemplateMaterial(
+    //        {
+    //            &GlEngine::ShaderFactory::prop_RgbColor,
+    //            &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
+    //            &GlEngine::ShaderFactory::prop_AmbientLightColor,
+    //            &GlEngine::ShaderFactory::prop_CelLevels
+    //        },
+    //        {
+    //            &GlEngine::ShaderFactory::attr_GlPosition,
+    //            &GlEngine::ShaderFactory::attr_AmbientDiffuse,
+    //            &GlEngine::ShaderFactory::attr_RgbBaseColor,
+    //            &GlEngine::ShaderFactory::attr_CelShading
+    //        },
+    //        [celData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
+    //        {
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, celData.color);
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, celData.reflectionCoef);
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, celData.ambient);
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_CelLevels, (int)Lab3Controls::celShadingSteps);
+    //        }
+    //    ), 
+    //    std::vector<IPropertyProvider*> {
+    //        celData.lightSource->lightSource()
+    //    },
+    //    [celData](TemplateObj* self, float delta) mutable {
+    //        if (LabControls::isPaused) return;
+    //        else if (!!celData.rotationAxis[0] && !LabControls::rotateZ) return;
+    //        else if (!!celData.rotationAxis[1] && !LabControls::rotateY) return;
+    //        else if (!!celData.rotationAxis[2] && !LabControls::rotateX) return;
 
-            celData.totalDelta += delta;
-            auto rotationAmount = celData.totalDelta * celData.rotationSpeed;
-            auto transformMatrix = !!celData.rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, celData.distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(self->position) :
-                                   !!celData.rotationAxis[1] ? Matrix<4, 4>::TranslateMatrix({ 0, 0, celData.distance }) * Matrix<4, 4>::YawMatrix(rotationAmount)   * Matrix<4, 4>::TranslateMatrix(self->position) :
-                                                               Matrix<4, 4>::TranslateMatrix({ celData.distance, 0, 0 }) * Matrix<4, 4>::PitchMatrix(rotationAmount) * Matrix<4, 4>::TranslateMatrix(self->position);
-            auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
-            celData.lightSource->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
-        }
-    );
-    cel->SetPosition({ 20, 5, 0 });
+    //        celData.totalDelta += delta;
+    //        auto rotationAmount = celData.totalDelta * celData.rotationSpeed;
+    //        auto transformMatrix = !!celData.rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, celData.distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(self->position) :
+    //                               !!celData.rotationAxis[1] ? Matrix<4, 4>::TranslateMatrix({ 0, 0, celData.distance }) * Matrix<4, 4>::YawMatrix(rotationAmount)   * Matrix<4, 4>::TranslateMatrix(self->position) :
+    //                                                           Matrix<4, 4>::TranslateMatrix({ celData.distance, 0, 0 }) * Matrix<4, 4>::PitchMatrix(rotationAmount) * Matrix<4, 4>::TranslateMatrix(self->position);
+    //        auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
+    //        celData.lightSource->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
+    //    }
+    //);
+    //cel->SetPosition({ 100, 5, 0 });
 
     struct {
         LightSourceObject<PointLightSource> *rotXLight = nullptr,
@@ -190,9 +192,10 @@ bool LightsAndEffectsSceneFrame::Initialize()
     } spotData;
     spotData.lightSource = CreateGameObject<LightSourceObject<SpotlightSource>>(new SpotlightSource({ 0, 1, 0 }, { 1.0, 1.0, 1.0 }, 3.0f, { 1, 0, 0 }, 10deg));
 
-    for (int i = 0; i < 150; i++)
+    for (int i = 0; i < 250; i++)
     {
-        auto spotTorus = CreateGameObject<TemplateTorus>(
+        auto spotTorus = CreateGameObject<TemplateObj>(
+            "Resources/torus.obj",
             new TemplateMaterial(
                 {
                     &GlEngine::ShaderFactory::prop_RgbColor,
@@ -217,32 +220,8 @@ bool LightsAndEffectsSceneFrame::Initialize()
             std::vector<IPropertyProvider*> {
                 spotData.lightSource->lightSource()
             },
-            [spotData, i](TemplateTorus* self, float delta) mutable {
-                self;
-                // Hacky way to only have this happen once
-                if (i == 0)
-                {
-                    spotData.lightSource->lightSource()->SetAngleAttenuation(Lab3Controls::spotlightAttenuation);
-                    spotData.lightSource->lightSource()->SetCutoffTheta(Lab3Controls::spotlightCutoffAngle);
-
-                    if (LabControls::isPaused) return;
-                    else if (!!spotData.rotationAxis[0] && !LabControls::rotateZ) return;
-                    else if (!!spotData.rotationAxis[1] && !LabControls::rotateY) return;
-                    else if (!!spotData.rotationAxis[2] && !LabControls::rotateX) return;
-
-                    spotData.totalDelta += delta;
-                    auto rotationAmount = spotData.totalDelta * spotData.rotationSpeed;
-                    auto transformMatrix = !!spotData.rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, spotData.distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(spotData.lightPosition) :
-                                           !!spotData.rotationAxis[1] ? Matrix<4, 4>::TranslateMatrix({ 0, 0, spotData.distance }) * Matrix<4, 4>::YawMatrix(rotationAmount)   * Matrix<4, 4>::TranslateMatrix(spotData.lightPosition) :
-                                                                        Matrix<4, 4>::TranslateMatrix({ spotData.distance, 0, 0 }) * Matrix<4, 4>::PitchMatrix(rotationAmount) * Matrix<4, 4>::TranslateMatrix(spotData.lightPosition);
-                    auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
-                    Vector<3> tPos = { transformedPosition[0], transformedPosition[1], transformedPosition[2] };
-                    auto relPosition = spotData.lightPosition - tPos;
-                    auto direction = Vector<3>{ relPosition[0], relPosition[1], relPosition[2] }.Normalized();
-
-                    spotData.lightSource->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
-                    spotData.lightSource->lightSource()->SetDirection(direction);
-                }
+            [spotData, i](TemplateObj* self, float delta) mutable {
+                self; delta;
             }
         );
         float rndX = GlEngine::Util::random(2.f) - 1;
@@ -255,6 +234,140 @@ bool LightsAndEffectsSceneFrame::Initialize()
         spotTorus->RotateX(rotX);
         spotTorus->RotateZ(rotZ);
     }
+
+    auto spotFloor = CreateGameObject<TemplateObj>(
+        [](TemplateObj* self, GlEngine::GraphicsContext&)
+        {
+            auto gobj = new StageGraphicsObject(false);
+            for (auto it = self->providers.begin(); it != self->providers.end(); it++)
+                gobj->AddPropertyProvider(*it);
+            gobj->SetMaterial(self->templateMat);
+            return gobj;
+        },
+        new TemplateMaterial(
+            {
+                &GlEngine::ShaderFactory::prop_RgbColor,
+                &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
+                &GlEngine::ShaderFactory::prop_AmbientLightColor,
+                &GlEngine::ShaderFactory::prop_Shininess
+            },
+            {
+                &GlEngine::ShaderFactory::attr_GlPosition,
+                &GlEngine::ShaderFactory::attr_Phong,
+                &GlEngine::ShaderFactory::attr_RgbBaseColor,
+                &GlEngine::ShaderFactory::attr_Spotlight
+            },
+            [spotData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
+            {
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, Vector<3>{ 0.6, 0.6, 0.3 });
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, spotData.reflectionCoef);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, spotData.ambient);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, spotData.shininess);
+            }
+        ),
+        std::vector<IPropertyProvider*> {
+            spotData.lightSource->lightSource()
+        },
+        [spotData](TemplateObj*, float delta) mutable {
+            spotData.lightSource->lightSource()->SetAngleAttenuation(Lab3Controls::spotlightAttenuation);
+            spotData.lightSource->lightSource()->SetCutoffTheta(Lab3Controls::spotlightCutoffAngle);
+
+            if (LabControls::isPaused) return;
+            else if (!!spotData.rotationAxis[0] && !LabControls::rotateZ) return;
+            else if (!!spotData.rotationAxis[1] && !LabControls::rotateY) return;
+            else if (!!spotData.rotationAxis[2] && !LabControls::rotateX) return;
+
+            spotData.totalDelta += delta;
+            auto rotationAmount = spotData.totalDelta * spotData.rotationSpeed;
+            auto transformMatrix = !!spotData.rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, spotData.distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(spotData.lightPosition) :
+                                    !!spotData.rotationAxis[1] ? Matrix<4, 4>::TranslateMatrix({ 0, 0, spotData.distance }) * Matrix<4, 4>::YawMatrix(rotationAmount)   * Matrix<4, 4>::TranslateMatrix(spotData.lightPosition) :
+                                                                Matrix<4, 4>::TranslateMatrix({ spotData.distance, 0, 0 }) * Matrix<4, 4>::PitchMatrix(rotationAmount) * Matrix<4, 4>::TranslateMatrix(spotData.lightPosition);
+            auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
+            Vector<3> tPos = { transformedPosition[0], transformedPosition[1], transformedPosition[2] };
+            auto relPosition = spotData.lightPosition - tPos;
+            auto direction = Vector<3>{ relPosition[0], relPosition[1], relPosition[2] }.Normalized();
+
+            spotData.lightSource->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
+            spotData.lightSource->lightSource()->SetDirection(direction);
+        }
+    );
+    spotFloor->SetPosition({ -100, -10, 0 });
+
+    struct {
+        Vector<3> color = { 1.0f, 0.2f, 1.0f };
+        Vector<3> ambient = { 0.1f, 0.1f, 0.1f };
+        Vector<3> reflectionCoef = { 0.5f, 0.5f, 0.5f };
+        Vector<3> rotationAxis = { 1, 0, 0 };
+        float shininess = 10.0f;
+        float totalDelta = 0.0;
+        float rotationSpeed = 0.5;
+        float distance = 1.0;
+        LightSourceObject<PointLightSource>* lightSource = nullptr;
+    } phongData;
+    phongData.lightSource = CreateGameObject<LightSourceObject<PointLightSource>>(new PointLightSource());
+
+    auto phongTorus = CreateGameObject<TemplateObj>(
+        "Resources/torus.obj",
+        new TemplateMaterial(
+            {
+                &GlEngine::ShaderFactory::prop_RgbColor,
+                &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
+                &GlEngine::ShaderFactory::prop_AmbientLightColor,
+                &GlEngine::ShaderFactory::prop_Shininess
+            },
+            {
+                &GlEngine::ShaderFactory::attr_GlPosition,
+                &GlEngine::ShaderFactory::attr_Phong,
+                &GlEngine::ShaderFactory::attr_RgbBaseColor,
+            },
+            [phongData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
+            {
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, phongData.color);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, phongData.reflectionCoef);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, phongData.shininess);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, phongData.ambient);
+            }
+        ),
+        std::vector<IPropertyProvider*> {
+            phongData.lightSource->lightSource()
+        },
+        [phongData](TemplateObj* self, float) mutable {
+            phongData.lightSource->lightSource()->SetPosition(self->position + Vector<3>{-0.5, 0.3, 0});
+        }
+    );
+    phongTorus->SetPosition({ 50, 10, 0 });
+
+    auto phongTorusDirectional = CreateGameObject<TemplateObj>(
+        "Resources/torus.obj",
+        new TemplateMaterial(
+            {
+                &GlEngine::ShaderFactory::prop_RgbColor,
+                &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
+                &GlEngine::ShaderFactory::prop_AmbientLightColor,
+                &GlEngine::ShaderFactory::prop_Shininess,
+                &GlEngine::ShaderFactory::prop_DirectionalLightDirection
+            },
+            {
+                &GlEngine::ShaderFactory::attr_GlPosition,
+                &GlEngine::ShaderFactory::attr_PhongDirectional,
+                &GlEngine::ShaderFactory::attr_RgbBaseColor,
+            },
+            [phongData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
+            {
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, phongData.color);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, phongData.reflectionCoef);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, phongData.shininess);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, phongData.ambient);
+                factory.ProvideProperty(GlEngine::ShaderFactory::prop_DirectionalLightDirection, Vector<3>(-1, 1, 1).Normalized());
+            }
+        ),
+        std::vector<IPropertyProvider*> {
+            phongData.lightSource->lightSource()
+        },
+        [phongData](TemplateObj*, float) mutable {
+        }
+        );
+    phongTorusDirectional->SetPosition({ 53, 10, 0 });
 
     return true;
 }

@@ -15,7 +15,7 @@ namespace GlEngine
     class PointLightSource;
 }
 
-class TemplateTorus : public GlEngine::GameObject
+class TemplateObj : public GlEngine::GameObject
 {
 public:
     TemplateTorus(Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateTorus*, float)> tick);
@@ -27,7 +27,8 @@ public:
 
     virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
     
+    std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext& ctx)> createGraphicsObject;
     Material* templateMat;
     std::vector<IPropertyProvider*> providers;
-    std::function<void(TemplateTorus*, float)> tick;
+    std::function<void(TemplateObj*, float)> tick;
 };

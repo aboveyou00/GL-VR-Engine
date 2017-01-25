@@ -165,15 +165,15 @@ namespace GlEngine
                             { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },
                             { &prop_SurfaceToCamera },
                             PropertySourceFlag::None,
-                            { ComponentType::Vertex }),
+                            { ComponentType::Fragment }),
                 
-                (new Snippet(R"raw(if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal
-else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
-[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation)raw"s,
-                                { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_PointLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
-                                { &prop_SpecularLightComponent },
-                                PropertySourceFlag::None,
-                                { ComponentType::Fragment })
+                (new Snippet("if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal\n"s + 
+                             "else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));\n"s + 
+                             "[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation"s,
+                             { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_PointLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
+                             { &prop_SpecularLightComponent },
+                             PropertySourceFlag::None,
+                             { ComponentType::Fragment })
                 )->WithTemps<Vector<3>>()
             },
             {
@@ -181,6 +181,30 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             { &attr_ModelViewNormal, &attr_PointLightDirection }
         );
 
+        Attribute attr_SpecularLightDirectional = Attribute(
+        {
+            new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position",
+            { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },
+            { &prop_SurfaceToCamera },
+            PropertySourceFlag::None,
+            { ComponentType::Fragment }),
+
+            (new Snippet("if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal\n"s +
+            "else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));\n"s +
+                "[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation"s,
+                { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_DirectionalLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
+                { &prop_SpecularLightComponent },
+                PropertySourceFlag::None,
+                { ComponentType::Fragment })
+                )->WithTemps<Vector<3>>()
+        },
+        {
+        },
+        { &attr_ModelViewNormal }
+        );
+
+        static Property<float> prop_DiffuseComponentIntensity = Property<float>("diffuse_component_intensity");
+        
         Attribute attr_DiffuseIntensity = Attribute(
             {
                 new Snippet("[out:0] = dot([in:0], [in:1].xyz);",
@@ -192,6 +216,19 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             {
             },
             { &attr_ModelViewNormal, &attr_PointLightDirection }
+        );
+
+        Attribute attr_DiffuseIntensityDirectional = Attribute(
+            {
+                new Snippet("[out:0] = dot([in:0], [in:1].xyz);",
+                            { &prop_DirectionalLightDirection, &prop_ModelViewNormal },
+                            { &prop_DiffuseComponentIntensity },
+                            PropertySourceFlag::None,
+                            { ComponentType::Fragment }),
+            },
+            {
+            },
+            { &attr_ModelViewNormal }
         );
 
         Attribute attr_DiffuseLight = Attribute(
@@ -207,6 +244,19 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             { &attr_DiffuseIntensity }
         );
 
+        Attribute attr_DiffuseLightDirectional = Attribute(
+            {
+                new Snippet("if (!gl_FrontFacing) [out:0] = -[in:2];\n[out:1] = [in:0] * [in:1] * clamp([in:2], 0.0, 1.0);",
+                { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseComponentIntensity },
+                { &prop_DiffuseComponentIntensity, &prop_DiffuseLightComponent },
+                PropertySourceFlag::None,
+                { ComponentType::Fragment }),
+            },
+            {
+            },
+            { &attr_DiffuseIntensityDirectional }
+        );
+
         Attribute attr_DiffuseLightFlat = Attribute(
             {
                 new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);",
@@ -219,6 +269,7 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             }, 
             { &attr_PointLightDirection }
         );
+
 
         Attribute attr_SpecularOnly = Attribute(
             {
@@ -284,6 +335,19 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             {
             }, 
             { &attr_SpecularLight, &attr_DiffuseLight }
+        );
+
+        Attribute attr_PhongDirectional = Attribute(
+            {
+                new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",
+                            { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent },
+                            { &prop_LightColor }, 
+                            PropertySourceFlag::Fallback,
+                            { ComponentType::Fragment })                
+            },
+            {
+            },
+            { &attr_SpecularLightDirectional, &attr_DiffuseLightDirectional }
         );
 
         Attribute attr_PhongFlat = Attribute(
@@ -362,7 +426,7 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             },
             {
             },
-            { &attr_PointLightDirection, &attr_DiffuseLight, &attr_SpecularLight }
+            { &attr_PointLightDirection, &attr_SpecularLight, &attr_DiffuseLight }
         );
 
         Attribute attr_LightingFallbacks = Attribute(

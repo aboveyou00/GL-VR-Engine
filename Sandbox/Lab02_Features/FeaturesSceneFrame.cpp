@@ -8,7 +8,7 @@
 #include "../CameraTargetObject.h"
 #include "../LightSourceObject.h"
 #include "../LabControls.h"
-#include "../TemplateTorus.h"
+#include "../TemplateObj.h"
 #include "PointLightSource.h"
 
 typedef GlEngine::PointLightSource PointLightSource;
