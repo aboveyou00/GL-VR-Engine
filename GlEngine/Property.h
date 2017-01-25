@@ -16,7 +16,7 @@ namespace GlEngine
         {
         public:
             Property(std::string name, PropertyFlag flags = PropertyFlag::None)
-                : ShaderProp(name, PropertyType_attribs<T>::default_property_flags | flags)
+                : ShaderProp(name, PropertyType_attribs<T>::default_property_flags() | flags)
             {
             }
             ~Property()
@@ -31,14 +31,13 @@ namespace GlEngine
             std::string DeclarationString(std::string prefix = "") override
             {
                 std::stringstream stream;
-                stream << PropertyType_attribs<T>::glsl_name() << " ";
-                stream << prefix << name;
+                PropertyType_attribs<T>::decl_string(stream, prefix, name);
                 return stream.str();
             }
 
             virtual unsigned layoutSize() override
             {
-                return PropertyType_attribs<T>::glsl_layout_size;
+                return PropertyType_attribs<T>::glsl_layout_size();
             }
         };
 
@@ -91,6 +90,9 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<3>> prop_PointLightDirection; //calculated using PointLightPosition
 
         extern ENGINE_SHARED Property<Array<PointLightInfo, 4>> prop_PointLightInfo;
+
+        extern ENGINE_SHARED Property<Vector<3>> prop_SurfaceToCamera;
+        extern ENGINE_SHARED Property<float> prop_DiffuseComponentIntensity;
 
         extern ENGINE_SHARED Property<float> prop_FogMinDistance;
         extern ENGINE_SHARED Property<float> prop_FogMaxDistance;

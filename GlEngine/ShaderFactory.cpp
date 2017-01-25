@@ -139,22 +139,27 @@ namespace GlEngine
             for (auto &it : _textures)
             {
                 if (!it.second->IsOpaque()) blend = true;
-                PropertyType_attribs<Texture*>::set_gl_uniform(it.first, it.second, texIdx++);
+                it.second->Push(texIdx++);
+                PropertyType_attribs<Texture*>::set_glsl_uniform(it.first, it.second);
             }
             if (blend)
             {
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             }
+
+            //TODO: provide default values for unused indices in arrays
         }
         void ShaderFactory::Pop()
         {
             ScopedLock lock(_mux);
 
-            if (_shader != nullptr) _shader->Pop();
-
             glEnable(GL_CULL_FACE);
             glDisable(GL_BLEND);
+            for (auto &it : _textures)
+                it.second->Pop();
+
+            if (_shader != nullptr) _shader->Pop();
         }
 
         void ShaderFactory::Recompile()

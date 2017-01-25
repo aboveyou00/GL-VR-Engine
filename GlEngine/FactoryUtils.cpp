@@ -19,7 +19,7 @@ namespace GlEngine
 
             auto tabulationStr = std::string(tabulation, ' ');
 
-            auto source = Util::regex_replace_callback(main, R"raw(\[([^\]]*):(.*?)\])raw"s, [snippet](std::smatch match) -> std::string {
+            auto source = Util::regex_replace_callback(main, R"raw(\[([a-z]*):(.*?)\])raw"s, [snippet](std::smatch match) -> std::string {
                 std::string type = match[1],
                             val = match[2];
 

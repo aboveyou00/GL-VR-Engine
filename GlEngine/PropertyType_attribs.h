@@ -12,386 +12,297 @@ namespace GlEngine
 
     namespace ShaderFactory
     {
-        template <typename T>
-        struct PropertyType_attribs;
+        template <typename TType>
+        struct PropertyType_attribs
+        {
+            typedef TType T;
+            static std::string glsl_name()
+            {
+                static_assert(false, "Invalid type parameter for PropertyType_attribs");
+            }
+            static void decl_string(std::stringstream &stream, std::string prefix, std::string name)
+            {
+                stream << PropertyType_attribs<T>::glsl_name() << " ";
+                stream << prefix << name;
+            }
+            static std::string glsl_value(const T &value)
+            {
+                static_assert(false, "Invalid type parameter for PropertyType_attribs; or, this type parameter cannot be used to inject constant values");
+            }
+            static void set_glsl_uniform(unsigned uniformLocation, const T &value)
+            {
+                static_assert(false, "Invalid type parameter for PropertyType_attribs");
+            }
+            static constexpr PropertyFlag default_property_flags()
+            {
+                return PropertyFlag::None;
+            }
+            static constexpr unsigned glsl_layout_size()
+            {
+                return 1;
+            }
+        };
 
         template<typename ThisArg = void, typename... TArgs>
         struct compound_PropertyType_attribs
         {
-            static const unsigned glsl_layout_size = PropertyType_attribs<ThisArg>::glsl_layout_size + compound_PropertyType_attribs<TArgs...>::glsl_layout_size;
+            static constexpr unsigned glsl_layout_size()
+            {
+                return PropertyType_attribs<ThisArg>::glsl_layout_size() + compound_PropertyType_attribs<TArgs...>::glsl_layout_size();
+            }
 
             template <unsigned idx = 0>
             static void struct_decl(std::stringstream &stream)
             {
-                stream << "    " << PropertyType_attribs<ThisArg>::glsl_name() << " v" << idx << ";\n";
+                stream << PropertyType_attribs<ThisArg>::glsl_name() << " v" << idx << "; ";
                 compound_PropertyType_attribs<TArgs...>::struct_decl<idx + 1>(stream);
             }
 
-            static void set_gl_uniform(unsigned uniformIdx, ThisArg val, TArgs... otherVals)
+            static void set_glsl_uniform(unsigned uniformIdx, ThisArg val, TArgs... otherVals)
             {
-                PropertyType_attribs<ThisArg>::set_gl_uniform(uniformIdx, val);
-                compound_PropertyType_attribs<TArgs...>::set_gl_uniform(uniformIdx + PropertyType_attribs<ThisArg>::glsl_layout_size, otherVals...);
+                PropertyType_attribs<ThisArg>::set_glsl_uniform(uniformIdx, val);
+                compound_PropertyType_attribs<TArgs...>::set_glsl_uniform(uniformIdx + PropertyType_attribs<ThisArg>::glsl_layout_size(), otherVals...);
             }
         };
 
         template <>
         struct compound_PropertyType_attribs<void>
         {
-            static const unsigned glsl_layout_size = 0;
-            
+            static constexpr unsigned glsl_layout_size()
+            {
+                return 0;
+            }
             template <unsigned idx = 0>
-            static void struct_decl(std::stringstream&)
-            {
-            }
-
-            static void set_gl_uniform(unsigned)
-            {
-            }
+            static void struct_decl(std::stringstream&) { }
+            static void set_glsl_uniform(unsigned) { }
         };
+
+#pragma warning(disable: 4506)
 
 #pragma region primitive
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<bool>
-        {
-            typedef bool T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<bool>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<bool>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<bool>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<int>
-        {
-            typedef int T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<int>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<int>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<int>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<unsigned>
-        {
-            typedef unsigned T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<unsigned>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<unsigned>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<unsigned>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<float>
-        {
-            typedef float T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<float>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<float>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<float>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<double>
-        {
-            typedef double T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<double>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<double>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<double>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 #pragma endregion
 
 #pragma region bvec
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<2, bool>>
-        {
-            typedef Vector<2, bool> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, bool>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, bool>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<2, bool>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<3, bool>>
-        {
-            typedef Vector<3, bool> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, bool>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, bool>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<3, bool>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<4, bool>>
-        {
-            typedef Vector<4, bool> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, bool>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, bool>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<4, bool>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 #pragma endregion
 
 #pragma region ivec
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<2, int>>
-        {
-            typedef Vector<2, int> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, int>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, int>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<2, int>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<3, int>>
-        {
-            typedef Vector<3, int> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, int>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, int>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<3, int>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<4, int>>
-        {
-            typedef Vector<4, int> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, int>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, int>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<4, int>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 #pragma endregion
 
 #pragma region uvec
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<2, unsigned>>
-        {
-            typedef Vector<2, unsigned> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, unsigned>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, unsigned>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<2, unsigned>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<3, unsigned>>
-        {
-            typedef Vector<3, unsigned> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, unsigned>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, unsigned>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<3, unsigned>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<4, unsigned>>
-        {
-            typedef Vector<4, unsigned> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, unsigned>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, unsigned>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<4, unsigned>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 #pragma endregion
 
 #pragma region vec
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<2>>
-        {
-            typedef Vector<2> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<2>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<3>>
-        {
-            typedef Vector<3> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<3>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<4>>
-        {
-            typedef Vector<4> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<4>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 #pragma endregion
 
 #pragma region dvec
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<2, double>>
-        {
-            typedef Vector<2, double> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, double>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<2, double>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<2, double>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<3, double>>
-        {
-            typedef Vector<3, double> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, double>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<3, double>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<3, double>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Vector<4, double>>
-        {
-            typedef Vector<4, double> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, double>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Vector<4, double>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Vector<4, double>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 #pragma endregion
 
 #pragma region mat
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<2, 2>>
-        {
-            typedef Matrix<2, 2> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 2>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 2>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<2, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<2, 3>>
-        {
-            typedef Matrix<2, 3> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 3>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 3>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<2, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<2, 4>>
-        {
-            typedef Matrix<2, 4> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 4>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 4>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<2, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<3, 2>>
-        {
-            typedef Matrix<3, 2> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 2>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 2>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<3, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<3, 3>>
-        {
-            typedef Matrix<3, 3> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 3>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 3>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<3, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<3, 4>>
-        {
-            typedef Matrix<3, 4> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 4>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 4>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<3, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<4, 2>>
-        {
-            typedef Matrix<4, 2> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 2>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 2>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<4, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<4, 3>>
-        {
-            typedef Matrix<4, 3> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 3>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 3>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<4, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Matrix<4, 4>>
-        {
-            typedef Matrix<4, 4> T;
-            static std::string glsl_name();
-            static std::string glsl_value(const T &value);
-            static void set_gl_uniform(unsigned uniformLocation, const T &value);
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 4>>::glsl_name();
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 4>>::glsl_value(const T &value);
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Matrix<4, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
 #pragma endregion
 
 #pragma region advanced
         template <>
-        struct ENGINE_SHARED PropertyType_attribs<Texture*>
-        {
-            typedef Texture *T;
-            static std::string glsl_name();
-            static void set_gl_uniform(unsigned uniformLocation, const T &value, unsigned texIdx);
-            static const PropertyFlag default_property_flags = PropertyFlag::Readonly;
-            static const unsigned glsl_layout_size = 1;
-        };
+        ENGINE_SHARED std::string PropertyType_attribs<Texture*>::glsl_name();
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Texture*>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr PropertyFlag PropertyType_attribs<Texture*>::default_property_flags();
 
         template <typename... TArgs>
         struct PropertyType_attribs<Struct<TArgs...>>
@@ -400,40 +311,87 @@ namespace GlEngine
             static const std::string glsl_name()
             {
                 std::stringstream stream;
-                stream << "struct {\n";
+                stream << "struct { ";
                 //(stream << ... << (PropertyType_attribs<TArgs>::glsl_name() << idx++));
                 compound_PropertyType_attribs<TArgs...>::struct_decl(stream);
                 stream << "}";
                 return stream.str();
             }
-            static void set_gl_uniform(unsigned uniformLocation, const T &value)
+            static void decl_string(std::stringstream &stream, std::string prefix, std::string name)
+            {
+                stream << PropertyType_attribs<T>::glsl_name() << " ";
+                stream << prefix << name;
+            }
+            static void set_glsl_uniform(unsigned uniformLocation, const T &value)
             {
                 uniformLocation; value;
-                //static_assert((true && ... && (PropertyType_attribs<TArgs>::default_property_flags & PropertyFlag::Readonly) == PropertyFlag::None), "Structs cannot contain readonly property types! (Example: Texture*)");
-                Util::call(compound_PropertyType_attribs<TArgs...>::set_gl_uniform, value._tup, uniformLocation);
+                //static_assert((true && ... && (PropertyType_attribs<TArgs>::default_property_flags() & PropertyFlag::Readonly) == PropertyFlag::None), "Structs cannot contain readonly property types! (Example: Texture*)");
+                Util::call(compound_PropertyType_attribs<TArgs...>::set_glsl_uniform, value._tup, uniformLocation);
             }
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = compound_PropertyType_attribs<TArgs...>::glsl_layout_size;
-            //static const unsigned glsl_layout_size = (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size);
+            static constexpr PropertyFlag default_property_flags()
+            {
+                return PropertyFlag::None;
+            }
+            static constexpr unsigned glsl_layout_size()
+            {
+                return compound_PropertyType_attribs<TArgs...>::glsl_layout_size();
+            }
+            //static constexpr unsigned glsl_layout_size = (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size);
         };
 
-        template <typename TElem, unsigned size>
-        struct PropertyType_attribs<Array<TElem, size>>
+        //template <>
+        //template <typename... TArgs>
+        //const std::string PropertyType_attribs<Struct<TArgs...>>::glsl_name()
+        //{
+        //    std::stringstream stream;
+        //    stream << "struct { ";
+        //    //(stream << ... << (PropertyType_attribs<TArgs>::glsl_name() << idx++));
+        //    compound_PropertyType_attribs<TArgs...>::struct_decl(stream);
+        //    stream << "}";
+        //    return stream.str();
+        //}
+        //template <>
+        //template <typename... TArgs>
+        //void PropertyType_attribs<Struct<TArgs...>>::set_glsl_uniform(unsigned uniformLocation, const T &value)
+        //{
+        //    uniformLocation; value;
+        //    //static_assert((true && ... && (PropertyType_attribs<TArgs>::default_property_flags() & PropertyFlag::Readonly) == PropertyFlag::None), "Structs cannot contain readonly property types! (Example: Texture*)");
+        //    Util::call(compound_PropertyType_attribs<TArgs...>::set_glsl_uniform, value._tup, uniformLocation);
+        //}
+        //template <>
+        //template <typename... TArgs>
+        //constexpr unsigned PropertyType_attribs<Struct<TArgs...>>::glsl_layout_size()
+        //{
+        //    return compound_PropertyType_attribs<TArgs...>::glsl_layout_size();
+        //    //return (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size());
+        //}
+
+        template <typename TElem, unsigned size_arr>
+        struct PropertyType_attribs<Array<TElem, size_arr>>
         {
-            typedef Array<TElem, size> T;
+            typedef Array<TElem, size_arr> T;
             static std::string glsl_name()
             {
-                std::stringstream stream;
-                stream << PropertyType_attribs<TElem>::glsl_name();
-                return stream.str();
+                return PropertyType_attribs<TElem>::glsl_name();
+            }
+            static void decl_string(std::stringstream &stream, std::string prefix, std::string name)
+            {
+                stream << PropertyType_attribs<T>::glsl_name() << " ";
+                stream << prefix << name << "[" << size_arr << "]";
             }
             static void set_gl_uniform(unsigned uniformLocation, const T &value)
             {
                 uniformLocation; value;
                 assert(false);
             }
-            static const PropertyFlag default_property_flags = PropertyFlag::None;
-            static const unsigned glsl_layout_size = size * PropertyType_attribs<TElem>::glsl_layout_size;
+            static constexpr PropertyFlag default_property_flags()
+            {
+                return PropertyFlag::Array;
+            }
+            static constexpr unsigned glsl_layout_size()
+            {
+                return size_arr * PropertyType_attribs<TElem>::glsl_layout_size();
+            }
         };
         //template <typename TElem, unsigned size>
         //std::string Property<Array<TElem, size>>::DeclarationString(std::string prefix = "")

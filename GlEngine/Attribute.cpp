@@ -111,8 +111,8 @@ namespace GlEngine
 #pragma region lighting
         Attribute attr_PointLightDirection = Attribute(
             {
-                (new Snippet("[temp:0] = [in:2] * [in:1] * vec4([in:0], 1);\n[temp:1] = [in:4] * vec4([in:3], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
-                             { &prop_Position, &prop_ModelMatrix, &prop_ViewMatrix, &prop_PointLightPosition, &prop_ViewMatrix },
+                (new Snippet("[temp:0] = [in:2] * [in:1] * vec4([in:0], 1);\n[temp:1] = [in:2] * vec4([in:3], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
+                             { &prop_Position, &prop_ModelMatrix, &prop_ViewMatrix, &prop_PointLightPosition },
                              { &prop_PointLightDirection },
                              PropertySourceFlag::Fallback,
                              { ComponentType::Fragment })
@@ -122,8 +122,6 @@ namespace GlEngine
             },
             { &attr_GlPosition }
         );
-
-        static Property<Vector<3>> prop_SurfaceToCamera = Property<Vector<3>>("surface_to_camera");
 
         Attribute attr_SpecularLight = Attribute(
             {
@@ -147,8 +145,6 @@ else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));
             { &attr_ModelViewNormal, &attr_PointLightDirection }
         );
 
-        static Property<float> prop_DiffuseComponentIntensity = Property<float>("diffuse_component_intensity");
-        
         Attribute attr_DiffuseIntensity = Attribute(
             {
                 new Snippet("[out:0] = dot([in:0], [in:1].xyz);",

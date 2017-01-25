@@ -33,12 +33,16 @@ namespace GlEngine
 
         bool IsOpaque();
 
+        void Push(unsigned idx);
+        void Pop();
+
         unsigned glslIndex();
+        unsigned glslRef();
 
     private:
         bool initialized, alpha;
         const char *const path;
         unsigned char *image;
-        unsigned width, height, gl_tex, gl_sampler;
+        unsigned width, height, gl_tex, gl_sampler, gl_index;
     };
 }

@@ -54,6 +54,9 @@ namespace GlEngine::ShaderFactory
 
     Property<Array<PointLightInfo, 4>> prop_PointLightInfo("point_light_info");
 
+    Property<Vector<3>> prop_SurfaceToCamera("surface_to_camera");
+    Property<float> prop_DiffuseComponentIntensity("diffuse_component_intensity");
+
     Property<float> prop_FogMinDistance("fog_min_distance");
     Property<float> prop_FogMaxDistance("fog_max_distance");
     Property<Vector<4>> prop_FogColor("fog_color");

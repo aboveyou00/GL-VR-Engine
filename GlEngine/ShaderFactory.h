@@ -68,7 +68,7 @@ namespace GlEngine
             {
                 assert(!!this);
                 auto uniformLocation = _program->FindUniform(&prop);
-                if (uniformLocation != -1) PropertyType_attribs<T>::set_gl_uniform(uniformLocation, val);
+                if (uniformLocation != -1) PropertyType_attribs<T>::set_glsl_uniform(uniformLocation, val);
             }
 
             template <typename TElem, unsigned size_arr, typename... TArgs>
@@ -83,11 +83,11 @@ namespace GlEngine
 
                 auto uniformLocation = _program->FindUniform(&prop);
                 if (uniformLocation == -1) return;
-                auto layout_size = PropertyType_attribs<TElem>::glsl_layout_size;
+                constexpr auto layout_size = PropertyType_attribs<TElem>::glsl_layout_size();
                 uniformLocation += layout_size * idx;
 
-                //((PropertyType_attribs<TElem>::set_gl_uniform(uniformLocation, args), uniformLocation += layout_size) + ... + 0);
-                compound_PropertyType_attribs<TArgs...>::set_gl_uniform(uniformLocation, args...);
+                //((PropertyType_attribs<TElem>::set_glsl_uniform(uniformLocation, args), uniformLocation += layout_size) + ... + 0);
+                compound_PropertyType_attribs<TArgs...>::set_glsl_uniform(uniformLocation, args...);
             }
 
             template <typename... TArgs>

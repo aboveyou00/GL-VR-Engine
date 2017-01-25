@@ -9,10 +9,6 @@ namespace GlEngine::ShaderFactory
     class ShaderProp;
     class Snippet;
 }
-typedef GlEngine::ShaderFactory::ShaderFactory ShaderFactory;
-typedef GlEngine::ShaderFactory::Attribute Attribute;
-typedef GlEngine::ShaderFactory::ShaderProp ShaderProp;
-typedef GlEngine::ShaderFactory::Snippet Snippet;
 
 class MultiPhongMaterial : public GlEngine::Material
 {
@@ -25,17 +21,16 @@ public:
 
     virtual GlEngine::TesselationType GetTesselationType() override;
 
-    void Push(ShaderFactory &factory) override;
+    void Push(GlEngine::ShaderFactory::ShaderFactory &factory) override;
 
-    virtual std::vector<ShaderProp*> properties() override;
-    virtual std::vector<Attribute*> attributes() override;
+    virtual std::vector<GlEngine::ShaderFactory::ShaderProp*> properties() override;
+    virtual std::vector<GlEngine::ShaderFactory::Attribute*> attributes() override;
 
 private:
     GlEngine::Texture *texture;
     Vector<3> color, reflectionCoef;
     float shininess;
 
-    // Inherited via Material
-    virtual const char * name() override;
+    virtual const char *name() override;
     virtual operator bool() override;
 };

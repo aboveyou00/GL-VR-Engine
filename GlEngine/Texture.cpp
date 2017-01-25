@@ -42,9 +42,11 @@ namespace GlEngine
         })(path, hasAlphaChannel);
 
         static std::unordered_map<int, Texture*> textures;
-        auto cached = textures[hashed];
-        if (cached != nullptr) return cached;
-        return textures[hashed] = new Texture(path, hasAlphaChannel);
+        auto cachedIt = textures.find(hashed);
+        if (cachedIt != textures.end()) return (*cachedIt).second;
+        auto tex = new Texture(path, hasAlphaChannel);
+        textures.insert(std::pair<unsigned, Texture*>(hashed, tex));
+        return tex;
     }
 
     Texture::Texture(const char *const path, bool hasAlphaChannel)
@@ -129,8 +131,26 @@ namespace GlEngine
         return !alpha;
     }
 
+    void Texture::Push(unsigned texIdx)
+    {
+        assert(texIdx < 32);
+        gl_index = texIdx;
+        glActiveTexture(GL_TEXTURE0 + gl_index);
+        glBindTexture(GL_TEXTURE_2D, gl_tex);
+    }
+    void Texture::Pop()
+    {
+        glActiveTexture(GL_TEXTURE0 + gl_index);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        gl_index = 0;
+    }
+
     unsigned Texture::glslIndex()
     {
         return gl_tex;
+    }
+    unsigned Texture::glslRef()
+    {
+        return gl_index;
     }
 }
