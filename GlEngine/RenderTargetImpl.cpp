@@ -20,7 +20,6 @@ namespace GlEngine
         {
             return true;
         }
-
         void RenderTargetImpl::Shutdown()
         {
             for (int i = 0; i < layerCount; i++)
@@ -28,6 +27,13 @@ namespace GlEngine
                 if (viewPorts[i] != nullptr)
                     delete viewPorts[i];
             }
+        }
+        bool RenderTargetImpl::InitializeGraphics()
+        {
+            return true;
+        }
+        void RenderTargetImpl::ShutdownGraphics()
+        {
         }
 
         const char *RenderTargetImpl::name()
@@ -85,15 +91,24 @@ namespace GlEngine
         {
         }
 
-        void RenderTargetImpl::SetViewPort(RenderTargetLayer layer, ViewPort * viewPort)
+        void RenderTargetImpl::SetViewPort(RenderTargetLayer layer, ViewPort *viewPort)
         {
             auto idx = (int)layer - (int)std::numeric_limits<RenderTargetLayer>::min();
-            if (idx < 0) return;
+            const unsigned count = (int)std::numeric_limits<RenderTargetLayer>::max() + 1 - (int)std::numeric_limits<RenderTargetLayer>::min();
+            if (idx < 0 || idx >= count) return;
 
             ViewPort* mViewPort = this->viewPorts[idx];
             if (mViewPort != nullptr)
                 delete mViewPort;
             this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()] = viewPort;
+        }
+        ViewPort *RenderTargetImpl::viewPort(RenderTargetLayer layer)
+        {
+            auto idx = (int)layer - (int)std::numeric_limits<RenderTargetLayer>::min();
+            const unsigned count = (int)std::numeric_limits<RenderTargetLayer>::max() + 1 - (int)std::numeric_limits<RenderTargetLayer>::min();
+            if (idx < 0 || idx >= count) return nullptr;
+
+            return this->viewPorts[idx];
         }
     }
 }

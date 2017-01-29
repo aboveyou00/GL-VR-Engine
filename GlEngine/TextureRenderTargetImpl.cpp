@@ -15,6 +15,13 @@ namespace GlEngine
 
         bool TextureRenderTargetImpl::Initialize()
         {
+            return true;
+        }
+        void TextureRenderTargetImpl::Shutdown()
+        {
+        }
+        bool TextureRenderTargetImpl::InitializeGraphics()
+        {
             frameBuffer = 0;
             glGenFramebuffers(1, &frameBuffer);
             glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -36,10 +43,8 @@ namespace GlEngine
 
             return true;
         }
-
-        void TextureRenderTargetImpl::Shutdown()
+        void TextureRenderTargetImpl::ShutdownGraphics()
         {
-
         }
 
         const char *TextureRenderTargetImpl::name()
@@ -68,6 +73,11 @@ namespace GlEngine
 
         void TextureRenderTargetImpl::Flip()
         {
+        }
+
+        TextureRenderTargetImpl::operator bool()
+        {
+            return true;
         }
     }
 }

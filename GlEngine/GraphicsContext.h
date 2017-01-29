@@ -6,7 +6,6 @@
 #include "Camera.h"
 #include "GameObject.h"
 #include "RenderTarget.h"
-#include "GameLoop.h"
 #include <unordered_map>
 
 namespace GlEngine
@@ -28,30 +27,24 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
-        void AddRenderTarget(RenderTarget * renderTarget);
+        void AddRenderTarget(RenderTarget *renderTarget);
 
         void Update(const graphics_object_map &objs);
         void UpdateCamera(GameObject*);
         void Render();
 
-        inline rt_mutex &GetMutex()
-        {
-            return _lock;
-        }
+        void Tick(float delta);
+
+        rt_mutex &GetMutex();
 
         const char *name() override;
     
     private:
-        rt_mutex _lock;
+        rt_mutex _mux;
 
-        static const int maxRenderTargets = 256;
-        RenderTarget * renderTargets[maxRenderTargets];
+        static const int MAX_RENDER_TARGETS = 16;
+        RenderTarget *renderTargets[MAX_RENDER_TARGETS];
         size_t renderTargetCount = 0;
-        GameLoop _loop;
         FrameStack *frames;
-
-        bool InitializeRenderTargets();
-        void Tick(float delta);
-        void ShutdownRenderTargets();
     };
 }

@@ -11,4 +11,8 @@ namespace GlEngine
     TextureRenderTarget::~TextureRenderTarget()
     {
     }
+    const char *TextureRenderTarget::name()
+    {
+        return "TextureRenderTarget";
+    }
 }

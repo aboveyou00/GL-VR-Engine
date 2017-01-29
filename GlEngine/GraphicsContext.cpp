@@ -13,12 +13,7 @@
 namespace GlEngine
 {
     GraphicsContext::GraphicsContext(FrameStack *frames)
-        : frames(frames),
-          _loop(
-            [&] { return this->InitializeRenderTargets(); },
-            [&](float delta) { this->Tick(delta); },
-            [&] { this->ShutdownRenderTargets(); }
-          )
+        : frames(frames)
     {
     }
     GraphicsContext::~GraphicsContext()
@@ -28,12 +23,15 @@ namespace GlEngine
 
     bool GraphicsContext::Initialize()
     {
-        _loop.RunLoop();
         return true;
     }
     void GraphicsContext::Shutdown()
     {
-        _loop.StopLoop(false);
+    }
+
+    rt_mutex &GraphicsContext::GetMutex()
+    {
+        return _mux;
     }
 
     const char *GraphicsContext::name()
@@ -43,7 +41,7 @@ namespace GlEngine
 
     void GraphicsContext::Update(const graphics_object_map &objs)
     {
-        ScopedLock slock(_lock);
+        ScopedLock _lock(_mux);
 
         transformed.clear();
         for (auto kv : objs)
@@ -69,23 +67,25 @@ namespace GlEngine
         }
     }
 
-    void GraphicsContext::UpdateCamera(GameObject* obj)
+    void GraphicsContext::UpdateCamera(GameObject *obj)
     {
         camera.SetGameObject(obj);
     }
 
-    void GraphicsContext::AddRenderTarget(RenderTarget * renderTarget)
+    void GraphicsContext::AddRenderTarget(RenderTarget *renderTarget)
     {
+        ScopedLock _lock(_mux);
+        assert(renderTargetCount <= MAX_RENDER_TARGETS);
         renderTargets[renderTargetCount++] = renderTarget;
+        auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+        resources->QueueInitialize(renderTarget);
     }
 
     void GraphicsContext::Render()
     {
-        {
-            ScopedLock _lock(GlEngine::Engine::GetInstance().GetMutex());
-            for (size_t i = 0; i < renderTargetCount; i++)
-                renderTargets[i]->Prepare();
-        }
+        ScopedLock _lock(_mux);
+        for (size_t i = 0; i < renderTargetCount; i++)
+            renderTargets[i]->Prepare();
 
         camera.Push();
         for (size_t i = 0; i < renderTargetCount; i++)
@@ -93,6 +93,7 @@ namespace GlEngine
             renderTargets[i]->PrePush();
             for (auto layer = std::numeric_limits<RenderTargetLayer>::min(); layer <= std::numeric_limits<RenderTargetLayer>::max(); layer++)
             {
+                if (!*renderTargets[i]) continue;
                 renderTargets[i]->Push(layer);
                 if (renderTargets[i]->GetShouldRender())
                 {
@@ -101,17 +102,6 @@ namespace GlEngine
                 }
                 renderTargets[i]->Pop(layer);
             }
-            //auto layer = std::numeric_limits<RenderTargetLayer>::min();
-            //do
-            //{
-            //    renderTargets[i]->Push(layer);
-            //    if (renderTargets[i]->GetShouldRender())
-            //    {
-            //        for (auto it = transformed.begin(); it != transformed.end(); it++)
-            //            (*it).Render(layer);
-            //    }
-            //    renderTargets[i]->Pop(layer);
-            //} while (++layer != std::numeric_limits<RenderTargetLayer>::min());
         }
         camera.Pop();
 
@@ -120,32 +110,10 @@ namespace GlEngine
                 renderTargets[i]->Flip();
     }
 
-    bool GraphicsContext::InitializeRenderTargets()
-    {
-        this_thread_name() = "graphics";
-        this_thread_type() = ThreadType::Graphics;
-        auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-        logger->Log(GlEngine::LogType::Info, "Beginning OpenGL graphics thread");
-        for (size_t q = 0; q < renderTargetCount; q++)
-            if (!renderTargets[q]->Initialize()) return false;
-        return true;
-    }
     void GraphicsContext::Tick(float)
     {
-        auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-        resources.TickGraphics();
-
+        ScopedLock _lock(_mux);
         frames->Update(*this);
         Render();
-    }
-    void GraphicsContext::ShutdownRenderTargets()
-    {
-        auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-        resources.ShutdownGraphics();
-
-        auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-        logger->Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");
-        for (size_t q = 0; q < renderTargetCount; q++)
-            renderTargets[q]->Shutdown();
     }
 }

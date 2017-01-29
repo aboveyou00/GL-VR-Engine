@@ -6,12 +6,18 @@
 #include "LogUtils.h"
 #include "Engine.h"
 #include "WindowManager.h"
+#include "ResourceLoader.h"
 
 namespace GlEngine
 {
     namespace Impl
     {
         GraphicsControllerImpl::GraphicsControllerImpl()
+            : _loop(
+                [&] { return this->InitializeGraphicsThread(); },
+                [&](float delta) { this->Tick(delta); },
+                [&] { this->ShutdownGraphicsThread(); }
+              )
         {
         }
         GraphicsControllerImpl::~GraphicsControllerImpl()
@@ -23,11 +29,26 @@ namespace GlEngine
             MakeDefaultContext();
             LoadGlewExtensions();
             wglMakeCurrent(nullptr, nullptr);
+            _loop.RunLoop();
             return true;
         }
         void GraphicsControllerImpl::Shutdown()
         {
+            _loop.StopLoop(false);
             Engine::GetInstance().GetWindowManager().Destroy(dummyWindow);
+        }
+
+        void GraphicsControllerImpl::AddGraphicsContext(GraphicsContext *graphicsContext)
+        {
+            assert(graphicsContextCount <= MAX_GRAPHICS_CONTEXTS);
+            graphicsContexts[graphicsContextCount++] = graphicsContext;
+            auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+            resources->QueueInitialize(graphicsContext);
+        }
+
+        rt_mutex &GraphicsControllerImpl::GetMutex()
+        {
+            return _lock;
         }
 
         void GraphicsControllerImpl::MakeDefaultContext()
@@ -83,6 +104,33 @@ namespace GlEngine
         const char *GraphicsControllerImpl::name()
         {
             return "GlControllerImpl";
+        }
+
+        bool GraphicsControllerImpl::InitializeGraphicsThread()
+        {
+            this_thread_name() = "graphics";
+            this_thread_type() = ThreadType::Graphics;
+
+            auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger->Log(GlEngine::LogType::Info, "Beginning OpenGL graphics thread");
+
+            return true;
+        }
+        void GraphicsControllerImpl::Tick(float delta)
+        {
+            auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+            resources.TickGraphics();
+
+            for (size_t q = 0; q < graphicsContextCount; q++)
+                graphicsContexts[q]->Tick(delta);
+        }
+        void GraphicsControllerImpl::ShutdownGraphicsThread()
+        {
+            auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+            resources.ShutdownGraphics();
+
+            auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
+            logger->Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");
         }
     }
 }

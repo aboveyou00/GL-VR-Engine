@@ -5,17 +5,14 @@
 
 namespace GlEngine
 {
-    namespace Impl
-    {
-        class RenderTargetImpl;
-    }
-
     class Window;
 
     class ENGINE_SHARED WindowRenderTarget : public RenderTarget
     {
     public:
-        WindowRenderTarget(Window * window);
+        WindowRenderTarget(Window *window);
         ~WindowRenderTarget();
+
+        virtual const char *name() override;
     };
 }

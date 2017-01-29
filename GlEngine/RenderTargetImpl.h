@@ -1,25 +1,27 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IGraphicsComponent.h"
 #include "OpenGl.h"
 #include "ViewPort.h"
 #include "RenderTargetLayer.h"
 
 namespace GlEngine
 {
-    class Window;
-
     namespace Impl
     {
-        class RenderTargetImpl : public IComponent
+        class RenderTargetImpl : public IGraphicsComponent
         {
         public:
             RenderTargetImpl();
             ~RenderTargetImpl();
 
-            virtual bool Initialize();
-            void Shutdown();
+            virtual bool Initialize() override;
+            virtual void Shutdown() override;
+            virtual bool InitializeGraphics() override;
+            virtual void ShutdownGraphics() override;
+
             const char *name() override;
+            
             virtual void MakeCurrentTarget();
 
             inline bool GetShouldRender()
@@ -33,7 +35,9 @@ namespace GlEngine
             virtual void Pop(RenderTargetLayer layer);
 
             virtual void Flip();
-            virtual void SetViewPort(RenderTargetLayer layer, ViewPort * viewPort);
+
+            virtual void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
+            ViewPort *viewPort(RenderTargetLayer layer);
 
             static const int layerCount = (int)std::numeric_limits<RenderTargetLayer>::max() - (int)std::numeric_limits<RenderTargetLayer>::min() + 1;
             ViewPort* viewPorts[layerCount];

@@ -3,6 +3,7 @@
 
 #include "Engine.h"
 #include "WindowManager.h"
+#include "GraphicsController.h"
 #include "GraphicsContext.h"
 #include "WindowRenderTarget.h"
 //#include "TransformedGraphicsObject.h"
@@ -46,29 +47,13 @@ namespace TileRPG
 
         _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
 
-        GlEngine::RenderTarget* _renderTarget = new GlEngine::WindowRenderTarget(_window);
-        
-        auto viewport3d = new GlEngine::PerspectiveViewPort();
-        auto viewport2d = new GlEngine::OrthoViewPort();
-        _renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, viewport3d);
-        _renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, viewport3d);
-        _renderTarget->SetViewPort(GlEngine::RenderTargetLayer::Layer2d, viewport2d);
-
-        //GlEngine::RenderTarget* texRenderTarget = new GlEngine::TextureRenderTarget(200, 200);
-        //texRenderTarget->SetViewPort(new GlEngine::PerspectiveViewPort());
-        _gfxContext->AddRenderTarget(_renderTarget);
-        //_gfxContext->AddRenderTarget(texRenderTarget);
-
         _gfxContext->camera.SetEye({ 0, 0, 0 });
         _gfxContext->camera.SetForward({ 0, 0, 1 });
         _gfxContext->camera.SetUp({ 0, 1, 0 });
 
-        if (!_gfxContext->Initialize())
-        {
-            _renderTarget->Shutdown();
-            engine.Shutdown(); //This will call _window.Shutdown(), we don't have to do it
-            return false;
-        }
+        _gfxContext->AddRenderTarget(new GlEngine::WindowRenderTarget(_window));
+
+        engine.GetGlController().AddGraphicsContext(_gfxContext);
 
         _window->Show();
         

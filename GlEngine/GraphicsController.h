@@ -9,6 +9,8 @@ namespace GlEngine
         class GraphicsControllerImpl;
     }
 
+    class GraphicsContext;
+
     class ENGINE_SHARED GraphicsController : public IComponent
     {
     private:
@@ -25,6 +27,8 @@ namespace GlEngine
 
         bool Initialize();
         void Shutdown();
+
+        void AddGraphicsContext(GraphicsContext *graphicsContext);
 
         const char *name() override;
 

@@ -1,21 +1,20 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IGraphicsComponent.h"
 #include "Camera.h"
 #include "RenderTargetLayer.h"
 
 namespace GlEngine
 {
-    class ViewPort;
-
     namespace Impl
     {
         class RenderTargetImpl;
     }
 
+    class ViewPort;
     class Window;
 
-    class ENGINE_SHARED RenderTarget : public IComponent
+    class ENGINE_SHARED RenderTarget : public IGraphicsComponent
     {
     public:
         RenderTarget(Impl::RenderTargetImpl *impl);
@@ -23,9 +22,12 @@ namespace GlEngine
 
         virtual bool Initialize();
         virtual void Shutdown();
+        virtual bool InitializeGraphics();
+        virtual void ShutdownGraphics();
 
         virtual const char *name();
-        void SetViewPort(RenderTargetLayer layer, ViewPort * viewPort);
+        void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
+        ViewPort *viewPort(RenderTargetLayer layer);
 
         void SetCurrent();
 
@@ -37,6 +39,8 @@ namespace GlEngine
         virtual void Pop(RenderTargetLayer layer);
 
         virtual void Flip();
+
+        virtual operator bool() override;
 
         inline Impl::RenderTargetImpl &GetImpl()
         {

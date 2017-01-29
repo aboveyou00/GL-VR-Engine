@@ -192,7 +192,6 @@
     <ClInclude Include="CameraGameObject.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionGroup.h" />
-    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentType.h" />
     <ClInclude Include="ComponentType_attribs.h" />
@@ -362,7 +361,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="LogUtils.cpp" />
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="MatrixStack.cpp" />
     <ClCompile Include="MouseButton.cpp" />
