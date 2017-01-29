@@ -46,6 +46,9 @@
     <Filter Include="Source Files\Lab03_LightsAndEffects">
       <UniqueIdentifier>{344346f9-3599-489a-85b2-05df4f602e32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Lab04_Textures">
+      <UniqueIdentifier>{20450ecf-96d4-4cee-a36f-4ca0d81f2466}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sandbox.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="TemplateTorus.h">
       <Filter>Header Files\Shared</Filter>
     </ClInclude>
+    <ClInclude Include="Lab04_Textures\TexturesSceneFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -193,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp">
       <Filter>Source Files\Lab02_Features</Filter>
+    </ClCompile>
+    <ClCompile Include="Lab04_Textures\TexturesSceneFrame.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
