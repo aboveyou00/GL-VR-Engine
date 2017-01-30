@@ -5,6 +5,9 @@
 #include "LightSourceGraphicsObject.h"
 #include <map>
 
+#include "PointLightSource.h"
+#include "SpotLightSource.h"
+
 template<typename T>
 class LightSourceObject : public GlEngine::GameObject
 {
@@ -47,3 +50,6 @@ private:
     T* _lightSource;
     float movementSpeed;
 };
+
+typedef LightSourceObject<GlEngine::PointLightSource> PointLightSourceObject;
+typedef LightSourceObject<GlEngine::SpotlightSource> SpotlightSourceObject;
