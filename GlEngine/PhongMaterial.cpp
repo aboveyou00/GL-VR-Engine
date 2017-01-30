@@ -77,7 +77,7 @@ namespace GlEngine
             if (texture2 != nullptr)
             {
                 if (texture2->hasFlag(TextureFlag::AlphaMap)) attrs.push_back(&ShaderFactory::attr_AlphaMapDiscardBaseColor);
-                else attrs.push_back(&ShaderFactory::attr_NoiseTextureBaseColor);
+                else attrs.push_back(&ShaderFactory::attr_TwoTextureBaseColor);
             }
             else attrs.push_back(&ShaderFactory::attr_TextureBaseColor);
         }

@@ -324,7 +324,6 @@
     <ClCompile Include="AmbientLightSource.cpp" />
     <ClCompile Include="AmbientMaterial.cpp" />
     <ClCompile Include="Attribute.cpp" />
-    <ClCompile Include="attr_NoiseTextureBaseColor.cpp" />
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />

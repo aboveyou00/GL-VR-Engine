@@ -106,6 +106,17 @@ namespace GlEngine
             {
             }
         );
+        Attribute attr_TwoTextureBaseColor = Attribute(
+            {
+                (new Snippet("[out:0] = texture2D([in:0], [in:2]);\n[temp:0] = texture2D([in:1], [in:2]);\n [out:0] = mix([out:0].rgba, vec4([temp:0].rgb, 1), [temp:0].a);//vec4(mix([out:0].rgb, [temp:0].rgb, [temp:0].a), 1 - ((1-[out:0].a) * (1-[temp:0].a)));",
+                             { &prop_Texture, &prop_Texture2, &prop_UV },
+                             { &prop_BaseColor },
+                             PropertySourceFlag::None,
+                             { ComponentType::Fragment }))->WithTemps<Vector<4>>()
+            },
+            {
+            }
+        );
         Attribute attr_AlphaMapDiscardBaseColor = Attribute(
             {
                 (new Snippet("[temp:0] = texture2D([in:2], [in:1]).r;\nif ([temp:0] < .05) discard;\n[out:0] = vec4(texture2D([in:0], [in:1]).rgb, [temp:0]);",
