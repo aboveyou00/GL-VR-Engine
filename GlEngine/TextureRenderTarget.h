@@ -9,7 +9,7 @@ namespace GlEngine
     class ENGINE_SHARED TextureRenderTarget : public RenderTarget
     {
     public:
-        TextureRenderTarget(unsigned width, unsigned height, bool hasAlphaChannel = false);
+        TextureRenderTarget(unsigned width, unsigned height);
         ~TextureRenderTarget();
 
         virtual const char *name() override;

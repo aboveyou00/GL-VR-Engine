@@ -4,8 +4,8 @@
 
 namespace GlEngine
 {
-    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height, bool hasAlphaChannel)
-        : RenderTarget(new Impl::TextureRenderTargetImpl(width, height, hasAlphaChannel))
+    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height)
+        : RenderTarget(new Impl::TextureRenderTargetImpl(width, height))
     {
     }
     TextureRenderTarget::~TextureRenderTarget()

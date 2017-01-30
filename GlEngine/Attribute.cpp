@@ -106,6 +106,17 @@ namespace GlEngine
             {
             }
         );
+        Attribute attr_AlphaMapDiscardBaseColor = Attribute(
+            {
+                (new Snippet("[temp:0] = texture2D([in:2], [in:1]).r;\nif ([temp:0] < .05) discard;\n[out:0] = vec4(texture2D([in:0], [in:1]).rgb, [temp:0]);",
+                             { &prop_Texture, &prop_UV, &prop_AlphaMapTexture },
+                             { &prop_BaseColor },
+                             PropertySourceFlag::None,
+                             { ComponentType::Fragment }))->WithTemps<float>()
+            },
+            {
+            }
+        );
 #pragma endregion
 
 #pragma region lighting

@@ -30,7 +30,11 @@ namespace GlEngine
         else
         {
             factory.ProvideProperty(ShaderFactory::prop_Texture, texture);
-            if (texture2 != nullptr) factory.ProvideProperty(ShaderFactory::prop_Texture2, texture2);
+            if (texture2 != nullptr)
+            {
+                if (texture2->hasFlag(TextureFlag::AlphaMap)) factory.ProvideProperty(GlEngine::ShaderFactory::prop_AlphaMapTexture, texture2);
+                else factory.ProvideProperty(ShaderFactory::prop_Texture2, texture2);
+            }
         }
         factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
         factory.ProvideProperty(ShaderFactory::prop_Shininess, shininess);
@@ -54,7 +58,11 @@ namespace GlEngine
         else
         {
             props.push_back(&ShaderFactory::prop_Texture);
-            if (texture2 != nullptr) props.push_back(&GlEngine::ShaderFactory::prop_Texture2);
+            if (texture2 != nullptr)
+            {
+                if (texture2->hasFlag(TextureFlag::AlphaMap)) props.push_back(&GlEngine::ShaderFactory::prop_AlphaMapTexture);
+                else props.push_back(&GlEngine::ShaderFactory::prop_Texture2);
+            }
         }
         props.push_back(&ShaderFactory::prop_ReflectionCoefficient);
         props.push_back(&ShaderFactory::prop_Shininess);
@@ -66,7 +74,11 @@ namespace GlEngine
         if (texture == nullptr) attrs.push_back(&ShaderFactory::attr_RgbBaseColor);
         else
         {
-            if (texture2 != nullptr) attrs.push_back(&ShaderFactory::attr_NoiseTextureBaseColor);
+            if (texture2 != nullptr)
+            {
+                if (texture2->hasFlag(TextureFlag::AlphaMap)) attrs.push_back(&ShaderFactory::attr_AlphaMapDiscardBaseColor);
+                else attrs.push_back(&ShaderFactory::attr_NoiseTextureBaseColor);
+            }
             else attrs.push_back(&ShaderFactory::attr_TextureBaseColor);
         }
         attrs.push_back(&ShaderFactory::attr_GlPosition);

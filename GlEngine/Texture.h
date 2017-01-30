@@ -1,17 +1,18 @@
 #pragma once
 
 #include "IComponent.h"
+#include "TextureFlag.h"
 
 namespace GlEngine
 {
     class ENGINE_SHARED Texture : public IGraphicsComponent
     {
     public:
-        static Texture *FromFile(const char *const path, bool hasAlphaChannel = false);
-        Texture(unsigned width, unsigned height, bool hasAlphaChannel = false);
+        static Texture *FromFile(const char *const path, TextureFlag flags = TextureFlag::None);
+        Texture(unsigned width, unsigned height, TextureFlag flags = TextureFlag::None);
 
     private:
-        Texture(const char *const path, bool hasAlphaChannel);
+        Texture(const char *const path, TextureFlag flags = TextureFlag::None);
         ~Texture();
 
     public:
@@ -19,6 +20,13 @@ namespace GlEngine
         void Shutdown();
         bool InitializeGraphics();
         void ShutdownGraphics();
+
+        bool hasFlag(TextureFlag flag) const;
+        void SetFlag(TextureFlag flag, bool val);
+        void SetFlag(TextureFlag flag);
+        void ResetFlag(TextureFlag flag);
+
+        bool IsOpaque() const;
 
         const char *name() override;
 
@@ -29,10 +37,6 @@ namespace GlEngine
         unsigned GetWidth();
         unsigned GetHeight();
 
-        unsigned GetGlTexture();
-
-        bool IsOpaque();
-
         void Push(unsigned idx);
         void Pop();
 
@@ -40,9 +44,10 @@ namespace GlEngine
         unsigned glslTextureLocation();
 
     private:
-        bool initialized, alpha;
+        bool initialized;
         const char *const path;
         unsigned char *image;
         unsigned width, height, gl_tex, gl_sampler, gl_index;
+        TextureFlag _flags;
     };
 }

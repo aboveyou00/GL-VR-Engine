@@ -34,13 +34,15 @@ namespace GlEngine
                 auto filename = fileTexture->GetFileName();
 
                 // TODO: get texture instance from filename;
-                auto tex = Texture::FromFile(filename, fileTexture->GetAlphaSource() != fbxsdk::FbxTexture::EAlphaSource::eNone);
+                TextureFlag flags = TextureFlag::None;
+                if (fileTexture->GetAlphaSource() != fbxsdk::FbxTexture::EAlphaSource::eNone) flags |= TextureFlag::Translucent;
+                auto tex = Texture::FromFile(filename, flags);
                 return new PhongMaterial(tex);
             }
             else
             {
                 //Default texture
-                auto tex = Texture::FromFile("Textures/dirt.png", false);
+                auto tex = Texture::FromFile("Textures/dirt.png");
                 return new PhongMaterial(tex);
             }
         }

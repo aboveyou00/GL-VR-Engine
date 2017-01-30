@@ -181,6 +181,7 @@
     <ClInclude Include="TaskState.h" />
     <ClInclude Include="TaskType.h" />
     <ClInclude Include="TemplateUtils.h" />
+    <ClInclude Include="TextureFlag.h" />
     <ClInclude Include="ThreadType.h" />
     <ClInclude Include="TileBoxBody.h" />
     <ClInclude Include="Actor.h" />

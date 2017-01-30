@@ -30,6 +30,7 @@ namespace GlEngine
         extern ENGINE_SHARED Attribute attr_RgbBaseColor;
         extern ENGINE_SHARED Attribute attr_TextureBaseColor;
         extern ENGINE_SHARED Attribute attr_NoiseTextureBaseColor;
+        extern ENGINE_SHARED Attribute attr_AlphaMapDiscardBaseColor;
 #pragma endregion
 
 #pragma region position

@@ -8,7 +8,7 @@ namespace GlEngine::Impl
     class TextureRenderTargetImpl : public RenderTargetImpl
     {
     public:
-        TextureRenderTargetImpl(unsigned width, unsigned height, bool hasAlphaChannel = false);
+        TextureRenderTargetImpl(unsigned width, unsigned height);
         ~TextureRenderTargetImpl();
 
         virtual bool Initialize() override;

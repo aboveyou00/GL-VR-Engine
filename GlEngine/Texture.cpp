@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "LodePNG\lodepng.h"
 #include <unordered_map>
+#include <sstream>
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -30,33 +31,33 @@ static void freePng(unsigned char *&image)
 
 namespace GlEngine
 {
-    Texture *Texture::FromFile(const char *const path, bool hasAlphaChannel)
+    Texture *Texture::FromFile(const char *const path, TextureFlag flags)
     {
         if (path == nullptr || path[0] == '\0') return nullptr;
 
-        auto hashed = ([](const char *str, bool alpha) {
-            int h = alpha ? 0xDEADBEEF : 0;
+        auto hashed = ([](const char *str, TextureFlag flags) {
+            int h = static_cast<int>(flags);
             while (*str)
                 h = h << 1 ^ *str++;
             return h;
-        })(path, hasAlphaChannel);
+        })(path, flags);
 
         static std::unordered_map<int, Texture*> textures;
         auto cachedIt = textures.find(hashed);
         if (cachedIt != textures.end()) return (*cachedIt).second;
-        auto tex = new Texture(path, hasAlphaChannel);
+        auto tex = new Texture(path, flags);
         textures.insert(std::pair<unsigned, Texture*>(hashed, tex));
         return tex;
     }
 
-    Texture::Texture(const char *const path, bool hasAlphaChannel)
-        : path(path), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), alpha(hasAlphaChannel)
+    Texture::Texture(const char *const path, TextureFlag flags)
+        : path(path), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), _flags(flags)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueInitialize(this);
     }
-    Texture::Texture(unsigned width, unsigned height, bool hasAlphaChannel)
-        : path(""), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), alpha(hasAlphaChannel)
+    Texture::Texture(unsigned width, unsigned height, TextureFlag flags)
+        : path(""), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), _flags(flags)
     {
     }
     Texture::~Texture()
@@ -97,9 +98,34 @@ namespace GlEngine
         //glDeleteSamplers(1, &gl_sampler);
     }
 
+    bool Texture::hasFlag(TextureFlag flag) const
+    {
+        return (_flags & flag) != TextureFlag::None;
+    }
+    void Texture::SetFlag(TextureFlag flag, bool val)
+    {
+        if (val) _flags |= flag;
+        else _flags &= ~flag;
+    }
+    void Texture::SetFlag(TextureFlag flag)
+    {
+        SetFlag(flag, true);
+    }
+    void Texture::ResetFlag(TextureFlag flag)
+    {
+        SetFlag(flag, false);
+    }
+
+    bool Texture::IsOpaque() const
+    {
+        return !hasFlag(TextureFlag::Translucent);
+    }
+
     const char *Texture::name()
     {
-        return "Texture";
+        std::stringstream stream;
+        stream << "Texture (" << path << ")";
+        return stream.str().c_str();
     }
 
     Texture::operator bool()
@@ -119,16 +145,6 @@ namespace GlEngine
     unsigned Texture::GetHeight()
     {
         return height;
-    }
-
-    unsigned Texture::GetGlTexture()
-    {
-        return gl_tex;
-    }
-
-    bool Texture::IsOpaque()
-    {
-        return !alpha;
     }
 
     void Texture::Push(unsigned texIdx)

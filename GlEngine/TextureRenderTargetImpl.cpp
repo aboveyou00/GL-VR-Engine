@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "TextureRenderTargetImpl.h"
+#include "TextureFlag.h"
 
 namespace GlEngine
 {
     namespace Impl
     {
-        TextureRenderTargetImpl::TextureRenderTargetImpl(unsigned width, unsigned height, bool hasAlphaChannel)
-            : texture(new Texture(width, height, hasAlphaChannel))
+        TextureRenderTargetImpl::TextureRenderTargetImpl(unsigned width, unsigned height)
+            : texture(new Texture(width, height, TextureFlag::RenderTarget))
         {
         }
         TextureRenderTargetImpl::~TextureRenderTargetImpl()
@@ -31,7 +32,7 @@ namespace GlEngine
             glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, texture->GetWidth(), texture->GetHeight());
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
 
-            glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, texture->GetGlTexture(), 0);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, texture->glslTextureId(), 0);
 
             // Set the list of draw buffers.    
             GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };

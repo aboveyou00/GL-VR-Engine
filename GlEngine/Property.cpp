@@ -22,6 +22,7 @@ namespace GlEngine::ShaderFactory
 
     Property<Texture*> prop_Texture("texture");
     Property<Texture*> prop_Texture2("texture2");
+    Property<Texture*> prop_AlphaMapTexture("alpha_map_texture");
 #pragma endregion
 
 #pragma region environment
