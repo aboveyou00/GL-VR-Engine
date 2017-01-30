@@ -32,14 +32,21 @@ bool TexturesSceneFrame::Initialize()
 
     auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
     auto pointLight = CreateGameObject<PointLightSourceObject>();
-    pointLight->lightSource()->SetPosition({ -2.5, 2.5, -2.5 });
+    pointLight->lightSource()->SetPosition({ 0, 2.5, -2.5 });
 
-    auto crateTex = GlEngine::Texture::FromFile("Textures/crate.png", false);
+    auto crateTex = GlEngine::Texture::FromFile("Textures/crate.png");
     auto cube1 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, crateTex);
     cube1->graphicsObject()->AddPropertyProvider(ambient);
     cube1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
-    cube1->SetPosition({ 0, 0, 0 });
+    cube1->SetPosition({ -4, 0, 0 });
     cube1->SetRotationSpeed({ 0, 45deg, 0 });
+
+    auto leafMaskTex = GlEngine::Texture::FromFile("Textures/leaf-mask.png", GlEngine::TextureFlag::AlphaMap);
+    auto cube2 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, crateTex, leafMaskTex);
+    cube2->graphicsObject()->AddPropertyProvider(ambient);
+    cube2->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
+    cube2->SetPosition({ 4, 0, 0 });
+    cube2->SetRotationSpeed({ 0, 45deg, 0 });
 
     return true;
 }
