@@ -38,15 +38,23 @@ bool TexturesSceneFrame::Initialize()
     auto cube1 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, crateTex);
     cube1->graphicsObject()->AddPropertyProvider(ambient);
     cube1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
-    cube1->SetPosition({ -4, 0, 0 });
+    cube1->SetPosition({ -5, 0, 0 });
     cube1->SetRotationSpeed({ 0, 45deg, 0 });
 
-    auto leafMaskTex = GlEngine::Texture::FromFile("Textures/leaf-mask.png", GlEngine::TextureFlag::AlphaMap);
-    auto cube2 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, crateTex, leafMaskTex);
+    auto brickTex = GlEngine::Texture::FromFile("Textures/bricks.png");
+    auto mossOverlayTex = GlEngine::Texture::FromFile("Textures/moss-overlay.png", GlEngine::TextureFlag::Translucent);
+    auto cube2 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, brickTex, mossOverlayTex);
     cube2->graphicsObject()->AddPropertyProvider(ambient);
     cube2->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
-    cube2->SetPosition({ 4, 0, 0 });
+    cube2->SetPosition({ 0, 0, 0 });
     cube2->SetRotationSpeed({ 0, 45deg, 0 });
+
+    auto leafMaskTex = GlEngine::Texture::FromFile("Textures/leaf-mask.png", GlEngine::TextureFlag::AlphaMap);
+    auto cube3 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, crateTex, leafMaskTex);
+    cube3->graphicsObject()->AddPropertyProvider(ambient);
+    cube3->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
+    cube3->SetPosition({ 5, 0, 0 });
+    cube3->SetRotationSpeed({ 0, 45deg, 0 });
 
     return true;
 }
