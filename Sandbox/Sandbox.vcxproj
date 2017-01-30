@@ -180,7 +180,6 @@
     <ClCompile Include="Lab04_Textures\TexturesSceneFrame.cpp" />
     <ClCompile Include="LabControls.cpp" />
     <ClCompile Include="LightSourceGraphicsObject.cpp" />
-    <ClCompile Include="LightSourceObject.cpp" />
     <ClCompile Include="Lab01_Diffuse\LitTorus.cpp" />
     <ClCompile Include="Lab02_Features\FeaturesSceneFrame.cpp" />
     <ClCompile Include="Lab02_Features\PhongTorus.cpp" />

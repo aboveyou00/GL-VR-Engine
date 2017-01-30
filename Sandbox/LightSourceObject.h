@@ -24,9 +24,8 @@ public:
     {
     }
 
-    virtual void Tick(float delta) override
+    virtual void Tick(float) override
     {
-        delta;
         SetPosition(lightSource()->position());
     }
 
@@ -35,9 +34,8 @@ public:
         return "LightSourceObject";
     }
 
-    GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override
+    GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext&) override
     {
-        ctx;
         return new LightSourceGraphicsObject();
     }
 

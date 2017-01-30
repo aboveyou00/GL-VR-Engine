@@ -34,8 +34,8 @@ bool TexturesSceneFrame::Initialize()
     auto pointLight = CreateGameObject<PointLightSourceObject>();
     pointLight->lightSource()->SetPosition({ -2.5, 2.5, -2.5 });
 
-    //auto crateTex = GlEngine::Texture::FromFile("Textures/crate.png", false);
-    auto cube1 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, Vector<3> { 1.f, 8.f, 6.f } /*crateTex*/);
+    auto crateTex = GlEngine::Texture::FromFile("Textures/crate.png", false);
+    auto cube1 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, crateTex);
     cube1->graphicsObject()->AddPropertyProvider(ambient);
     cube1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
     cube1->SetPosition({ 0, 0, 0 });
