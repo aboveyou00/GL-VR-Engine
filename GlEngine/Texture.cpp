@@ -145,11 +145,11 @@ namespace GlEngine
         gl_index = 0;
     }
 
-    unsigned Texture::glslIndex()
+    unsigned Texture::glslTextureId()
     {
         return gl_tex;
     }
-    unsigned Texture::glslRef()
+    unsigned Texture::glslTextureLocation()
     {
         return gl_index;
     }

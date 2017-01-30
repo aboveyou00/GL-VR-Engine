@@ -36,8 +36,8 @@ namespace GlEngine
         void Push(unsigned idx);
         void Pop();
 
-        unsigned glslIndex();
-        unsigned glslRef();
+        unsigned glslTextureId();
+        unsigned glslTextureLocation();
 
     private:
         bool initialized, alpha;
