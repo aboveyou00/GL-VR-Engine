@@ -3,6 +3,7 @@
 #include "IGraphicsComponent.h"
 #include "Camera.h"
 #include "RenderTargetLayer.h"
+#include "RenderTargetViewMode.h"
 
 namespace GlEngine
 {
@@ -40,6 +41,12 @@ namespace GlEngine
 
         virtual void Flip();
 
+        RenderTargetViewMode viewMode();
+        void SetViewMode(RenderTargetViewMode mode);
+
+        Matrix<4, 4> viewMatrix();
+        void SetViewMatrix(Matrix<4, 4> mat);
+
         virtual operator bool() override;
 
         inline Impl::RenderTargetImpl &GetImpl()
@@ -49,5 +56,7 @@ namespace GlEngine
 
     protected:
         Impl::RenderTargetImpl *pimpl;
+        RenderTargetViewMode _viewMode;
+        Matrix<4, 4> _viewMatrix;
     };
 }

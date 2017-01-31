@@ -23,8 +23,7 @@ namespace GlEngine::Impl
         virtual void MakeCurrentTarget() override;
 
         virtual void Prepare() override;
-        virtual void Push(RenderTargetLayer layer) override;
-        virtual void Pop(RenderTargetLayer layer) override;
+        virtual void PrePush() override;
 
         virtual void Flip() override;
 

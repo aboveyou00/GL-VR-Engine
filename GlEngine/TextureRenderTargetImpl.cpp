@@ -61,15 +61,12 @@ namespace GlEngine
         void TextureRenderTargetImpl::Prepare()
         {
         }
-        void TextureRenderTargetImpl::Push(RenderTargetLayer layer)
+        void TextureRenderTargetImpl::PrePush()
         {
             glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
             glViewport(0, 0, texture->GetWidth(), texture->GetHeight());
-            viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()]->Push();
-        }
-        void TextureRenderTargetImpl::Pop(RenderTargetLayer layer)
-        {
-            viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()]->Pop();
+
+            RenderTargetImpl::PrePush();
         }
 
         void TextureRenderTargetImpl::Flip()

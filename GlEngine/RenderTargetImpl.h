@@ -4,6 +4,7 @@
 #include "OpenGl.h"
 #include "ViewPort.h"
 #include "RenderTargetLayer.h"
+#include "RenderTargetViewMode.h"
 
 namespace GlEngine
 {
@@ -31,7 +32,7 @@ namespace GlEngine
 
             virtual void Prepare();
             virtual void PrePush();
-            virtual void Push(RenderTargetLayer layer);
+            virtual void Push(RenderTargetLayer layer, RenderTargetViewMode viewMode, Matrix<4, 4> viewMatrix);
             virtual void Pop(RenderTargetLayer layer);
 
             virtual void Flip();

@@ -52,7 +52,7 @@ namespace GlEngine
         {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
-        void RenderTargetImpl::Push(RenderTargetLayer layer)
+        void RenderTargetImpl::Push(RenderTargetLayer layer, RenderTargetViewMode viewMode, Matrix<4, 4> viewMatrix)
         {
             glEnable(GL_TEXTURE_2D);
             if (layer == RenderTargetLayer::Layer3dOpaque || layer == RenderTargetLayer::Layer3dTransluscent)
@@ -71,8 +71,11 @@ namespace GlEngine
             }
 
             ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
-            if (viewPort != nullptr)
-                viewPort->Push();
+            if (viewPort != nullptr) viewPort->Push();
+
+            if (viewMode == RenderTargetViewMode::Relative) MatrixStack::View.mult(viewMatrix);
+            else if (viewMode == RenderTargetViewMode::Absolute) MatrixStack::View.push(viewMatrix);
+            else assert(false);
         }
         void RenderTargetImpl::Pop(RenderTargetLayer layer)
         {
@@ -83,8 +86,9 @@ namespace GlEngine
             }
 
             ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
-            if (viewPort != nullptr)
-                viewPort->Pop();
+            if (viewPort != nullptr) viewPort->Pop();
+
+            MatrixStack::View.pop();
         }
 
         void RenderTargetImpl::Flip()

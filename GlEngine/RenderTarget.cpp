@@ -7,7 +7,7 @@
 namespace GlEngine
 {
     RenderTarget::RenderTarget(Impl::RenderTargetImpl *pimpl)
-        : pimpl(pimpl)
+        : pimpl(pimpl), _viewMode(RenderTargetViewMode::Relative), _viewMatrix(Matrix<4, 4>::Identity())
     {
         auto viewport3d = new PerspectiveViewPort();
         auto viewport2d = new OrthoViewPort();
@@ -75,7 +75,7 @@ namespace GlEngine
     }
     void RenderTarget::Push(RenderTargetLayer layer)
     {
-        pimpl->Push(layer);
+        pimpl->Push(layer, _viewMode, _viewMatrix);
     }
     void RenderTarget::Pop(RenderTargetLayer layer)
     {
@@ -85,6 +85,24 @@ namespace GlEngine
     void RenderTarget::Flip()
     {
         pimpl->Flip();
+    }
+
+    RenderTargetViewMode RenderTarget::viewMode()
+    {
+        return _viewMode;
+    }
+    void RenderTarget::SetViewMode(RenderTargetViewMode mode)
+    {
+        _viewMode = mode;
+    }
+
+    Matrix<4, 4> RenderTarget::viewMatrix()
+    {
+        return _viewMatrix;
+    }
+    void RenderTarget::SetViewMatrix(Matrix<4, 4> mat)
+    {
+        _viewMatrix = mat;
     }
 
     RenderTarget::operator bool()
