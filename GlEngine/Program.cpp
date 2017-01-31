@@ -265,10 +265,12 @@ namespace GlEngine
 
                     std::vector<ComponentType> inputConstraints = constraints[input];
                     auto inputConstraintEarliest = earliestComponent(inputConstraints);
-                    
-                    for (auto it = pair.second.begin(); it != pair.second.end(); it++)
-                        if (*it < inputConstraintEarliest)
-                            pair.second.erase(it);
+
+                    for (auto it = pair.second.begin(); it != pair.second.end(); )
+                    {
+                        if (*it < inputConstraintEarliest) it = pair.second.erase(it);
+                        else it++;
+                    }
                     size_t i = 0;
                     while (i < inputConstraints.size())
                     {
