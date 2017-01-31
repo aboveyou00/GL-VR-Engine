@@ -291,6 +291,10 @@ namespace GlEngine
         {
             glUniform3d(uniformLocation, val[0], val[1], val[2]);
         }
+        constexpr unsigned PropertyType_attribs<Vector<3, double>>::glsl_attribute_size()
+        {
+            return 2;
+        }
 
         std::string PropertyType_attribs<Vector<4, double>>::glsl_name()
         {
@@ -303,6 +307,10 @@ namespace GlEngine
         void PropertyType_attribs<Vector<4, double>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
             glUniform4d(uniformLocation, val[0], val[1], val[2], val[3]);
+        }
+        constexpr unsigned PropertyType_attribs<Vector<4, double>>::glsl_attribute_size()
+        {
+            return 2;
         }
 #pragma endregion
 
@@ -319,6 +327,10 @@ namespace GlEngine
         {
             glUniformMatrix2fv(uniformLocation, 1, false, val.getAddr());
         }
+        constexpr unsigned PropertyType_attribs<Matrix<2, 2>>::glsl_attribute_size()
+        {
+            return 2;
+        }
 
         std::string PropertyType_attribs<Matrix<2, 3>>::glsl_name()
         {
@@ -332,6 +344,10 @@ namespace GlEngine
         {
             uniformLocation; val;
             assert(false);
+        }
+        constexpr unsigned PropertyType_attribs<Matrix<2, 3>>::glsl_attribute_size()
+        {
+            return 3;
         }
 
         std::string PropertyType_attribs<Matrix<2, 4>>::glsl_name()
@@ -347,6 +363,10 @@ namespace GlEngine
             uniformLocation; val;
             assert(false);
         }
+        constexpr unsigned PropertyType_attribs<Matrix<2, 4>>::glsl_attribute_size()
+        {
+            return 4;
+        }
 
         std::string PropertyType_attribs<Matrix<3, 2>>::glsl_name()
         {
@@ -361,6 +381,10 @@ namespace GlEngine
             uniformLocation; val;
             assert(false);
         }
+        constexpr unsigned PropertyType_attribs<Matrix<3, 2>>::glsl_attribute_size()
+        {
+            return 2;
+        }
 
         std::string PropertyType_attribs<Matrix<3, 3>>::glsl_name()
         {
@@ -373,6 +397,10 @@ namespace GlEngine
         void PropertyType_attribs<Matrix<3, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
             glUniformMatrix3fv(uniformLocation, 1, false, val.getAddr());
+        }
+        constexpr unsigned PropertyType_attribs<Matrix<3, 3>>::glsl_attribute_size()
+        {
+            return 3;
         }
 
         std::string PropertyType_attribs<Matrix<3, 4>>::glsl_name()
@@ -388,6 +416,10 @@ namespace GlEngine
             uniformLocation; val;
             assert(false);
         }
+        constexpr unsigned PropertyType_attribs<Matrix<3, 4>>::glsl_attribute_size()
+        {
+            return 4;
+        }
 
         std::string PropertyType_attribs<Matrix<4, 2>>::glsl_name()
         {
@@ -401,6 +433,10 @@ namespace GlEngine
         {
             uniformLocation; val;
             assert(false);
+        }
+        constexpr unsigned PropertyType_attribs<Matrix<4, 2>>::glsl_attribute_size()
+        {
+            return 2;
         }
 
         std::string PropertyType_attribs<Matrix<4, 3>>::glsl_name()
@@ -416,6 +452,10 @@ namespace GlEngine
             uniformLocation; val;
             assert(false);
         }
+        constexpr unsigned PropertyType_attribs<Matrix<4, 3>>::glsl_attribute_size()
+        {
+            return 3;
+        }
 
         std::string PropertyType_attribs<Matrix<4, 4>>::glsl_name()
         {
@@ -428,6 +468,10 @@ namespace GlEngine
         void PropertyType_attribs<Matrix<4, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
             glUniformMatrix4fv(uniformLocation, 1, false, val.getAddr());
+        }
+        constexpr unsigned PropertyType_attribs<Matrix<4, 4>>::glsl_attribute_size()
+        {
+            return 4;
         }
 #pragma endregion
 

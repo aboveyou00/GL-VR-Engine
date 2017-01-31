@@ -35,6 +35,8 @@ namespace GlEngine
             std::vector<Snippet*> inputSnippets;
             std::vector<Snippet*> outputSnippets;
 
+            unsigned nextOutputIdx = 0;
+
             std::string comments;
 
             void compileVersion(std::stringstream &stream);

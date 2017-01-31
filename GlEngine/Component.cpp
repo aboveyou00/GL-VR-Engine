@@ -14,19 +14,20 @@ namespace GlEngine
     namespace ShaderFactory
     {
         Component::Component(ComponentType type)
-            : type(type), ins({}), outs({}), comments("")
+            : type(type), ins({}), outs({}), comments(""), nextOutputIdx(0)
         {
         }
         Component::~Component()
         {
         }
 
-        unsigned Component::FindOrCreateOutput(ShaderProp * prop)
+        unsigned Component::FindOrCreateOutput(ShaderProp *prop)
         {
             for (auto it : outs)
                 if (it.second == prop)
                     return it.first;
-            unsigned idx = outs.size();
+            unsigned idx = nextOutputIdx;
+            nextOutputIdx += prop->attributeSize();
             outs[idx] = prop;
             return idx;
         }

@@ -22,7 +22,8 @@ namespace GlEngine::ShaderFactory
         bool isFlat() const;
         bool isArray() const;
 
-        unsigned virtual layoutSize() = 0;
+        unsigned virtual uniformSize() = 0;
+        unsigned virtual attributeSize() = 0;
         std::string virtual DeclarationString(std::string prefix = ""s) = 0;
         std::string virtual modifier();
 

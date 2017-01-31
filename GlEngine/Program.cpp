@@ -137,7 +137,7 @@ namespace GlEngine
 
             unsigned idx = nextUniformIdx;
             uniforms[idx] = prop;
-            nextUniformIdx += prop->layoutSize();
+            nextUniformIdx += prop->uniformSize();
             return idx;
         }
 

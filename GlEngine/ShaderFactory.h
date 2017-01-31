@@ -83,8 +83,8 @@ namespace GlEngine
 
                 auto uniformLocation = _program->FindUniform(&prop);
                 if (uniformLocation == -1) return;
-                constexpr auto layout_size = PropertyType_attribs<TElem>::glsl_layout_size();
-                uniformLocation += layout_size * idx;
+                constexpr auto uniform_size = PropertyType_attribs<TElem>::glsl_uniform_size();
+                uniformLocation += uniform_size * idx;
 
                 //((PropertyType_attribs<TElem>::set_glsl_uniform(uniformLocation, args), uniformLocation += layout_size) + ... + 0);
                 compound_PropertyType_attribs<TArgs...>::set_glsl_uniform(uniformLocation, args...);

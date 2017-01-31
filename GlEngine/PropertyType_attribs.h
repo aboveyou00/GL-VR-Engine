@@ -37,7 +37,11 @@ namespace GlEngine
             {
                 return PropertyFlag::None;
             }
-            static constexpr unsigned glsl_layout_size()
+            static constexpr unsigned glsl_uniform_size()
+            {
+                return 1;
+            }
+            static constexpr unsigned glsl_attribute_size()
             {
                 return 1;
             }
@@ -46,9 +50,13 @@ namespace GlEngine
         template<typename ThisArg = void, typename... TArgs>
         struct compound_PropertyType_attribs
         {
-            static constexpr unsigned glsl_layout_size()
+            static constexpr unsigned glsl_uniform_size()
             {
-                return PropertyType_attribs<ThisArg>::glsl_layout_size() + compound_PropertyType_attribs<TArgs...>::glsl_layout_size();
+                return PropertyType_attribs<ThisArg>::glsl_uniform_size() + compound_PropertyType_attribs<TArgs...>::glsl_uniform_size();
+            }
+            static constexpr unsigned glsl_attribute_size()
+            {
+                return PropertyType_attribs<ThisArg>::glsl_attribute_size() + compound_PropertyType_attribs<TArgs...>::glsl_attribute_size();
             }
 
             template <unsigned idx = 0>
@@ -61,14 +69,18 @@ namespace GlEngine
             static void set_glsl_uniform(unsigned uniformIdx, ThisArg val, TArgs... otherVals)
             {
                 PropertyType_attribs<ThisArg>::set_glsl_uniform(uniformIdx, val);
-                compound_PropertyType_attribs<TArgs...>::set_glsl_uniform(uniformIdx + PropertyType_attribs<ThisArg>::glsl_layout_size(), otherVals...);
+                compound_PropertyType_attribs<TArgs...>::set_glsl_uniform(uniformIdx + PropertyType_attribs<ThisArg>::glsl_uniform_size(), otherVals...);
             }
         };
 
         template <>
         struct compound_PropertyType_attribs<void>
         {
-            static constexpr unsigned glsl_layout_size()
+            static constexpr unsigned glsl_uniform_size()
+            {
+                return 0;
+            }
+            static constexpr unsigned glsl_attribute_size()
             {
                 return 0;
             }
@@ -222,6 +234,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Vector<3, double>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Vector<3, double>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Vector<3, double>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Vector<4, double>>::glsl_name();
@@ -229,6 +243,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Vector<4, double>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Vector<4, double>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Vector<4, double>>::glsl_attribute_size();
 #pragma endregion
 
 #pragma region mat
@@ -238,6 +254,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 2>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<2, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<2, 2>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 3>>::glsl_name();
@@ -245,6 +263,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 3>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<2, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<2, 3>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 4>>::glsl_name();
@@ -252,6 +272,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<2, 4>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<2, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<2, 4>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 2>>::glsl_name();
@@ -259,6 +281,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 2>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<3, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<3, 2>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 3>>::glsl_name();
@@ -266,6 +290,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 3>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<3, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<3, 3>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 4>>::glsl_name();
@@ -273,6 +299,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<3, 4>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<3, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<3, 4>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 2>>::glsl_name();
@@ -280,6 +308,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 2>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<4, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<4, 2>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 3>>::glsl_name();
@@ -287,6 +317,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 3>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<4, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<4, 3>>::glsl_attribute_size();
 
         template <>
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 4>>::glsl_name();
@@ -294,6 +326,8 @@ namespace GlEngine
         ENGINE_SHARED std::string PropertyType_attribs<Matrix<4, 4>>::glsl_value(const T &value);
         template <>
         ENGINE_SHARED void PropertyType_attribs<Matrix<4, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr unsigned PropertyType_attribs<Matrix<4, 4>>::glsl_attribute_size();
 #pragma endregion
 
 #pragma region advanced
@@ -332,11 +366,18 @@ namespace GlEngine
             {
                 return PropertyFlag::None;
             }
-            static constexpr unsigned glsl_layout_size()
+            static constexpr unsigned glsl_uniform_size()
             {
-                return compound_PropertyType_attribs<TArgs...>::glsl_layout_size();
+                return compound_PropertyType_attribs<TArgs...>::glsl_uniform_size();
             }
-            //static constexpr unsigned glsl_layout_size = (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size);
+            //static constexpr unsigned glsl_uniform_size()
+            //{
+            //    return (0 + ... + PropertyType_attribs<TArgs>::glsl_uniform_size());
+            //}
+            static constexpr unsigned glsl_attribute_size()
+            {
+                return compound_PropertyType_attribs<TArgs...>::glsl_attribute_size();
+            }
         };
 
         //template <>
@@ -360,10 +401,17 @@ namespace GlEngine
         //}
         //template <>
         //template <typename... TArgs>
-        //constexpr unsigned PropertyType_attribs<Struct<TArgs...>>::glsl_layout_size()
+        //constexpr unsigned PropertyType_attribs<Struct<TArgs...>>::glsl_uniform_size()
         //{
-        //    return compound_PropertyType_attribs<TArgs...>::glsl_layout_size();
-        //    //return (0 + ... + PropertyType_attribs<TArgs>::glsl_layout_size());
+        //    return compound_PropertyType_attribs<TArgs...>::glsl_uniform_size();
+        //    //return (0 + ... + PropertyType_attribs<TArgs>::glsl_uniform_size());
+        //}
+        //template <>
+        //template <typename... TArgs>
+        //constexpr unsigned PropertyType_attribs<Struct<TArgs...>>::glsl_attribute_size()
+        //{
+        //    return compound_PropertyType_attribs<TArgs...>::glsl_attribute_size();
+        //    //return (0 + ... + PropertyType_attribs<TArgs>::glsl_attribute_size());
         //}
 
         template <typename TElem, unsigned size_arr>
@@ -388,19 +436,15 @@ namespace GlEngine
             {
                 return PropertyFlag::Array;
             }
-            static constexpr unsigned glsl_layout_size()
+            static constexpr unsigned glsl_uniform_size()
             {
-                return size_arr * PropertyType_attribs<TElem>::glsl_layout_size();
+                return size_arr * PropertyType_attribs<TElem>::glsl_uniform_size();
+            }
+            static constexpr unsigned glsl_attribute_size()
+            {
+                return size_arr * PropertyType_attribs<TElem>::glsl_attribute_size();
             }
         };
-        //template <typename TElem, unsigned size>
-        //std::string Property<Array<TElem, size>>::DeclarationString(std::string prefix = "")
-        //{
-        //    std::stringstream stream;
-        //    stream << PropertyType_attribs<Array<TElem, size>>::glsl_name() << " ";
-        //    stream << prefix << name << "[" << size << "]";
-        //    return stream.str();
-        //}
 #pragma endregion
     }
 }

@@ -35,9 +35,13 @@ namespace GlEngine
                 return stream.str();
             }
 
-            virtual unsigned layoutSize() override
+            virtual unsigned uniformSize() override
             {
-                return PropertyType_attribs<T>::glsl_layout_size();
+                return PropertyType_attribs<T>::glsl_uniform_size();
+            }
+            virtual unsigned attributeSize() override
+            {
+                return PropertyType_attribs<T>::glsl_attribute_size();
             }
         };
 
