@@ -27,7 +27,7 @@ namespace GlEngine
 
         virtual const char *name() override;
         
-        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext & ctx) override;
+        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext &ctx) override;
 
     private:
         Vector<3> _rotationSpeed;

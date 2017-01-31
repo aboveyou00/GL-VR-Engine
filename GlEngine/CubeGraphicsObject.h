@@ -5,8 +5,6 @@
 
 namespace GlEngine
 {
-    class Texture;
-
     class ENGINE_SHARED CubeGraphicsObject : public VboGraphicsObject
     {
     public:
