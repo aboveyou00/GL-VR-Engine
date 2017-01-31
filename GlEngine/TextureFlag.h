@@ -9,7 +9,8 @@ namespace GlEngine
         None         = 0,
         Translucent  = 0b0001,
         AlphaMap     = 0b0010,
-        RenderTarget = 0b0100
+        NormalMask   = 0b0100,
+        RenderTarget = 0b1000
     };
 
     FLAGS_H(TextureFlag)

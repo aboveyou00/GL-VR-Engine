@@ -75,12 +75,26 @@ namespace GlEngine
                             { &prop_ModelViewMatrix, &prop_Normal },
                             { &prop_ModelViewNormal }, 
                             PropertySourceFlag::Fallback,
-                            { ComponentType::Vertex })
+                            { ComponentType::Vertex, ComponentType::Fragment })
             },
             {
             },
             { &attr_GlPosition }
         );
+
+        static Attribute attr_NormalMap_Internal = Attribute(
+            {
+                new Snippet("[out:0] = (texture2D([in:1], [in:0]).xyz * 2) - 1;",
+                             { &prop_UV, &prop_NormalMapTexture },
+                             { &prop_Normal },
+                             PropertySourceFlag::None,
+                             { ComponentType::Fragment })
+            },
+            {
+            },
+            { }
+        );
+        Attribute attr_NormalMap = Attribute({ }, { }, { &attr_NormalMap_Internal, &attr_ModelViewNormal });
 #pragma endregion
 
 #pragma region base-color
@@ -108,7 +122,7 @@ namespace GlEngine
         );
         Attribute attr_TwoTextureBaseColor = Attribute(
             {
-                (new Snippet("[out:0] = texture2D([in:0], [in:2]);\n[temp:0] = texture2D([in:1], [in:2]);\n [out:0] = mix([out:0].rgba, vec4([temp:0].rgb, 1), [temp:0].a);//vec4(mix([out:0].rgb, [temp:0].rgb, [temp:0].a), 1 - ((1-[out:0].a) * (1-[temp:0].a)));",
+                (new Snippet("[out:0] = texture2D([in:0], [in:2]);\n[temp:0] = texture2D([in:1], [in:2]);\n[out:0] = mix([out:0].rgba, vec4([temp:0].rgb, 1), [temp:0].a);//vec4(mix([out:0].rgb, [temp:0].rgb, [temp:0].a), 1 - ((1-[out:0].a) * (1-[temp:0].a)));",
                              { &prop_Texture, &prop_Texture2, &prop_UV },
                              { &prop_BaseColor },
                              PropertySourceFlag::None,

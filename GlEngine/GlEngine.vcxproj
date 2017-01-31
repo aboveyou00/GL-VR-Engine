@@ -169,6 +169,8 @@
     <ClInclude Include="FogSource.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="PerformanceLevel.h" />
+    <ClInclude Include="PlaneGameObject.h" />
+    <ClInclude Include="PlaneGraphicsObject.h" />
     <ClInclude Include="PointLightInfo.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="PropertyResolutionEagerness.h" />
@@ -372,6 +374,8 @@
     <ClCompile Include="ObjGraphicsObject.cpp" />
     <ClCompile Include="OrthoViewPort.cpp" />
     <ClCompile Include="PersperctiveViewPort.cpp" />
+    <ClCompile Include="PlaneGameObject.cpp" />
+    <ClCompile Include="PlaneGraphicsObject.cpp" />
     <ClCompile Include="PointLightSource.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Property.cpp" />

@@ -36,6 +36,7 @@ namespace GlEngine
 #pragma region position
         extern ENGINE_SHARED Attribute attr_GlPosition;
         extern ENGINE_SHARED Attribute attr_ModelViewNormal;
+        extern ENGINE_SHARED Attribute attr_NormalMap;
 #pragma endregion
 
 #pragma region lighting

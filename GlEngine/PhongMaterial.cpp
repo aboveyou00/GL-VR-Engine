@@ -33,6 +33,7 @@ namespace GlEngine
             if (texture2 != nullptr)
             {
                 if (texture2->hasFlag(TextureFlag::AlphaMap)) factory.ProvideProperty(GlEngine::ShaderFactory::prop_AlphaMapTexture, texture2);
+                else if (texture2->hasFlag(TextureFlag::NormalMask)) factory.ProvideProperty(ShaderFactory::prop_NormalMapTexture, texture2);
                 else factory.ProvideProperty(ShaderFactory::prop_Texture2, texture2);
             }
         }
@@ -61,6 +62,7 @@ namespace GlEngine
             if (texture2 != nullptr)
             {
                 if (texture2->hasFlag(TextureFlag::AlphaMap)) props.push_back(&GlEngine::ShaderFactory::prop_AlphaMapTexture);
+                else if (texture2->hasFlag(TextureFlag::NormalMask)) props.push_back(&ShaderFactory::prop_NormalMapTexture);
                 else props.push_back(&GlEngine::ShaderFactory::prop_Texture2);
             }
         }
@@ -77,6 +79,11 @@ namespace GlEngine
             if (texture2 != nullptr)
             {
                 if (texture2->hasFlag(TextureFlag::AlphaMap)) attrs.push_back(&ShaderFactory::attr_AlphaMapDiscardBaseColor);
+                else if (texture2->hasFlag(TextureFlag::NormalMask))
+                {
+                    attrs.push_back(&ShaderFactory::attr_NormalMap);
+                    attrs.push_back(&ShaderFactory::attr_TextureBaseColor);
+                }
                 else attrs.push_back(&ShaderFactory::attr_TwoTextureBaseColor);
             }
             else attrs.push_back(&ShaderFactory::attr_TextureBaseColor);
