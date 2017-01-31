@@ -65,7 +65,7 @@ const char *LabControls::name()
     return "LabControls";
 }
 
-GlEngine::GraphicsObject *LabControls::CreateGraphicsObject(GlEngine::GraphicsContext&)
+GlEngine::GraphicsObject *LabControls::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
     return nullptr;
 }

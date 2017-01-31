@@ -16,7 +16,7 @@ public:
 
     virtual const char *name() override;
 
-    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 
 private:
     std::vector<IPropertyProvider*> providers;

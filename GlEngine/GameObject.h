@@ -31,17 +31,26 @@ namespace GlEngine
         {
             _requiresTick = require;
         }
-        inline bool RequiresTick()
-        {
-            return _requiresTick;
-        }
         inline void RequireGraphicsTick(bool require = true)
         {
             _requiresGraphicsTick = require;
         }
-        inline bool RequiresGraphicsTick()
+        inline void RequireUniqueGraphics(bool require = true)
+        {
+            _requiresUniqueGfx = require;
+        }
+
+        inline bool requiresTick()
+        {
+            return _requiresTick;
+        }
+        inline bool requiresGraphicsTick()
         {
             return _requiresGraphicsTick;
+        }
+        inline bool requiresUniqueGraphics()
+        {
+            return _requiresUniqueGfx;
         }
 
         bool Initialize() override;
@@ -53,8 +62,8 @@ namespace GlEngine
 
         virtual void HandleEvent(Events::Event &evt);
 
-        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext &ctx) = 0;
-        virtual void UpdateGraphicsObject(GraphicsContext &ctx, GraphicsObject *object);
+        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext *ctx) = 0;
+        virtual void UpdateGraphicsObject(GraphicsContext *ctx, GraphicsObject *object);
 
         Vector<3> position;
         Matrix<4, 4> orientation;
@@ -85,9 +94,9 @@ namespace GlEngine
         virtual GameObjectType type() const;
         Frame *frame() const;
         Actor *actor();
-        
+
     private:
-        bool _requiresTick, _requiresGraphicsTick, _active;
+        bool _requiresTick, _requiresGraphicsTick, _requiresUniqueGfx, _active;
         Frame *_frame;
         Actor _actor;
     };

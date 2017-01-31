@@ -49,7 +49,7 @@ namespace GlEngine
     {
     }
 
-    void GameObject::UpdateGraphicsObject(GraphicsContext&, GraphicsObject*)
+    void GameObject::UpdateGraphicsObject(GraphicsContext*, GraphicsObject*)
     {
     }
 

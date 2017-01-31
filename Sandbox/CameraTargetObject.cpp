@@ -13,11 +13,6 @@ CameraTargetObject::~CameraTargetObject()
 {
 }
 
-const char *CameraTargetObject::name()
-{
-    return "CameraTargetObject";
-}
-
 void CameraTargetObject::Tick(float delta)
 {
     Vector<3> translation = { 0, 0, 0 };
@@ -40,7 +35,12 @@ void CameraTargetObject::HandleEvent(GlEngine::Events::Event &evt)
     if (kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyReleased) this->keysDown[kbevt->GetVirtualKeyCode()] = false;
 }
 
-GlEngine::GraphicsObject *CameraTargetObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+const char *CameraTargetObject::name()
+{
+    return "CameraTargetObject";
+}
+
+GlEngine::GraphicsObject *CameraTargetObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
     return nullptr;
 }

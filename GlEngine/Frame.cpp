@@ -35,7 +35,7 @@ namespace GlEngine
     void Frame::Tick(float delta)
     {
         for (size_t q = 0; q < objects.size(); q++)
-            if (objects[q]->active() && objects[q]->RequiresTick())
+            if (objects[q]->active() && objects[q]->requiresTick())
                 objects[q]->Tick(delta);
     }
 
@@ -80,15 +80,18 @@ namespace GlEngine
         for (size_t q = 0; q < objects.size(); q++)
         {
             auto obj = objects[q];
-            auto idx = map.find(obj);
-            if (idx == map.end())
+            auto unique = obj->requiresUniqueGraphics();
+            auto &map_to_use = unique ? map : gobj_map;
+            auto idx = map_to_use.find(obj);
+            if (idx == map_to_use.end())
             {
-                map[obj] = obj->CreateGraphicsObject(ctx);
+                map_to_use[obj] = obj->CreateGraphicsObject(unique ? nullptr : &ctx);
                 if (initialized) obj->Initialize();
             }
-            else
+            else if (obj->requiresGraphicsTick() && !unique)
             {
-                obj->UpdateGraphicsObject(ctx, idx->second);
+                obj->UpdateGraphicsObject(&ctx, idx->second);
+                //TODO: get this working for game objects that require unique graphics also
             }
         }
         ctx.Update(map);

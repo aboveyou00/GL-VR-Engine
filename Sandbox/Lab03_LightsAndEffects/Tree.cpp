@@ -16,7 +16,7 @@ const char *Tree::name()
     return "Tree";
 }
 
-GlEngine::GraphicsObject *Tree::CreateGraphicsObject(GlEngine::GraphicsContext&)
+GlEngine::GraphicsObject *Tree::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
     auto mat = new PhongFogMaterial(Vector<3> { 0.f, .6f, 0.f }, { .4f, .4f, .4f }, 8);
     return GlEngine::ObjGraphicsObject::Create("Resources/tree.obj", mat, providers);

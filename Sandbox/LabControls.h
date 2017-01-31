@@ -30,7 +30,8 @@ public:
     virtual void HandleEvent(Event &evt);
 
     virtual const char *name() override;
-    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+
+    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext*) override;
 
     void SetControllingLight(GlEngine::PointLightSource *light);
 

@@ -20,7 +20,7 @@ namespace GlEngine
     {
         return "PlaneGameObject";
     }
-    GraphicsObject *PlaneGameObject::CreateGraphicsObject(GraphicsContext&)
+    GraphicsObject *PlaneGameObject::CreateGraphicsObject(GraphicsContext*)
     {
         return _gfxObj;
     }

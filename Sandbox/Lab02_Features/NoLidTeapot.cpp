@@ -47,7 +47,7 @@ const char *NoLidTeapot::name()
     return "NoLidTeapot";
 }
 
-GlEngine::GraphicsObject *NoLidTeapot::CreateGraphicsObject(GlEngine::GraphicsContext&)
+GlEngine::GraphicsObject *NoLidTeapot::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
     auto mat = new GlEngine::PhongMaterial(color, reflectionCoef);
     return GlEngine::ObjGraphicsObject::Create("Resources/teapot.obj", mat, { new GlEngine::AmbientLightSource({ .1f, .1f, .1f }), _lightSource });

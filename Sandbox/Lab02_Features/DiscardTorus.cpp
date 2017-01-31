@@ -44,9 +44,8 @@ const char *DiscardTorus::name()
     return "DiscardTorus";
 }
 
-GlEngine::GraphicsObject *DiscardTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+GlEngine::GraphicsObject *DiscardTorus::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
-    ctx;
     auto mat = new DiscardPhongMaterial(color, reflectionCoef);
     return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { new GlEngine::AmbientLightSource({ .1f, .1f, .1f }), _lightSource });
 }

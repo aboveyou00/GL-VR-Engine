@@ -20,7 +20,7 @@ namespace GlEngine
         return GameObjectType::Camera;
     }
 
-    GraphicsObject *CameraGameObject::CreateGraphicsObject(GraphicsContext &)
+    GraphicsObject *CameraGameObject::CreateGraphicsObject(GraphicsContext*)
     {
         return nullptr;
     }

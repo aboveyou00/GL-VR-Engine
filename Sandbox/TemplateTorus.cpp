@@ -28,8 +28,7 @@ const char *TemplateTorus::name()
     return "TemplateTorus";
 }
 
-GlEngine::GraphicsObject *TemplateTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+GlEngine::GraphicsObject *TemplateTorus::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
-    ctx;
     return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", templateMat, providers);
 }

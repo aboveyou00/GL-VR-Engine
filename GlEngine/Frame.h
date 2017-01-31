@@ -56,6 +56,7 @@ namespace GlEngine
         bool initialized;
 
         CameraGameObject* cameraGameObject;
+        graphics_object_map gobj_map;
         graphics_context_map context_map;
     };
 }

@@ -37,7 +37,7 @@ namespace GlEngine
     {
         return "CubeGameObject";
     }
-    GraphicsObject * CubeGameObject::CreateGraphicsObject(GraphicsContext&)
+    GraphicsObject * CubeGameObject::CreateGraphicsObject(GraphicsContext*)
     {
         return _gfxObj;
     }

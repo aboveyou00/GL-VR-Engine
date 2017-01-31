@@ -44,9 +44,8 @@ const char *LitTorus::name()
     return "LitTorus";
 }
 
-GlEngine::GraphicsObject *LitTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+GlEngine::GraphicsObject *LitTorus::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
-    ctx;
     auto mat = new GlEngine::DiffuseMaterial(color, reflectionCoef);
     return GlEngine::ObjGraphicsObject::Create("Resources/torus.obj", mat, { _lightSource });
 }

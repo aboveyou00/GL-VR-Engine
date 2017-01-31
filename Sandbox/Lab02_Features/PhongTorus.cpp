@@ -46,7 +46,7 @@ const char *PhongTorus::name()
     return "PhongTorus";
 }
 
-GlEngine::GraphicsObject *PhongTorus::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+GlEngine::GraphicsObject *PhongTorus::CreateGraphicsObject(GlEngine::GraphicsContext *ctx)
 {
     ctx;
     GlEngine::Material* mat = flat ? (GlEngine::Material*)new PhongFlatMaterial(color, reflectionCoef) : new GlEngine::PhongMaterial(color, reflectionCoef);

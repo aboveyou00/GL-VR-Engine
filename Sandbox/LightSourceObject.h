@@ -34,7 +34,7 @@ public:
         return "LightSourceObject";
     }
 
-    GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext&) override
+    GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext*) override
     {
         return new LightSourceGraphicsObject();
     }
