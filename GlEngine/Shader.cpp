@@ -78,8 +78,8 @@ namespace GlEngine
             auto geometrySource = source->geometry();
             if (!_geom && !Util::is_empty_or_ws(geometrySource))
             {
-                _geom = compileShader(GL_GEOMETRY_SHADER, vertexSource->c_str(), geometrySource->size());
-                if (!ensureShaderCompiled("Geometry", _geom)) _tesse = 0;
+                _geom = compileShader(GL_GEOMETRY_SHADER, geometrySource->c_str(), geometrySource->size());
+                if (!ensureShaderCompiled("Geometry", _geom)) _geom = 0;
             }
 
             auto fragmentSource = source->fragment();
@@ -175,7 +175,7 @@ namespace GlEngine
             glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
 
             auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
-            if (result != GL_TRUE) logger->Log(LogType::WarningC, "Shader failed to compile");
+            if (result != GL_TRUE) logger->Log(LogType::WarningC, "%s shader failed to compile", name.c_str());
 
             GLint logLength;
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
@@ -187,7 +187,7 @@ namespace GlEngine
                 if (logLength + 1 > STATIC_BUFFER_SIZE) buff = new char[logLength + 1];
                 GLsizei length;
                 glGetShaderInfoLog(shader, max(STATIC_BUFFER_SIZE, logLength + 1), &length, buff);
-                if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader info log:\n%s", buff);
+                if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "%s shader info log:\n%s", name.c_str(), buff);
                 if (logLength + 1 > STATIC_BUFFER_SIZE) delete[] buff;
             }
 
@@ -201,6 +201,7 @@ namespace GlEngine
             glAttachShader(program, _frag);
             if (_tessc != 0) glAttachShader(program, _tessc);
             if (_tesse != 0) glAttachShader(program, _tesse);
+            if (_geom != 0) glAttachShader(program, _geom);
             glLinkProgram(program);
             return program;
         }

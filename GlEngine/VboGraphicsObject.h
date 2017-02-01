@@ -57,10 +57,10 @@ namespace GlEngine
     protected:
         bool finalized;
         rt_mutex mutex;
+        std::vector<Impl::VboGraphicsSection*> graphicsSections;
 
     private:
         VaObject _vao;
-        std::vector<Impl::VboGraphicsSection*> graphicsSections;
 
         Impl::VboGraphicsSection *currentGraphicsSection;
         int elemIdx;

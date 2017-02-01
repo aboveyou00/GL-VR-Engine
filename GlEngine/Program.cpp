@@ -141,6 +141,11 @@ namespace GlEngine
             return idx;
         }
 
+        void Program::SetUniforms(std::map<size_t, ShaderProp*> uniforms)
+        {
+            this->uniforms = uniforms;
+        }
+
         void Program::ConnectComponentsProperty(ComponentType first, ComponentType last, ShaderProp *prop)
         {
             assert(first < last);

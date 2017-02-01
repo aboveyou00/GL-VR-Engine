@@ -125,7 +125,7 @@ namespace GlEngine
             assert(!!*this);
 
             glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
-            
+
             _shader->Push();
             _textures.clear();
             _arrayIndices.clear();

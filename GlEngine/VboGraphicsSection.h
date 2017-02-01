@@ -16,7 +16,7 @@ namespace GlEngine
     
     namespace Impl
     {
-        class VboGraphicsSection
+        class ENGINE_SHARED VboGraphicsSection
         {
         public:
             VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers);
@@ -35,6 +35,7 @@ namespace GlEngine
             }
 
             ShaderFactory::ShaderFactory &factory();
+            void SetFactory(ShaderFactory::ShaderFactory* factory, std::vector<ShaderFactory::IPropertyProvider*> &providers);
 
         private:
             bool finalized;

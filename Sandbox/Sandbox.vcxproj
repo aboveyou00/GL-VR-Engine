@@ -161,6 +161,7 @@
     <ClInclude Include="Lab02_Features\PhongTorus.h" />
     <ClInclude Include="Lab02_Features\NoLidTeapot.h" />
     <ClInclude Include="Lab03_LightsAndEffects\MultiPhongMaterial.h" />
+    <ClInclude Include="RawGraphicsObject.h" />
     <ClInclude Include="Sandbox.h" />
     <ClInclude Include="SandboxLoop.h" />
     <ClInclude Include="Lab01_Diffuse\DiffuseSceneFrame.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Lab02_Features\NoLidTeapot.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\MultiPhongMaterial.cpp" />
+    <ClCompile Include="RawGraphicsObject.cpp" />
     <ClCompile Include="Sandbox.cpp" />
     <ClCompile Include="SandboxLoop.cpp" />
     <ClCompile Include="Lab01_Diffuse\DiffuseSceneFrame.cpp" />

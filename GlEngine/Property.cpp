@@ -37,6 +37,10 @@ namespace GlEngine::ShaderFactory
     Property<Vector<3>> prop_CameraPosition("camera_position");
 
     Property<float> prop_GameTime("game_time_millis");
+    Property<Vector<2>> prop_MouseScreenPosition("mouse_screen_position");
+    Property<Vector<2>> prop_MouseClipPosition("mouse_clip_position");
+
+    Property<Vector<2>> prop_ScreenDimensions("screen_dimensions");
 #pragma endregion
 
 #pragma region lighting

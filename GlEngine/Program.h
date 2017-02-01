@@ -37,6 +37,7 @@ namespace GlEngine
 
             int FindUniform(ShaderProp* prop);
             unsigned FindOrCreateUniform(ShaderProp* prop);
+            void SetUniforms(std::map<size_t, ShaderProp*> uniforms);
 
             std::map<PropertySource*, std::vector<PropertySource*>> propertySourceInputs, propertySourceDependents;
             ComponentArray<std::vector<PropertySource*>> componentSources;

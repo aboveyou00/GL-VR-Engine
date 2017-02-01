@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Window.h"
+#include "Environment.h"
 
 namespace GlEngine
 {
@@ -40,6 +41,7 @@ namespace GlEngine
 
         _visible = false;
 
+        ShaderFactory::Environment::GetInstance().SetScreenDimensions({ _width, _height });
         return true;
     }
     void Window::Shutdown()
@@ -121,6 +123,7 @@ namespace GlEngine
             _width = width;
             _height = height;
         }
+        ShaderFactory::Environment::GetInstance().SetScreenDimensions({ width, height });
         return true;
     }
     void Window::SetSize(unsigned width, unsigned height)

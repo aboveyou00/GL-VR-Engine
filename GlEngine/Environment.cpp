@@ -62,4 +62,28 @@ namespace GlEngine::ShaderFactory
     {
         return _cameraPos;
     }
+    void Environment::SetScreenDimensions(Vector<2> dimensions)
+    {
+        _screenDimensions = dimensions;
+    }
+    Vector<2> Environment::screenDimensions()
+    {
+        return _screenDimensions;
+    }
+    void Environment::SetMouseScreenPosition(Vector<2> position)
+    {
+        _mouseScreenPosition = position;
+    }
+    Vector<2> Environment::mouseScreenPosition()
+    {
+        return _mouseScreenPosition;
+    }
+    void Environment::SetMouseClipPosition(Vector<2> position)
+    {
+        _mouseScreenPosition = { _screenDimensions[0] * (position[0] + 1.0) / 2.0, _screenDimensions[1] * (position[1] + 1.0) / 2.0 };
+    }
+    Vector<2> Environment::mouseClipPosition()
+    {
+        return { 2.0 * _mouseScreenPosition[0] / _screenDimensions[0] - 1.0, -2.0 * _mouseScreenPosition[1] / _screenDimensions[1] + 1.0 };
+    }
 }

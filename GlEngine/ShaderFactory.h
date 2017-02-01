@@ -58,15 +58,17 @@ namespace GlEngine
             virtual bool InitializeGraphics() override;
             virtual void ShutdownGraphics() override;
 
-            void Push();
-            void Pop();
+            virtual void Push();
+            virtual void Pop();
 
-            void Recompile();
+            virtual void Recompile();
 
             template <typename T>
             void ProvideProperty(Property<T> &prop, const T &val)
             {
                 assert(!!this);
+                if (_program == nullptr)
+                    return;
                 auto uniformLocation = _program->FindUniform(&prop);
                 if (uniformLocation != -1) PropertyType_attribs<T>::set_glsl_uniform(uniformLocation, val);
             }
@@ -105,7 +107,7 @@ namespace GlEngine
             
             virtual const char *name() override;
 
-        private:
+        protected:
             Material *_mat;
             Program *_program;
             Shader *_shader;

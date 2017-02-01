@@ -17,9 +17,7 @@ namespace GlEngine
               _factory(new ShaderFactory::ShaderFactory()),
               finalized(false)
         {
-            _factory->AddPropertyProviders(providers);
-            _factory->SetMaterial(material);
-            _factory->Recompile();
+            SetFactory(_factory, providers);
         }
         VboGraphicsSection::~VboGraphicsSection()
         {
@@ -157,6 +155,14 @@ namespace GlEngine
         ShaderFactory::ShaderFactory &VboGraphicsSection::factory()
         {
             return *_factory;
+        }
+
+        void VboGraphicsSection::SetFactory(ShaderFactory::ShaderFactory * factory, std::vector<ShaderFactory::IPropertyProvider*> &providers)
+        {
+            _factory = factory;
+            _factory->AddPropertyProviders(providers);
+            _factory->SetMaterial(material);
+            _factory->Recompile();
         }
 
         VboGraphicsSection::operator bool()

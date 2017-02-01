@@ -175,6 +175,7 @@
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="PropertyResolutionEagerness.h" />
     <ClInclude Include="RenderTargetViewMode.h" />
+    <ClInclude Include="RawShaderFactory.h" />
     <ClInclude Include="ShaderFactoryError.h" />
     <ClInclude Include="PropertySourceFlag.h" />
     <ClInclude Include="PropertyFlag.h" />
@@ -385,6 +386,7 @@
     <ClCompile Include="PropertyType_attribs.cpp" />
     <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RandomUtils.cpp" />
+    <ClCompile Include="RawShaderFactory.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="RenderTargetLayer.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
