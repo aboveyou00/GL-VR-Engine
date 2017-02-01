@@ -86,7 +86,7 @@ namespace GlEngine
             if (idx == map_to_use.end())
             {
                 map_to_use[obj] = obj->CreateGraphicsObject(unique ? nullptr : &ctx);
-                if (initialized) obj->Initialize();
+                //if (initialized) obj->Initialize(); //TODO: Why is this here?
             }
             else if (obj->requiresGraphicsTick() && !unique)
             {
@@ -94,7 +94,8 @@ namespace GlEngine
                 //TODO: get this working for game objects that require unique graphics also
             }
         }
-        ctx.Update(map);
+
+        ctx.Update(map, gobj_map);
     }
     
     void Frame::HandleEvent(Events::Event &evt)

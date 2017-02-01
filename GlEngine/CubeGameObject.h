@@ -7,10 +7,8 @@ namespace GlEngine
 {
     class ENGINE_SHARED CubeGameObject : public GameObject
     {
-    private:
-        CubeGameObject(CubeGraphicsObject *gobj);
-
     public:
+        CubeGameObject(CubeGraphicsObject *gobj);
         template <typename... TArgs>
         CubeGameObject(TArgs... args)
             : CubeGameObject(new CubeGraphicsObject(args...))
@@ -29,7 +27,7 @@ namespace GlEngine
         
         virtual GraphicsObject *CreateGraphicsObject(GraphicsContext *ctx) override;
 
-    private:
+    protected:
         Vector<3> _rotationSpeed;
         GraphicsObject *_gfxObj;
     };

@@ -57,7 +57,7 @@ namespace GlEngine
         resources->QueueInitialize(this);
     }
     Texture::Texture(unsigned width, unsigned height, TextureFlag flags)
-        : path(""), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), _flags(flags)
+        : path(nullptr), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(true), _flags(flags)
     {
     }
     Texture::~Texture()
@@ -67,6 +67,7 @@ namespace GlEngine
     bool Texture::Initialize()
     {
         if (initialized) return true;
+        if (path == nullptr) return false;
         return initialized = decodeOneStep(path, image, width, height);
     }
     void Texture::Shutdown()
@@ -80,7 +81,7 @@ namespace GlEngine
         glGenTextures(1, &gl_tex);
         glBindTexture(GL_TEXTURE_2D, gl_tex);
         glTexStorage2D(GL_TEXTURE_2D, 4, GL_RGBA8, width, height);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image);
+        if (image != nullptr) glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

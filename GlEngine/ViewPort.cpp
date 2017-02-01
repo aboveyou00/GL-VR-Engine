@@ -4,6 +4,13 @@
 
 namespace GlEngine
 {
+    ViewPort::ViewPort()
+    {
+    }
+    ViewPort::~ViewPort()
+    {
+    }
+
     void ViewPort::SetSize(int width, int height)
     {
         SetWidth(width);

@@ -31,4 +31,5 @@ private:
     void handleEvents();
 
     GlEngine::FrameStack frames;
+    GlEngine::GraphicsContext *ctx;
 };

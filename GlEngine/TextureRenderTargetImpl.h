@@ -8,7 +8,7 @@ namespace GlEngine::Impl
     class TextureRenderTargetImpl : public RenderTargetImpl
     {
     public:
-        TextureRenderTargetImpl(unsigned width, unsigned height);
+        TextureRenderTargetImpl(Texture *texture);
         ~TextureRenderTargetImpl();
 
         virtual bool Initialize() override;
@@ -24,6 +24,7 @@ namespace GlEngine::Impl
 
         virtual void Prepare() override;
         virtual void PrePush() override;
+        virtual void PostPop() override;
 
         virtual void Flip() override;
 

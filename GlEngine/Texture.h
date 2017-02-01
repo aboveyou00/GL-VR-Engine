@@ -10,16 +10,16 @@ namespace GlEngine
     public:
         static Texture *FromFile(const char *const path, TextureFlag flags = TextureFlag::None);
         Texture(unsigned width, unsigned height, TextureFlag flags = TextureFlag::None);
+        ~Texture();
 
     private:
         Texture(const char *const path, TextureFlag flags = TextureFlag::None);
-        ~Texture();
 
     public:
-        bool Initialize();
-        void Shutdown();
-        bool InitializeGraphics();
-        void ShutdownGraphics();
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
+        virtual bool InitializeGraphics() override;
+        virtual void ShutdownGraphics() override;
 
         bool hasFlag(TextureFlag flag) const;
         void SetFlag(TextureFlag flag, bool val);
@@ -43,11 +43,14 @@ namespace GlEngine
         unsigned glslTextureId();
         unsigned glslTextureLocation();
 
+    protected:
+        unsigned gl_tex, gl_sampler;
+
     private:
         bool initialized;
         const char *const path;
         unsigned char *image;
-        unsigned width, height, gl_tex, gl_sampler, gl_index;
+        unsigned width, height, gl_index;
         TextureFlag _flags;
     };
 }

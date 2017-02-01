@@ -7,7 +7,8 @@ namespace GlEngine
     class ENGINE_SHARED ViewPort
     {
     public:
-        Camera relativeCamera;
+        ViewPort();
+        ~ViewPort();
 
         virtual void Push() = 0;
         virtual void Pop() = 0;
@@ -20,6 +21,5 @@ namespace GlEngine
 
     protected:
         int width, height;
-
     };
 }

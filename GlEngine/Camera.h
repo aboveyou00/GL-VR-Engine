@@ -29,7 +29,7 @@ namespace GlEngine
         }
 
     private:
-        Impl::CameraImpl * pimpl;
+        Impl::CameraImpl *pimpl;
 
     };
 }

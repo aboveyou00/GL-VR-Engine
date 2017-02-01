@@ -2,6 +2,7 @@
 #include "GraphicsContext.h"
 #include "OpenGl.h"
 #include "FrameStack.h"
+#include "Frame.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -12,9 +13,15 @@
 
 namespace GlEngine
 {
-    GraphicsContext::GraphicsContext(FrameStack *frames)
-        : frames(frames)
+    GraphicsContext::GraphicsContext(Frame *frame)
+        : frame(frame), frames(nullptr)
     {
+        assert(frame != nullptr);
+    }
+    GraphicsContext::GraphicsContext(FrameStack *frames)
+        : frame(nullptr), frames(frames)
+    {
+        assert(frames != nullptr);
     }
     GraphicsContext::~GraphicsContext()
     {
@@ -39,31 +46,55 @@ namespace GlEngine
         return "GraphicsContext";
     }
 
-    void GraphicsContext::Update(const graphics_object_map &objs)
+    void GraphicsContext::Update(const graphics_object_map &objs, const graphics_object_map &objs_fallback)
     {
         ScopedLock _lock(_mux);
 
         transformed.clear();
         for (auto kv : objs)
+            addTransformed(kv.first, kv.second);
+
+        for (auto kv : objs_fallback)
         {
-            if (kv.first->type() == GameObjectType::Object3d)
+            bool found = false;
+            for (auto oldkv : objs)
             {
-                if (kv.second != nullptr)
+                if (oldkv.first == kv.first)
                 {
-                    for (auto it = transformed.begin(); it != transformed.end(); it++)
-                    {
-                        if ((*it).graphicsObject->renderOrder >= kv.second->renderOrder)
-                        {
-                            transformed.insert(it, TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation));
-                            goto inserted;
-                        }
-                    }
-                    transformed.insert(transformed.end(), TransformedGraphicsObject(kv.second, kv.first->position, kv.first->orientation));
-                    inserted:;
+                    found = true;
+                    break;
                 }
             }
-            else if (kv.first->type() == GameObjectType::Camera)
-                UpdateCamera(kv.first);
+            if (found) continue;
+
+            addTransformed(kv.first, kv.second);
+        }
+    }
+    void GraphicsContext::addTransformed(GameObject *gobj, GraphicsObject *gfxObj)
+    {
+        switch (gobj->type())
+        {
+        case GameObjectType::Object3d:
+            if (gfxObj != nullptr)
+            {
+                for (auto it = transformed.begin(); it != transformed.end(); it++)
+                {
+                    if ((*it).graphicsObject->renderOrder >= gfxObj->renderOrder)
+                    {
+                        transformed.insert(it, TransformedGraphicsObject(gfxObj, gobj->position, gobj->orientation));
+                        return;
+                    }
+                }
+                transformed.insert(transformed.end(), TransformedGraphicsObject(gfxObj, gobj->position, gobj->orientation));
+            }
+            break;
+
+        case GameObjectType::Camera:
+            UpdateCamera(gobj);
+            break;
+
+        default:
+            assert(false);
         }
     }
 
@@ -72,13 +103,16 @@ namespace GlEngine
         camera.SetGameObject(obj);
     }
 
-    void GraphicsContext::AddRenderTarget(RenderTarget *renderTarget)
+    void GraphicsContext::AddRenderTarget(RenderTarget *renderTarget, bool queueInitialize)
     {
         ScopedLock _lock(_mux);
         assert(renderTargetCount <= MAX_RENDER_TARGETS);
         renderTargets[renderTargetCount++] = renderTarget;
-        auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-        resources->QueueInitialize(renderTarget);
+        if (queueInitialize)
+        {
+            auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+            resources->QueueInitialize(renderTarget);
+        }
     }
 
     void GraphicsContext::Render()
@@ -102,6 +136,7 @@ namespace GlEngine
                 }
                 renderTargets[i]->Pop(layer);
             }
+            renderTargets[i]->PostPop();
         }
         camera.Pop();
 
@@ -113,7 +148,8 @@ namespace GlEngine
     void GraphicsContext::Tick(float)
     {
         ScopedLock _lock(_mux);
-        frames->Update(*this);
+        if (frames != nullptr) frames->Update(*this);
+        else frame->Update(*this);
         Render();
     }
 }

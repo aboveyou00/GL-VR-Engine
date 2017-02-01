@@ -6,7 +6,7 @@
 namespace GlEngine
 {
     GameObject::GameObject(Vector<3> position, Matrix<4, 4> orientation)
-        : position(position), orientation(orientation), _frame(nullptr)
+        : position(position), orientation(orientation), _frame(nullptr), _requiresUniqueGfx(false), _requiresTick(false), _requiresGraphicsTick(false)
     {
         RequireTick(false);
     }

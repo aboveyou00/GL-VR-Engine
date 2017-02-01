@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "RenderTargetImpl.h"
 #include "MatrixStack.h"
+#include "PerspectiveViewPort.h"
+#include "OrthoViewPort.h"
 #include <chrono>
 
 namespace GlEngine
@@ -18,14 +20,38 @@ namespace GlEngine
 
         bool RenderTargetImpl::Initialize()
         {
+            auto current_opaque3d = viewPort(RenderTargetLayer::Layer3dOpaque);
+            auto current_translucent3d = viewPort(RenderTargetLayer::Layer3dTransluscent);
+            if (current_opaque3d == nullptr || current_translucent3d == nullptr)
+            {
+                auto viewport3d = new PerspectiveViewPort();
+                if (current_opaque3d == nullptr) SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, viewport3d);
+                if (current_translucent3d == nullptr) SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, viewport3d);
+            }
+
+            auto current_2d = viewPort(RenderTargetLayer::Layer2d);
+            if (current_2d == nullptr)
+            {
+                auto viewport2d = new OrthoViewPort();
+                SetViewPort(GlEngine::RenderTargetLayer::Layer2d, viewport2d);
+            }
+
             return true;
         }
         void RenderTargetImpl::Shutdown()
         {
             for (int i = 0; i < layerCount; i++)
             {
-                if (viewPorts[i] != nullptr)
-                    delete viewPorts[i];
+                auto vp = viewPorts[i];
+                if (vp != nullptr)
+                {
+                    viewPorts[i] = nullptr;
+                    for (size_t q = i + 1; q < layerCount; q++)
+                    {
+                        if (viewPorts[q] == vp) viewPorts[q] = nullptr;
+                    }
+                    delete vp;
+                }
             }
         }
         bool RenderTargetImpl::InitializeGraphics()
@@ -89,6 +115,9 @@ namespace GlEngine
             if (viewPort != nullptr) viewPort->Pop();
 
             MatrixStack::View.pop();
+        }
+        void RenderTargetImpl::PostPop()
+        {
         }
 
         void RenderTargetImpl::Flip()

@@ -6,7 +6,10 @@
 namespace GlEngine::Impl
 {
     WindowRenderTargetImpl::WindowRenderTargetImpl(Window *window)
-        : _window(window), deviceContext(_window->GetDeviceContext()), lastWidth(0), lastHeight(0), initialized(false)
+        : RenderTargetImpl(),
+          _window(window), deviceContext(_window->GetDeviceContext()),
+          lastWidth(0), lastHeight(0),
+          initialized(false)
     {
     }
     WindowRenderTargetImpl::~WindowRenderTargetImpl()
@@ -15,20 +18,24 @@ namespace GlEngine::Impl
 
     bool WindowRenderTargetImpl::Initialize()
     {
+        if (!RenderTargetImpl::Initialize()) return false;
         if (!CreateContext()) return false;
         return initialized = true;
     }
     void WindowRenderTargetImpl::Shutdown()
     {
+        RenderTargetImpl::Shutdown();
         wglDeleteContext(contextHandle);
     }
     bool WindowRenderTargetImpl::InitializeGraphics()
     {
+        if (!RenderTargetImpl::InitializeGraphics()) return false;
         MakeCurrentTarget();
         return true;
     }
     void WindowRenderTargetImpl::ShutdownGraphics()
     {
+        RenderTargetImpl::ShutdownGraphics();
         wglMakeCurrent(nullptr, nullptr);
     }
 

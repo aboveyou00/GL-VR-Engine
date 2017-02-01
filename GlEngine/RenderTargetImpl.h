@@ -34,6 +34,7 @@ namespace GlEngine
             virtual void PrePush();
             virtual void Push(RenderTargetLayer layer, RenderTargetViewMode viewMode, Matrix<4, 4> viewMatrix);
             virtual void Pop(RenderTargetLayer layer);
+            virtual void PostPop();
 
             virtual void Flip();
 

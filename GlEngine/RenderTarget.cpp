@@ -1,19 +1,12 @@
 #include "stdafx.h"
 #include "RenderTarget.h"
 #include "RenderTargetImpl.h"
-#include "PerspectiveViewPort.h"
-#include "OrthoViewPort.h"
 
 namespace GlEngine
 {
     RenderTarget::RenderTarget(Impl::RenderTargetImpl *pimpl)
         : pimpl(pimpl), _viewMode(RenderTargetViewMode::Relative), _viewMatrix(Matrix<4, 4>::Identity())
     {
-        auto viewport3d = new PerspectiveViewPort();
-        auto viewport2d = new OrthoViewPort();
-        SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, viewport3d);
-        SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, viewport3d);
-        SetViewPort(GlEngine::RenderTargetLayer::Layer2d, viewport2d);
     }
     RenderTarget::~RenderTarget()
     {
@@ -80,6 +73,10 @@ namespace GlEngine
     void RenderTarget::Pop(RenderTargetLayer layer)
     {
         pimpl->Pop(layer);
+    }
+    void RenderTarget::PostPop()
+    {
+        pimpl->PostPop();
     }
 
     void RenderTarget::Flip()

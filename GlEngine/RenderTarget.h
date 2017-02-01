@@ -38,6 +38,7 @@ namespace GlEngine
         virtual void PrePush();
         virtual void Push(RenderTargetLayer layer);
         virtual void Pop(RenderTargetLayer layer);
+        virtual void PostPop();
 
         virtual void Flip();
 

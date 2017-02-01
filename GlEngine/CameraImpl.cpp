@@ -30,7 +30,7 @@ namespace GlEngine
                 up = forwardN.Cross(side);
             }
             view = Matrix<3, 3>::FromCols(-side, up, forwardN).ToTransformMatrix();
-            
+
             MatrixStack::View.mult(Mat3T<float>::TranslateMatrix(-eye) * view);
         }
 

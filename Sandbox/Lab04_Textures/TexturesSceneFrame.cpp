@@ -5,6 +5,7 @@
 #include "../CameraTargetObject.h"
 #include "../LabControls.h"
 #include "MathUtils.h"
+#include "GraphicsContext.h"
 
 #include "Texture.h"
 #include "CubeGameObject.h"
@@ -12,7 +13,8 @@
 #include "../LightSourceObject.h"
 #include "PointLightSource.h"
 #include "AmbientLightSource.h"
-#include "TextureRenderTarget.h"
+
+#include "FrameBufferCubeGameObject.h"
 
 TexturesSceneFrame::TexturesSceneFrame()
 {
@@ -23,6 +25,8 @@ TexturesSceneFrame::~TexturesSceneFrame()
 
 bool TexturesSceneFrame::Initialize()
 {
+    if (!Frame::Initialize()) return false;
+
     auto cameraTarget = this->CreateGameObject<CameraTargetObject>();
 
     auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
@@ -52,13 +56,11 @@ bool TexturesSceneFrame::Initialize()
     cube2->SetPosition({ -2.5f, 0, 0 });
     cube2->SetRotationSpeed({ 0, 45deg, 0 });
 
-    //auto *texRenderTarget = new GlEngine::TextureRenderTarget(200, 200);
-    //_gfxContext->AddRenderTarget(texRenderTarget);
-    //auto cube3 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, texRenderTarget);
-    //cube3->graphicsObject()->AddPropertyProvider(ambient);
-    //cube3->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
-    //cube3->SetPosition({ 2.5f, 0, 0 });
-    //cube3->SetRotationSpeed({ 0, 45deg, 0 });
+    auto cube3 = CreateGameObject<FrameBufferCubeGameObject>(Vector<3> { 3, 3, 3 });
+    cube3->graphicsObject()->AddPropertyProvider(ambient);
+    cube3->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
+    cube3->SetPosition({ 2.5f, 0, 0 });
+    cube3->SetRotationSpeed({ 0, 45deg, 0 });
 
     auto leafMaskTex = GlEngine::Texture::FromFile("Textures/leaf-mask.png", GlEngine::TextureFlag::AlphaMap);
     auto cube4 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, crateTex, leafMaskTex);

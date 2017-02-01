@@ -17,6 +17,7 @@ namespace GlEngine
     class ENGINE_SHARED GraphicsContext : public IComponent
     {
     public:
+        GraphicsContext(Frame *frame);
         GraphicsContext(FrameStack *frames);
         ~GraphicsContext();
 
@@ -27,9 +28,9 @@ namespace GlEngine
         bool Initialize();
         void Shutdown();
 
-        void AddRenderTarget(RenderTarget *renderTarget);
+        void AddRenderTarget(RenderTarget *renderTarget, bool queueInitialize = false);
 
-        void Update(const graphics_object_map &objs);
+        void Update(const graphics_object_map &objs, const graphics_object_map &objs_fallback);
         void UpdateCamera(GameObject*);
         void Render();
 
@@ -45,6 +46,9 @@ namespace GlEngine
         static const int MAX_RENDER_TARGETS = 16;
         RenderTarget *renderTargets[MAX_RENDER_TARGETS];
         size_t renderTargetCount = 0;
+        Frame *frame;
         FrameStack *frames;
+
+        void addTransformed(GameObject *gobj, GraphicsObject *gfxObj);
     };
 }

@@ -1,81 +1,100 @@
 #include "stdafx.h"
 #include "TextureRenderTargetImpl.h"
 #include "TextureFlag.h"
+#include "LogUtils.h"
 
-namespace GlEngine
+namespace GlEngine::Impl
 {
-    namespace Impl
+    TextureRenderTargetImpl::TextureRenderTargetImpl(Texture *texture)
+        : RenderTargetImpl(), texture(texture)
     {
-        TextureRenderTargetImpl::TextureRenderTargetImpl(unsigned width, unsigned height)
-            : texture(new Texture(width, height, TextureFlag::RenderTarget))
+    }
+    TextureRenderTargetImpl::~TextureRenderTargetImpl()
+    {
+    }
+
+    bool TextureRenderTargetImpl::Initialize()
+    {
+        if (!RenderTargetImpl::Initialize()) return false;
+
+        return true;
+    }
+    void TextureRenderTargetImpl::Shutdown()
+    {
+        RenderTargetImpl::Shutdown();
+    }
+    bool TextureRenderTargetImpl::InitializeGraphics()
+    {
+        if (!RenderTargetImpl::InitializeGraphics()) return false;
+
+        frameBuffer = 0;
+        glGenFramebuffers(1, &frameBuffer);
+        if (frameBuffer == 0)
         {
+            Util::Log(LogType::ErrorC, "Failed to create framebuffer.");
+            return false;
         }
-        TextureRenderTargetImpl::~TextureRenderTargetImpl()
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+        glGenRenderbuffers(1, &depthRenderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, texture->GetWidth(), texture->GetHeight());
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->glslTextureId(), 0);
+
+        // Set the list of draw buffers.    
+        GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+        glDrawBuffers(1, drawBuffers);
+
+        // Check that the frame buffer was created successfully
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         {
-        }
-
-        bool TextureRenderTargetImpl::Initialize()
-        {
-            return true;
-        }
-        void TextureRenderTargetImpl::Shutdown()
-        {
-        }
-        bool TextureRenderTargetImpl::InitializeGraphics()
-        {
-            frameBuffer = 0;
-            glGenFramebuffers(1, &frameBuffer);
-            glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
-            glGenRenderbuffers(1, &depthRenderBuffer);
-            glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
-            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, texture->GetWidth(), texture->GetHeight());
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
-
-            glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, texture->glslTextureId(), 0);
-
-            // Set the list of draw buffers.    
-            GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-            glDrawBuffers(1, DrawBuffers);
-
-            // Check that the frame buffer was created successfully
-            if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-                return false;
-
-            return true;
-        }
-        void TextureRenderTargetImpl::ShutdownGraphics()
-        {
-        }
-
-        const char *TextureRenderTargetImpl::name()
-        {
-            return "TextureRenderTargetImpl";
-        }
-
-        void TextureRenderTargetImpl::MakeCurrentTarget()
-        {
-            assert(false);
+            Util::Log(LogType::ErrorC, "Failed to create framebuffer.");
+            return false;
         }
 
-        void TextureRenderTargetImpl::Prepare()
-        {
-        }
-        void TextureRenderTargetImpl::PrePush()
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-            glViewport(0, 0, texture->GetWidth(), texture->GetHeight());
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        return true;
+    }
+    void TextureRenderTargetImpl::ShutdownGraphics()
+    {
+        RenderTargetImpl::ShutdownGraphics();
+    }
 
-            RenderTargetImpl::PrePush();
-        }
+    const char *TextureRenderTargetImpl::name()
+    {
+        return "TextureRenderTargetImpl";
+    }
 
-        void TextureRenderTargetImpl::Flip()
-        {
-        }
+    void TextureRenderTargetImpl::MakeCurrentTarget()
+    {
+        assert(false);
+    }
 
-        TextureRenderTargetImpl::operator bool()
-        {
-            return true;
-        }
+    void TextureRenderTargetImpl::Prepare()
+    {
+    }
+    void TextureRenderTargetImpl::PrePush()
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        glViewport(0, 0, texture->GetWidth(), texture->GetHeight());
+
+        RenderTargetImpl::PrePush();
+    }
+    void TextureRenderTargetImpl::PostPop()
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        RenderTargetImpl::PostPop();
+    }
+
+    void TextureRenderTargetImpl::Flip()
+    {
+    }
+
+    TextureRenderTargetImpl::operator bool()
+    {
+        return true;
     }
 }

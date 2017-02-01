@@ -90,7 +90,7 @@ bool Sandbox::createWindow()
     _gfxContext->camera.SetEye({ 0, 0, 0 });
     _gfxContext->camera.SetForward({ 0, 0, 1 });
     _gfxContext->camera.SetUp({ 0, 1, 0 });
-    _gfxContext->AddRenderTarget(new GlEngine::WindowRenderTarget(_window));
+    _gfxContext->AddRenderTarget(new GlEngine::WindowRenderTarget(_window), true);
 
     engine.GetGlController().AddGraphicsContext(_gfxContext);
 
