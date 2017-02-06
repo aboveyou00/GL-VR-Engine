@@ -152,6 +152,7 @@
     <ClInclude Include="Lab03_LightsAndEffects\Lab3Controls.h" />
     <ClInclude Include="Lab04_Textures\FrameBufferCubeGameObject.h" />
     <ClInclude Include="Lab04_Textures\TexturesSceneFrame.h" />
+    <ClInclude Include="Lab05_Geometry\GeometrySceneFrame.h" />
     <ClInclude Include="LabControls.h" />
     <ClInclude Include="LightSourceGraphicsObject.h" />
     <ClInclude Include="LightSourceObject.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Lab03_LightsAndEffects\Lab3Controls.cpp" />
     <ClCompile Include="Lab04_Textures\FrameBufferCubeGameObject.cpp" />
     <ClCompile Include="Lab04_Textures\TexturesSceneFrame.cpp" />
+    <ClCompile Include="Lab05_Geometry\GeometrySceneFrame.cpp" />
     <ClCompile Include="LabControls.cpp" />
     <ClCompile Include="LightSourceGraphicsObject.cpp" />
     <ClCompile Include="Lab01_Diffuse\LitTorus.cpp" />

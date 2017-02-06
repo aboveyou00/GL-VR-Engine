@@ -4,6 +4,7 @@
 #include "Lab02_Features/FeaturesSceneFrame.h"
 #include "Lab03_LightsAndEffects/LightsAndEffectsSceneFrame.h"
 #include "Lab04_Textures/TexturesSceneFrame.h"
+#include "Lab05_Geometry/GeometrySceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -53,7 +54,7 @@ bool SandboxLoop::initLoop()
     if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
 
     if (!frames.Initialize()) return false;
-    frames.PushNewFrame<TexturesSceneFrame>();
+    frames.PushNewFrame<GeometrySceneFrame>();
 
     return true;
 }
