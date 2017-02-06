@@ -10,11 +10,11 @@
 #include "LightSourceObject.h"
 
 TemplateObj::TemplateObj(std::string filename, Material * mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick)
-    : createGraphicsObject([filename](TemplateObj* self, GlEngine::GraphicsContext&){ return GlEngine::ObjGraphicsObject::Create(filename.c_str(), self->templateMat, self->providers); }), templateMat(mat), providers(providers), tick(tick)
+    : createGraphicsObject([filename](TemplateObj* self, GlEngine::GraphicsContext*){ return GlEngine::ObjGraphicsObject::Create(filename.c_str(), self->templateMat, self->providers); }), templateMat(mat), providers(providers), tick(tick)
 {
     RequireTick(true);
 }
-TemplateObj::TemplateObj(std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext& ctx)> createGraphicsObject, Material * mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick)
+TemplateObj::TemplateObj(std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext*)> createGraphicsObject, Material * mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick)
     : createGraphicsObject(createGraphicsObject), templateMat(mat), providers(providers), tick(tick)
 {
     RequireTick(true);
@@ -33,7 +33,7 @@ const char *TemplateObj::name()
     return "TemplateObj";
 }
 
-GlEngine::GraphicsObject *TemplateObj::CreateGraphicsObject(GlEngine::GraphicsContext &ctx)
+GlEngine::GraphicsObject *TemplateObj::CreateGraphicsObject(GlEngine::GraphicsContext *ctx)
 {
     return createGraphicsObject(this, ctx);
 }

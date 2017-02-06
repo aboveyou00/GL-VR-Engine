@@ -202,9 +202,7 @@ namespace GlEngine
         },
         { &attr_ModelViewNormal }
         );
-
-        static Property<float> prop_DiffuseComponentIntensity = Property<float>("diffuse_component_intensity");
-        
+ 
         Attribute attr_DiffuseIntensity = Attribute(
             {
                 new Snippet("[out:0] = dot([in:0], [in:1].xyz);",

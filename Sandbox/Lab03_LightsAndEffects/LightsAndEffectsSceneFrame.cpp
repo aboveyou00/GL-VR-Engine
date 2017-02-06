@@ -136,48 +136,6 @@ bool LightsAndEffectsSceneFrame::Initialize()
     multiPhongData.rotYLight->lightSource()->SetDiffuseColor({ 0.f, 1.f, 0.f });
     multiPhongData.rotZLight->lightSource()->SetDiffuseColor({ 0.f, 0.f, 1.f });
 
-    ambientLightSource = new GlEngine::AmbientLightSource({ .3f, .3f, .3f });
-
-    CreateGameObject<TemplateTorus>(
-        new MultiPhongMaterial({ 1.f, 1.f, 1.f }, { .8f, .8f, .8f }, 8.f),
-        std::vector<IPropertyProvider*> {
-            multiPhongData.rotXLight->lightSource(),
-            multiPhongData.rotYLight->lightSource(),
-            multiPhongData.rotZLight->lightSource(),
-            ambientLightSource
-        },
-        [multiPhongData](TemplateTorus *torus, float delta) mutable -> void {
-                if (LabControls::isPaused) return;
-                else if (LabControls::rotateZ)
-                {
-                    multiPhongData.rotZDelta += delta;
-
-                    auto rotationAmount = multiPhongData.rotZDelta * multiPhongData.rotationSpeed;
-                    auto transformMatrix = Matrix<4, 4>::TranslateMatrix({ 0, multiPhongData.distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(torus->position);
-                    auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
-                    multiPhongData.rotZLight->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
-                }
-                if (LabControls::rotateY)
-                {
-                    multiPhongData.rotYDelta += delta;
-
-                    auto rotationAmount = multiPhongData.rotYDelta * multiPhongData.rotationSpeed;
-                    auto transformMatrix = Matrix<4, 4>::TranslateMatrix({ 0, 0, multiPhongData.distance }) * Matrix<4, 4>::YawMatrix(rotationAmount)   * Matrix<4, 4>::TranslateMatrix(torus->position);
-                    auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
-                    multiPhongData.rotYLight->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
-                }
-                if (LabControls::rotateX)
-                {
-                    multiPhongData.rotXDelta += delta;
-
-                    auto rotationAmount = multiPhongData.rotXDelta * multiPhongData.rotationSpeed;
-                    auto transformMatrix = Matrix<4, 4>::TranslateMatrix({ multiPhongData.distance, 0, 0 }) * Matrix<4, 4>::PitchMatrix(rotationAmount) * Matrix<4, 4>::TranslateMatrix(torus->position);
-                    auto transformedPosition = transformMatrix.Transpose() * Vector<4>{ 0, 0, 0, 1 };
-                    multiPhongData.rotXLight->lightSource()->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
-                }
-        }
-    )->SetPosition({ -10, 3, 0 });
-
     struct {
         Vector<3> ambient = { 0.1f, 0.1f, 0.1f };
         Vector<3> color = { 1.0f, 1.0f, 0.2f };
@@ -236,7 +194,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     }
 
     auto spotFloor = CreateGameObject<TemplateObj>(
-        [](TemplateObj* self, GlEngine::GraphicsContext&)
+        [](TemplateObj* self, GlEngine::GraphicsContext*)
         {
             auto gobj = new StageGraphicsObject(false);
             for (auto it = self->providers.begin(); it != self->providers.end(); it++)
