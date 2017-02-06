@@ -197,6 +197,8 @@ void main(void) {
 }
 )raw";
 
+#include "PointVolume.h"
+
 GeometrySceneFrame::GeometrySceneFrame()
 {
 }
@@ -309,6 +311,9 @@ bool GeometrySceneFrame::Initialize()
     //plane1->graphicsObject()->AddPropertyProvider(ambient);
     //plane1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
     //plane1->SetPosition({ 0, -3.f, 0 });
+
+    auto vboFactory = PointVolume<>::Generate({ -5.f, -5.f, -5.f }, { 5.f, 5.f, 5.f }, 50);
+    vboFactory;
 
     return true;
 }
