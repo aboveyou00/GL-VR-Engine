@@ -19,7 +19,7 @@ class TemplateObj : public GlEngine::GameObject
 {
 public:
     TemplateObj(std::string filename, Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick);
-    TemplateObj(std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext* ctx)> createGraphicsObject, Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick);
+    TemplateObj(std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext*)> createGraphicsObject, Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick);
     ~TemplateObj();
 
     virtual void Tick(float delta) override;
@@ -28,7 +28,7 @@ public:
 
     virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext* ctx) override;
     
-    std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext* ctx)> createGraphicsObject;
+    std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext*)> createGraphicsObject;
     Material* templateMat;
     std::vector<IPropertyProvider*> providers;
     std::function<void(TemplateObj*, float)> tick;

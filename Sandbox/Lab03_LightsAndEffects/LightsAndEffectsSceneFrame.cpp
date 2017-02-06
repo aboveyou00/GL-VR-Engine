@@ -527,7 +527,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     }
 
     auto spotFloor = CreateGameObject<TemplateObj>(
-        [](TemplateObj* self, GlEngine::GraphicsContext*)
+        [](TemplateObj* self, GlEngine::GraphicsContext*) -> GlEngine::GraphicsObject*
         {
             auto gobj = new StageGraphicsObject(false);
             for (auto it = self->providers.begin(); it != self->providers.end(); it++)
@@ -599,7 +599,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     //phongData.lightSource = new LightSourceObject<PointLightSource>(new PointLightSource());
 
     auto phongTorus = CreateGameObject<TemplateObj>(
-        [](TemplateObj* self, GlEngine::GraphicsContext&) {
+        [](TemplateObj* self, GlEngine::GraphicsContext*) {
             auto gobj = new RawGraphicsObject(
             "Resources/torus.obj",
             {
