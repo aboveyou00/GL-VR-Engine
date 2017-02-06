@@ -73,6 +73,7 @@ namespace GlEngine
     std::vector<ShaderFactory::Attribute*> PhongMaterial::attributes()
     {
         std::vector<ShaderFactory::Attribute*> attrs = { };
+        attrs.push_back(&ShaderFactory::attr_LightingFallbacks);
         if (texture == nullptr) attrs.push_back(&ShaderFactory::attr_RgbBaseColor);
         else
         {

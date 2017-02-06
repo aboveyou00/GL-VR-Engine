@@ -44,6 +44,7 @@ namespace GlEngine
     std::vector<ShaderFactory::Attribute*> DiffuseMaterial::attributes()
     {
         return {
+            &ShaderFactory::attr_LightingFallbacks,
             &ShaderFactory::attr_GlPosition,
             &ShaderFactory::attr_DiffuseOnly,
             &ShaderFactory::attr_RgbBaseColor

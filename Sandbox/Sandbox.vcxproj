@@ -144,6 +144,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="2dOverlay\G2DOverlaySceneFrame.h" />
+    <ClInclude Include="2dOverlay\XpBarGameObject.h" />
+    <ClInclude Include="2dOverlay\XpBarGraphicsObject.h" />
     <ClInclude Include="Lab03_LightsAndEffects\PhongFogMaterial.h" />
     <ClInclude Include="Lab02_Features\DiscardPhongMaterial.h" />
     <ClInclude Include="Lab02_Features\DiscardTorus.h" />
@@ -172,6 +175,9 @@
     <ClInclude Include="TemplateTorus.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="2dOverlay\G2DOverlaySceneFrame.cpp" />
+    <ClCompile Include="2dOverlay\XpBarGameObject.cpp" />
+    <ClCompile Include="2dOverlay\XpBarGraphicsObject.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\PhongFogMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardTorus.cpp" />

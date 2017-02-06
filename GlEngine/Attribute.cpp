@@ -44,7 +44,22 @@ namespace GlEngine
             },
             {
             },
-            { &attr_LightingFallbacks }
+            { /*&attr_LightingFallbacks*/ }
+        );
+#pragma endregion
+
+#pragma region g2d
+        Attribute attr_Image2d = Attribute(
+            {
+                new Snippet("[out:0] = [in:0];",
+                            { &prop_BaseColor },
+                            { &prop_RgbaColor },
+                            PropertySourceFlag::None,
+                            { ComponentType::Vertex, ComponentType::Fragment })
+            },
+            {
+            },
+            { &attr_GlPosition, &attr_TextureBaseColor }
         );
 #pragma endregion
 

@@ -6,7 +6,7 @@ typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 
 LabControls::LabControls()
-    : movementSpeed(2.f)
+    : movementSpeed(2.f), controllingLight(nullptr)
 {
     RequireTick(true);
 }

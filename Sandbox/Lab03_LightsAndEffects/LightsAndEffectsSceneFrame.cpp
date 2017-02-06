@@ -84,6 +84,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
                 &GlEngine::ShaderFactory::prop_CelLevels
             },
             {
+                &GlEngine::ShaderFactory::attr_LightingFallbacks,
                 &GlEngine::ShaderFactory::attr_GlPosition,
                 &GlEngine::ShaderFactory::attr_AmbientDiffuse,
                 &GlEngine::ShaderFactory::attr_RgbBaseColor,
@@ -204,7 +205,8 @@ bool LightsAndEffectsSceneFrame::Initialize()
                     &GlEngine::ShaderFactory::attr_GlPosition,
                     &GlEngine::ShaderFactory::attr_Phong,
                     &GlEngine::ShaderFactory::attr_RgbBaseColor,
-                    &GlEngine::ShaderFactory::attr_Spotlight
+                    &GlEngine::ShaderFactory::attr_Spotlight,
+                    &GlEngine::ShaderFactory::attr_LightingFallbacks
                 },
                 [spotData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
                 {

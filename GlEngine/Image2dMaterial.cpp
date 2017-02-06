@@ -3,11 +3,14 @@
 #include "Texture.h"
 #include "Shader.h"
 
+#include "Property.h"
+#include "Attribute.h"
+#include "ShaderFactory.h"
+
 namespace GlEngine
 {
     Image2dMaterial::Image2dMaterial()
-        : Material(true)//,
-          //singleShader(GlEngine::Shader::Create("Shaders", "tex_2d"))
+        : Material(true)
     {
     }
     Image2dMaterial::~Image2dMaterial()
@@ -21,19 +24,8 @@ namespace GlEngine
 
     void Image2dMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
-        factory;
-        assert(false);
-        //assert(!instanced);
-        //if (singleShader && *singleShader) singleShader->Push();
-        //if (tex && *tex) tex->Push();
+        factory.ProvideProperty(ShaderFactory::prop_Texture, tex);
     }
-    //void Image2dMaterial::Pop(bool instanced)
-    //{
-    //    assert(!instanced);
-    //    if (tex && *tex) tex->Pop();
-    //    assert(false);
-    //    //if (singleShader && *singleShader) singleShader->Pop();
-    //}
 
     bool Image2dMaterial::IsOpaque()
     {
@@ -46,11 +38,15 @@ namespace GlEngine
 
     std::vector<ShaderFactory::ShaderProp*> Image2dMaterial::properties()
     {
-        return { };
+        return {
+            &GlEngine::ShaderFactory::prop_Texture
+        };
     }
     std::vector<ShaderFactory::Attribute*> Image2dMaterial::attributes()
     {
-        return { };
+        return {
+            &GlEngine::ShaderFactory::attr_Image2d
+        };
     }
 
     const char *Image2dMaterial::name()
@@ -59,7 +55,6 @@ namespace GlEngine
     }
     Image2dMaterial::operator bool()
     {
-        assert(false);
-        return tex && *tex;// && singleShader && *singleShader;
+        return tex && *tex;
     }
 }

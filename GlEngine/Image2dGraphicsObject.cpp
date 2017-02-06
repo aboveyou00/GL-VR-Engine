@@ -20,19 +20,6 @@ namespace GlEngine
     {
     }
 
-    Image2dGraphicsObject *Image2dGraphicsObject::Create(Texture *tex)
-    {
-        static std::unordered_map<Texture*, Image2dGraphicsObject*> cache;
-        auto ptr = cache[tex];
-        if (ptr == nullptr) ptr = cache[tex] = new Image2dGraphicsObject(tex, true);
-        return ptr;
-    }
-    Image2dGraphicsObject *Image2dGraphicsObject::Create(const char *path)
-    {
-        auto tex = Texture::FromFile(path);
-        return Create(tex);
-    }
-
     bool Image2dGraphicsObject::Initialize()
     {
         AddVertex({ 0, 0, 0 }, { 0, 0 }, { 0, 0, 1 });

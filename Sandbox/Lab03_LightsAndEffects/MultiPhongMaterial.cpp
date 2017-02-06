@@ -91,6 +91,7 @@ std::vector<ShaderProp*> MultiPhongMaterial::properties()
 std::vector<Attribute*> MultiPhongMaterial::attributes()
 {
     std::vector<Attribute*> attrs = {};
+    attrs.push_back(&GlEngine::ShaderFactory::attr_LightingFallbacks);
     if (texture == nullptr) attrs.push_back(&GlEngine::ShaderFactory::attr_RgbBaseColor);
     else attrs.push_back(&GlEngine::ShaderFactory::attr_TextureBaseColor);
     attrs.push_back(&GlEngine::ShaderFactory::attr_GlPosition);

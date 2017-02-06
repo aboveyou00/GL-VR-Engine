@@ -14,9 +14,6 @@ namespace GlEngine
         Image2dGraphicsObject(Texture *tex = nullptr, bool readonly = false);
         ~Image2dGraphicsObject();
 
-        static Image2dGraphicsObject *Create(Texture *tex);
-        static Image2dGraphicsObject *Create(const char *path);
-        
         bool Initialize() override;
         void Shutdown() override;
 

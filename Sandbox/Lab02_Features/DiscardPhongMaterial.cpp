@@ -31,9 +31,11 @@ static Attribute attr_Discard = Attribute(
     },
     { 
     }, {
-    &GlEngine::ShaderFactory::attr_GlPosition,
-    &GlEngine::ShaderFactory::attr_Phong
-});
+        &GlEngine::ShaderFactory::attr_LightingFallbacks,
+        &GlEngine::ShaderFactory::attr_GlPosition,
+        &GlEngine::ShaderFactory::attr_Phong
+    }
+);
 
 std::vector<GlEngine::ShaderFactory::Attribute*> DiscardPhongMaterial::attributes()
 {

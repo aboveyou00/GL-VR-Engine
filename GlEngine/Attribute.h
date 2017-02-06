@@ -26,6 +26,10 @@ namespace GlEngine
         extern ENGINE_SHARED Attribute attr_OutColor;
 #pragma endregion
 
+#pragma region g2d
+        extern ENGINE_SHARED Attribute attr_Image2d;
+#pragma endregion
+
 #pragma region base-color
         extern ENGINE_SHARED Attribute attr_RgbBaseColor;
         extern ENGINE_SHARED Attribute attr_TextureBaseColor;
