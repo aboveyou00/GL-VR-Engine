@@ -9,7 +9,7 @@ namespace GlEngine::ShaderFactory
     class ENGINE_SHARED RawShaderFactory : public ShaderFactory
     {
     public:
-        RawShaderFactory(ShaderSource shaderSource, std::map<size_t, ShaderProp*> = {});
+        RawShaderFactory(ShaderSource* shaderSource, std::map<size_t, ShaderProp*>* uniforms = nullptr);
         ~RawShaderFactory();
 
         virtual bool Initialize() override;
@@ -23,7 +23,7 @@ namespace GlEngine::ShaderFactory
         virtual const char *name() override;
 
     private:
-        ShaderSource _shaderSource;
-        std::map<size_t, ShaderProp*> uniforms;
+        ShaderSource* _shaderSource;
+        std::map<size_t, ShaderProp*>* uniforms;
     };
 }

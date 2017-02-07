@@ -18,8 +18,8 @@ namespace GlEngine
     class ENGINE_SHARED VboGraphicsObject : public GraphicsObject
     {
     public:
-        VboGraphicsObject();
-        VboGraphicsObject(VaObject vao);
+        VboGraphicsObject(std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory = [](Material*) { return nullptr; });
+        VboGraphicsObject(VaObject vao, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory = [](Material*) { return nullptr; });
         ~VboGraphicsObject();
 
         virtual void AddPropertyProvider(ShaderFactory::IPropertyProvider *provider) override;
@@ -58,6 +58,7 @@ namespace GlEngine
         bool finalized;
         rt_mutex mutex;
         std::vector<Impl::VboGraphicsSection*> graphicsSections;
+        std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory;
 
     private:
         VaObject _vao;

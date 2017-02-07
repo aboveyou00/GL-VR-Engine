@@ -598,73 +598,68 @@ bool LightsAndEffectsSceneFrame::Initialize()
     phongData.lightSource = CreateGameObject<LightSourceObject<PointLightSource>>(new PointLightSource());
     //phongData.lightSource = new LightSourceObject<PointLightSource>(new PointLightSource());
 
-    auto phongTorus = CreateGameObject<TemplateObj>(
-        [](TemplateObj* self, GlEngine::GraphicsContext*) {
-            auto gobj = new RawGraphicsObject(
-            "Resources/torus.obj",
-            {
-                &vertexSource,
-                nullptr,
-                nullptr,
-                &geometrySource,
-                &fragmentSource,
-            },
-            {
-                { 0, &GlEngine::ShaderFactory::prop_ViewMatrix },
-                { 1, &GlEngine::ShaderFactory::prop_ModelMatrix },
-                { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
-                { 3, &GlEngine::ShaderFactory::prop_RgbColor },
-                { 4, &GlEngine::ShaderFactory::prop_PointLightPosition },
-                { 5, &GlEngine::ShaderFactory::prop_CameraPosition },
-                { 6, &GlEngine::ShaderFactory::prop_ReflectionCoefficient },
-                { 7, &GlEngine::ShaderFactory::prop_SpecularLightColor },
-                { 8, &GlEngine::ShaderFactory::prop_Shininess },
-                { 9, &GlEngine::ShaderFactory::prop_DiffuseLightColor },
-                { 10, &GlEngine::ShaderFactory::prop_AmbientLightColor },
-                { 11, &GlEngine::ShaderFactory::prop_ScreenDimensions },
-                { 12, &GlEngine::ShaderFactory::prop_MouseClipPosition }
-            }
-            );
+    //auto phongTorus = CreateGameObject<TemplateObj>(
+    //    [](TemplateObj* self, GlEngine::GraphicsContext*) {
+    //        auto gobj = new RawGraphicsObject(
+    //        "Resources/torus.obj",
+    //        {
+    //            &vertexSource,
+    //            nullptr,
+    //            nullptr,
+    //            &geometrySource,
+    //            &fragmentSource,
+    //        },
+    //        {
+    //            { 0, &GlEngine::ShaderFactory::prop_ViewMatrix },
+    //            { 1, &GlEngine::ShaderFactory::prop_ModelMatrix },
+    //            { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
+    //            { 3, &GlEngine::ShaderFactory::prop_RgbColor },
+    //            { 4, &GlEngine::ShaderFactory::prop_PointLightPosition },
+    //            { 5, &GlEngine::ShaderFactory::prop_CameraPosition },
+    //            { 6, &GlEngine::ShaderFactory::prop_ReflectionCoefficient },
+    //            { 7, &GlEngine::ShaderFactory::prop_SpecularLightColor },
+    //            { 8, &GlEngine::ShaderFactory::prop_Shininess },
+    //            { 9, &GlEngine::ShaderFactory::prop_DiffuseLightColor },
+    //            { 10, &GlEngine::ShaderFactory::prop_AmbientLightColor },
+    //            { 11, &GlEngine::ShaderFactory::prop_ScreenDimensions },
+    //            { 12, &GlEngine::ShaderFactory::prop_MouseClipPosition }
+    //        }
+    //        );
 
-            for (size_t q = 0; q < self->providers.size(); q++)
-                gobj->AddPropertyProvider(self->providers[q]);
-            gobj->SetMaterial(self->templateMat);
+    //        for (size_t q = 0; q < self->providers.size(); q++)
+    //            gobj->AddPropertyProvider(self->providers[q]);
+    //        gobj->SetMaterial(self->templateMat);
 
-            return (GlEngine::GraphicsObject*)gobj; // why do I need this?
-        },
-        new TemplateMaterial(
-            {
-                &GlEngine::ShaderFactory::prop_RgbColor,
-                &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
-                &GlEngine::ShaderFactory::prop_AmbientLightColor,
-                &GlEngine::ShaderFactory::prop_Shininess
-            },
-            {
-                &GlEngine::ShaderFactory::attr_GlPosition,
-                &GlEngine::ShaderFactory::attr_Phong,
-                &GlEngine::ShaderFactory::attr_RgbBaseColor,
-            },
-            [phongData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
-            {
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, phongData.color);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, phongData.reflectionCoef);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, phongData.shininess);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, phongData.ambient);
-                auto mousePos = GlEngine::ShaderFactory::Environment::GetInstance().mouseClipPosition();
-                auto screenDim = GlEngine::ShaderFactory::Environment::GetInstance().screenDimensions();
-                
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_MouseClipPosition, mousePos);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_ScreenDimensions, screenDim);
-            }
-        ),
-        std::vector<IPropertyProvider*> {
-            phongData.lightSource->lightSource()
-        },
-        [phongData](TemplateObj* self, float) mutable {
-            phongData.lightSource->lightSource()->SetPosition(self->position + Vector<3>{-2, 0.5, -1});
-        }
-    );
-    phongTorus->SetPosition({ 0, 0, 0 });
+    //        return (GlEngine::GraphicsObject*)gobj; // why do I need this?
+    //    },
+    //    new TemplateMaterial(
+    //        {
+    //            &GlEngine::ShaderFactory::prop_RgbColor,
+    //            &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
+    //            &GlEngine::ShaderFactory::prop_AmbientLightColor,
+    //            &GlEngine::ShaderFactory::prop_Shininess
+    //        },
+    //        {
+    //            &GlEngine::ShaderFactory::attr_GlPosition,
+    //            &GlEngine::ShaderFactory::attr_Phong,
+    //            &GlEngine::ShaderFactory::attr_RgbBaseColor,
+    //        },
+    //        [phongData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
+    //        {
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, phongData.color);
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, phongData.reflectionCoef);
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, phongData.shininess);
+    //            factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, phongData.ambient);
+    //        }
+    //    ),
+    //    std::vector<IPropertyProvider*> {
+    //        phongData.lightSource->lightSource()
+    //    },
+    //    [phongData](TemplateObj* self, float) mutable {
+    //        phongData.lightSource->lightSource()->SetPosition(self->position + Vector<3>{-2, 0.5, -1});
+    //    }
+    //);
+    //phongTorus->SetPosition({ 0, 0, 0 });
 
     return true;
 }

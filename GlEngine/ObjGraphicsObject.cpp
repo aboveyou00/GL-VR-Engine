@@ -9,8 +9,8 @@
 
 namespace GlEngine
 {
-    ObjGraphicsObject::ObjGraphicsObject(const char *const filename)
-        : filename(filename)
+    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory)
+        : VboGraphicsObject(createFactory), filename(filename)
     {
     }
 

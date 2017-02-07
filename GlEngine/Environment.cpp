@@ -47,6 +47,10 @@ namespace GlEngine::ShaderFactory
 #endif
         factory.ProvideProperty(prop_CameraPosition, _cameraPos);
         factory.ProvideProperty(prop_GameTime, GetGameTime());
+
+        factory.ProvideProperty(prop_MouseClipPosition, mouseClipPosition());
+        factory.ProvideProperty(prop_MouseScreenPosition, _mouseScreenPosition);
+        factory.ProvideProperty(prop_ScreenDimensions, _screenDimensions);
     }
 
     float Environment::GetGameTime()

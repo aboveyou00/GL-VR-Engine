@@ -10,11 +10,11 @@ namespace GlEngine
 {
     namespace Impl
     {
-        VboGraphicsSection::VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers)
+        VboGraphicsSection::VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers, ShaderFactory::ShaderFactory* factory)
             : material(material),
               tris(new std::vector<Vector<3, uint16_t>>()),
               quads(new std::vector<Vector<4, uint16_t>>()),
-              _factory(new ShaderFactory::ShaderFactory()),
+              _factory(factory == nullptr ? new ShaderFactory::ShaderFactory() : factory),
               finalized(false)
         {
             SetFactory(_factory, providers);

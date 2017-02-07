@@ -10,18 +10,19 @@
 
 namespace GlEngine
 {
-    VboGraphicsObject::VboGraphicsObject()
-        : VboGraphicsObject(VaObject())
+    VboGraphicsObject::VboGraphicsObject(std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory)
+        : VboGraphicsObject(VaObject(), createFactory)
     {
     }
-    VboGraphicsObject::VboGraphicsObject(VaObject vao)
+    VboGraphicsObject::VboGraphicsObject(VaObject vao, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory)
         : GraphicsObject(true),
           _vao(vao),
           finalized(!!vao),
           elemIdx(0),
           currentGraphicsSection(nullptr),
           verticesFactory(finalized ? nullptr : new VboFactory<VboType::Float, Vector<3>, Vector<2>, Vector<3>>(BufferMode::Array)),
-          facesFactory(finalized ? nullptr : new VboFactory<VboType::UnsignedShort, uint16_t>(BufferMode::ElementArray))
+          facesFactory(finalized ? nullptr : new VboFactory<VboType::UnsignedShort, uint16_t>(BufferMode::ElementArray)),
+          createFactory(createFactory)
     {
     }
     VboGraphicsObject::~VboGraphicsObject()
@@ -56,7 +57,7 @@ namespace GlEngine
                 currentGraphicsSection = graphicsSections[q];
                 return;
             }
-        graphicsSections.push_back(currentGraphicsSection = new Impl::VboGraphicsSection(material, providers()));
+        graphicsSections.push_back(currentGraphicsSection = new Impl::VboGraphicsSection(material, providers(), createFactory(material)));
     }
 
     int VboGraphicsObject::AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal)

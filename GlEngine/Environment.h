@@ -35,6 +35,5 @@ namespace GlEngine::ShaderFactory
         Vector<3> _cameraPos;
         Vector<2> _screenDimensions;
         Vector<2> _mouseScreenPosition;
-        Vector<2> _mouseClipPosition;
     };
 }

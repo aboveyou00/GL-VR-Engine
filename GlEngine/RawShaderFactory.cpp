@@ -6,7 +6,7 @@
 
 namespace GlEngine::ShaderFactory
 {
-    RawShaderFactory::RawShaderFactory(ShaderSource shaderSource, std::map<size_t, ShaderProp*> uniforms)
+    RawShaderFactory::RawShaderFactory(ShaderSource* shaderSource, std::map<size_t, ShaderProp*>* uniforms)
         : _shaderSource(shaderSource), uniforms(uniforms)
     {
     }
@@ -31,7 +31,7 @@ namespace GlEngine::ShaderFactory
     void RawShaderFactory::Recompile()
     {
         _program = new Program();
-        _program->SetUniforms(uniforms);
+        _program->SetUniforms(*uniforms);
 
         this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
 
@@ -46,7 +46,7 @@ namespace GlEngine::ShaderFactory
         }
         this->_program->AddPropertySource(new UniformPropertySource(properties));
 
-        _shader = Shader::Create(&_shaderSource);
+        _shader = Shader::Create(_shaderSource);
     }
     const char * RawShaderFactory::name()
     {

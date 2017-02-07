@@ -19,7 +19,7 @@ namespace GlEngine
         class ENGINE_SHARED VboGraphicsSection
         {
         public:
-            VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers);
+            VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers, ShaderFactory::ShaderFactory* factory = nullptr);
             ~VboGraphicsSection();
 
             void AddTriangle(Vector<3, uint16_t> indices);

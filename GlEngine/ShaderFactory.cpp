@@ -103,7 +103,6 @@ namespace GlEngine
                 this->_program->AddAttribute(attr);
 
             auto *source = this->_program->Compile();
-
             this->_shader = Shader::Create(source);
 
             return true;
