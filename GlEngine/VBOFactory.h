@@ -67,6 +67,11 @@ namespace GlEngine
             return UnsafeVboFactory::Compile(vao, instanced);
         }
 
+        BufferMode mode()
+        {
+            return currentMode;
+        }
+
     //private:
     //    std::vector<el_type> check_cache_data;
     };

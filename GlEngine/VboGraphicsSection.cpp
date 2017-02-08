@@ -99,6 +99,7 @@ namespace GlEngine
                     glPatchParameteri(GL_PATCH_VERTICES, 3);
                     glDrawElements(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
                 }
+                assert(!quadCount);
             }
             else if (tesselation == TesselationType::Quads)
             {
@@ -107,6 +108,7 @@ namespace GlEngine
                     glPatchParameteri(GL_PATCH_VERTICES, 4);
                     glDrawElements(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
                 }
+                assert(!triCount);
             }
             else assert(false);
 
@@ -157,7 +159,7 @@ namespace GlEngine
             return *_factory;
         }
 
-        void VboGraphicsSection::SetFactory(ShaderFactory::ShaderFactory * factory, std::vector<ShaderFactory::IPropertyProvider*> &providers)
+        void VboGraphicsSection::SetFactory(ShaderFactory::ShaderFactory *factory, std::vector<ShaderFactory::IPropertyProvider*> &providers)
         {
             _factory = factory;
             _factory->AddPropertyProviders(providers);

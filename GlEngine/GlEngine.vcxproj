@@ -307,6 +307,7 @@
     <ClInclude Include="VbObjectAttribList.h" />
     <ClInclude Include="VbObjectAttribType.h" />
     <ClInclude Include="VboFactory.h" />
+    <ClInclude Include="VboFactoryGraphicsObject.h" />
     <ClInclude Include="VboGraphicsObject.h" />
     <ClInclude Include="VboGraphicsSection.h" />
     <ClInclude Include="VboPropertySource.h" />

@@ -148,6 +148,11 @@ namespace GlEngine
             return VbObject();
         }
 
+        BufferMode mode()
+        {
+            return currentMode;
+        }
+
     protected:
         std::vector<el_type> data;
         unsigned vertexSizeInElements = 0;
