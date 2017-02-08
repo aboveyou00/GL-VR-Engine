@@ -5,10 +5,14 @@
 #include "TemplateMaterial.h"
 #include "Material.h"
 #include "IPropertyProvider.h"
-#include <functional>
+
+class TemplateObj;
 
 typedef GlEngine::Material Material;
 typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
+
+typedef std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext*)> TplGfxObjectCtorFn;
+typedef std::function<void(TemplateObj*, float)> TplTickFn;
 
 namespace GlEngine
 {
@@ -18,18 +22,30 @@ namespace GlEngine
 class TemplateObj : public GlEngine::GameObject
 {
 public:
-    TemplateObj(std::string filename, Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick);
-    TemplateObj(std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext*)> createGraphicsObject, Material* mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick);
+    TemplateObj(std::string filename, Material *mat);
+    TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat = nullptr);
+    TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers);
+    TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers);
+    TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick);
+    TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick);
     ~TemplateObj();
 
     virtual void Tick(float delta) override;
 
     virtual std::string name() override;
 
-    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext* ctx) override;
+    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
+
+    Material &material() const;
+    const std::vector<IPropertyProvider*> &providers() const;
     
-    std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext*)> createGraphicsObject;
-    Material* templateMat;
-    std::vector<IPropertyProvider*> providers;
-    std::function<void(TemplateObj*, float)> tick;
+private:
+    TplGfxObjectCtorFn createGraphicsObject;
+    TplTickFn tick;
+    Material *_templateMat;
+    std::vector<IPropertyProvider*> _providers;
+
+    std::string filename;
+    GlEngine::GraphicsObject *createFromFile(GlEngine::GraphicsContext *ctx);
+    static GlEngine::GraphicsObject *createFromFileStatic(TemplateObj *self, GlEngine::GraphicsContext *ctx);
 };

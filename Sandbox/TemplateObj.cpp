@@ -9,14 +9,32 @@
 #include "LabControls.h"
 #include "LightSourceObject.h"
 
-TemplateObj::TemplateObj(std::string filename, Material * mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick)
-    : createGraphicsObject([filename](TemplateObj* self, GlEngine::GraphicsContext*){ return GlEngine::ObjGraphicsObject::Create(filename.c_str(), self->templateMat, self->providers); }), templateMat(mat), providers(providers), tick(tick)
+TemplateObj::TemplateObj(std::string filename, Material *mat)
+    : TemplateObj(filename, mat, {})
 {
+}
+TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat)
+    : TemplateObj(createGraphicsObject, mat, {})
+{
+}
+TemplateObj::TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers)
+    : TemplateObj(filename, mat, providers, [](TemplateObj*, float) {})
+{
+}
+TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers)
+    : TemplateObj(createGraphicsObject, mat, providers, [](TemplateObj*, float) {})
+{
+}
+TemplateObj::TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick)
+    : filename(filename), createGraphicsObject(createFromFileStatic), _templateMat(mat), _providers(providers), tick(tick)
+{
+    if (mat == nullptr) _templateMat = new TemplateMaterial({}, {}, [](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory&) {});
     RequireTick(true);
 }
-TemplateObj::TemplateObj(std::function<GlEngine::GraphicsObject*(TemplateObj*, GlEngine::GraphicsContext*)> createGraphicsObject, Material * mat, std::vector<IPropertyProvider*> providers, std::function<void(TemplateObj*, float)> tick)
-    : createGraphicsObject(createGraphicsObject), templateMat(mat), providers(providers), tick(tick)
+TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick)
+    : createGraphicsObject(createGraphicsObject), _templateMat(mat), _providers(providers), tick(tick)
 {
+    if (mat == nullptr) _templateMat = new TemplateMaterial({}, {}, [](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory&) {});
     RequireTick(true);
 }
 TemplateObj::~TemplateObj()
@@ -36,4 +54,23 @@ std::string TemplateObj::name()
 GlEngine::GraphicsObject *TemplateObj::CreateGraphicsObject(GlEngine::GraphicsContext *ctx)
 {
     return createGraphicsObject(this, ctx);
+}
+
+Material &TemplateObj::material() const
+{
+    return *_templateMat;
+}
+const std::vector<IPropertyProvider*> &TemplateObj::providers() const
+{
+    return _providers;
+}
+
+GlEngine::GraphicsObject *TemplateObj::createFromFile(GlEngine::GraphicsContext*)
+{
+    return GlEngine::ObjGraphicsObject::Create(filename.c_str(), _templateMat, _providers);
+}
+GlEngine::GraphicsObject *TemplateObj::createFromFileStatic(TemplateObj *self, GlEngine::GraphicsContext *ctx)
+{
+    assert(self != nullptr);
+    return self->createFromFile(ctx);
 }

@@ -530,9 +530,9 @@ bool LightsAndEffectsSceneFrame::Initialize()
         [](TemplateObj* self, GlEngine::GraphicsContext*) -> GlEngine::GraphicsObject*
         {
             auto gobj = new StageGraphicsObject(false);
-            for (auto it = self->providers.begin(); it != self->providers.end(); it++)
+            for (auto it = self->providers().begin(); it != self->providers().end(); it++)
                 gobj->AddPropertyProvider(*it);
-            gobj->SetMaterial(self->templateMat);
+            gobj->SetMaterial(&self->material());
             return gobj;
         },
         new TemplateMaterial(

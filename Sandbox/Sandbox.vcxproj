@@ -183,7 +183,10 @@
     <ClCompile Include="Lab03_LightsAndEffects\Lab3Controls.cpp" />
     <ClCompile Include="Lab04_Textures\FrameBufferCubeGameObject.cpp" />
     <ClCompile Include="Lab04_Textures\TexturesSceneFrame.cpp" />
+    <ClCompile Include="Lab05_Geometry\billboard_source.cpp" />
     <ClCompile Include="Lab05_Geometry\GeometrySceneFrame.cpp" />
+    <ClCompile Include="Lab05_Geometry\hair_source.cpp" />
+    <ClCompile Include="Lab05_Geometry\wireframe_source.cpp" />
     <ClCompile Include="LabControls.cpp" />
     <ClCompile Include="LightSourceGraphicsObject.cpp" />
     <ClCompile Include="Lab01_Diffuse\LitTorus.cpp" />
