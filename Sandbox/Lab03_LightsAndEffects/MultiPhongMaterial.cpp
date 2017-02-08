@@ -28,6 +28,7 @@ GlEngine::TesselationType MultiPhongMaterial::GetTesselationType()
 }
 
 static Attribute attr_multi_phong = Attribute({
+    "attr_multi_phong"s,
     { // Snippets
         new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position",
                     { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },

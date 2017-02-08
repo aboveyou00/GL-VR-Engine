@@ -7,8 +7,8 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        Attribute::Attribute(std::vector<PropertySource*> propertySources, std::vector<PropertySource*> fallbackSources, std::vector<Attribute*> dependentAttrs)
-            : _propertySources(), _dependentAttrs(), _fallbackSources(fallbackSources)
+        Attribute::Attribute(std::string name, std::vector<PropertySource*> propertySources, std::vector<PropertySource*> fallbackSources, std::vector<Attribute*> dependentAttrs)
+            : _name(name), _propertySources(), _dependentAttrs(), _fallbackSources(fallbackSources)
         {
             for (PropertySource* source : propertySources)
                 _propertySources.push_back(source);
@@ -33,8 +33,14 @@ namespace GlEngine
             return _fallbackSources;
         }
 
+        std::string Attribute::name()
+        {
+            return _name;
+        }
+
 #pragma region outcolor
         Attribute attr_OutColor = Attribute(
+            "attr_OutColor"s,
             {
                 new Snippet("",
                             { &prop_RgbaColor }, 
@@ -50,6 +56,7 @@ namespace GlEngine
 
 #pragma region position
         Attribute attr_GlPosition = Attribute(
+            "attr_GlPosition"s,
             {
                 new Snippet("[out:0] = [in:0] * [in:1];",
                             { &prop_ViewMatrix, &prop_ModelMatrix },
@@ -70,6 +77,7 @@ namespace GlEngine
         );
 
         Attribute attr_ModelViewNormal = Attribute(
+            "attr_ModelViewNormal"s,
             {
                 new Snippet("[out:0] = [in:0] * vec4([in:1], 0);",
                             { &prop_ModelViewMatrix, &prop_Normal },
@@ -83,6 +91,7 @@ namespace GlEngine
         );
 
         static Attribute attr_NormalMap_Internal = Attribute(
+            "attr_NormalMap_Internal"s,
             {
                 new Snippet("[out:0] = (texture2D([in:1], [in:0]).xyz * 2) - 1;",
                              { &prop_UV, &prop_NormalMapTexture },
@@ -94,11 +103,12 @@ namespace GlEngine
             },
             { }
         );
-        Attribute attr_NormalMap = Attribute({ }, { }, { &attr_NormalMap_Internal, &attr_ModelViewNormal });
+        Attribute attr_NormalMap = Attribute("attr_NormalMap"s, { }, { }, { &attr_NormalMap_Internal, &attr_ModelViewNormal });
 #pragma endregion
 
 #pragma region base-color
         Attribute attr_RgbBaseColor = Attribute(
+            "attr_RgbBaseColor"s,
             {
                 new Snippet("[out:0] = vec4([in:0], 1);",
                             { &prop_RgbColor },
@@ -110,6 +120,7 @@ namespace GlEngine
             }
         );
         Attribute attr_TextureBaseColor = Attribute(
+            "attr_TextureBaseColor"s,
             {
                 new Snippet("[out:0] = texture2D([in:0], [in:1]);",
                             { &prop_Texture, &prop_UV },
@@ -121,6 +132,7 @@ namespace GlEngine
             }
         );
         Attribute attr_TwoTextureBaseColor = Attribute(
+            "attr_TwoTextureBaseColor"s,
             {
                 (new Snippet("[out:0] = texture2D([in:0], [in:2]);\n[temp:0] = texture2D([in:1], [in:2]);\n[out:0] = mix([out:0].rgba, vec4([temp:0].rgb, 1), [temp:0].a);//vec4(mix([out:0].rgb, [temp:0].rgb, [temp:0].a), 1 - ((1-[out:0].a) * (1-[temp:0].a)));",
                              { &prop_Texture, &prop_Texture2, &prop_UV },
@@ -132,6 +144,7 @@ namespace GlEngine
             }
         );
         Attribute attr_AlphaMapDiscardBaseColor = Attribute(
+            "attr_AlphaMapDiscardBaseColor"s,
             {
                 (new Snippet("[temp:0] = texture2D([in:2], [in:1]).r;\nif ([temp:0] < .05) discard;\n[out:0] = vec4(texture2D([in:0], [in:1]).rgb, [temp:0]);",
                              { &prop_Texture, &prop_UV, &prop_AlphaMapTexture },
@@ -146,6 +159,7 @@ namespace GlEngine
 
 #pragma region lighting
         Attribute attr_PointLightDirection = Attribute(
+            "attr_PointLightDirection"s,
             {
                 (new Snippet("[temp:0] = [in:2] * [in:1] * vec4([in:0], 1);\n[temp:1] = [in:2] * vec4([in:3], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
                              { &prop_Position, &prop_ModelMatrix, &prop_ViewMatrix, &prop_PointLightPosition },
@@ -160,6 +174,7 @@ namespace GlEngine
         );
 
         Attribute attr_SpecularLight = Attribute(
+            "attr_SpecularLight"s,
             {
                 new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position",
                             { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },
@@ -182,28 +197,30 @@ namespace GlEngine
         );
 
         Attribute attr_SpecularLightDirectional = Attribute(
-        {
-            new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position",
-            { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },
-            { &prop_SurfaceToCamera },
-            PropertySourceFlag::None,
-            { ComponentType::Fragment }),
-
-            (new Snippet("if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal\n"s +
-            "else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));\n"s +
-                "[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation"s,
-                { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_DirectionalLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
-                { &prop_SpecularLightComponent },
+            "attr_SpecularLightDirectional"s,
+            {
+                new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position",
+                { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },
+                { &prop_SurfaceToCamera },
                 PropertySourceFlag::None,
-                { ComponentType::Fragment })
-                )->WithTemps<Vector<3>>()
-        },
-        {
-        },
-        { &attr_ModelViewNormal }
+                { ComponentType::Fragment }),
+
+                (new Snippet("if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal\n"s +
+                "else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));\n"s +
+                    "[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation"s,
+                    { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_DirectionalLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
+                    { &prop_SpecularLightComponent },
+                    PropertySourceFlag::None,
+                    { ComponentType::Fragment })
+                    )->WithTemps<Vector<3>>()
+            },
+            {
+            },
+            { &attr_ModelViewNormal }
         );
 
         Attribute attr_DiffuseIntensity = Attribute(
+            "attr_DiffuseIntensity"s,
             {
                 new Snippet("[out:0] = dot([in:0], [in:1].xyz);",
                             { &prop_PointLightDirection, &prop_ModelViewNormal },
@@ -217,6 +234,7 @@ namespace GlEngine
         );
 
         Attribute attr_DiffuseIntensityDirectional = Attribute(
+            "attr_DiffuseIntensityDirectional"s,
             {
                 new Snippet("[out:0] = dot([in:0], [in:1].xyz);",
                             { &prop_DirectionalLightDirection, &prop_ModelViewNormal },
@@ -230,6 +248,7 @@ namespace GlEngine
         );
 
         Attribute attr_DiffuseLight = Attribute(
+            "attr_DiffuseLight"s,
             {
                 new Snippet("if (!gl_FrontFacing) [out:0] = -[in:2];\n[out:1] = [in:0] * [in:1] * clamp([in:2], 0.0, 1.0);",
                             { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseComponentIntensity },
@@ -243,6 +262,7 @@ namespace GlEngine
         );
 
         Attribute attr_DiffuseLightDirectional = Attribute(
+            "attr_DiffuseLightDirectional"s,
             {
                 new Snippet("if (!gl_FrontFacing) [out:0] = -[in:2];\n[out:1] = [in:0] * [in:1] * clamp([in:2], 0.0, 1.0);",
                 { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseComponentIntensity },
@@ -256,6 +276,7 @@ namespace GlEngine
         );
 
         Attribute attr_DiffuseLightFlat = Attribute(
+            "attr_DiffuseLightFlat"s,
             {
                 new Snippet("[out:0] = [in:0] * [in:1] * clamp(dot([in:2], [in:3].xyz), 0.0, 1.0);",
                             { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_PointLightDirection, &prop_ModelViewNormal },
@@ -270,6 +291,7 @@ namespace GlEngine
 
 
         Attribute attr_SpecularOnly = Attribute(
+            "attr_SpecularOnly"s,
             {
                 new Snippet("[out:0] = [in:0];",
                             { &prop_SpecularLightComponent },
@@ -283,6 +305,7 @@ namespace GlEngine
         );
         
         Attribute attr_DiffuseOnly = Attribute(
+            "attr_DiffuseOnly"s,
             {
                 new Snippet("[out:0] = [in:0];",
                             { &prop_DiffuseLightComponent },
@@ -295,6 +318,7 @@ namespace GlEngine
             { &attr_DiffuseLight });
         
         Attribute attr_AmbientOnly = Attribute(
+            "attr_AmbientOnly"s,
             {
                 new Snippet("[out:0] = [in:0];",
                             { &prop_AmbientLightColor },
@@ -308,6 +332,7 @@ namespace GlEngine
         );
 
         Attribute attr_AmbientDiffuse = Attribute(
+            "attr_AmbientDiffuse"s,
             {
                 new Snippet("[out:0] = [in:0] + [in:1];",
                             { &prop_AmbientLightColor, &prop_DiffuseLightComponent },
@@ -321,7 +346,8 @@ namespace GlEngine
         );
 
         Attribute attr_Phong = Attribute(
-            { 
+            "attr_Phong"s,
+            {
                 //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
                 //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
                 new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",
@@ -336,6 +362,7 @@ namespace GlEngine
         );
 
         Attribute attr_PhongDirectional = Attribute(
+            "attr_PhongDirectional"s,
             {
                 new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",
                             { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent },
@@ -349,6 +376,7 @@ namespace GlEngine
         );
 
         Attribute attr_PhongFlat = Attribute(
+            "attr_PhongFlat"s,
             {
                 //new Snippet("[out:0] = ([in:0] / 2) + vec3(.5, .5, .5);", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
                 //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
@@ -364,6 +392,7 @@ namespace GlEngine
         );
 
         Attribute attr_BlinnPhong = Attribute(
+            "attr_BlinnPhong"s,
             {
                 new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",
                             { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent },
@@ -377,6 +406,7 @@ namespace GlEngine
         );
 
         Attribute attr_CelShading = Attribute(
+            "attr_CelShading"s,
             {
                 new Snippet("[out:0] = round([in:0] * ([in:1] - 1)) / ([in:1] - 1);",
                             { &prop_DiffuseComponentIntensity, &prop_CelLevels },
@@ -393,6 +423,7 @@ namespace GlEngine
         //static Property<float> prop_SpotlightRelativeDirection = Property<float>("spotlight_relative_direction");
 
         Attribute attr_Spotlight = Attribute(
+            "attr_Spotlight"s,
             {
                 //(new Snippet("[temp:0] = [in:2] * [in:1] * vec4([in:0], 1);\n[temp:1] = [in:4] * vec4([in:3], 1);\n[out:0] = normalize([temp:1].xyz - [temp:0].xyz);",
                 //             { &prop_Position, &prop_ModelMatrix, &prop_ViewMatrix, &prop_SpotlightPosition, &prop_ViewMatrix },
@@ -428,6 +459,7 @@ namespace GlEngine
         );
 
         Attribute attr_LightingFallbacks = Attribute(
+            "attr_LightingFallbacks"s,
             {
                 new Snippet("[out:0] = vec4([in:0], 1) * [in:1];",
                             { &prop_LightColor, &prop_BaseColor },
@@ -439,7 +471,6 @@ namespace GlEngine
             },
             { }
         );
-
 #pragma endregion
     }
 }

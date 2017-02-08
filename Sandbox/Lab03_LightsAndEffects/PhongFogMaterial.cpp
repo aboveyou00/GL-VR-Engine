@@ -9,6 +9,7 @@ using namespace GlEngine::ShaderFactory;
 Property<float> prop_FogDistanceToCamera("fog_dist_to_camera");
 
 Attribute attr_PhongFog(
+    "attr_PhongFog"s,
     {
         new Snippet("[out:0] = distance(vec3([in:1] * vec4([in:0], 1)), [in:2]);"s,
                     { &prop_Position, &prop_ModelMatrix, &prop_CameraPosition },

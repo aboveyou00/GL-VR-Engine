@@ -9,17 +9,21 @@ namespace GlEngine
         class ENGINE_SHARED Attribute
         {
         public:
-            Attribute(std::vector<PropertySource*> propertySources, std::vector<PropertySource*> fallbackSources = {}, std::vector<Attribute*> dependentAttrs = {});
+            Attribute(std::string name, std::vector<PropertySource*> propertySources, std::vector<PropertySource*> fallbackSources = {}, std::vector<Attribute*> dependentAttrs = {});
             ~Attribute();
 
             const std::vector<Attribute*> &dependentAttributes() const;
             const std::vector<PropertySource*> propertySources() const;
             const std::vector<PropertySource*> fallbackSources() const;
 
+            virtual std::string name();
+
         private:
             std::vector<Attribute*> _dependentAttrs;
             std::vector<PropertySource*> _propertySources;
             std::vector<PropertySource*> _fallbackSources;
+
+            std::string _name;
         };
 
 #pragma region outcolor

@@ -43,8 +43,8 @@ std::string TemplateMaterial::name()
 {
     std::stringstream stream;
     stream << "TemplateMaterial {";
-    //for (auto *attr : attribs)
-    //    stream << " " << attr->name();
+    for (auto *attr : attribs)
+        stream << " " << attr->name();
     stream << " }";
     return stream.str();
 }

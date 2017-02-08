@@ -207,8 +207,8 @@ namespace GlEngine
         {
             std::stringstream stream;
             stream << "ShaderFactory {";
-            //for (auto *attr : _mat->attributes())
-            //    stream << " " << attr->name();
+            for (auto *attr : _mat->attributes())
+                stream << " " << attr->name();
             stream << " }";
             return stream.str();
         }

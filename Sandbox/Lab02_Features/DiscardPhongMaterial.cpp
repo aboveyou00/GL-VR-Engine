@@ -21,6 +21,7 @@ typedef GlEngine::ShaderFactory::PropertySourceFlag PropertySourceFlag;
 typedef GlEngine::ShaderFactory::ComponentType ComponentType;
 
 static Attribute attr_Discard = Attribute(
+    "attr_Discard"s,
     {
         (new Snippet("[temp:0] = dot([in:0], [in:0]);\n[temp:1] = dot([in:1], [in:1]);\nif ([temp:0] > .75 && [temp:1] < .75) discard;", 
                      { &GlEngine::ShaderFactory::prop_DiffuseLightComponent, &GlEngine::ShaderFactory::prop_SpecularLightComponent }, 
