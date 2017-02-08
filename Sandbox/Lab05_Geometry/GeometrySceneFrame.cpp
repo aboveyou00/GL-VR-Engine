@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GeometrySceneFrame.h"
 
+#include "PointVolume.h"
+
 #include "../CameraTargetObject.h"
 #include "CameraGameObject.h"
 #include "Lab5Controls.h"
@@ -9,21 +11,21 @@
 #include "../RawGraphicsObject.h"
 #include "../TemplateObj.h"
 
-#include "PointVolume.h"
+#include "Texture.h"
 
 extern std::string billboardVertex;
 extern std::string billboardGeometry;
 extern std::string billboardFragment;
+static GlEngine::ShaderFactory::Property<GlEngine::Texture*> prop_BillboardTexture("billboard_texture");
 
 extern std::string wireframeVertex;
 extern std::string wireframeGeometry;
 extern std::string wireframeFragment;
+static GlEngine::ShaderFactory::Property<float> prop_WireframeThickness("wireframe_thickness");
 
 extern std::string hairVertex;
 extern std::string hairGeometry;
 extern std::string hairFragment;
-
-static GlEngine::ShaderFactory::Property<float> prop_WireframeThickness("wireframe_thickness");
 
 GeometrySceneFrame::GeometrySceneFrame()
 {
@@ -32,7 +34,8 @@ GeometrySceneFrame::GeometrySceneFrame()
         { 1, &GlEngine::ShaderFactory::prop_ModelMatrix },
         { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
         { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions },
-        { 4, &prop_WireframeThickness }
+        { 4, &prop_WireframeThickness },
+        { 5, &prop_BillboardTexture }
     };
 
     billboardSource = {
@@ -74,12 +77,28 @@ bool GeometrySceneFrame::Initialize()
 
     auto controls = CreateGameObject<Lab5Controls>();
 
-    auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
-    auto pointLight = CreateGameObject<PointLightSourceObject>();
-    controls->SetControllingLight(pointLight->lightSource());
-    pointLight->lightSource()->SetPosition({ 0, 2.5, -2.5 });
+    //auto snowTex = GlEngine::Texture::FromFile("Textures/snow.png", GlEngine::TextureFlag::Translucent);
+    //auto pointVboFactory = PointVolume<>::Generate({ -3, -3, -3 }, { 3, 3, 3 }, 20);
+    //auto billboardSnow = CreateGameObject<TemplateObj>(
+    //    [this, pointVboFactory](TemplateObj *self, GlEngine::GraphicsContext*)
+    //    {
+    //        auto gobj = new RawGraphicsObject(
+    //            pointVboFactory,
+    //            &this->wireframeSource,
+    //            &this->props
+    //        );
+    //        for (size_t q = 0; q < self->providers().size(); q++)
+    //            gobj->AddPropertyProvider(self->providers()[q]);
+    //        gobj->SetMaterial(&self->material());
 
-    ambient;
+    //        return gobj;
+    //    },
+    //    new TemplateMaterial({ &prop_BillboardTexture }, {}, [snowTex](TemplateMaterial*, ShaderFactory &factory)
+    //    {
+    //        factory.ProvideProperty(prop_BillboardTexture, snowTex);
+    //    })
+    //);
+    //billboardSnow->SetPosition({ -8, 0, 0 });
 
     auto wireframeTeapot = CreateGameObject<TemplateObj>(
         [this](TemplateObj* self, GlEngine::GraphicsContext*) {
@@ -92,7 +111,7 @@ bool GeometrySceneFrame::Initialize()
                 gobj->AddPropertyProvider(self->providers()[q]);
             gobj->SetMaterial(&self->material());
 
-            return (GlEngine::GraphicsObject*)gobj; // why do I need this?
+            return gobj;
         },
         new TemplateMaterial({ &prop_WireframeThickness }, {}, [controls](TemplateMaterial*, ShaderFactory &factory)
         {
