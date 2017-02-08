@@ -12,7 +12,7 @@ namespace GlEngine
     namespace ShaderFactory
     {
         template <typename T>
-        class ENGINE_SHARED Property : public ShaderProp
+        class Property : public ShaderProp
         {
         public:
             Property(std::string name, PropertyFlag flags = PropertyFlag::None)

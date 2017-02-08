@@ -3,7 +3,7 @@
 
 #include "../CameraTargetObject.h"
 #include "CameraGameObject.h"
-#include "../LabControls.h"
+#include "Lab5Controls.h"
 #include "AmbientLightSource.h"
 #include "../LightSourceObject.h"
 #include "../RawGraphicsObject.h"
@@ -23,13 +23,16 @@ extern std::string hairVertex;
 extern std::string hairGeometry;
 extern std::string hairFragment;
 
+static GlEngine::ShaderFactory::Property<float> prop_WireframeThickness("wireframe_thickness");
+
 GeometrySceneFrame::GeometrySceneFrame()
 {
     props = {
         { 0, &GlEngine::ShaderFactory::prop_ViewMatrix },
         { 1, &GlEngine::ShaderFactory::prop_ModelMatrix },
         { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
-        { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions }
+        { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions },
+        { 4, &prop_WireframeThickness }
     };
 
     billboardSource = {
@@ -69,7 +72,7 @@ bool GeometrySceneFrame::Initialize()
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 
-    auto controls = CreateGameObject<LabControls>();
+    auto controls = CreateGameObject<Lab5Controls>();
 
     auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
     auto pointLight = CreateGameObject<PointLightSourceObject>();
@@ -90,7 +93,11 @@ bool GeometrySceneFrame::Initialize()
             gobj->SetMaterial(&self->material());
 
             return (GlEngine::GraphicsObject*)gobj; // why do I need this?
-        }
+        },
+        new TemplateMaterial({ &prop_WireframeThickness }, {}, [controls](TemplateMaterial*, ShaderFactory &factory)
+        {
+            factory.ProvideProperty(prop_WireframeThickness, (float)controls->wireframeThickness);
+        })
     );
     wireframeTeapot->SetPosition({ 0, 0, 0 });
 

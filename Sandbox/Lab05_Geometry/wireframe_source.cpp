@@ -87,13 +87,15 @@ std::string wireframeFragment = R"raw(
 layout(location = 0) in vec3 in_color;
 layout(location = 1) noperspective in vec3 orthocentric;
 
+layout(location = 4) uniform float wireframe_thickness;
+
 layout(location = 0) out vec4 out_color;
 
 void main(void) {
-    float width = 0.5f;
-
     float d = min(min(orthocentric.x, orthocentric.y), orthocentric.z);
-    float proportion = smoothstep(width - 0.5, width + 0.5, d);
+    float proportion;
+    if (wireframe_thickness > 0) proportion = smoothstep(wireframe_thickness - 0.5, wireframe_thickness + 0.5, d);
+    else proportion = 1;
     out_color = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(in_color, 1.0), proportion);
 }
 )raw";
