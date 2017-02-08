@@ -18,7 +18,7 @@ namespace TileRPG
         return "GateTileEntity";
     }
 
-    GlEngine::GraphicsObject *GateTileEntity::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *GateTileEntity::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return GlEngine::FbxGraphicsObject::Create("Resources/castle/ac_gate.fbx");
     }

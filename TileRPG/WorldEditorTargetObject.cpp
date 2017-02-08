@@ -27,7 +27,7 @@ namespace TileRPG
         SafeDelete(loader);
     }
 
-    const char *WorldEditorTargetObject::name()
+    std::string WorldEditorTargetObject::name()
     {
         return "WorldEditorTargetObject";
     }

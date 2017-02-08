@@ -12,6 +12,6 @@ namespace TileRPG
 
         virtual std::string name() override;
 
-        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext&) override;
+        virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext*) override;
     };
 }

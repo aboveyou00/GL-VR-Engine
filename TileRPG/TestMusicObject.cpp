@@ -69,7 +69,7 @@ namespace TileRPG
 
     GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
-        auto texture = GlEngine::Texture::FromFile("Textures/checkers.png", false);
+        auto texture = GlEngine::Texture::FromFile("Textures/checkers.png");
         auto mat = new GlEngine::PhongMaterial(texture);
         return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", mat, { });
     }

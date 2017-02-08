@@ -14,7 +14,7 @@ namespace TileRPG
     }
     
     WaterMaterial::WaterMaterial()
-        : texture(GlEngine::Texture::FromFile("Textures/water.png", true))//, shader(GlEngine::ShaderFactory::Create("Shaders", "water"))
+        : texture(GlEngine::Texture::FromFile("Textures/water.png", GlEngine::TextureFlag::Translucent))//, shader(GlEngine::ShaderFactory::Create("Shaders", "water"))
     {
     }
     WaterMaterial::~WaterMaterial()

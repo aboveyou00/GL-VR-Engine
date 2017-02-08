@@ -20,7 +20,7 @@ namespace TileRPG
         return "GateGuard";
     }
 
-    GlEngine::GraphicsObject *GateGuard::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *GateGuard::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return GlEngine::FbxGraphicsObject::Create("Resources/cylinder.fbx");
     }
