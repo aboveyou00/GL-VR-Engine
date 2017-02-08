@@ -6,13 +6,14 @@
 
 namespace GlEngine::Impl
 {
-    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(VaObject vao, CreateFactoryFn createFactory)
+    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(bool allowFaces, VaObject vao, CreateFactoryFn createFactory)
         : GraphicsObject(true),
-        _vao(vao),
-        finalized(!!vao),
-        elemIdx(0),
-        currentGraphicsSection(nullptr),
-        createFactory(createFactory)
+          allowFaces(allowFaces),
+          _vao(vao),
+          finalized(!!vao),
+          elemIdx(0),
+          currentGraphicsSection(nullptr),
+          createFactory(createFactory)
     {
     }
     VboFactoryGraphicsObjectImpl::~VboFactoryGraphicsObjectImpl()
@@ -60,6 +61,7 @@ namespace GlEngine::Impl
     {
         ScopedLock _lock(mutex);
         assert(!finalized);
+        assert(allowFaces);
         assert(currentGraphicsSection != nullptr);
         for (size_t q = 0; q < 3; q++)
             assert(indices[q] < elemIdx);
@@ -69,6 +71,7 @@ namespace GlEngine::Impl
     {
         ScopedLock _lock(mutex);
         assert(!finalized);
+        assert(allowFaces);
         assert(currentGraphicsSection != nullptr);
         for (size_t q = 0; q < 4; q++)
             assert(indices[q] < elemIdx);

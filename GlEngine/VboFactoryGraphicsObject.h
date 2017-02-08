@@ -22,7 +22,7 @@ namespace GlEngine
         {
         }
         VboFactoryGraphicsObject(VaObject vao, TFactory *vertices = nullptr, TFacesFactory *faces = nullptr, CreateFactoryFn createFactory = [](Material*) { return nullptr; })
-            : VboFactoryGraphicsObjectImpl(vao, createFactory),
+            : VboFactoryGraphicsObjectImpl(faces != nullptr, vao, createFactory),
               _verticesFactory(vertices),
               _facesFactory(faces)
         {
