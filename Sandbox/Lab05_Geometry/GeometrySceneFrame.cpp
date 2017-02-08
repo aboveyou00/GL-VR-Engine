@@ -77,28 +77,28 @@ bool GeometrySceneFrame::Initialize()
 
     auto controls = CreateGameObject<Lab5Controls>();
 
-    //auto snowTex = GlEngine::Texture::FromFile("Textures/snow.png", GlEngine::TextureFlag::Translucent);
-    //auto pointVboFactory = PointVolume<>::Generate({ -3, -3, -3 }, { 3, 3, 3 }, 20);
-    //auto billboardSnow = CreateGameObject<TemplateObj>(
-    //    [this, pointVboFactory](TemplateObj *self, GlEngine::GraphicsContext*)
-    //    {
-    //        auto gobj = new RawGraphicsObject(
-    //            pointVboFactory,
-    //            &this->wireframeSource,
-    //            &this->props
-    //        );
-    //        for (size_t q = 0; q < self->providers().size(); q++)
-    //            gobj->AddPropertyProvider(self->providers()[q]);
-    //        gobj->SetMaterial(&self->material());
+    auto snowTex = GlEngine::Texture::FromFile("Textures/snow.png", GlEngine::TextureFlag::Translucent);
+    auto pointVboFactory = PointVolume<>::Generate({ -3, -3, -3 }, { 3, 3, 3 }, 20);
+    auto billboardSnow = CreateGameObject<TemplateObj>(
+        [this, pointVboFactory](TemplateObj *self, GlEngine::GraphicsContext*)
+        {
+            auto gobj = new RawGraphicsObject(
+                pointVboFactory,
+                &this->wireframeSource,
+                &this->props
+            );
+            for (size_t q = 0; q < self->providers().size(); q++)
+                gobj->AddPropertyProvider(self->providers()[q]);
+            gobj->SetMaterial(&self->material());
 
-    //        return gobj;
-    //    },
-    //    new TemplateMaterial({ &prop_BillboardTexture }, {}, [snowTex](TemplateMaterial*, ShaderFactory &factory)
-    //    {
-    //        factory.ProvideProperty(prop_BillboardTexture, snowTex);
-    //    })
-    //);
-    //billboardSnow->SetPosition({ -8, 0, 0 });
+            return gobj;
+        },
+        new TemplateMaterial({ &prop_BillboardTexture }, {}, [snowTex](TemplateMaterial*, ShaderFactory &factory)
+        {
+            factory.ProvideProperty(prop_BillboardTexture, snowTex);
+        })
+    );
+    billboardSnow->SetPosition({ -8, 0, 0 });
 
     auto wireframeTeapot = CreateGameObject<TemplateObj>(
         [this](TemplateObj* self, GlEngine::GraphicsContext*) {

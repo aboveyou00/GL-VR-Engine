@@ -27,10 +27,16 @@ private:
 
 public:
     template <GlEngine::VboType type, typename... TArgs>
-    RawGraphicsObject(GlEngine::VboFactory<type, TArgs...> *factory, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
+    RawGraphicsObject(GlEngine::VboFactory<type, TArgs...> *vertices, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
         : RawGraphicsObject(shaderSource, properties)
     {
-        _compositeObj = new GlEngine::VboFactoryGraphicsObject<type, TArgs...>(factory);
+        _compositeObj = new GlEngine::VboFactoryGraphicsObject<type, TArgs...>(vertices);
+    }
+    template <GlEngine::VboType type, typename... TArgs>
+    RawGraphicsObject(GlEngine::VboFactory<type, TArgs...> *vertices, GlEngine::VboFactory<GlEngine::VboType::UnsignedShort, uint16_t> *faces, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
+        : RawGraphicsObject(shaderSource, properties)
+    {
+        _compositeObj = new GlEngine::VboFactoryGraphicsObject<type, TArgs...>(vertices, faces);
     }
     RawGraphicsObject(const char *const filename, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties);
     ~RawGraphicsObject();
