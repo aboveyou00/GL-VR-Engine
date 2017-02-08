@@ -42,7 +42,7 @@ void RawGraphicsObject::ShutdownGraphics()
 
 void RawGraphicsObject::SetMaterial(GlEngine::Material *material)
 {
-    auto vbobj = dynamic_cast<GlEngine::VboGraphicsObject*>(_compositeObj);
+    auto vbobj = dynamic_cast<GlEngine::Impl::VboFactoryGraphicsObjectImpl*>(_compositeObj);
     assert(vbobj != nullptr);
     vbobj->SetMaterial(material);
 }

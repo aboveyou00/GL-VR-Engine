@@ -308,6 +308,7 @@
     <ClInclude Include="VbObjectAttribType.h" />
     <ClInclude Include="VboFactory.h" />
     <ClInclude Include="VboFactoryGraphicsObject.h" />
+    <ClInclude Include="VboFactoryGraphicsObjectImpl.h" />
     <ClInclude Include="VboGraphicsObject.h" />
     <ClInclude Include="VboGraphicsSection.h" />
     <ClInclude Include="VboPropertySource.h" />
@@ -441,6 +442,7 @@
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
     <ClCompile Include="VbObjectAttrib.cpp" />
     <ClCompile Include="VbObjectAttribList.cpp" />
+    <ClCompile Include="VboFactoryGraphicsObjectImpl.cpp" />
     <ClCompile Include="VboGraphicsObject.cpp" />
     <ClCompile Include="VboGraphicsSection.cpp" />
     <ClCompile Include="VboPropertySource.cpp" />
