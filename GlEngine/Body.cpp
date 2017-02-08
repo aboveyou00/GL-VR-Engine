@@ -17,7 +17,7 @@ namespace GlEngine
                 col->bodyBExists = false;
         }
     }
-    const char * Body::name()
+    std::string Body::name()
     {
         return nullptr;
     }

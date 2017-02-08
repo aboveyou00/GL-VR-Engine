@@ -10,7 +10,7 @@ namespace GlEngine
         EmptyBody();
         ~EmptyBody();
 
-        virtual const char *name() override;
+        virtual std::string name() override;
         virtual int id() override;
         virtual bool Collide(Body* other, Collision*& out, bool trySwitched = true) override;
 

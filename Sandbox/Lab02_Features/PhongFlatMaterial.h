@@ -18,8 +18,8 @@ public:
     virtual std::vector<GlEngine::ShaderFactory::ShaderProp*> properties() override;
     virtual std::vector<GlEngine::ShaderFactory::Attribute*> attributes() override;
 
-    const char *name() override;
-    operator bool() override;
+    virtual std::string name() override;
+    virtual operator bool() override;
 
 private:
     GlEngine::Texture *texture;

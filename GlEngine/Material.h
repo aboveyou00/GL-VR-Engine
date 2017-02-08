@@ -20,10 +20,10 @@ namespace GlEngine
         Material(bool is2d = false);
         ~Material();
 
-        bool Initialize() override;
-        void Shutdown() override;
-        bool InitializeGraphics() override;
-        void ShutdownGraphics() override;
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
+        virtual bool InitializeGraphics() override;
+        virtual void ShutdownGraphics() override;
 
         virtual bool IsOpaque() = 0;
 

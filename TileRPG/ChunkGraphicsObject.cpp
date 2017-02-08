@@ -112,7 +112,7 @@ namespace TileRPG
         });
     }
     
-    const char *ChunkGraphicsObject::name()
+    std::string ChunkGraphicsObject::name()
     {
         return "ChunkGraphicsObject";
     }

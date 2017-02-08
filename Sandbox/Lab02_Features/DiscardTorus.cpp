@@ -39,7 +39,7 @@ void DiscardTorus::Tick(float delta)
     _lightSource->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
 }
 
-const char *DiscardTorus::name()
+std::string DiscardTorus::name()
 {
     return "DiscardTorus";
 }

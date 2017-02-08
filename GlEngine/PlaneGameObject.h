@@ -20,7 +20,7 @@ namespace GlEngine
 
         GraphicsObject *graphicsObject() const;
 
-        virtual const char *name() override;
+        virtual std::string name() override;
         
         virtual GraphicsObject *CreateGraphicsObject(GraphicsContext *ctx) override;
 

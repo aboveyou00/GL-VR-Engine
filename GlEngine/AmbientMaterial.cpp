@@ -57,7 +57,7 @@ namespace GlEngine
         return attrs;
     }
 
-    const char *AmbientMaterial::name()
+    std::string AmbientMaterial::name()
     {
         return "AmbientMaterial";
     }

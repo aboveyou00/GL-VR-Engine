@@ -20,7 +20,7 @@ namespace GlEngine
         virtual std::vector<ShaderFactory::ShaderProp*> properties() override;
         virtual std::vector<ShaderFactory::Attribute*> attributes() override;
 
-        const char *name() override;
+        virtual std::string name() override;
         operator bool() override;
 
     private:

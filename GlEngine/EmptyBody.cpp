@@ -11,7 +11,7 @@ namespace GlEngine
     {
     }
 
-    const char * EmptyBody::name()
+    std::string EmptyBody::name()
     {
         return "EmptyBody";
     }

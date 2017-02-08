@@ -18,11 +18,11 @@ namespace GlEngine
         FrameStack();
         ~FrameStack();
 
-        bool Initialize() override;
-        void Shutdown() override;
-        void Tick(float delta) override;
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
+        virtual void Tick(float delta) override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
         template <typename T, typename... TArgs>
         void PushNewFrame(TArgs... args)

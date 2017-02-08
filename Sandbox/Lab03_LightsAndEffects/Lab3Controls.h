@@ -14,7 +14,7 @@ public:
 
     virtual void HandleEvent(Event &evt);
 
-    virtual const char *name() override;
+    virtual std::string name() override;
 
 private:
     static const unsigned ATTENTUATION_VALUE_COUNT = 4;

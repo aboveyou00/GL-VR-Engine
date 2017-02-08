@@ -56,7 +56,7 @@ void Sandbox::Shutdown()
     destroyWindow();
 }
 
-const char *Sandbox::name()
+std::string Sandbox::name()
 {
     return "Sandbox";
 }

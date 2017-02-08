@@ -11,7 +11,7 @@ Tree::~Tree()
 {
 }
 
-const char *Tree::name()
+std::string Tree::name()
 {
     return "Tree";
 }

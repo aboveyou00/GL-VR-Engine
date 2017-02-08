@@ -23,7 +23,7 @@ namespace TileRPG
         bool Initialize();
         void Shutdown();
 
-        const char *name() override;
+        std::string name() override;
 
         void MessageLoop();
 

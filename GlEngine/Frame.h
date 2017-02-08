@@ -28,7 +28,7 @@ namespace GlEngine
         virtual void Tick(float delta) override;
         virtual void Shutdown() override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
         virtual void FramePushed(FrameStack &machine);
         virtual void FramePopped(FrameStack &machine);

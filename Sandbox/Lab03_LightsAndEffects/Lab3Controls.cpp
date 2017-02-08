@@ -57,7 +57,7 @@ void Lab3Controls::HandleEvent(Event &evt)
     if (!evt.IsHandled()) LabControls::HandleEvent(evt);
 }
 
-const char *Lab3Controls::name()
+std::string Lab3Controls::name()
 {
     return "Lab3Controls";
 }

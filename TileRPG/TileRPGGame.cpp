@@ -106,7 +106,7 @@ namespace TileRPG
         destroyWindow();
     }
 
-    const char *TileRPGGame::name()
+    std::string TileRPGGame::name()
     {
         return "TileRPGGame";
     }

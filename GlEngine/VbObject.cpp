@@ -42,7 +42,7 @@ namespace GlEngine
         return _buffer != 0;
     }
 
-    const char *VbObject::name()
+    std::string VbObject::name()
     {
         return "VbObject";
     }

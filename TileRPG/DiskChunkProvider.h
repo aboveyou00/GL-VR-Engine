@@ -18,7 +18,7 @@ namespace TileRPG
         bool Initialize() override;
         void Shutdown() override;
 
-        const char *name() override;
+        std::string name() override;
 
         Chunk *Get(int x, int z) override;
         bool Put(Chunk *chunk) override;

@@ -33,7 +33,7 @@ namespace GlEngine
         pimpl->AddGraphicsContext(graphicsContext);
     }
 
-    const char *GraphicsController::name()
+    std::string GraphicsController::name()
     {
         return "GlController";
     }

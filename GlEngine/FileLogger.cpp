@@ -37,7 +37,7 @@ namespace GlEngine
         _logStream.close();
     }
 
-    const char *FileLogger::name()
+    std::string FileLogger::name()
     {
         return "FileLogger";
     }

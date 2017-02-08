@@ -21,7 +21,7 @@ namespace GlEngine
 
         void SetTargetObject(GameObject* gameObject);
 
-        virtual const char *name() override;
+        virtual std::string name() override;
         virtual GameObjectType type() const override;
         virtual GraphicsObject *CreateGraphicsObject(GraphicsContext *ctx) override;
         

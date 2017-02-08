@@ -75,7 +75,7 @@ namespace GlEngine
             return audioMutex;
         }
 
-        const char *AudioControllerImpl::name()
+        std::string AudioControllerImpl::name()
         {
             return "AudioControllerImpl";
         }

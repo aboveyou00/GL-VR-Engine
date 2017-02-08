@@ -19,7 +19,7 @@ namespace GlEngine
         bool Initialize() override;
         void Shutdown() override;
 
-        const char *name() override;
+        std::string name() override;
 
         void Tick(float delta);
 

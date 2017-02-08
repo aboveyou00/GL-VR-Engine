@@ -101,7 +101,7 @@ namespace GlEngine
             return true;
         }
 
-        const char *GraphicsControllerImpl::name()
+        std::string GraphicsControllerImpl::name()
         {
             return "GlControllerImpl";
         }

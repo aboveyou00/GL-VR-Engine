@@ -19,8 +19,8 @@ namespace GlEngine
 
         void MakeCurrent();
 
-        operator bool();
-        const char *name() override;
+        virtual operator bool() override;
+        virtual std::string name() override;
 
     private:
         unsigned _buffer;

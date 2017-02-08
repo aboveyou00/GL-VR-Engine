@@ -12,7 +12,7 @@ namespace GlEngine
     {
     }
 
-    const char *WindowRenderTarget::name()
+    std::string WindowRenderTarget::name()
     {
         return "WindowRenderTarget";
     }

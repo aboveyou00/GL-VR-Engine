@@ -12,13 +12,13 @@ namespace TileRPG
         TestMusicObject(const char *start, const char *loop);
         ~TestMusicObject();
 
-        bool Initialize() override;
-        void Tick(float delta) override;
-        void Shutdown() override;
+        virtual bool Initialize() override;
+        virtual void Tick(float delta) override;
+        virtual void Shutdown() override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
-        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 
     private:
         const char *startPath, *loopPath;

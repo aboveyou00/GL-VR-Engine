@@ -44,3 +44,8 @@ bool StageGraphicsObject::Initialize()
 
     return true;
 }
+
+std::string StageGraphicsObject::name()
+{
+    return "StageGraphicsObject";
+}

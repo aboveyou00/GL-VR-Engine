@@ -2,6 +2,7 @@
 #include "TransformedGraphicsObject.h"
 #include "OpenGl.h"
 #include "MatrixStack.h"
+#include <sstream>
 
 namespace GlEngine
 {
@@ -29,9 +30,11 @@ namespace GlEngine
     {
     }
 
-    const char *TransformedGraphicsObject::name()
+    std::string TransformedGraphicsObject::name()
     {
-        return "TransformedGraphicsObject";
+        std::stringstream stream;
+        stream << "Transformed<" << graphicsObject->name() << ">";
+        return stream.str();
     }
     TransformedGraphicsObject::operator bool()
     {

@@ -15,7 +15,7 @@ namespace GlEngine::Impl
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;
 
-        virtual const char *name() override;
+        virtual std::string name() override;
 
         bool alive = true;
 

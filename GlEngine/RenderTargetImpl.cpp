@@ -62,7 +62,7 @@ namespace GlEngine
         {
         }
 
-        const char *RenderTargetImpl::name()
+        std::string RenderTargetImpl::name()
         {
             return "RenderTargetImpl";
         }

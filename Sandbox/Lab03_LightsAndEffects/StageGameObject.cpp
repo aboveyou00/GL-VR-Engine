@@ -10,7 +10,7 @@ StageGameObject::~StageGameObject()
 {
 }
 
-const char *StageGameObject::name()
+std::string StageGameObject::name()
 {
     return "StageGameObject";
 }

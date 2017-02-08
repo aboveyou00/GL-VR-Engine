@@ -52,7 +52,7 @@ std::vector<Attribute*> PhongFogMaterial::attributes()
     return attrs;
 }
 
-const char *PhongFogMaterial::name()
+std::string PhongFogMaterial::name()
 {
     return "PhongFogMaterial";
 }

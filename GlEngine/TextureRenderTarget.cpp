@@ -41,7 +41,7 @@ namespace GlEngine
         RenderTarget::ShutdownGraphics();
     }
 
-    const char *TextureRenderTarget::name()
+    std::string TextureRenderTarget::name()
     {
         return "TextureRenderTarget";
     }

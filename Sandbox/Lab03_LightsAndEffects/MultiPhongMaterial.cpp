@@ -98,7 +98,7 @@ std::vector<Attribute*> MultiPhongMaterial::attributes()
     return attrs;
 }
 
-const char *MultiPhongMaterial::name()
+std::string MultiPhongMaterial::name()
 {
     return "MultiPhongMaterial";
 }

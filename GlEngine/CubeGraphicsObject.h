@@ -18,6 +18,8 @@ namespace GlEngine
 
         virtual bool Initialize() override;
 
+        virtual std::string name() override;
+
     private:
         Material *_mat;
         Vector<3> _size;

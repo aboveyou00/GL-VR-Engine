@@ -37,7 +37,7 @@ namespace GlEngine
         return maxZ + position[2];
     }
 
-    const char * BoxBody::name()
+    std::string BoxBody::name()
     {
         return "BoxBody";
     }

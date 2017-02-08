@@ -129,7 +129,7 @@ namespace GlEngine
         _vao = VaObject();
     }
 
-    const char *VboGraphicsObject::name()
+    std::string VboGraphicsObject::name()
     {
         return "VboGraphicsObject";
     }

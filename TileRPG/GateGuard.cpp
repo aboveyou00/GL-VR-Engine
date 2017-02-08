@@ -15,7 +15,7 @@ namespace TileRPG
     {
     }
 
-    const char *GateGuard::name()
+    std::string GateGuard::name()
     {
         return "GateGuard";
     }

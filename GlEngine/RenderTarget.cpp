@@ -35,7 +35,7 @@ namespace GlEngine
         pimpl->ShutdownGraphics();
     }
 
-    const char *RenderTarget::name()
+    std::string RenderTarget::name()
     {
         return "RenderTarget";
     }

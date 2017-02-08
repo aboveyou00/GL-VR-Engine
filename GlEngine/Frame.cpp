@@ -39,7 +39,7 @@ namespace GlEngine
                 objects[q]->Tick(delta);
     }
 
-    const char *Frame::name()
+    std::string Frame::name()
     {
         return "Frame";
     }

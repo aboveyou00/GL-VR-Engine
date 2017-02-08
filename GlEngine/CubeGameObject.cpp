@@ -33,7 +33,7 @@ namespace GlEngine
         RotateZ(delta * _rotationSpeed[2]);
     }
 
-    const char *CubeGameObject::name()
+    std::string CubeGameObject::name()
     {
         return "CubeGameObject";
     }

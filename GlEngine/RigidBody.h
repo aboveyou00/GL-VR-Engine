@@ -10,7 +10,7 @@ namespace GlEngine
         RigidBody();
         ~RigidBody();
 
-        virtual const char * name() = 0;
+        virtual std::string name() = 0;
         virtual int id() override = 0;
         virtual bool Collide(Body* other, Collision*& out, bool trySwitch = true) override = 0;
 

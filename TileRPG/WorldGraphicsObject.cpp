@@ -60,7 +60,7 @@ namespace TileRPG
         assert(false);
     }
 
-    const char *WorldGraphicsObject::name()
+    std::string WorldGraphicsObject::name()
     {
         return "WorldGraphicsObject";
     }

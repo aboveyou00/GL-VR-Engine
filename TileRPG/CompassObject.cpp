@@ -7,7 +7,7 @@ namespace TileRPG
     CompassObject::CompassObject(Vector<3> position, Matrix<4, 4> orientation)
         : GameObject(position, orientation), rotation(0)
     {
-        RequireTick();
+        RequireTick(true);
     }
     CompassObject::~CompassObject()
     {
@@ -18,15 +18,15 @@ namespace TileRPG
         rotation += delta;
     }
 
-    const char *CompassObject::name()
+    std::string CompassObject::name()
     {
         return "CompassObject";
     }
-    GlEngine::GraphicsObject *CompassObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *CompassObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return new CompassGraphicsObject();
     }
-    void CompassObject::UpdateGraphicsObject(GlEngine::GraphicsContext&, GlEngine::GraphicsObject *object)
+    void CompassObject::UpdateGraphicsObject(GlEngine::GraphicsContext*, GlEngine::GraphicsObject *object)
     {
         auto gobj = dynamic_cast<CompassGraphicsObject*>(object);
         if (gobj == nullptr) return;

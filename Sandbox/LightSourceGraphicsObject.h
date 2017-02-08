@@ -10,5 +10,5 @@ public:
 
     bool Initialize() override;
 
-    virtual const char *name() override;
+    virtual std::string name() override;
 };

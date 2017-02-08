@@ -28,18 +28,18 @@ namespace TileRPG
         ChunkGraphicsObject(Chunk *chunk, World *world);
         ~ChunkGraphicsObject();
         
-        bool Initialize() override;
-        bool InitializeGraphics() override;
+        virtual bool Initialize() override;
+        virtual bool InitializeGraphics() override;
 
         void AddInstance(GlEngine::GraphicsObject *gobj, Matrix<4, 4> localTransformation);
 
-        void PreRender(GlEngine::RenderTargetLayer layer) override;
-        void RenderImpl(GlEngine::RenderTargetLayer layer) override;
-        void PostRender(GlEngine::RenderTargetLayer layer) override;
+        virtual void PreRender(GlEngine::RenderTargetLayer layer) override;
+        virtual void RenderImpl(GlEngine::RenderTargetLayer layer) override;
+        virtual void PostRender(GlEngine::RenderTargetLayer layer) override;
 
         Matrix<4, 4> GetTransformation();
 
-        const char *name() override;
+        virtual std::string name() override;
 
         inline Chunk &GetChunk()
         {

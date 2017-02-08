@@ -35,7 +35,7 @@ void CameraTargetObject::HandleEvent(GlEngine::Events::Event &evt)
     if (kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyReleased) this->keysDown[kbevt->GetVirtualKeyCode()] = false;
 }
 
-const char *CameraTargetObject::name()
+std::string CameraTargetObject::name()
 {
     return "CameraTargetObject";
 }

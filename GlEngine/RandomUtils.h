@@ -10,7 +10,10 @@ namespace GlEngine
             return random<T>(T(1));
         }
         template <typename T>
-        inline T random(T t);
+        inline T random(T t)
+        {
+            static_assert(false, "Util::random is not implemented for that type parameter.");
+        }
 
         template <>
         inline float ENGINE_SHARED random<float>(float t);

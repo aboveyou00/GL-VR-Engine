@@ -50,7 +50,7 @@ namespace TileRPG
         loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
     }
 
-    const char *TestEventObject::name()
+    std::string TestEventObject::name()
     {
         return "TestEventObject";
     }
@@ -83,7 +83,7 @@ namespace TileRPG
         }
     }
 
-    GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *TestEventObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return GlEngine::FbxGraphicsObject::Create("test.fbx");
         //return GlEngine::ObjGraphicsObject::Create("Resources/suzanne.obj", "Shaders", "direct_light_tex", "Textures/checkers.png");

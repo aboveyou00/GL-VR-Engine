@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FbxGraphicsObject.h"
 #include "FbxLoader.h"
+#include <sstream>
 
 namespace GlEngine
 {
@@ -27,8 +28,10 @@ namespace GlEngine
         return VboGraphicsObject::Initialize();
     }
 
-    const char *FbxGraphicsObject::name()
+    std::string FbxGraphicsObject::name()
     {
-        return "FbxGraphicsObject";
+        std::stringstream stream;
+        stream << "FbxGraphicsObject(" << filename << ")";
+        return stream.str();
     }
 }

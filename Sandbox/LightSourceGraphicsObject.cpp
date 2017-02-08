@@ -79,7 +79,7 @@ bool LightSourceGraphicsObject::Initialize()
     return true;
 }
 
-const char *LightSourceGraphicsObject::name()
+std::string LightSourceGraphicsObject::name()
 {
     return "LightSourceGraphicsObject";
 }

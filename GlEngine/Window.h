@@ -18,10 +18,10 @@ namespace GlEngine
         Window();
         ~Window();
 
-        bool Initialize() override;
-        void Shutdown() override;
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
         void CenterWindow();
 

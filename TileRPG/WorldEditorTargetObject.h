@@ -13,11 +13,11 @@ namespace TileRPG
         WorldEditorTargetObject(World *world);
         ~WorldEditorTargetObject();
 
-        const char *name() override;
+        virtual std::string name() override;
 
-        void HandleEvent(GlEngine::Events::Event &evt) override;
+        virtual void HandleEvent(GlEngine::Events::Event &evt) override;
 
-        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+        virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
         
     private:
         World *world;

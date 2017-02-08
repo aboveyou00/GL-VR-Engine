@@ -21,7 +21,7 @@ namespace GlEngine
             virtual bool InitializeGraphics() override;
             virtual void ShutdownGraphics() override;
 
-            const char *name() override;
+            std::string name() override;
             
             virtual void MakeCurrentTarget();
 

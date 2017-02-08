@@ -13,6 +13,6 @@ namespace GlEngine
         WindowRenderTarget(Window *window);
         ~WindowRenderTarget();
 
-        virtual const char *name() override;
+        virtual std::string name() override;
     };
 }

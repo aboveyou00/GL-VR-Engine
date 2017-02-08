@@ -20,7 +20,7 @@ namespace GlEngine::ShaderFactory
 
         virtual void Recompile() override;
 
-        virtual const char *name() override;
+        virtual std::string name() override;
 
     private:
         ShaderSource* _shaderSource;

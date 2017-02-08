@@ -5,6 +5,7 @@
 #include "ShaderFactory.h"
 #include "Property.h"
 #include "Attribute.h"
+#include <sstream>
 
 TemplateMaterial::TemplateMaterial(std::vector<ShaderProp*> props, std::vector<Attribute*> attribs, std::function<void(TemplateMaterial*, ShaderFactory&)> push)
     : props(props), attribs(attribs), push(push)
@@ -38,9 +39,14 @@ std::vector<GlEngine::ShaderFactory::Attribute*> TemplateMaterial::attributes()
     return attribs;
 }
 
-const char *TemplateMaterial::name()
+std::string TemplateMaterial::name()
 {
-    return "TemplateMaterial";
+    std::stringstream stream;
+    stream << "TemplateMaterial {";
+    //for (auto *attr : attribs)
+    //    stream << " " << attr->name();
+    stream << " }";
+    return stream.str();
 }
 TemplateMaterial::operator bool()
 {

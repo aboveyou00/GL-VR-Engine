@@ -26,9 +26,9 @@ namespace TileRPG
         void RenderImpl(GlEngine::RenderTargetLayer layer) override;
         void RenderInstancedImpl(GlEngine::RenderTargetLayer layer, unsigned instanceCount) override;
 
-        operator bool() override;
+        virtual std::string name() override;
 
-        const char *name() override;
+        operator bool() override;
 
         void UpdateChunks(std::vector<Chunk*> *chunks);
 

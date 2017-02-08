@@ -16,7 +16,7 @@ namespace GlEngine
         return _gfxObj;
     }
 
-    const char *PlaneGameObject::name()
+    std::string PlaneGameObject::name()
     {
         return "PlaneGameObject";
     }

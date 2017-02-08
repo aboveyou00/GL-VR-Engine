@@ -64,7 +64,7 @@ namespace TileRPG
         chunkProviderLoop.StopLoop();
     }
 
-    const char *World::name()
+    std::string World::name()
     {
         return "World";
     }
@@ -86,11 +86,11 @@ namespace TileRPG
         chunk->SetTileInfoGlobal(tileX, tileY, tileZ, tileId);
     }
 
-    GlEngine::GraphicsObject *World::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *World::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return new WorldGraphicsObject(this);
     }
-    void World::UpdateGraphicsObject(GlEngine::GraphicsContext &ctx, GlEngine::GraphicsObject *object)
+    void World::UpdateGraphicsObject(GlEngine::GraphicsContext *ctx, GlEngine::GraphicsObject *object)
     {
         GameObject::UpdateGraphicsObject(ctx, object);
         auto wgo = dynamic_cast<WorldGraphicsObject*>(object);

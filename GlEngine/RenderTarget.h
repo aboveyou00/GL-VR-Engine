@@ -26,7 +26,7 @@ namespace GlEngine
         virtual bool InitializeGraphics();
         virtual void ShutdownGraphics();
 
-        virtual const char *name();
+        virtual std::string name();
         void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
         ViewPort *viewPort(RenderTargetLayer layer);
 

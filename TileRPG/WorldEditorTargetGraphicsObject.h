@@ -10,8 +10,8 @@ namespace TileRPG
         WorldEditorTargetGraphicsObject();
         ~WorldEditorTargetGraphicsObject();
 
-        bool Initialize() override;
+        virtual bool Initialize() override;
 
-        virtual const char *name() override;
+        virtual std::string name() override;
     };
 }

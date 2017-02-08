@@ -44,7 +44,7 @@ namespace GlEngine
 
         rt_mutex &GetMutex();
 
-        const char *name() override;
+        virtual std::string name() override;
 
         void MessageLoop();
 

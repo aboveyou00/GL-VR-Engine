@@ -24,7 +24,7 @@ namespace TileRPG
     {
     }
 
-    const char *DiskChunkProvider::name()
+    std::string DiskChunkProvider::name()
     {
         return "DiskChunkProvider";
     }

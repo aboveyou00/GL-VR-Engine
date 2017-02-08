@@ -22,7 +22,7 @@ namespace GlEngine
         bool Initialize() override;
         void Shutdown() override;
 
-        const char *name() override;
+        std::string name() override;
 
         void QueueInitialize(IComponent *c, bool reentrant = false);
         void QueueShutdown(IComponent *c);

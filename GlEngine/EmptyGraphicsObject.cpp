@@ -10,7 +10,7 @@ namespace GlEngine
     {
     }
 
-    const char *EmptyGraphicsObject::name()
+    std::string EmptyGraphicsObject::name()
     {
         return "EmptyGraphicsObject";
     }

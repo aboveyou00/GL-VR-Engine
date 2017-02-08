@@ -105,7 +105,7 @@ namespace GlEngine
 
             virtual operator bool() override;
             
-            virtual const char *name() override;
+            virtual std::string name() override;
 
         protected:
             Material *_mat;

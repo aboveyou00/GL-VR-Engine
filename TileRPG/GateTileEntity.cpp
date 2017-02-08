@@ -13,7 +13,7 @@ namespace TileRPG
     {
     }
 
-    const char *GateTileEntity::name()
+    std::string GateTileEntity::name()
     {
         return "GateTileEntity";
     }

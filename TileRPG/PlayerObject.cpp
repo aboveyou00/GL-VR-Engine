@@ -106,7 +106,7 @@ namespace TileRPG
             actor()->body->velocity = { actor()->body->velocity[0], 10.0, actor()->body->velocity[2] };
     }
     
-    const char *PlayerObject::name()
+    std::string PlayerObject::name()
     {
         return "PlayerObject";
     }
@@ -149,7 +149,7 @@ namespace TileRPG
         }
     }
 
-    GlEngine::GraphicsObject *PlayerObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *PlayerObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return GlEngine::FbxGraphicsObject::Create("Resources/cylinder.fbx");
     }

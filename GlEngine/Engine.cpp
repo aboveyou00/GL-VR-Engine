@@ -88,7 +88,7 @@ namespace GlEngine
         return GetWindowManager().GetMutex();
     }
 
-    const char *Engine::name()
+    std::string Engine::name()
     {
         return "Engine";
     }

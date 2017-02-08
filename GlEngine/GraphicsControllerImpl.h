@@ -17,14 +17,14 @@ namespace GlEngine
             GraphicsControllerImpl();
             ~GraphicsControllerImpl();
 
-            bool Initialize();
-            void Shutdown();
+            virtual bool Initialize();
+            virtual void Shutdown();
 
             void AddGraphicsContext(GraphicsContext *graphicsContext);
 
             rt_mutex &GetMutex();
 
-            const char *name() override;
+            virtual std::string name() override;
 
         private:
             rt_mutex _lock;

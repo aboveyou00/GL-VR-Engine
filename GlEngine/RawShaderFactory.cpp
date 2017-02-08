@@ -48,7 +48,7 @@ namespace GlEngine::ShaderFactory
 
         _shader = Shader::Create(_shaderSource);
     }
-    const char * RawShaderFactory::name()
+    std::string RawShaderFactory::name()
     {
         return "RawShaderFactory";
     }

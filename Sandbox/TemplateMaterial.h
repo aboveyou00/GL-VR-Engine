@@ -23,7 +23,7 @@ public:
     virtual std::vector<ShaderProp*> properties() override;
     virtual std::vector<Attribute*> attributes() override;
 
-    const char *name() override;
+    std::string name() override;
     operator bool() override;
 
     std::vector<ShaderProp*> props;

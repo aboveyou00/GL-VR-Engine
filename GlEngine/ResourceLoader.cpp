@@ -57,7 +57,7 @@ namespace GlEngine
         isShuttingDown = false;
     }
 
-    const char *ResourceLoader::name()
+    std::string ResourceLoader::name()
     {
         return "ResourceLoader";
     }
@@ -171,10 +171,10 @@ namespace GlEngine
             switch (task->type)
             {
             case TaskType::InitializeGraphics:
-                logger->Log(LogType::Info, "Asynchronous resource loader initializing graphics for %s (IGraphicsComponent)...", c.name());
+                logger->Log(LogType::Info, "Asynchronous resource loader initializing graphics for %s (IGraphicsComponent)...", c.name().c_str());
                 if (!c.InitializeGraphics())
                 {
-                    logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize graphics for %s (IGraphicsComponent)", c.name());
+                    logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize graphics for %s (IGraphicsComponent)", c.name().c_str());
                     worked = false;
 
                     ScopedLock _lock(_mutex);
@@ -187,7 +187,7 @@ namespace GlEngine
                 }
                 else
                 {
-                    logger->Log(LogType::Info, "Asynchronous resource loader initialized graphics for %s (IGraphicsComponent).", c.name());
+                    logger->Log(LogType::Info, "Asynchronous resource loader initialized graphics for %s (IGraphicsComponent).", c.name().c_str());
                     ScopedLock _lock(_mutex);
                     if (task->state == TaskState::ThrowAway) removeTask(task);
                     else if (isShuttingDown)
@@ -204,10 +204,10 @@ namespace GlEngine
                 break;
 
             case TaskType::ShutdownGraphics:
-                logger->Log(LogType::Info, "Asynchronous resource loader shutting down graphics for %s (IGraphicsComponent)...", c.name());
+                logger->Log(LogType::Info, "Asynchronous resource loader shutting down graphics for %s (IGraphicsComponent)...", c.name().c_str());
                 c.ShutdownGraphics();
                 {
-                    logger->Log(LogType::Info, "Asynchronous resource loader shut down graphics for %s (IGraphicsComponent).", c.name());
+                    logger->Log(LogType::Info, "Asynchronous resource loader shut down graphics for %s (IGraphicsComponent).", c.name().c_str());
                     ScopedLock _lock(_mutex);
                     if (task->state == TaskState::ThrowAway) removeTask(task);
                     else
@@ -252,15 +252,15 @@ namespace GlEngine
         switch (task->type)
         {
         case TaskType::Initialize:
-            logger->Log(LogType::Info, "Asynchronous resource loader initializing %s (IComponent)...", c.name());
+            logger->Log(LogType::Info, "Asynchronous resource loader initializing %s (IComponent)...", c.name().c_str());
             if (!c.Initialize())
             {
-                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c.name());
+                logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c.name().c_str());
                 removeTask(task);
             }
             else
             {
-                logger->Log(LogType::Info, "Asynchronous resource loader initialized %s (IComponent).", c.name());
+                logger->Log(LogType::Info, "Asynchronous resource loader initialized %s (IComponent).", c.name().c_str());
                 ScopedLock _lock(_mutex);
                 if (task->state == TaskState::ThrowAway || dynamic_cast<IGraphicsComponent*>(&c) == nullptr) removeTask(task);
                 else
@@ -272,9 +272,9 @@ namespace GlEngine
             break;
 
         case TaskType::Shutdown:
-            logger->Log(LogType::Info, "Asynchronous resource loader shutting down %s (IComponent)...", c.name());
+            logger->Log(LogType::Info, "Asynchronous resource loader shutting down %s (IComponent)...", c.name().c_str());
             c.Shutdown();
-            logger->Log(LogType::Info, "Asynchronous resource loader shut down %s (IComponent).", c.name());
+            logger->Log(LogType::Info, "Asynchronous resource loader shut down %s (IComponent).", c.name().c_str());
             removeTask(task);
             break;
 

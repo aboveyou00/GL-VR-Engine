@@ -70,7 +70,7 @@ namespace GlEngine
         return true;
     }
 
-    const char *VaObject::name()
+    std::string VaObject::name()
     {
         return "VaObject";
     }

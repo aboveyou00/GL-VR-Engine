@@ -79,7 +79,7 @@ namespace TileRPG
         return true;
     }
 
-    const char *WorldEditorTargetGraphicsObject::name()
+    std::string WorldEditorTargetGraphicsObject::name()
     {
         return "WorldEditorTargetGraphicsObject";
     }

@@ -38,7 +38,7 @@ namespace GlEngine
 
         rt_mutex &GetMutex();
 
-        const char *name() override;
+        std::string name() override;
     
     private:
         rt_mutex _mux;

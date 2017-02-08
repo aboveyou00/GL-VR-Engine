@@ -41,7 +41,7 @@ void PhongTorus::Tick(float delta)
     _lightSource->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
 }
 
-const char *PhongTorus::name()
+std::string PhongTorus::name()
 {
     return "PhongTorus";
 }

@@ -122,7 +122,7 @@ namespace GlEngine
             _geom = 0;
         }
 
-        const char *Shader::name()
+        std::string Shader::name()
         {
             return "Shader";
         }

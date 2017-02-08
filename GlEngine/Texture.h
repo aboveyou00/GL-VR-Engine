@@ -28,9 +28,9 @@ namespace GlEngine
 
         bool IsOpaque() const;
 
-        const char *name() override;
+        virtual std::string name() override;
 
-        operator bool();
+        virtual operator bool() override;
 
         const char *GetSource();
 

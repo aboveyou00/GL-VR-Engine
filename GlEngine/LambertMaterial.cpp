@@ -62,7 +62,7 @@ namespace GlEngine
         return { };
     }
 
-    const char *LambertMaterial::name()
+    std::string LambertMaterial::name()
     {
         return "LambertMaterial";
     }

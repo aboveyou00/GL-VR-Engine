@@ -14,10 +14,10 @@ namespace TileRPG
         TileRPGGameLoop(unsigned targetFPS = 60u);
         ~TileRPGGameLoop();
 
-        bool Initialize();
-        void Shutdown();
+        virtual bool Initialize();
+        virtual void Shutdown();
 
-        const char *name() override;
+        virtual std::string name() override;
 
         inline GlEngine::FrameStack &GetFrameStack()
         {

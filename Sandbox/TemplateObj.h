@@ -24,7 +24,7 @@ public:
 
     virtual void Tick(float delta) override;
 
-    virtual const char *name() override;
+    virtual std::string name() override;
 
     virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext* ctx) override;
     

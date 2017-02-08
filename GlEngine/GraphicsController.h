@@ -25,12 +25,12 @@ namespace GlEngine
             return _instance;
         }
 
-        bool Initialize();
-        void Shutdown();
+        virtual bool Initialize();
+        virtual void Shutdown();
 
         void AddGraphicsContext(GraphicsContext *graphicsContext);
 
-        const char *name() override;
+        virtual std::string name() override;
 
         inline Impl::GraphicsControllerImpl *GetImpl()
         {

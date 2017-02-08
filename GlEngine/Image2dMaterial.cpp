@@ -53,7 +53,7 @@ namespace GlEngine
         return { };
     }
 
-    const char *Image2dMaterial::name()
+    std::string Image2dMaterial::name()
     {
         return "Image2dMaterial";
     }

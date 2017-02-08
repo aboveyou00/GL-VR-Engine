@@ -42,7 +42,7 @@ namespace GlEngine
         return VboGraphicsObject::Initialize();
     }
 
-    const char *ObjGraphicsObject::name()
+    std::string ObjGraphicsObject::name()
     {
         return "ObjGraphicsObject";
     }

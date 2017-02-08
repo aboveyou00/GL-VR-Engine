@@ -10,7 +10,7 @@ public:
     StageGameObject(std::vector<IPropertyProvider*> providers = { });
     ~StageGameObject();
 
-    virtual const char *name() override;
+    virtual std::string name() override;
 
     virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 

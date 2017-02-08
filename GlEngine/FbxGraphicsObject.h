@@ -14,9 +14,9 @@ namespace GlEngine
     public:
         static FbxGraphicsObject *Create(const char* name);
         
-        bool Initialize() override;
+        virtual bool Initialize() override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
     private:
         const char *filename;

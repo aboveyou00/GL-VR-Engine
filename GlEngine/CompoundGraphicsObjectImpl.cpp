@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CompoundGraphicsObject.h"
+#include <sstream>
 
 namespace GlEngine
 {
@@ -28,9 +29,15 @@ namespace GlEngine
                 t_gobjs[q].Render(layer);
         }
 
-        const char *CompoundGraphicsObjectImpl::name()
+        std::string CompoundGraphicsObjectImpl::name()
         {
-            return "CompoundGraphicsObjectImpl";
+            std::stringstream stream;
+            for (size_t q = 0; q < count; q++)
+            {
+                if (q != 0) stream << " && ";
+                stream << t_gobjs[q].name();
+            }
+            return stream.str();
         }
         CompoundGraphicsObjectImpl::operator bool()
         {

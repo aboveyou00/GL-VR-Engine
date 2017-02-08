@@ -5,6 +5,8 @@
 #include "Engine.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
+#include "StringUtils.h"
+#include <sstream>
 
 namespace GlEngine
 {
@@ -59,9 +61,13 @@ namespace GlEngine
         logger.Log(LogType::Info, "~Shutting down FileConfigProvider...");
     }
 
-    const char *FileConfigProvider::name()
+    std::string FileConfigProvider::name()
     {
-        return "FileConfigProvider";
+        std::stringstream stream;
+        stream << "FileConfigProvider(";
+        if (!Util::is_empty_or_ws(_path)) stream << _path << "\\";
+        stream << _filename << ")";
+        return stream.str();
     }
 
     bool FileConfigProvider::IsFull() const

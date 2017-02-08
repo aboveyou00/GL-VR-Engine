@@ -93,7 +93,7 @@ namespace GlEngine
         return attrs;
     }
 
-    const char *PhongMaterial::name()
+    std::string PhongMaterial::name()
     {
         return "PhongMaterial";
     }

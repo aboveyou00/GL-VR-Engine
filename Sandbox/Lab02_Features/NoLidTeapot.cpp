@@ -42,7 +42,7 @@ void NoLidTeapot::Tick(float delta)
     _lightSource->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
 }
 
-const char *NoLidTeapot::name()
+std::string NoLidTeapot::name()
 {
     return "NoLidTeapot";
 }

@@ -122,11 +122,11 @@ namespace GlEngine
         return !hasFlag(TextureFlag::Translucent);
     }
 
-    const char *Texture::name()
+    std::string Texture::name()
     {
         std::stringstream stream;
         stream << "Texture (" << path << ")";
-        return stream.str().c_str();
+        return stream.str();
     }
 
     Texture::operator bool()

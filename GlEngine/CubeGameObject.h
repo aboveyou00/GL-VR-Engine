@@ -23,7 +23,7 @@ namespace GlEngine
 
         virtual void Tick(float delta) override;
 
-        virtual const char *name() override;
+        virtual std::string name() override;
         
         virtual GraphicsObject *CreateGraphicsObject(GraphicsContext *ctx) override;
 

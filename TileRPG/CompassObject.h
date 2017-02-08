@@ -10,12 +10,12 @@ namespace TileRPG
         CompassObject(Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         ~CompassObject();
         
-        void Tick(float delta) override;
+        virtual void Tick(float delta) override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
-        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
-        void UpdateGraphicsObject(GlEngine::GraphicsContext &ctx, GlEngine::GraphicsObject *object) override;
+        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
+        void UpdateGraphicsObject(GlEngine::GraphicsContext *ctx, GlEngine::GraphicsObject *object) override;
 
     private:
         float rotation;

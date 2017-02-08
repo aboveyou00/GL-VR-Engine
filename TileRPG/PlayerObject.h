@@ -27,11 +27,11 @@ namespace TileRPG
         GlEngine::TileCollision* GetSingleTileCollision(unsigned side);
         void Jump();
 
-        const char *name() override;
+        virtual std::string name() override;
 
         void HandleEvent(GlEngine::Events::Event &evt) override;
 
-        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 
         inline Quest *GetCurrentQuest()
         {

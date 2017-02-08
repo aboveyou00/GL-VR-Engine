@@ -23,7 +23,7 @@ namespace GlEngine
     {
     }
 
-    const char *Space::name()
+    std::string Space::name()
     {
         return "Space";
     }

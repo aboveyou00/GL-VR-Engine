@@ -38,7 +38,7 @@ void SandboxLoop::Shutdown()
     Join();
 }
 
-const char *SandboxLoop::name()
+std::string SandboxLoop::name()
 {
     return "SandboxLoop";
 }

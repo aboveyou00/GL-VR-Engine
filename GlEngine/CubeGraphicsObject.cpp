@@ -75,4 +75,9 @@ namespace GlEngine
 
         return true;
     }
+
+    std::string CubeGraphicsObject::name()
+    {
+        return "CubeGraphicsObject";
+    }
 }

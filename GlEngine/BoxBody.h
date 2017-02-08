@@ -12,8 +12,9 @@ namespace GlEngine
 
         float minX, maxX, minY, maxY, minZ, maxZ;
 
-        virtual const char * name();
+        virtual std::string name() override;
         virtual int id() override;
+
         virtual bool Collide(Body * other, Collision*& out, bool trySwitch = true) override;
 
         virtual float MinX() override;

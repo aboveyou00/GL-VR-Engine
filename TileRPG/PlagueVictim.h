@@ -15,13 +15,13 @@ namespace TileRPG
         PlagueVictim(Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         ~PlagueVictim();
 
-        bool Initialize() override;
-        void Tick(float delta) override;
-        void Shutdown() override;
+        virtual bool Initialize() override;
+        virtual void Tick(float delta) override;
+        virtual void Shutdown() override;
 
-        const char *name() override;
+        virtual std::string name() override;
         
-        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 
     private:
         float deltaToNextMove;

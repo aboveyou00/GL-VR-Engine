@@ -49,7 +49,7 @@ namespace GlEngine
             }
         }
         
-        bool InitializeGraphics() override
+        virtual bool InitializeGraphics() override
         {
             VaoFactory *vao = VaoFactory::Begin();
             BuildVao(*vao);
@@ -87,7 +87,7 @@ namespace GlEngine
             assert(false);
         }
 
-        operator bool() override
+        virtual operator bool() override
         {
             if (finalized && !queued)
             {
@@ -98,7 +98,7 @@ namespace GlEngine
             return finalized && _vao && gobj && *gobj;
         }
 
-        const char *name() override
+        virtual std::string name() override
         {
             return "InstancedGraphicsObject<T...>";
         }

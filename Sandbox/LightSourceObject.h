@@ -29,7 +29,7 @@ public:
         SetPosition(lightSource()->position());
     }
 
-    const char *name() override
+    virtual std::string name() override
     {
         return "LightSourceObject";
     }

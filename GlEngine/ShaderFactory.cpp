@@ -16,6 +16,8 @@
 
 #include "Engine.h"
 #include "ResourceLoader.h"
+#include "Attribute.h"
+#include <sstream>
 
 namespace GlEngine
 {
@@ -201,11 +203,16 @@ namespace GlEngine
             return _shader != nullptr && !!*_shader;
         }
 
-        const char *ShaderFactory::name()
+        std::string ShaderFactory::name()
         {
-            return "ShaderFactory";
+            std::stringstream stream;
+            stream << "ShaderFactory {";
+            //for (auto *attr : _mat->attributes())
+            //    stream << " " << attr->name();
+            stream << " }";
+            return stream.str();
         }
-        
+
         bool ShaderFactory::RefreshPropertyCache()
         {
             std::set<ShaderProp*> newProperties;

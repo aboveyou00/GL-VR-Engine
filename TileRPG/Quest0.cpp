@@ -56,7 +56,7 @@ namespace TileRPG
         }
     }
 
-    const char *Quest0::name()
+    std::string Quest0::name()
     {
         return "Quest0";
     }

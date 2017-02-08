@@ -51,7 +51,7 @@ namespace GlEngine
         UnregisterClass(WINDOW_CLASS_NAME, GetModuleHandle(nullptr));
     }
 
-    const char *WindowManager::name()
+    std::string WindowManager::name()
     {
         return "WindowManager";
     }

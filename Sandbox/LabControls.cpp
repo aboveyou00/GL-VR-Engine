@@ -60,7 +60,7 @@ void LabControls::HandleEvent(Event &evt)
     if (!evt.IsHandled()) GlEngine::GameObject::HandleEvent(evt);
 }
 
-const char *LabControls::name()
+std::string LabControls::name()
 {
     return "LabControls";
 }

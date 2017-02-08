@@ -41,7 +41,7 @@ namespace GlEngine
         return _mux;
     }
 
-    const char *GraphicsContext::name()
+    std::string GraphicsContext::name()
     {
         return "GraphicsContext";
     }

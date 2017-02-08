@@ -15,11 +15,11 @@ namespace TileRPG
 
         void Tick(float delta) override;
 
-        const char *name() override;
+        std::string name() override;
 
         void HandleEvent(GlEngine::Events::Event &evt) override;
 
-        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
+        GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 
     private:
         float timePassed;

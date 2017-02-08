@@ -38,7 +38,7 @@ namespace TileRPG
         Join();
     }
 
-    const char *TileRPGGameLoop::name()
+    std::string TileRPGGameLoop::name()
     {
         return "TileRPGGameLoop";
     }

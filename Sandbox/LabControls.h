@@ -29,7 +29,7 @@ public:
 
     virtual void HandleEvent(Event &evt);
 
-    virtual const char *name() override;
+    virtual std::string name() override;
 
     virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext*) override;
 

@@ -110,7 +110,7 @@ namespace TileRPG
         loader->Resize(Chunk::getChunkDimensionsFromTileDimensions(32, 32));
     }
 
-    GlEngine::GraphicsObject *WorldEditorTargetObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *WorldEditorTargetObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return new WorldEditorTargetGraphicsObject();
     }

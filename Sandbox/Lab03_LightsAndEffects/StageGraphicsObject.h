@@ -11,6 +11,8 @@ public:
 
     virtual bool Initialize() override;
 
+    virtual std::string name() override;
+
 private:
     bool defaultMaterial;
 };

@@ -14,7 +14,7 @@ public:
     Tree(Vector<3> position, std::vector<IPropertyProvider*> providers);
     ~Tree();
 
-    virtual const char *name() override;
+    virtual std::string name() override;
 
     virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 

@@ -39,7 +39,7 @@ namespace GlEngine::Impl
         wglMakeCurrent(nullptr, nullptr);
     }
 
-    const char *WindowRenderTargetImpl::name()
+    std::string WindowRenderTargetImpl::name()
     {
         return "WindowRenderTargetImpl";
     }

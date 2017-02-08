@@ -16,12 +16,12 @@ namespace GlEngine
         public:
             static Shader *Create(ShaderSource *source);
 
-            bool Initialize() override;
-            void Shutdown() override;
-            bool InitializeGraphics() override;
-            void ShutdownGraphics() override;
+            virtual bool Initialize() override;
+            virtual void Shutdown() override;
+            virtual bool InitializeGraphics() override;
+            virtual void ShutdownGraphics() override;
 
-            const char *name() override;
+            virtual std::string name() override;
 
             void Push();
             void Pop();
@@ -31,7 +31,7 @@ namespace GlEngine
             bool UsesTesselation();
             bool UsesGeometry();
 
-            operator bool();
+            virtual operator bool() override;
 
         private:
             ShaderSource *source;

@@ -12,7 +12,7 @@ namespace GlEngine
     TileBoxBody::~TileBoxBody()
     {
     }
-    const char * TileBoxBody::name()
+    std::string TileBoxBody::name()
     {
         return "TileBoxBody";
     }

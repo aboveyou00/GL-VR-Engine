@@ -21,10 +21,10 @@ namespace GlEngine
             return _instance;
         }
 
-        bool Initialize();
-        void Shutdown();
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
         Window *Create(unsigned targetFPS = 60u);
         Window *Find(HWND handle);

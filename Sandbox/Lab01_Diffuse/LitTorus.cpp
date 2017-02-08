@@ -39,7 +39,7 @@ void LitTorus::Tick(float delta)
     _lightSource->SetPosition({ transformedPosition[0], transformedPosition[1], transformedPosition[2] });
 }
 
-const char *LitTorus::name()
+std::string LitTorus::name()
 {
     return "LitTorus";
 }

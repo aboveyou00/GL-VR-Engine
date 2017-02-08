@@ -14,7 +14,7 @@ namespace TileRPG
 
         void HandleEvent(GlEngine::Events::Event &evt) override;
 
-        const char *name() override;
+        std::string name() override;
 
         const char *PauseMessage() override;
 

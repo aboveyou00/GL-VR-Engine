@@ -37,7 +37,7 @@ namespace GlEngine
         if (stackIdx != -1) _frameStack[stackIdx]->Tick(delta);
     }
 
-    const char *FrameStack::name()
+    std::string FrameStack::name()
     {
         return "FrameStack";
     }

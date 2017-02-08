@@ -18,13 +18,13 @@ namespace TileRPG
         DialogBoxObject(GlEngine::Texture *tex);
         ~DialogBoxObject();
 
-        virtual const char *name() override;
+        virtual std::string name() override;
 
         void SetTextureSource(const char *textureSrc);
         void SetTexture(GlEngine::Texture *tex);
 
-        virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext &ctx) override;
-        virtual void UpdateGraphicsObject(GlEngine::GraphicsContext &ctx, GlEngine::GraphicsObject *object) override;
+        virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
+        virtual void UpdateGraphicsObject(GlEngine::GraphicsContext *ctx, GlEngine::GraphicsObject *object) override;
 
     private:
         GlEngine::Texture *tex;

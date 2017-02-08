@@ -28,7 +28,7 @@ void TemplateObj::Tick(float delta)
     tick(this, delta);
 }
 
-const char *TemplateObj::name()
+std::string TemplateObj::name()
 {
     return "TemplateObj";
 }

@@ -21,7 +21,7 @@ namespace TileRPG
     {
     }
 
-    const char *DialogBoxObject::name()
+    std::string DialogBoxObject::name()
     {
         return "DialogBoxObject";
     }
@@ -36,13 +36,13 @@ namespace TileRPG
         this->tex = tex;
     }
 
-    GlEngine::GraphicsObject *DialogBoxObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *DialogBoxObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         auto gobj = new GlEngine::Image2dGraphicsObject();
         gobj->SetTexture(tex);
         return gobj;
     }
-    void DialogBoxObject::UpdateGraphicsObject(GlEngine::GraphicsContext&, GlEngine::GraphicsObject *object)
+    void DialogBoxObject::UpdateGraphicsObject(GlEngine::GraphicsContext*, GlEngine::GraphicsObject *object)
     {
         auto gobj = dynamic_cast<GlEngine::Image2dGraphicsObject*>(object);
         if (gobj == nullptr) return;

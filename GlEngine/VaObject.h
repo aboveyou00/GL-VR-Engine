@@ -15,15 +15,16 @@ namespace GlEngine
         VaObject(unsigned vao, std::vector<VbObjectAttribList*> *vbo_attribs);
         ~VaObject();
 
-        bool Initialize();
-        void Shutdown();
-        bool InitializeGraphics();
-        void ShutdownGraphics();
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
+        virtual bool InitializeGraphics() override;
+        virtual void ShutdownGraphics() override;
 
         void MakeCurrent();
 
-        operator bool();
-        const char *name() override;
+        virtual std::string name() override;
+
+        virtual operator bool() override;
 
         inline std::vector<VbObjectAttribList*> *GetVboAttributes()
         {

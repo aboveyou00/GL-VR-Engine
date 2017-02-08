@@ -61,12 +61,12 @@ namespace TileRPG
         jibberish->Release();
     }
 
-    const char *PlagueVictim::name()
+    std::string PlagueVictim::name()
     {
         return "PlagueVictim";
     }
 
-    GlEngine::GraphicsObject *PlagueVictim::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *PlagueVictim::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         return GlEngine::FbxGraphicsObject::Create("Resources/cylinder.fbx");
     }

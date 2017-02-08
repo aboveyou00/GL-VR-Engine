@@ -43,7 +43,7 @@ namespace GlEngine
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 
-        const char *name() override;
+        std::string name() override;
 
         void BuildVao(VaoFactory &vao) override;
 

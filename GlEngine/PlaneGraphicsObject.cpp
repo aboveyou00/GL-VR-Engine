@@ -91,4 +91,9 @@ namespace GlEngine
 
         return true;
     }
+
+    std::string PlaneGraphicsObject::name()
+    {
+        return "PlaneGraphicsObject";
+    }
 }

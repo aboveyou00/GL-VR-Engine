@@ -9,8 +9,10 @@ namespace GlEngine
     public:
         Body();
         ~Body();
-        virtual const char *name();
+
+        virtual std::string name();
         virtual int id() = 0;
+
         virtual bool Collide(Body* other, Collision*& out, bool trySwitched = true);
 
         virtual float MinX() = 0;

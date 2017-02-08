@@ -61,7 +61,7 @@ namespace TileRPG
         return GlEngine::TesselationType::Triangles;
     }
 
-    const char *WaterMaterial::name()
+    std::string WaterMaterial::name()
     {
         return "WaterMaterial";
     }

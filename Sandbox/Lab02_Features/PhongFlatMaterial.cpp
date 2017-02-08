@@ -56,7 +56,7 @@ std::vector<GlEngine::ShaderFactory::Attribute*> PhongFlatMaterial::attributes()
     return attrs;
 }
 
-const char *PhongFlatMaterial::name()
+std::string PhongFlatMaterial::name()
 {
     return "PhongFlatMaterial";
 }

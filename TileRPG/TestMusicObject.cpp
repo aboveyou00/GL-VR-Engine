@@ -62,12 +62,12 @@ namespace TileRPG
         loop->Release();
     }
 
-    const char *TestMusicObject::name()
+    std::string TestMusicObject::name()
     {
         return "TestMusicObject";
     }
 
-    GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext&)
+    GlEngine::GraphicsObject *TestMusicObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
     {
         auto texture = GlEngine::Texture::FromFile("Textures/checkers.png", false);
         auto mat = new GlEngine::PhongMaterial(texture);

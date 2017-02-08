@@ -24,7 +24,7 @@ namespace TileRPG
         void Tick(float delta) override;
         void Shutdown() override;
 
-        virtual const char *name() override;
+        virtual std::string name() override;
 
         __SelectorY operator[](int x);
         int GetTileInfo(int tileX, int tileY, int tileZ);

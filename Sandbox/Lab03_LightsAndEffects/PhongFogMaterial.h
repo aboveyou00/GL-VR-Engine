@@ -16,5 +16,5 @@ public:
 public:
     virtual std::vector<GlEngine::ShaderFactory::Attribute*> attributes() override;
 
-    const char *name() override;
+    std::string name() override;
 };

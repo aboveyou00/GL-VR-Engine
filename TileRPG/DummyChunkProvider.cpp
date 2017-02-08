@@ -19,7 +19,7 @@ namespace TileRPG
     {
     }
 
-    const char *DummyChunkProvider::name()
+    std::string DummyChunkProvider::name()
     {
         return "DummyChunkProvider";
     }

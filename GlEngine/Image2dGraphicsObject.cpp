@@ -50,7 +50,7 @@ namespace GlEngine
     {
     }
 
-    const char *Image2dGraphicsObject::name()
+    std::string Image2dGraphicsObject::name()
     {
         return "ImageGraphicsObject";
     }

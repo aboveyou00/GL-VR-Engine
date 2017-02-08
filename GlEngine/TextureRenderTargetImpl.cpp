@@ -62,7 +62,7 @@ namespace GlEngine::Impl
         RenderTargetImpl::ShutdownGraphics();
     }
 
-    const char *TextureRenderTargetImpl::name()
+    std::string TextureRenderTargetImpl::name()
     {
         return "TextureRenderTargetImpl";
     }

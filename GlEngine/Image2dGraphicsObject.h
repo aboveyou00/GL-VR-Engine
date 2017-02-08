@@ -17,10 +17,10 @@ namespace GlEngine
         static Image2dGraphicsObject *Create(Texture *tex);
         static Image2dGraphicsObject *Create(const char *path);
         
-        bool Initialize() override;
-        void Shutdown() override;
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
         void PreRender(RenderTargetLayer layer) override;
         void PostRender(RenderTargetLayer layer) override;

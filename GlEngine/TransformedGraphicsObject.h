@@ -16,7 +16,7 @@ namespace GlEngine
         TransformedGraphicsObject(GraphicsObject *obj, Vector<3> position, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         ~TransformedGraphicsObject();
 
-        const char *name() override;
+        std::string name() override;
         operator bool() override;
 
         void BuildVao(VaoFactory &vao) override;

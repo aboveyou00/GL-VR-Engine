@@ -55,7 +55,7 @@ namespace GlEngine
         _windowHandle = nullptr;
     }
 
-    const char *Window::name()
+    std::string Window::name()
     {
         return "Window";
     }

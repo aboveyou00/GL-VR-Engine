@@ -10,7 +10,7 @@ namespace GlEngine
     }
     CameraGameObject::~CameraGameObject() {}
     
-    const char *CameraGameObject::name()
+    std::string CameraGameObject::name()
     {
         return "CameraGameObject";
     }

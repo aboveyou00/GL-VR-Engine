@@ -13,10 +13,10 @@ namespace GlEngine
         FileLogger(const char *const path, const char *const filename);
         ~FileLogger();
 
-        bool Initialize();
-        void Shutdown();
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
-        const char *name() override;
+        virtual std::string name() override;
 
         inline rt_mutex &GetMutex()
         {

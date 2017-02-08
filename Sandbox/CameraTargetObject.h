@@ -9,10 +9,10 @@ public:
     CameraTargetObject(float movementSpeed = 8.f);
     ~CameraTargetObject();
 
-    void Tick(float delta) override;
-    void HandleEvent(GlEngine::Events::Event &evt) override;
+    virtual void Tick(float delta) override;
+    virtual void HandleEvent(GlEngine::Events::Event &evt) override;
 
-    const char *name() override;
+    virtual std::string name() override;
 
     GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
 

@@ -50,7 +50,7 @@ namespace GlEngine
         };
     }
 
-    const char *DiffuseMaterial::name()
+    std::string DiffuseMaterial::name()
     {
         return "DiffuseMaterial";
     }
