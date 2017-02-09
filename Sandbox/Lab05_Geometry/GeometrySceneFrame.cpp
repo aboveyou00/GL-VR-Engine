@@ -12,14 +12,16 @@
 #include "../TemplateObj.h"
 #include "../TemplateMaterial.h"
 #include "../TemplateMaterialFactory.h"
-#include "Environment.h"
-
+#include "RandomUtils.h"
 #include "Texture.h"
 
 extern std::string billboardVertex;
 extern std::string billboardGeometry;
 extern std::string billboardFragment;
 static GlEngine::ShaderFactory::Property<GlEngine::Texture*> prop_BillboardTexture("billboard_texture");
+static GlEngine::ShaderFactory::Property<Vector<2>> prop_BillboardSize("billboard_size");
+static GlEngine::ShaderFactory::Property<float> prop_BillboardTimeOffset("billboard_time_offset");
+static GlEngine::ShaderFactory::Property<float> prop_BillboardSpeed("billboard_speed");
 
 extern std::string wireframeVertex;
 extern std::string wireframeGeometry;
@@ -42,12 +44,13 @@ extern std::string explodeFragment;
 GeometrySceneFrame::GeometrySceneFrame()
 {
     props = {
-        { 0, &GlEngine::ShaderFactory::prop_ViewMatrix },
-        { 1, &GlEngine::ShaderFactory::prop_ModelMatrix },
+        { 0, &GlEngine::ShaderFactory::prop_ModelMatrix },
+        { 1, &GlEngine::ShaderFactory::prop_ViewMatrix },
         { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
         { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions },
         { 4, &prop_WireframeThickness },
         { 5, &prop_BillboardTexture },
+        { 6, &prop_BillboardSize },
         { 7, &GlEngine::ShaderFactory::prop_GameTime }
     };
 
@@ -58,8 +61,9 @@ GeometrySceneFrame::GeometrySceneFrame()
         &billboardGeometry,
         &billboardFragment,
     };
-
     snowTex = GlEngine::Texture::FromFile("Textures/snowflake.png", GlEngine::TextureFlag::Translucent);
+    snowflakeSize = { 32, 32 };
+
     wireframeSource = {
         &wireframeVertex,
         nullptr,
@@ -100,8 +104,12 @@ bool GeometrySceneFrame::Initialize()
 
     CreateGameObject<Lab5Controls>();
 
-    auto pointVboFactory = PointVolume<>::Generate({ -3, -3, -3 }, { 3, 3, 3 }, 20);
-    auto billboardSnow = CreateGameObject<TemplateObj>(
+    auto pointVboFactory = PointVolume<float, float>::Generate({ -1, -1, -1 }, { 1, 1, 1 }, 20 * 20 * 20, &prop_BillboardTimeOffset, &prop_BillboardSpeed, [](Vector<3> pos)
+    {
+        //Generate random billboard time offset and billboard speed for each snowflake
+        return std::tuple<float, float>(GlEngine::Util::random(2000.f), .4f + GlEngine::Util::random(1.6f));
+    });
+    CreateGameObject<TemplateObj>(
         [this, pointVboFactory](TemplateObj *self, GlEngine::GraphicsContext*)
         {
             auto gobj = new RawGraphicsObject(
@@ -118,9 +126,9 @@ bool GeometrySceneFrame::Initialize()
         TemplateMaterial::Factory()
             ->Name("BillboardMaterial")
             ->Provide(&prop_BillboardTexture, snowTex)
+            ->Provide(&prop_BillboardSize, snowflakeSize)
             ->Create()
     );
-    billboardSnow->SetPosition({ -8, 0, 0 });
 
     auto wireframeTeapot = CreateGameObject<TemplateObj>(
         [this](TemplateObj* self, GlEngine::GraphicsContext*) {
@@ -140,7 +148,7 @@ bool GeometrySceneFrame::Initialize()
             ->Provide(&prop_WireframeThickness, Lab5Controls::wireframeThickness)
             ->Create()
     );
-    wireframeTeapot->SetPosition({ 0, 0, 0 });
+    wireframeTeapot->SetPosition({ -8, 0, 0 });
 
     auto hairyTorus = CreateGameObject<TemplateObj>(
         [this](TemplateObj* self, GlEngine::GraphicsContext*) {
@@ -156,7 +164,7 @@ bool GeometrySceneFrame::Initialize()
             return gobj;
         }
     );
-    hairyTorus->SetPosition({ 8, 0, 0 });
+    hairyTorus->SetPosition({ 0, 0, 0 });
 
     auto explodeTeapot = CreateGameObject<TemplateObj>(
         [this](TemplateObj* self, GlEngine::GraphicsContext*) {
@@ -172,7 +180,7 @@ bool GeometrySceneFrame::Initialize()
             return gobj;
         }
     );
-    explodeTeapot->SetPosition({ 16, 0, 0 });
+    explodeTeapot->SetPosition({ 8, 0, 0 });
 
     return true;
 }
