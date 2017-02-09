@@ -8,7 +8,7 @@ public:
     Lab5Controls();
     ~Lab5Controls();
 
-    static unsigned wireframeThickness;
+    static float wireframeThickness;
 
     virtual void HandleEvent(Event &evt);
 

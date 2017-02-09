@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "TemplateObj.h"
+#include "TemplateMaterial.h"
+#include "TemplateMaterialFactory.h"
 #include "ObjGraphicsObject.h"
 #include "DiffuseMaterial.h"
 #include "RandomUtils.h"
@@ -28,13 +30,13 @@ TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat,
 TemplateObj::TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick)
     : filename(filename), createGraphicsObject(createFromFileStatic), _templateMat(mat), _providers(providers), tick(tick)
 {
-    if (mat == nullptr) _templateMat = new TemplateMaterial({}, {}, [](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory&) {});
+    if (mat == nullptr) _templateMat = TemplateMaterial::Factory()->Create();
     RequireTick(true);
 }
 TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick)
     : createGraphicsObject(createGraphicsObject), _templateMat(mat), _providers(providers), tick(tick)
 {
-    if (mat == nullptr) _templateMat = new TemplateMaterial({}, {}, [](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory&) {});
+    if (mat == nullptr) _templateMat = TemplateMaterial::Factory()->Create();
     RequireTick(true);
 }
 TemplateObj::~TemplateObj()

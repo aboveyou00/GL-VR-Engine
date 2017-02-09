@@ -2,7 +2,6 @@
 
 #include "GameObject.h"
 #include <functional>
-#include "TemplateMaterial.h"
 #include "Material.h"
 #include "IPropertyProvider.h"
 

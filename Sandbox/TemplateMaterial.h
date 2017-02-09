@@ -8,13 +8,18 @@ typedef GlEngine::ShaderFactory::ShaderProp ShaderProp;
 typedef GlEngine::ShaderFactory::Attribute Attribute;
 typedef GlEngine::TesselationType TesselationType;
 
+class TemplateMaterialFactory;
+
 class TemplateMaterial : public GlEngine::Material
 {
-public:
-    TemplateMaterial(std::vector<ShaderProp*> props, std::vector<Attribute*> attributes, std::function<void(TemplateMaterial*, ShaderFactory&)> push);
+private:
+    TemplateMaterial(TemplateMaterialFactory *factory);
     ~TemplateMaterial();
 
 public:
+    friend class TemplateMaterialFactory;
+    static TemplateMaterialFactory *Factory();
+
     void Push(GlEngine::ShaderFactory::ShaderFactory &factory) override;
 
     bool IsOpaque() override;
@@ -23,10 +28,9 @@ public:
     virtual std::vector<ShaderProp*> properties() override;
     virtual std::vector<Attribute*> attributes() override;
 
-    std::string name() override;
-    operator bool() override;
+    virtual std::string name() override;
+    virtual operator bool() override;
 
-    std::vector<ShaderProp*> props;
-    std::vector<Attribute*> attribs;
-    std::function<void(TemplateMaterial*, ShaderFactory&)> push;
+private:
+    TemplateMaterialFactory *_factory;
 };

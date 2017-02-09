@@ -4,6 +4,10 @@
 #include "ComponentArray.h"
 #include <map>
 
+namespace GlEngine
+{
+    class Texture;
+}
 namespace GlEngine::ShaderFactory
 {
     class ShaderProp;
@@ -20,4 +24,5 @@ public:
 private:
     std::map<size_t, GlEngine::ShaderFactory::ShaderProp*> props;
     GlEngine::ShaderFactory::ShaderSource billboardSource, wireframeSource, hairSource;
+    GlEngine::Texture *snowTex;
 };

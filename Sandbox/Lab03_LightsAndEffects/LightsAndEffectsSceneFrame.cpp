@@ -9,6 +9,8 @@
 #include "RandomUtils.h"
 #include "../LightSourceObject.h"
 #include "../TemplateObj.h"
+#include "../TemplateMaterial.h"
+#include "../TemplateMaterialFactory.h"
 #include "StageGraphicsObject.h"
 #include "PointLightSource.h"
 #include "AmbientLightSource.h"
@@ -472,6 +474,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     struct {
         Vector<3> ambient = { 0.1f, 0.1f, 0.1f };
         Vector<3> color = { 1.0f, 1.0f, 0.2f };
+        Vector<3> floorColor = { 0.6, 0.6, 0.3 };
         Vector<3> reflectionCoef = { 0.9f, 0.9f, 0.9f };
         Vector<3> rotationAxis = { 0, 1, 0 };
         Vector<3> lightPosition = { -120, 0, -15 };
@@ -487,32 +490,14 @@ bool LightsAndEffectsSceneFrame::Initialize()
     {
         auto spotTorus = CreateGameObject<TemplateObj>(
             "Resources/torus.obj",
-            new TemplateMaterial(
-                {
-                    &GlEngine::ShaderFactory::prop_RgbColor,
-                    &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
-                    &GlEngine::ShaderFactory::prop_Shininess,
-                    &GlEngine::ShaderFactory::prop_AmbientLightColor
-                },
-                {
-                    &GlEngine::ShaderFactory::attr_GlPosition,
-                    &GlEngine::ShaderFactory::attr_Phong,
-                    &GlEngine::ShaderFactory::attr_RgbBaseColor,
-                    &GlEngine::ShaderFactory::attr_Spotlight
-                },
-                [spotData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
-                {
-                    factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, spotData.color);
-                    factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, spotData.reflectionCoef);
-                    factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, spotData.shininess);
-                    factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, spotData.ambient);
-                }
-            ),
+            TemplateMaterial::Factory()
+                ->Provide(&GlEngine::ShaderFactory::prop_RgbColor, spotData.color)
+                ->Provide(&GlEngine::ShaderFactory::prop_ReflectionCoefficient, spotData.reflectionCoef)
+                ->Provide(&GlEngine::ShaderFactory::prop_Shininess, spotData.shininess)
+                ->Provide(&GlEngine::ShaderFactory::prop_AmbientLightColor, spotData.ambient)
+                ->Create(),
             std::vector<IPropertyProvider*> {
                 spotData.lightSource->lightSource()
-            },
-            [spotData, i](TemplateObj* self, float delta) mutable {
-                self; delta;
             }
         );
         float rndX = GlEngine::Util::random(2.f) - 1;
@@ -535,27 +520,12 @@ bool LightsAndEffectsSceneFrame::Initialize()
             gobj->SetMaterial(&self->material());
             return gobj;
         },
-        new TemplateMaterial(
-            {
-                &GlEngine::ShaderFactory::prop_RgbColor,
-                &GlEngine::ShaderFactory::prop_ReflectionCoefficient,
-                &GlEngine::ShaderFactory::prop_AmbientLightColor,
-                &GlEngine::ShaderFactory::prop_Shininess
-            },
-            {
-                &GlEngine::ShaderFactory::attr_GlPosition,
-                &GlEngine::ShaderFactory::attr_Phong,
-                &GlEngine::ShaderFactory::attr_RgbBaseColor,
-                &GlEngine::ShaderFactory::attr_Spotlight
-            },
-            [spotData](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory& factory)
-            {
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_RgbColor, Vector<3>{ 0.6, 0.6, 0.3 });
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_ReflectionCoefficient, spotData.reflectionCoef);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_AmbientLightColor, spotData.ambient);
-                factory.ProvideProperty(GlEngine::ShaderFactory::prop_Shininess, spotData.shininess);
-            }
-        ),
+        TemplateMaterial::Factory()
+            ->Provide(&GlEngine::ShaderFactory::prop_RgbColor, spotData.floorColor)
+            ->Provide(&GlEngine::ShaderFactory::prop_ReflectionCoefficient, spotData.reflectionCoef)
+            ->Provide(&GlEngine::ShaderFactory::prop_AmbientLightColor, spotData.ambient)
+            ->Provide(&GlEngine::ShaderFactory::prop_Shininess, spotData.shininess)
+            ->Create(),
         std::vector<IPropertyProvider*> {
             spotData.lightSource->lightSource()
         },

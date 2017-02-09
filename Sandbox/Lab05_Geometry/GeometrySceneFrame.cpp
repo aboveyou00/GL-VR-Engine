@@ -10,6 +10,8 @@
 #include "../LightSourceObject.h"
 #include "../RawGraphicsObject.h"
 #include "../TemplateObj.h"
+#include "../TemplateMaterial.h"
+#include "../TemplateMaterialFactory.h"
 
 #include "Texture.h"
 
@@ -45,6 +47,7 @@ GeometrySceneFrame::GeometrySceneFrame()
         &billboardGeometry,
         &billboardFragment,
     };
+    snowTex = GlEngine::Texture::FromFile("Textures/snowflake.png", GlEngine::TextureFlag::Translucent);
     wireframeSource = {
         &wireframeVertex,
         nullptr,
@@ -62,6 +65,7 @@ GeometrySceneFrame::GeometrySceneFrame()
 }
 GeometrySceneFrame::~GeometrySceneFrame()
 {
+    snowTex = nullptr; //This will be deleted by the resource loader thread
 }
 
 bool GeometrySceneFrame::Initialize()
@@ -75,9 +79,8 @@ bool GeometrySceneFrame::Initialize()
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 
-    auto controls = CreateGameObject<Lab5Controls>();
+    CreateGameObject<Lab5Controls>();
 
-    auto snowTex = GlEngine::Texture::FromFile("Textures/snowflake.png", GlEngine::TextureFlag::Translucent);
     auto pointVboFactory = PointVolume<>::Generate({ -3, -3, -3 }, { 3, 3, 3 }, 20);
     auto billboardSnow = CreateGameObject<TemplateObj>(
         [this, pointVboFactory](TemplateObj *self, GlEngine::GraphicsContext*)
@@ -93,13 +96,12 @@ bool GeometrySceneFrame::Initialize()
 
             return gobj;
         },
-        new TemplateMaterial({ &prop_BillboardTexture }, {}, [snowTex](TemplateMaterial*, ShaderFactory &factory)
-        {
-            factory.ProvideProperty(prop_BillboardTexture, snowTex);
-        })
+        TemplateMaterial::Factory()
+            ->Name("BillboardMaterial")
+            ->Provide(&prop_BillboardTexture, snowTex)
+            ->Create()
     );
     billboardSnow->SetPosition({ -8, 0, 0 });
-    snowTex; pointVboFactory; controls; billboardSnow;
 
     auto wireframeTeapot = CreateGameObject<TemplateObj>(
         [this](TemplateObj* self, GlEngine::GraphicsContext*) {
@@ -114,10 +116,10 @@ bool GeometrySceneFrame::Initialize()
 
             return gobj;
         },
-        new TemplateMaterial({ &prop_WireframeThickness }, {}, [controls](TemplateMaterial*, ShaderFactory &factory)
-        {
-            factory.ProvideProperty(prop_WireframeThickness, (float)controls->wireframeThickness);
-        })
+        TemplateMaterial::Factory()
+            ->Name("WireframeMaterial")
+            ->Provide(&prop_WireframeThickness, Lab5Controls::wireframeThickness)
+            ->Create()
     );
     wireframeTeapot->SetPosition({ 0, 0, 0 });
 

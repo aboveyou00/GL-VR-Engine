@@ -15,7 +15,7 @@ Lab5Controls::~Lab5Controls()
 {
 }
 
-unsigned Lab5Controls::wireframeThickness = 1;
+float Lab5Controls::wireframeThickness = 1;
 
 void Lab5Controls::HandleEvent(Event &evt)
 {

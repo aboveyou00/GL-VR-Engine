@@ -173,6 +173,7 @@
     <ClInclude Include="CameraTargetObject.h" />
     <ClInclude Include="Lab03_LightsAndEffects\Tree.h" />
     <ClInclude Include="TemplateMaterial.h" />
+    <ClInclude Include="TemplateMaterialFactory.h" />
     <ClInclude Include="TemplateObj.h" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +205,7 @@
     <ClCompile Include="CameraTargetObject.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp" />
     <ClCompile Include="TemplateMaterial.cpp" />
+    <ClCompile Include="TemplateMaterialFactory.cpp" />
     <ClCompile Include="TemplateObj.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\StageGameObject.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\StageGraphicsObject.cpp" />
