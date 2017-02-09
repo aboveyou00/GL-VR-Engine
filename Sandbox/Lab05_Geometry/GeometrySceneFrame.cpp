@@ -35,8 +35,10 @@ layout(triangle_strip,  max_vertices = 3) out;
 
 layout(location = 0) in vec3 in_color[];
 
+layout(location = 3) uniform vec2 screen_dimensions;
+
 layout(location = 0) out vec3 out_color;
-layout(location = 1) out vec3 orthocentric_squared;
+layout(location = 1) noperspective out vec3 orthocentric;
 
 float distance_squared(vec4 a, vec4 b) {
     vec4 diff = a - b;
@@ -44,30 +46,43 @@ float distance_squared(vec4 a, vec4 b) {
 }
 
 void main() {
-    float a_sqr = distance_squared(gl_in[1].gl_Position, gl_in[2].gl_Position);
-    float b_sqr = distance_squared(gl_in[0].gl_Position, gl_in[2].gl_Position);
-    float c_sqr = distance_squared(gl_in[0].gl_Position, gl_in[1].gl_Position);
+    float sx = screen_dimensions.x;
+    float sy = screen_dimensions.y;
+    mat4 viewPort = mat4(
+        sx / 2, 0, 0, sx / 2,
+        0, sy / 2, 0, sy / 2,
+        0, 0,      0,  0,
+        0, 0,      0,  1
+    );
 
-    vec3 crs = cross(gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz, gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz);
+    vec4 p0 = viewPort * (gl_in[0].gl_Position / gl_in[0].gl_Position.w);
+    vec4 p1 = viewPort * (gl_in[1].gl_Position / gl_in[1].gl_Position.w);
+    vec4 p2 = viewPort * (gl_in[2].gl_Position / gl_in[2].gl_Position.w);
+
+    float a_sqr = distance_squared(p1, p2);
+    float b_sqr = distance_squared(p0, p2);
+    float c_sqr = distance_squared(p0, p1);
+
+    vec3 crs = cross(p1.xyz - p0.xyz, p2.xyz - p0.xyz);
     float area_sqr = dot(crs, crs);
 
-    float ha_sqr = sqrt(area_sqr / a_sqr);
-    float hb_sqr = sqrt(area_sqr / b_sqr);
-    float hc_sqr = sqrt(area_sqr / c_sqr);
+    float ha = sqrt(area_sqr / a_sqr);
+    float hb = sqrt(area_sqr / b_sqr);
+    float hc = sqrt(area_sqr / c_sqr);
 
     gl_Position = gl_in[0].gl_Position;
     out_color = in_color[0];
-    orthocentric_squared = vec3(ha_sqr, 0, 0);
+    orthocentric = vec3(ha, 0, 0);
     EmitVertex();
 
     gl_Position = gl_in[1].gl_Position;
     out_color = in_color[1];
-    orthocentric_squared = vec3(0, hb_sqr, 0);
+    orthocentric = vec3(0, hb, 0);
     EmitVertex();
 
     gl_Position = gl_in[2].gl_Position;
     out_color = in_color[2];
-    orthocentric_squared = vec3(0, 0, hc_sqr);
+    orthocentric = vec3(0, 0, hc);
     EmitVertex();
 
     EndPrimitive();
@@ -79,20 +94,16 @@ std::string wireframeFragment = R"raw(
 #version 430 core
 
 layout(location = 0) in vec3 in_color;
-layout(location = 1) in vec3 orthocentric_squared;
+layout(location = 1) noperspective in vec3 orthocentric;
 
 layout(location = 0) out vec4 out_color;
 
 void main(void) {
-    float threshold_sqr = 0.002;
-    if (orthocentric_squared.x < threshold_sqr || orthocentric_squared.y < threshold_sqr || orthocentric_squared.z < threshold_sqr) {
-        out_color = vec4(1.0, 0.0, 0.0, 1.0);
-    }
-    else {
-        out_color = vec4(0.0, 1.0, 0.0, 1.0);
-    }
-    //out_color = vec4(orthocentric_squared, 1.f);
-    //out_color = vec4(in_color, 1.f);
+    float width = 0.5f;
+
+    float d = min(min(orthocentric.x, orthocentric.y), orthocentric.z);
+    float proportion = smoothstep(width - 0.5, width + 0.5, d);
+    out_color = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(in_color, 1.0), proportion);
 }
 )raw";
 
@@ -232,13 +243,14 @@ bool GeometrySceneFrame::Initialize()
     auto props = new std::map<size_t, ShaderProp*> {
         { 0, &GlEngine::ShaderFactory::prop_ViewMatrix },
         { 1, &GlEngine::ShaderFactory::prop_ModelMatrix },
-        { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix }
+        { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
+        { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions }
     };
     auto phongTorus = CreateGameObject<TemplateObj>(
         [wireframeSource, hairSource, props](TemplateObj* self, GlEngine::GraphicsContext*) {
             auto gobj = new RawGraphicsObject(
-                "Resources/torus.obj",
-                hairSource,
+                "Resources/teapot.obj",
+                wireframeSource,
                 props
             );
             for (size_t q = 0; q < self->providers.size(); q++)
