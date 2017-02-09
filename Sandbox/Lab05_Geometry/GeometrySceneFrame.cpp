@@ -12,6 +12,7 @@
 #include "../TemplateObj.h"
 #include "../TemplateMaterial.h"
 #include "../TemplateMaterialFactory.h"
+#include "Environment.h"
 
 #include "Texture.h"
 
@@ -46,7 +47,8 @@ GeometrySceneFrame::GeometrySceneFrame()
         { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
         { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions },
         { 4, &prop_WireframeThickness },
-        { 5, &prop_BillboardTexture }
+        { 5, &prop_BillboardTexture },
+        { 7, &GlEngine::ShaderFactory::prop_GameTime }
     };
 
     billboardSource = {
@@ -74,9 +76,9 @@ GeometrySceneFrame::GeometrySceneFrame()
     };
     explodeSource = {
         &explodeVertex,
+        nullptr,
+        nullptr,
         &explodeGeometry,
-        nullptr,
-        nullptr,
         &explodeFragment
     };
 }
@@ -155,6 +157,22 @@ bool GeometrySceneFrame::Initialize()
         }
     );
     hairyTorus->SetPosition({ 8, 0, 0 });
+
+    auto explodeTeapot = CreateGameObject<TemplateObj>(
+        [this](TemplateObj* self, GlEngine::GraphicsContext*) {
+            auto gobj = new RawGraphicsObject(
+                "Resources/teapot.obj",
+                &this->explodeSource,
+                &this->props
+            );
+            for (size_t q = 0; q < self->providers().size(); q++)
+                gobj->AddPropertyProvider(self->providers()[q]);
+            gobj->SetMaterial(&self->material());
+
+            return gobj;
+        }
+    );
+    explodeTeapot->SetPosition({ 16, 0, 0 });
 
     return true;
 }

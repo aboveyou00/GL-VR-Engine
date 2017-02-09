@@ -21,8 +21,8 @@ namespace GlEngine
 class TemplateObj : public GlEngine::GameObject
 {
 public:
-    TemplateObj(std::string filename, Material *mat);
-    TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat = nullptr);
+    TemplateObj(std::string filename, Material *mat, TplTickFn tick = [](TemplateObj*, float) {});
+    TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat = nullptr, TplTickFn tick = [](TemplateObj*, float){});
     TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers);
     TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers);
     TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick);

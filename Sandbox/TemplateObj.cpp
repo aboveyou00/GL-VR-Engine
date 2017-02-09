@@ -11,12 +11,12 @@
 #include "LabControls.h"
 #include "LightSourceObject.h"
 
-TemplateObj::TemplateObj(std::string filename, Material *mat)
-    : TemplateObj(filename, mat, {})
+TemplateObj::TemplateObj(std::string filename, Material *mat, TplTickFn tick)
+    : TemplateObj(filename, mat, {}, tick)
 {
 }
-TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat)
-    : TemplateObj(createGraphicsObject, mat, {})
+TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, TplTickFn tick)
+    : TemplateObj(createGraphicsObject, mat, {}, tick)
 {
 }
 TemplateObj::TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers)
