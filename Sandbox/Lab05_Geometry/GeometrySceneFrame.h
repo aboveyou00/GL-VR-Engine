@@ -23,6 +23,6 @@ public:
 
 private:
     std::map<size_t, GlEngine::ShaderFactory::ShaderProp*> props;
-    GlEngine::ShaderFactory::ShaderSource billboardSource, wireframeSource, hairSource;
+    GlEngine::ShaderFactory::ShaderSource billboardSource, wireframeSource, hairSource, explodeSource;
     GlEngine::Texture *snowTex;
 };

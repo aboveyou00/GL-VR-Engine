@@ -177,6 +177,7 @@
     <ClInclude Include="TemplateObj.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="explode_source.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\PhongFogMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardTorus.cpp" />

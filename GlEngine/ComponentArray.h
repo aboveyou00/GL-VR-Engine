@@ -87,5 +87,6 @@ namespace GlEngine
         };
 
         typedef ComponentArray<std::string*> ShaderSource;
+        typedef ComponentArray<std::vector<std::string*>> MultiShaderSource;
     }
 }

@@ -29,6 +29,15 @@ extern std::string hairVertex;
 extern std::string hairGeometry;
 extern std::string hairFragment;
 
+extern std::string hairLineVertex;
+extern std::string hairLineGeometry;
+extern std::string hairLineGeometryPassthrough;
+extern std::string hairLineFragment;
+
+extern std::string explodeVertex;
+extern std::string explodeGeometry;
+extern std::string explodeFragment;
+
 GeometrySceneFrame::GeometrySceneFrame()
 {
     props = {
@@ -47,6 +56,7 @@ GeometrySceneFrame::GeometrySceneFrame()
         &billboardGeometry,
         &billboardFragment,
     };
+
     snowTex = GlEngine::Texture::FromFile("Textures/snowflake.png", GlEngine::TextureFlag::Translucent);
     wireframeSource = {
         &wireframeVertex,
@@ -61,6 +71,13 @@ GeometrySceneFrame::GeometrySceneFrame()
         nullptr,
         &hairGeometry,
         &hairFragment,
+    };
+    explodeSource = {
+        &explodeVertex,
+        &explodeGeometry,
+        nullptr,
+        nullptr,
+        &explodeFragment
     };
 }
 GeometrySceneFrame::~GeometrySceneFrame()
@@ -134,7 +151,7 @@ bool GeometrySceneFrame::Initialize()
                 gobj->AddPropertyProvider(self->providers()[q]);
             gobj->SetMaterial(&self->material());
 
-            return (GlEngine::GraphicsObject*)gobj; // why do I need this?
+            return gobj;
         }
     );
     hairyTorus->SetPosition({ 8, 0, 0 });

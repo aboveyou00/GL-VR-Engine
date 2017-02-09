@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-std::string hairVertex = R"raw(
+std::string explodeVertex = R"raw(
 #version 430 core
 
 layout(location = 0) in vec3 xyz_position;
@@ -21,7 +21,7 @@ void main(void) {
 }
 )raw";
 
-std::string hairGeometry = R"raw(
+std::string explodeGeometry = R"raw(
 #version 430 core
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 48) out;
@@ -130,114 +130,10 @@ void main() {
 }
 )raw";
 
-std::string hairFragment = R"raw(
+std::string explodeFragment = R"raw(
 #version 430 core
 
 layout(location = 0) in vec3 in_color;
-
-layout(location = 0) out vec4 out_color;
-
-void main(void) {
-    out_color = vec4(in_color, 1.f);
-}
-)raw";
-
-
-#include "stdafx.h"
-
-std::string hairLineVertex = R"raw(
-#version 430 core
-
-layout(location = 0) in vec3 xyz_position;
-layout(location = 1) in vec2 uv_coords;
-layout(location = 2) in vec3 in_normal;
-
-layout(location = 0) out vec3 color;
-layout(location = 1) out vec4 out_normal;
-
-layout(location = 0) uniform mat4 model_matrix;
-layout(location = 1) uniform mat4 view_matrix;
-layout(location = 2) uniform mat4 projection_matrix;
-
-void main(void) {
-    color = xyz_position;
-    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(xyz_position, 1.f);
-    out_normal = projection_matrix * view_matrix * model_matrix * vec4(in_normal, 0.f);
-}
-)raw";
-
-std::string hairLineGeometry = R"raw(
-#version 430 core
-layout(triangles) in;
-layout(line_strip, max_vertices = 15) out;
-
-layout(location = 0) in vec3 in_color[];
-layout(location = 1) in vec4 in_normal[];
-
-layout(location = 0) flat out vec3 out_color;
-
-void DrawNormal(vec4 position, vec3 normal, vec3 color) 
-{
-    gl_Position = position;
-    out_color = color;
-    EmitVertex();
-
-    gl_Position = position + vec4(normal * 0.5, 0.0);
-    out_color = color;
-    EmitVertex();
-
-    EndPrimitive();
-}
-
-void main() {
-    vec4 mid = (gl_in[0].gl_Position + gl_in[1].gl_Position) / 2.f;
-    vec4 centroid_pos = gl_in[2].gl_Position + (mid - gl_in[2].gl_Position) * 2.f / 3.f;
-
-    EndPrimitive();
-
-    vec3 normal = normalize(cross(gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz, gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz));
-    DrawNormal(centroid_pos, normal, vec3(1.0, 0.0, 0.0));
-
-    EndPrimitive();
-
-    for (int n = 0; n < 3; n++)
-    {
-        DrawNormal(gl_in[n].gl_Position, in_normal[n].xyz, vec3(0.0, 0.0, 1.0));
-    }
-}
-)raw";
-
-std::string hairLineGeometryPassthrough = R"raw(
-#version 430 core
-layout(triangles) in;
-layout(triangle_strip, max_vertices = 3) out;
-
-layout(location = 0) in vec3 in_color[];
-layout(location = 1) in vec4 in_normal[];
-
-layout(location = 0) flat out vec3 out_color;
-
-void main() {
-    gl_Position = gl_in[0].gl_Position;
-    out_color = in_color[0];
-    EmitVertex();
-
-    gl_Position = gl_in[1].gl_Position;
-    out_color = in_color[1];
-    EmitVertex();
-
-    gl_Position = gl_in[2].gl_Position;
-    out_color = in_color[2];
-    EmitVertex();
-
-    EndPrimitive();
-}
-)raw";
-
-std::string hairLineFragment = R"raw(
-#version 430 core
-
-layout(location = 0) flat in vec3 in_color;
 
 layout(location = 0) out vec4 out_color;
 

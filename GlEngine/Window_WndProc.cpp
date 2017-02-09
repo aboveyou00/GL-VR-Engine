@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
+#include "Environment.h"
 
 namespace GlEngine
 {
@@ -35,7 +36,9 @@ namespace GlEngine
             {
                 _width = (unsigned)size[0];
                 _height = (unsigned)size[1];
+                ShaderFactory::Environment::GetInstance().SetScreenDimensions({ _width, _height });
                 _lastResizeTime = std::chrono::high_resolution_clock::now();
+                // TODO events.PushEvents(new Events::SizeEvent(...));
             }
             goto default_wnd_proc;
 

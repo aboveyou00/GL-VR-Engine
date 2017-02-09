@@ -123,7 +123,6 @@ namespace GlEngine
             _width = width;
             _height = height;
         }
-        ShaderFactory::Environment::GetInstance().SetScreenDimensions({ width, height });
         return true;
     }
     void Window::SetSize(unsigned width, unsigned height)
