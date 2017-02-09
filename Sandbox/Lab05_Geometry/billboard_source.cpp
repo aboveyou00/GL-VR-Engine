@@ -16,6 +16,7 @@ void main(void) {
 
 std::string billboardGeometry = R"raw(
 #version 430 core
+
 layout(points) in;
 layout(triangle_strip, max_vertices = 4) out;
 
@@ -26,16 +27,16 @@ void main() {
     uv_coords = vec2(0, 0);
     EmitVertex();
 
-    gl_Position = gl_in[0].gl_Position + vec4(-.5, +.5, 0, 1);
-    uv_coords = vec2(0, 0);
+    gl_Position = gl_in[0].gl_Position + vec4(-.5, +.5, 0, 0);
+    uv_coords = vec2(0, 1);
     EmitVertex();
 
-    gl_Position = gl_in[0].gl_Position + vec4(+.5, -.5, 1, 0);
-    uv_coords = vec2(0, 0);
+    gl_Position = gl_in[0].gl_Position + vec4(+.5, -.5, 0, 0);
+    uv_coords = vec2(1, 0);
     EmitVertex();
 
-    gl_Position = gl_in[0].gl_Position + vec4(+.5, +.5, 1, 1);
-    uv_coords = vec2(0, 0);
+    gl_Position = gl_in[0].gl_Position + vec4(+.5, +.5, 0, 0);
+    uv_coords = vec2(1, 1);
     EmitVertex();
 
     EndPrimitive();
@@ -47,11 +48,12 @@ std::string billboardFragment = R"raw(
 
 layout(location = 0) in vec2 uv_coords;
 
-layout(location = 5) uniform texture2D billboard_texture;
+layout(location = 5) uniform sampler2D billboard_texture;
 
 layout(location = 0) out vec4 out_color;
 
 void main(void) {
     out_color = texture2D(billboard_texture, uv_coords);
+    if (out_color.a == 0) discard;
 }
 )raw";
