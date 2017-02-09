@@ -6,12 +6,12 @@
 
 namespace GlEngine::Impl
 {
-    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(bool allowFaces, VaObject vao, CreateFactoryFn createFactory)
+    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(bool allowFaces, unsigned elemIdx, VaObject vao, CreateFactoryFn createFactory)
         : GraphicsObject(true),
           allowFaces(allowFaces),
           _vao(vao),
           finalized(!!vao),
-          elemIdx(0),
+          elemIdx(elemIdx),
           currentGraphicsSection(nullptr),
           createFactory(createFactory)
     {
@@ -39,6 +39,7 @@ namespace GlEngine::Impl
     {
         ScopedLock _lock(mutex);
         assert(!finalized);
+        assert(allowFaces || !currentGraphicsSection);
         if (currentGraphicsSection != nullptr && currentGraphicsSection->GetMaterial() == material) return;
         for (size_t q = 0; q < graphicsSections.size(); q++)
             if (graphicsSections[q]->GetMaterial() == material)
@@ -114,8 +115,16 @@ namespace GlEngine::Impl
     void VboFactoryGraphicsObjectImpl::RenderImpl(RenderTargetLayer layer)
     {
         ScopedLock _lock(mutex);
-        for (size_t q = 0; q < graphicsSections.size(); q++)
-            graphicsSections[q]->Render(layer);
+        if (allowFaces)
+        {
+            for (size_t q = 0; q < graphicsSections.size(); q++)
+                graphicsSections[q]->Render(layer);
+        }
+        else
+        {
+            if (!currentGraphicsSection || !*currentGraphicsSection) return;
+            currentGraphicsSection->RenderPoints(layer, elemIdx);
+        }
     }
     void VboFactoryGraphicsObjectImpl::PostRender(RenderTargetLayer layer)
     {

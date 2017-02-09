@@ -71,6 +71,10 @@ namespace GlEngine
         {
             return currentMode;
         }
+        unsigned elementCount()
+        {
+            return elemIdx;
+        }
 
     //private:
     //    std::vector<el_type> check_cache_data;

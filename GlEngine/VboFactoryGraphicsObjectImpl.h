@@ -18,7 +18,7 @@ namespace GlEngine::Impl
     class ENGINE_SHARED VboFactoryGraphicsObjectImpl : public GraphicsObject
     {
     public:
-        VboFactoryGraphicsObjectImpl(bool allowFaces, VaObject vao, CreateFactoryFn createFactory = [](Material*) { return nullptr; });
+        VboFactoryGraphicsObjectImpl(bool allowFaces, unsigned elemIdx, VaObject vao, CreateFactoryFn createFactory = [](Material*) { return nullptr; });
         ~VboFactoryGraphicsObjectImpl();
 
         virtual void AddPropertyProvider(ShaderFactory::IPropertyProvider *provider) override;

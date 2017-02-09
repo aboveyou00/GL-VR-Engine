@@ -88,7 +88,8 @@ namespace GlEngine
 
             this->_program = new Program();
 
-            this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
+            //this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
+            this->_program->AddPropertySource(new VboPropertySource(&prop_Position));
 
             std::vector<ShaderProp*> properties;
             for (size_t q = 0; q < _providers.size(); q++)

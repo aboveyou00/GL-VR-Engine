@@ -29,6 +29,8 @@ namespace GlEngine
             void Render(RenderTargetLayer layer);
             void RenderInstanced(RenderTargetLayer layer, unsigned instanceCount);
 
+            void RenderPoints(RenderTargetLayer layer, unsigned count);
+
             inline Material *GetMaterial()
             {
                 return material;
@@ -36,6 +38,8 @@ namespace GlEngine
 
             ShaderFactory::ShaderFactory &factory();
             void SetFactory(ShaderFactory::ShaderFactory* factory, std::vector<ShaderFactory::IPropertyProvider*> &providers);
+
+            operator bool();
 
         private:
             bool finalized;
@@ -45,8 +49,6 @@ namespace GlEngine
             int triCount, quadCount, triOffset, quadOffset;
 
             ShaderFactory::ShaderFactory *_factory;
-
-            operator bool();
         };
     }
 }

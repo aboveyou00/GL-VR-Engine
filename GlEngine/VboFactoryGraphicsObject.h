@@ -22,7 +22,7 @@ namespace GlEngine
         {
         }
         VboFactoryGraphicsObject(VaObject vao, TFactory *vertices = nullptr, TFacesFactory *faces = nullptr, CreateFactoryFn createFactory = [](Material*) { return nullptr; })
-            : VboFactoryGraphicsObjectImpl(faces != nullptr, vao, createFactory),
+            : VboFactoryGraphicsObjectImpl(faces != nullptr, vertices->elementCount(), vao, createFactory),
               _verticesFactory(vertices),
               _facesFactory(faces)
         {
@@ -53,6 +53,7 @@ namespace GlEngine
         virtual bool InitializeGraphics() override
         {
             if (_verticesFactory == nullptr) return false;
+            assert(allowFaces || !elemIdx || currentGraphicsSection);
             return VboFactoryGraphicsObjectImpl::InitializeGraphics();
         }
 
@@ -60,21 +61,14 @@ namespace GlEngine
         {
             if (_verticesFactory != nullptr)
             {
-                if (_facesFactory != nullptr)
-                {
-                    for (size_t q = 0; q < graphicsSections.size(); q++)
-                        graphicsSections[q]->Finalize(_facesFactory);
+                for (size_t q = 0; q < graphicsSections.size(); q++)
+                    graphicsSections[q]->Finalize(_facesFactory);
 
-                    vao.Add(_verticesFactory)
-                       .Add(_facesFactory);
+                vao.Add(_verticesFactory);
+                if (_facesFactory != nullptr) vao.Add(_facesFactory);
 
-                    SafeDelete(_verticesFactory);
-                    SafeDelete(_facesFactory);
-                }
-                else
-                {
-                    assert(false);
-                }
+                SafeDelete(_verticesFactory);
+                SafeDelete(_facesFactory);
             }
             else if (_vao) vao.Add(_vao);
         }

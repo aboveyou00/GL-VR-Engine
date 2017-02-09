@@ -42,34 +42,43 @@ namespace GlEngine
             finalized = true;
             triCount = tris->size();
             quadCount = quads->size();
-            if (triCount > 0)
+
+            if (face_factory == nullptr)
             {
-                auto vec = tris->at(0);
-                triOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
-                face_factory->AddVertex(vec[1]);
-                face_factory->AddVertex(vec[2]);
-                for (int q = 1; q < triCount; q++)
+                assert(triCount == 0);
+                assert(quadCount == 0);
+            }
+            else
+            {
+                if (triCount > 0)
                 {
-                    vec = tris->at(q);
-                    face_factory->AddVertex(vec[0]);
+                    auto vec = tris->at(0);
+                    triOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
                     face_factory->AddVertex(vec[1]);
                     face_factory->AddVertex(vec[2]);
+                    for (int q = 1; q < triCount; q++)
+                    {
+                        vec = tris->at(q);
+                        face_factory->AddVertex(vec[0]);
+                        face_factory->AddVertex(vec[1]);
+                        face_factory->AddVertex(vec[2]);
+                    }
                 }
-            }
-            if (quadCount > 0)
-            {
-                auto vec = quads->at(0);
-                quadOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
-                face_factory->AddVertex(vec[1]);
-                face_factory->AddVertex(vec[2]);
-                face_factory->AddVertex(vec[3]);
-                for (int q = 1; q < quadCount; q++)
+                if (quadCount > 0)
                 {
-                    vec = quads->at(q);
-                    face_factory->AddVertex(vec[0]);
+                    auto vec = quads->at(0);
+                    quadOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
                     face_factory->AddVertex(vec[1]);
                     face_factory->AddVertex(vec[2]);
                     face_factory->AddVertex(vec[3]);
+                    for (int q = 1; q < quadCount; q++)
+                    {
+                        vec = quads->at(q);
+                        face_factory->AddVertex(vec[0]);
+                        face_factory->AddVertex(vec[1]);
+                        face_factory->AddVertex(vec[2]);
+                        face_factory->AddVertex(vec[3]);
+                    }
                 }
             }
 
@@ -152,6 +161,16 @@ namespace GlEngine
             //else assert(false);
 
             //material->Pop(true);
+        }
+
+        void VboGraphicsSection::RenderPoints(RenderTargetLayer layer, unsigned count)
+        {
+            if (layer != material->GetRenderTargetLayer())
+                return;
+
+            _factory->Push();
+            glDrawArrays(GL_POINTS, 0, count);
+            _factory->Pop();
         }
 
         ShaderFactory::ShaderFactory &VboGraphicsSection::factory()
