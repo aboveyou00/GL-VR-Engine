@@ -20,6 +20,8 @@ namespace GlEngine
             ShaderFactory();
             ~ShaderFactory();
 
+            void AddPropertySource(PropertySource *source);
+
             void AddPropertyProviders(std::vector<IPropertyProvider*> providers);
             
             template<typename... T>
@@ -111,6 +113,7 @@ namespace GlEngine
             Material *_mat;
             Program *_program;
             Shader *_shader;
+            std::vector<PropertySource*> _sources;
             std::vector<IPropertyProvider*> _providers;
             std::set<ShaderProp*> _properties;
 

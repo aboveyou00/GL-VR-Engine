@@ -47,7 +47,10 @@ namespace GlEngine::Impl
                 currentGraphicsSection = graphicsSections[q];
                 return;
             }
-        graphicsSections.push_back(currentGraphicsSection = new VboGraphicsSection(material, providers(), createFactory(material)));
+        currentGraphicsSection = new VboGraphicsSection(material, providers(), createFactory(material));
+        auto *newFactory = &currentGraphicsSection->factory();
+        PrepareShaderFactory(newFactory);
+        graphicsSections.push_back(currentGraphicsSection);
     }
 
     void VboFactoryGraphicsObjectImpl::AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2)

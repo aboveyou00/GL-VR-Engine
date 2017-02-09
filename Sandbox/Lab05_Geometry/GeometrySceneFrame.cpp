@@ -98,44 +98,44 @@ bool GeometrySceneFrame::Initialize()
             factory.ProvideProperty(prop_BillboardTexture, snowTex);
         })
     );
-    //billboardSnow->SetPosition({ -8, 0, 0 });
+    billboardSnow->SetPosition({ -8, 0, 0 });
     snowTex; pointVboFactory; controls; billboardSnow;
 
-    //auto wireframeTeapot = CreateGameObject<TemplateObj>(
-    //    [this](TemplateObj* self, GlEngine::GraphicsContext*) {
-    //        auto gobj = new RawGraphicsObject(
-    //            "Resources/teapot.obj",
-    //            &this->wireframeSource,
-    //            &this->props
-    //        );
-    //        for (size_t q = 0; q < self->providers().size(); q++)
-    //            gobj->AddPropertyProvider(self->providers()[q]);
-    //        gobj->SetMaterial(&self->material());
+    auto wireframeTeapot = CreateGameObject<TemplateObj>(
+        [this](TemplateObj* self, GlEngine::GraphicsContext*) {
+            auto gobj = new RawGraphicsObject(
+                "Resources/teapot.obj",
+                &this->wireframeSource,
+                &this->props
+            );
+            for (size_t q = 0; q < self->providers().size(); q++)
+                gobj->AddPropertyProvider(self->providers()[q]);
+            gobj->SetMaterial(&self->material());
 
-    //        return gobj;
-    //    },
-    //    new TemplateMaterial({ &prop_WireframeThickness }, {}, [controls](TemplateMaterial*, ShaderFactory &factory)
-    //    {
-    //        factory.ProvideProperty(prop_WireframeThickness, (float)controls->wireframeThickness);
-    //    })
-    //);
-    //wireframeTeapot->SetPosition({ 0, 0, 0 });
+            return gobj;
+        },
+        new TemplateMaterial({ &prop_WireframeThickness }, {}, [controls](TemplateMaterial*, ShaderFactory &factory)
+        {
+            factory.ProvideProperty(prop_WireframeThickness, (float)controls->wireframeThickness);
+        })
+    );
+    wireframeTeapot->SetPosition({ 0, 0, 0 });
 
-    //auto hairyTorus = CreateGameObject<TemplateObj>(
-    //    [this](TemplateObj* self, GlEngine::GraphicsContext*) {
-    //        auto gobj = new RawGraphicsObject(
-    //            "Resources/teapot.obj",
-    //            &this->hairSource,
-    //            &this->props
-    //        );
-    //        for (size_t q = 0; q < self->providers().size(); q++)
-    //            gobj->AddPropertyProvider(self->providers()[q]);
-    //        gobj->SetMaterial(&self->material());
+    auto hairyTorus = CreateGameObject<TemplateObj>(
+        [this](TemplateObj* self, GlEngine::GraphicsContext*) {
+            auto gobj = new RawGraphicsObject(
+                "Resources/teapot.obj",
+                &this->hairSource,
+                &this->props
+            );
+            for (size_t q = 0; q < self->providers().size(); q++)
+                gobj->AddPropertyProvider(self->providers()[q]);
+            gobj->SetMaterial(&self->material());
 
-    //        return (GlEngine::GraphicsObject*)gobj; // why do I need this?
-    //    }
-    //);
-    //hairyTorus->SetPosition({ 8, 0, 0 });
+            return (GlEngine::GraphicsObject*)gobj; // why do I need this?
+        }
+    );
+    hairyTorus->SetPosition({ 8, 0, 0 });
 
     return true;
 }

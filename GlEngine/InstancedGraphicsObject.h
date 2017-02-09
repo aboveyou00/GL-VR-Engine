@@ -14,10 +14,10 @@ namespace GlEngine
     class InstancedGraphicsObject : public GraphicsObject
     {
     public:
-        InstancedGraphicsObject(GraphicsObject *gobj)
+        InstancedGraphicsObject(GraphicsObject *gobj, ShaderFactory::Property<TArgs>*... props)
             : GraphicsObject(false),
               gobj(gobj),
-              instances(new VboFactory<type, TArgs...>(BufferMode::Array)),
+              instances(VboFactory<type, TArgs...>::CreateArray(props...)),
               instanceCount(0),
               finalized(false),
               queued(false),

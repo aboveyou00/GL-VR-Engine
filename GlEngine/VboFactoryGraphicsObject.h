@@ -4,6 +4,8 @@
 
 #include "VboGraphicsSection.h"
 #include "VaoFactory.h"
+#include "ShaderFactory.h"
+#include "VboPropertySource.h"
 
 namespace GlEngine
 {
@@ -48,6 +50,11 @@ namespace GlEngine
             assert(!finalized);
             _verticesFactory->AddVertex(args..., false);
             return elemIdx++;
+        }
+
+        virtual void PrepareShaderFactory(ShaderFactory::ShaderFactory *factory) override
+        {
+            factory->AddPropertySource(new ShaderFactory::VboPropertySource(_verticesFactory->properties()));
         }
 
         virtual bool InitializeGraphics() override

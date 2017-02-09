@@ -14,9 +14,9 @@ private:
     ~PointVolume() {}
 
 public:
-    static GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>, TArgs...> *Generate(Vector<3> low, Vector<3> high, unsigned count, std::function<std::tuple<TArgs...>(Vector<3>)> fun)
+    static GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>, TArgs...> *Generate(Vector<3> low, Vector<3> high, unsigned count, GlEngine::ShaderFactory::Property<TArgs>*... props, std::function<std::tuple<TArgs...>(Vector<3>)> fun)
     {
-        auto factory = new GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>, TArgs...>(GlEngine::BufferMode::Array);
+        auto factory = GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>, TArgs...>::CreateArray(&GlEngine::ShaderFactory::prop_Position, props...);
 
         std::function<void(Vector<3>, TArgs...)> addVertexFn([factory](Vector<3> pos, TArgs... args)
         {
@@ -46,7 +46,7 @@ private:
 public:
     static GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>> *Generate(Vector<3> low, Vector<3> high, unsigned count)
     {
-        auto factory = new GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>>(GlEngine::BufferMode::Array);
+        auto factory = GlEngine::VboFactory<GlEngine::VboType::Float, Vector<3>>::CreateArray(&GlEngine::ShaderFactory::prop_Position);
 
         for (size_t q = 0; q < count; q++)
         {

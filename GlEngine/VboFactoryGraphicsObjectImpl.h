@@ -25,6 +25,7 @@ namespace GlEngine::Impl
         virtual void RemovePropertyProvider(ShaderFactory::IPropertyProvider *provider) override;
 
         void SetMaterial(Material *material);
+        virtual void PrepareShaderFactory(ShaderFactory::ShaderFactory *factory) = 0;
 
         void AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2);
         void AddQuad(unsigned idx0, unsigned idx1, unsigned idx2, unsigned idx3);

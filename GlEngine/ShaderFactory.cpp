@@ -33,6 +33,10 @@ namespace GlEngine
             Shutdown();
         }
 
+        void ShaderFactory::AddPropertySource(PropertySource *source)
+        {
+            _sources.push_back(source);
+        }
         void ShaderFactory::AddPropertyProviders(std::vector<IPropertyProvider*> providers)
         {
             for (auto provider : providers)
@@ -88,8 +92,10 @@ namespace GlEngine
 
             this->_program = new Program();
 
+            for (size_t q = 0; q < _sources.size(); q++)
+                this->_program->AddPropertySource(_sources[q]);
             //this->_program->AddPropertySource(new VboPropertySource(&prop_Position, &prop_UV, &prop_Normal));
-            this->_program->AddPropertySource(new VboPropertySource(&prop_Position));
+            //this->_program->AddPropertySource(new VboPropertySource(&prop_Position));
 
             std::vector<ShaderProp*> properties;
             for (size_t q = 0; q < _providers.size(); q++)

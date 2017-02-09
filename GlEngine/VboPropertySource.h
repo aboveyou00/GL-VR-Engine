@@ -16,7 +16,7 @@ namespace GlEngine
                 static_assert(sizeof...(TArgs) >= 1, "VboPropertySource must be created with at least one property");
                 ctor(properties...);
             }
-            VboPropertySource(std::vector<ShaderProp*> properties, PropertySourceFlag flags = PropertySourceFlag::None);
+            VboPropertySource(const std::vector<ShaderProp*> properties, PropertySourceFlag flags = PropertySourceFlag::None);
             ~VboPropertySource();
 
             virtual bool HasProperty(ShaderProp * prop) override;

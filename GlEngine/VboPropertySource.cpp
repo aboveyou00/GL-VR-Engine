@@ -6,7 +6,7 @@ namespace GlEngine
 {
     namespace ShaderFactory
     {
-        VboPropertySource::VboPropertySource(std::vector<ShaderProp*> properties, PropertySourceFlag flags)
+        VboPropertySource::VboPropertySource(const std::vector<ShaderProp*> properties, PropertySourceFlag flags)
             : PropertySource(flags, { ComponentType::Input })
         {
             assert(properties.size() >= 1);
