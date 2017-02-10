@@ -98,7 +98,7 @@ layout(location = 0) out vec4 out_color;
 void main(void) {
     float d = min(min(orthocentric.x, orthocentric.y), orthocentric.z);
     float proportion;
-    if (wireframe_thickness > 0) proportion = smoothstep(wireframe_thickness - 0.5, wireframe_thickness + 0.5, d);
+    if (wireframe_thickness > 0) proportion = smoothstep(wireframe_thickness / 2 - 0.5, wireframe_thickness / 2 + 0.5, d);
     else proportion = 1;
     out_color = mix(vec4(1.0, 0.0, 0.0, 1.0), vec4(in_color, 1.0), proportion);
 }
