@@ -3,12 +3,15 @@
 
 namespace GlEngine
 {
-    CameraGameObject::CameraGameObject() : GameObject() 
+    CameraGameObject::CameraGameObject()
+        : GameObject(), lockRelativePosition(false), lockRelativeOrientation(false), lockAbsolutePosition(false), lockAbsoluteOrientation(false)
     {
         RequireTick(true);
         relativeOrientation = Matrix<4, 4>::Identity();
     }
-    CameraGameObject::~CameraGameObject() {}
+    CameraGameObject::~CameraGameObject()
+    {
+    }
     
     std::string CameraGameObject::name()
     {
@@ -27,8 +30,9 @@ namespace GlEngine
 
     void CameraGameObject::Tick(float)
     {
-        if (lockRelativePosition)
-            position = target->position + relativePosition;
+        FindOrientation();
+        //if (lockRelativePosition)
+        //    position = target->position + relativePosition;
         //if (lockRelativeOrientation)
         //    orientation = target->orientation * relativeOrientation;
     }

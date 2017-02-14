@@ -3,10 +3,15 @@
 #include "GameObject.h"
 #include <map>
 
+namespace GlEngine
+{
+    class CameraGameObject;
+}
+
 class CameraTargetObject : public GlEngine::GameObject
 {
 public:
-    CameraTargetObject(float movementSpeed = 8.f);
+    CameraTargetObject(GlEngine::CameraGameObject *camera, float movementSpeed = 8.f);
     ~CameraTargetObject();
 
     virtual void Tick(float delta) override;
@@ -18,5 +23,6 @@ public:
 
 private:
     std::map<unsigned, bool> keysDown;
-    float movementSpeed;
+    float movementSpeed, facingAngle, elevationAngle;
+    GlEngine::CameraGameObject *camera;
 };

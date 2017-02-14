@@ -1,13 +1,18 @@
 #include "stdafx.h"
 #include "CameraTargetObject.h"
-
+#include "CameraGameObject.h"
 #include "KeyboardEvent.h"
 #include "Matrix.h"
+#include "MathUtils.h"
 
-CameraTargetObject::CameraTargetObject(float movementSpeed)
-    : movementSpeed(movementSpeed)
+#include "LightSourceGraphicsObject.h"
+
+CameraTargetObject::CameraTargetObject(GlEngine::CameraGameObject *camera, float movementSpeed)
+    : camera(camera), movementSpeed(movementSpeed), facingAngle(0), elevationAngle(0)
 {
+    assert(camera != nullptr);
     RequireTick(true);
+    camera->SetTargetObject(this);
 }
 CameraTargetObject::~CameraTargetObject()
 {
@@ -25,6 +30,11 @@ void CameraTargetObject::Tick(float delta)
     translation *= delta * movementSpeed;
     if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 4;
     position += translation;
+
+    facingAngle += 15deg * delta;
+    Vector<3> cameraFromDir = { cos(facingAngle), 0, sin(facingAngle) };
+
+    camera->SetPosition(position + (cameraFromDir * 15));
 }
 
 void CameraTargetObject::HandleEvent(GlEngine::Events::Event &evt)
@@ -42,5 +52,6 @@ std::string CameraTargetObject::name()
 
 GlEngine::GraphicsObject *CameraTargetObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
 {
-    return nullptr;
+    return new LightSourceGraphicsObject();
+    //return nullptr;
 }

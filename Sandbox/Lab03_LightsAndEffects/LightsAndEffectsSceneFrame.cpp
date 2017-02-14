@@ -372,12 +372,8 @@ LightsAndEffectsSceneFrame::~LightsAndEffectsSceneFrame()
 
 bool LightsAndEffectsSceneFrame::Initialize()
 {
-    auto cameraTarget = this->CreateGameObject<CameraTargetObject>();
-
     auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
-    cameraObject->SetTargetObject(cameraTarget);
-    cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-    cameraObject->SetPosition({ 0, -3.5, 7 });
+    this->CreateGameObject<CameraTargetObject>(cameraObject);
 
     CreateGameObject<Lab3Controls>();
 
