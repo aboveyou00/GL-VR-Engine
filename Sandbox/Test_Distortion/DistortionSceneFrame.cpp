@@ -10,7 +10,13 @@
 #include "../TemplateMaterial.h"
 #include "../TemplateMaterialFactory.h"
 
-#include "VboGraphicsObject.h"
+#include "TextureRenderTarget.h"
+#include "GraphicsContext.h"
+
+#include "Engine.h"
+#include "GraphicsController.h"
+
+#include "../Lab05_Geometry/GeometrySceneFrame.h"
 
 extern std::string distortVertex;
 extern std::string distortFragment;
@@ -30,10 +36,16 @@ DistortionSceneFrame::DistortionSceneFrame()
         &distortFragment,
     };
 
-    sceneTex = GlEngine::Texture::FromFile("Textures/crate_tl.png");
+    sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp); //GlEngine::Texture::FromFile("Textures/crate_tl.png", GlEngine::TextureFlag::Clamp);
+    this->renderedFrame = new GeometrySceneFrame();
+    myCtx = new GlEngine::GraphicsContext(this->renderedFrame);
+    myCtx->AddRenderTarget(sceneTex);
 }
 DistortionSceneFrame::~DistortionSceneFrame()
 {
+    SafeDelete(myCtx);
+    SafeDelete(renderedFrame);
+    SafeDelete(sceneTex);
 }
 
 bool DistortionSceneFrame::Initialize()
@@ -65,9 +77,24 @@ bool DistortionSceneFrame::Initialize()
         },
         TemplateMaterial::Factory()
             ->Name("DistortMaterial")
-            ->Provide(&GlEngine::ShaderFactory::prop_Texture, sceneTex)
+            ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, sceneTex)
             ->Create()
     );
 
-    return true;
+    GlEngine::Engine::GetInstance().GetGlController().AddGraphicsContext(myCtx);
+
+    return renderedFrame->Initialize();
+}
+void DistortionSceneFrame::Tick(float delta)
+{
+    renderedFrame->Tick(delta);
+}
+void DistortionSceneFrame::Shutdown()
+{
+    renderedFrame->Shutdown();
+}
+
+void DistortionSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
+{
+    renderedFrame->HandleEvent(evt);
 }

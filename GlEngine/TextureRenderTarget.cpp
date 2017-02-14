@@ -6,9 +6,9 @@
 
 namespace GlEngine
 {
-    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height)
+    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height, GlEngine::TextureFlag flags)
         : RenderTarget(nullptr),
-          Texture(width, height, TextureFlag::RenderTarget)
+          Texture(width, height, TextureFlag::RenderTarget | flags)
     {
         pimpl = new Impl::TextureRenderTargetImpl(this);
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();

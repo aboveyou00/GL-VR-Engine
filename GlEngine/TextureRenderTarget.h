@@ -9,7 +9,7 @@ namespace GlEngine
     class ENGINE_SHARED TextureRenderTarget : virtual public Texture, virtual public RenderTarget
     {
     public:
-        TextureRenderTarget(unsigned width, unsigned height);
+        TextureRenderTarget(unsigned width, unsigned height, GlEngine::TextureFlag flags = TextureFlag::RenderTarget);
         ~TextureRenderTarget();
 
         virtual bool Initialize() override;

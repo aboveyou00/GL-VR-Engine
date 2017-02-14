@@ -24,11 +24,22 @@ public:
     {
         return provide_impl(prop, value);
     }
+    template <typename T, typename U>
+    TemplateMaterialFactory *ProvideConst(GlEngine::ShaderFactory::Property<T> *prop, U value)
+    {
+        return provide_const_impl(prop, value);
+    }
     template <>
     TemplateMaterialFactory *Provide(GlEngine::ShaderFactory::Property<GlEngine::Texture*> *prop, GlEngine::Texture *&value)
     {
         if (value != nullptr) Await(value);
         return provide_impl(prop, value);
+    }
+    template <>
+    TemplateMaterialFactory *ProvideConst(GlEngine::ShaderFactory::Property<GlEngine::Texture*> *prop, GlEngine::Texture *value)
+    {
+        if (value != nullptr) Await(value);
+        return provide_const_impl(prop, value);
     }
     TemplateMaterialFactory *Await(GlEngine::IGraphicsComponent *c);
 
@@ -48,6 +59,18 @@ private:
         _pushFns.push_back([prop, &value](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory &factory)
         {
             factory.ProvideProperty(*prop, value);
+        });
+        return this;
+    }
+    template <typename T, typename U>
+    TemplateMaterialFactory *provide_const_impl(GlEngine::ShaderFactory::Property<T> *prop, U value)
+    {
+        assert(!finalized);
+        this->_props.push_back(prop);
+        _pushFns.push_back([prop, value](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory &factory)
+        {
+            T t = dynamic_cast<T>(value);
+            factory.ProvideProperty(*prop, t);
         });
         return this;
     }
