@@ -13,6 +13,8 @@ LightSourceGraphicsObject::~LightSourceGraphicsObject()
 
 bool LightSourceGraphicsObject::Initialize()
 {
+    if (!GlEngine::VboGraphicsObject::Initialize()) return false;
+
     auto tex = GlEngine::Texture::FromFile("Textures/point-light-widget.png", GlEngine::TextureFlag::Translucent);
     auto mat = new GlEngine::AmbientMaterial(tex);// ({ 1.f, 1.f, 1.f });
     AddPropertyProvider(new GlEngine::AmbientLightSource(Vector<3> { 1, 1, 1 }));

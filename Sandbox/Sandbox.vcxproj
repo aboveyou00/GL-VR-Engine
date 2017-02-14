@@ -175,9 +175,10 @@
     <ClInclude Include="TemplateMaterial.h" />
     <ClInclude Include="TemplateMaterialFactory.h" />
     <ClInclude Include="TemplateObj.h" />
+    <ClInclude Include="Test_Distortion\DistortionSceneFrame.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="explode_source.cpp" />
+    <ClCompile Include="Lab05_Geometry\explode_source.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\PhongFogMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardTorus.cpp" />
@@ -210,6 +211,8 @@
     <ClCompile Include="TemplateObj.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\StageGameObject.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\StageGraphicsObject.cpp" />
+    <ClCompile Include="Test_Distortion\DistortionSceneFrame.cpp" />
+    <ClCompile Include="Test_Distortion\distort_source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox.config">
