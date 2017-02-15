@@ -178,6 +178,7 @@
     <ClInclude Include="Test_Distortion\DistortionSceneFrame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="convolution_source.cpp" />
     <ClCompile Include="Lab05_Geometry\explode_source.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\PhongFogMaterial.cpp" />
     <ClCompile Include="Lab02_Features\DiscardPhongMaterial.cpp" />

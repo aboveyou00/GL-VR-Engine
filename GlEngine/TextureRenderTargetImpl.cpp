@@ -31,6 +31,11 @@ namespace GlEngine::Impl
         glGenFramebuffers(1, &frameBuffer);
         if (frameBuffer == 0)
         {
+            GLenum err = glGetError();
+            if (err != GL_NO_ERROR)
+            {
+                Util::Log(LogType::ErrorC, "GL Error: %d", err);
+            }
             Util::Log(LogType::ErrorC, "Failed to create framebuffer.");
             return false;
         }

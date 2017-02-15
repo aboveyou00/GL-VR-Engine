@@ -29,6 +29,12 @@ public:
     {
         return provide_const_impl(prop, value);
     }
+    template <typename T, unsigned SIZE>
+    TemplateMaterialFactory *ProvideArray(GlEngine::ShaderFactory::Property<GlEngine::ShaderFactory::Array<T, SIZE>> *prop, T*& value, size_t count = SIZE)
+    {
+        return provide_array_impl(prop, value, count);
+    }
+
     template <>
     TemplateMaterialFactory *Provide(GlEngine::ShaderFactory::Property<GlEngine::Texture*> *prop, GlEngine::Texture *&value)
     {
@@ -71,6 +77,18 @@ private:
         {
             T t = dynamic_cast<T>(value);
             factory.ProvideProperty(*prop, t);
+        });
+        return this;
+    }
+    template <typename T, unsigned SIZE>
+    TemplateMaterialFactory* provide_array_impl(GlEngine::ShaderFactory::Property<GlEngine::ShaderFactory::Array<T, SIZE>>* prop, T*& value, size_t count)
+    {
+        assert(!finalized);
+        this->_props.push_back(prop);
+        _pushFns.push_back([prop, &value, count](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory &factory)
+        {
+            for (size_t i = 0; i < count; i++)
+                factory.ProvideArrayProperty(*prop, value[i]);
         });
         return this;
     }
