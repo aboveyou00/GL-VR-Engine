@@ -136,6 +136,7 @@ namespace GlEngine
 
             _shader->Push();
             _textures.clear();
+            _subroutines.clear();
             _arrayIndices.clear();
             for (size_t q = 0; q < _providers.size(); q++)
             {
@@ -154,6 +155,14 @@ namespace GlEngine
             {
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            }
+
+            for (auto &it : _subroutines)
+            {
+                std::string name = it.second->name();
+                unsigned idx = glGetSubroutineIndex(_shader->glslProgramIndex(), GL_FRAGMENT_SHADER, name.c_str());
+                it.second->Push(idx);
+                PropertyType_attribs<Subroutine*>::set_glsl_uniform(it.first, it.second);
             }
 
             //TODO: provide default values for unused indices in arrays
@@ -242,6 +251,14 @@ namespace GlEngine
             assert(!!this);
             auto uniformLocation = _program->FindUniform(&prop);
             if (uniformLocation != -1) _textures[uniformLocation] = val;
+        }
+
+        template <>
+        void ShaderFactory::ProvideProperty<Subroutine*>(Property<Subroutine*> &prop, Subroutine *const &val)
+        {
+            assert(!!this);
+            auto uniformLocation = _program->FindUniform(&prop);
+            if (uniformLocation != -1) _subroutines[uniformLocation] = val;
         }
     }
 }

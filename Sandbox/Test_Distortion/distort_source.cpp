@@ -24,7 +24,8 @@ layout(location = 0) in vec2 uv_coords;
 
 layout(location = 0) uniform float game_time;
 layout(location = 1) uniform sampler2D scene_texture;
-subroutine uniform DistortionFunction in_distortion_fn;
+
+layout(location = 0) subroutine uniform DistortionFunction distortion_fn;
 
 layout(location = 0) out vec4 out_color;
 
@@ -33,9 +34,29 @@ subroutine(DistortionFunction) vec4 SinWave(vec2 xy)
     vec2 offset = vec2(sin((xy.y / 100) + game_time) / 25, cos((xy.x / 140) + game_time) / 20);
     return texture2D(scene_texture, uv_coords + offset);
 }
+subroutine(DistortionFunction) vec4 GaussianBlur(vec2 xy)
+{
+    return texture2D(scene_texture, uv_coords);
+}
+subroutine(DistortionFunction) vec4 DetectEdge(vec2 xy)
+{
+    return texture2D(scene_texture, vec2(1, 1) - uv_coords);
+}
+subroutine(DistortionFunction) vec4 Deconvolution(vec2 xy)
+{
+    return texture2D(scene_texture, vec2(.5, .5) * uv_coords);
+}
+subroutine(DistortionFunction) vec4 MedianFiltering(vec2 xy)
+{
+    return texture2D(scene_texture, -uv_coords + vec2(.5, .5));
+}
+subroutine(DistortionFunction) vec4 UnsharpMasking(vec2 xy)
+{
+    return texture2D(scene_texture, vec2(-1, 1) * uv_coords + vec2(1, 0));
+}
 
 void main(void)
 {
-    out_color = in_distortion_fn(gl_FragCoord.xy);
+    out_color = distortion_fn(gl_FragCoord.xy);
 }
 )raw";

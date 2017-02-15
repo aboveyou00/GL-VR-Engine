@@ -2,6 +2,7 @@
 
 #include "Struct.h"
 #include "Array.h"
+#include "Subroutine.h"
 #include <sstream>
 #include "PropertyFlag.h"
 #include "TemplateUtils.h"
@@ -337,6 +338,13 @@ namespace GlEngine
         ENGINE_SHARED void PropertyType_attribs<Texture*>::set_glsl_uniform(unsigned uniformLocation, const T &value);
         template <>
         ENGINE_SHARED constexpr PropertyFlag PropertyType_attribs<Texture*>::default_property_flags();
+
+        template <>
+        ENGINE_SHARED std::string PropertyType_attribs<Subroutine*>::glsl_name();
+        template <>
+        ENGINE_SHARED void PropertyType_attribs<Subroutine*>::set_glsl_uniform(unsigned uniformLocation, const T &value);
+        template <>
+        ENGINE_SHARED constexpr PropertyFlag PropertyType_attribs<Subroutine*>::default_property_flags();
 
         template <typename... TArgs>
         struct PropertyType_attribs<Struct<TArgs...>>

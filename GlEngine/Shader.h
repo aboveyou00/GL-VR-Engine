@@ -33,6 +33,8 @@ namespace GlEngine
 
             virtual operator bool() override;
 
+            unsigned glslProgramIndex();
+
         private:
             ShaderSource *source;
             unsigned _prog, _vert, _tessc, _tesse, _geom, _frag;

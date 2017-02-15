@@ -118,7 +118,8 @@ namespace GlEngine
             std::set<ShaderProp*> _properties;
 
             bool RefreshPropertyCache();
-            std::map<unsigned, Texture *> _textures;
+            std::map<unsigned, Texture*> _textures;
+            std::map<unsigned, Subroutine*> _subroutines;
             std::map<ShaderProp*, unsigned> _arrayIndices;
 
             rt_mutex _mux;
@@ -126,5 +127,8 @@ namespace GlEngine
 
         template <>
         ENGINE_SHARED void ShaderFactory::ProvideProperty<Texture*>(Property<Texture*> &prop, Texture *const &val);
+
+        template <>
+        ENGINE_SHARED void ShaderFactory::ProvideProperty<Subroutine*>(Property<Subroutine*> &prop, Subroutine *const &val);
     }
 }

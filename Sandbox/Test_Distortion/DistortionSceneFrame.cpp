@@ -14,19 +14,25 @@
 #include "GraphicsContext.h"
 
 #include "Engine.h"
+#include "KeyboardEvent.h"
 #include "GraphicsController.h"
-
+#include "Property.h"
 #include "../Lab05_Geometry/GeometrySceneFrame.h"
 
 extern std::string distortVertex;
 extern std::string distortFragment;
+static GlEngine::ShaderFactory::Property<GlEngine::ShaderFactory::Subroutine*> prop_Subroutine("__subroutine__");
 
 DistortionSceneFrame::DistortionSceneFrame()
+    : sr_index(0)
 {
     props = {
         { 0, &GlEngine::ShaderFactory::prop_GameTime },
-        { 1, &GlEngine::ShaderFactory::prop_Texture }
+        { 1, &GlEngine::ShaderFactory::prop_Texture },
+        { 2, &prop_Subroutine }
     };
+
+    currentSubroutine = subroutines[sr_index];
 
     distortSource = {
         &distortVertex,
@@ -78,6 +84,7 @@ bool DistortionSceneFrame::Initialize()
         TemplateMaterial::Factory()
             ->Name("DistortMaterial")
             ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, sceneTex)
+            ->Provide(&prop_Subroutine, currentSubroutine)
             ->Create()
     );
 
@@ -96,5 +103,28 @@ void DistortionSceneFrame::Shutdown()
 
 void DistortionSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
 {
-    renderedFrame->HandleEvent(evt);
+    auto *kbdEvt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
+    if (kbdEvt != nullptr && kbdEvt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyTyped)
+    {
+        bool sr_changed = false;
+        if (kbdEvt->GetVirtualKeyCode() == VK_SQUARE_BRACKET_RIGHT)
+        {
+            this->sr_index++;
+            sr_changed = true;
+        }
+        else if (kbdEvt->GetVirtualKeyCode() == VK_SQUARE_BRACKET_LEFT)
+        {
+            this->sr_index--;
+            sr_changed = true;
+        }
+        if (sr_changed)
+        {
+            this->sr_index %= SR_COUNT;
+            this->currentSubroutine = subroutines[sr_index];
+            GlEngine::Util::Log(GlEngine::LogType::InfoC, "Setting subroutine to %s", this->currentSubroutine->name().c_str());
+            kbdEvt->Handle();
+        }
+    }
+
+    if (!evt.IsHandled()) renderedFrame->HandleEvent(evt);
 }

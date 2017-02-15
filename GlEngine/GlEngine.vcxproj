@@ -181,6 +181,7 @@
     <ClInclude Include="PropertyFlag.h" />
     <ClInclude Include="SpotlightSource.h" />
     <ClInclude Include="Struct.h" />
+    <ClInclude Include="Subroutine.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskState.h" />
     <ClInclude Include="TaskType.h" />
@@ -398,6 +399,7 @@
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="SpotlightSource.cpp" />
+    <ClCompile Include="Subroutine.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />

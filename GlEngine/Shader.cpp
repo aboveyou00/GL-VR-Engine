@@ -159,6 +159,11 @@ namespace GlEngine
             return !!_prog && !!_vert && !!_frag;
         }
 
+        unsigned Shader::glslProgramIndex()
+        {
+            return _prog;
+        }
+
         unsigned Shader::compileShader(unsigned type, const char *text, int text_length)
         {
             auto shader = glCreateShader(type);

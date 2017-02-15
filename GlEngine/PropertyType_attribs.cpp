@@ -489,6 +489,21 @@ namespace GlEngine
         {
             return PropertyFlag::Readonly;
         }
+
+        std::string PropertyType_attribs<Subroutine*>::glsl_name()
+        {
+            return "***NOT IMPLEMENTED***"s;
+        }
+        void PropertyType_attribs<Subroutine*>::set_glsl_uniform(unsigned uniformLocation, const T &value)
+        {
+            uniformLocation; //TODO: What gives? Where do I use this?
+            unsigned sr_loc = value->glslSubroutineLocation();
+            glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &sr_loc);
+        }
+        constexpr PropertyFlag PropertyType_attribs<Subroutine*>::default_property_flags()
+        {
+            return PropertyFlag::Readonly;
+        }
 #pragma endregion
     }
 }
