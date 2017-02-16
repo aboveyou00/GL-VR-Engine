@@ -13,6 +13,8 @@ namespace GlEngine
 
     bool CubeGraphicsObject::Initialize()
     {
+        if (!GraphicsObject::Initialize()) return false;
+
         SetMaterial(_mat);
 
         static const float x = -_size[0] / 2, y = -_size[1] / 2, z = -_size[2] / 2;

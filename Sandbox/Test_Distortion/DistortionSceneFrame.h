@@ -19,6 +19,8 @@ namespace GlEngine::ShaderFactory
     class ShaderProp;
 }
 
+const float a = -10.0f;
+
 class DistortionSceneFrame : public GlEngine::Frame
 {
 public:
@@ -35,18 +37,17 @@ private:
     std::map<size_t, GlEngine::ShaderFactory::ShaderProp*> props;
     GlEngine::ShaderFactory::ShaderSource distortSource;
     
-    static const unsigned SR_COUNT = 6;
+    static const unsigned SR_COUNT = 7;
     GlEngine::ShaderFactory::Subroutine *subroutines[SR_COUNT] = {
         new GlEngine::ShaderFactory::Subroutine("PassThrough"),
         new GlEngine::ShaderFactory::Subroutine("SinWave"),
         new GlEngine::ShaderFactory::Subroutine("Convolution"),
         new GlEngine::ShaderFactory::Subroutine("EdgeConvolution"),
         new GlEngine::ShaderFactory::Subroutine("Outline"),
-        new GlEngine::ShaderFactory::Subroutine("MedianConvolution")
+        new GlEngine::ShaderFactory::Subroutine("MedianConvolution5"),
+        new GlEngine::ShaderFactory::Subroutine("MedianConvolution3")
     };
     GlEngine::ShaderFactory::Subroutine *currentSubroutine;
-
-    float a = 1.0f;
 
     static const size_t KERNEL_SIZE = 5;
     static const size_t KERNEL_COUNT = 5;
@@ -85,7 +86,7 @@ private:
     float * currentConvolutionKernel;
 
     int pair_index;
-    static const unsigned PAIR_COUNT = 8;
+    static const unsigned PAIR_COUNT = 9;
     size_t subroutineKernelPairs[PAIR_COUNT * 2]{
         0, 0,
         1, 0,
@@ -94,7 +95,8 @@ private:
         2, 2,
         3, 3,
         4, 3,
-        4, 5
+        5, 0,
+        6, 0
     };
 
     GlEngine::GraphicsContext *myCtx;

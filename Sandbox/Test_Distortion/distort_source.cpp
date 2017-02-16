@@ -58,38 +58,76 @@ subroutine(DistortionFunction) vec4 Convolution(vec2 xy)
     return result;
 }
 
-subroutine(DistortionFunction) vec4 MedianConvolution(vec2 xy)
+subroutine(DistortionFunction) vec4 MedianConvolution3(vec2 xy)
 {
-    vec4 pixels[KERNEL_SIZE * KERNEL_SIZE];
-    float mags[KERNEL_SIZE * KERNEL_SIZE];
+    vec4 pixels[9];
+    float mags[9];
 
-    for (int i = 0; i < KERNEL_SIZE * KERNEL_SIZE; i++)
-        mags[i] = 0;
-
-    for (int x = 0; x < KERNEL_SIZE; x++)
+    for (int x = 0; x < 3; x++)
     {
-        for (int y = 0; y < KERNEL_SIZE; y++)
+        for (int y = 0; y < 3; y++)
         {
-            vec2 step = (vec2(x, y) - uvec2(KERNEL_SIZE / 2, KERNEL_SIZE / 2)) / screen_dimensions;
+            vec2 step = vec2(x - 1, y - 1) / screen_dimensions;
             vec2 coord = uv_coords + step;
-            vec4 pixel_color = convolution_kernel[y * KERNEL_SIZE + x] * texture2D(scene_texture, coord);
-            float mag = dot(pixel_color, pixel_color);
-
-            uint i = 0;
-            while(mag < mags[i] && i < y * KERNEL_SIZE + x)
-                i++;
-            for (int j = KERNEL_SIZE * KERNEL_SIZE - 1; j > i; j--)
-            {
-                mags[j] = mags[j - 1];
-                pixels[j] = pixels[j - 1];
-            }
-            mags[i] = mag;
-            pixels[i] = pixel_color;
+            vec4 pixel_color = texture2D(scene_texture, coord);
+            pixels[(x * 3) + y] = pixel_color;
+            mags[(x * 3) + y] = dot(pixel_color, pixel_color);
         }
     }
-    
-    //return pixels[0];
-    return pixels[KERNEL_SIZE * KERNEL_SIZE / 2];
+
+    for (int w = 0; w < 8; w++)
+    {
+        for (int q = 0; q < 8 - w; q++)
+        {
+            if (mags[q] < mags[q + 1])
+            {
+                float tempf = mags[q];
+                vec4 tempv = pixels[q];
+                mags[q] = mags[q + 1];
+                pixels[q] = pixels[q + 1];
+                mags[q + 1] = tempf;
+                pixels[q + 1] = tempv;
+            }
+        }
+    }
+
+    return pixels[4];
+}
+
+subroutine(DistortionFunction) vec4 MedianConvolution5(vec2 xy)
+{
+    vec4 pixels[25];
+    float mags[25];
+
+    for (int x = 0; x < 5; x++)
+    {
+        for (int y = 0; y < 5; y++)
+        {
+            vec2 step = vec2(x - 2, y - 2) / screen_dimensions;
+            vec2 coord = uv_coords + step;
+            vec4 pixel_color = texture2D(scene_texture, coord);
+            pixels[(x * 5) + y] = pixel_color;
+            mags[(x * 5) + y] = dot(pixel_color, pixel_color);
+        }
+    }
+
+    for (int w = 0; w < 24; w++)
+    {
+        for (int q = 0; q < 24 - w; q++)
+        {
+            if (mags[q] < mags[q + 1])
+            {
+                float tempf = mags[q];
+                vec4 tempv = pixels[q];
+                mags[q] = mags[q + 1];
+                pixels[q] = pixels[q + 1];
+                mags[q + 1] = tempf;
+                pixels[q + 1] = tempv;
+            }
+        }
+    }
+
+    return pixels[12];
 }
 
 subroutine(DistortionFunction) vec4 EdgeConvolution(vec2 xy)

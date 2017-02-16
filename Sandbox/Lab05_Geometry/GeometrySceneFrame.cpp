@@ -14,6 +14,7 @@
 #include "../TemplateMaterialFactory.h"
 #include "RandomUtils.h"
 #include "Texture.h"
+#include "CubeGameObject.h"
 
 extern std::string billboardVertex;
 extern std::string billboardGeometry;
@@ -102,7 +103,19 @@ bool GeometrySceneFrame::Initialize()
     cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraObject->SetPosition({ 0, -3.5, 7 });
 
-    CreateGameObject<Lab5Controls>();
+    auto controls = CreateGameObject<Lab5Controls>();
+
+    auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
+    auto pointLight = CreateGameObject<PointLightSourceObject>();
+    controls->SetControllingLight(pointLight->lightSource());
+    pointLight->lightSource()->SetPosition({ 0, 2.5, -2.5 });
+
+    auto appleTex = GlEngine::Texture::FromFile("Textures/apple.png");
+    auto cube1 = CreateGameObject<GlEngine::CubeGameObject>(Vector<3> { 3, 3, 3 }, appleTex);
+    cube1->graphicsObject()->AddPropertyProvider(ambient);
+    cube1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
+    cube1->SetPosition({ -14.f, 0, 0 });
+    //cube1->SetRotationSpeed({ 0, 45deg, 0 });
 
     auto pointVboFactory = PointVolume<float, float>::Generate({ -1, -1, -1 }, { 1, 1, 1 }, 20 * 20 * 20, &prop_BillboardTimeOffset, &prop_BillboardSpeed, [](Vector<3> pos)
     {
