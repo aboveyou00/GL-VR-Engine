@@ -20,7 +20,7 @@ namespace GlEngine
     }
 
     LambertMaterial::LambertMaterial(Texture *texture)
-        : texture(texture)//, instancedShader(nullptr), singleShader(nullptr)
+        : Material("LambertMaterial"), texture(texture)//, instancedShader(nullptr), singleShader(nullptr)
     {
     }
     LambertMaterial::~LambertMaterial()
@@ -66,8 +66,9 @@ namespace GlEngine
     {
         return "LambertMaterial";
     }
-    LambertMaterial::operator bool()
+
+    bool LambertMaterial::isReady()
     {
-        return texture && *texture;// && instancedShader && *instancedShader && singleShader && *singleShader;
+        return texture && texture->isReady();// && instancedShader && *instancedShader && singleShader && *singleShader;
     }
 }

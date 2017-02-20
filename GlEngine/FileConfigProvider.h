@@ -1,19 +1,19 @@
 #pragma once
 
 #include "IConfigProvider.h"
-#include "IComponent.h"
+#include "IInitializable.h"
 #include "KeyValuePair.h"
 
 namespace GlEngine
 {
-    class ENGINE_SHARED FileConfigProvider : public IConfigProvider, public IComponent
+    class ENGINE_SHARED FileConfigProvider : public IConfigProvider, public IInitializable
     {
     public:
         FileConfigProvider(const char *const path, const char *const filename);
         ~FileConfigProvider();
 
-        bool Initialize();
-        void Shutdown();
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
         virtual std::string name() override;
 

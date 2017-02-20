@@ -1,25 +1,26 @@
 #pragma once
 
-#include "IGraphicsComponent.h"
+#include "IAsyncInitializable.h"
 #include "BufferMode.h"
 
 namespace GlEngine
 {
-    struct ENGINE_SHARED VbObject : IGraphicsComponent
+    struct ENGINE_SHARED VbObject : IAsyncInitializable
     {
     public:
         VbObject();
         VbObject(unsigned buff, BufferMode mode);
         ~VbObject();
 
-        bool Initialize();
-        void Shutdown();
+        bool InitializeAsync();
+        void ShutdownAsync();
         bool InitializeGraphics();
         void ShutdownGraphics();
 
         void MakeCurrent();
 
-        virtual operator bool() override;
+        bool isReady();
+
         virtual std::string name() override;
 
     private:

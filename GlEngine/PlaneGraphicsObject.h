@@ -21,7 +21,7 @@ namespace GlEngine
         }
         ~PlaneGraphicsObject();
 
-        virtual bool Initialize() override;
+        virtual bool InitializeAsync() override;
 
         virtual std::string name() override;
 

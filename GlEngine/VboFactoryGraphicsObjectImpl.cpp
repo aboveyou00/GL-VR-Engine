@@ -10,7 +10,7 @@ namespace GlEngine::Impl
         : GraphicsObject(true),
           allowFaces(allowFaces),
           _vao(vao),
-          finalized(!!vao),
+          finalized(vao.isReady()),
           elemIdx(elemIdx),
           currentGraphicsSection(nullptr),
           createFactory(createFactory)
@@ -82,13 +82,13 @@ namespace GlEngine::Impl
         currentGraphicsSection->AddQuad(indices);
     }
 
-    bool VboFactoryGraphicsObjectImpl::Initialize()
+    bool VboFactoryGraphicsObjectImpl::InitializeAsync()
     {
-        return GraphicsObject::Initialize();
+        return GraphicsObject::InitializeAsync();
     }
-    void VboFactoryGraphicsObjectImpl::Shutdown()
+    void VboFactoryGraphicsObjectImpl::ShutdownAsync()
     {
-        GraphicsObject::Shutdown();
+        GraphicsObject::ShutdownAsync();
     }
     bool VboFactoryGraphicsObjectImpl::InitializeGraphics()
     {
@@ -113,7 +113,7 @@ namespace GlEngine::Impl
     {
         ScopedLock _lock(mutex);
         GraphicsObject::PreRender(layer);
-        if (*this) _vao.MakeCurrent();
+        if (this->isReady()) _vao.MakeCurrent();
     }
     void VboFactoryGraphicsObjectImpl::RenderImpl(RenderTargetLayer layer)
     {
@@ -154,8 +154,8 @@ namespace GlEngine::Impl
         return "VboFactoryGraphicsObject";
     }
 
-    VboFactoryGraphicsObjectImpl::operator bool()
+    bool VboFactoryGraphicsObjectImpl::isReady()
     {
-        return finalized && _vao;
+        return finalized && _vao.isReady();
     }
 }

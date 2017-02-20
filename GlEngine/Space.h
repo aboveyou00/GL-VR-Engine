@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IInitializable.h"
 #include "EngineShared.h"
 #include "Actor.h"
 #include "Octree.h"
@@ -10,7 +10,7 @@
 
 namespace GlEngine
 {
-    class ENGINE_SHARED Space : public IComponent
+    class ENGINE_SHARED Space : public IInitializable
     {
     public:
         Space();

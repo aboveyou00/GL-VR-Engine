@@ -1,18 +1,17 @@
 #pragma once
 
 #include "GameLoop.h"
-#include "IGameComponent.h"
+#include "IInitializable.h"
 
 namespace GlEngine
 {
     class Frame;
-    class GraphicsContext;
     namespace Events
     {
         class Event;
     }
 
-    class ENGINE_SHARED FrameStack : IGameComponent
+    class ENGINE_SHARED FrameStack : IInitializable
     {
     public:
         FrameStack();
@@ -20,9 +19,10 @@ namespace GlEngine
 
         virtual bool Initialize() override;
         virtual void Shutdown() override;
-        virtual void Tick(float delta) override;
 
         virtual std::string name() override;
+
+        void Tick(float delta);
 
         template <typename T, typename... TArgs>
         void PushNewFrame(TArgs... args)
@@ -37,8 +37,6 @@ namespace GlEngine
         }
         void PopFrame();
         Frame *CurrentFrame();
-
-        void Update(GraphicsContext &ctx);
 
         virtual void HandleEvent(Events::Event &evt);
 

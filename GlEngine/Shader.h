@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IGraphicsComponent.h"
+#include "IAsyncInitializable.h"
 #include "ComponentArray.h"
 
 namespace GlEngine
 {
     namespace ShaderFactory
     {
-        class ENGINE_SHARED Shader : public IGraphicsComponent
+        class ENGINE_SHARED Shader : public IAsyncInitializable
         {
         private:
             Shader(ShaderSource *source);
@@ -16,10 +16,12 @@ namespace GlEngine
         public:
             static Shader *Create(ShaderSource *source);
 
-            virtual bool Initialize() override;
-            virtual void Shutdown() override;
+            virtual bool InitializeAsync() override;
+            virtual void ShutdownAsync() override;
             virtual bool InitializeGraphics() override;
             virtual void ShutdownGraphics() override;
+
+            virtual bool isReady() override;
 
             virtual std::string name() override;
 
@@ -30,8 +32,6 @@ namespace GlEngine
             bool UsesFragment();
             bool UsesTesselation();
             bool UsesGeometry();
-
-            virtual operator bool() override;
 
             unsigned glslProgramIndex();
 

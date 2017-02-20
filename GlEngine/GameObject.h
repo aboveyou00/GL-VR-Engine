@@ -1,103 +1,71 @@
 #pragma once
 
-#include "Vector.h"
-#include "Matrix.h"
-#include "IGameComponent.h"
+#include "Transform.h"
+#include "GameComponent.h"
+
 #include "Actor.h"
+
+#include <iterator>
 
 namespace GlEngine
 {
     class Frame;
-    class GraphicsContext;
-    class GraphicsObject;
-    namespace Events
-    {
-        class Event;
-    }
 
-    enum class ENGINE_SHARED GameObjectType
-    {
-        Object3d,
-        Camera
-    };
-
-    class ENGINE_SHARED GameObject: public IGameComponent
+    class ENGINE_SHARED GameObject final
     {
     public:
-        GameObject(Vector<3> position = { 0, 0, 0 }, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
+        GameObject(Frame *frame, std::string name);
         ~GameObject();
 
-        inline void RequireTick(bool require = true)
+        friend class Frame;
+        friend class GameComponent;
+
+        //Context
+        Frame *frame() const;
+        std::string name() const;
+
+        Transform transform;
+
+        GameObject *parent() const;
+        void SetParent(GameObject *parent);
+        const std::vector<GameObject*> &children();
+
+        //Behaviors
+        void AddComponent(GameComponent *t);
+        void RemoveComponent(GameComponent *);
+
+        template <typename T>
+        T *component()
         {
-            _requiresTick = require;
-        }
-        inline void RequireGraphicsTick(bool require = true)
-        {
-            _requiresGraphicsTick = require;
-        }
-        inline void RequireUniqueGraphics(bool require = true)
-        {
-            _requiresUniqueGfx = require;
+            for (auto it : components())
+            {
+                auto check = dynamic_cast<T*>(it);
+                if (check != nullptr) return check;
+            }
         }
 
-        inline bool requiresTick()
-        {
-            return _requiresTick;
-        }
-        inline bool requiresGraphicsTick()
-        {
-            return _requiresGraphicsTick;
-        }
-        inline bool requiresUniqueGraphics()
-        {
-            return _requiresUniqueGfx;
-        }
+        const std::vector<GameComponent*> &components();
 
-        bool Initialize() override;
-        void Shutdown() override;
-        void Tick(float delta) override;
-
-        virtual void AddToFrame(Frame *frame);
-        virtual void RemoveFromFrame(Frame *frame);
-
-        virtual void HandleEvent(Events::Event &evt);
-
-        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext *ctx) = 0;
-        virtual void UpdateGraphicsObject(GraphicsContext *ctx, GraphicsObject *object);
-
-        Vector<3> position;
-        Matrix<4, 4> orientation;
-
-        virtual void SetPosition(Vector<3> pos);
-        virtual void SetOrientation(Matrix<4, 4> orientation);
-        virtual void ApplyOrientation(Matrix<4, 4> relative);
-        
-        virtual void Rotate(float radians, Vector<3> axis);
-        
-        virtual void RotateX(float radians);
-        virtual void RotateY(float radians);
-        virtual void RotateZ(float radians);
-
-        void RotateDegrees(float degrees, Vector<3> axis);
-        void RotateDegreesX(float degrees);
-        void RotateDegreesY(float degrees);
-        void RotateDegreesZ(float degrees);
-
-        void Scale(float amt);
-        void Scale(float x, float y, float z);
-        void Scale(Vector<3> amt);
-
+        //Lifecycle hooks
         void Deactivate();
         void Activate();
         bool active() const;
 
-        virtual GameObjectType type() const;
-        Frame *frame() const;
-        Actor *actor();
+        void Tick(float delta);
+
+        void HandleEvent(Events::Event &evt);
+
+        void TickGraphics(float delta);
+        void UpdateGraphics();
+        void Render();
 
     private:
-        bool _requiresTick, _requiresGraphicsTick, _requiresUniqueGfx, _active;
+        bool _active;
         Frame *_frame;
-        Actor _actor;
+        std::string _name;
+
+        GameObject *_parent;
+        std::vector<GameObject*> _children;
+        std::vector<GameComponent*> _components;
     };
 }

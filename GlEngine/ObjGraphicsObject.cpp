@@ -35,11 +35,11 @@ namespace GlEngine
         return ptr;
     }
 
-    bool ObjGraphicsObject::Initialize()
+    bool ObjGraphicsObject::InitializeAsync()
     {
         if (!GlEngine::ObjLoader::Load(filename, this))
             return false;
-        return VboGraphicsObject::Initialize();
+        return VboGraphicsObject::InitializeAsync();
     }
 
     std::string ObjGraphicsObject::name()

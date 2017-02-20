@@ -14,7 +14,7 @@ namespace GlEngine
     public:
         static FbxGraphicsObject *Create(const char* name);
         
-        virtual bool Initialize() override;
+        virtual bool InitializeAsync() override;
 
         virtual std::string name() override;
 

@@ -18,8 +18,9 @@ namespace GlEngine
             void RenderImpl(RenderTargetLayer layer) override;
             void RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount) override;
 
-            std::string name() override;
-            operator bool() override;
+            virtual std::string name() override;
+
+            virtual bool isReady() override;
 
             TransformedGraphicsObject &operator[](unsigned idx);
             const TransformedGraphicsObject &operator[](unsigned idx) const;

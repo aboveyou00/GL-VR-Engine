@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "GameComponent.h"
 
 namespace GlEngine
 {
@@ -13,17 +13,22 @@ namespace GlEngine
         static const int ABSOLUTE_ORIENTATION = 16;
     };
 
-    class ENGINE_SHARED CameraGameObject : public GameObject
+    class Frame;
+
+    class ENGINE_SHARED CameraComponent : public GameComponent
     {
     public:
-        CameraGameObject();
-        ~CameraGameObject();
+        CameraComponent();
+        ~CameraComponent();
+
+
+
+        //From CameraGameObject.cpp:
+        static GameObject *Create(Frame *frame, std::string name);
 
         void SetTargetObject(GameObject* gameObject);
 
         virtual std::string name() override;
-        virtual GameObjectType type() const override;
-        virtual GraphicsObject *CreateGraphicsObject(GraphicsContext *ctx) override;
         
         virtual void Tick(float delta) override;
 
@@ -37,12 +42,21 @@ namespace GlEngine
         Vector<3> relativePosition;
         Matrix<4, 4> relativeOrientation;
 
-        virtual void SetPosition(Vector<3> pos) override;
+
+
+        //From Camera.cpp:
+        void Push();
+        void Pop();
+
+
 
     private:
         bool lockRelativePosition;
         bool lockRelativeOrientation;
         bool lockAbsolutePosition;
         bool lockAbsoluteOrientation;
+
+        Vector<3> eye, forward, up;
+        Matrix<4, 4> view;
     };
 }

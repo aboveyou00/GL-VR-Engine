@@ -1,16 +1,16 @@
 #pragma once
 
-#include "IComponent.h"
 #include "RenderTarget.h"
 
 namespace GlEngine
 {
     class Window;
+    class CameraComponent;
 
     class ENGINE_SHARED WindowRenderTarget : public RenderTarget
     {
     public:
-        WindowRenderTarget(Window *window);
+        WindowRenderTarget(Window *window, CameraComponent *camera);
         ~WindowRenderTarget();
 
         virtual std::string name() override;

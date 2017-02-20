@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IGraphicsComponent.h"
+#include "IInitializable.h"
 #include "OpenGl.h"
 #include "ViewPort.h"
 #include "RenderTargetLayer.h"
@@ -8,21 +8,23 @@
 
 namespace GlEngine
 {
+    class CameraComponent;
+
     namespace Impl
     {
-        class RenderTargetImpl : public IGraphicsComponent
+        class RenderTargetImpl : public IAsyncInitializable
         {
         public:
-            RenderTargetImpl();
+            RenderTargetImpl(CameraComponent *camera);
             ~RenderTargetImpl();
 
-            virtual bool Initialize() override;
-            virtual void Shutdown() override;
+            virtual bool InitializeAsync() override;
+            virtual void ShutdownAsync() override;
             virtual bool InitializeGraphics() override;
             virtual void ShutdownGraphics() override;
 
-            std::string name() override;
-            
+            virtual std::string name() override;
+
             virtual void MakeCurrentTarget();
 
             inline bool GetShouldRender()
@@ -43,9 +45,12 @@ namespace GlEngine
 
             static const int layerCount = (int)std::numeric_limits<RenderTargetLayer>::max() - (int)std::numeric_limits<RenderTargetLayer>::min() + 1;
             ViewPort* viewPorts[layerCount];
-            
+
+            CameraComponent *camera();
+
         private:
             bool shouldRender;
+            CameraComponent *_camera;
         };
     }
 }

@@ -39,10 +39,11 @@ namespace GlEngine
             }
             return stream.str();
         }
-        CompoundGraphicsObjectImpl::operator bool()
+
+        bool CompoundGraphicsObjectImpl::isReady()
         {
             for (size_t q = 0; q < count; q++)
-                if (!t_gobjs[q]) return false;
+                if (!t_gobjs[q].isReady()) return false;
             return true;
         }
 

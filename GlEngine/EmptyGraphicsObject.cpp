@@ -14,7 +14,8 @@ namespace GlEngine
     {
         return "EmptyGraphicsObject";
     }
-    EmptyGraphicsObject::operator bool()
+
+    bool EmptyGraphicsObject::isReady()
     {
         return true;
     }

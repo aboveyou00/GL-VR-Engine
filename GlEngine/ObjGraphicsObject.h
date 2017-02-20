@@ -16,7 +16,7 @@ namespace GlEngine
 
         static ObjGraphicsObject *Create(const char *name, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers);
 
-        virtual bool Initialize() override;
+        virtual bool InitializeAsync() override;
 
         virtual std::string name() override;
 

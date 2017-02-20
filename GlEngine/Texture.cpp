@@ -64,13 +64,13 @@ namespace GlEngine
     {
     }
 
-    bool Texture::Initialize()
+    bool Texture::InitializeAsync()
     {
         if (initialized) return true;
         if (path == nullptr) return false;
         return initialized = decodeOneStep(path, image, width, height);
     }
-    void Texture::Shutdown()
+    void Texture::ShutdownAsync()
     {
         if (initialized && !!image) freePng(image);
         image = nullptr;
@@ -130,7 +130,7 @@ namespace GlEngine
         return stream.str();
     }
 
-    Texture::operator bool()
+    bool Texture::isReady()
     {
         return gl_tex != 0;// && gl_sampler != 0;
     }

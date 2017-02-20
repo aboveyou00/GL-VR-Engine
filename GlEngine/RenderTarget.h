@@ -1,7 +1,6 @@
 #pragma once
 
-#include "IGraphicsComponent.h"
-#include "Camera.h"
+#include "IAsyncInitializable.h"
 #include "RenderTargetLayer.h"
 #include "RenderTargetViewMode.h"
 
@@ -14,25 +13,33 @@ namespace GlEngine
 
     class ViewPort;
     class Window;
+    class CameraComponent;
 
-    class ENGINE_SHARED RenderTarget : public IGraphicsComponent
+    class ENGINE_SHARED RenderTarget : public IAsyncInitializable
     {
     public:
         RenderTarget(Impl::RenderTargetImpl *impl);
         ~RenderTarget();
 
-        virtual bool Initialize();
-        virtual void Shutdown();
-        virtual bool InitializeGraphics();
-        virtual void ShutdownGraphics();
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
+        virtual bool InitializeGraphics() override;
+        virtual void ShutdownGraphics() override;
 
         virtual std::string name();
+
+        virtual bool isReady() override;
+
+        CameraComponent *camera();
+
         void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
         ViewPort *viewPort(RenderTargetLayer layer);
 
         void SetCurrent();
 
         virtual bool GetShouldRender();
+
+        virtual void Render();
 
         virtual void Prepare();
         virtual void PrePush();
@@ -47,8 +54,6 @@ namespace GlEngine
 
         Matrix<4, 4> viewMatrix();
         void SetViewMatrix(Matrix<4, 4> mat);
-
-        virtual operator bool() override;
 
         inline Impl::RenderTargetImpl &GetImpl()
         {

@@ -188,7 +188,7 @@ namespace GlEngine
 
         VboGraphicsSection::operator bool()
         {
-            return finalized && material && *material && _factory && *_factory;
+            return finalized && material && material->isReady() && _factory && _factory->isReady();
         }
     }
 }

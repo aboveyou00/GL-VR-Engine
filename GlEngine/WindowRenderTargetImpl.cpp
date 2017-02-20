@@ -5,8 +5,8 @@
 
 namespace GlEngine::Impl
 {
-    WindowRenderTargetImpl::WindowRenderTargetImpl(Window *window)
-        : RenderTargetImpl(),
+    WindowRenderTargetImpl::WindowRenderTargetImpl(Window *window, CameraComponent *camera)
+        : RenderTargetImpl(camera),
           _window(window), deviceContext(_window->GetDeviceContext()),
           lastWidth(0), lastHeight(0),
           initialized(false)
@@ -16,15 +16,15 @@ namespace GlEngine::Impl
     {
     }
 
-    bool WindowRenderTargetImpl::Initialize()
+    bool WindowRenderTargetImpl::InitializeAsync()
     {
-        if (!RenderTargetImpl::Initialize()) return false;
+        if (!RenderTargetImpl::InitializeAsync()) return false;
         if (!CreateContext()) return false;
         return initialized = true;
     }
-    void WindowRenderTargetImpl::Shutdown()
+    void WindowRenderTargetImpl::ShutdownAsync()
     {
-        RenderTargetImpl::Shutdown();
+        RenderTargetImpl::ShutdownAsync();
         wglDeleteContext(contextHandle);
     }
     bool WindowRenderTargetImpl::InitializeGraphics()
@@ -83,7 +83,7 @@ namespace GlEngine::Impl
         return true;
     }
 
-    WindowRenderTargetImpl::operator bool()
+    bool WindowRenderTargetImpl::isReady()
     {
         return initialized;
     }

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "IService.h"
-#include "IComponent.h"
-#include "IGraphicsComponent.h"
+#include "IInitializable.h"
 #include "TaskType.h"
 #include <queue>
 #include "GameLoop.h"
@@ -11,7 +10,7 @@ namespace GlEngine
 {
     class Task;
 
-    class ENGINE_SHARED ResourceLoader : public IService, public IComponent
+    class ENGINE_SHARED ResourceLoader : public IService, public IInitializable
     {
     public:
         ResourceLoader();
@@ -24,8 +23,8 @@ namespace GlEngine
 
         std::string name() override;
 
-        void QueueInitialize(IComponent *c, bool reentrant = false);
-        void QueueShutdown(IComponent *c);
+        void QueueInitialize(IAsyncInitializable *c, bool reentrant = false);
+        void QueueShutdown(IAsyncInitializable *c);
 
         bool TickGraphics();
         void ShutdownGraphics();
@@ -35,9 +34,9 @@ namespace GlEngine
         std::vector<GameLoop*> thread_pool;
         int worker_count = 0;
         std::deque<Task*> task_queue;
-        std::vector<IComponent*> complete_resources;
+        std::vector<IAsyncInitializable*> complete_resources;
 
-        void queueTask(TaskType type, IComponent *c);
+        void queueTask(TaskType type, IAsyncInitializable *c);
 
         bool isInitialized = false, isShuttingDown = false;
         void cancelInitializeTasks();

@@ -8,6 +8,10 @@
 #include "WindowManager.h"
 #include "ResourceLoader.h"
 
+#include "CameraComponent.h"
+#include "Frame.h"
+#include "RenderTarget.h"
+
 namespace GlEngine
 {
     namespace Impl
@@ -38,12 +42,11 @@ namespace GlEngine
             Engine::GetInstance().GetWindowManager().Destroy(dummyWindow);
         }
 
-        void GraphicsControllerImpl::AddGraphicsContext(GraphicsContext *graphicsContext)
+        void GraphicsControllerImpl::AddRenderTarget(RenderTarget *target)
         {
-            assert(graphicsContextCount <= MAX_GRAPHICS_CONTEXTS);
-            graphicsContexts[graphicsContextCount++] = graphicsContext;
+            renderTargets.push_back(target);
             auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-            resources->QueueInitialize(graphicsContext);
+            resources->QueueInitialize(target);
         }
 
         rt_mutex &GraphicsControllerImpl::GetMutex()
@@ -54,7 +57,7 @@ namespace GlEngine
         void GraphicsControllerImpl::MakeDefaultContext()
         {
             dummyWindow = Engine::GetInstance().GetWindowManager().Create();
-            
+
             PIXELFORMATDESCRIPTOR pfd =
             {
                 sizeof(PIXELFORMATDESCRIPTOR),
@@ -121,8 +124,40 @@ namespace GlEngine
             auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
             resources.TickGraphics();
 
-            for (size_t q = 0; q < graphicsContextCount; q++)
-                graphicsContexts[q]->Tick(delta);
+            std::vector<RenderTarget*> targets;
+            std::vector<Frame*> frames;
+
+            ScopedLock _lock(_lock);
+
+            for (size_t q = 0; q < renderTargets.size(); q++)
+            {
+                auto target = renderTargets[q];
+                if (!target->isReady() || !target->GetShouldRender()) continue;
+                targets.push_back(target);
+                target->Prepare();
+
+                auto thisFrame = target->camera()->frame();
+                if (std::find(frames.begin(), frames.end(), thisFrame) == frames.end())
+                {
+                    frames.push_back(thisFrame);
+                }
+            }
+            if (targets.size() == 0) return;
+
+            for (size_t q = 0; q < frames.size(); q++)
+            {
+                frames[q]->TickGraphics(delta);
+            }
+
+            for (size_t q = 0; q < targets.size(); q++)
+            {
+                targets[q]->Render();
+            }
+
+            for (size_t q = 0; q < targets.size(); q++)
+            {
+                targets[q]->Flip();
+            }
         }
         void GraphicsControllerImpl::ShutdownGraphicsThread()
         {

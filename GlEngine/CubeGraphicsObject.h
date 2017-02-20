@@ -16,7 +16,7 @@ namespace GlEngine
         }
         ~CubeGraphicsObject();
 
-        virtual bool Initialize() override;
+        virtual bool InitializeAsync() override;
 
         virtual std::string name() override;
 

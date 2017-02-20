@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Camera.h"
-
 namespace GlEngine
 {
     class ENGINE_SHARED ViewPort

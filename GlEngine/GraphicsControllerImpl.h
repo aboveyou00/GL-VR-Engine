@@ -1,26 +1,24 @@
 #pragma once
 
-#include "IGameComponent.h"
-#include "Camera.h"
 #include "GameLoop.h"
-#include "GraphicsContext.h"
 
 namespace GlEngine
 {
     class Window;
+    class RenderTarget;
 
     namespace Impl
     {
-        class ENGINE_SHARED GraphicsControllerImpl : public IComponent
+        class ENGINE_SHARED GraphicsControllerImpl : public IInitializable
         {
         public:
             GraphicsControllerImpl();
             ~GraphicsControllerImpl();
 
-            virtual bool Initialize();
-            virtual void Shutdown();
+            virtual bool Initialize() override;
+            virtual void Shutdown() override;
 
-            void AddGraphicsContext(GraphicsContext *graphicsContext);
+            void AddRenderTarget(RenderTarget *target);
 
             rt_mutex &GetMutex();
 
@@ -30,9 +28,7 @@ namespace GlEngine
             rt_mutex _lock;
             GameLoop _loop;
 
-            static const int MAX_GRAPHICS_CONTEXTS = 16;
-            GraphicsContext *graphicsContexts[MAX_GRAPHICS_CONTEXTS];
-            size_t graphicsContextCount = 0;
+            std::vector<RenderTarget*> renderTargets;
 
             Window *dummyWindow;
             void MakeDefaultContext();

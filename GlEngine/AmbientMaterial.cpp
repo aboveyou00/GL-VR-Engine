@@ -12,11 +12,11 @@
 namespace GlEngine
 {
     AmbientMaterial::AmbientMaterial(Vector<3> color)
-        : texture(nullptr), color(color)
+        : Material("AmbientMaterial"), texture(nullptr), color(color)
     {
     }
     AmbientMaterial::AmbientMaterial(Texture *texture)
-        : texture(texture)
+        : Material("AmbientMaterial"), texture(texture)
     {
     }
     AmbientMaterial::~AmbientMaterial()
@@ -57,11 +57,7 @@ namespace GlEngine
         return attrs;
     }
 
-    std::string AmbientMaterial::name()
-    {
-        return "AmbientMaterial";
-    }
-    AmbientMaterial::operator bool()
+    bool AmbientMaterial::isReady()
     {
         return true;
     }

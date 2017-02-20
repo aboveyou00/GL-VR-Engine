@@ -9,15 +9,15 @@
 namespace GlEngine
 {
     PhongMaterial::PhongMaterial(Vector<3> color, Vector<3> reflectionCoef, float shininess)
-        : texture(nullptr), texture2(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
+        : Material("PhongMaterial"), texture(nullptr), texture2(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
     {
     }
     PhongMaterial::PhongMaterial(Texture *texture, Vector<3> reflectionCoef, float shininess)
-        : texture(texture), texture2(nullptr), reflectionCoef(reflectionCoef), shininess(shininess)
+        : Material("PhongMaterial"), texture(texture), texture2(nullptr), reflectionCoef(reflectionCoef), shininess(shininess)
     {
     }
     PhongMaterial::PhongMaterial(Texture *texture, Texture *texture2, Vector<3> reflectionCoef, float shininess)
-        : texture(texture), texture2(texture2), reflectionCoef(reflectionCoef), shininess(shininess)
+        : Material("PhongMaterial"), texture(texture), texture2(texture2), reflectionCoef(reflectionCoef), shininess(shininess)
     {
     }
     PhongMaterial::~PhongMaterial()
@@ -97,9 +97,10 @@ namespace GlEngine
     {
         return "PhongMaterial";
     }
-    PhongMaterial::operator bool()
+
+    bool PhongMaterial::isReady()
     {
         if (texture == nullptr) return true;
-        return !!*texture && (texture2 == nullptr || !!*texture2);
+        return texture->isReady() && (texture2 == nullptr || texture2->isReady());
     }
 }

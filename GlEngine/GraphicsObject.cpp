@@ -26,12 +26,12 @@ namespace GlEngine
     {
     }
 
-    bool GraphicsObject::Initialize()
+    bool GraphicsObject::InitializeAsync()
     {
         if (initialized) return true;
         return initialized = true;
     }
-    void GraphicsObject::Shutdown()
+    void GraphicsObject::ShutdownAsync()
     {
         initialized = false;
     }

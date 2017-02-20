@@ -2,7 +2,7 @@
 
 namespace GlEngine
 {
-    class ENGINE_SHARED IComponent
+    class ENGINE_SHARED IInitializable
     {
     public:
         virtual bool Initialize() = 0;

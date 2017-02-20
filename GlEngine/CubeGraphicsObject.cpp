@@ -11,9 +11,9 @@ namespace GlEngine
     {
     }
 
-    bool CubeGraphicsObject::Initialize()
+    bool CubeGraphicsObject::InitializeAsync()
     {
-        if (!GraphicsObject::Initialize()) return false;
+        if (!GraphicsObject::InitializeAsync()) return false;
 
         SetMaterial(_mat);
 

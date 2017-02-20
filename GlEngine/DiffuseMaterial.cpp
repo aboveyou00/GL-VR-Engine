@@ -11,7 +11,7 @@
 namespace GlEngine
 {
     DiffuseMaterial::DiffuseMaterial(Vector<3> color, Vector<3> reflectionCoef)
-        : color(color), reflectionCoef(reflectionCoef)
+        : Material("DiffuseMaterial"), color(color), reflectionCoef(reflectionCoef)
     {
     }
     DiffuseMaterial::~DiffuseMaterial()
@@ -54,7 +54,8 @@ namespace GlEngine
     {
         return "DiffuseMaterial";
     }
-    DiffuseMaterial::operator bool()
+
+    bool DiffuseMaterial::isReady()
     {
         return true;
     }

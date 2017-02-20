@@ -1,12 +1,12 @@
 #pragma once
 
 #include "ILogger.h"
-#include "IComponent.h"
+#include "IInitializable.h"
 #include <fstream>
 
 namespace GlEngine
 {
-    class ENGINE_SHARED FileLogger : public ILogger, public IComponent
+    class ENGINE_SHARED FileLogger : public ILogger, public IInitializable
     {
     public:
         FileLogger(const char *const filename);

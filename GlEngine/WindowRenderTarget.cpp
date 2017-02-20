@@ -4,8 +4,8 @@
 
 namespace GlEngine
 {
-    WindowRenderTarget::WindowRenderTarget(Window *window)
-        : RenderTarget(new Impl::WindowRenderTargetImpl(window))
+    WindowRenderTarget::WindowRenderTarget(Window *window, CameraComponent *camera)
+        : RenderTarget(new Impl::WindowRenderTargetImpl(window, camera))
     {
     }
     WindowRenderTarget::~WindowRenderTarget()

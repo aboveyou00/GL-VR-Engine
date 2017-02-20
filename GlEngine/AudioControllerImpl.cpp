@@ -41,7 +41,7 @@ namespace GlEngine
             YSE::System().close();
         }
 
-        void AudioControllerImpl::Tick(float)
+        void AudioControllerImpl::Tick()
         {
             for (size_t q = 0; q < sources.size(); q++)
             {

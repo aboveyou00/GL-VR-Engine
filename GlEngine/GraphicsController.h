@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IInitializable.h"
 
 namespace GlEngine
 {
@@ -9,13 +9,15 @@ namespace GlEngine
         class GraphicsControllerImpl;
     }
 
-    class GraphicsContext;
+    class RenderTarget;
 
-    class ENGINE_SHARED GraphicsController : public IComponent
+    class ENGINE_SHARED GraphicsController : public IInitializable
     {
     private:
         GraphicsController();
         ~GraphicsController();
+
+        friend class RenderTarget;
 
         static GraphicsController _instance;
 
@@ -25,10 +27,8 @@ namespace GlEngine
             return _instance;
         }
 
-        virtual bool Initialize();
-        virtual void Shutdown();
-
-        void AddGraphicsContext(GraphicsContext *graphicsContext);
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
         virtual std::string name() override;
 
@@ -39,5 +39,7 @@ namespace GlEngine
 
     private:
         Impl::GraphicsControllerImpl *pimpl;
+
+        void addRenderTarget(RenderTarget *target);
     };
 }

@@ -3,6 +3,7 @@
 #include "GraphicsObject.h"
 #include "Vector.h"
 #include "Matrix.h"
+#include "Transform.h"
 
 namespace GlEngine
 {
@@ -10,14 +11,16 @@ namespace GlEngine
     {
     public:
         TransformedGraphicsObject();
+        TransformedGraphicsObject(GraphicsObject *obj, Transform transform);
+        TransformedGraphicsObject(GraphicsObject &obj, Transform transform);
         TransformedGraphicsObject(GraphicsObject &obj, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         TransformedGraphicsObject(GraphicsObject *obj, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         TransformedGraphicsObject(GraphicsObject &obj, Vector<3> position, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         TransformedGraphicsObject(GraphicsObject *obj, Vector<3> position, Matrix<4, 4> orientation = Matrix<4, 4>::Identity());
         ~TransformedGraphicsObject();
 
-        std::string name() override;
-        operator bool() override;
+        virtual std::string name() override;
+        virtual bool isReady() override;
 
         void BuildVao(VaoFactory &vao) override;
         void RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount) override;

@@ -22,10 +22,10 @@ namespace GlEngine
         return ptr;
     }
 
-    bool FbxGraphicsObject::Initialize()
+    bool FbxGraphicsObject::InitializeAsync()
     {
         if (!FbxLoader::Load(filename, this)) return false;
-        return VboGraphicsObject::Initialize();
+        return VboGraphicsObject::InitializeAsync();
     }
 
     std::string FbxGraphicsObject::name()

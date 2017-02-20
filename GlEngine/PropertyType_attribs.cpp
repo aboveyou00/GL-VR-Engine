@@ -482,7 +482,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Texture*>::set_glsl_uniform(unsigned uniformLocation, const T &value)
         {
-            assert(!!*value);
+            assert(value->isReady());
             glUniform1i(uniformLocation, value->glslTextureLocation());
         }
         constexpr PropertyFlag PropertyType_attribs<Texture*>::default_property_flags()

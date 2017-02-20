@@ -28,9 +28,9 @@ namespace GlEngine
         pimpl->Shutdown();
     }
 
-    void AudioController::Tick(float delta)
+    void AudioController::Tick(float)
     {
-        pimpl->Tick(delta);
+        pimpl->Tick();
     }
 
     IAudioSource *AudioController::CreateAudioSource()

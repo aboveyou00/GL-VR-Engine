@@ -36,9 +36,12 @@ namespace GlEngine
         ManageCollisions();
     }
 
-    void Space::Add(GameObject * gameObject)
+    void Space::Add(GameObject *gameObject)
     {
-        Add(gameObject->actor());
+        gameObject;
+        assert(false);
+        //TODO: fix!
+        //Add(gameObject->actor());
     }
 
     void Space::Add(Actor * actor)

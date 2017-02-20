@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IGraphicsComponent.h"
+#include "IAsyncInitializable.h"
 #include "VbObject.h"
 
 namespace GlEngine
 {
     class VbObjectAttribList;
 
-    class ENGINE_SHARED VaObject : public IGraphicsComponent
+    class ENGINE_SHARED VaObject : public IAsyncInitializable
     {
     public:
         VaObject();
@@ -15,8 +15,8 @@ namespace GlEngine
         VaObject(unsigned vao, std::vector<VbObjectAttribList*> *vbo_attribs);
         ~VaObject();
 
-        virtual bool Initialize() override;
-        virtual void Shutdown() override;
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;
 
@@ -24,7 +24,7 @@ namespace GlEngine
 
         virtual std::string name() override;
 
-        virtual operator bool() override;
+        virtual bool isReady() override;
 
         inline std::vector<VbObjectAttribList*> *GetVboAttributes()
         {

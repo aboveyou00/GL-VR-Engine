@@ -32,14 +32,15 @@ namespace GlEngine
             _frameStack[q]->Shutdown();
         }
     }
-    void FrameStack::Tick(float delta)
-    {
-        if (stackIdx != -1) _frameStack[stackIdx]->Tick(delta);
-    }
 
     std::string FrameStack::name()
     {
         return "FrameStack";
+    }
+
+    void FrameStack::Tick(float delta)
+    {
+        if (stackIdx != -1) _frameStack[stackIdx]->Tick(delta);
     }
 
     void FrameStack::PopFrame()
@@ -56,12 +57,6 @@ namespace GlEngine
     {
         if (stackIdx == -1) return nullptr;
         return _frameStack[stackIdx];
-    }
-
-    void FrameStack::Update(GraphicsContext &ctx)
-    {
-        if (stackIdx == -1) return;
-        _frameStack[stackIdx]->Update(ctx);
     }
 
     void FrameStack::HandleEvent(Events::Event &evt)

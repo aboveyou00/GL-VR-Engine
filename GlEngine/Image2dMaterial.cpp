@@ -6,7 +6,7 @@
 namespace GlEngine
 {
     Image2dMaterial::Image2dMaterial()
-        : Material(true)//,
+        : Material("Image2dMaterial", true)//,
           //singleShader(GlEngine::Shader::Create("Shaders", "tex_2d"))
     {
     }
@@ -57,9 +57,10 @@ namespace GlEngine
     {
         return "Image2dMaterial";
     }
-    Image2dMaterial::operator bool()
+
+    bool Image2dMaterial::isReady()
     {
         assert(false);
-        return tex && *tex;// && singleShader && *singleShader;
+        return tex && tex->isReady();// && singleShader && *singleShader;
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IInitializable.h"
 
 static const wchar_t *const WINDOW_CLASS_NAME = L"GlEngine::Window";
 static const wchar_t *const WINDOW_INITIAL_TITLE = L"GlEngine";
@@ -12,7 +12,7 @@ using time_point = std::chrono::high_resolution_clock::time_point;
 
 namespace GlEngine
 {
-    class ENGINE_SHARED Window : public IComponent
+    class ENGINE_SHARED Window : public IInitializable
     {
     public:
         Window();

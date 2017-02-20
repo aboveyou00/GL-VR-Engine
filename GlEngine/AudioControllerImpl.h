@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IGameComponent.h"
+#include "IInitializable.h"
 #include "YseAudioSource.h"
 
 namespace GlEngine
@@ -9,16 +9,16 @@ namespace GlEngine
 
     namespace Impl
     {
-        class AudioControllerImpl : public IGameComponent
+        class AudioControllerImpl : public IInitializable
         {
         public:
             AudioControllerImpl();
             ~AudioControllerImpl();
 
-            bool Initialize();
-            void Shutdown();
+            virtual bool Initialize() override;
+            virtual void Shutdown() override;
 
-            void Tick(float delta);
+            void Tick();
 
             IAudioSource *CreateAudioSource();
             void ReleaseAudioSource(IAudioSource *source);

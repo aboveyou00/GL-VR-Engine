@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IInitializable.h"
 #include "EventQueue.h"
 #include "ServiceProvider.h"
 #include "Window.h"
@@ -13,7 +13,7 @@ namespace GlEngine
     class GraphicsController;
     class AudioController;
 
-    class ENGINE_SHARED Engine : public IComponent
+    class ENGINE_SHARED Engine : public IInitializable
     {
     private:
         Engine();
@@ -27,8 +27,8 @@ namespace GlEngine
             return _instance;
         }
 
-        bool Initialize() override;
-        void Shutdown() override;
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
         WindowManager &GetWindowManager();
         GraphicsController &GetGlController();

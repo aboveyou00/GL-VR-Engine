@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IGameComponent.h"
+#include "IInitializable.h"
 #include "IAudioSource.h"
 
 namespace GlEngine
@@ -10,7 +10,7 @@ namespace GlEngine
         class AudioControllerImpl;
     }
 
-    class ENGINE_SHARED AudioController : public IGameComponent
+    class ENGINE_SHARED AudioController : public IInitializable
     {
     private:
         AudioController();
@@ -24,8 +24,8 @@ namespace GlEngine
             return _instance;
         }
 
-        bool Initialize();
-        void Shutdown();
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
 
         void Tick(float delta);
 

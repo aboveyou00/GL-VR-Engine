@@ -30,7 +30,6 @@ namespace GlEngine
         }
         ShaderFactory::~ShaderFactory()
         {
-            Shutdown();
         }
 
         void ShaderFactory::AddPropertySource(PropertySource *source)
@@ -86,7 +85,7 @@ namespace GlEngine
                 AddPropertyProviders(mat);
         }
 
-        bool ShaderFactory::Initialize()
+        bool ShaderFactory::InitializeAsync()
         {
             ScopedLock lock(_mux);
 
@@ -116,7 +115,7 @@ namespace GlEngine
 
             return true;
         }
-        void ShaderFactory::Shutdown()
+        void ShaderFactory::ShutdownAsync()
         {
         }
         bool ShaderFactory::InitializeGraphics()
@@ -130,7 +129,7 @@ namespace GlEngine
         void ShaderFactory::Push()
         {
             ScopedLock lock(_mux);
-            assert(!!*this);
+            assert(this->isReady());
 
             glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
 
@@ -213,10 +212,10 @@ namespace GlEngine
             this->_shader = Shader::Create(source);
         }
 
-        ShaderFactory::operator bool()
+        bool ShaderFactory::isReady()
         {
             ScopedLock lock(_mux);
-            return _shader != nullptr && !!*_shader;
+            return _shader && _shader->isReady();
         }
 
         std::string ShaderFactory::name()

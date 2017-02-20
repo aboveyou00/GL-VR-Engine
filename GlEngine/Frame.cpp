@@ -1,47 +1,75 @@
 #include "stdafx.h"
 #include "Frame.h"
 #include "GameObject.h"
-#include "CameraGameObject.h"
-#include "GraphicsContext.h"
 #include "Event.h"
+#include "CameraComponent.h"
+#include "RenderTarget.h"
 
 namespace GlEngine
 {
     Frame::Frame()
-        : initialized(false)
+        : _initialized(false)
     {
     }
     Frame::~Frame()
     {
     }
 
+    std::string Frame::name()
+    {
+        return "Frame";
+    }
+
     bool Frame::Initialize()
     {
-        if (initialized) return true;
-        initialized = true;
-        for (size_t q = 0; q < objects.size(); q++)
-        {
-            if (!objects[q]->Initialize()) return false;
-        }
+        if (_initialized) return true;
+        _initialized = true;
         return true;
     }
     void Frame::Shutdown()
     {
-        if (!initialized) return;
-        initialized = false;
-        for (size_t q = 0; q < objects.size(); q++)
-            objects[q]->Shutdown();
-    }
-    void Frame::Tick(float delta)
-    {
-        for (size_t q = 0; q < objects.size(); q++)
-            if (objects[q]->active() && objects[q]->requiresTick())
-                objects[q]->Tick(delta);
+        if (!_initialized) return;
+        _initialized = false;
     }
 
-    std::string Frame::name()
+    void Frame::Tick(float delta)
     {
-        return "Frame";
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            if (_children[q]->active()) _children[q]->Tick(delta);
+        }
+    }
+
+    void Frame::HandleEvent(Events::Event &evt)
+    {
+        if (evt.IsHandled()) return;
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            if (!_children[q]->active()) continue;
+            _children[q]->HandleEvent(evt);
+            if (evt.IsHandled()) return;
+        }
+    }
+
+    void Frame::TickGraphics(float delta)
+    {
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            if (!_children[q]->active()) continue;
+            _children[q]->TickGraphics(delta);
+        }
+    }
+    void Frame::UpdateGraphics()
+    {
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            if (!_children[q]->active()) continue;
+            _children[q]->UpdateGraphics();
+        }
+    }
+    void Frame::Render(RenderTargetLayer layer)
+    {
+        layer;
     }
 
     void Frame::FramePushed(FrameStack&)
@@ -57,55 +85,16 @@ namespace GlEngine
     {
     }
 
-    void Frame::DestroyGameObject(GameObject *gobj)
+    void Frame::setCurrentRenderTarget(RenderTarget *target)
     {
-        auto idx = std::find(objects.begin(), objects.end(), gobj);
-        if (idx != objects.end())
-        {
-            objects.erase(idx);
-            gobj->RemoveFromFrame(this);
-            if (initialized) gobj->Shutdown();
-            delete gobj;
-        }
+        currentRenderTarget = nullptr;
+        if (target == nullptr) setCurrentCamera(nullptr);
+        else setCurrentCamera(target->camera());
     }
-    bool Frame::OwnsGameObject(GameObject *gobj)
+    void Frame::setCurrentCamera(CameraComponent *camera)
     {
-        auto idx = std::find(objects.begin(), objects.end(), gobj);
-        return idx != objects.end();
-    }
-
-    void Frame::Update(GraphicsContext &ctx)
-    {
-        auto &map = this->context_map[&ctx];
-        for (size_t q = 0; q < objects.size(); q++)
-        {
-            auto obj = objects[q];
-            auto unique = obj->requiresUniqueGraphics();
-            auto &map_to_use = unique ? map : gobj_map;
-            auto idx = map_to_use.find(obj);
-            if (idx == map_to_use.end())
-            {
-                map_to_use[obj] = obj->CreateGraphicsObject(unique ? nullptr : &ctx);
-                //if (initialized) obj->Initialize(); //TODO: Why is this here?
-            }
-            else if (obj->requiresGraphicsTick() && !unique)
-            {
-                obj->UpdateGraphicsObject(&ctx, idx->second);
-                //TODO: get this working for game objects that require unique graphics also
-            }
-        }
-
-        ctx.Update(map, gobj_map);
-    }
-    
-    void Frame::HandleEvent(Events::Event &evt)
-    {
-        if (evt.IsHandled()) return;
-        for (size_t q = 0; q < objects.size(); q++)
-        {
-            if (!objects[q]->active()) continue;
-            objects[q]->HandleEvent(evt);
-            if (evt.IsHandled()) return;
-        }
+        if (currentCamera != nullptr) currentCamera->Pop();
+        else currentCamera = camera;
+        if (currentCamera != nullptr) currentCamera->Push();
     }
 }

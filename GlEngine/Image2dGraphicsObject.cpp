@@ -33,7 +33,7 @@ namespace GlEngine
         return Create(tex);
     }
 
-    bool Image2dGraphicsObject::Initialize()
+    bool Image2dGraphicsObject::InitializeAsync()
     {
         AddVertex({ 0, 0, 0 }, { 0, 0 }, { 0, 0, 1 });
         AddVertex({ 1, 0, 0 }, { 1, 0 }, { 0, 0, 1 });
@@ -46,7 +46,7 @@ namespace GlEngine
 
         return true;
     }
-    void Image2dGraphicsObject::Shutdown()
+    void Image2dGraphicsObject::ShutdownAsync()
     {
     }
 
@@ -59,7 +59,7 @@ namespace GlEngine
     {
         if (layer != GlEngine::RenderTargetLayer::Layer2d) return;
         auto scale_mat = Matrix<4, 4>::Identity();
-        if (tex && *tex) scale_mat = Matrix<4, 4>::ScaleMatrix({ tex->GetWidth(), tex->GetHeight(), 1 });
+        if (tex && tex->isReady()) scale_mat = Matrix<4, 4>::ScaleMatrix({ tex->GetWidth(), tex->GetHeight(), 1 });
         scale_mat = Util::GetAlignmentMatrix(align) * scale_mat;
         GlEngine::MatrixStack::Model.mult(scale_mat);
         VboGraphicsObject::PreRender(layer);

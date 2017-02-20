@@ -3,19 +3,19 @@
 
 namespace GlEngine
 {
-    Material::Material(bool is2d)
-        : is2d(is2d)
+    Material::Material(std::string name, bool is2d)
+        : _name(name), is2d(is2d)
     {
     }
     Material::~Material()
     {
     }
 
-    bool Material::Initialize()
+    bool Material::InitializeAsync()
     {
         return true;
     }
-    void Material::Shutdown()
+    void Material::ShutdownAsync()
     {
     }
     bool Material::InitializeGraphics()
@@ -24,6 +24,16 @@ namespace GlEngine
     }
     void Material::ShutdownGraphics()
     {
+    }
+
+    bool Material::isReady()
+    {
+        return true;
+    }
+
+    std::string Material::name()
+    {
+        return _name;
     }
 
     RenderTargetLayer Material::GetRenderTargetLayer()

@@ -5,23 +5,23 @@
 
 namespace GlEngine::Impl
 {
-    TextureRenderTargetImpl::TextureRenderTargetImpl(Texture *texture)
-        : RenderTargetImpl(), texture(texture)
+    TextureRenderTargetImpl::TextureRenderTargetImpl(Texture *texture, CameraComponent *camera)
+        : RenderTargetImpl(camera), texture(texture)
     {
     }
     TextureRenderTargetImpl::~TextureRenderTargetImpl()
     {
     }
 
-    bool TextureRenderTargetImpl::Initialize()
+    bool TextureRenderTargetImpl::InitializeAsync()
     {
-        if (!RenderTargetImpl::Initialize()) return false;
+        if (!RenderTargetImpl::InitializeAsync()) return false;
 
         return true;
     }
-    void TextureRenderTargetImpl::Shutdown()
+    void TextureRenderTargetImpl::ShutdownAsync()
     {
-        RenderTargetImpl::Shutdown();
+        RenderTargetImpl::ShutdownAsync();
     }
     bool TextureRenderTargetImpl::InitializeGraphics()
     {
@@ -98,7 +98,7 @@ namespace GlEngine::Impl
     {
     }
 
-    TextureRenderTargetImpl::operator bool()
+    bool TextureRenderTargetImpl::isReady()
     {
         return true;
     }

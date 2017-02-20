@@ -84,7 +84,7 @@ namespace GlEngine
         for (size_t q = 0; q < complete_resources.size(); q++)
         {
             auto c = complete_resources[q];
-            if (dynamic_cast<IGraphicsComponent*>(c) != nullptr) queueTask(TaskType::ShutdownGraphics, c);
+            if (c->needsGraphics()) queueTask(TaskType::ShutdownGraphics, c);
             queueTask(TaskType::Shutdown, c);
         }
         complete_resources.clear();
@@ -101,7 +101,7 @@ namespace GlEngine
         }
     }
 
-    void ResourceLoader::QueueInitialize(IComponent *c, bool reentrant)
+    void ResourceLoader::QueueInitialize(IAsyncInitializable *c, bool reentrant)
     {
         assert(c != nullptr);
 
@@ -127,7 +127,7 @@ namespace GlEngine
 
         queueTask(TaskType::Initialize, c);
     }
-    void ResourceLoader::QueueShutdown(IComponent *c)
+    void ResourceLoader::QueueShutdown(IAsyncInitializable *c)
     {
         assert(c != nullptr);
 
@@ -144,11 +144,10 @@ namespace GlEngine
         assert(find_complete != complete_resources.end());
         complete_resources.erase(find_complete);
 
-        auto gfx = dynamic_cast<IGraphicsComponent*>(c);
-        if (gfx != nullptr) queueTask(TaskType::ShutdownGraphics, c);
+        if (c->needsGraphics()) queueTask(TaskType::ShutdownGraphics, c);
         else queueTask(TaskType::Shutdown, c);
     }
-    void ResourceLoader::queueTask(TaskType type, IComponent *c)
+    void ResourceLoader::queueTask(TaskType type, IAsyncInitializable *c)
     {
         assert(c != nullptr);
 
@@ -166,7 +165,7 @@ namespace GlEngine
             auto task = nextGraphicsTask();
             if (task == nullptr) break;
 
-            IGraphicsComponent &c = task->graphicsComponent();
+            IAsyncInitializable &c = task->component();
 
             switch (task->type)
             {
@@ -245,7 +244,7 @@ namespace GlEngine
     {
         Task *task = nextWorkerTask();
         if (task == nullptr) return;
-        IComponent &c = task->component();
+        IAsyncInitializable &c = task->component();
 
         auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
 
@@ -253,7 +252,7 @@ namespace GlEngine
         {
         case TaskType::Initialize:
             logger->Log(LogType::Info, "Asynchronous resource loader initializing %s (IComponent)...", c.name().c_str());
-            if (!c.Initialize())
+            if (!c.InitializeAsync())
             {
                 logger->Log(LogType::ErrorC, "Asynchronous resource loader failed to initialize %s (IComponent)", c.name().c_str());
                 removeTask(task);
@@ -262,7 +261,7 @@ namespace GlEngine
             {
                 logger->Log(LogType::Info, "Asynchronous resource loader initialized %s (IComponent).", c.name().c_str());
                 ScopedLock _lock(_mutex);
-                if (task->state == TaskState::ThrowAway || dynamic_cast<IGraphicsComponent*>(&c) == nullptr) removeTask(task);
+                if (task->state == TaskState::ThrowAway || !c.needsGraphics()) removeTask(task);
                 else
                 {
                     task->type = TaskType::InitializeGraphics;
@@ -273,7 +272,7 @@ namespace GlEngine
 
         case TaskType::Shutdown:
             logger->Log(LogType::Info, "Asynchronous resource loader shutting down %s (IComponent)...", c.name().c_str());
-            c.Shutdown();
+            c.ShutdownAsync();
             logger->Log(LogType::Info, "Asynchronous resource loader shut down %s (IComponent).", c.name().c_str());
             removeTask(task);
             break;

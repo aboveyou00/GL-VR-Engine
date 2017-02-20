@@ -25,7 +25,7 @@ namespace GlEngine
 
         void MakeCurrent();
 
-        operator bool();
+        bool isReady();
 
     private:
         VbObject vbo;

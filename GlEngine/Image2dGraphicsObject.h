@@ -17,8 +17,8 @@ namespace GlEngine
         static Image2dGraphicsObject *Create(Texture *tex);
         static Image2dGraphicsObject *Create(const char *path);
         
-        virtual bool Initialize() override;
-        virtual void Shutdown() override;
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
 
         virtual std::string name() override;
 

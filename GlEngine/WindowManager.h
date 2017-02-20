@@ -1,13 +1,13 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IInitializable.h"
 #include "Threading.h"
 
 namespace GlEngine
 {
     class Window;
 
-    class ENGINE_SHARED WindowManager : public IComponent
+    class ENGINE_SHARED WindowManager : public IInitializable
     {
     private:
         WindowManager();

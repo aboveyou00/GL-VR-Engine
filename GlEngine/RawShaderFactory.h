@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ShaderFactory.h"
-#include "IGraphicsComponent.h"
 #include "Shader.h"
 
 namespace GlEngine::ShaderFactory
@@ -12,8 +11,8 @@ namespace GlEngine::ShaderFactory
         RawShaderFactory(ShaderSource* shaderSource, std::map<size_t, ShaderProp*>* uniforms = nullptr);
         ~RawShaderFactory();
 
-        virtual bool Initialize() override;
-        virtual void Shutdown() override;
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
 
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;

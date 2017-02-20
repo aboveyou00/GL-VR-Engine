@@ -1,16 +1,21 @@
 #include "stdafx.h"
 #include "RenderTarget.h"
 #include "RenderTargetImpl.h"
+#include "CameraComponent.h"
+#include "Frame.h"
 
 namespace GlEngine
 {
     RenderTarget::RenderTarget(Impl::RenderTargetImpl *pimpl)
-        : pimpl(pimpl), _viewMode(RenderTargetViewMode::Relative), _viewMatrix(Matrix<4, 4>::Identity())
+        : pimpl(pimpl),
+          _viewMode(RenderTargetViewMode::Relative),
+          _viewMatrix(Matrix<4, 4>::Identity())
     {
     }
     RenderTarget::~RenderTarget()
     {
-        Shutdown();
+        //TODO: Don't call this here!
+        ShutdownAsync();
         if (pimpl != nullptr)
         {
             delete pimpl;
@@ -18,13 +23,13 @@ namespace GlEngine
         }
     }
 
-    bool RenderTarget::Initialize()
+    bool RenderTarget::InitializeAsync()
     {
-        return pimpl->Initialize();
+        return pimpl->InitializeAsync();
     }
-    void RenderTarget::Shutdown()
+    void RenderTarget::ShutdownAsync()
     {
-        pimpl->Shutdown();
+        pimpl->ShutdownAsync();
     }
     bool RenderTarget::InitializeGraphics()
     {
@@ -39,6 +44,12 @@ namespace GlEngine
     {
         return "RenderTarget";
     }
+
+    bool RenderTarget::isReady()
+    {
+        return pimpl->isReady();
+    }
+
     void RenderTarget::SetViewPort(RenderTargetLayer layer, ViewPort * viewPort)
     {
         pimpl->SetViewPort(layer, viewPort);
@@ -56,6 +67,27 @@ namespace GlEngine
     bool RenderTarget::GetShouldRender()
     {
         return pimpl->GetShouldRender();
+    }
+
+    void RenderTarget::Render()
+    {
+        if (!GetShouldRender()) return;
+
+        auto thisFrame = camera()->frame();
+        thisFrame->setCurrentRenderTarget(this);
+
+        thisFrame->UpdateGraphics();
+
+        this->PrePush();
+        for (auto layer = std::numeric_limits<RenderTargetLayer>::min(); layer <= std::numeric_limits<RenderTargetLayer>::max(); layer++)
+        {
+            this->Push(layer);
+            thisFrame->Render(layer);
+            this->Pop(layer);
+        }
+        this->PostPop();
+
+        thisFrame->setCurrentRenderTarget(nullptr);
     }
 
     void RenderTarget::Prepare()
@@ -102,8 +134,8 @@ namespace GlEngine
         _viewMatrix = mat;
     }
 
-    RenderTarget::operator bool()
+    CameraComponent *RenderTarget::camera()
     {
-        return !!*pimpl;
+        return pimpl->camera();
     }
 }

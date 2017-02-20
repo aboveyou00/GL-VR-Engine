@@ -1,6 +1,5 @@
 #pragma once
 
-#include "IGraphicsComponent.h"
 #include "RenderTargetLayer.h"
 #include "IPropertyProvider.h"
 
@@ -13,14 +12,14 @@ namespace GlEngine
 
     class VaoFactory;
 
-    class ENGINE_SHARED GraphicsObject : public IGraphicsComponent
+    class ENGINE_SHARED GraphicsObject : public IAsyncInitializable
     {
     public:
         GraphicsObject(bool autoinit = true);
         ~GraphicsObject();
 
-        bool Initialize() override;
-        void Shutdown() override;
+        bool InitializeAsync() override;
+        void ShutdownAsync() override;
         bool InitializeGraphics() override;
         void ShutdownGraphics() override;
 

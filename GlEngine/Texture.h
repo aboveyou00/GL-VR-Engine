@@ -1,11 +1,11 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IAsyncInitializable.h"
 #include "TextureFlag.h"
 
 namespace GlEngine
 {
-    class ENGINE_SHARED Texture : public IGraphicsComponent
+    class ENGINE_SHARED Texture : public IAsyncInitializable
     {
     public:
         static Texture *FromFile(const char *const path, TextureFlag flags = TextureFlag::None);
@@ -16,8 +16,8 @@ namespace GlEngine
         Texture(const char *const path, TextureFlag flags = TextureFlag::None);
 
     public:
-        virtual bool Initialize() override;
-        virtual void Shutdown() override;
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;
 
@@ -30,7 +30,7 @@ namespace GlEngine
 
         virtual std::string name() override;
 
-        virtual operator bool() override;
+        virtual bool isReady() override;
 
         const char *GetSource();
 

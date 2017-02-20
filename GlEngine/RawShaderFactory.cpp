@@ -13,12 +13,12 @@ namespace GlEngine::ShaderFactory
     RawShaderFactory::~RawShaderFactory()
     {
     }
-    bool RawShaderFactory::Initialize()
+    bool RawShaderFactory::InitializeAsync()
     {
         Recompile();
         return true;
     }
-    void RawShaderFactory::Shutdown()
+    void RawShaderFactory::ShutdownAsync()
     {
     }
     bool RawShaderFactory::InitializeGraphics()

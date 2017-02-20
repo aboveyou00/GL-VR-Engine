@@ -77,7 +77,7 @@ namespace GlEngine
                 SafeDelete(_verticesFactory);
                 SafeDelete(_facesFactory);
             }
-            else if (_vao) vao.Add(_vao);
+            else if (_vao.isReady()) vao.Add(_vao);
         }
 
     private:

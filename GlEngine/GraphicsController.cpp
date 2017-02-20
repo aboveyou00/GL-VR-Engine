@@ -28,13 +28,13 @@ namespace GlEngine
         pimpl->Shutdown();
     }
 
-    void GraphicsController::AddGraphicsContext(GraphicsContext *graphicsContext)
+    void GraphicsController::addRenderTarget(RenderTarget *target)
     {
-        pimpl->AddGraphicsContext(graphicsContext);
+        pimpl->AddRenderTarget(target);
     }
 
     std::string GraphicsController::name()
     {
-        return "GlController";
+        return "GraphicsController";
     }
 }

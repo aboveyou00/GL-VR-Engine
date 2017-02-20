@@ -32,8 +32,8 @@ namespace GlEngine::Impl
         void AddTriangle(Vector<3, uint16_t> indices);
         void AddQuad(Vector<4, uint16_t> indices);
 
-        virtual bool Initialize() override;
-        virtual void Shutdown() override;
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;
 
@@ -47,7 +47,7 @@ namespace GlEngine::Impl
 
         virtual std::string name() override;
 
-        virtual operator bool() override;
+        virtual bool isReady() override;
 
     protected:
         VaObject _vao;

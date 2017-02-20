@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "Task.h"
-#include "IGraphicsComponent.h"
 
 namespace GlEngine
 {
-    Task::Task(TaskType type, IComponent *c, TaskState state)
+    Task::Task(TaskType type, IAsyncInitializable *c, TaskState state)
         : type(type), _c(c), state(state)
     {
     }
@@ -12,12 +11,8 @@ namespace GlEngine
     {
     }
 
-    IComponent &Task::component()
+    IAsyncInitializable &Task::component()
     {
         return *_c;
-    }
-    IGraphicsComponent &Task::graphicsComponent()
-    {
-        return *dynamic_cast<IGraphicsComponent*>(_c);
     }
 }

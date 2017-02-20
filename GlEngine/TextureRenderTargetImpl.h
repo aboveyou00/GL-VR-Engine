@@ -8,11 +8,11 @@ namespace GlEngine::Impl
     class TextureRenderTargetImpl : public RenderTargetImpl
     {
     public:
-        TextureRenderTargetImpl(Texture *texture);
+        TextureRenderTargetImpl(Texture *texture, CameraComponent *camera);
         ~TextureRenderTargetImpl();
 
-        virtual bool Initialize() override;
-        virtual void Shutdown() override;
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;
 
@@ -28,7 +28,7 @@ namespace GlEngine::Impl
 
         virtual void Flip() override;
 
-        virtual operator bool() override;
+        virtual bool isReady() override;
 
     protected:
         Texture *texture;

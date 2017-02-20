@@ -2,143 +2,133 @@
 #include "GameObject.h"
 
 #include "MathUtils.h"
+#include "Frame.h"
+#include "Event.h"
 
 namespace GlEngine
 {
-    GameObject::GameObject(Vector<3> position, Matrix<4, 4> orientation)
-        : position(position), orientation(orientation), _frame(nullptr), _requiresUniqueGfx(false), _requiresTick(false), _requiresGraphicsTick(false)
+    GameObject::GameObject(Frame *frame, std::string name)
+        : _frame(frame), _name(name), _parent(nullptr)
     {
-        RequireTick(false);
+        assert(_frame != nullptr);
     }
     GameObject::~GameObject()
     {
     }
 
-    bool GameObject::Initialize()
+    Frame *GameObject::frame() const
     {
-        assert(_frame != nullptr);
-        return true;
+        return _frame;
     }
-    void GameObject::Shutdown()
+    std::string GameObject::name() const
     {
-    }
-    void GameObject::Tick(float)
-    {
-        auto body = actor()->body;
-        if (body != nullptr)
-        {
-            if (body->position[1] < -10) body->position += {0, 20, 0};
-            position = body->position;
-        }
+        return _name;
     }
 
-    void GameObject::AddToFrame(Frame *frame)
+    GameObject *GameObject::parent() const
     {
-        assert(frame != nullptr);
-        assert(_frame == nullptr);
-        _frame = frame;
+        return _parent;
     }
-    void GameObject::RemoveFromFrame(Frame *frame)
+    void GameObject::SetParent(GameObject *parent)
     {
-        assert(frame != nullptr);
-        assert(_frame == frame);
-        _frame = nullptr;
+        auto oldParent = _parent;
+        if (oldParent == parent) return;
+        if (oldParent != nullptr) collection_remove(oldParent->_children, this);
+        else collection_remove(_frame->_children, this);
+        if (parent != nullptr) parent->_children.push_back(this);
+        else _frame->_children.push_back(this);
     }
-
-    void GameObject::HandleEvent(Events::Event&)
+    const std::vector<GameObject*> &GameObject::children()
     {
-    }
-
-    void GameObject::UpdateGraphicsObject(GraphicsContext*, GraphicsObject*)
-    {
+        return _children;
     }
 
-    void GameObject::SetPosition(Vector<3> pos)
+    void GameObject::AddComponent(GameComponent *c)
     {
-        position = pos;
+        assert(c->_gameObject == nullptr);
+        this->_components.push_back(c);
     }
-    void GameObject::SetOrientation(Matrix<4, 4> orientation)
+    void GameObject::RemoveComponent(GameComponent *c)
     {
-        orientation = orientation;
+        assert(c->_gameObject == this);
+        collection_remove(this->_components, c);
+        c->_gameObject = nullptr;
     }
-    void GameObject::ApplyOrientation(Matrix<4, 4> relative)
+    const std::vector<GameComponent*> &GameObject::components()
     {
-        orientation *= relative;
-    }
-
-    void GameObject::Rotate(float radians, Vector<3> axis)
-    {
-        orientation *= Matrix<4, 4>::RotateMatrix(radians, axis);
-    }
-
-    void GameObject::RotateX(float radians)
-    {
-        orientation *= Matrix<4, 4>::PitchMatrix(radians);
-    }
-    void GameObject::RotateY(float radians)
-    {
-        orientation *= Matrix<4, 4>::YawMatrix(radians);
-    }
-    void GameObject::RotateZ(float radians)
-    {
-        orientation *= Matrix<4, 4>::RollMatrix(radians);
-    }
-
-    void GameObject::RotateDegrees(float degrees, Vector<3> axis)
-    {
-        Rotate((float)Util::degToRad(degrees), axis);
-    }
-    void GameObject::RotateDegreesX(float degrees)
-    {
-        RotateX((float)Util::degToRad(degrees));
-    }
-    void GameObject::RotateDegreesY(float degrees)
-    {
-        RotateY((float)Util::degToRad(degrees));
-    }
-    void GameObject::RotateDegreesZ(float degrees)
-    {
-        RotateZ((float)Util::degToRad(degrees));
-    }
-
-    void GameObject::Scale(float amt)
-    {
-        orientation *= Matrix<4, 4>::ScaleMatrix(amt);
-    }
-    void GameObject::Scale(float x, float y, float z)
-    {
-        Scale(Vector<3> { x, y, z });
-    }
-    void GameObject::Scale(Vector<3> amt)
-    {
-        orientation *= Matrix<4, 4>::ScaleMatrix(amt);
+        return _components;
     }
 
     void GameObject::Activate()
     {
         _active = true;
-        actor()->Activate();
     }
     void GameObject::Deactivate()
     {
         _active = false;
-        actor()->Deactivate();
     }
     bool GameObject::active() const
     {
         return _active;
     }
 
-    GameObjectType GameObject::type() const
+    void GameObject::Tick(float delta)
     {
-        return GameObjectType::Object3d;
+        for (size_t q = 0; q < _components.size(); q++)
+        {
+            auto c = _components[q];
+            if (c->_active)
+            {
+                c->Tick(delta);
+            }
+        }
     }
-    Frame *GameObject::frame() const
+
+    void GameObject::HandleEvent(Events::Event &evt)
     {
-        return _frame;
+        for (size_t q = 0; q < _components.size(); q++)
+        {
+            auto c = _components[q];
+            if (c->_active)
+            {
+                c->HandleEvent(evt);
+                if (evt.IsHandled())
+                    return;
+            }
+        }
     }
-    Actor *GameObject::actor()
+
+    void GameObject::TickGraphics(float delta)
     {
-        return &_actor;
+        for (size_t q = 0; q < _components.size(); q++)
+        {
+            auto c = _components[q];
+            if (c->_active)
+            {
+                c->TickGraphics(delta);
+            }
+        }
+    }
+    void GameObject::UpdateGraphics()
+    {
+        for (size_t q = 0; q < _components.size(); q++)
+        {
+            auto c = _components[q];
+            if (c->_active)
+            {
+                c->UpdateGraphics();
+            }
+        }
+    }
+    void GameObject::Render()
+    {
+        for (size_t q = 0; q < _components.size(); q++)
+        {
+            auto c = _components[q];
+            if (c->_active)
+            {
+                c->Render();
+            }
+        }
     }
 }

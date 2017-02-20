@@ -6,11 +6,11 @@
 
 namespace GlEngine
 {
-    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height, GlEngine::TextureFlag flags)
+    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height, CameraComponent *camera, GlEngine::TextureFlag flags)
         : RenderTarget(nullptr),
           Texture(width, height, TextureFlag::RenderTarget | flags)
     {
-        pimpl = new Impl::TextureRenderTargetImpl(this);
+        pimpl = new Impl::TextureRenderTargetImpl(this, camera);
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueInitialize(static_cast<Texture*>(this));
         //resources->QueueInitialize(this);
@@ -19,15 +19,15 @@ namespace GlEngine
     {
     }
 
-    bool TextureRenderTarget::Initialize()
+    bool TextureRenderTarget::InitializeAsync()
     {
-        if (!Texture::Initialize()) return false;
-        return RenderTarget::Initialize();
+        if (!Texture::InitializeAsync()) return false;
+        return RenderTarget::InitializeAsync();
     }
-    void TextureRenderTarget::Shutdown()
+    void TextureRenderTarget::ShutdownAsync()
     {
-        Texture::Shutdown();
-        RenderTarget::Shutdown();
+        Texture::ShutdownAsync();
+        RenderTarget::ShutdownAsync();
     }
 
     bool TextureRenderTarget::InitializeGraphics()

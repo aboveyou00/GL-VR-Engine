@@ -43,8 +43,8 @@ namespace GlEngine
         vbo.MakeCurrent();
     }
 
-    VbObjectAttribList::operator bool()
+    bool VbObjectAttribList::isReady()
     {
-        return !!vbo;
+        return vbo.isReady();
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IGraphicsComponent.h"
+#include "IAsyncInitializable.h"
 #include "Property.h"
 #include "Program.h"
 #include "PropertyType_attribs.h"
@@ -14,7 +14,7 @@ namespace GlEngine
         class Shader;
         class IPropertyProvider;
 
-        class ENGINE_SHARED ShaderFactory : public IGraphicsComponent
+        class ENGINE_SHARED ShaderFactory : public IAsyncInitializable
         {
         public:
             ShaderFactory();
@@ -54,8 +54,8 @@ namespace GlEngine
             Material *material();
             void SetMaterial(Material *mat);
 
-            virtual bool Initialize() override;
-            virtual void Shutdown() override;
+            virtual bool InitializeAsync() override;
+            virtual void ShutdownAsync() override;
 
             virtual bool InitializeGraphics() override;
             virtual void ShutdownGraphics() override;
@@ -105,7 +105,7 @@ namespace GlEngine
                 ProvideArrayProperty(prop, Struct<TArgs...>(args...));
             }
 
-            virtual operator bool() override;
+            virtual bool isReady() override;
             
             virtual std::string name() override;
 

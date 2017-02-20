@@ -1,62 +1,57 @@
 #pragma once
 
-#include "IGameComponent.h"
+#include "IInitializable.h"
+#include "RenderTargetLayer.h"
 #include <unordered_map>
+
+namespace GlEngine::Events
+{
+    class Event;
+}
 
 namespace GlEngine
 {
     class GameObject;
-    class CameraGameObject;
-    class GraphicsObject;
-    class GraphicsContext;
+    class RenderTarget;
+    class CameraComponent;
     class FrameStack;
-    namespace Events
-    {
-        class Event;
-    }
 
-    using graphics_object_map = std::unordered_map<GameObject*, GraphicsObject*>;
-    using graphics_context_map = std::unordered_map<GraphicsContext*, graphics_object_map>;
-
-    class ENGINE_SHARED Frame : public IGameComponent
+    class ENGINE_SHARED Frame : public IInitializable
     {
     public:
         Frame();
         ~Frame();
 
-        virtual bool Initialize() override;
-        virtual void Tick(float delta) override;
-        virtual void Shutdown() override;
+        friend class RenderTarget;
+        friend class GameObject;
 
         virtual std::string name() override;
+
+        //Lifecycle hooks
+        virtual bool Initialize() override;
+        virtual void Shutdown() override;
+
+        virtual void Tick(float delta);
+
+        virtual void HandleEvent(Events::Event &evt);
+
+        virtual void TickGraphics(float delta);
+        virtual void UpdateGraphics();
+        virtual void Render(RenderTargetLayer layer);
 
         virtual void FramePushed(FrameStack &machine);
         virtual void FramePopped(FrameStack &machine);
         virtual void FrameMasked(FrameStack &machine);
         virtual void FrameUnmasked(FrameStack &machine);
 
-        template <typename T, typename... TArgs>
-        T *CreateGameObject(TArgs... args)
-        {
-            T *t = new T(args...);
-            objects.push_back(t);
-            t->AddToFrame(this);
-            if (initialized) t->Initialize();
-            return t;
-        }
-        void DestroyGameObject(GameObject *gobj);
-        bool OwnsGameObject(GameObject *gobj);
-
-        void Update(GraphicsContext &ctx);
-
-        virtual void HandleEvent(Events::Event &evt);
-
     private:
-        std::vector<GameObject*> objects;
-        bool initialized;
+        std::vector<GameObject*> _children;
+        bool _initialized;
 
-        CameraGameObject* cameraGameObject;
-        graphics_object_map gobj_map;
-        graphics_context_map context_map;
+        void setCurrentRenderTarget(RenderTarget *target);
+        void setCurrentCamera(CameraComponent *camera);
+
+        RenderTarget *currentRenderTarget;
+        CameraComponent *currentCamera;
     };
 }

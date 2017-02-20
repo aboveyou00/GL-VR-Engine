@@ -30,7 +30,6 @@ namespace GlEngine
         }
         Shader::~Shader()
         {
-            Shutdown();
         }
 
         Shader *Shader::Create(ShaderSource *source)
@@ -45,11 +44,11 @@ namespace GlEngine
             return shaders[hashed] = new Shader(source);
         }
 
-        bool Shader::Initialize()
+        bool Shader::InitializeAsync()
         {
             return true;
         }
-        void Shader::Shutdown()
+        void Shader::ShutdownAsync()
         {
         }
         bool Shader::InitializeGraphics()
@@ -122,6 +121,11 @@ namespace GlEngine
             _geom = 0;
         }
 
+        bool Shader::isReady()
+        {
+            return !!_prog && !!_vert && !!_frag;
+        }
+
         std::string Shader::name()
         {
             return "Shader";
@@ -129,7 +133,7 @@ namespace GlEngine
 
         void Shader::Push()
         {
-            assert(!!*this);
+            assert(this->isReady());
             glUseProgram(_prog);
         }
         void Shader::Pop()
@@ -152,11 +156,6 @@ namespace GlEngine
         bool Shader::UsesGeometry()
         {
             return !!_geom;
-        }
-
-        Shader::operator bool()
-        {
-            return !!_prog && !!_vert && !!_frag;
         }
 
         unsigned Shader::glslProgramIndex()

@@ -21,16 +21,16 @@ namespace GlEngine
     {
     }
 
-    bool VaObject::Initialize()
+    bool VaObject::InitializeAsync()
     {
         return true;
     }
-    void VaObject::Shutdown()
+    void VaObject::ShutdownAsync()
     {
     }
     bool VaObject::InitializeGraphics()
     {
-        if (!*this) return false;
+        if (!this->isReady()) return false;
         if (_vbos == nullptr) return true;
         for (size_t q = 0; q < _vbos->size(); q++)
         {
@@ -58,7 +58,7 @@ namespace GlEngine
         }
     }
 
-    VaObject::operator bool()
+    bool VaObject::isReady()
     {
         if (_vao == 0) return false;
         if (_vbos == nullptr) return true;
@@ -77,7 +77,7 @@ namespace GlEngine
 
     void VaObject::MakeCurrent()
     {
-        assert(!!*this);
+        assert(this->isReady());
         glBindVertexArray(static_cast<GLuint>(_vao));
 
         if (_vbos == nullptr) return;

@@ -7,11 +7,11 @@ namespace GlEngine::Impl
     class WindowRenderTargetImpl : public RenderTargetImpl
     {
     public:
-        WindowRenderTargetImpl(Window * window);
+        WindowRenderTargetImpl(Window *window, CameraComponent *camera);
         ~WindowRenderTargetImpl();
 
-        virtual bool Initialize() override;
-        virtual void Shutdown() override;
+        virtual bool InitializeAsync() override;
+        virtual void ShutdownAsync() override;
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;
 
@@ -34,7 +34,7 @@ namespace GlEngine::Impl
 
         int pixelFormatAdditionalFlags = 0;
 
-        virtual operator bool() override;
+        virtual bool isReady() override;
 
     private:
         Window *_window;

@@ -17,16 +17,16 @@ namespace GlEngine
     {
     }
 
-    bool VbObject::Initialize()
+    bool VbObject::InitializeAsync()
     {
         return true;
     }
-    void VbObject::Shutdown()
+    void VbObject::ShutdownAsync()
     {
     }
     bool VbObject::InitializeGraphics()
     {
-        return !!*this;
+        return isReady();
     }
     void VbObject::ShutdownGraphics()
     {
@@ -37,7 +37,7 @@ namespace GlEngine
         }
     }
 
-    VbObject::operator bool()
+    bool VbObject::isReady()
     {
         return _buffer != 0;
     }
@@ -49,7 +49,7 @@ namespace GlEngine
 
     void VbObject::MakeCurrent()
     {
-        assert(!!*this);
+        assert(isReady());
         glBindBuffer(static_cast<GLenum>(_mode), static_cast<GLuint>(_buffer));
     }
 }
