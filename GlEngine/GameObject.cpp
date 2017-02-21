@@ -74,21 +74,35 @@ namespace GlEngine
 
     void GameObject::Tick(float delta)
     {
+        if (!active()) return;
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
-            if (c->_active)
-            {
-                c->Tick(delta);
-            }
+            if (c->_active) c->Tick(delta);
+        }
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            auto c = _children[q];
+            if (c->_active) c->Tick(delta);
         }
     }
 
     void GameObject::HandleEvent(Events::Event &evt)
     {
+        if (!active()) return;
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
+            if (c->_active)
+            {
+                c->HandleEvent(evt);
+                if (evt.IsHandled())
+                    return;
+            }
+        }
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            auto c = _children[q];
             if (c->_active)
             {
                 c->HandleEvent(evt);
@@ -100,35 +114,45 @@ namespace GlEngine
 
     void GameObject::TickGraphics(float delta)
     {
+        if (!active()) return;
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
-            if (c->_active)
-            {
-                c->TickGraphics(delta);
-            }
+            if (c->_active) c->TickGraphics(delta);
+        }
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            auto c = _children[q];
+            if (c->_active) c->TickGraphics(delta);
         }
     }
     void GameObject::UpdateGraphics()
     {
+        if (!active()) return;
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
-            if (c->_active)
-            {
-                c->UpdateGraphics();
-            }
+            if (c->_active) c->UpdateGraphics();
+        }
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            auto c = _children[q];
+            if (c->_active) c->UpdateGraphics();
         }
     }
     void GameObject::Render()
     {
+        if (!active()) return;
+        auto _t = MatrixTransform(MatrixStack::Model, transform);
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
-            if (c->_active)
-            {
-                c->Render();
-            }
+            if (c->_active) c->Render();
+        }
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            auto c = _children[q];
+            if (c->_active) c->Render();
         }
     }
 }

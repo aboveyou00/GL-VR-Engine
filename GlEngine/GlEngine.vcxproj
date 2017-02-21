@@ -169,6 +169,7 @@
     <ClInclude Include="GameComponent.h" />
     <ClInclude Include="IInitializable.h" />
     <ClInclude Include="IPropertyProvider.h" />
+    <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="PerformanceLevel.h" />
     <ClInclude Include="PlaneGraphicsObject.h" />
     <ClInclude Include="PointLightInfo.h" />
@@ -336,6 +337,7 @@
     <ClCompile Include="FogSource.cpp" />
     <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="IAsyncInitializable.cpp" />
+    <ClCompile Include="MatrixTransform.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />

@@ -49,6 +49,7 @@ namespace GlEngine
     {
         if (target == nullptr)
             return;
+        if (gameObject() == nullptr) return;
         auto diff = target->transform.position - gameObject()->transform.position;
         float angleLat = atan2(diff[1], Vector<2>{diff[0], diff[2]}.Length());
         float angleLong = atan2(diff[0], diff[2]);

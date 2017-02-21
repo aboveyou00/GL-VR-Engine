@@ -1,12 +1,14 @@
 #pragma once
 
+#include "MatrixTransform.h"
+
 namespace GlEngine
 {
     struct ENGINE_SHARED Transform
     {
     public:
         Vector<3> position;
-        Vector<3> scale;
+        //Vector<3> scale;
         Matrix<4, 4> orientation;
 
         virtual void SetPosition(Vector<3> pos);
