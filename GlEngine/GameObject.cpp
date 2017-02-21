@@ -11,6 +11,7 @@ namespace GlEngine
         : _frame(frame), _name(name), _parent(nullptr)
     {
         assert(_frame != nullptr);
+        _frame->_children.push_back(this);
     }
     GameObject::~GameObject()
     {
@@ -47,6 +48,7 @@ namespace GlEngine
     {
         assert(c->_gameObject == nullptr);
         this->_components.push_back(c);
+        c->_gameObject = this;
     }
     void GameObject::RemoveComponent(GameComponent *c)
     {
