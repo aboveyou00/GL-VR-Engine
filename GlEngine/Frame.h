@@ -44,6 +44,8 @@ namespace GlEngine
         virtual void FrameMasked(FrameStack &machine);
         virtual void FrameUnmasked(FrameStack &machine);
 
+        GameObject *findChild(std::string name);
+
     private:
         std::vector<GameObject*> _children;
         bool _initialized;

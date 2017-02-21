@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Lab3Controls.h"
+#include "Lab3ControlsComponent.h"
 #include "KeyboardEvent.h"
 #include "LogUtils.h"
 #include "MathUtils.h"
@@ -7,15 +7,16 @@
 typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 
-Lab3Controls::Lab3Controls()
-    : attenuationIdx(0), LabControls()
+Lab3ControlsComponent::Lab3ControlsComponent()
+    : LabControlsComponent(),
+      attenuationIdx(0)
 {
 }
-Lab3Controls::~Lab3Controls()
+Lab3ControlsComponent::~Lab3ControlsComponent()
 {
 }
 
-void Lab3Controls::HandleEvent(Event &evt)
+void Lab3ControlsComponent::HandleEvent(Event &evt)
 {
     auto *kbdEvt = dynamic_cast<KeyboardEvent*>(&evt);
     if (kbdEvt != nullptr && kbdEvt->GetEventType() == KeyboardEventType::KeyTyped)
@@ -54,16 +55,11 @@ void Lab3Controls::HandleEvent(Event &evt)
         }
     }
 
-    if (!evt.IsHandled()) LabControls::HandleEvent(evt);
+    if (!evt.IsHandled()) LabControlsComponent::HandleEvent(evt);
 }
 
-std::string Lab3Controls::name()
-{
-    return "Lab3Controls";
-}
+unsigned Lab3ControlsComponent::celShadingSteps = 5;
+float Lab3ControlsComponent::spotlightCutoffAngle = 30deg;
+float Lab3ControlsComponent::spotlightAttenuation;
 
-unsigned Lab3Controls::celShadingSteps = 5;
-float Lab3Controls::spotlightCutoffAngle = 30deg;
-float Lab3Controls::spotlightAttenuation;
-
-float Lab3Controls::attenuationValues[Lab3Controls::ATTENTUATION_VALUE_COUNT] = { 0.5f, 1.0f, 2.0f, 4.0f };
+float Lab3ControlsComponent::attenuationValues[Lab3ControlsComponent::ATTENTUATION_VALUE_COUNT] = { 0.5f, 1.0f, 2.0f, 4.0f };

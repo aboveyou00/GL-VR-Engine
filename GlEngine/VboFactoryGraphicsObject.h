@@ -19,12 +19,12 @@ namespace GlEngine
         typedef VboFactory<type, TArgs...> TFactory;
         typedef VboFactory<VboType::UnsignedShort, uint16_t> TFacesFactory;
 
-        VboFactoryGraphicsObject(TFactory *vertices, TFacesFactory *faces = nullptr, CreateFactoryFn createFactory = [](Material*) { return nullptr; })
-            : VboFactoryGraphicsObject(VaObject(), vertices, faces, createFactory)
+        VboFactoryGraphicsObject(std::string name, TFactory *vertices, TFacesFactory *faces = nullptr, CreateFactoryFn createFactory = [](Material*) { return nullptr; })
+            : VboFactoryGraphicsObject(name, VaObject(), vertices, faces, createFactory)
         {
         }
-        VboFactoryGraphicsObject(VaObject vao, TFactory *vertices = nullptr, TFacesFactory *faces = nullptr, CreateFactoryFn createFactory = [](Material*) { return nullptr; })
-            : VboFactoryGraphicsObjectImpl(faces != nullptr, vertices->elementCount(), vao, createFactory),
+        VboFactoryGraphicsObject(std::string name, VaObject vao, TFactory *vertices = nullptr, TFacesFactory *faces = nullptr, CreateFactoryFn createFactory = [](Material*) { return nullptr; })
+            : VboFactoryGraphicsObjectImpl(name, faces != nullptr, vertices->elementCount(), vao, createFactory),
               _verticesFactory(vertices),
               _facesFactory(faces)
         {

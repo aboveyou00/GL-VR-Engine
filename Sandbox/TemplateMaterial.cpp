@@ -11,7 +11,7 @@
 #include <sstream>
 
 TemplateMaterial::TemplateMaterial(TemplateMaterialFactory *factory)
-    : _factory(factory)
+    : Material(factory->_name), _factory(factory)
 {
 }
 TemplateMaterial::~TemplateMaterial()
@@ -53,19 +53,20 @@ std::vector<GlEngine::ShaderFactory::Attribute*> TemplateMaterial::attributes()
     return _factory->_attrs;
 }
 
-std::string TemplateMaterial::name()
-{
-    std::stringstream stream;
-    if (GlEngine::Util::is_empty_or_ws(_factory->_name)) stream << "TemplateMaterial {";
-    else stream << _factory->_name << "(TemplateMaterial) {";
-    for (auto *attr : _factory->_attrs)
-        stream << " " << attr->name();
-    stream << " }";
-    return stream.str();
-}
-TemplateMaterial::operator bool()
+//std::string TemplateMaterial::name()
+//{
+//    std::stringstream stream;
+//    if (GlEngine::Util::is_empty_or_ws(_factory->_name)) stream << "TemplateMaterial {";
+//    else stream << _factory->_name << "(TemplateMaterial) {";
+//    for (auto *attr : _factory->_attrs)
+//        stream << " " << attr->name();
+//    stream << " }";
+//    return stream.str();
+//}
+
+bool TemplateMaterial::isReady()
 {
     for (size_t q = 0; q < _factory->_awaiting.size(); q++)
-        if (!_factory->_awaiting[q] || !*_factory->_awaiting[q]) return false;
+        if (!_factory->_awaiting[q] || !_factory->_awaiting[q]->isReady()) return false;
     return true;
 }

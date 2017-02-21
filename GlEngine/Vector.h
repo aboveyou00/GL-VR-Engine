@@ -263,7 +263,6 @@ private:
     inline void initialize()
     {
     }
-
 };
 
 #endif //ndef VECTOR_H

@@ -11,8 +11,9 @@
 
 namespace GlEngine
 {
-    GraphicsObject::GraphicsObject(bool autoinit)
-        : initialized(false),
+    GraphicsObject::GraphicsObject(std::string name, bool autoinit)
+        : GameComponent(name),
+          initialized(false),
           graphicsInitialized(false),
           renderOrder(0)
     {

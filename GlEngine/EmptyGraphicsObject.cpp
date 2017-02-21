@@ -4,15 +4,11 @@
 namespace GlEngine
 {
     EmptyGraphicsObject::EmptyGraphicsObject()
+        : GraphicsObject("EmptyGraphicsObject")
     {
     }
     EmptyGraphicsObject::~EmptyGraphicsObject()
     {
-    }
-
-    std::string EmptyGraphicsObject::name()
-    {
-        return "EmptyGraphicsObject";
     }
 
     bool EmptyGraphicsObject::isReady()

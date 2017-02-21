@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "GameComponent.h"
 #include "Event.h"
 #include "PointLightSource.h"
 #include <map>
@@ -14,11 +14,11 @@ namespace GlEngine
     class GraphicsContext;
 }
 
-class LabControls : public GlEngine::GameObject
+class LabControlsComponent : public GlEngine::GameComponent
 {
 public:
-    LabControls();
-    ~LabControls();
+    LabControlsComponent();
+    ~LabControlsComponent();
 
     static bool isPaused;
     static bool rotateX;
@@ -28,10 +28,6 @@ public:
     virtual void Tick(float delta);
 
     virtual void HandleEvent(Event &evt);
-
-    virtual std::string name() override;
-
-    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext*) override;
 
     void SetControllingLight(GlEngine::PointLightSource *light);
 

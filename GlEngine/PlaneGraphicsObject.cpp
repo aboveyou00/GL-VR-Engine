@@ -3,8 +3,8 @@
 
 namespace GlEngine
 {
-    PlaneGraphicsObject::PlaneGraphicsObject(Material *mat, Vector<2> size, Vector<2> subdivisions)
-        : _mat(mat), _size(size), _subdivisions(subdivisions)
+    PlaneGraphicsObject::PlaneGraphicsObject(std::string name, Material *mat, Vector<2> size, Vector<2> subdivisions)
+        : VboGraphicsObject(name), _mat(mat), _size(size), _subdivisions(subdivisions)
     {
     }
     PlaneGraphicsObject::~PlaneGraphicsObject()
@@ -45,10 +45,5 @@ namespace GlEngine
         }
 
         return true;
-    }
-
-    std::string PlaneGraphicsObject::name()
-    {
-        return "PlaneGraphicsObject";
     }
 }

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "GameLoop.h"
-#include "IComponent.h"
+#include "IInitializable.h"
 #include "FrameStack.h"
 #include "EventQueue.h"
 
-class SandboxLoop : public GlEngine::GameLoop, public GlEngine::IComponent
+class SandboxLoop : public GlEngine::GameLoop, public GlEngine::IInitializable
 {
 public:
     SandboxLoop(unsigned targetFPS = 60u);
@@ -31,5 +31,4 @@ private:
     void handleEvents();
 
     GlEngine::FrameStack frames;
-    GlEngine::GraphicsContext *ctx;
 };

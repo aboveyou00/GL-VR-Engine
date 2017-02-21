@@ -12,6 +12,4 @@ public:
     ~DiscardPhongMaterial();
 
     virtual std::vector<GlEngine::ShaderFactory::Attribute*> attributes() override;
-
-    virtual std::string name() override;
 };

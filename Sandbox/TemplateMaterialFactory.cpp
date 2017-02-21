@@ -28,7 +28,7 @@ TemplateMaterialFactory *TemplateMaterialFactory::Attribute(GlEngine::ShaderFact
     this->_attrs.push_back(attr);
     return this;
 }
-TemplateMaterialFactory *TemplateMaterialFactory::Await(GlEngine::IGraphicsComponent *c)
+TemplateMaterialFactory *TemplateMaterialFactory::Await(GlEngine::IAsyncInitializable *c)
 {
     assert(!finalized);
     if (std::find(_awaiting.begin(), _awaiting.end(), c) == _awaiting.end()) _awaiting.push_back(c);

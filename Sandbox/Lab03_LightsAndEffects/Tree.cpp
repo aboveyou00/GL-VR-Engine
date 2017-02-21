@@ -1,23 +1,22 @@
 #include "stdafx.h"
 #include "Tree.h"
+#include "GameObject.h"
 #include "ObjGraphicsObject.h"
 #include "PhongFogMaterial.h"
 
-Tree::Tree(Vector<3> position, std::vector<IPropertyProvider*> providers)
-    : GlEngine::GameObject(position), providers(providers)
+Tree::Tree()
 {
+    assert(false);
 }
 Tree::~Tree()
 {
 }
 
-std::string Tree::name()
+GlEngine::GameObject *Tree::Create(GlEngine::Frame *frame, std::string name, std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers)
 {
-    return "Tree";
-}
-
-GlEngine::GraphicsObject *Tree::CreateGraphicsObject(GlEngine::GraphicsContext*)
-{
+    auto gobj = new GlEngine::GameObject(frame, name);
     auto mat = new PhongFogMaterial(Vector<3> { 0.f, .6f, 0.f }, { .4f, .4f, .4f }, 8);
-    return GlEngine::ObjGraphicsObject::Create("Resources/tree.obj", mat, providers);
+    auto objObj = GlEngine::ObjGraphicsObject::Create(name, "Resources/tree.obj", mat, providers);
+    gobj->AddComponent(objObj);
+    return gobj;
 }

@@ -1,19 +1,26 @@
 #include "stdafx.h"
-#include "CameraTargetObject.h"
+#include "CameraTargetComponent.h"
+#include "GameObject.h"
 
 #include "KeyboardEvent.h"
 #include "Matrix.h"
 
-CameraTargetObject::CameraTargetObject(float movementSpeed)
-    : movementSpeed(movementSpeed)
+CameraTargetComponent::CameraTargetComponent(float movementSpeed)
+    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed)
 {
-    RequireTick(true);
 }
-CameraTargetObject::~CameraTargetObject()
+CameraTargetComponent::~CameraTargetComponent()
 {
 }
 
-void CameraTargetObject::Tick(float delta)
+GlEngine::GameObject *CameraTargetComponent::Create(GlEngine::Frame *frame, std::string name, float movementSpeed)
+{
+    auto gobj = new GlEngine::GameObject(frame, name);
+    gobj->AddComponent(new CameraTargetComponent(movementSpeed));
+    return gobj;
+}
+
+void CameraTargetComponent::Tick(float delta)
 {
     Vector<3> translation = { 0, 0, 0 };
     if (this->keysDown[VK_UP]) translation += { 0, 0, 1 };
@@ -24,23 +31,13 @@ void CameraTargetObject::Tick(float delta)
     if (this->keysDown[VK_LETTER<'o'>()]) translation += { 0, 1, 0 };
     translation *= delta * movementSpeed;
     if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 4;
-    position += translation;
+    gameObject()->transform.position += translation;
 }
 
-void CameraTargetObject::HandleEvent(GlEngine::Events::Event &evt)
+void CameraTargetComponent::HandleEvent(GlEngine::Events::Event &evt)
 {
     auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
     if (kbevt == nullptr) return;
     if (kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyPressed) this->keysDown[kbevt->GetVirtualKeyCode()] = true;
     if (kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyReleased) this->keysDown[kbevt->GetVirtualKeyCode()] = false;
-}
-
-std::string CameraTargetObject::name()
-{
-    return "CameraTargetObject";
-}
-
-GlEngine::GraphicsObject *CameraTargetObject::CreateGraphicsObject(GlEngine::GraphicsContext*)
-{
-    return nullptr;
 }

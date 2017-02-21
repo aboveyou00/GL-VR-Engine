@@ -7,7 +7,7 @@ namespace GlEngine::Impl
     class WindowRenderTargetImpl : public RenderTargetImpl
     {
     public:
-        WindowRenderTargetImpl(Window *window, CameraComponent *camera);
+        WindowRenderTargetImpl(Window *window);
         ~WindowRenderTargetImpl();
 
         virtual bool InitializeAsync() override;

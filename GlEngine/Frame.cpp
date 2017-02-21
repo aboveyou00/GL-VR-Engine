@@ -85,6 +85,19 @@ namespace GlEngine
     {
     }
 
+    GameObject *Frame::findChild(std::string name)
+    {
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            if (_children[q]->name().compare(name) == 0)
+            {
+                return _children[q];
+            }
+            //TODO: check the child's children recursively
+        }
+        return nullptr;
+    }
+
     void Frame::setCurrentRenderTarget(RenderTarget *target)
     {
         currentRenderTarget = nullptr;

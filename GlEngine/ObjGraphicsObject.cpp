@@ -9,12 +9,12 @@
 
 namespace GlEngine
 {
-    ObjGraphicsObject::ObjGraphicsObject(const char *const filename, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory)
-        : VboGraphicsObject(createFactory), filename(filename)
+    ObjGraphicsObject::ObjGraphicsObject(std::string name, const char *const filename, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory)
+        : VboGraphicsObject(name, createFactory), filename(filename)
     {
     }
 
-    ObjGraphicsObject *ObjGraphicsObject::Create(const char *name, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers)
+    ObjGraphicsObject *ObjGraphicsObject::Create(std::string name, const char *filename, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers)
     {
         //auto hashed = ([](const char *name, Material *mat) {
         //    unsigned h = 0;
@@ -28,7 +28,7 @@ namespace GlEngine
         //if (ptr == nullptr) ptr = cache[hashed] = new ObjGraphicsObject(name, VaObject(), mat);
         //return ptr;
 
-        auto ptr = new ObjGraphicsObject(name);
+        auto ptr = new ObjGraphicsObject(name, filename);
         for (size_t q = 0; q < providers.size(); q++)
             ptr->AddPropertyProvider(providers[q]);
         ptr->SetMaterial(mat);
@@ -40,10 +40,5 @@ namespace GlEngine
         if (!GlEngine::ObjLoader::Load(filename, this))
             return false;
         return VboGraphicsObject::InitializeAsync();
-    }
-
-    std::string ObjGraphicsObject::name()
-    {
-        return "ObjGraphicsObject";
     }
 }

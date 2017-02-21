@@ -31,6 +31,7 @@ namespace GlEngine
         virtual bool isReady() override;
 
         CameraComponent *camera();
+        void SetCamera(CameraComponent *camera);
 
         void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
         ViewPort *viewPort(RenderTargetLayer layer);
@@ -54,6 +55,8 @@ namespace GlEngine
 
         Matrix<4, 4> viewMatrix();
         void SetViewMatrix(Matrix<4, 4> mat);
+
+        void AddToGraphicsLoop();
 
         inline Impl::RenderTargetImpl &GetImpl()
         {

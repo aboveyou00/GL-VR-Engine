@@ -1,20 +1,18 @@
 #pragma once
 
-#include "../LabControls.h"
+#include "../LabControlsComponent.h"
 
-class Lab3Controls : public LabControls
+class Lab3ControlsComponent : public LabControlsComponent
 {
 public:
-    Lab3Controls();
-    ~Lab3Controls();
+    Lab3ControlsComponent();
+    ~Lab3ControlsComponent();
 
     static unsigned celShadingSteps;
     static float spotlightCutoffAngle;
     static float spotlightAttenuation;
 
     virtual void HandleEvent(Event &evt);
-
-    virtual std::string name() override;
 
 private:
     static const unsigned ATTENTUATION_VALUE_COUNT = 4;

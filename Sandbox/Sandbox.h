@@ -1,18 +1,17 @@
 #pragma once
 
-#include "IComponent.h"
+#include "IInitializable.h"
 #include "SandboxLoop.h"
 
 namespace GlEngine
 {
     class Window;
     class RenderTarget;
-    class GraphicsContext;
     class ILogger;
     class IConfigProvider;
 }
 
-class Sandbox : GlEngine::IComponent
+class Sandbox : GlEngine::IInitializable
 {
 public:
     Sandbox();
@@ -35,6 +34,8 @@ public:
         return *_window;
     }
 
+    static GlEngine::RenderTarget *windowRenderTarget;
+
 private:
     SandboxLoop _loop;
 
@@ -44,7 +45,6 @@ private:
     bool createWindow();
     void destroyWindow();
     GlEngine::Window *_window = nullptr;
-    GlEngine::GraphicsContext *_gfxContext = nullptr;
 
     GlEngine::ILogger *registerLogger();
     GlEngine::IConfigProvider *registerConfig();

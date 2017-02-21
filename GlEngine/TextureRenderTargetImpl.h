@@ -8,7 +8,7 @@ namespace GlEngine::Impl
     class TextureRenderTargetImpl : public RenderTargetImpl
     {
     public:
-        TextureRenderTargetImpl(Texture *texture, CameraComponent *camera);
+        TextureRenderTargetImpl(Texture *texture);
         ~TextureRenderTargetImpl();
 
         virtual bool InitializeAsync() override;

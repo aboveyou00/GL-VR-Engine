@@ -3,14 +3,15 @@
 #include "ShaderFactory.h"
 #include "Attribute.h"
 #include "Snippet.h"
+
 using namespace GlEngine::ShaderFactory;
 
 MultiPhongMaterial::MultiPhongMaterial(Vector<3> color, Vector<3> reflectionCoef, float shininess)
-    : texture(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
+    : Material("MultiPhongMaterial"), texture(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
 {
 }
 MultiPhongMaterial::MultiPhongMaterial(GlEngine::Texture *texture, Vector<3> reflectionCoef, float shininess)
-    : texture(texture), reflectionCoef(reflectionCoef), shininess(shininess)
+    : Material("MultiPhongMaterial"), texture(texture), reflectionCoef(reflectionCoef), shininess(shininess)
 {
 }
 MultiPhongMaterial::~MultiPhongMaterial()
@@ -99,12 +100,7 @@ std::vector<Attribute*> MultiPhongMaterial::attributes()
     return attrs;
 }
 
-std::string MultiPhongMaterial::name()
-{
-    return "MultiPhongMaterial";
-}
-
-MultiPhongMaterial::operator bool()
+bool MultiPhongMaterial::isReady()
 {
     return true;
 }

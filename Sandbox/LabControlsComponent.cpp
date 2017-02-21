@@ -1,20 +1,19 @@
 #include "stdafx.h"
-#include "LabControls.h"
+#include "LabControlsComponent.h"
 #include "KeyboardEvent.h"
 
 typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 
-LabControls::LabControls()
-    : controllingLight(nullptr), movementSpeed(2.f)
+LabControlsComponent::LabControlsComponent()
+    : GameComponent("LabControlsComponent"), controllingLight(nullptr), movementSpeed(2.f)
 {
-    RequireTick(true);
 }
-LabControls::~LabControls()
+LabControlsComponent::~LabControlsComponent()
 {
 }
 
-void LabControls::Tick(float delta)
+void LabControlsComponent::Tick(float delta)
 {
     auto translation = Vector<3> { 0, 0, 0 };
 
@@ -30,7 +29,7 @@ void LabControls::Tick(float delta)
     if (controllingLight != nullptr) controllingLight->SetPosition(controllingLight->position() + translation);
 }
 
-void LabControls::HandleEvent(Event &evt)
+void LabControlsComponent::HandleEvent(Event &evt)
 {
     auto *kbdEvt = dynamic_cast<KeyboardEvent*>(&evt);
     if (kbdEvt != nullptr)
@@ -39,16 +38,16 @@ void LabControls::HandleEvent(Event &evt)
         {
             if (kbdEvt->GetVirtualKeyCode() == VK_SPACE || kbdEvt->GetVirtualKeyCode() == VK_LETTER<'P'>())
             {
-                LabControls::isPaused = !LabControls::isPaused;
+                LabControlsComponent::isPaused = !LabControlsComponent::isPaused;
                 evt.Handle();
             }
 
             if (kbdEvt->GetVirtualKeyCode() >= VK_LETTER<'0'>() && kbdEvt->GetVirtualKeyCode() < VK_LETTER<'8'>())
             {
                 auto flags = kbdEvt->GetVirtualKeyCode() - VK_NUMPAD0;
-                LabControls::rotateX = (flags & 0b001) != 0;
-                LabControls::rotateY = (flags & 0b010) != 0;
-                LabControls::rotateZ = (flags & 0b100) != 0;
+                LabControlsComponent::rotateX = (flags & 0b001) != 0;
+                LabControlsComponent::rotateY = (flags & 0b010) != 0;
+                LabControlsComponent::rotateZ = (flags & 0b100) != 0;
                 evt.Handle();
             }
         }
@@ -57,25 +56,15 @@ void LabControls::HandleEvent(Event &evt)
         if (kbdEvt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyReleased) this->keysDown[kbdEvt->GetVirtualKeyCode()] = false;
     }
 
-    if (!evt.IsHandled()) GlEngine::GameObject::HandleEvent(evt);
+    if (!evt.IsHandled()) GlEngine::GameComponent::HandleEvent(evt);
 }
 
-std::string LabControls::name()
-{
-    return "LabControls";
-}
-
-GlEngine::GraphicsObject *LabControls::CreateGraphicsObject(GlEngine::GraphicsContext*)
-{
-    return nullptr;
-}
-
-void LabControls::SetControllingLight(GlEngine::PointLightSource *light)
+void LabControlsComponent::SetControllingLight(GlEngine::PointLightSource *light)
 {
     this->controllingLight = light;
 }
 
-bool LabControls::isPaused = false;
-bool LabControls::rotateX = true;
-bool LabControls::rotateY = true;
-bool LabControls::rotateZ = true;
+bool LabControlsComponent::isPaused = false;
+bool LabControlsComponent::rotateX = true;
+bool LabControlsComponent::rotateY = true;
+bool LabControlsComponent::rotateZ = true;

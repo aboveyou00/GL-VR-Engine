@@ -2,6 +2,7 @@
 
 #include "RenderTargetLayer.h"
 #include "IPropertyProvider.h"
+#include "GameComponent.h"
 
 namespace GlEngine
 {
@@ -12,10 +13,10 @@ namespace GlEngine
 
     class VaoFactory;
 
-    class ENGINE_SHARED GraphicsObject : public IAsyncInitializable
+    class ENGINE_SHARED GraphicsObject : public GameComponent
     {
     public:
-        GraphicsObject(bool autoinit = true);
+        GraphicsObject(std::string name, bool autoinit = true);
         ~GraphicsObject();
 
         bool InitializeAsync() override;

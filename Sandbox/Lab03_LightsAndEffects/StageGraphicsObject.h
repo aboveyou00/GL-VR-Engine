@@ -5,13 +5,10 @@
 class StageGraphicsObject : public GlEngine::VboGraphicsObject
 {
 public:
-    StageGraphicsObject();
-    StageGraphicsObject(bool defaultMaterial);
+    StageGraphicsObject(std::string name, bool defaultMaterial = true);
     ~StageGraphicsObject();
 
-    virtual bool Initialize() override;
-
-    virtual std::string name() override;
+    virtual bool InitializeAsync() override;
 
 private:
     bool defaultMaterial;

@@ -10,8 +10,6 @@ namespace GlEngine
         EmptyGraphicsObject();
         ~EmptyGraphicsObject();
 
-        virtual std::string name() override;
-
         virtual bool isReady() override;
 
         void BuildVao(VaoFactory &vao) override;

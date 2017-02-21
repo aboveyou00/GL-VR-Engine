@@ -12,8 +12,8 @@ namespace GlEngine
     class ENGINE_SHARED VboGraphicsObject : public PosUvNormFactory
     {
     public:
-        VboGraphicsObject(CreateFactoryFn createFactory = [](Material*) { return nullptr; });
-        VboGraphicsObject(VaObject vao, CreateFactoryFn createFactory = [](Material*) { return nullptr; });
+        VboGraphicsObject(std::string name, CreateFactoryFn createFactory = [](Material*) { return nullptr; });
+        VboGraphicsObject(std::string name, VaObject vao, CreateFactoryFn createFactory = [](Material*) { return nullptr; });
         ~VboGraphicsObject();
 
         virtual int AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal) override;

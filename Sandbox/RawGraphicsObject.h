@@ -23,26 +23,26 @@ typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
 class RawGraphicsObject : public GlEngine::GraphicsObject
 {
 private:
-    RawGraphicsObject(GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties);
+    RawGraphicsObject(std::string name, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties);
 
 public:
     template <GlEngine::VboType type, typename... TArgs>
-    RawGraphicsObject(GlEngine::VboFactory<type, TArgs...> *vertices, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
-        : RawGraphicsObject(shaderSource, properties)
+    RawGraphicsObject(std::string name, GlEngine::VboFactory<type, TArgs...> *vertices, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
+        : RawGraphicsObject(name, shaderSource, properties)
     {
         _compositeObj = new GlEngine::VboFactoryGraphicsObject<type, TArgs...>(vertices, nullptr, createFactory);
     }
     template <GlEngine::VboType type, typename... TArgs>
-    RawGraphicsObject(GlEngine::VboFactory<type, TArgs...> *vertices, GlEngine::VboFactory<GlEngine::VboType::UnsignedShort, uint16_t> *faces, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
-        : RawGraphicsObject(shaderSource, properties)
+    RawGraphicsObject(std::string name, GlEngine::VboFactory<type, TArgs...> *vertices, GlEngine::VboFactory<GlEngine::VboType::UnsignedShort, uint16_t> *faces, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
+        : RawGraphicsObject(name, shaderSource, properties)
     {
         _compositeObj = new GlEngine::VboFactoryGraphicsObject<type, TArgs...>(vertices, faces, createFactory);
     }
-    RawGraphicsObject(const char *const filename, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties);
+    RawGraphicsObject(std::string name, const char *const filename, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties);
     ~RawGraphicsObject();
 
-    virtual bool Initialize() override;
-    virtual void Shutdown() override;
+    virtual bool InitializeAsync() override;
+    virtual void ShutdownAsync() override;
     virtual bool InitializeGraphics() override;
     virtual void ShutdownGraphics() override;
 
@@ -63,7 +63,7 @@ public:
 
     virtual std::string name() override;
 
-    virtual operator bool() override;
+    virtual bool isReady() override;
 
 private:
     GlEngine::GraphicsObject *_compositeObj;

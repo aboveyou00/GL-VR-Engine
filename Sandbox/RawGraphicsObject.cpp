@@ -8,28 +8,28 @@
 
 typedef GlEngine::ShaderFactory::RawShaderFactory RawShaderFactory;
 
-RawGraphicsObject::RawGraphicsObject(GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
-    : GlEngine::GraphicsObject(false)
+RawGraphicsObject::RawGraphicsObject(std::string name, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
+    : GlEngine::GraphicsObject(name, false)
 {
     createFactory = [shaderSource, properties](GlEngine::Material*) { return new RawShaderFactory(shaderSource, properties); };
 }
-RawGraphicsObject::RawGraphicsObject(const char *const filename, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
-    : RawGraphicsObject(shaderSource, properties)
+RawGraphicsObject::RawGraphicsObject(std::string name, const char *const filename, GlEngine::ShaderFactory::ShaderSource* shaderSource, std::map<size_t, GlEngine::ShaderFactory::ShaderProp*>* properties)
+    : RawGraphicsObject(name, shaderSource, properties)
 {
-    _compositeObj = new GlEngine::ObjGraphicsObject(filename, createFactory);
+    _compositeObj = new GlEngine::ObjGraphicsObject(name, filename, createFactory);
 }
 RawGraphicsObject::~RawGraphicsObject()
 {
     SafeDelete(_compositeObj);
 }
 
-bool RawGraphicsObject::Initialize()
+bool RawGraphicsObject::InitializeAsync()
 {
-    return _compositeObj->Initialize();
+    return _compositeObj->InitializeAsync();
 }
-void RawGraphicsObject::Shutdown()
+void RawGraphicsObject::ShutdownAsync()
 {
-    _compositeObj->Shutdown();
+    _compositeObj->ShutdownAsync();
 }
 bool RawGraphicsObject::InitializeGraphics()
 {
@@ -92,7 +92,7 @@ std::string RawGraphicsObject::name()
     return "RawGraphicsObject";
 }
 
-RawGraphicsObject::operator bool()
+bool RawGraphicsObject::isReady()
 {
-    return _compositeObj && !!*_compositeObj;
+    return _compositeObj && _compositeObj->isReady();
 }

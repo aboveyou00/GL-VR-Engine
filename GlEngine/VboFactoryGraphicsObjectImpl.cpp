@@ -6,8 +6,8 @@
 
 namespace GlEngine::Impl
 {
-    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(bool allowFaces, unsigned elemIdx, VaObject vao, CreateFactoryFn createFactory)
-        : GraphicsObject(true),
+    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(std::string name, bool allowFaces, unsigned elemIdx, VaObject vao, CreateFactoryFn createFactory)
+        : GraphicsObject(name, true),
           allowFaces(allowFaces),
           _vao(vao),
           finalized(vao.isReady()),

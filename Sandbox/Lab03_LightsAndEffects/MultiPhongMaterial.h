@@ -31,6 +31,5 @@ private:
     Vector<3> color, reflectionCoef;
     float shininess;
 
-    virtual std::string name() override;
-    virtual operator bool() override;
+    virtual bool isReady() override;
 };

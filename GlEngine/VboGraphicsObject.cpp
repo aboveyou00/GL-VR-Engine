@@ -6,12 +6,13 @@
 
 namespace GlEngine
 {
-    VboGraphicsObject::VboGraphicsObject(CreateFactoryFn createFactory)
-        : VboGraphicsObject(VaObject(), createFactory)
+    VboGraphicsObject::VboGraphicsObject(std::string name, CreateFactoryFn createFactory)
+        : VboGraphicsObject(name, VaObject(), createFactory)
     {
     }
-    VboGraphicsObject::VboGraphicsObject(VaObject vao, CreateFactoryFn createFactory)
+    VboGraphicsObject::VboGraphicsObject(std::string name, VaObject vao, CreateFactoryFn createFactory)
         : PosUvNormFactory(
+            name,
             vao,
             vao.isReady() ? nullptr : PosUvNormFactory::TFactory::CreateArray(&ShaderFactory::prop_Position, &ShaderFactory::prop_UV, &ShaderFactory::prop_Normal),
             vao.isReady() ? nullptr : PosUvNormFactory::TFacesFactory::CreateElementArray(),

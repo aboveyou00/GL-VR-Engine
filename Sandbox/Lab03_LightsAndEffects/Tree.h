@@ -1,23 +1,22 @@
 #pragma once
 
-#include "GameObject.h"
+namespace GlEngine
+{
+    class GameObject;
+    class Frame;
+}
 
 namespace GlEngine::ShaderFactory
 {
     class IPropertyProvider;
 }
-typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
 
-class Tree : public GlEngine::GameObject
+class Tree
 {
-public:
-    Tree(Vector<3> position, std::vector<IPropertyProvider*> providers);
+private:
+    Tree();
     ~Tree();
 
-    virtual std::string name() override;
-
-    virtual GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext *ctx) override;
-
-private:
-    std::vector<IPropertyProvider*> providers;
+public:
+    GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers);
 };

@@ -5,8 +5,8 @@
 
 namespace GlEngine::Impl
 {
-    TextureRenderTargetImpl::TextureRenderTargetImpl(Texture *texture, CameraComponent *camera)
-        : RenderTargetImpl(camera), texture(texture)
+    TextureRenderTargetImpl::TextureRenderTargetImpl(Texture *texture)
+        : RenderTargetImpl(), texture(texture)
     {
     }
     TextureRenderTargetImpl::~TextureRenderTargetImpl()

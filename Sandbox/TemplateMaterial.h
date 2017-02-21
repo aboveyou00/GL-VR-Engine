@@ -28,8 +28,9 @@ public:
     virtual std::vector<ShaderProp*> properties() override;
     virtual std::vector<Attribute*> attributes() override;
 
-    virtual std::string name() override;
-    virtual operator bool() override;
+    //virtual std::string name() override;
+
+    virtual bool isReady() override;
 
 private:
     TemplateMaterialFactory *_factory;

@@ -3,8 +3,8 @@
 
 namespace GlEngine
 {
-    CubeGraphicsObject::CubeGraphicsObject(Material *mat, Vector<3> size)
-        : _mat(mat), _size(size)
+    CubeGraphicsObject::CubeGraphicsObject(std::string name, Material *mat, Vector<3> size)
+        : VboGraphicsObject(name), _mat(mat), _size(size)
     {
     }
     CubeGraphicsObject::~CubeGraphicsObject()
@@ -76,10 +76,5 @@ namespace GlEngine
         AddTriangle({ idx0, idx3, idx2 });
 
         return true;
-    }
-
-    std::string CubeGraphicsObject::name()
-    {
-        return "CubeGraphicsObject";
     }
 }

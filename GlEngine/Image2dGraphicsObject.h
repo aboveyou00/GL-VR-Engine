@@ -11,16 +11,14 @@ namespace GlEngine
     class ENGINE_SHARED Image2dGraphicsObject : public VboGraphicsObject
     {
     public:
-        Image2dGraphicsObject(Texture *tex = nullptr, bool readonly = false);
+        Image2dGraphicsObject(std::string name, Texture *tex = nullptr, bool readonly = false);
         ~Image2dGraphicsObject();
 
-        static Image2dGraphicsObject *Create(Texture *tex);
-        static Image2dGraphicsObject *Create(const char *path);
+        static Image2dGraphicsObject *Create(std::string name, Texture *tex);
+        static Image2dGraphicsObject *Create(std::string name, const char *path);
         
         virtual bool InitializeAsync() override;
         virtual void ShutdownAsync() override;
-
-        virtual std::string name() override;
 
         void PreRender(RenderTargetLayer layer) override;
         void PostRender(RenderTargetLayer layer) override;

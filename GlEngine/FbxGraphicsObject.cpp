@@ -5,20 +5,19 @@
 
 namespace GlEngine
 {
-
-    FbxGraphicsObject::FbxGraphicsObject(const char *const filename)
-        : filename(filename), initialized(false)
+    FbxGraphicsObject::FbxGraphicsObject(std::string name, const char *const filename)
+        : VboGraphicsObject(name), filename(filename), initialized(false)
     {
     }
     FbxGraphicsObject::~FbxGraphicsObject()
     {
     }
 
-    FbxGraphicsObject *FbxGraphicsObject::Create(const char* name)
+    FbxGraphicsObject *FbxGraphicsObject::Create(std::string name, const char* filename)
     {
         static std::unordered_map<const char*, FbxGraphicsObject*> cache;
-        auto ptr = cache[name];
-        if (ptr == nullptr) ptr = cache[name] = new FbxGraphicsObject(name);
+        auto ptr = cache[filename];
+        if (ptr == nullptr) ptr = cache[filename] = new FbxGraphicsObject(name, filename);
         return ptr;
     }
 
@@ -28,10 +27,10 @@ namespace GlEngine
         return VboGraphicsObject::InitializeAsync();
     }
 
-    std::string FbxGraphicsObject::name()
-    {
-        std::stringstream stream;
-        stream << "FbxGraphicsObject(" << filename << ")";
-        return stream.str();
-    }
+    //std::string FbxGraphicsObject::name()
+    //{
+    //    std::stringstream stream;
+    //    stream << "FbxGraphicsObject(" << filename << ")";
+    //    return stream.str();
+    //}
 }

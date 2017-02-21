@@ -8,36 +8,41 @@
 #include "MatrixStack.h"
 #include "AmbientLightSource.h"
 #include "PointLightSource.h"
-#include "LabControls.h"
 #include "LightSourceObject.h"
+#include "VboFactoryGraphicsObjectImpl.h"
 
 TemplateObj::TemplateObj(std::string filename, Material *mat, TplTickFn tick)
     : TemplateObj(filename, mat, {}, tick)
 {
 }
-TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, TplTickFn tick)
-    : TemplateObj(createGraphicsObject, mat, {}, tick)
+TemplateObj::TemplateObj(GlEngine::GraphicsObject *gfxObj, Material *mat, TplTickFn tick)
+    : TemplateObj(gfxObj, mat, {}, tick)
 {
 }
 TemplateObj::TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers)
     : TemplateObj(filename, mat, providers, [](TemplateObj*, float) {})
 {
 }
-TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers)
-    : TemplateObj(createGraphicsObject, mat, providers, [](TemplateObj*, float) {})
+TemplateObj::TemplateObj(GlEngine::GraphicsObject *gfxObj, Material *mat, std::vector<IPropertyProvider*> providers)
+    : TemplateObj(gfxObj, mat, providers, [](TemplateObj*, float) {})
 {
 }
 TemplateObj::TemplateObj(std::string filename, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick)
-    : filename(filename), createGraphicsObject(createFromFileStatic), _templateMat(mat), _providers(providers), tick(tick)
+    : TemplateObj(createFromFile("TemplateObjGfx", filename), mat, providers, tick)
 {
-    if (mat == nullptr) _templateMat = TemplateMaterial::Factory()->Create();
-    RequireTick(true);
 }
-TemplateObj::TemplateObj(TplGfxObjectCtorFn createGraphicsObject, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick)
-    : createGraphicsObject(createGraphicsObject), _templateMat(mat), _providers(providers), tick(tick)
+TemplateObj::TemplateObj(GlEngine::GraphicsObject *gfxObj, Material *mat, std::vector<IPropertyProvider*> providers, TplTickFn tick)
+    : GameComponent("TemplateObj"), gfxObj(gfxObj), _templateMat(mat), _providers(providers), tick(tick)
 {
     if (mat == nullptr) _templateMat = TemplateMaterial::Factory()->Create();
-    RequireTick(true);
+
+    for (size_t q = 0; q < this->providers().size(); q++)
+        gfxObj->AddPropertyProvider(this->providers()[q]);
+    auto vboFacGfx = dynamic_cast<GlEngine::Impl::VboFactoryGraphicsObjectImpl*>(&this->material());
+    if (vboFacGfx != nullptr)
+    {
+        vboFacGfx->SetMaterial(&this->material());
+    }
 }
 TemplateObj::~TemplateObj()
 {
@@ -46,16 +51,6 @@ TemplateObj::~TemplateObj()
 void TemplateObj::Tick(float delta)
 {
     tick(this, delta);
-}
-
-std::string TemplateObj::name()
-{
-    return "TemplateObj";
-}
-
-GlEngine::GraphicsObject *TemplateObj::CreateGraphicsObject(GlEngine::GraphicsContext *ctx)
-{
-    return createGraphicsObject(this, ctx);
 }
 
 Material &TemplateObj::material() const
@@ -67,12 +62,7 @@ const std::vector<IPropertyProvider*> &TemplateObj::providers() const
     return _providers;
 }
 
-GlEngine::GraphicsObject *TemplateObj::createFromFile(GlEngine::GraphicsContext*)
+GlEngine::GraphicsObject *TemplateObj::createFromFile(std::string name, std::string filename)
 {
-    return GlEngine::ObjGraphicsObject::Create(filename.c_str(), _templateMat, _providers);
-}
-GlEngine::GraphicsObject *TemplateObj::createFromFileStatic(TemplateObj *self, GlEngine::GraphicsContext *ctx)
-{
-    assert(self != nullptr);
-    return self->createFromFile(ctx);
+    return GlEngine::ObjGraphicsObject::Create(name, filename.c_str(), _templateMat, _providers);
 }

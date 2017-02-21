@@ -2,41 +2,41 @@
 
 #include "GameObject.h"
 #include "IPropertyProvider.h"
-#include "LightSourceGraphicsObject.h"
+#include "WidgetObject.h"
 #include <map>
 
 #include "PointLightSource.h"
 #include "SpotLightSource.h"
 
 template<typename T>
-class LightSourceObject : public GlEngine::GameObject
+class LightSourceObject : public WidgetObject
 {
 public:
-    LightSourceObject(T* lightSource = nullptr)
-        : _lightSource(lightSource)
+    LightSourceObject(std::string name, T* lightSource = nullptr)
+        : WidgetObject(name), _lightSource(lightSource)
     {
         static_assert(std::is_base_of<GlEngine::ShaderFactory::IPropertyProvider, T>::value, "LightSourceObject template argument does not implement IPropertyProvider");
         if (_lightSource == nullptr) _lightSource = new T();
-        RequireTick(true);
-        Scale(.2f);
     }
     ~LightSourceObject()
     {
     }
 
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, T* lightSource = nullptr)
+    {
+        auto gobj = new GlEngine::GameObject(frame, name);
+        gobj->AddComponent(new LightSourceObject<T>(name, lightSource));
+        return gobj;
+    }
+
     virtual void Tick(float) override
     {
-        SetPosition(lightSource()->position());
+        gameObject()->transform.position = lightSource()->position();
     }
 
     virtual std::string name() override
     {
         return "LightSourceObject";
-    }
-
-    GlEngine::GraphicsObject *CreateGraphicsObject(GlEngine::GraphicsContext*) override
-    {
-        return new LightSourceGraphicsObject();
     }
 
     T* lightSource()

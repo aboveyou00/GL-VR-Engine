@@ -4,6 +4,9 @@
 #include "CameraComponent.h"
 #include "Frame.h"
 
+#include "Engine.h"
+#include "GraphicsController.h"
+
 namespace GlEngine
 {
     RenderTarget::RenderTarget(Impl::RenderTargetImpl *pimpl)
@@ -134,8 +137,17 @@ namespace GlEngine
         _viewMatrix = mat;
     }
 
+    void RenderTarget::AddToGraphicsLoop()
+    {
+        Engine::GetInstance().GetGlController().addRenderTarget(this);
+    }
+
     CameraComponent *RenderTarget::camera()
     {
         return pimpl->camera();
+    }
+    void RenderTarget::SetCamera(CameraComponent *camera)
+    {
+        pimpl->SetCamera(camera);
     }
 }

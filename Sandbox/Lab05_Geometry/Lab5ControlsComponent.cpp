@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Lab5Controls.h"
+#include "Lab5ControlsComponent.h"
 #include "KeyboardEvent.h"
 #include "LogUtils.h"
 #include "MathUtils.h"
@@ -7,17 +7,17 @@
 typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 
-Lab5Controls::Lab5Controls()
-    : LabControls()
+Lab5ControlsComponent::Lab5ControlsComponent()
+    : LabControlsComponent()
 {
 }
-Lab5Controls::~Lab5Controls()
+Lab5ControlsComponent::~Lab5ControlsComponent()
 {
 }
 
-float Lab5Controls::wireframeThickness = 1;
+float Lab5ControlsComponent::wireframeThickness = 1;
 
-void Lab5Controls::HandleEvent(Event &evt)
+void Lab5ControlsComponent::HandleEvent(Event &evt)
 {
     auto *kbdEvt = dynamic_cast<KeyboardEvent*>(&evt);
     if (kbdEvt != nullptr && kbdEvt->GetEventType() == KeyboardEventType::KeyTyped)
@@ -36,10 +36,5 @@ void Lab5Controls::HandleEvent(Event &evt)
         }
     }
 
-    if (!evt.IsHandled()) LabControls::HandleEvent(evt);
-}
-
-std::string Lab5Controls::name()
-{
-    return "Lab5Controls";
+    if (!evt.IsHandled()) LabControlsComponent::HandleEvent(evt);
 }

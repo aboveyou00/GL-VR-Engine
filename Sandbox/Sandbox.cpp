@@ -4,12 +4,10 @@
 #include "Engine.h"
 #include "WindowManager.h"
 #include "GraphicsController.h"
-#include "GraphicsContext.h"
 #include "WindowRenderTarget.h"
 
 #include "PerspectiveViewPort.h"
 #include "OrthoViewPort.h"
-#include "Camera.h"
 
 #include "FileLogger.h"
 #include "FileConfigProvider.h"
@@ -22,8 +20,12 @@ Sandbox::~Sandbox()
     Shutdown();
 }
 
+GlEngine::RenderTarget *Sandbox::windowRenderTarget = nullptr;
+
 bool Sandbox::Initialize()
 {
+    if (Sandbox::windowRenderTarget != nullptr) return false;
+
     logger = registerLogger();
     if (logger == nullptr) return false;
 
@@ -85,14 +87,7 @@ bool Sandbox::createWindow()
 
     if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
 
-    _gfxContext = new GlEngine::GraphicsContext(&_loop.GetFrameStack());
-
-    _gfxContext->camera.SetEye({ 0, 0, 0 });
-    _gfxContext->camera.SetForward({ 0, 0, 1 });
-    _gfxContext->camera.SetUp({ 0, 1, 0 });
-    _gfxContext->AddRenderTarget(new GlEngine::WindowRenderTarget(_window), true);
-
-    engine.GetGlController().AddGraphicsContext(_gfxContext);
+    windowRenderTarget = new GlEngine::WindowRenderTarget(_window);
 
     _window->Show();
 

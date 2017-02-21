@@ -15,7 +15,7 @@ namespace GlEngine
         class RenderTargetImpl : public IAsyncInitializable
         {
         public:
-            RenderTargetImpl(CameraComponent *camera);
+            RenderTargetImpl(CameraComponent *camera = nullptr);
             ~RenderTargetImpl();
 
             virtual bool InitializeAsync() override;
@@ -47,6 +47,7 @@ namespace GlEngine
             ViewPort* viewPorts[layerCount];
 
             CameraComponent *camera();
+            void SetCamera(CameraComponent *camera);
 
         private:
             bool shouldRender;

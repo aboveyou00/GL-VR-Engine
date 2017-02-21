@@ -12,13 +12,11 @@ namespace GlEngine
     class ENGINE_SHARED ObjGraphicsObject : public VboGraphicsObject
     {
     public:
-        ObjGraphicsObject(const char *const filename, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory = [](Material*) { return nullptr; });
+        ObjGraphicsObject(std::string name, const char *const filename, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory = [](Material*) { return nullptr; });
 
-        static ObjGraphicsObject *Create(const char *name, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers);
+        static ObjGraphicsObject *Create(std::string name, const char *filename, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers);
 
         virtual bool InitializeAsync() override;
-
-        virtual std::string name() override;
 
     private:
         const char *filename;

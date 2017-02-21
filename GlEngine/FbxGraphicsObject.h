@@ -8,15 +8,13 @@ namespace GlEngine
     class ENGINE_SHARED FbxGraphicsObject : public VboGraphicsObject
     {
     private:
-        FbxGraphicsObject(const char *const filename);
+        FbxGraphicsObject(std::string name, const char *const filename);
         ~FbxGraphicsObject();
 
     public:
-        static FbxGraphicsObject *Create(const char* name);
+        static FbxGraphicsObject *Create(std::string name, const char *filename);
         
         virtual bool InitializeAsync() override;
-
-        virtual std::string name() override;
 
     private:
         const char *filename;

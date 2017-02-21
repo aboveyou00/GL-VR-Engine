@@ -47,7 +47,7 @@ public:
         if (value != nullptr) Await(value);
         return provide_const_impl(prop, value);
     }
-    TemplateMaterialFactory *Await(GlEngine::IGraphicsComponent *c);
+    TemplateMaterialFactory *Await(GlEngine::IAsyncInitializable *c);
 
 private:
     bool finalized;
@@ -55,7 +55,7 @@ private:
     std::vector<std::function<void(TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory&)>> _pushFns;
     std::vector<GlEngine::ShaderFactory::ShaderProp*> _props;
     std::vector<GlEngine::ShaderFactory::Attribute*> _attrs;
-    std::vector<GlEngine::IGraphicsComponent*> _awaiting;
+    std::vector<GlEngine::IAsyncInitializable*> _awaiting;
 
     template <typename T>
     TemplateMaterialFactory *provide_impl(GlEngine::ShaderFactory::Property<T> *prop, T &value)

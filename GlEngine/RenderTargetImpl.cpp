@@ -147,4 +147,8 @@ namespace GlEngine::Impl
     {
         return _camera;
     }
+    void RenderTargetImpl::SetCamera(CameraComponent *camera)
+    {
+        _camera = camera;
+    }
 }

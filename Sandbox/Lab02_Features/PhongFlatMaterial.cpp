@@ -7,11 +7,11 @@
 #include "ShaderFactory.h"
 
 PhongFlatMaterial::PhongFlatMaterial(Vector<3> color, Vector<3> reflectionCoef, float shininess)
-    : texture(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
+    : Material("PhongFlatMaterial"), texture(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
 {
 }
 PhongFlatMaterial::PhongFlatMaterial(GlEngine::Texture *texture, Vector<3> reflectionCoef, float shininess)
-    : texture(texture), reflectionCoef(reflectionCoef), shininess(shininess)
+    : Material("PhongFlatMaterial"), texture(texture), reflectionCoef(reflectionCoef), shininess(shininess)
 {
 }
 PhongFlatMaterial::~PhongFlatMaterial()
@@ -56,12 +56,8 @@ std::vector<GlEngine::ShaderFactory::Attribute*> PhongFlatMaterial::attributes()
     return attrs;
 }
 
-std::string PhongFlatMaterial::name()
-{
-    return "PhongFlatMaterial";
-}
-PhongFlatMaterial::operator bool()
+bool PhongFlatMaterial::isReady()
 {
     if (texture == nullptr) return true;
-    return !!*texture;
+    return texture->isReady();
 }

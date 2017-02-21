@@ -8,7 +8,6 @@
 namespace GlEngine
 {
     class TextureRenderTarget;
-    class GraphicsContext;
 }
 namespace GlEngine::Events
 {
@@ -99,7 +98,6 @@ private:
         6, 0
     };
 
-    GlEngine::GraphicsContext *myCtx;
     GlEngine::Frame *renderedFrame;
     GlEngine::TextureRenderTarget *sceneTex;
 

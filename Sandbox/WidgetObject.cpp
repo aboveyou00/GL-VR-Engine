@@ -1,19 +1,20 @@
 #include "stdafx.h"
-#include "LightSourceGraphicsObject.h"
+#include "WidgetObject.h"
 #include "AmbientMaterial.h"
 #include "AmbientLightSource.h"
 #include "Texture.h"
 
-LightSourceGraphicsObject::LightSourceGraphicsObject()
+WidgetObject::WidgetObject(std::string name)
+    : GlEngine::VboGraphicsObject(name)
 {
 }
-LightSourceGraphicsObject::~LightSourceGraphicsObject()
+WidgetObject::~WidgetObject()
 {
 }
 
-bool LightSourceGraphicsObject::Initialize()
+bool WidgetObject::InitializeAsync()
 {
-    if (!GlEngine::VboGraphicsObject::Initialize()) return false;
+    if (!GlEngine::VboGraphicsObject::InitializeAsync()) return false;
 
     auto tex = GlEngine::Texture::FromFile("Textures/point-light-widget.png", GlEngine::TextureFlag::Translucent);
     auto mat = new GlEngine::AmbientMaterial(tex);// ({ 1.f, 1.f, 1.f });
@@ -79,9 +80,4 @@ bool LightSourceGraphicsObject::Initialize()
     AddTriangle({ idx0, idx3, idx2 });
 
     return true;
-}
-
-std::string LightSourceGraphicsObject::name()
-{
-    return "LightSourceGraphicsObject";
 }

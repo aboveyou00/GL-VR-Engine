@@ -6,11 +6,11 @@
 
 namespace GlEngine
 {
-    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height, CameraComponent *camera, GlEngine::TextureFlag flags)
+    TextureRenderTarget::TextureRenderTarget(unsigned width, unsigned height, GlEngine::TextureFlag flags)
         : RenderTarget(nullptr),
           Texture(width, height, TextureFlag::RenderTarget | flags)
     {
-        pimpl = new Impl::TextureRenderTargetImpl(this, camera);
+        pimpl = new Impl::TextureRenderTargetImpl(this);
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueInitialize(static_cast<Texture*>(this));
         //resources->QueueInitialize(this);

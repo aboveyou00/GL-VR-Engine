@@ -3,19 +3,15 @@
 #include "PhongFogMaterial.h"
 #include "Texture.h"
 
-StageGraphicsObject::StageGraphicsObject()
-    : StageGraphicsObject(true)
-{
-}
-StageGraphicsObject::StageGraphicsObject(bool defaultMaterial)
-    : defaultMaterial(defaultMaterial)
+StageGraphicsObject::StageGraphicsObject(std::string name, bool defaultMaterial)
+    : GlEngine::VboGraphicsObject(name), defaultMaterial(defaultMaterial)
 {
 }
 StageGraphicsObject::~StageGraphicsObject()
 {
 }
 
-bool StageGraphicsObject::Initialize()
+bool StageGraphicsObject::InitializeAsync()
 {
     auto tex1 = GlEngine::Texture::FromFile("Textures/grass0.png");
     auto tex2 = GlEngine::Texture::FromFile("Textures/grass1.png");
@@ -43,9 +39,4 @@ bool StageGraphicsObject::Initialize()
     }
 
     return true;
-}
-
-std::string StageGraphicsObject::name()
-{
-    return "StageGraphicsObject";
 }

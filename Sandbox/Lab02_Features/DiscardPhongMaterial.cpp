@@ -42,7 +42,3 @@ std::vector<GlEngine::ShaderFactory::Attribute*> DiscardPhongMaterial::attribute
     attrs.push_back(&attr_Discard);
     return attrs;
 }
-std::string DiscardPhongMaterial::name()
-{
-    return "DiscardPhongMaterial";
-}

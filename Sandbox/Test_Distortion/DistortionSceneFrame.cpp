@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "DistortionSceneFrame.h"
 
-#include "../CameraTargetObject.h"
-#include "CameraGameObject.h"
-#include "../LabControls.h"
+#include "CameraComponent.h"
+#include "../CameraTargetComponent.h"
+#include "../LabControlsComponent.h"
 
 #include "../RawGraphicsObject.h"
 #include "../TemplateObj.h"
@@ -11,7 +11,6 @@
 #include "../TemplateMaterialFactory.h"
 
 #include "TextureRenderTarget.h"
-#include "GraphicsContext.h"
 
 #include "Engine.h"
 #include "KeyboardEvent.h"
@@ -20,6 +19,10 @@
 #include "../Lab05_Geometry/GeometrySceneFrame.h"
 #include "../Lab04_Textures/TexturesSceneFrame.h"
 #include "../Lab03_LightsAndEffects/LightsAndEffectsSceneFrame.h"
+
+//HACK HACK HACK
+#include "../Sandbox.h"
+#include "RenderTarget.h"
 
 extern std::string distortVertex;
 extern std::string distortFragment;
@@ -46,15 +49,9 @@ DistortionSceneFrame::DistortionSceneFrame()
         nullptr,
         &distortFragment,
     };
-
-    sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp); //GlEngine::Texture::FromFile("Textures/crate_tl.png", GlEngine::TextureFlag::Clamp);
-    this->renderedFrame = new GeometrySceneFrame();
-    myCtx = new GlEngine::GraphicsContext(this->renderedFrame);
-    myCtx->AddRenderTarget(sceneTex);
 }
 DistortionSceneFrame::~DistortionSceneFrame()
 {
-    SafeDelete(myCtx);
     SafeDelete(renderedFrame);
     SafeDelete(sceneTex);
 }
@@ -63,47 +60,53 @@ bool DistortionSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraTarget = this->CreateGameObject<CameraTargetObject>();
+    this->renderedFrame = new GeometrySceneFrame();
+    this->renderedFrame->Initialize();
+    
+    sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp);
+    sceneTex->SetCamera(this->renderedFrame->findChild("Camera")->component<GlEngine::CameraComponent>());
+    sceneTex->AddToGraphicsLoop();
 
-    auto cameraObject = this->CreateGameObject<GlEngine::CameraGameObject>();
-    cameraObject->SetTargetObject(cameraTarget);
-    cameraObject->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-    cameraObject->SetPosition({ 0, -3.5, 7 });
+    auto cameraTarget = CameraTargetComponent::Create(this, "CameraTarget");
 
-    CreateGameObject<LabControls>();
+    auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
+    cameraObject->transform.position = { 0, -3.5, 7 };
 
-    CreateGameObject<TemplateObj>(
-        [this](TemplateObj *self, GlEngine::GraphicsContext*)
-        {
-            auto gobj = new RawGraphicsObject(
-                "Resources/clip_plane.obj",
-                &this->distortSource,
-                &this->props
-            );
-            for (size_t q = 0; q < self->providers().size(); q++)
-                gobj->AddPropertyProvider(self->providers()[q]);
-            gobj->SetMaterial(&self->material());
+    auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
+    cameraComponent->SetTargetObject(cameraTarget);
+    cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
+    Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
-            return gobj;
-        },
+    auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
+    auto controlsComponent = new LabControlsComponent();
+    controls->AddComponent(controlsComponent);
+
+    auto clipPlaneGobj = new GlEngine::GameObject(this, "ClipPlane");
+    clipPlaneGobj->AddComponent(new TemplateObj(
+        new RawGraphicsObject(
+            "ClipPlaneGfx",
+            "Resources/clip_plane.obj",
+            &this->distortSource,
+            &this->props
+        ),
         TemplateMaterial::Factory()
             ->Name("DistortMaterial")
             ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, sceneTex)
             ->ProvideArray(&prop_ConvolutionKernel, currentConvolutionKernel)
             ->Provide(&prop_Subroutine, currentSubroutine)
             ->Create()
-    );
-
-    GlEngine::Engine::GetInstance().GetGlController().AddGraphicsContext(myCtx);
+    ));
 
     return renderedFrame->Initialize();
 }
 void DistortionSceneFrame::Tick(float delta)
 {
+    if (renderedFrame == nullptr) return;
     renderedFrame->Tick(delta);
 }
 void DistortionSceneFrame::Shutdown()
 {
+    if (renderedFrame == nullptr) return;
     renderedFrame->Shutdown();
 }
 
@@ -130,7 +133,10 @@ void DistortionSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
         }
     }
 
-    if (!evt.IsHandled()) renderedFrame->HandleEvent(evt);
+    if (!evt.IsHandled() && renderedFrame != nullptr)
+    {
+        renderedFrame->HandleEvent(evt);
+    }
 }
 
 void DistortionSceneFrame::RefreshPair()

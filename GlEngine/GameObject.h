@@ -42,6 +42,7 @@ namespace GlEngine
                 auto check = dynamic_cast<T*>(it);
                 if (check != nullptr) return check;
             }
+            return nullptr;
         }
 
         const std::vector<GameComponent*> &components();

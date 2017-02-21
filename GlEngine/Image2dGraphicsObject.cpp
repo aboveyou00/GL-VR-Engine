@@ -9,8 +9,9 @@
 
 namespace GlEngine
 {
-    Image2dGraphicsObject::Image2dGraphicsObject(Texture *tex, bool readonly)
-        : tex(nullptr), mat(new Image2dMaterial()), readonly(readonly),
+    Image2dGraphicsObject::Image2dGraphicsObject(std::string name, Texture *tex, bool readonly)
+        : VboGraphicsObject(name),
+          tex(nullptr), mat(new Image2dMaterial()), readonly(readonly),
           align({ ImageComponentAlignment::Middle, ImageComponentAlignment::Middle })
     {
         if (readonly) assert(!!tex);
@@ -20,17 +21,17 @@ namespace GlEngine
     {
     }
 
-    Image2dGraphicsObject *Image2dGraphicsObject::Create(Texture *tex)
+    Image2dGraphicsObject *Image2dGraphicsObject::Create(std::string name, Texture *tex)
     {
         static std::unordered_map<Texture*, Image2dGraphicsObject*> cache;
         auto ptr = cache[tex];
-        if (ptr == nullptr) ptr = cache[tex] = new Image2dGraphicsObject(tex, true);
+        if (ptr == nullptr) ptr = cache[tex] = new Image2dGraphicsObject(name, tex, true);
         return ptr;
     }
-    Image2dGraphicsObject *Image2dGraphicsObject::Create(const char *path)
+    Image2dGraphicsObject *Image2dGraphicsObject::Create(std::string name, const char *path)
     {
         auto tex = Texture::FromFile(path);
-        return Create(tex);
+        return Create(name, tex);
     }
 
     bool Image2dGraphicsObject::InitializeAsync()
@@ -48,11 +49,6 @@ namespace GlEngine
     }
     void Image2dGraphicsObject::ShutdownAsync()
     {
-    }
-
-    std::string Image2dGraphicsObject::name()
-    {
-        return "ImageGraphicsObject";
     }
 
     void Image2dGraphicsObject::PreRender(GlEngine::RenderTargetLayer layer)

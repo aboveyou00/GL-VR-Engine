@@ -5,8 +5,8 @@
 
 namespace GlEngine::Impl
 {
-    WindowRenderTargetImpl::WindowRenderTargetImpl(Window *window, CameraComponent *camera)
-        : RenderTargetImpl(camera),
+    WindowRenderTargetImpl::WindowRenderTargetImpl(Window *window)
+        : RenderTargetImpl(),
           _window(window), deviceContext(_window->GetDeviceContext()),
           lastWidth(0), lastHeight(0),
           initialized(false)
