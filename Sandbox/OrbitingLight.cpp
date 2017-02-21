@@ -52,10 +52,15 @@ GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string 
 OrbitingLight::OrbitingLight(GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
     : GameComponent("OrbitingLight"), _lightSource(lightSource), rotationAxis(rotationAxis), distance(distance), rotationSpeed(rotationSpeed), totalDelta(0)
 {
-    gameObject()->transform.Rotate(GlEngine::Util::random(3.14159f * 2), randomRotateAxis());
 }
 OrbitingLight::~OrbitingLight()
 {
+}
+
+bool OrbitingLight::InitializeAsync()
+{
+    gameObject()->transform.Rotate(GlEngine::Util::random(3.14159f * 2), randomRotateAxis());
+    return GlEngine::GameComponent::InitializeAsync();
 }
 
 void OrbitingLight::Tick(float delta)

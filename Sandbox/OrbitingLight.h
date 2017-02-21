@@ -24,6 +24,8 @@ public:
     static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance = 3.f, float rotationSpeed = .5f);
 
 public:
+    virtual bool InitializeAsync() override;
+
     virtual void Tick(float delta) override;
 
 private:
