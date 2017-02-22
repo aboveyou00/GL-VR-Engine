@@ -9,12 +9,12 @@
 
 namespace GlEngine
 {
-    ObjGraphicsObject::ObjGraphicsObject(std::string name, const char *const filename, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory)
+    ObjGraphicsObject::ObjGraphicsObject(std::string name, std::string filename, std::function<ShaderFactory::ShaderFactory*(Material*)> createFactory)
         : VboGraphicsObject(name, createFactory), filename(filename)
     {
     }
 
-    ObjGraphicsObject *ObjGraphicsObject::Create(std::string name, const char *filename, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers)
+    ObjGraphicsObject *ObjGraphicsObject::Create(std::string name, std::string filename, Material *mat, std::vector<ShaderFactory::IPropertyProvider*> providers)
     {
         //auto hashed = ([](const char *name, Material *mat) {
         //    unsigned h = 0;

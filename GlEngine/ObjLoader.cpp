@@ -16,7 +16,7 @@ namespace GlEngine
     {
     }
 
-    bool ObjLoader::Load(const char *const filename, ObjGraphicsObject *out)
+    bool ObjLoader::Load(std::string filename, ObjGraphicsObject *out)
     {
         //TODO: cache mesh data
         std::ifstream in;

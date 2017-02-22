@@ -17,7 +17,7 @@ namespace GlEngine
         ~ObjLoader();
 
     public:
-        static bool Load(const char *const filename, ObjGraphicsObject *out);
+        static bool Load(std::string filename, ObjGraphicsObject *out);
         static bool Load(std::istream &in, ObjGraphicsObject *out);
 
     private:
