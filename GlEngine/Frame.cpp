@@ -8,7 +8,7 @@
 namespace GlEngine
 {
     Frame::Frame()
-        : _initialized(false)
+        : _initialized(false), currentCamera(nullptr)
     {
     }
     Frame::~Frame()
