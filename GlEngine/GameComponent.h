@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IAsyncInitializable.h"
+#include "RenderTargetLayer.h"
 
 namespace GlEngine::Events
 {
@@ -44,7 +45,7 @@ namespace GlEngine
 
         virtual void TickGraphics(float delta);
         virtual void UpdateGraphics();
-        virtual void Render();
+        virtual void Render(RenderTargetLayer layer);
 
     private:
         GameObject *_gameObject;

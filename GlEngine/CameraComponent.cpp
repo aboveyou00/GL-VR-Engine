@@ -75,6 +75,7 @@ namespace GlEngine
     void CameraComponent::Push()
     {
         Vector<3> side, forwardN;
+        //TODO: set the camera position to a global postion, not a local one
         ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->transform.position);
 
         eye = gameObject()->transform.position;

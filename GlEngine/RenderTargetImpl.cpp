@@ -8,7 +8,7 @@
 namespace GlEngine::Impl
 {
     RenderTargetImpl::RenderTargetImpl(CameraComponent *camera)
-        : _camera(camera)
+        : _camera(camera), shouldRender(true)
     {
         for (int i = 0; i < layerCount; i++)
             viewPorts[i] = nullptr;

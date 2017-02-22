@@ -58,7 +58,7 @@ namespace GlEngine
 
         void TickGraphics(float delta);
         void UpdateGraphics();
-        void Render();
+        void Render(RenderTargetLayer layer);
 
     private:
         bool _active;

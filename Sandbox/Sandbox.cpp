@@ -88,6 +88,7 @@ bool Sandbox::createWindow()
     if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
 
     windowRenderTarget = new GlEngine::WindowRenderTarget(_window);
+    windowRenderTarget->AddToGraphicsLoop();
 
     _window->Show();
 

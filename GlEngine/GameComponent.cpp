@@ -74,7 +74,7 @@ namespace GlEngine
     void GameComponent::UpdateGraphics()
     {
     }
-    void GameComponent::Render()
+    void GameComponent::Render(RenderTargetLayer)
     {
     }
 }

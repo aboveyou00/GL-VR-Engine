@@ -145,8 +145,10 @@ namespace GlEngine
                 targets.push_back(target);
                 target->Prepare();
 
-                auto thisFrame = target->camera()->frame();
-                if (std::find(frames.begin(), frames.end(), thisFrame) == frames.end())
+                auto thisCamera = target->camera();
+                Frame *thisFrame = nullptr;
+                if (thisCamera != nullptr) thisFrame = target->camera()->frame();
+                if (thisFrame != nullptr && std::find(frames.begin(), frames.end(), thisFrame) == frames.end())
                 {
                     frames.push_back(thisFrame);
                 }

@@ -69,7 +69,11 @@ namespace GlEngine
     }
     void Frame::Render(RenderTargetLayer layer)
     {
-        layer;
+        for (size_t q = 0; q < _children.size(); q++)
+        {
+            if (!_children[q]->active()) continue;
+            _children[q]->Render(layer);
+        }
     }
 
     void Frame::FramePushed(FrameStack&)
@@ -100,7 +104,7 @@ namespace GlEngine
 
     void Frame::setCurrentRenderTarget(RenderTarget *target)
     {
-        currentRenderTarget = nullptr;
+        currentRenderTarget = target;
         if (target == nullptr) setCurrentCamera(nullptr);
         else setCurrentCamera(target->camera());
     }

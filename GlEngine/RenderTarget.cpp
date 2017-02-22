@@ -74,9 +74,12 @@ namespace GlEngine
 
     void RenderTarget::Render()
     {
-        if (!GetShouldRender()) return;
+        auto thisCamera = camera();
+        Frame *thisFrame = nullptr;
+        if (thisCamera != nullptr) thisFrame = camera()->frame();
 
-        auto thisFrame = camera()->frame();
+        if (thisFrame == nullptr || !GetShouldRender()) return;
+
         thisFrame->setCurrentRenderTarget(this);
 
         thisFrame->UpdateGraphics();
