@@ -18,12 +18,14 @@ namespace GlEngine
     {
         auto vao = new VaoFactory();
         glGenVertexArrays(1, &vao->_vao);
+        checkForGlError();
         return vao;
     }
 
     void VaoFactory::makeCurrent()
     {
         glBindVertexArray(_vao);
+        checkForGlError();
     }
 
     void VaoFactory::Add(VaObject vao)

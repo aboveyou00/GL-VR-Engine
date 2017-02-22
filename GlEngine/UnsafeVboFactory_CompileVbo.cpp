@@ -12,8 +12,11 @@ namespace GlEngine
         {
             unsigned currentVbo;
             glGenBuffers(1, &currentVbo);
+            checkForGlError();
             glBindBuffer(static_cast<GLenum>(mode), currentVbo);
+            checkForGlError();
             glBufferData(static_cast<GLuint>(mode), bufferSizeInBytes, front, GL_STATIC_DRAW);
+            checkForGlError();
 
             auto list = new VbObjectAttribList(VbObject(currentVbo, mode));
             if (mode == BufferMode::Array)

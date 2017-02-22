@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "LabControlsComponent.h"
 #include "KeyboardEvent.h"
+#include "LogUtils.h"
 
 typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
@@ -39,6 +40,7 @@ void LabControlsComponent::HandleEvent(Event &evt)
             if (kbdEvt->GetVirtualKeyCode() == VK_SPACE || kbdEvt->GetVirtualKeyCode() == VK_LETTER<'P'>())
             {
                 LabControlsComponent::isPaused = !LabControlsComponent::isPaused;
+                GlEngine::Util::Log(LabControlsComponent::isPaused ? "Pausing" : "Playing");
                 evt.Handle();
             }
 

@@ -556,7 +556,7 @@ namespace GlEngine
         void Program::ResolveComponents()
         {
             std::map<PropertySource*, size_t> assignedComponents;
-            
+
             for (auto source : allSources)
             {
                 ComponentType early = ComponentType::Input;
@@ -571,11 +571,15 @@ namespace GlEngine
                         early = max(early, earliestComponent(constraints[input]));
                 }
 
-                size_t componentIndex = (assignedComponents.find(source) != assignedComponents.end()) ? assignedComponents[source] + 1 : 0;
+                size_t componentIndex = 0;
+                if (assignedComponents.find(source) != assignedComponents.end())
+                {
+                    componentIndex = assignedComponents[source] + 1;
+                }
                 for (; componentIndex < constraints[source].size(); componentIndex++)
                     if (constraints[source][componentIndex] >= early)
                         break;
-                
+
                 assignedComponents[source] = componentIndex;
                 sourceComponents[source] = constraints[source][componentIndex];
                 componentSources[constraints[source][componentIndex]].push_back(source);

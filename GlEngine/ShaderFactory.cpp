@@ -132,6 +132,7 @@ namespace GlEngine
             assert(this->isReady());
 
             glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
+            checkForGlError();
 
             _shader->Push();
             _textures.clear();
@@ -153,13 +154,16 @@ namespace GlEngine
             if (blend)
             {
                 glEnable(GL_BLEND);
+                checkForGlError();
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                checkForGlError();
             }
 
             for (auto &it : _subroutines)
             {
                 std::string name = it.second->name();
                 unsigned idx = glGetSubroutineIndex(_shader->glslProgramIndex(), GL_FRAGMENT_SHADER, name.c_str());
+                checkForGlError();
                 it.second->Push(idx);
                 PropertyType_attribs<Subroutine*>::set_glsl_uniform(it.first, it.second);
             }
@@ -171,7 +175,9 @@ namespace GlEngine
             ScopedLock lock(_mux);
 
             glEnable(GL_CULL_FACE);
+            checkForGlError();
             glDisable(GL_BLEND);
+            checkForGlError();
             for (auto &it : _textures)
                 it.second->Pop();
 

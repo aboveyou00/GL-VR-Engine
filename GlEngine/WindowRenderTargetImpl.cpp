@@ -36,7 +36,7 @@ namespace GlEngine::Impl
     void WindowRenderTargetImpl::ShutdownGraphics()
     {
         RenderTargetImpl::ShutdownGraphics();
-        wglMakeCurrent(nullptr, nullptr);
+        //wglMakeCurrent(nullptr, nullptr);
     }
 
     std::string WindowRenderTargetImpl::name()
@@ -101,6 +101,7 @@ namespace GlEngine::Impl
             if (_window->GetLastResizeTime() < std::chrono::high_resolution_clock::now() - 50ms)
             {
                 glViewport(0, 0, this->lastWidth, this->lastHeight);
+                checkForGlError();
                 for (int i = 0; i < layerCount; i++)
                     if (viewPorts[i] != nullptr)
                         viewPorts[i]->SetSize(this->lastWidth, this->lastHeight);
@@ -111,7 +112,9 @@ namespace GlEngine::Impl
     void WindowRenderTargetImpl::PrePush()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        checkForGlError();
         glViewport(0, 0, this->lastWidth, this->lastHeight);
+        checkForGlError();
 
         RenderTargetImpl::PrePush();
     }

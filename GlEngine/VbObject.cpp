@@ -33,6 +33,7 @@ namespace GlEngine
         if (_buffer != 0)
         {
             glDeleteBuffers(1, static_cast<GLuint*>(&_buffer));
+            checkForGlError();
             _buffer = 0;
         }
     }
@@ -51,5 +52,6 @@ namespace GlEngine
     {
         assert(isReady());
         glBindBuffer(static_cast<GLenum>(_mode), static_cast<GLuint>(_buffer));
+        checkForGlError();
     }
 }

@@ -29,6 +29,7 @@ namespace GlEngine::Impl
 
         frameBuffer = 0;
         glGenFramebuffers(1, &frameBuffer);
+        checkForGlError();
         if (frameBuffer == 0)
         {
             GLenum err = glGetError();
@@ -40,26 +41,36 @@ namespace GlEngine::Impl
             return false;
         }
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        checkForGlError();
 
         glGenRenderbuffers(1, &depthRenderBuffer);
+        checkForGlError();
         glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
+        checkForGlError();
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, texture->GetWidth(), texture->GetHeight());
+        checkForGlError();
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+        checkForGlError();
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->glslTextureId(), 0);
+        checkForGlError();
 
         // Set the list of draw buffers.    
         GLenum drawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
         glDrawBuffers(1, drawBuffers);
+        checkForGlError();
 
         // Check that the frame buffer was created successfully
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        checkForGlError();
+        if (status != GL_FRAMEBUFFER_COMPLETE)
         {
             Util::Log(LogType::ErrorC, "Failed to create framebuffer.");
             return false;
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        checkForGlError();
         return true;
     }
     void TextureRenderTargetImpl::ShutdownGraphics()
@@ -83,13 +94,16 @@ namespace GlEngine::Impl
     void TextureRenderTargetImpl::PrePush()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+        checkForGlError();
         glViewport(0, 0, texture->GetWidth(), texture->GetHeight());
+        checkForGlError();
 
         RenderTargetImpl::PrePush();
     }
     void TextureRenderTargetImpl::PostPop()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        checkForGlError();
 
         RenderTargetImpl::PostPop();
     }

@@ -102,22 +102,46 @@ namespace GlEngine
         }
         void Shader::ShutdownGraphics()
         {
-            if (_prog) glDeleteProgram(_prog);
+            if (_prog)
+            {
+                glDeleteProgram(_prog);
+                checkForGlError();
+            }
             _prog = 0;
 
-            if (_vert) glDeleteShader(_vert);
+            if (_vert)
+            {
+                glDeleteShader(_vert);
+                checkForGlError();
+            }
             _vert = 0;
 
-            if (_frag) glDeleteShader(_frag);
+            if (_frag)
+            {
+                glDeleteShader(_frag);
+                checkForGlError();
+            }
             _frag = 0;
 
-            if (_tessc) glDeleteShader(_tessc);
+            if (_tessc)
+            {
+                glDeleteShader(_tessc);
+                checkForGlError();
+            }
             _tessc = 0;
 
-            if (_tesse) glDeleteShader(_tesse);
+            if (_tesse)
+            {
+                glDeleteShader(_tesse);
+                checkForGlError();
+            }
             _tesse = 0;
 
-            if (_geom) glDeleteShader(_geom);
+            if (_geom)
+            {
+                glDeleteShader(_geom);
+                checkForGlError();
+            }
             _geom = 0;
         }
 
@@ -135,10 +159,12 @@ namespace GlEngine
         {
             assert(this->isReady());
             glUseProgram(_prog);
+            checkForGlError();
         }
         void Shader::Pop()
         {
             glUseProgram(0);
+            checkForGlError();
         }
 
         bool Shader::UsesVertex()
@@ -166,8 +192,11 @@ namespace GlEngine
         unsigned Shader::compileShader(unsigned type, const char *text, int text_length)
         {
             auto shader = glCreateShader(type);
+            checkForGlError();
             glShaderSource(shader, 1, (const GLchar**)&text, &text_length);
+            checkForGlError();
             glCompileShader(shader);
+            checkForGlError();
 
             return shader;
         }
@@ -177,12 +206,14 @@ namespace GlEngine
 
             GLint result;
             glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+            checkForGlError();
 
             auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
             if (result != GL_TRUE) logger->Log(LogType::WarningC, "%s shader failed to compile", name.c_str());
 
             GLint logLength;
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+            checkForGlError();
             if (logLength != 0)
             {
                 static const int STATIC_BUFFER_SIZE = 256;
@@ -191,6 +222,7 @@ namespace GlEngine
                 if (logLength + 1 > STATIC_BUFFER_SIZE) buff = new char[logLength + 1];
                 GLsizei length;
                 glGetShaderInfoLog(shader, max(STATIC_BUFFER_SIZE, logLength + 1), &length, buff);
+                checkForGlError();
                 if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "%s shader info log:\n%s", name.c_str(), buff);
                 if (logLength + 1 > STATIC_BUFFER_SIZE) delete[] buff;
             }
@@ -201,24 +233,42 @@ namespace GlEngine
         unsigned Shader::compileProgram()
         {
             auto program = glCreateProgram();
+            checkForGlError();
             glAttachShader(program, _vert);
+            checkForGlError();
             glAttachShader(program, _frag);
-            if (_tessc != 0) glAttachShader(program, _tessc);
-            if (_tesse != 0) glAttachShader(program, _tesse);
-            if (_geom != 0) glAttachShader(program, _geom);
+            checkForGlError();
+            if (_tessc != 0)
+            {
+                glAttachShader(program, _tessc);
+                checkForGlError();
+            }
+            if (_tesse != 0)
+            {
+                glAttachShader(program, _tesse);
+                checkForGlError();
+            }
+            if (_geom != 0)
+            {
+                glAttachShader(program, _geom);
+                checkForGlError();
+            }
             glLinkProgram(program);
+            checkForGlError();
             return program;
         }
         bool Shader::ensureProgramCompiled()
         {
             GLint result;
             glGetProgramiv(_prog, GL_LINK_STATUS, &result);
+            checkForGlError();
 
             auto logger = Engine::GetInstance().GetServiceProvider().GetService<ILogger>();
             if (result != GL_TRUE) logger->Log(LogType::WarningC, "Shader program failed to link");
 
             GLint logLength;
             glGetProgramiv(_prog, GL_INFO_LOG_LENGTH, &logLength);
+            checkForGlError();
             if (logLength != 0)
             {
                 static const int STATIC_BUFFER_SIZE = 256;
@@ -227,6 +277,7 @@ namespace GlEngine
                 if (logLength + 1 > STATIC_BUFFER_SIZE) buff = new char[logLength + 1];
                 GLsizei length;
                 glGetProgramInfoLog(_prog, max(STATIC_BUFFER_SIZE, logLength + 1), &length, buff);
+                checkForGlError();
                 if (!Util::is_empty_or_ws(buff)) logger->Log(LogType::Info, "Shader program info log:\n%s", buff);
                 if (logLength + 1 > STATIC_BUFFER_SIZE) delete[] buff;
             }
@@ -248,6 +299,7 @@ namespace GlEngine
         {
             int numAttributes;
             glGetProgramInterfaceiv(_prog, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numAttributes);
+            checkForGlError();
             const unsigned properties[] = { GL_LOCATION, GL_NAME_LENGTH, GL_TYPE };
 
             for (int attributeIdx = 0; attributeIdx < numAttributes; attributeIdx++)
@@ -259,9 +311,11 @@ namespace GlEngine
                     };
                 } values;
                 glGetProgramResourceiv(_prog, GL_PROGRAM_INPUT, attributeIdx, 3, properties, 3, NULL, values.asArray);
+                checkForGlError();
 
                 char *nameBuff = new char[values.name_length + 1];
                 glGetProgramResourceName(_prog, GL_PROGRAM_INPUT, attributeIdx, values.name_length + 1, NULL, nameBuff);
+                checkForGlError();
                 Util::Log(LogType::Info, "layout(location = %i) in %s %s;", values.location, typeString(values.type).c_str(), nameBuff);
             }
         }
@@ -269,6 +323,7 @@ namespace GlEngine
         {
             int numUniforms = 0;
             glGetProgramInterfaceiv(_prog, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
+            checkForGlError();
             const unsigned properties[4] = { GL_LOCATION, GL_NAME_LENGTH, GL_TYPE, GL_BLOCK_INDEX };
             
             for (int uniformIdx = 0; uniformIdx < numUniforms; uniformIdx++)
@@ -280,6 +335,7 @@ namespace GlEngine
                     };
                 } values;
                 glGetProgramResourceiv(_prog, GL_UNIFORM, uniformIdx, 4, properties, 4, NULL, values.asArray);
+                checkForGlError();
 
                 if (values.block_index != -1)
                 {
@@ -291,6 +347,7 @@ namespace GlEngine
                 {
                     char *nameBuff = new char[values.name_length + 1];
                     glGetProgramResourceName(_prog, GL_UNIFORM, uniformIdx, values.name_length + 1, NULL, nameBuff);
+                    checkForGlError();
                     Util::Log(LogType::Info, "layout(location = %i) uniform %s %s;", values.location, typeString(values.type).c_str(), nameBuff);
                 }
             }

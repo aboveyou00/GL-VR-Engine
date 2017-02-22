@@ -44,6 +44,7 @@ namespace GlEngine
         if (_vao != 0)
         {
             glDeleteVertexArrays(1, static_cast<GLuint*>(&_vao));
+            checkForGlError();
             _vao = 0;
         }
         if (_vbos != nullptr)
@@ -79,6 +80,7 @@ namespace GlEngine
     {
         assert(this->isReady());
         glBindVertexArray(static_cast<GLuint>(_vao));
+        checkForGlError();
 
         if (_vbos == nullptr) return;
         for (size_t q = 0; q < _vbos->size(); q++)

@@ -76,21 +76,25 @@ namespace GlEngine::Impl
     void RenderTargetImpl::PrePush()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        checkForGlError();
     }
     void RenderTargetImpl::Push(RenderTargetLayer layer, RenderTargetViewMode viewMode, Matrix<4, 4> viewMatrix)
     {
         glEnable(GL_TEXTURE_2D);
+        checkForGlError();
         if (layer == RenderTargetLayer::Layer3dOpaque || layer == RenderTargetLayer::Layer3dTransluscent)
         {
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_CULL_FACE);
             glDepthFunc(GL_LEQUAL);
+            checkForGlError();
         }
         else if (layer == RenderTargetLayer::Layer2d)
         {
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_CULL_FACE);
             glDepthFunc(GL_NONE);
+            checkForGlError();
             MatrixStack::Model.push(Matrix<4, 4>::Identity());
             MatrixStack::View.push(Matrix<4, 4>::Identity());
         }

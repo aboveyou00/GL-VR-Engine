@@ -5,3 +5,5 @@
 #include <gl/GLU.h>
 
 #define BUFFER_OFFSET(expr) ((char*)NULL + (expr)) 
+
+void checkForGlError();

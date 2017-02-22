@@ -30,9 +30,10 @@ namespace GlEngine
 
         bool GraphicsControllerImpl::Initialize()
         {
+            //checkForGlError();
             MakeDefaultContext();
             LoadGlewExtensions();
-            wglMakeCurrent(nullptr, nullptr);
+            //wglMakeCurrent(nullptr, nullptr);
             _loop.RunLoop();
             return true;
         }
@@ -57,22 +58,23 @@ namespace GlEngine
         void GraphicsControllerImpl::MakeDefaultContext()
         {
             dummyWindow = Engine::GetInstance().GetWindowManager().Create();
+            //checkForGlError();
 
             PIXELFORMATDESCRIPTOR pfd =
             {
                 sizeof(PIXELFORMATDESCRIPTOR),
                 1,
-                (DWORD)(PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER),    //Flags
-                PFD_TYPE_RGBA,          //The kind of framebuffer. RGBA or palette.
-                32,    //Colordepth of the framebuffer.
+                (DWORD)(PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER), //Flags
+                PFD_TYPE_RGBA, //The kind of framebuffer. RGBA or palette.
+                32, //Colordepth of the framebuffer.
                 0, 0, 0, 0, 0, 0,
                 0,
                 0,
                 0,
                 0, 0, 0, 0,
-                24,         //Number of bits for the depthbuffer
-                8,       //Number of bits for the stencilbuffer
-                0,     //Number of Aux buffers in the framebuffer
+                24, //Number of bits for the depthbuffer
+                8, //Number of bits for the stencilbuffer
+                0, //Number of Aux buffers in the framebuffer
                 PFD_MAIN_PLANE,
                 0,
                 0, 0, 0
@@ -92,6 +94,7 @@ namespace GlEngine
         {
             glewExperimental = TRUE;
             GLenum err = glewInit();
+            checkForGlError();
             if (err != GLEW_OK)
             {
                 std::cout << "GLEW error: " << glewGetErrorString(err) << std::endl;

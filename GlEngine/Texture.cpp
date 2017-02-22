@@ -78,16 +78,29 @@ namespace GlEngine
     }
     bool Texture::InitializeGraphics()
     {
+        checkForGlError();
+
         glGenTextures(1, &gl_tex);
+        checkForGlError();
         glBindTexture(GL_TEXTURE_2D, gl_tex);
+        checkForGlError();
         glTexStorage2D(GL_TEXTURE_2D, 4, GL_RGBA8, width, height);
-        if (image != nullptr) glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image);
+        checkForGlError();
+        if (image != nullptr)
+        {
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image);
+            checkForGlError();
+        }
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        checkForGlError();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        checkForGlError();
         auto wrapMode = hasFlag(TextureFlag::Clamp) ? GL_CLAMP : GL_REPEAT;
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+        checkForGlError();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+        checkForGlError();
 
         //glGenSamplers(1, &gl_sampler);
         //glBindSampler(0, gl_sampler);
@@ -97,6 +110,7 @@ namespace GlEngine
     void Texture::ShutdownGraphics()
     {
         glDeleteTextures(1, &gl_tex);
+        checkForGlError();
         //glDeleteSamplers(1, &gl_sampler);
     }
 
@@ -154,12 +168,16 @@ namespace GlEngine
         assert(texIdx < 32);
         gl_index = texIdx;
         glActiveTexture(GL_TEXTURE0 + gl_index);
+        checkForGlError();
         glBindTexture(GL_TEXTURE_2D, gl_tex);
+        checkForGlError();
     }
     void Texture::Pop()
     {
         glActiveTexture(GL_TEXTURE0 + gl_index);
+        checkForGlError();
         glBindTexture(GL_TEXTURE_2D, 0);
+        checkForGlError();
         gl_index = 0;
     }
 

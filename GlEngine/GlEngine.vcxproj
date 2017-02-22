@@ -338,6 +338,7 @@
     <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="IAsyncInitializable.cpp" />
     <ClCompile Include="MatrixTransform.cpp" />
+    <ClCompile Include="OpenGl.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="BoxBody.cpp" />

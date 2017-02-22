@@ -98,15 +98,25 @@ namespace GlEngine
             auto tesselation = material->GetTesselationType();
             if (tesselation == TesselationType::Disabled)
             {
-                if (triCount) glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
-                if (quadCount) glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
+                if (triCount)
+                {
+                    glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    checkForGlError();
+                }
+                if (quadCount)
+                {
+                    glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
+                    checkForGlError();
+                }
             }
             else if (tesselation == TesselationType::Triangles)
             {
                 if (triCount)
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 3);
+                    checkForGlError();
                     glDrawElements(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    checkForGlError();
                 }
                 assert(!quadCount);
             }
@@ -115,7 +125,9 @@ namespace GlEngine
                 if (quadCount)
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 4);
+                    checkForGlError();
                     glDrawElements(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    checkForGlError();
                 }
                 assert(!triCount);
             }
@@ -170,6 +182,7 @@ namespace GlEngine
 
             _factory->Push();
             glDrawArrays(GL_POINTS, 0, count);
+            checkForGlError();
             _factory->Pop();
         }
 
