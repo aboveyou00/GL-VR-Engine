@@ -139,7 +139,7 @@ namespace GlEngine
 
     void RenderTarget::AddToGraphicsLoop()
     {
-        Engine::GetInstance().GetGlController().addRenderTarget(this);
+        Engine::GetInstance().GetGraphicsController().addRenderTarget(this);
     }
 
     CameraComponent *RenderTarget::camera()

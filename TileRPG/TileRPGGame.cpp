@@ -53,7 +53,7 @@ namespace TileRPG
 
         _gfxContext->AddRenderTarget(new GlEngine::WindowRenderTarget(_window));
 
-        engine.GetGlController().AddGraphicsContext(_gfxContext);
+        engine.GetGraphicsController().AddGraphicsContext(_gfxContext);
 
         _window->Show();
         

@@ -30,10 +30,6 @@ namespace GlEngine
 
         bool GraphicsControllerImpl::Initialize()
         {
-            //checkForGlError();
-            MakeDefaultContext();
-            LoadGlewExtensions();
-            //wglMakeCurrent(nullptr, nullptr);
             _loop.RunLoop();
             return true;
         }
@@ -116,6 +112,10 @@ namespace GlEngine
         {
             this_thread_name() = "graphics";
             this_thread_type() = ThreadType::Graphics;
+
+            MakeDefaultContext();
+            LoadGlewExtensions();
+            //wglMakeCurrent(nullptr, nullptr);
 
             auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
             logger->Log(GlEngine::LogType::Info, "Beginning OpenGL graphics thread");

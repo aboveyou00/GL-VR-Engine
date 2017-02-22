@@ -1,25 +1,27 @@
 #include "stdafx.h"
 #include "OpenGl.h"
 #include "LogUtils.h"
+#include <sstream>
 
 void checkForGlError()
 {
     while (true)
     {
         auto err = glGetError();
-        std::string errString;
+        if (!err) return;
+        std::stringstream stream;
         switch (err)
         {
-        case GL_INVALID_ENUM:                  errString = "INVALID_ENUM"; break;
-        case GL_INVALID_VALUE:                 errString = "INVALID_VALUE"; break;
-        case GL_INVALID_OPERATION:             errString = "INVALID_OPERATION"; break;
-        case GL_STACK_OVERFLOW:                errString = "STACK_OVERFLOW"; break;
-        case GL_STACK_UNDERFLOW:               errString = "STACK_UNDERFLOW"; break;
-        case GL_OUT_OF_MEMORY:                 errString = "OUT_OF_MEMORY"; break;
-        case GL_INVALID_FRAMEBUFFER_OPERATION: errString = "INVALID_FRAMEBUFFER_OPERATION"; break;
-        case 0: return;
+        case GL_INVALID_ENUM:                  stream << "INVALID_ENUM"; break;
+        case GL_INVALID_VALUE:                 stream << "INVALID_VALUE"; break;
+        case GL_INVALID_OPERATION:             stream << "INVALID_OPERATION"; break;
+        case GL_STACK_OVERFLOW:                stream << "STACK_OVERFLOW"; break;
+        case GL_STACK_UNDERFLOW:               stream << "STACK_UNDERFLOW"; break;
+        case GL_OUT_OF_MEMORY:                 stream << "OUT_OF_MEMORY"; break;
+        case GL_INVALID_FRAMEBUFFER_OPERATION: stream << "INVALID_FRAMEBUFFER_OPERATION"; break;
         }
-        GlEngine::Util::Log(GlEngine::LogType::ErrorC, "An OpenGL error was produced: %s", errString.c_str());
+        stream << ": " << glewGetErrorString(err);
+        GlEngine::Util::Log(GlEngine::LogType::ErrorC, "An OpenGL error was produced: %s", stream.str().c_str());
     }
     //assert(err == GL_NO_ERROR);
 }

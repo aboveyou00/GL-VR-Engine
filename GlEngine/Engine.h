@@ -31,7 +31,7 @@ namespace GlEngine
         virtual void Shutdown() override;
 
         WindowManager &GetWindowManager();
-        GraphicsController &GetGlController();
+        GraphicsController &GetGraphicsController();
         AudioController &GetAudioController();
         inline Events::EventQueue &GetEventQueue()
         {

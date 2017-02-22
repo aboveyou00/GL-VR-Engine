@@ -33,7 +33,7 @@ namespace GlEngine
             logger.Log(LogType::FatalError, "GlEngine WindowManager failed to initialize, aborting!");
             return false;
         }
-        if (!GetGlController().Initialize())
+        if (!GetGraphicsController().Initialize())
         {
             logger.Log(LogType::FatalError, "GlEngine GlController failed to initialize, aborting!");
             GetWindowManager().Shutdown();
@@ -42,7 +42,7 @@ namespace GlEngine
         //if (!GetAudioController().Initialize())
         //{
         //    logger.Log(LogType::FatalError, "GlEngine AlController failed to initialize, aborting!");
-        //    GetGlController().Shutdown();
+        //    GetGraphicsController().Shutdown();
         //    GetWindowManager().Shutdown();
         //    return false;
         //}
@@ -50,7 +50,7 @@ namespace GlEngine
         {
             logger.Log(LogType::FatalError, "GlEngine ResourceLoader failed to initialize, aborting!");
             GetAudioController().Shutdown();
-            GetGlController().Shutdown();
+            GetGraphicsController().Shutdown();
             GetWindowManager().Shutdown();
             return false;
         }
@@ -66,7 +66,7 @@ namespace GlEngine
         auto &resources = *serviceProvider.GetService<ResourceLoader>();
         resources.Shutdown();
         //GetAudioController().Shutdown();
-        GetGlController().Shutdown();
+        GetGraphicsController().Shutdown();
         GetWindowManager().Shutdown();
     }
 
@@ -74,7 +74,7 @@ namespace GlEngine
     {
         return WindowManager::GetInstance();
     }
-    GraphicsController &Engine::GetGlController()
+    GraphicsController &Engine::GetGraphicsController()
     {
         return GraphicsController::GetInstance();
     }
