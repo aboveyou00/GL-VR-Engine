@@ -37,8 +37,7 @@ bool DiffuseSceneFrame::Initialize()
     auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
     controls->AddComponent(new LabControlsComponent());
 
-    auto lightSource1 = PointLightSourceObject::Create(this, "LightSource1");
-    lightSource1;
+    //auto lightSource1 = PointLightSourceObject::Create(this, "LightSource1");
     //auto pointLight1 = lightSource1->component<PointLightSourceObject>()->lightSource();
     //auto torus1 = OrbitingLight::Create(this, "Torus1", { 1, 1, 1 }, { 0.f, 0.f, .9f }, pointLight1, { 0, 0, 1 });
     //torus1->transform.SetPosition({ 0, 0, 0 });

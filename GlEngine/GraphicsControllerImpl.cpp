@@ -30,6 +30,7 @@ namespace GlEngine
 
         bool GraphicsControllerImpl::Initialize()
         {
+            CreateDummyWindow();
             _loop.RunLoop();
             return true;
         }
@@ -51,10 +52,9 @@ namespace GlEngine
             return _lock;
         }
 
-        void GraphicsControllerImpl::MakeDefaultContext()
+        void GraphicsControllerImpl::CreateDummyWindow()
         {
             dummyWindow = Engine::GetInstance().GetWindowManager().Create();
-            //checkForGlError();
 
             PIXELFORMATDESCRIPTOR pfd =
             {
@@ -76,26 +76,32 @@ namespace GlEngine
                 0, 0, 0
             };
 
-            HDC dc = dummyWindow->GetDeviceContext();
-            int format = ChoosePixelFormat(dc, &pfd);
-            SetPixelFormat(dc, format, &pfd);
+            _hdc = dummyWindow->GetDeviceContext();
+            int format = ChoosePixelFormat(_hdc, &pfd);
+            SetPixelFormat(_hdc, format, &pfd);
+        }
 
-            HGLRC ch = wglCreateContext(dc);
-            if (ch == nullptr)
-                Util::Log(LogType::ErrorC, "wglCreateContext failed: " + Util::GetLastErrorAsString());
-            wglMakeCurrent(dc, ch);
+        void GraphicsControllerImpl::MakeDefaultContext()
+        {
+            _hglrc = wglCreateContext(_hdc);
+            if (_hglrc == nullptr)
+            {
+                Util::Log(LogType::ErrorC, "wglCreateContext failed: %s", Util::GetLastErrorAsString());
+            }
+
+            wglMakeCurrent(_hdc, _hglrc);
         }
 
         bool GraphicsControllerImpl::LoadGlewExtensions()
         {
             glewExperimental = TRUE;
             GLenum err = glewInit();
-            checkForGlError();
             if (err != GLEW_OK)
             {
-                std::cout << "GLEW error: " << glewGetErrorString(err) << std::endl;
+                Util::Log(LogType::ErrorC, "Error in glewInit: %s", glewGetErrorString(err));
                 return false;
             }
+            checkForGlError();
 
             //TODO: Load any glew extensions
             //glewGetExtension();
@@ -114,7 +120,7 @@ namespace GlEngine
             this_thread_type() = ThreadType::Graphics;
 
             MakeDefaultContext();
-            LoadGlewExtensions();
+            if (!LoadGlewExtensions()) return false;
             //wglMakeCurrent(nullptr, nullptr);
 
             auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();

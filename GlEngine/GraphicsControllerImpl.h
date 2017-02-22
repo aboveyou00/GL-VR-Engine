@@ -27,6 +27,10 @@ namespace GlEngine
         private:
             rt_mutex _lock;
             GameLoop _loop;
+            HDC _hdc;
+            HGLRC _hglrc;
+
+            void CreateDummyWindow();
 
             std::vector<RenderTarget*> renderTargets;
 
