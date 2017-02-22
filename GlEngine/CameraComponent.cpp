@@ -11,11 +11,21 @@ namespace GlEngine
           eye({ 0, 0, 0 }),
           forward({ 0, 0, 1 }),
           up({ 0, 1, 0 }),
-          relativeOrientation(Matrix<4, 4>::Identity())
+          relativeOrientation(Matrix<4, 4>::Identity()),
+          _clearColor({ 0, 0, 0 })
     {
     }
     CameraComponent::~CameraComponent()
     {
+    }
+
+    Vector<3> CameraComponent::clearColor()
+    {
+        return _clearColor;
+    }
+    void CameraComponent::SetClearColor(Vector<3> color)
+    {
+        _clearColor = color;
     }
 
     GameObject *CameraComponent::Create(Frame *frame, std::string name)

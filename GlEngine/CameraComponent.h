@@ -23,6 +23,11 @@ namespace GlEngine
 
 
 
+        Vector<3> clearColor();
+        void SetClearColor(Vector<3> color);
+
+
+
         //From CameraGameObject.cpp:
         static GameObject *Create(Frame *frame, std::string name);
 
@@ -58,5 +63,7 @@ namespace GlEngine
 
         Vector<3> eye, forward, up;
         Matrix<4, 4> view;
+
+        Vector<3> _clearColor;
     };
 }

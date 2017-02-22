@@ -32,6 +32,7 @@ bool DiffuseSceneFrame::Initialize()
     auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
     cameraComponent->SetTargetObject(cameraTarget);
     cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
+    cameraComponent->SetClearColor({ .2, .2, .2 });
     Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
     auto controls = new GlEngine::GameObject(this, "LabControlsComponent");

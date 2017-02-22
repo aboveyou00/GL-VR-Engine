@@ -4,6 +4,7 @@
 #include "PerspectiveViewPort.h"
 #include "OrthoViewPort.h"
 #include <chrono>
+#include "CameraComponent.h"
 
 namespace GlEngine::Impl
 {
@@ -75,6 +76,9 @@ namespace GlEngine::Impl
     }
     void RenderTargetImpl::PrePush()
     {
+        auto thisCamera = camera();
+        auto clearColor = thisCamera != nullptr ? thisCamera->clearColor() : Vector<3> { 0, 0, 0 };
+        glClearColor(clearColor[0], clearColor[1], clearColor[2], 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         checkForGlError();
     }
