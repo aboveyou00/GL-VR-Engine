@@ -85,15 +85,19 @@ namespace GlEngine::Impl
         if (layer == RenderTargetLayer::Layer3dOpaque || layer == RenderTargetLayer::Layer3dTransluscent)
         {
             glEnable(GL_DEPTH_TEST);
+            checkForGlError();
             glEnable(GL_CULL_FACE);
+            checkForGlError();
             glDepthFunc(GL_LEQUAL);
             checkForGlError();
         }
         else if (layer == RenderTargetLayer::Layer2d)
         {
             glDisable(GL_DEPTH_TEST);
+            checkForGlError();
             glDisable(GL_CULL_FACE);
-            glDepthFunc(GL_NONE);
+            checkForGlError();
+            glDepthFunc(GL_NEVER);
             checkForGlError();
             MatrixStack::Model.push(Matrix<4, 4>::Identity());
             MatrixStack::View.push(Matrix<4, 4>::Identity());
