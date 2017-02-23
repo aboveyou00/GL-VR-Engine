@@ -8,42 +8,46 @@
 #include "PointLightSource.h"
 #include "LabControlsComponent.h"
 
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, ProviderList providers, float distance, float rotationSpeed)
 {
-    return Create(frame, name, color, reflectionCoef, "Resources/torus.obj", lightSource, randomRotateAxis(), distance, rotationSpeed);
+    return Create(frame, name, color, reflectionCoef, "Resources/torus.obj", lightSource, randomRotateAxis(), providers, distance, rotationSpeed);
 }
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
-{
-    auto mat = new GlEngine::DiffuseMaterial(color, reflectionCoef);
-    return Create(frame, name, mat, "Resources/torus.obj", lightSource, rotationAxis, distance, rotationSpeed);
-}
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
-{
-    return Create(frame, name, color, reflectionCoef, modelPath, lightSource, randomRotateAxis(), distance, rotationSpeed);
-}
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers, float distance, float rotationSpeed)
 {
     auto mat = new GlEngine::DiffuseMaterial(color, reflectionCoef);
-    return Create(frame, name, mat, modelPath, lightSource, rotationAxis, distance, rotationSpeed);
+    return Create(frame, name, mat, "Resources/torus.obj", lightSource, rotationAxis, providers, distance, rotationSpeed);
 }
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, ProviderList providers, float distance, float rotationSpeed)
 {
-    return Create(frame, name, mat, "Resources/torus.obj", lightSource, randomRotateAxis(), distance, rotationSpeed);
+    return Create(frame, name, color, reflectionCoef, modelPath, lightSource, randomRotateAxis(), providers, distance, rotationSpeed);
 }
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers, float distance, float rotationSpeed)
 {
-    return Create(frame, name, mat, "Resources/torus.obj", lightSource, randomRotateAxis(), distance, rotationSpeed);
+    auto mat = new GlEngine::DiffuseMaterial(color, reflectionCoef);
+    return Create(frame, name, mat, modelPath, lightSource, rotationAxis, providers, distance, rotationSpeed);
 }
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, float distance, float rotationSpeed)
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, ProviderList providers, float distance, float rotationSpeed)
 {
-    return Create(frame, name, mat, lightSource, randomRotateAxis(), distance, rotationSpeed);
+    return Create(frame, name, mat, "Resources/torus.obj", lightSource, randomRotateAxis(), providers, distance, rotationSpeed);
 }
-GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed)
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers, float distance, float rotationSpeed)
+{
+    return Create(frame, name, mat, "Resources/torus.obj", lightSource, randomRotateAxis(), providers, distance, rotationSpeed);
+}
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, ProviderList providers, float distance, float rotationSpeed)
+{
+    return Create(frame, name, mat, lightSource, randomRotateAxis(), providers, distance, rotationSpeed);
+}
+GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers, float distance, float rotationSpeed)
 {
     assert(mat != nullptr);
     assert(lightSource != nullptr);
     auto gobj = new GlEngine::GameObject(frame, name);
     auto objObj = GlEngine::ObjGraphicsObject::Create(name, modelPath.c_str(), mat, { lightSource });
+    for (auto provider : providers)
+    {
+        objObj->AddPropertyProvider(provider);
+    }
     gobj->AddComponent(objObj);
     gobj->AddComponent(new OrbitingLight(lightSource, rotationAxis, distance, rotationSpeed));
     return gobj;

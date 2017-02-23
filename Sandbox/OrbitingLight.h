@@ -8,20 +8,27 @@ namespace GlEngine
     class Material;
 }
 
+namespace GlEngine::ShaderFactory
+{
+    class IPropertyProvider;
+}
+
+typedef std::vector<GlEngine::ShaderFactory::IPropertyProvider*> ProviderList;
+
 class OrbitingLight : public GlEngine::GameComponent
 {
 public:
     OrbitingLight(GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance, float rotationSpeed);
     ~OrbitingLight();
 
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, float distance = 3.f, float rotationSpeed = .5f);
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance = 3.f, float rotationSpeed = .5f);
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, float distance = 3.f, float rotationSpeed = .5f);
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance = 3.f, float rotationSpeed = .5f);
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, float distance = 3.f, float rotationSpeed = .5f);
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance = 3.f, float rotationSpeed = .5f);
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, float distance = 3.f, float rotationSpeed = .5f);
-    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, Vector<3> color, Vector<3> reflectionCoef, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
+    static GlEngine::GameObject *Create(GlEngine::Frame *frame, std::string name, GlEngine::Material *mat, std::string modelPath, GlEngine::PointLightSource *lightSource, Vector<3> rotationAxis, ProviderList providers = {}, float distance = 3.f, float rotationSpeed = .5f);
 
 public:
     virtual bool InitializeAsync() override;
