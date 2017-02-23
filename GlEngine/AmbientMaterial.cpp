@@ -59,6 +59,6 @@ namespace GlEngine
 
     bool AmbientMaterial::isReady()
     {
-        return true;
+        return texture == nullptr || texture->isReady();
     }
 }
