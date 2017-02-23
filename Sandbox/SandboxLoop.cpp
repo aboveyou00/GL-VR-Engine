@@ -5,7 +5,7 @@
 #include "Lab03_LightsAndEffects/LightsAndEffectsSceneFrame.h"
 #include "Lab04_Textures/TexturesSceneFrame.h"
 #include "Lab05_Geometry/GeometrySceneFrame.h"
-#include "Test_Distortion/DistortionSceneFrame.h"
+#include "Lab06_Distortion/DistortionSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -55,7 +55,7 @@ bool SandboxLoop::initLoop()
     if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
 
     if (!frames.Initialize()) return false;
-    frames.PushNewFrame<GeometrySceneFrame>();
+    frames.PushNewFrame<DistortionSceneFrame>();
 
     return true;
 }

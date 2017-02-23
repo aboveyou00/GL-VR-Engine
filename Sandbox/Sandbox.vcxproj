@@ -170,8 +170,7 @@
     <ClInclude Include="Lab03_LightsAndEffects\Tree.h" />
     <ClInclude Include="TemplateMaterial.h" />
     <ClInclude Include="TemplateMaterialFactory.h" />
-    <ClInclude Include="TemplateObj.h" />
-    <ClInclude Include="Test_Distortion\DistortionSceneFrame.h" />
+    <ClInclude Include="Lab06_Distortion\DistortionSceneFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FixedRotationComponent.cpp" />
@@ -201,10 +200,9 @@
     <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp" />
     <ClCompile Include="TemplateMaterial.cpp" />
     <ClCompile Include="TemplateMaterialFactory.cpp" />
-    <ClCompile Include="TemplateObj.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\StageGraphicsObject.cpp" />
-    <ClCompile Include="Test_Distortion\DistortionSceneFrame.cpp" />
-    <ClCompile Include="Test_Distortion\distort_source.cpp" />
+    <ClCompile Include="Lab06_Distortion\DistortionSceneFrame.cpp" />
+    <ClCompile Include="Lab06_Distortion\distort_source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox.config">

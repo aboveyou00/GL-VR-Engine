@@ -8,7 +8,6 @@
 #include "Tree.h"
 #include "RandomUtils.h"
 #include "../LightSourceObject.h"
-#include "../TemplateObj.h"
 #include "../TemplateMaterial.h"
 #include "../TemplateMaterialFactory.h"
 #include "StageGraphicsObject.h"

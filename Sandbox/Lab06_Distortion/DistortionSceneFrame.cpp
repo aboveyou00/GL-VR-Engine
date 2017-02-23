@@ -6,11 +6,11 @@
 #include "../LabControlsComponent.h"
 
 #include "../RawGraphicsObject.h"
-#include "../TemplateObj.h"
 #include "../TemplateMaterial.h"
 #include "../TemplateMaterialFactory.h"
 
 #include "TextureRenderTarget.h"
+#include "GameObject.h"
 
 #include "Engine.h"
 #include "KeyboardEvent.h"
@@ -18,7 +18,13 @@
 #include "Property.h"
 #include "../Lab05_Geometry/GeometrySceneFrame.h"
 #include "../Lab04_Textures/TexturesSceneFrame.h"
-#include "../Lab03_LightsAndEffects/LightsAndEffectsSceneFrame.h"
+
+#include "AmbientLightSource.h"
+#include "PointLightSource.h"
+#include "PhongMaterial.h"
+#include "CubeGraphicsObject.h"
+#include "../LightSourceObject.h"
+#include "../FixedRotationComponent.h"
 
 //HACK HACK HACK
 #include "../Sandbox.h"
@@ -63,54 +69,48 @@ bool DistortionSceneFrame::Initialize()
     this->renderedFrame = new GeometrySceneFrame();
     this->renderedFrame->Initialize();
 
-    //auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
-    //auto pointLight = PointLightSourceObject::Create(this, "PointLight1");
-    //auto lightSource = pointLight->component<PointLightSourceObject>()->lightSource();
+    auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
+    auto pointLight = PointLightSourceObject::Create(this->renderedFrame, "PointLight1");
+    auto lightSource = pointLight->component<PointLightSourceObject>()->lightSource();
     //controlsComponent->SetControllingLight(lightSource);
-    //lightSource->SetPosition({ 0, 2.5, -2.5 });
+    lightSource->SetPosition({ -15, 2.5, -2.5 });
 
-    //auto appleTex = GlEngine::Texture::FromFile("Textures/apple.png");
-    //auto cube1 = CreateGameObject<GlEngine::CubeGraphicsObject>(Vector<3> { 3, 3, 3 }, appleTex);
-    //cube1->graphicsObject()->AddPropertyProvider(ambient);
-    //cube1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
-    //cube1->SetPosition({ -14.f, 0, 0 });
-    ////cube1->SetRotationSpeed({ 0, 45deg, 0 });
+    auto appleTex = GlEngine::Texture::FromFile("Textures/apple.png");
+    auto cube1 = new GlEngine::GameObject(this->renderedFrame, "Cube1");
+    auto mat1 = new GlEngine::PhongMaterial(appleTex);
+    auto cubeGfx1 = new GlEngine::CubeGraphicsObject("Apple_Gfx", mat1, { 3, 3, 3 });
+    cubeGfx1->AddPropertyProvider(ambient);
+    cubeGfx1->AddPropertyProvider(lightSource);
+    cube1->AddComponent(cubeGfx1);
+    cube1->transform.SetPosition({ -14.f, 0, 0 });
+    //cube1->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp);
     sceneTex->SetCamera(this->renderedFrame->findChild("Camera")->component<GlEngine::CameraComponent>());
     sceneTex->AddToGraphicsLoop();
 
-    auto cameraTarget = CameraTargetComponent::Create(this, "CameraTarget");
-
     auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->transform.position = { 0, -3.5, 7 };
-
     auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
-    cameraComponent->SetTargetObject(cameraTarget);
-    cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
+    cameraComponent->SetClearColor({ .1, .2, .3 });
     Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
-    auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
-    auto controlsComponent = new LabControlsComponent();
-    controls->AddComponent(controlsComponent);
+    auto clipPlaneGfx = new RawGraphicsObject(
+        "ClipPlaneGfx",
+        "Resources/clip_plane.obj",
+        &this->distortSource,
+        &this->props
+    );
+    clipPlaneGfx->SetMaterial(TemplateMaterial::Factory()
+        ->Name("DistortMaterial")
+        ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, sceneTex)
+        ->ProvideArray(&prop_ConvolutionKernel, currentConvolutionKernel)
+        ->Provide(&prop_Subroutine, currentSubroutine)
+        ->Create()
+    );
+    auto clipPlane = new GlEngine::GameObject(this, "ClipPlane");
+    clipPlane->AddComponent(clipPlaneGfx);
 
-    auto clipPlaneGobj = new GlEngine::GameObject(this, "ClipPlane");
-    clipPlaneGobj->AddComponent(new TemplateObj(
-        new RawGraphicsObject(
-            "ClipPlaneGfx",
-            "Resources/clip_plane.obj",
-            &this->distortSource,
-            &this->props
-        ),
-        TemplateMaterial::Factory()
-            ->Name("DistortMaterial")
-            ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, sceneTex)
-            ->ProvideArray(&prop_ConvolutionKernel, currentConvolutionKernel)
-            ->Provide(&prop_Subroutine, currentSubroutine)
-            ->Create()
-    ));
-
-    return renderedFrame->Initialize();
+    return true;
 }
 void DistortionSceneFrame::Tick(float delta)
 {
