@@ -7,7 +7,7 @@ namespace GlEngine
     MatrixTransform::MatrixTransform(MatrixStack &stack, Transform &transform)
         : _stack(&stack)
     {
-        _stack->mult(Matrix<4, 4>::TranslateMatrix(transform.position) * transform.orientation);
+        _stack->mult(transform.orientation * Matrix<4, 4>::TranslateMatrix(transform.position));
     }
     MatrixTransform::~MatrixTransform()
     {
