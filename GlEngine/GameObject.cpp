@@ -8,7 +8,7 @@
 namespace GlEngine
 {
     GameObject::GameObject(Frame *frame, std::string name)
-        : _frame(frame), _name(name), _parent(nullptr)
+        : _active(true), _frame(frame), _name(name), _parent(nullptr)
     {
         assert(_frame != nullptr);
         _frame->_children.push_back(this);
