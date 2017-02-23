@@ -12,7 +12,12 @@ namespace GlEngine
           forward({ 0, 0, 1 }),
           up({ 0, 1, 0 }),
           relativeOrientation(Matrix<4, 4>::Identity()),
-          _clearColor({ 0, 0, 0 })
+          _clearColor({ 0, 0, 0 }),
+          lockRelativePosition(false),
+          lockRelativeOrientation(false),
+          lockAbsolutePosition(false),
+          lockAbsoluteOrientation(false),
+          target(nullptr)
     {
     }
     CameraComponent::~CameraComponent()
