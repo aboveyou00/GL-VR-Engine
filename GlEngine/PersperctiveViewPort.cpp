@@ -2,9 +2,15 @@
 #include "PerspectiveViewPort.h"
 #include "MatrixStack.h"
 
+static float fovToRatio(float angle)
+{
+    return tan(angle / 2);
+}
+
 namespace GlEngine
 {
-    PerspectiveViewPort::PerspectiveViewPort()
+    PerspectiveViewPort::PerspectiveViewPort(float fovAngle, float near, float far)
+        : fovAngle(fovAngle), nearVal(near), farVal(far)
     {
     }
     PerspectiveViewPort::~PerspectiveViewPort()
@@ -13,26 +19,24 @@ namespace GlEngine
 
     void PerspectiveViewPort::Push()
     {
-        //relativeCamera.Apply();
-
         float viewWidth, viewHeight;
-        if (width > height)
+        if (width() > height())
         {
             viewHeight = 1.0;
-            viewWidth = (float)width / height;
+            viewWidth = (float)width() / height();
         }
         else
         {
             viewWidth = 1.0;
-            viewHeight = (float)height / width;
+            viewHeight = (float)height() / width();
         }
 
-        float nearVal = 1.f;
-        float farVal = 100.f;
+        auto fov = fovToRatio(fovAngle);
+        viewWidth *= fov;
+        viewHeight *= fov;
 
         MatrixStack::Projection.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
     }
-
     void PerspectiveViewPort::Pop()
     {
         MatrixStack::Projection.pop();
@@ -42,9 +46,27 @@ namespace GlEngine
     {
         this->nearVal = nearVal;
     }
-
     void PerspectiveViewPort::SetFar(float farVal)
     {
         this->farVal = farVal;
+    }
+
+    void PerspectiveViewPort::SetFov(float fovAngle)
+    {
+        this->fovAngle = fovAngle;
+    }
+
+    float PerspectiveViewPort::near()
+    {
+        return nearVal;
+    }
+    float PerspectiveViewPort::far()
+    {
+        return farVal;
+    }
+
+    float PerspectiveViewPort::fov()
+    {
+        return fovAngle;
     }
 }

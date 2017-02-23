@@ -24,6 +24,16 @@ inline T min(T one, T two)
     return (one < two ? one : two);
 }
 
+//Fixes because... why in the world is a word as common as this used as a macro?
+
+#ifdef near
+#undef near
+#endif
+
+#ifdef far
+#undef far
+#endif
+
 //Fixes becaues they break YSE:
 
 #ifdef RELATIVE

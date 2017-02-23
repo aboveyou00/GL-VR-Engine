@@ -14,10 +14,11 @@ namespace GlEngine
         virtual void SetSize(int width, int height);
         virtual void SetWidth(int width);
         virtual void SetHeight(int height);
-        virtual int GetWidth();
-        virtual int GetHeight();
 
-    protected:
-        int width, height;
+        virtual int width();
+        virtual int height();
+
+    private:
+        int _width, _height;
     };
 }

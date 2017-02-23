@@ -18,20 +18,19 @@ namespace GlEngine
     }
     void ViewPort::SetWidth(int width)
     {
-        this->width = width;
+        this->_width = width;
     }
     void ViewPort::SetHeight(int height)
     {
-        this->height = height;
+        this->_height = height;
     }
 
-    int ViewPort::GetWidth()
+    int ViewPort::width()
     {
-        return width;
+        return _width;
     }
-
-    int ViewPort::GetHeight()
+    int ViewPort::height()
     {
-        return height;
+        return _height;
     }
 }
