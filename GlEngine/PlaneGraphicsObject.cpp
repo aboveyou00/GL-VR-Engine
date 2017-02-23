@@ -13,6 +13,8 @@ namespace GlEngine
 
     bool PlaneGraphicsObject::InitializeAsync()
     {
+        if (!VboGraphicsObject::InitializeAsync()) return false;
+
         SetMaterial(_mat);
 
         static const float x = -_size[0] / 2, y = 0, z = -_size[1] / 2;
