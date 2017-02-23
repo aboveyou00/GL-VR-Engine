@@ -6,7 +6,7 @@
 namespace GlEngine::Impl
 {
     TextureRenderTargetImpl::TextureRenderTargetImpl(Texture *texture)
-        : RenderTargetImpl(), texture(texture)
+        : RenderTargetImpl(), texture(texture), frameBuffer(0)
     {
     }
     TextureRenderTargetImpl::~TextureRenderTargetImpl()
@@ -114,6 +114,6 @@ namespace GlEngine::Impl
 
     bool TextureRenderTargetImpl::isReady()
     {
-        return true;
+        return frameBuffer != 0;
     }
 }
