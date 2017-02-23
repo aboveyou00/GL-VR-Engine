@@ -75,7 +75,7 @@ private:
         this->_props.push_back(prop);
         _pushFns.push_back([prop, value](TemplateMaterial*, GlEngine::ShaderFactory::ShaderFactory &factory)
         {
-            T t = dynamic_cast<T>(value);
+            T t = static_cast<T>(value);
             factory.ProvideProperty(*prop, t);
         });
         return this;

@@ -8,7 +8,7 @@ public:
     Lab3ControlsComponent();
     ~Lab3ControlsComponent();
 
-    static unsigned celShadingSteps;
+    static int celShadingSteps;
     static float spotlightCutoffAngle;
     static float spotlightAttenuation;
 

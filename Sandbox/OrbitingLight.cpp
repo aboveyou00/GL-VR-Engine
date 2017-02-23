@@ -43,11 +43,13 @@ GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string 
     assert(mat != nullptr);
     assert(lightSource != nullptr);
     auto gobj = new GlEngine::GameObject(frame, name);
-    auto objObj = GlEngine::ObjGraphicsObject::Create(name, modelPath.c_str(), mat, { lightSource });
-    for (auto provider : providers)
+    ProviderList _providers;
+    for (size_t q = 0; q < providers.size(); q++)
     {
-        objObj->AddPropertyProvider(provider);
+        _providers.push_back(providers[q]);
     }
+    _providers.push_back(lightSource);
+    auto objObj = GlEngine::ObjGraphicsObject::Create(name, modelPath.c_str(), mat, _providers);
     gobj->AddComponent(objObj);
     gobj->AddComponent(new OrbitingLight(lightSource, rotationAxis, distance, rotationSpeed));
     return gobj;

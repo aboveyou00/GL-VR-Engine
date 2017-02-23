@@ -58,7 +58,7 @@ void Lab3ControlsComponent::HandleEvent(Event &evt)
     if (!evt.IsHandled()) LabControlsComponent::HandleEvent(evt);
 }
 
-unsigned Lab3ControlsComponent::celShadingSteps = 5;
+int Lab3ControlsComponent::celShadingSteps = 5;
 float Lab3ControlsComponent::spotlightCutoffAngle = 30deg;
 float Lab3ControlsComponent::spotlightAttenuation;
 
