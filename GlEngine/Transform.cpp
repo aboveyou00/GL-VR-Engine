@@ -4,6 +4,14 @@
 
 namespace GlEngine
 {
+    Transform::Transform()
+        : position({ 0, 0, 0 }), orientation(Matrix<4, 4>::Identity())
+    {
+    }
+    Transform::~Transform()
+    {
+    }
+
     void Transform::SetPosition(Vector<3> pos)
     {
         position = pos;

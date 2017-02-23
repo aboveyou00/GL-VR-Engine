@@ -7,6 +7,9 @@ namespace GlEngine
     struct ENGINE_SHARED Transform
     {
     public:
+        Transform();
+        ~Transform();
+
         Vector<3> position;
         //Vector<3> scale;
         Matrix<4, 4> orientation;
