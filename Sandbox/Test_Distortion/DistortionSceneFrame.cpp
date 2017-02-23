@@ -62,7 +62,20 @@ bool DistortionSceneFrame::Initialize()
 
     this->renderedFrame = new GeometrySceneFrame();
     this->renderedFrame->Initialize();
-    
+
+    //auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
+    //auto pointLight = PointLightSourceObject::Create(this, "PointLight1");
+    //auto lightSource = pointLight->component<PointLightSourceObject>()->lightSource();
+    //controlsComponent->SetControllingLight(lightSource);
+    //lightSource->SetPosition({ 0, 2.5, -2.5 });
+
+    //auto appleTex = GlEngine::Texture::FromFile("Textures/apple.png");
+    //auto cube1 = CreateGameObject<GlEngine::CubeGraphicsObject>(Vector<3> { 3, 3, 3 }, appleTex);
+    //cube1->graphicsObject()->AddPropertyProvider(ambient);
+    //cube1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
+    //cube1->SetPosition({ -14.f, 0, 0 });
+    ////cube1->SetRotationSpeed({ 0, 45deg, 0 });
+
     sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp);
     sceneTex->SetCamera(this->renderedFrame->findChild("Camera")->component<GlEngine::CameraComponent>());
     sceneTex->AddToGraphicsLoop();

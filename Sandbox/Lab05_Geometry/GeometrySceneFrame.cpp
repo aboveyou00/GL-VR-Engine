@@ -48,14 +48,31 @@ extern std::string explodeFragment;
 
 GeometrySceneFrame::GeometrySceneFrame()
 {
-    props = {
+    billboardProps = {
         { 0, &GlEngine::ShaderFactory::prop_ModelMatrix },
         { 1, &GlEngine::ShaderFactory::prop_ViewMatrix },
         { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
         { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions },
-        { 4, &prop_WireframeThickness },
         { 5, &prop_BillboardTexture },
         { 6, &prop_BillboardSize },
+        { 7, &GlEngine::ShaderFactory::prop_GameTime }
+    };
+    wireframeProps = {
+        { 0, &GlEngine::ShaderFactory::prop_ModelMatrix },
+        { 1, &GlEngine::ShaderFactory::prop_ViewMatrix },
+        { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
+        { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions },
+        { 4, &prop_WireframeThickness }
+    };
+    hairProps = {
+        { 0, &GlEngine::ShaderFactory::prop_ModelMatrix },
+        { 1, &GlEngine::ShaderFactory::prop_ViewMatrix },
+        { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix }
+    };
+    explodeProps = {
+        { 0, &GlEngine::ShaderFactory::prop_ModelMatrix },
+        { 1, &GlEngine::ShaderFactory::prop_ViewMatrix },
+        { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
         { 7, &GlEngine::ShaderFactory::prop_GameTime }
     };
 
@@ -108,102 +125,68 @@ bool GeometrySceneFrame::Initialize()
     auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
     cameraComponent->SetTargetObject(cameraTarget);
     cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
+    cameraComponent->SetClearColor({ .4, .4, .4 });
     Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
     auto controlsComponent = new Lab5ControlsComponent();
     controls->AddComponent(controlsComponent);
 
-    //auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
-    auto pointLight = PointLightSourceObject::Create(this, "PointLight1");
-    auto lightSource = pointLight->component<PointLightSourceObject>()->lightSource();
-    controlsComponent->SetControllingLight(lightSource);
-    lightSource->SetPosition({ 0, 2.5, -2.5 });
+    auto pointVboFactory = PointVolume<float, float>::Generate({ -1, -1, -1 }, { 1, 1, 1 }, 20 * 20 * 20, &prop_BillboardTimeOffset, &prop_BillboardSpeed, [](Vector<3> pos)
+    {
+        //Generate random billboard time offset and billboard speed for each snowflake
+        return std::tuple<float, float>(GlEngine::Util::random(2000.f), .4f + GlEngine::Util::random(1.6f));
+    });
+    auto snowGfx = new RawGraphicsObject(
+        "SnowGfx",
+        pointVboFactory,
+        &this->billboardSource,
+        &this->billboardProps
+    );
+    snowGfx->SetMaterial(TemplateMaterial::Factory()
+        ->Name("BillboardMaterial")
+        ->Provide(&prop_BillboardTexture, snowTex)
+        ->Provide(&prop_BillboardSize, snowflakeSize)
+        ->Create()
+    );
+    auto snowObj = new GlEngine::GameObject(this, "Snow");
+    snowObj->AddComponent(snowGfx);
+    
+    auto wireframeGfx = new RawGraphicsObject(
+        "WireframeGfx",
+        "Resources/teapot.obj",
+        &this->wireframeSource,
+        &this->wireframeProps
+    );
+    wireframeGfx->SetMaterial(TemplateMaterial::Factory()
+        ->Name("WireframeMaterial")
+        ->Provide(&prop_WireframeThickness, Lab5ControlsComponent::wireframeThickness)
+        ->Create()
+    );
+    auto wireframeTeapot = new GlEngine::GameObject(this, "WireframeTeapot");
+    wireframeTeapot->AddComponent(wireframeGfx);
+    wireframeTeapot->transform.SetPosition({ -8, 0, 0 });
 
-    //auto appleTex = GlEngine::Texture::FromFile("Textures/apple.png");
-    //auto cube1 = CreateGameObject<GlEngine::CubeGraphicsObject>(Vector<3> { 3, 3, 3 }, appleTex);
-    //cube1->graphicsObject()->AddPropertyProvider(ambient);
-    //cube1->graphicsObject()->AddPropertyProvider(pointLight->lightSource());
-    //cube1->SetPosition({ -14.f, 0, 0 });
-    ////cube1->SetRotationSpeed({ 0, 45deg, 0 });
+    auto hairGfx = new RawGraphicsObject(
+        "HairGfx",
+        "Resources/teapot.obj",
+        &this->hairSource,
+        &this->hairProps
+    );
+    hairGfx->SetMaterial(TemplateMaterial::Factory()->Create());
+    auto hairyTeapot = new GlEngine::GameObject(this, "HairTeapot");
+    hairyTeapot->AddComponent(hairGfx);
 
-    //auto pointVboFactory = PointVolume<float, float>::Generate({ -1, -1, -1 }, { 1, 1, 1 }, 20 * 20 * 20, &prop_BillboardTimeOffset, &prop_BillboardSpeed, [](Vector<3> pos)
-    //{
-    //    //Generate random billboard time offset and billboard speed for each snowflake
-    //    return std::tuple<float, float>(GlEngine::Util::random(2000.f), .4f + GlEngine::Util::random(1.6f));
-    //});
-    //CreateGameObject<TemplateObj>(
-    //    [this, pointVboFactory](TemplateObj *self, GlEngine::GraphicsContext*)
-    //    {
-    //        auto gobj = new RawGraphicsObject(
-    //            pointVboFactory,
-    //            &this->billboardSource,
-    //            &this->props
-    //        );
-    //        for (size_t q = 0; q < self->providers().size(); q++)
-    //            gobj->AddPropertyProvider(self->providers()[q]);
-    //        gobj->SetMaterial(&self->material());
-
-    //        return gobj;
-    //    },
-    //    TemplateMaterial::Factory()
-    //        ->Name("BillboardMaterial")
-    //        ->Provide(&prop_BillboardTexture, snowTex)
-    //        ->Provide(&prop_BillboardSize, snowflakeSize)
-    //        ->Create()
-    //);
-
-    //auto wireframeTeapot = CreateGameObject<TemplateObj>(
-    //    [this](TemplateObj* self, GlEngine::GraphicsContext*) {
-    //        auto gobj = new RawGraphicsObject(
-    //            "Resources/teapot.obj",
-    //            &this->wireframeSource,
-    //            &this->props
-    //        );
-    //        for (size_t q = 0; q < self->providers().size(); q++)
-    //            gobj->AddPropertyProvider(self->providers()[q]);
-    //        gobj->SetMaterial(&self->material());
-
-    //        return gobj;
-    //    },
-    //    TemplateMaterial::Factory()
-    //        ->Name("WireframeMaterial")
-    //        ->Provide(&prop_WireframeThickness, Lab5ControlsComponent::wireframeThickness)
-    //        ->Create()
-    //);
-    //wireframeTeapot->SetPosition({ -8, 0, 0 });
-
-    //auto hairyTorus = CreateGameObject<TemplateObj>(
-    //    [this](TemplateObj* self, GlEngine::GraphicsContext*) {
-    //        auto gobj = new RawGraphicsObject(
-    //            "Resources/teapot.obj",
-    //            &this->hairSource,
-    //            &this->props
-    //        );
-    //        for (size_t q = 0; q < self->providers().size(); q++)
-    //            gobj->AddPropertyProvider(self->providers()[q]);
-    //        gobj->SetMaterial(&self->material());
-
-    //        return gobj;
-    //    }
-    //);
-    //hairyTorus->SetPosition({ 0, 0, 0 });
-
-    //auto explodeTeapot = CreateGameObject<TemplateObj>(
-    //    [this](TemplateObj* self, GlEngine::GraphicsContext*) {
-    //        auto gobj = new RawGraphicsObject(
-    //            "Resources/teapot.obj",
-    //            &this->explodeSource,
-    //            &this->props
-    //        );
-    //        for (size_t q = 0; q < self->providers().size(); q++)
-    //            gobj->AddPropertyProvider(self->providers()[q]);
-    //        gobj->SetMaterial(&self->material());
-
-    //        return gobj;
-    //    }
-    //);
-    //explodeTeapot->SetPosition({ 8, 0, 0 });
+    auto explodeGfx = new RawGraphicsObject(
+        "ExplodeGfx",
+        "Resources/teapot.obj",
+        &this->explodeSource,
+        &this->explodeProps
+    );
+    explodeGfx->SetMaterial(TemplateMaterial::Factory()->Create());
+    auto explodeTeapot = new GlEngine::GameObject(this, "ExplodeTeapot");
+    explodeTeapot->AddComponent(explodeGfx);
+    explodeTeapot->transform.SetPosition({ 8, 0, 0 });
 
     return true;
 }

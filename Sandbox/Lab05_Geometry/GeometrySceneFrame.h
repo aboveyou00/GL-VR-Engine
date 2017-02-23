@@ -22,7 +22,7 @@ public:
     virtual bool Initialize() override;
 
 private:
-    std::map<size_t, GlEngine::ShaderFactory::ShaderProp*> props;
+    std::map<size_t, GlEngine::ShaderFactory::ShaderProp*> billboardProps, wireframeProps, hairProps, explodeProps;
     GlEngine::ShaderFactory::ShaderSource billboardSource, wireframeSource, hairSource, explodeSource;
     GlEngine::Texture *snowTex;
     Vector<2> snowflakeSize;
