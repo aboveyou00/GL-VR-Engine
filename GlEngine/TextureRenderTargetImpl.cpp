@@ -90,6 +90,9 @@ namespace GlEngine::Impl
 
     void TextureRenderTargetImpl::Prepare()
     {
+        for (int i = 0; i < layerCount; i++)
+            if (viewPorts[i] != nullptr)
+                viewPorts[i]->SetSize(this->texture->GetWidth(), this->texture->GetHeight());
     }
     void TextureRenderTargetImpl::PrePush()
     {
