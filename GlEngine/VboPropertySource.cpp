@@ -32,16 +32,14 @@ namespace GlEngine
         {
             auto &vboOuts = program->components[ComponentType::Input]->outs;
 
-            for (auto prop : _props)
+            for (auto it = _props.begin(); it != _props.end(); it++)
             {
-                auto it = std::find(_props.begin(), _props.end(), prop);
-                assert(it != _props.end());
                 auto idx = it - _props.begin();
             
                 assert(vboOuts[idx] == nullptr);
-                vboOuts[idx] = prop;
+                vboOuts[idx] = *it;
 
-                program->ConnectComponentsProperty(ComponentType::Input, type, prop);
+                program->ConnectComponentsProperty(ComponentType::Input, type, *it);
             }
         }
     }

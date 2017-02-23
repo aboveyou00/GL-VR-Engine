@@ -148,7 +148,10 @@ namespace GlEngine
 
         void Program::ConnectComponentsProperty(ComponentType first, ComponentType last, ShaderProp *prop)
         {
-            assert(first < last);
+            assert(first <= last);
+            if (first == last)
+                return;
+            
             components[first]->AddIdentitySnippet(prop, false, true);
             unsigned inputIndex = components[first]->FindOrCreateOutput(prop);
             
@@ -556,7 +559,7 @@ namespace GlEngine
             
             for (auto source : allSources)
             {
-                ComponentType early = ComponentType::Vertex;
+                ComponentType early = ComponentType::Input;
                 for (PropertySource* input : propertySourceInputs[source])
                 {
                     assert(input != nullptr);
