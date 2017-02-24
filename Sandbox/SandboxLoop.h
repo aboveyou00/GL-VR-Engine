@@ -16,10 +16,7 @@ public:
 
     virtual std::string name() override;
 
-    inline GlEngine::FrameStack &GetFrameStack()
-    {
-        return frames;
-    }
+    GlEngine::FrameStack *frames();
 
 private:
     bool initLoop();
@@ -30,5 +27,5 @@ private:
     void copyRemoteQueue();
     void handleEvents();
 
-    GlEngine::FrameStack frames;
+    GlEngine::FrameStack _frames;
 };

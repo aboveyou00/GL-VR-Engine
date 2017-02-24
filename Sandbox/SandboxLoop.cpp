@@ -6,6 +6,7 @@
 #include "Lab04_Textures/TexturesSceneFrame.h"
 #include "Lab05_Geometry/GeometrySceneFrame.h"
 #include "Lab06_Distortion/DistortionSceneFrame.h"
+#include "Lab07_Particles/ParticlesSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -44,6 +45,11 @@ std::string SandboxLoop::name()
     return "SandboxLoop";
 }
 
+GlEngine::FrameStack *SandboxLoop::frames()
+{
+    return &_frames;
+}
+
 bool SandboxLoop::initLoop()
 {
     this_thread_name() = "logic";
@@ -54,15 +60,15 @@ bool SandboxLoop::initLoop()
 
     if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
 
-    if (!frames.Initialize()) return false;
-    frames.PushNewFrame<LightsAndEffectsSceneFrame>();
+    if (!_frames.Initialize()) return false;
+    _frames.PushNewFrame<TexturesSceneFrame>();
 
     return true;
 }
 void SandboxLoop::loopBody(float delta)
 {
     handleEvents();
-    frames.Tick(delta);
+    _frames.Tick(delta);
     GlEngine::Engine::GetInstance().GetAudioController().Tick(0); //We don't need a delta here, YSE worries about its own timing
 }
 void SandboxLoop::shutdownLoop()
@@ -70,7 +76,7 @@ void SandboxLoop::shutdownLoop()
     auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
     logger->Log(GlEngine::LogType::Info, "~Terminating logic thread");
 
-    frames.Shutdown();
+    _frames.Shutdown();
     GlEngine::Engine::GetInstance().GetAudioController().Shutdown();
 }
 
@@ -90,7 +96,7 @@ void SandboxLoop::handleEvents()
     GlEngine::Events::Event *evt;
     while ((evt = localQueue.RemoveEvent()) != nullptr)
     {
-        frames.HandleEvent(*evt);
+        _frames.HandleEvent(*evt);
         delete evt;
     }
 }

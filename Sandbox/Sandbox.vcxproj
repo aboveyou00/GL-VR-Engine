@@ -154,6 +154,7 @@
     <ClInclude Include="Lab05_Geometry\GeometrySceneFrame.h" />
     <ClInclude Include="Lab05_Geometry\Lab5ControlsComponent.h" />
     <ClInclude Include="Lab05_Geometry\PointVolume.h" />
+    <ClInclude Include="Lab07_Particles\ParticlesSceneFrame.h" />
     <ClInclude Include="LabControlsComponent.h" />
     <ClInclude Include="WidgetObject.h" />
     <ClInclude Include="LightSourceObject.h" />
@@ -186,6 +187,8 @@
     <ClCompile Include="Lab05_Geometry\hair_source.cpp" />
     <ClCompile Include="Lab05_Geometry\Lab5ControlsComponent.cpp" />
     <ClCompile Include="Lab05_Geometry\wireframe_source.cpp" />
+    <ClCompile Include="Lab07_Particles\ParticlesSceneFrame.cpp" />
+    <ClCompile Include="Lab07_Particles\waves_source.cpp" />
     <ClCompile Include="LabControlsComponent.cpp" />
     <ClCompile Include="WidgetObject.cpp" />
     <ClCompile Include="OrbitingLight.cpp" />

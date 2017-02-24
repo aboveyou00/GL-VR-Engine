@@ -20,12 +20,8 @@ Sandbox::~Sandbox()
     Shutdown();
 }
 
-GlEngine::RenderTarget *Sandbox::windowRenderTarget = nullptr;
-
 bool Sandbox::Initialize()
 {
-    if (Sandbox::windowRenderTarget != nullptr) return false;
-
     logger = registerLogger();
     if (logger == nullptr) return false;
 
@@ -87,7 +83,8 @@ bool Sandbox::createWindow()
 
     if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
 
-    windowRenderTarget = new GlEngine::WindowRenderTarget(_window);
+    auto windowRenderTarget = new GlEngine::WindowRenderTarget(_window);
+    windowRenderTarget->SetCamera(this->_loop.frames());
     windowRenderTarget->AddToGraphicsLoop();
 
     _window->Show();

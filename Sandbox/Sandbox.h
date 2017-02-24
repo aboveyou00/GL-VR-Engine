@@ -34,8 +34,6 @@ public:
         return *_window;
     }
 
-    static GlEngine::RenderTarget *windowRenderTarget;
-
 private:
     SandboxLoop _loop;
 

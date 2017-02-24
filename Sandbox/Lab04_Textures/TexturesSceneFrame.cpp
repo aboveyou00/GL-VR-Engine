@@ -16,10 +16,6 @@
 #include "../FixedRotationComponent.h"
 #include "TextureRenderTarget.h"
 
-//HACK HACK HACK
-#include "../Sandbox.h"
-#include "RenderTarget.h"
-
 TexturesSceneFrame::TexturesSceneFrame()
 {
 }
@@ -36,11 +32,10 @@ bool TexturesSceneFrame::Initialize()
     auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
     cameraObject->transform.position = { 0, -3.5, 7 };
 
-    auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
+    auto cameraComponent = CreateDefaultCamera();
     cameraComponent->SetTargetObject(cameraTarget);
     cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraComponent->SetClearColor({ .3, .1, .1 });
-    Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
     auto controlsComponent = new LabControlsComponent();

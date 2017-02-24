@@ -15,10 +15,6 @@
 #include "Texture.h"
 #include "CubeGraphicsObject.h"
 
-//HACK HACK HACK
-#include "../Sandbox.h"
-#include "RenderTarget.h"
-
 extern std::string billboardVertex;
 extern std::string billboardGeometry;
 extern std::string billboardFragment;
@@ -121,11 +117,10 @@ bool GeometrySceneFrame::Initialize()
     auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
     cameraObject->transform.position = { 0, -3.5, 7 };
 
-    auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
+    auto cameraComponent = CreateDefaultCamera();
     cameraComponent->SetTargetObject(cameraTarget);
     cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraComponent->SetClearColor({ .4, .4, .4 });
-    Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
     auto controlsComponent = new Lab5ControlsComponent();

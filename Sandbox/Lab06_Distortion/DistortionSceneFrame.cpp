@@ -26,10 +26,6 @@
 #include "../LightSourceObject.h"
 #include "../FixedRotationComponent.h"
 
-//HACK HACK HACK
-#include "../Sandbox.h"
-#include "RenderTarget.h"
-
 extern std::string distortVertex;
 extern std::string distortFragment;
 static GlEngine::ShaderFactory::Property<GlEngine::ShaderFactory::Subroutine*> prop_Subroutine("__subroutine__");
@@ -86,13 +82,11 @@ bool DistortionSceneFrame::Initialize()
     //cube1->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp);
-    sceneTex->SetCamera(this->renderedFrame->findChild("Camera")->component<GlEngine::CameraComponent>());
+    sceneTex->SetCamera(this->renderedFrame->mainCamera());
     sceneTex->AddToGraphicsLoop();
 
-    auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
+    auto cameraComponent = CreateDefaultCamera();
     cameraComponent->SetClearColor({ .1, .2, .3 });
-    Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
     auto clipPlaneGfx = new RawGraphicsObject(
         "ClipPlaneGfx",

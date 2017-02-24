@@ -31,10 +31,6 @@
 
 #include "LogUtils.h"
 
-//HACK HACK HACK
-#include "../Sandbox.h"
-#include "RenderTarget.h"
-
 typedef GlEngine::ShaderFactory::IPropertyProvider IPropertyProvider;
 typedef GlEngine::PointLightSource PointLightSource;
 typedef GlEngine::SpotlightSource SpotlightSource;
@@ -57,10 +53,9 @@ bool LightsAndEffectsSceneFrame::Initialize()
     auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
     cameraObject->transform.position = { 0, -3.5, 7 };
 
-    auto cameraComponent = cameraObject->component<GlEngine::CameraComponent>();
+    auto cameraComponent = CreateDefaultCamera();
     cameraComponent->SetTargetObject(cameraTarget);
     cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-    Sandbox::windowRenderTarget->SetCamera(cameraComponent);
 
     auto controls = new GlEngine::GameObject(this, "Lab3ControlsComponent");
     auto controlsComponent = new Lab3ControlsComponent();
