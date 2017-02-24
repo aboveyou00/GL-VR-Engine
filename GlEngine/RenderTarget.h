@@ -13,7 +13,7 @@ namespace GlEngine
 
     class ViewPort;
     class Window;
-    class CameraComponent;
+    class ICamera;
 
     class ENGINE_SHARED RenderTarget : public IAsyncInitializable
     {
@@ -30,8 +30,8 @@ namespace GlEngine
 
         virtual bool isReady() override;
 
-        CameraComponent *camera();
-        void SetCamera(CameraComponent *camera);
+        ICamera *camera();
+        void SetCamera(ICamera *camera);
 
         void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
         ViewPort *viewPort(RenderTargetLayer layer);

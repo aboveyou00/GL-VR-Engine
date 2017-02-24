@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameComponent.h"
+#include "ICamera.h"
 
 namespace GlEngine
 {
@@ -15,7 +16,7 @@ namespace GlEngine
 
     class Frame;
 
-    class ENGINE_SHARED CameraComponent : public GameComponent
+    class ENGINE_SHARED CameraComponent : public GameComponent, public ICamera
     {
     public:
         CameraComponent();
@@ -23,7 +24,7 @@ namespace GlEngine
 
 
 
-        Vector<3> clearColor();
+        virtual Vector<3> clearColor() override;
         void SetClearColor(Vector<3> color);
 
 
@@ -50,8 +51,10 @@ namespace GlEngine
 
 
         //From Camera.cpp:
-        void Push();
-        void Pop();
+        virtual void Push() override;
+        virtual void Pop() override;
+
+        virtual Frame *frame() override;
 
 
 

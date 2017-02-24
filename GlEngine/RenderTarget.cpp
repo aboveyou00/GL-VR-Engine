@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "RenderTarget.h"
 #include "RenderTargetImpl.h"
-#include "CameraComponent.h"
+#include "ICamera.h"
 #include "Frame.h"
 
 #include "Engine.h"
@@ -145,11 +145,11 @@ namespace GlEngine
         Engine::GetInstance().GetGraphicsController().addRenderTarget(this);
     }
 
-    CameraComponent *RenderTarget::camera()
+    ICamera *RenderTarget::camera()
     {
         return pimpl->camera();
     }
-    void RenderTarget::SetCamera(CameraComponent *camera)
+    void RenderTarget::SetCamera(ICamera *camera)
     {
         pimpl->SetCamera(camera);
     }

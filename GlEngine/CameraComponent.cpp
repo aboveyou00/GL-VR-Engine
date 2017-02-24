@@ -11,8 +11,8 @@ namespace GlEngine
           eye({ 0, 0, 0 }),
           forward({ 0, 0, 1 }),
           up({ 0, 1, 0 }),
-          relativeOrientation(Matrix<4, 4>::Identity()),
           _clearColor({ 0, 0, 0 }),
+          relativeOrientation(Matrix<4, 4>::Identity()),
           lockRelativePosition(false),
           lockRelativeOrientation(false),
           lockAbsolutePosition(false),
@@ -105,6 +105,11 @@ namespace GlEngine
     void CameraComponent::Pop()
     {
         MatrixStack::View.pop();
+    }
+
+    Frame *CameraComponent::frame()
+    {
+        return GameComponent::frame();
     }
 
     //TODO: find a better place to put this

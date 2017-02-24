@@ -166,15 +166,15 @@ namespace GlEngine
     {
         std::tuple<Vector<3>, Vector<2>, Vector<3>> glVertex(vertex, texCoord, normal);
         
-        auto index = std::find(glVertices.begin(), glVertices.end(), glVertex);
-        if (index == glVertices.end())
-        {
+        //auto index = std::find(glVertices.begin(), glVertices.end(), glVertex);
+        //if (index == glVertices.end())
+        //{
             glVertices.push_back(glVertex);
             return glVertices.size() - 1;
-        }
-        else 
-        {
-            return index - glVertices.begin();
-        }
+        //}
+        //else 
+        //{
+        //    return index - glVertices.begin();
+        //}
     }
 }

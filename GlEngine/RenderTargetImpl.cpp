@@ -4,11 +4,11 @@
 #include "PerspectiveViewPort.h"
 #include "OrthoViewPort.h"
 #include <chrono>
-#include "CameraComponent.h"
+#include "ICamera.h"
 
 namespace GlEngine::Impl
 {
-    RenderTargetImpl::RenderTargetImpl(CameraComponent *camera)
+    RenderTargetImpl::RenderTargetImpl(ICamera *camera)
         : _camera(camera), shouldRender(true)
     {
         for (int i = 0; i < layerCount; i++)
@@ -155,11 +155,11 @@ namespace GlEngine::Impl
         return this->viewPorts[idx];
     }
 
-    CameraComponent *RenderTargetImpl::camera()
+    ICamera *RenderTargetImpl::camera()
     {
         return _camera;
     }
-    void RenderTargetImpl::SetCamera(CameraComponent *camera)
+    void RenderTargetImpl::SetCamera(ICamera *camera)
     {
         _camera = camera;
     }

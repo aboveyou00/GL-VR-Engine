@@ -8,14 +8,14 @@
 
 namespace GlEngine
 {
-    class CameraComponent;
+    class ICamera;
 
     namespace Impl
     {
         class RenderTargetImpl : public IAsyncInitializable
         {
         public:
-            RenderTargetImpl(CameraComponent *camera = nullptr);
+            RenderTargetImpl(ICamera *camera = nullptr);
             ~RenderTargetImpl();
 
             virtual bool InitializeAsync() override;
@@ -46,12 +46,12 @@ namespace GlEngine
             static const int layerCount = (int)std::numeric_limits<RenderTargetLayer>::max() - (int)std::numeric_limits<RenderTargetLayer>::min() + 1;
             ViewPort* viewPorts[layerCount];
 
-            CameraComponent *camera();
-            void SetCamera(CameraComponent *camera);
+            ICamera *camera();
+            void SetCamera(ICamera *camera);
 
         private:
             bool shouldRender;
-            CameraComponent *_camera;
+            ICamera *_camera;
         };
     }
 }

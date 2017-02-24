@@ -167,6 +167,7 @@
     <ClInclude Include="FogInterpolationMode.h" />
     <ClInclude Include="FogSource.h" />
     <ClInclude Include="GameComponent.h" />
+    <ClInclude Include="ICamera.h" />
     <ClInclude Include="IInitializable.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="MatrixTransform.h" />
@@ -337,6 +338,7 @@
     <ClCompile Include="FogSource.cpp" />
     <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="IAsyncInitializable.cpp" />
+    <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="MatrixTransform.cpp" />
     <ClCompile Include="OpenGl.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />

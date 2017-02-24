@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IInitializable.h"
+#include "ICamera.h"
 #include "RenderTargetLayer.h"
 #include <unordered_map>
 
@@ -13,10 +14,10 @@ namespace GlEngine
 {
     class GameObject;
     class RenderTarget;
-    class CameraComponent;
     class FrameStack;
+    class CameraComponent;
 
-    class ENGINE_SHARED Frame : public IInitializable
+    class ENGINE_SHARED Frame : public IInitializable, public ICamera
     {
     public:
         Frame();
@@ -24,6 +25,7 @@ namespace GlEngine
 
         friend class RenderTarget;
         friend class GameObject;
+        friend class FrameStack;
 
         virtual std::string name() override;
 
@@ -46,14 +48,29 @@ namespace GlEngine
 
         GameObject *findChild(std::string name);
 
+        virtual void Push() override;
+        virtual void Pop() override;
+
+        virtual Vector<3> clearColor() override;
+
+        virtual bool isReady() override;
+
+        ICamera *mainCamera();
+
+    protected:
+        virtual CameraComponent *CreateDefaultCamera();
+        void SetMainCamera(ICamera *camera);
+
     private:
         std::vector<GameObject*> _children;
         bool _initialized;
 
         void setCurrentRenderTarget(RenderTarget *target);
-        void setCurrentCamera(CameraComponent *camera);
+        void setCurrentCamera(ICamera *camera);
+
+        virtual Frame *frame() override;
 
         RenderTarget *currentRenderTarget;
-        CameraComponent *currentCamera;
+        ICamera *currentCamera, *_mainCamera;
     };
 }

@@ -2,6 +2,7 @@
 
 #include "GameLoop.h"
 #include "IInitializable.h"
+#include "ICamera.h"
 
 namespace GlEngine
 {
@@ -11,11 +12,13 @@ namespace GlEngine
         class Event;
     }
 
-    class ENGINE_SHARED FrameStack : IInitializable
+    class ENGINE_SHARED FrameStack : public IInitializable, public ICamera
     {
     public:
         FrameStack();
         ~FrameStack();
+
+        friend class Frame;
 
         virtual bool Initialize() override;
         virtual void Shutdown() override;
@@ -39,6 +42,15 @@ namespace GlEngine
         Frame *CurrentFrame();
 
         virtual void HandleEvent(Events::Event &evt);
+
+        virtual void Push() override;
+        virtual void Pop() override;
+
+        virtual Vector<3> clearColor() override;
+
+        virtual Frame *frame() override;
+
+        virtual bool isReady() override;
 
     private:
         static const int MAX_FRAME_STACK_SIZE = 32;
