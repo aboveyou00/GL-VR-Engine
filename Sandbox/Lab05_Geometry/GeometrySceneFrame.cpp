@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GeometrySceneFrame.h"
 
-#include "PointVolume.h"
+#include "../PointVolume.h"
 
 #include "CameraComponent.h"
 #include "../CameraTargetComponent.h"
@@ -19,7 +19,6 @@ extern std::string billboardVertex;
 extern std::string billboardGeometry;
 extern std::string billboardFragment;
 static GlEngine::ShaderFactory::Property<GlEngine::Texture*> prop_BillboardTexture("billboard_texture");
-static GlEngine::ShaderFactory::Property<Vector<2>> prop_BillboardSize("billboard_size");
 static GlEngine::ShaderFactory::Property<float> prop_BillboardTimeOffset("billboard_time_offset");
 static GlEngine::ShaderFactory::Property<float> prop_BillboardSpeed("billboard_speed");
 
@@ -49,7 +48,7 @@ GeometrySceneFrame::GeometrySceneFrame()
         { 2, &GlEngine::ShaderFactory::prop_ProjectionMatrix },
         { 3, &GlEngine::ShaderFactory::prop_ScreenDimensions },
         { 5, &prop_BillboardTexture },
-        { 6, &prop_BillboardSize },
+        { 6, &GlEngine::ShaderFactory::prop_BillboardSize },
         { 7, &GlEngine::ShaderFactory::prop_GameTime }
     };
     wireframeProps = {
@@ -140,7 +139,7 @@ bool GeometrySceneFrame::Initialize()
     snowGfx->SetMaterial(TemplateMaterial::Factory()
         ->Name("BillboardMaterial")
         ->Provide(&prop_BillboardTexture, snowTex)
-        ->Provide(&prop_BillboardSize, snowflakeSize)
+        ->Provide(&GlEngine::ShaderFactory::prop_BillboardSize, snowflakeSize)
         ->Create()
     );
     auto snowObj = new GlEngine::GameObject(this, "Snow");

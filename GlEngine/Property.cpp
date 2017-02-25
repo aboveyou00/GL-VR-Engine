@@ -24,6 +24,8 @@ namespace GlEngine::ShaderFactory
     Property<Texture*> prop_Texture2("texture2");
     Property<Texture*> prop_AlphaMapTexture("alpha_map_texture");
     Property<Texture*> prop_NormalMapTexture("normal_map");
+
+    Property<Vector<2>> prop_BillboardSize("billboard_size");
 #pragma endregion
 
 #pragma region environment

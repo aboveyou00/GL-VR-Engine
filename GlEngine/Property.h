@@ -65,6 +65,8 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Texture*> prop_Texture2;
         extern ENGINE_SHARED Property<Texture*> prop_AlphaMapTexture;
         extern ENGINE_SHARED Property<Texture*> prop_NormalMapTexture;
+
+        extern ENGINE_SHARED Property<Vector<2>> prop_BillboardSize;
 #pragma endregion
 
 #pragma region environment

@@ -159,6 +159,7 @@
     <ClInclude Include="AmbientMaterial.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="BoxCollision.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="CubeGraphicsObject.h" />
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="DirectionalLightSource.h" />
@@ -332,6 +333,7 @@
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="CubeGraphicsObject.cpp" />
     <ClCompile Include="DirectionalLightSource.cpp" />
     <ClCompile Include="DummyPropertySource.cpp" />
