@@ -31,7 +31,7 @@ public:
 
     virtual void Tick(float) override
     {
-        gameObject()->transform.position = lightSource()->position();
+        gameObject()->localTransform()->SetPosition(lightSource()->position());
     }
 
     virtual std::string name() override

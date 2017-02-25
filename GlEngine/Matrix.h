@@ -236,9 +236,9 @@ public:
                 result.values[q][w] = left.values[q][w] * right;
         return result;
     }
-    inline friend Matrix<rows, cols> operator*(ElemT left, const Matrix<rows, cols> &right)
+    inline friend Matrix<rows, cols, ElemT> operator*(ElemT left, const Matrix<rows, cols, ElemT> &right)
     {
-        Matrix<rows, cols> result;
+        Matrix<rows, cols, ElemT> result;
         for (auto q = 0; q < rows; q++)
             for (auto w = 0; w < cols; w++)
                 result.values[q][w] = left * left.values[q][w];
@@ -337,7 +337,7 @@ public:
     inline friend Vector<rows - 1, ElemT> &operator*=(Vector<rows - 1, ElemT> &left, const Matrix<rows, cols, ElemT> &right)
     {
         static_assert(rows == cols && rows >= 2, "You can't multiply-assign a matrix unless it is a square matrix and it is being multiplied by a matrix of the same size");
-        return left = left * right;
+        return left = right * left;
     }
 
     inline friend std::ostream &operator<<(std::ostream &stream, const Matrix<rows, cols, ElemT> &mat)

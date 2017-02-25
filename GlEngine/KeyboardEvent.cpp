@@ -17,7 +17,7 @@ namespace GlEngine
         {
             return _vkCode;
         }
-        KeyboardEventType KeyboardEvent::GetEventType() const
+        KeyboardEventType KeyboardEvent::type() const
         {
             return _type;
         }
@@ -34,15 +34,15 @@ namespace GlEngine
             return _type == KeyboardEventType::KeyTyped;
         }
 
-        bool KeyboardEvent::IsControlPressed() const
+        bool KeyboardEvent::isControlPressed() const
         {
             return _ctrl;
         }
-        bool KeyboardEvent::IsAltPressed() const
+        bool KeyboardEvent::isAltPressed() const
         {
             return _alt;
         }
-        bool KeyboardEvent::IsShiftPressed() const
+        bool KeyboardEvent::isShiftPressed() const
         {
             return _shift;
         }

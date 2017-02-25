@@ -12,7 +12,7 @@ FixedRotationComponent::~FixedRotationComponent()
 
 void FixedRotationComponent::Tick(float delta)
 {
-    gameObject()->transform.RotateX(_rot[0] * delta);
-    gameObject()->transform.RotateY(_rot[1] * delta);
-    gameObject()->transform.RotateZ(_rot[2] * delta);
+    gameObject()->localTransform()->RotateX(_rot[0] * delta);
+    gameObject()->localTransform()->RotateY(_rot[1] * delta);
+    gameObject()->localTransform()->RotateZ(_rot[2] * delta);
 }

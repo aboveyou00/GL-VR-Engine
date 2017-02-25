@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Transform.h"
+#include "GlobalTransform.h"
 #include "GameComponent.h"
 
 #include "Actor.h"
@@ -23,8 +23,6 @@ namespace GlEngine
         //Context
         Frame *frame() const;
         std::string name() const;
-
-        Transform transform;
 
         GameObject *parent() const;
         void SetParent(GameObject *parent);
@@ -60,6 +58,9 @@ namespace GlEngine
         void UpdateGraphics();
         void Render(RenderTargetLayer layer);
 
+        Transform* localTransform();
+        GlobalTransform* globalTransform();
+
     private:
         bool _active;
         Frame *_frame;
@@ -68,5 +69,8 @@ namespace GlEngine
         GameObject *_parent;
         std::vector<GameObject*> _children;
         std::vector<GameComponent*> _components;
+        
+        Transform transform;
+        GlobalTransform* _globalTransform;
     };
 }

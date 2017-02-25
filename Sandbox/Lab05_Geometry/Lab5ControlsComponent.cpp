@@ -20,7 +20,7 @@ float Lab5ControlsComponent::wireframeThickness = 1;
 void Lab5ControlsComponent::HandleEvent(Event &evt)
 {
     auto *kbdEvt = dynamic_cast<KeyboardEvent*>(&evt);
-    if (kbdEvt != nullptr && kbdEvt->GetEventType() == KeyboardEventType::KeyTyped)
+    if (kbdEvt != nullptr && kbdEvt->type() == KeyboardEventType::KeyTyped)
     {
         if (kbdEvt->GetVirtualKeyCode() == VK_SQUARE_BRACKET_RIGHT && this->wireframeThickness < 6)
         {

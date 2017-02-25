@@ -169,6 +169,7 @@
     <ClInclude Include="FogSource.h" />
     <ClInclude Include="GameComponent.h" />
     <ClInclude Include="ICamera.h" />
+    <ClInclude Include="GlobalTransform.h" />
     <ClInclude Include="IInitializable.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="MatrixTransform.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="PointLightInfo.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="PropertyResolutionEagerness.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RenderTargetViewMode.h" />
     <ClInclude Include="RawShaderFactory.h" />
     <ClInclude Include="ShaderFactoryError.h" />
@@ -207,8 +209,6 @@
     <ClInclude Include="ComponentType.h" />
     <ClInclude Include="ComponentType_attribs.h" />
     <ClInclude Include="ConstantPropertySource.h" />
-    <ClInclude Include="CompoundGraphicsObject.h" />
-    <ClInclude Include="CompoundGraphicsObjectImpl.h" />
     <ClInclude Include="EmptyBody.h" />
     <ClInclude Include="EmptyGraphicsObject.h" />
     <ClInclude Include="Environment.h" />
@@ -297,7 +297,6 @@
     <ClInclude Include="TileCollisionGroup.h" />
     <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="TransformedGraphicsObject.h" />
     <ClInclude Include="UniformPropertySource.h" />
     <ClInclude Include="UnsafeVboFactory.h" />
     <ClInclude Include="VaObject.h" />
@@ -339,6 +338,7 @@
     <ClCompile Include="DummyPropertySource.cpp" />
     <ClCompile Include="FogSource.cpp" />
     <ClCompile Include="GameComponent.cpp" />
+    <ClCompile Include="GlobalTransform.cpp" />
     <ClCompile Include="IAsyncInitializable.cpp" />
     <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="MatrixTransform.cpp" />
@@ -352,8 +352,6 @@
     <ClCompile Include="CollisionGroup.cpp" />
     <ClCompile Include="ComponentType.cpp" />
     <ClCompile Include="ComponentType_attribs.cpp" />
-    <ClCompile Include="CompoundGraphicsObject.cpp" />
-    <ClCompile Include="CompoundGraphicsObjectImpl.cpp" />
     <ClCompile Include="DiffuseMaterial.cpp" />
     <ClCompile Include="EmptyBody.cpp" />
     <ClCompile Include="EmptyGraphicsObject.cpp" />
@@ -439,7 +437,6 @@
     <ClCompile Include="ServiceProvider.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Threading.cpp" />
-    <ClCompile Include="TransformedGraphicsObject.cpp" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />

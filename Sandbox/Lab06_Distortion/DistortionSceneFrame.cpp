@@ -78,7 +78,7 @@ bool DistortionSceneFrame::Initialize()
     cubeGfx1->AddPropertyProvider(ambient);
     cubeGfx1->AddPropertyProvider(lightSource);
     cube1->AddComponent(cubeGfx1);
-    cube1->transform.SetPosition({ -14.f, 0, 0 });
+    cube1->localTransform()->SetPosition({ -14.f, 0, 0 });
     //cube1->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp);
@@ -120,7 +120,7 @@ void DistortionSceneFrame::Shutdown()
 void DistortionSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
 {
     auto *kbdEvt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
-    if (kbdEvt != nullptr && kbdEvt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyTyped)
+    if (kbdEvt != nullptr && kbdEvt->type() == GlEngine::Events::KeyboardEventType::KeyTyped)
     {
         bool sr_changed = false;
         if (kbdEvt->GetVirtualKeyCode() == VK_SQUARE_BRACKET_RIGHT)

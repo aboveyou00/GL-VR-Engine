@@ -65,7 +65,7 @@ OrbitingLight::~OrbitingLight()
 
 bool OrbitingLight::InitializeAsync()
 {
-    gameObject()->transform.Rotate(GlEngine::Util::random(3.14159f * 2), randomRotateAxis());
+    gameObject()->localTransform()->Rotate(GlEngine::Util::random(3.14159f * 2), randomRotateAxis());
     return GlEngine::GameComponent::InitializeAsync();
 }
 
@@ -78,7 +78,7 @@ void OrbitingLight::Tick(float delta)
 
     totalDelta += delta;
     auto rotationAmount = totalDelta * rotationSpeed;
-    auto position = gameObject()->transform.position;
+    auto position = gameObject()->localTransform()->position();
     auto transformMatrix = !!rotationAxis[0] ? Matrix<4, 4>::TranslateMatrix({ 0, distance, 0 }) * Matrix<4, 4>::RollMatrix(rotationAmount)  * Matrix<4, 4>::TranslateMatrix(position) :
                            !!rotationAxis[1] ? Matrix<4, 4>::TranslateMatrix({ 0, 0, distance }) * Matrix<4, 4>::YawMatrix(rotationAmount)   * Matrix<4, 4>::TranslateMatrix(position) :
                                                Matrix<4, 4>::TranslateMatrix({ distance, 0, 0 }) * Matrix<4, 4>::PitchMatrix(rotationAmount) * Matrix<4, 4>::TranslateMatrix(position);

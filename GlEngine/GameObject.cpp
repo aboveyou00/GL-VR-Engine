@@ -8,7 +8,7 @@
 namespace GlEngine
 {
     GameObject::GameObject(Frame *frame, std::string name)
-        : _active(true), _frame(frame), _name(name), _parent(nullptr)
+        : _active(true), _frame(frame), _name(name), _parent(nullptr), _globalTransform(nullptr)
     {
         assert(_frame != nullptr);
         _frame->_children.push_back(this);
@@ -156,5 +156,17 @@ namespace GlEngine
             auto c = _children[q];
             if (c->_active) c->Render(layer);
         }
+    }
+    
+    Transform* GameObject::localTransform()
+    {
+        return &transform;
+    }
+
+    GlobalTransform* GameObject::globalTransform()
+    {
+        if (_globalTransform == nullptr)
+            _globalTransform = new GlobalTransform(&transform, _parent == nullptr ? nullptr : _parent->globalTransform());
+        return _globalTransform;
     }
 }

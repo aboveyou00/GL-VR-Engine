@@ -35,7 +35,7 @@ void LabControlsComponent::HandleEvent(Event &evt)
     auto *kbdEvt = dynamic_cast<KeyboardEvent*>(&evt);
     if (kbdEvt != nullptr)
     {
-        if (kbdEvt->GetEventType() == KeyboardEventType::KeyTyped)
+        if (kbdEvt->type() == KeyboardEventType::KeyTyped)
         {
             if (kbdEvt->GetVirtualKeyCode() == VK_SPACE || kbdEvt->GetVirtualKeyCode() == VK_LETTER<'P'>())
             {
@@ -54,8 +54,8 @@ void LabControlsComponent::HandleEvent(Event &evt)
             }
         }
 
-        if (kbdEvt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyPressed) this->keysDown[kbdEvt->GetVirtualKeyCode()] = true;
-        if (kbdEvt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyReleased) this->keysDown[kbdEvt->GetVirtualKeyCode()] = false;
+        if (kbdEvt->type() == GlEngine::Events::KeyboardEventType::KeyPressed) this->keysDown[kbdEvt->GetVirtualKeyCode()] = true;
+        if (kbdEvt->type() == GlEngine::Events::KeyboardEventType::KeyReleased) this->keysDown[kbdEvt->GetVirtualKeyCode()] = false;
     }
 
     if (!evt.IsHandled()) GlEngine::GameComponent::HandleEvent(evt);

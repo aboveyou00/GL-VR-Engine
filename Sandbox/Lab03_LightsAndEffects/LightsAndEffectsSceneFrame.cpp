@@ -48,14 +48,10 @@ bool LightsAndEffectsSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraTarget = CameraTargetComponent::Create(this, "CameraTarget");
-
     auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->transform.position = { 0, -3.5, 7 };
+    cameraObject->localTransform()->SetPosition({ 0, -3.5, 7 });
 
     auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetTargetObject(cameraTarget);
-    cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
 
     auto controls = new GlEngine::GameObject(this, "Lab3ControlsComponent");
     auto controlsComponent = new Lab3ControlsComponent();
@@ -78,7 +74,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
             auto tree = new GlEngine::GameObject(this, "Tree");
             auto treeGfx = GlEngine::ObjGraphicsObject::Create("Tree_Gfx", "Resources/tree.obj", treeMat, { ambient, lightSource, fog });
             tree->AddComponent(treeGfx);
-            tree->transform.SetPosition({ (q * 5) + rndX, 0, (w * 5) + rndZ });
+            tree->localTransform()->SetPosition({ (q * 5) + rndX, 0, (w * 5) + rndZ });
         }
     }
 
@@ -90,7 +86,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     planeGfx1->AddPropertyProvider(lightSource);
     planeGfx1->AddPropertyProvider(fog);
     plane1->AddComponent(planeGfx1);
-    plane1->transform.SetPosition({ 0, 0, 0 });
+    plane1->localTransform()->SetPosition({ 0, 0, 0 });
 
     struct {
         Vector<3> rotationAxis = { 1, 0, 0 };
@@ -112,7 +108,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
     auto lightSource1 = PointLightSourceObject::Create(this, "LightSource1");
     auto pointLight1 = lightSource1->component<PointLightSourceObject>()->lightSource();
     auto torus1 = OrbitingLight::Create(this, "CelTorus", celMat, "Resources/torus.obj", pointLight1, { 0, 0, 1 }, { ambient });
-    torus1->transform.SetPosition({ 15, 5, 0 });
+    torus1->localTransform()->SetPosition({ 15, 5, 0 });
 
     //struct {
     //    LightSourceObject<PointLightSource> *rotXLight = nullptr,
@@ -162,9 +158,9 @@ bool LightsAndEffectsSceneFrame::Initialize()
         float rotX = GlEngine::Util::random(GlEngine::Util::PI_f);
         float rotZ = GlEngine::Util::random(GlEngine::Util::PI_f);
 
-        spotTorus->transform.SetPosition({ -100 + rndX * 15, rndY * 15, rndZ * 15 });
-        spotTorus->transform.RotateX(rotX);
-        spotTorus->transform.RotateZ(rotZ);
+        spotTorus->localTransform()->SetPosition({ -100 + rndX * 15, rndY * 15, rndZ * 15 });
+        spotTorus->localTransform()->RotateX(rotX);
+        spotTorus->localTransform()->RotateZ(rotZ);
     }
 
     //auto spotFloor = CreateGameObject<TemplateObj>(

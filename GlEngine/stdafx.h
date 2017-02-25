@@ -23,6 +23,7 @@ using namespace std::string_literals;
 
 #include "vbo_attribs_Vector.h"
 #include "vbo_attribs_Matrix.h"
+#include "Quaternion.h"
 
 #include "Threading.h"
 #include "Memory.h"

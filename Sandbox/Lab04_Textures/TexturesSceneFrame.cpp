@@ -27,14 +27,10 @@ bool TexturesSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraTarget = CameraTargetComponent::Create(this, "CameraTarget");
-
     auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->transform.position = { 0, -3.5, 7 };
+    cameraObject->localTransform()->SetPosition({ 0, -3.5, 7 });
 
     auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetTargetObject(cameraTarget);
-    cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraComponent->SetClearColor({ .3, .1, .1 });
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
@@ -54,7 +50,7 @@ bool TexturesSceneFrame::Initialize()
     cubeGfx1->AddPropertyProvider(ambient);
     cubeGfx1->AddPropertyProvider(lightSource);
     cube1->AddComponent(cubeGfx1);
-    cube1->transform.SetPosition({ -7.5f, 0, 0 });
+    cube1->localTransform()->SetPosition({ -7.5f, 0, 0 });
     cube1->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     auto brickTex = GlEngine::Texture::FromFile("Textures/bricks.png");
@@ -65,7 +61,7 @@ bool TexturesSceneFrame::Initialize()
     cubeGfx2->AddPropertyProvider(ambient);
     cubeGfx2->AddPropertyProvider(lightSource);
     cube2->AddComponent(cubeGfx2);
-    cube2->transform.SetPosition({ -2.5f, 0, 0 });
+    cube2->localTransform()->SetPosition({ -2.5f, 0, 0 });
     cube2->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     auto texRenderTarget = new GlEngine::TextureRenderTarget(512, 512);
@@ -82,7 +78,7 @@ bool TexturesSceneFrame::Initialize()
     cubeGfx3->AddPropertyProvider(ambient);
     cubeGfx3->AddPropertyProvider(lightSource);
     cube3->AddComponent(cubeGfx3);
-    cube3->transform.SetPosition({ 2.5f, 0, 0 });
+    cube3->localTransform()->SetPosition({ 2.5f, 0, 0 });
     cube3->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     auto leafMaskTex = GlEngine::Texture::FromFile("Textures/leaf-mask.png", GlEngine::TextureFlag::AlphaMap);
@@ -92,7 +88,7 @@ bool TexturesSceneFrame::Initialize()
     cubeGfx4->AddPropertyProvider(ambient);
     cubeGfx4->AddPropertyProvider(lightSource);
     cube4->AddComponent(cubeGfx4);
-    cube4->transform.SetPosition({ 7.5f, 0, 0 });
+    cube4->localTransform()->SetPosition({ 7.5f, 0, 0 });
     cube4->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     auto crateNormalMask = GlEngine::Texture::FromFile("Textures/crate-normals.png", GlEngine::TextureFlag::NormalMask);
@@ -102,7 +98,7 @@ bool TexturesSceneFrame::Initialize()
     planeGfx1->AddPropertyProvider(ambient);
     planeGfx1->AddPropertyProvider(lightSource);
     plane1->AddComponent(planeGfx1);
-    plane1->transform.SetPosition({ 0, -3.f, 0 });
+    plane1->localTransform()->SetPosition({ 0, -3.f, 0 });
 
     return true;
 }

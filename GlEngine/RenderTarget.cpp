@@ -88,7 +88,9 @@ namespace GlEngine
         for (auto layer = std::numeric_limits<RenderTargetLayer>::min(); layer <= std::numeric_limits<RenderTargetLayer>::max(); layer++)
         {
             this->Push(layer);
+            //thisCamera->Push();
             thisFrame->Render(layer);
+            //thisCamera->Pop();
             this->Pop(layer);
         }
         this->PostPop();

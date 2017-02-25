@@ -15,13 +15,13 @@ namespace GlEngine
             MouseEvent(Vector<2> mousePos, bool control, bool shift, bool alt, MouseEventType type, MouseButton btn);
             ~MouseEvent();
 
-            MouseButton GetButton() const;
-            MouseEventType GetEventType() const;
+            MouseButton button() const;
+            MouseEventType type() const;
 
-            Vector<2> GetMousePosition() const;
-            bool IsControlPressed() const;
-            bool IsAltPressed() const;
-            bool IsShiftPressed() const;
+            Vector<2> position() const;
+            bool isControlPressed() const;
+            bool isAltPressed() const;
+            bool isShiftPressed() const;
 
             std::ostream &stringify(std::ostream &stream) const override;
 

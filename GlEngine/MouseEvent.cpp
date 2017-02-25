@@ -15,28 +15,28 @@ namespace GlEngine
         {
         }
 
-        MouseButton MouseEvent::GetButton() const
+        MouseButton MouseEvent::button() const
         {
             return _btn;
         }
-        MouseEventType MouseEvent::GetEventType() const
+        MouseEventType MouseEvent::type() const
         {
             return _type;
         }
 
-        Vector<2> MouseEvent::GetMousePosition() const
+        Vector<2> MouseEvent::position() const
         {
             return _mousePos;
         }
-        bool MouseEvent::IsControlPressed() const
+        bool MouseEvent::isControlPressed() const
         {
             return _ctrl;
         }
-        bool MouseEvent::IsAltPressed() const
+        bool MouseEvent::isAltPressed() const
         {
             return _alt;
         }
-        bool MouseEvent::IsShiftPressed() const
+        bool MouseEvent::isShiftPressed() const
         {
             return _shift;
         }

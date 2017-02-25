@@ -111,14 +111,11 @@ bool GeometrySceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraTarget = CameraTargetComponent::Create(this, "CameraTarget");
 
     auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->transform.position = { 0, -3.5, 7 };
+    cameraObject->localTransform()->SetPosition({ 0, -3.5, 7 });
 
     auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetTargetObject(cameraTarget);
-    cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
     cameraComponent->SetClearColor({ .4, .4, .4 });
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
@@ -158,7 +155,7 @@ bool GeometrySceneFrame::Initialize()
     );
     auto wireframeTeapot = new GlEngine::GameObject(this, "WireframeTeapot");
     wireframeTeapot->AddComponent(wireframeGfx);
-    wireframeTeapot->transform.SetPosition({ -8, 0, 0 });
+    wireframeTeapot->localTransform()->SetPosition({ -8, 0, 0 });
 
     auto hairGfx = new RawGraphicsObject(
         "HairGfx",
@@ -179,7 +176,7 @@ bool GeometrySceneFrame::Initialize()
     explodeGfx->SetMaterial(TemplateMaterial::Factory()->Create());
     auto explodeTeapot = new GlEngine::GameObject(this, "ExplodeTeapot");
     explodeTeapot->AddComponent(explodeGfx);
-    explodeTeapot->transform.SetPosition({ 8, 0, 0 });
+    explodeTeapot->localTransform()->SetPosition({ 8, 0, 0 });
 
     return true;
 }

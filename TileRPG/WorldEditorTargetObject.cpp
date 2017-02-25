@@ -47,7 +47,7 @@ namespace TileRPG
     {
         auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
         if (kbevt == nullptr) return;
-        if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyTyped) return;
+        if (kbevt->type() != GlEngine::Events::KeyboardEventType::KeyTyped) return;
 
         Vector<3> translation = { 0, 0, 0 };
         auto vkcode = kbevt->GetVirtualKeyCode();

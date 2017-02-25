@@ -11,13 +11,7 @@ namespace GlEngine
           eye({ 0, 0, 0 }),
           forward({ 0, 0, 1 }),
           up({ 0, 1, 0 }),
-          _clearColor({ 0, 0, 0 }),
-          relativeOrientation(Matrix<4, 4>::Identity()),
-          lockRelativePosition(false),
-          lockRelativeOrientation(false),
-          lockAbsolutePosition(false),
-          lockAbsoluteOrientation(false),
-          target(nullptr)
+          _clearColor({ 0, 0, 0 })
     {
     }
     CameraComponent::~CameraComponent()
@@ -47,58 +41,29 @@ namespace GlEngine
 
     void CameraComponent::Tick(float)
     {
-        if (lockRelativePosition)
-            gameObject()->transform.position = target->transform.position + relativePosition;
-        //if (lockRelativeOrientation)
-        //    orientation = target->orientation * relativeOrientation;
-        FindOrientation();
     }
 
-    void CameraComponent::SetTargetObject(GameObject *obj)
-    {
-        target = obj;
-        FindOrientation();
-    }
+    //void CameraComponent::FindOrientation()
+    //{
+    //    auto diff = target->transform.position - gameObject()->transform.position;
+    //    float angleLat = atan2(diff[1], Vector<2>{diff[0], diff[2]}.Length());
+    //    float angleLong = atan2(diff[0], diff[2]);
 
-    void CameraComponent::FindOrientation()
-    {
-        if (target == nullptr)
-            return;
-        if (gameObject() == nullptr) return;
-        auto diff = target->transform.position - gameObject()->transform.position;
-        float angleLat = atan2(diff[1], Vector<2>{diff[0], diff[2]}.Length());
-        float angleLong = atan2(diff[0], diff[2]);
-        gameObject()->transform.orientation = Matrix<4, 4>::RollMatrix(angleLat) * Matrix<4, 4>::YawMatrix(angleLong);
-    }
-
-    void CameraComponent::SetLock(int lockFlags)
-    {
-        lockRelativePosition    = (lockFlags & CameraLock::RELATIVE_POSITION) != 0;
-        lockRelativeOrientation = (lockFlags & CameraLock::RELATIVE_ORIENTATION) != 0;
-        lockAbsolutePosition    = (lockFlags & CameraLock::ABSOLUTE_POSITION) != 0;
-        lockAbsoluteOrientation = (lockFlags & CameraLock::ABSOLUTE_ORIENTATION) != 0;
-    }
-    
-    void CameraComponent::Lock(int lockFlags)
-    {
-        lockRelativePosition    |= ((lockFlags & CameraLock::RELATIVE_POSITION) != 0);
-        lockRelativeOrientation |= ((lockFlags & CameraLock::RELATIVE_ORIENTATION) != 0);
-        lockAbsolutePosition    |= ((lockFlags & CameraLock::ABSOLUTE_POSITION) != 0);
-        lockAbsoluteOrientation |= ((lockFlags & CameraLock::ABSOLUTE_ORIENTATION) != 0);
-    }
+    //    gameObject()->transform.orientation = Quaternion<>(angleLat, { 1, 0, 0 }) * Quaternion<>(angleLong, { 0, 1, 0 });
+    //}
 
     void CameraComponent::Push()
     {
         Vector<3> side, forwardN;
         //TODO: set the camera position to a global postion, not a local one
-        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->transform.position);
+        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->localTransform()->position());
 
-        eye = gameObject()->transform.position;
-        forwardN = gameObject()->transform.orientation * Vector<3>{ 0, 0, 1 };
-        side = gameObject()->transform.orientation * Vector<3>{ 1, 0, 0 };
-        up = gameObject()->transform.orientation * Vector<3>{ 0, 1, 0 };
+        eye = gameObject()->localTransform()->position();
+        forwardN = gameObject()->localTransform()->orientation() * Vector<3>{ 0, 0, 1 };
+        side = gameObject()->localTransform()->orientation() * Vector<3>{ 1, 0, 0 };
+        up = gameObject()->localTransform()->orientation() * Vector<3>{ 0, 1, 0 };
 
-        view = Matrix<3, 3>::FromCols(-side, up, forwardN).ToTransformMatrix();
+        view = Matrix<3, 3>::FromCols(side, up, forwardN).ToTransformMatrix();
 
         MatrixStack::View.mult(Mat3T<float>::TranslateMatrix(-eye) * view);
     }

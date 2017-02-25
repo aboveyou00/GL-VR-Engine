@@ -10,13 +10,24 @@ namespace GlEngine
         Transform();
         ~Transform();
 
-        Vector<3> position;
-        //Vector<3> scale;
-        Matrix<4, 4> orientation;
+        virtual Vector<3> position();
+        virtual Quaternion<> orientation();
+        virtual Vector<3> scale();
 
+        virtual Matrix<4, 4> matrix();
+        virtual Matrix<4, 4> inverseMatrix();
+
+        virtual void SetPosition(float x, float y, float z);
         virtual void SetPosition(Vector<3> pos);
-        virtual void SetOrientation(Matrix<4, 4> orientation);
-        virtual void ApplyOrientation(Matrix<4, 4> relative);
+        
+        virtual void SetOrientation(Quaternion<> orientation);
+        virtual void ComposeOrientation(Quaternion<> relative);
+        
+        virtual void SetScale(float x, float y, float z);
+        virtual void SetScale(Vector<3> scale);
+
+        virtual void Translate(float x, float y, float z);
+        virtual void Translate(Vector<3> delta);
 
         virtual void Rotate(float radians, Vector<3> axis);
 
@@ -24,13 +35,18 @@ namespace GlEngine
         virtual void RotateY(float radians);
         virtual void RotateZ(float radians);
 
-        void RotateDegrees(float degrees, Vector<3> axis);
-        void RotateDegreesX(float degrees);
-        void RotateDegreesY(float degrees);
-        void RotateDegreesZ(float degrees);
+        virtual void RotateDegrees(float degrees, Vector<3> axis);
+        virtual void RotateDegreesX(float degrees);
+        virtual void RotateDegreesY(float degrees);
+        virtual void RotateDegreesZ(float degrees);
 
-        void Scale(float amt);
-        void Scale(float x, float y, float z);
-        void Scale(Vector<3> amt);
+        virtual void Scale(float amt);
+        virtual void Scale(float x, float y, float z);
+        virtual void Scale(Vector<3> amt);
+
+    protected:
+        Vector<3> _position;
+        Vector<3> _scale;
+        Quaternion<> _orientation;
     };
 }

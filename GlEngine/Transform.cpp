@@ -5,42 +5,91 @@
 namespace GlEngine
 {
     Transform::Transform()
-        : position({ 0, 0, 0 }), orientation(Matrix<4, 4>::Identity())
+        : _position({ 0, 0, 0 }), _orientation(Quaternion<>(0, { 1, 0, 0 })), _scale({1, 1, 1})
     {
     }
     Transform::~Transform()
     {
     }
 
+    Vector<3> Transform::position()
+    {
+        return _position;
+    }
+
+    Quaternion<> Transform::orientation()
+    {
+        return _orientation;
+    }
+
+    Vector<3> Transform::scale()
+    {
+        return _scale;
+    }
+
+    Matrix<4, 4> Transform::matrix()
+    {
+        return Matrix<4, 4>::TranslateMatrix(_position) * _orientation.ToMatrix() * Matrix<4, 4>::ScaleMatrix(_scale);
+    }
+
+    Matrix<4, 4> Transform::inverseMatrix()
+    {
+        return Matrix<4, 4>::ScaleMatrix(_scale) * _orientation.ToMatrix() * Matrix<4, 4>::TranslateMatrix(_position);
+    }
+
+    void Transform::SetPosition(float x, float y, float z)
+    {
+        _position = Vector<3>(x, y, z);
+    }
     void Transform::SetPosition(Vector<3> pos)
     {
-        position = pos;
+        _position = pos;
     }
-    void Transform::SetOrientation(Matrix<4, 4> orientation)
+
+    void Transform::SetOrientation(Quaternion<> orientation)
     {
         orientation = orientation;
     }
-    void Transform::ApplyOrientation(Matrix<4, 4> relative)
+    void Transform::ComposeOrientation(Quaternion<> relative)
     {
-        orientation *= relative;
+        _orientation *= relative;
+    }
+
+    void Transform::SetScale(float x, float y, float z)
+    {
+        this->_scale = Vector<3>(x, y, z);
+    }
+
+    void Transform::SetScale(Vector<3> scale)
+    {
+        this->_scale = scale;
+    }
+
+    void Transform::Translate(float x, float y, float z)
+    {
+        _position += Vector<3>(x, y, z);
+    }
+    void Transform::Translate(Vector<3> delta)
+    {
+        _position += delta;
     }
 
     void Transform::Rotate(float radians, Vector<3> axis)
     {
-        orientation *= Matrix<4, 4>::RotateMatrix(radians, axis);
+        _orientation *= Quaternion<>(radians, axis);
     }
 
     void Transform::RotateX(float radians)
     {
-        orientation *= Matrix<4, 4>::PitchMatrix(radians);
+        _orientation *= Quaternion<>(radians, { 0, 0, 1 });
     }
     void Transform::RotateY(float radians)
     {
-        orientation *= Matrix<4, 4>::YawMatrix(radians);
+        _orientation *= Quaternion<>(radians, { 0, 1, 0 });
     }
     void Transform::RotateZ(float radians)
     {
-        orientation *= Matrix<4, 4>::RollMatrix(radians);
+        _orientation *= Quaternion<>(radians, { 0, 0, 1 });
     }
 
     void Transform::RotateDegrees(float degrees, Vector<3> axis)
@@ -62,7 +111,7 @@ namespace GlEngine
 
     void Transform::Scale(float amt)
     {
-        orientation *= Matrix<4, 4>::ScaleMatrix(amt);
+        _scale *= Matrix<4, 4>::ScaleMatrix(amt);
     }
     void Transform::Scale(float x, float y, float z)
     {
@@ -70,6 +119,6 @@ namespace GlEngine
     }
     void Transform::Scale(Vector<3> amt)
     {
-        orientation *= Matrix<4, 4>::ScaleMatrix(amt);
+        _scale *= Matrix<4, 4>::ScaleMatrix(amt);
     }
 }

@@ -19,7 +19,7 @@ Lab3ControlsComponent::~Lab3ControlsComponent()
 void Lab3ControlsComponent::HandleEvent(Event &evt)
 {
     auto *kbdEvt = dynamic_cast<KeyboardEvent*>(&evt);
-    if (kbdEvt != nullptr && kbdEvt->GetEventType() == KeyboardEventType::KeyTyped)
+    if (kbdEvt != nullptr && kbdEvt->type() == KeyboardEventType::KeyTyped)
     {
         if (kbdEvt->GetVirtualKeyCode() == VK_PAGE_UP && this->celShadingSteps < 100)
         {
@@ -34,13 +34,13 @@ void Lab3ControlsComponent::HandleEvent(Event &evt)
             kbdEvt->Handle();
         }
         else if (kbdEvt->GetVirtualKeyCode() == VK_SQUARE_BRACKET_LEFT && this->spotlightCutoffAngle > 0deg) {
-            this->spotlightCutoffAngle -= (kbdEvt->IsShiftPressed() ? 10deg : 1deg);
+            this->spotlightCutoffAngle -= (kbdEvt->isShiftPressed() ? 10deg : 1deg);
             if (this->spotlightCutoffAngle < 0) this->spotlightCutoffAngle = 0;
             GlEngine::Util::Log(GlEngine::LogType::InfoC, "Setting spotlight cutoff angle to %ddeg", (unsigned)round(GlEngine::Util::radToDeg(this->spotlightCutoffAngle)));
             kbdEvt->Handle();
         }
         else if (kbdEvt->GetVirtualKeyCode() == VK_SQUARE_BRACKET_RIGHT && this->spotlightCutoffAngle < 90deg) {
-            this->spotlightCutoffAngle += (kbdEvt->IsShiftPressed() ? 10deg : 1deg);
+            this->spotlightCutoffAngle += (kbdEvt->isShiftPressed() ? 10deg : 1deg);
             if (this->spotlightCutoffAngle > 90) this->spotlightCutoffAngle = 90;
             GlEngine::Util::Log(GlEngine::LogType::InfoC, "Setting spotlight cutoff angle to %ddeg", (unsigned)round(GlEngine::Util::radToDeg(this->spotlightCutoffAngle)));
             kbdEvt->Handle();

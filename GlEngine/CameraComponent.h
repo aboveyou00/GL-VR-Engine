@@ -22,41 +22,19 @@ namespace GlEngine
         CameraComponent();
         ~CameraComponent();
 
-
-
         virtual Vector<3> clearColor() override;
         void SetClearColor(Vector<3> color);
 
-
-
-        //From CameraGameObject.cpp:
         static GameObject *Create(Frame *frame, std::string name);
-
-        void SetTargetObject(GameObject* gameObject);
 
         virtual std::string name() override;
         
         virtual void Tick(float delta) override;
 
-        virtual void SetLock(int lockFlags);
-        virtual void Lock(int lockFlags);
-
-        virtual void FindOrientation();
-
-        GameObject *target;
-
-        Vector<3> relativePosition;
-        Matrix<4, 4> relativeOrientation;
-
-
-
-        //From Camera.cpp:
         virtual void Push() override;
         virtual void Pop() override;
 
         virtual Frame *frame() override;
-
-
 
     private:
         bool lockRelativePosition;

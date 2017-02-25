@@ -14,14 +14,14 @@ namespace GlEngine
             ~KeyboardEvent();
             
             unsigned int GetVirtualKeyCode() const;
-            KeyboardEventType GetEventType() const;
+            KeyboardEventType type() const;
             bool IsPressed() const;
             bool IsReleased() const;
             bool IsTyped() const;
 
-            bool IsControlPressed() const;
-            bool IsAltPressed() const;
-            bool IsShiftPressed() const;
+            bool isControlPressed() const;
+            bool isAltPressed() const;
+            bool isShiftPressed() const;
 
             std::ostream &stringify(std::ostream &stream) const override;
 

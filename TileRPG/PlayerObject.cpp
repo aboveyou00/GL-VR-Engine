@@ -118,10 +118,10 @@ namespace TileRPG
 
         auto kbevt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
         if (kbevt == nullptr) return;
-        if (kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyPressed &&
-            kbevt->GetEventType() != GlEngine::Events::KeyboardEventType::KeyReleased) return;
+        if (kbevt->type() != GlEngine::Events::KeyboardEventType::KeyPressed &&
+            kbevt->type() != GlEngine::Events::KeyboardEventType::KeyReleased) return;
 
-        auto pressed = kbevt->GetEventType() == GlEngine::Events::KeyboardEventType::KeyPressed;
+        auto pressed = kbevt->type() == GlEngine::Events::KeyboardEventType::KeyPressed;
         switch (kbevt->GetVirtualKeyCode())
         {
         case VK_UP:
