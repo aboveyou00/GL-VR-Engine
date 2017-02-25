@@ -12,13 +12,14 @@ namespace GlEngine
         class ENGINE_SHARED MouseEvent : public Event
         {
         public:
-            MouseEvent(Vector<2> mousePos, bool control, bool shift, bool alt, MouseEventType type, MouseButton btn);
+            MouseEvent(Vector<2> mousePos, Vector<2> mouseRel, bool control, bool shift, bool alt, MouseEventType type, MouseButton btn);
             ~MouseEvent();
 
             MouseButton button() const;
             MouseEventType type() const;
 
             Vector<2> position() const;
+            Vector<2> positionChange() const;
             bool isControlPressed() const;
             bool isAltPressed() const;
             bool isShiftPressed() const;
@@ -27,6 +28,7 @@ namespace GlEngine
 
         private:
             Vector<2> _mousePos;
+            Vector<2> _mouseRel;
             bool _ctrl, _alt, _shift;
             MouseButton _btn;
             MouseEventType _type;

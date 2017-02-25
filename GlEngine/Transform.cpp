@@ -48,7 +48,7 @@ namespace GlEngine
 
     void Transform::SetOrientation(Quaternion<> orientation)
     {
-        orientation = orientation;
+        _orientation = orientation;
     }
     void Transform::ComposeOrientation(Quaternion<> relative)
     {

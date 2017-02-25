@@ -59,9 +59,9 @@ namespace GlEngine
         ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->localTransform()->position());
 
         eye = gameObject()->localTransform()->position();
-        forwardN = gameObject()->localTransform()->orientation() * Vector<3>{ 0, 0, 1 };
-        side = gameObject()->localTransform()->orientation() * Vector<3>{ 1, 0, 0 };
-        up = gameObject()->localTransform()->orientation() * Vector<3>{ 0, 1, 0 };
+        forwardN = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 0, 1 });
+        side = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 1, 0, 0 });
+        up = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 1, 0 });
 
         view = Matrix<3, 3>::FromCols(side, up, forwardN).ToTransformMatrix();
 

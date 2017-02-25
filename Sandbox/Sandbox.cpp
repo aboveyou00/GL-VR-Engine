@@ -82,6 +82,7 @@ bool Sandbox::createWindow()
     }
 
     if (config->GetValueWithDefault("Fullscreen", true)) _window->SetFullscreen(true);
+    //_window->SetCenterCursor(true);
 
     auto windowRenderTarget = new GlEngine::WindowRenderTarget(_window);
     windowRenderTarget->SetCamera(this->_loop.frames());

@@ -30,12 +30,14 @@ namespace GlEngine
         void SetWidth(unsigned width);
         void SetHeight(unsigned height);
         void SetTargetFPS(unsigned targetFPS);
+        void SetCenterCursor(bool centerCursor);
 
         bool GetFullscreen();
         unsigned GetWidth();
         unsigned GetHeight();
         unsigned GetTargetFPS();
         time_point GetLastResizeTime();
+        bool GetCenterCursor();
 
         bool GetVisible();
         void SetVisible(bool visible);
@@ -52,6 +54,7 @@ namespace GlEngine
         bool _visible;
 
         bool _fullscreen = false;
+        bool _centerCursor = false;
         unsigned _width = DEFAULT_WINDOW_WIDTH, _height = DEFAULT_WINDOW_HEIGHT;
 
         std::chrono::high_resolution_clock::time_point _lastResizeTime;

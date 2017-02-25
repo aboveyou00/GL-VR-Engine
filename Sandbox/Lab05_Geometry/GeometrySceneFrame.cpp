@@ -111,12 +111,11 @@ bool GeometrySceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-
-    auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->localTransform()->SetPosition({ 0, -3.5, 7 });
-
     auto cameraComponent = CreateDefaultCamera();
     cameraComponent->SetClearColor({ .4, .4, .4 });
+    
+    auto cameraTarget = new CameraTargetComponent();
+    cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
     auto controlsComponent = new Lab5ControlsComponent();

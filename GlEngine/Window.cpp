@@ -68,6 +68,11 @@ namespace GlEngine
         SetWindowPos(_windowHandle, nullptr, posX, posY, _width, _height, SWP_NOZORDER | SWP_FRAMECHANGED);
     }
 
+    void Window::SetCenterCursor(bool centerCursor)
+    {
+        _centerCursor = centerCursor;
+    }
+
     bool Window::SetFullscreen(bool fullscreen, unsigned width, unsigned height)
     {
         auto origWidth = _width,
@@ -162,6 +167,11 @@ namespace GlEngine
     time_point Window::GetLastResizeTime()
     {
         return _lastResizeTime;
+    }
+
+    bool Window::GetCenterCursor()
+    {
+        return _centerCursor;
     }
 
     bool Window::GetVisible()

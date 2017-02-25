@@ -6,8 +6,8 @@ namespace GlEngine
 {
     namespace Events
     {
-        MouseEvent::MouseEvent(Vector<2> mousePos, bool control, bool shift, bool alt, MouseEventType type, MouseButton btn)
-            : _mousePos(mousePos), _ctrl(control), _shift(shift), _alt(alt), _type(type), _btn(btn)
+        MouseEvent::MouseEvent(Vector<2> mousePos, Vector<2> mouseRel, bool control, bool shift, bool alt, MouseEventType type, MouseButton btn)
+            : _mousePos(mousePos), _mouseRel(mouseRel), _ctrl(control), _shift(shift), _alt(alt), _type(type), _btn(btn)
         {
             ShaderFactory::Environment::GetInstance().SetMouseScreenPosition(mousePos);
         }
@@ -27,6 +27,10 @@ namespace GlEngine
         Vector<2> MouseEvent::position() const
         {
             return _mousePos;
+        }
+        Vector<2> MouseEvent::positionChange() const
+        {
+            return _mouseRel;
         }
         bool MouseEvent::isControlPressed() const
         {

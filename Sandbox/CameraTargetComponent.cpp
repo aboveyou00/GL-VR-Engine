@@ -6,8 +6,8 @@
 #include "MouseEvent.h"
 #include "Matrix.h"
 
-CameraTargetComponent::CameraTargetComponent(float movementSpeed)
-    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed), mouseDelta(Vector<2>(0, 0))
+CameraTargetComponent::CameraTargetComponent(float movementSpeed, float rotateSpeed)
+    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0))
 {
 }
 CameraTargetComponent::~CameraTargetComponent()
@@ -26,6 +26,12 @@ void CameraTargetComponent::Tick(float delta)
     translation *= delta * movementSpeed;
     if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 4;
     gameObject()->localTransform()->Translate(translation);
+}
+
+void CameraTargetComponent::UpdateGraphics()
+{
+    gameObject()->localTransform()->SetOrientation(Quaternion<>(mouseDelta[1] * rotateSpeed, { 1, 0, 0 }));
+    gameObject()->localTransform()->Rotate(mouseDelta[0] * rotateSpeed, { 0, 1, 0 });
 }
 
 void CameraTargetComponent::HandleEvent(GlEngine::Events::Event &evt)
@@ -47,7 +53,8 @@ void CameraTargetComponent::HandleEvent(GlEngine::Events::Event &evt)
     {
         if (mouseEvt->type() == GlEngine::Events::MouseEventType::Moved)
         {
-            //mouseDelta += mouseEvt->Get
+            mouseDelta += mouseEvt->positionChange();
+            //GlEngine::Util::Log("%f, %f", mouseEvt->positionChange()[0], mouseEvt->positionChange()[1]);
         }
     }
 }

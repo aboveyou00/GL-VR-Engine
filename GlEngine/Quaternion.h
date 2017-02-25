@@ -3,7 +3,7 @@
 #include "Vector.h"
 
 template<typename ElemT = float>
-class Quaternion
+class ENGINE_SHARED Quaternion
 {
 public:
     Quaternion(ElemT real, ElemT i, ElemT j, ElemT k)
@@ -67,7 +67,8 @@ public:
 
     Vector<3, ElemT> Apply(Vector<3, ElemT> vector)
     {
-        return (*this) * vector * Inverse();
+        Quaternion<ElemT> result = (*this) * Quaternion<ElemT>(0, vector[0], vector[1], vector[2]) * Inverse();
+        return Vector<3, ElemT>(result._i, result._j, result._k);
     }
 
     friend Quaternion<ElemT> operator+ (const Quaternion<ElemT>& first, const Quaternion<ElemT>& second)
@@ -98,7 +99,7 @@ public:
 
     friend Vector<3, ElemT> operator* (const Vector<3, ElemT>& first, const Quaternion<ElemT>& second)
     {
-        Quaternion<ElemT> result = Quaternion<ElemT>(0, first._i, first._j, first._k) * second;
+        Quaternion<ElemT> result = Quaternion<ElemT>(0, first[0], first[1], first[2]) * second;
         return Vector<3, ElemT>(result._i, result._j, result._k);
     }
 
