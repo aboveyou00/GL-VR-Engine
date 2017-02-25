@@ -6,7 +6,7 @@
 
 namespace GlEngine
 {
-    int lastMouseX, lastMouseY;
+    POINT lastMousePos{ 0, 0 };
 
     LRESULT CALLBACK Window::WndProc(unsigned message, WPARAM wParam, LPARAM lParam)
     {
@@ -91,30 +91,29 @@ namespace GlEngine
                 auto type = (message == WM_LBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_RBUTTONDOWN) ? Events::MouseEventType::Pressed :
                                                                                         (message == WM_MOUSEMOVE)  ? Events::MouseEventType::Moved :
                                                                                                                     Events::MouseEventType::Released;
-                auto mousePos = Vector<2>(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-                
-                RECT rect = { NULL };
-                GetWindowRect(_windowHandle, &rect);               
-                POINT center = { (rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2 };
-                
-                ScreenToClient(_windowHandle, &center);
-                auto mouseRel = _centerCursor ? mousePos - Vector<2>(center.x, center.y) : Vector<2>(mousePos[0] - lastMouseX, mousePos[1] - lastMouseY);
-            
+
+                CURSORINFO info;
+                GetCursorInfo(&info);
+
+                int mouseX = GET_X_LPARAM(lParam), mouseY = GET_Y_LPARAM(lParam);
+                auto mouseRel = Vector<2>(mouseX - lastMousePos.x, mouseY - lastMousePos.y);
+
                 if (mouseRel[0] || mouseRel[1])
-                    Util::Log("%f, %f, %f, %f", mousePos[0], mousePos[1], mouseRel[0], mouseRel[1]);
+                    Util::Log("%d %d, %d %d, %f %f", lastMousePos.x, lastMousePos.y, mouseX, mouseY, mouseRel[0], mouseRel[1]);
 
-                events.PushEvent(new Events::MouseEvent(mousePos, mouseRel, ctrl, shift, alt, type, btn));
-                
-                if (type == Events::MouseEventType::Moved)
+                events.PushEvent(new Events::MouseEvent(Vector<2>(mouseX, mouseY), mouseRel, ctrl, shift, alt, type, btn));
+
+                if (message == WM_MOUSEMOVE && _centerCursor && mouseRel[0] || mouseRel[1])
                 {
-                    lastMouseX = GET_X_LPARAM(lParam);
-                    lastMouseY = GET_Y_LPARAM(lParam);
+                    RECT rect = { NULL };
+                    GetWindowRect(_windowHandle, &rect);
+                    lastMousePos = POINT{ (rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2 };
+                    SetCursorPos(lastMousePos.x, lastMousePos.y);
+                    ScreenToClient(_windowHandle, &lastMousePos);
                 }
-
-                if (message == WM_MOUSEMOVE && _centerCursor)
+                else
                 {
-                    ClientToScreen(_windowHandle, &center);
-                    SetCursorPos(center.x, center.y);
+                    lastMousePos = POINT{ mouseX, mouseY };
                 }
             }
             break;
