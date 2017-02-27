@@ -8,6 +8,7 @@ namespace GlEngine
 {
     POINT lastMousePos{ 0, 0 };
 
+    static bool dropNext = true;
     LRESULT CALLBACK Window::WndProc(unsigned message, WPARAM wParam, LPARAM lParam)
     {
         auto &events = Engine::GetInstance().GetEventQueue();
@@ -48,6 +49,7 @@ namespace GlEngine
                 _lastResizeTime = std::chrono::high_resolution_clock::now();
                 // TODO events.PushEvents(new Events::SizeEvent(...));
             }
+            dropNext = true;
             goto default_wnd_proc;
 
         case WM_KEYDOWN:
@@ -98,7 +100,8 @@ namespace GlEngine
                 int mouseX = GET_X_LPARAM(lParam), mouseY = GET_Y_LPARAM(lParam);
                 auto mouseRel = Vector<2>(mouseX - lastMousePos.x, mouseY - lastMousePos.y);
 
-                events.PushEvent(new Events::MouseEvent(Vector<2>(mouseX, mouseY), mouseRel, ctrl, shift, alt, type, btn));
+                if (message != WM_MOUSEMOVE || !dropNext) events.PushEvent(new Events::MouseEvent(Vector<2>(mouseX, mouseY), mouseRel, ctrl, shift, alt, type, btn));
+                dropNext = false;
 
                 if (message == WM_MOUSEMOVE && _centerCursor && mouseRel[0] || mouseRel[1])
                 {
