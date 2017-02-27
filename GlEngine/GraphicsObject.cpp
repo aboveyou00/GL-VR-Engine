@@ -62,30 +62,30 @@ namespace GlEngine
         if (it != _providers.end()) _providers.erase(it);
     }
 
-    void GraphicsObject::Render(RenderTargetLayer layer)
+    void GraphicsObject::Render(RenderStage* stage)
     {
-        PreRender(layer);
-        RenderImpl(layer);
-        PostRender(layer);
+        PreRender(stage);
+        RenderImpl(stage);
+        PostRender(stage);
     }
-    void GraphicsObject::PreRender(RenderTargetLayer)
+    void GraphicsObject::PreRender(RenderStage*)
     {
     }
-    void GraphicsObject::PostRender(RenderTargetLayer)
+    void GraphicsObject::PostRender(RenderStage*)
     {
     }
 
-    void GraphicsObject::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
+    void GraphicsObject::RenderInstanced(RenderStage* stage, unsigned instanceCount)
     {
         if (instanceCount == 0) return;
-        PreRenderInstanced(layer);
-        RenderInstancedImpl(layer, instanceCount);
-        PostRenderInstanced(layer);
+        PreRenderInstanced(stage);
+        RenderInstancedImpl(stage, instanceCount);
+        PostRenderInstanced(stage);
     }
-    void GraphicsObject::PreRenderInstanced(RenderTargetLayer)
+    void GraphicsObject::PreRenderInstanced(RenderStage*)
     {
     }
-    void GraphicsObject::PostRenderInstanced(RenderTargetLayer)
+    void GraphicsObject::PostRenderInstanced(RenderStage*)
     {
     }
 

@@ -25,8 +25,9 @@ bool FeaturesSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetClearColor({ .1, .1, .3 });
+    GlEngine::CameraComponent* cameraComponent;
+    auto mainPipeline = CreateDefaultPipeline(cameraComponent);
+    mainPipeline->SetClearColor({ .1, .1, .3 });
     cameraComponent->gameObject()->localTransform()->SetPosition({ 0, -3.5, 7 });
 
     auto controls = new GlEngine::GameObject(this, "LabControlsComponent");

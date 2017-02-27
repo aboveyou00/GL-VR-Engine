@@ -4,6 +4,7 @@
 #include "ICamera.h"
 #include "RenderTargetLayer.h"
 #include <unordered_map>
+#include "RenderPipeline.h"
 
 namespace GlEngine::Events
 {
@@ -17,7 +18,7 @@ namespace GlEngine
     class FrameStack;
     class CameraComponent;
 
-    class ENGINE_SHARED Frame : public IInitializable, public ICamera
+    class ENGINE_SHARED Frame : public IInitializable, public RenderPipeline
     {
     public:
         Frame();
@@ -39,7 +40,7 @@ namespace GlEngine
 
         virtual void TickGraphics(float delta);
         virtual void UpdateGraphics();
-        virtual void Render(RenderTargetLayer layer);
+        virtual void Render(RenderStage* stage);
 
         virtual void FramePushed(FrameStack &machine);
         virtual void FramePopped(FrameStack &machine);
@@ -48,18 +49,17 @@ namespace GlEngine
 
         GameObject *findChild(std::string name);
 
-        virtual void Push() override;
-        virtual void Pop() override;
-
-        virtual Vector<3> clearColor() override;
-
-        virtual bool isReady() override;
-
         ICamera *mainCamera();
+        RenderPipeline* mainPipeline();
+
+        virtual std::vector<std::pair<RenderStage*, ICamera*>> renderStages() override;
+
+        virtual Frame * frame() override;
 
     protected:
-        virtual CameraComponent *CreateDefaultCamera();
+        virtual RenderPipeline* CreateDefaultPipeline(CameraComponent*& cameraComponent);
         void SetMainCamera(ICamera *camera);
+        void SetMainPipeline(RenderPipeline* pipeline);
 
     private:
         std::vector<GameObject*> _children;
@@ -68,9 +68,8 @@ namespace GlEngine
         void setCurrentRenderTarget(RenderTarget *target);
         void setCurrentCamera(ICamera *camera);
 
-        virtual Frame *frame() override;
-
         RenderTarget *currentRenderTarget;
         ICamera *currentCamera, *_mainCamera;
+        RenderPipeline* _mainPipeline;
     };
 }

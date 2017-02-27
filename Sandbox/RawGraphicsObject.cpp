@@ -61,30 +61,30 @@ void RawGraphicsObject::BuildVao(GlEngine::VaoFactory &vao)
     _compositeObj->BuildVao(vao);
 }
 
-void RawGraphicsObject::PreRender(GlEngine::RenderTargetLayer layer)
+void RawGraphicsObject::PreRender(GlEngine::RenderStage* stage)
 {
-    _compositeObj->PreRender(layer);
+    _compositeObj->PreRender(stage);
 }
-void RawGraphicsObject::RenderImpl(GlEngine::RenderTargetLayer layer)
+void RawGraphicsObject::RenderImpl(GlEngine::RenderStage* stage)
 {
-    _compositeObj->RenderImpl(layer);
+    _compositeObj->RenderImpl(stage);
 }
-void RawGraphicsObject::PostRender(GlEngine::RenderTargetLayer layer)
+void RawGraphicsObject::PostRender(GlEngine::RenderStage* stage)
 {
-    _compositeObj->PostRender(layer);
+    _compositeObj->PostRender(stage);
 }
 
-void RawGraphicsObject::PreRenderInstanced(GlEngine::RenderTargetLayer layer)
+void RawGraphicsObject::PreRenderInstanced(GlEngine::RenderStage* stage)
 {
-    _compositeObj->PreRenderInstanced(layer);
+    _compositeObj->PreRenderInstanced(stage);
 }
-void RawGraphicsObject::RenderInstancedImpl(GlEngine::RenderTargetLayer layer, unsigned instanceCount)
+void RawGraphicsObject::RenderInstancedImpl(GlEngine::RenderStage* stage, unsigned instanceCount)
 {
-    _compositeObj->RenderInstancedImpl(layer, instanceCount);
+    _compositeObj->RenderInstancedImpl(stage, instanceCount);
 }
-void RawGraphicsObject::PostRenderInstanced(GlEngine::RenderTargetLayer layer)
+void RawGraphicsObject::PostRenderInstanced(GlEngine::RenderStage* stage)
 {
-    _compositeObj->PostRenderInstanced(layer);
+    _compositeObj->PostRenderInstanced(stage);
 }
 
 std::string RawGraphicsObject::name()

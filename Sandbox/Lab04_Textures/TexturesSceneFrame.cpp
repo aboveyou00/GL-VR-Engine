@@ -15,6 +15,9 @@
 
 #include "../FixedRotationComponent.h"
 #include "TextureRenderTarget.h"
+#include "SimpleRenderPipeline.h"
+#include "PerspectiveViewPort.h"
+#include "OrthoViewPort.h"
 
 TexturesSceneFrame::TexturesSceneFrame()
 {
@@ -27,11 +30,13 @@ bool TexturesSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->localTransform()->SetPosition({ 0, -3.5, 7 });
+    GlEngine::CameraComponent* cameraComponent;
+    auto mainPipeline = CreateDefaultPipeline(cameraComponent);
+    mainPipeline->SetClearColor({ .3, .1, .1 });
+    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, -3.5, 7 });
 
-    auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetClearColor({ .3, .1, .1 });
+    auto cameraTarget = new CameraTargetComponent();
+    cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
     auto controlsComponent = new LabControlsComponent();
@@ -66,10 +71,20 @@ bool TexturesSceneFrame::Initialize()
 
     auto texRenderTarget = new GlEngine::TextureRenderTarget(512, 512);
     auto trCamera = GlEngine::CameraComponent::Create(this, "TexRTCamera");
-    trCamera->SetParent(cameraObject);
+    trCamera->SetParent(cameraComponent->gameObject());
     auto trCameraC = trCamera->component<GlEngine::CameraComponent>();
-    trCameraC->SetClearColor({ .1, .3, .1 });
-    texRenderTarget->SetCamera(trCameraC);
+    
+    auto trPipeline = new GlEngine::SimpleRenderPipeline(this, { 
+        { GlEngine::renderStage_opaque, trCameraC },
+        { GlEngine::renderStage_translucent, trCameraC },
+        { GlEngine::renderStage_2d, trCameraC }
+    });
+
+    trPipeline->SetClearColor({ .1, .3, .1 });
+    texRenderTarget->SetRenderPipeline(trPipeline);
+    texRenderTarget->SetViewPort(GlEngine::renderStage_opaque, new GlEngine::PerspectiveViewPort());
+    texRenderTarget->SetViewPort(GlEngine::renderStage_translucent, new GlEngine::PerspectiveViewPort());
+    texRenderTarget->SetViewPort(GlEngine::renderStage_2d, new GlEngine::OrthoViewPort());
     texRenderTarget->AddToGraphicsLoop();
 
     auto cube3 = new GlEngine::GameObject(this, "Cube3");

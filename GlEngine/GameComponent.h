@@ -12,6 +12,7 @@ namespace GlEngine
 {
     class GameObject;
     class Frame;
+    class RenderStage;
 
     class ENGINE_SHARED GameComponent : public IAsyncInitializable
     {
@@ -45,7 +46,7 @@ namespace GlEngine
 
         virtual void TickGraphics(float delta);
         virtual void UpdateGraphics();
-        virtual void Render(RenderTargetLayer layer);
+        virtual void Render(RenderStage* stage);
 
     private:
         GameObject *_gameObject;

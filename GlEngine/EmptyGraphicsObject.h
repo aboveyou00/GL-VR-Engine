@@ -13,8 +13,8 @@ namespace GlEngine
         virtual bool isReady() override;
 
         void BuildVao(VaoFactory &vao) override;
-        void RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount) override;
+        void RenderInstancedImpl(RenderStage* stage, unsigned instanceCount) override;
 
-        void RenderImpl(RenderTargetLayer layer) override;
+        void RenderImpl(RenderStage* stage) override;
     };
 }

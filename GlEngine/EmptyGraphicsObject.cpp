@@ -19,11 +19,11 @@ namespace GlEngine
     void EmptyGraphicsObject::BuildVao(VaoFactory&)
     {
     }
-    void EmptyGraphicsObject::RenderInstancedImpl(RenderTargetLayer, unsigned)
+    void EmptyGraphicsObject::RenderInstancedImpl(RenderStage*, unsigned)
     {
     }
 
-    void EmptyGraphicsObject::RenderImpl(RenderTargetLayer)
+    void EmptyGraphicsObject::RenderImpl(RenderStage*)
     {
     }
 }

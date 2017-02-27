@@ -53,13 +53,13 @@ public:
 
     virtual void BuildVao(GlEngine::VaoFactory &vao) override;
 
-    virtual void PreRender(GlEngine::RenderTargetLayer layer) override;
-    virtual void RenderImpl(GlEngine::RenderTargetLayer layer) override;
-    virtual void PostRender(GlEngine::RenderTargetLayer layer) override;
+    virtual void PreRender(GlEngine::RenderStage* stage) override;
+    virtual void RenderImpl(GlEngine::RenderStage* stage) override;
+    virtual void PostRender(GlEngine::RenderStage* stage) override;
 
-    virtual void PreRenderInstanced(GlEngine::RenderTargetLayer layer) override;
-    virtual void RenderInstancedImpl(GlEngine::RenderTargetLayer layer, unsigned instanceCount) override;
-    virtual void PostRenderInstanced(GlEngine::RenderTargetLayer layer) override;
+    virtual void PreRenderInstanced(GlEngine::RenderStage* stage) override;
+    virtual void RenderInstancedImpl(GlEngine::RenderStage* stage, unsigned instanceCount) override;
+    virtual void PostRenderInstanced(GlEngine::RenderStage* stage) override;
 
     virtual std::string name() override;
 

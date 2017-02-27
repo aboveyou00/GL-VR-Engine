@@ -48,10 +48,9 @@ bool LightsAndEffectsSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->localTransform()->SetPosition({ 0, -3.5, 7 });
-
-    auto cameraComponent = CreateDefaultCamera();
+    GlEngine::CameraComponent* cameraComponent;
+    CreateDefaultPipeline(cameraComponent);
+    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, -3.5, 7 });
 
     auto controls = new GlEngine::GameObject(this, "Lab3ControlsComponent");
     auto controlsComponent = new Lab3ControlsComponent();

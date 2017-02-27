@@ -11,6 +11,8 @@
 
 #include "TextureRenderTarget.h"
 #include "GameObject.h"
+#include "PerspectiveViewPort.h"
+#include "OrthoViewPort.h"
 
 #include "Engine.h"
 #include "KeyboardEvent.h"
@@ -82,11 +84,18 @@ bool DistortionSceneFrame::Initialize()
     //cube1->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
     sceneTex = new GlEngine::TextureRenderTarget(1920, 1080 - 60, GlEngine::TextureFlag::Clamp);
-    sceneTex->SetCamera(this->renderedFrame->mainCamera());
+    sceneTex->SetRenderPipeline(this->renderedFrame->mainPipeline());
+    sceneTex->SetViewPort(GlEngine::renderStage_opaque, new GlEngine::PerspectiveViewPort());
+    sceneTex->SetViewPort(GlEngine::renderStage_translucent, new GlEngine::PerspectiveViewPort());
+    sceneTex->SetViewPort(GlEngine::renderStage_2d, new GlEngine::OrthoViewPort());
     sceneTex->AddToGraphicsLoop();
 
-    auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetClearColor({ .1, .2, .3 });
+    GlEngine::CameraComponent* cameraComponent;
+    auto mainPipeline = CreateDefaultPipeline(cameraComponent);
+    mainPipeline->SetClearColor({ .1, .2, .3 });
+
+    auto cameraTarget = new CameraTargetComponent();
+    cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto clipPlaneGfx = new RawGraphicsObject(
         "ClipPlaneGfx",

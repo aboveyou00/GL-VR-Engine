@@ -85,7 +85,10 @@ bool Sandbox::createWindow()
     _window->SetCenterCursor(true);
 
     auto windowRenderTarget = new GlEngine::WindowRenderTarget(_window);
-    windowRenderTarget->SetCamera(this->_loop.frames());
+    windowRenderTarget->SetRenderPipeline(this->_loop.frames());
+    windowRenderTarget->SetViewPort(GlEngine::renderStage_opaque, new GlEngine::PerspectiveViewPort());
+    windowRenderTarget->SetViewPort(GlEngine::renderStage_translucent, new GlEngine::PerspectiveViewPort());
+    windowRenderTarget->SetViewPort(GlEngine::renderStage_2d, new GlEngine::OrthoViewPort());
     windowRenderTarget->AddToGraphicsLoop();
 
     _window->Show();

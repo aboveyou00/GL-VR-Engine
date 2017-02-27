@@ -20,8 +20,12 @@ bool DiffuseSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetClearColor({ .2, .2, .2 });
+    GlEngine::CameraComponent* cameraComponent;
+    auto mainPipeline = CreateDefaultPipeline(cameraComponent);
+    mainPipeline->SetClearColor({ .2, .2, .2 });
+
+    auto cameraTarget = new CameraTargetComponent();
+    cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
     controls->AddComponent(new LabControlsComponent());

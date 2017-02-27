@@ -65,33 +65,14 @@ namespace GlEngine
         if (stackIdx == -1) return;
         _frameStack[stackIdx]->HandleEvent(evt);
     }
-
-    void FrameStack::Push()
+    std::vector<std::pair<RenderStage*, ICamera*>> FrameStack::renderStages()
     {
-        if (CurrentFrame() == nullptr) return;
-        CurrentFrame()->Push();
-    }
-    void FrameStack::Pop()
-    {
-        if (CurrentFrame() == nullptr) return;
-        CurrentFrame()->Pop();
+        if (CurrentFrame() == nullptr) return std::vector<std::pair<RenderStage*, ICamera*>>();
+        return CurrentFrame()->renderStages();
     }
 
-    Vector<3> FrameStack::clearColor()
+    Frame * FrameStack::frame()
     {
-        if (CurrentFrame() == nullptr) return ICamera::clearColor();
-        return CurrentFrame()->clearColor();
-    }
-
-    Frame *FrameStack::frame()
-    {
-        if (CurrentFrame() == nullptr) return nullptr;
-        return CurrentFrame()->frame();
-    }
-
-    bool FrameStack::isReady()
-    {
-        if (CurrentFrame() == nullptr) return false;
-        return CurrentFrame()->isReady();
+        return CurrentFrame();
     }
 }

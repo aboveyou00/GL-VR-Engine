@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IAsyncInitializable.h"
-#include "RenderTargetLayer.h"
+#include "RenderStage.h"
 #include "RenderTargetViewMode.h"
 
 namespace GlEngine
@@ -14,6 +14,7 @@ namespace GlEngine
     class ViewPort;
     class Window;
     class ICamera;
+    class RenderPipeline;
 
     class ENGINE_SHARED RenderTarget : public IAsyncInitializable
     {
@@ -30,11 +31,11 @@ namespace GlEngine
 
         virtual bool isReady() override;
 
-        ICamera *camera();
-        void SetCamera(ICamera *camera);
+        RenderPipeline* renderPipeline();
+        void SetRenderPipeline(RenderPipeline* pipeline);
 
-        void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
-        ViewPort *viewPort(RenderTargetLayer layer);
+        virtual ViewPort* viewPort(RenderStage* stage);
+        virtual void SetViewPort(RenderStage* stage, ViewPort* viewPort);
 
         void SetCurrent();
 
@@ -44,17 +45,11 @@ namespace GlEngine
 
         virtual void Prepare();
         virtual void PrePush();
-        virtual void Push(RenderTargetLayer layer);
-        virtual void Pop(RenderTargetLayer layer);
+        virtual void Push(RenderStage* stage, ICamera* camera);
+        virtual void Pop(RenderStage* stage, ICamera* camera);
         virtual void PostPop();
 
         virtual void Flip();
-
-        RenderTargetViewMode viewMode();
-        void SetViewMode(RenderTargetViewMode mode);
-
-        Matrix<4, 4> viewMatrix();
-        void SetViewMatrix(Matrix<4, 4> mat);
 
         void AddToGraphicsLoop();
 
@@ -65,7 +60,5 @@ namespace GlEngine
 
     protected:
         Impl::RenderTargetImpl *pimpl;
-        RenderTargetViewMode _viewMode;
-        Matrix<4, 4> _viewMatrix;
     };
 }

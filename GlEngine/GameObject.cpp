@@ -142,19 +142,19 @@ namespace GlEngine
             if (c->_active) c->UpdateGraphics();
         }
     }
-    void GameObject::Render(RenderTargetLayer layer)
+    void GameObject::Render(RenderStage* stage)
     {
         if (!active()) return;
         auto _t = MatrixTransform(MatrixStack::Model, transform);
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
-            if (c->_active) c->Render(layer);
+            if (c->_active) c->Render(stage);
         }
         for (size_t q = 0; q < _children.size(); q++)
         {
             auto c = _children[q];
-            if (c->_active) c->Render(layer);
+            if (c->_active) c->Render(stage);
         }
     }
     

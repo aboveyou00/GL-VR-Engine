@@ -51,19 +51,19 @@ namespace GlEngine
     {
     }
 
-    void Image2dGraphicsObject::PreRender(GlEngine::RenderTargetLayer layer)
+    void Image2dGraphicsObject::PreRender(RenderStage* stage)
     {
-        if (layer != GlEngine::RenderTargetLayer::Layer2d) return;
+        if (stage != renderStage_2d) return;
         auto scale_mat = Matrix<4, 4>::Identity();
         if (tex && tex->isReady()) scale_mat = Matrix<4, 4>::ScaleMatrix({ tex->GetWidth(), tex->GetHeight(), 1 });
         scale_mat = Util::GetAlignmentMatrix(align) * scale_mat;
         GlEngine::MatrixStack::Model.mult(scale_mat);
-        VboGraphicsObject::PreRender(layer);
+        VboGraphicsObject::PreRender(stage);
     }
-    void Image2dGraphicsObject::PostRender(GlEngine::RenderTargetLayer layer)
+    void Image2dGraphicsObject::PostRender(RenderStage* stage)
     {
-        if (layer != GlEngine::RenderTargetLayer::Layer2d) return;
-        VboGraphicsObject::PostRender(layer);
+        if (stage != renderStage_2d) return;
+        VboGraphicsObject::PostRender(stage);
         GlEngine::MatrixStack::Model.pop();
     }
 

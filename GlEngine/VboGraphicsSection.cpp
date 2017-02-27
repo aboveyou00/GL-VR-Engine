@@ -86,11 +86,11 @@ namespace GlEngine
             SafeDelete(quads);
         }
 
-        void VboGraphicsSection::Render(RenderTargetLayer layer)
+        void VboGraphicsSection::Render(RenderStage* stage)
         {
             if (!*this) return;
 
-            if (layer != material->GetRenderTargetLayer())
+            if (stage != material->GetRenderStage())
                 return;
 
             _factory->Push();
@@ -136,9 +136,9 @@ namespace GlEngine
             _factory->Pop();
         }
 
-        void VboGraphicsSection::RenderInstanced(RenderTargetLayer layer, unsigned instanceCount)
+        void VboGraphicsSection::RenderInstanced(RenderStage* stage, unsigned instanceCount)
         {
-            layer; instanceCount;
+            stage; instanceCount;
             assert(false);
 
             //if (layer != material->GetRenderTargetLayer())
@@ -175,9 +175,9 @@ namespace GlEngine
             //material->Pop(true);
         }
 
-        void VboGraphicsSection::RenderPoints(RenderTargetLayer layer, unsigned count)
+        void VboGraphicsSection::RenderPoints(RenderStage* stage, unsigned count)
         {
-            if (layer != material->GetRenderTargetLayer())
+            if (stage != material->GetRenderStage())
                 return;
 
             _factory->Push();

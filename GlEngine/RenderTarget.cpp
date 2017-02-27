@@ -6,13 +6,12 @@
 
 #include "Engine.h"
 #include "GraphicsController.h"
+#include "RenderPipeline.h"
 
 namespace GlEngine
 {
     RenderTarget::RenderTarget(Impl::RenderTargetImpl *pimpl)
-        : pimpl(pimpl),
-          _viewMode(RenderTargetViewMode::Relative),
-          _viewMatrix(Matrix<4, 4>::Identity())
+        : pimpl(pimpl)
     {
     }
     RenderTarget::~RenderTarget()
@@ -53,13 +52,13 @@ namespace GlEngine
         return pimpl->isReady();
     }
 
-    void RenderTarget::SetViewPort(RenderTargetLayer layer, ViewPort * viewPort)
+    RenderPipeline * RenderTarget::renderPipeline()
     {
-        pimpl->SetViewPort(layer, viewPort);
+        return pimpl->renderPipeline();
     }
-    ViewPort *RenderTarget::viewPort(RenderTargetLayer layer)
+    void RenderTarget::SetRenderPipeline(RenderPipeline * pipeline)
     {
-        return pimpl->viewPort(layer);
+        pimpl->SetRenderPipeline(pipeline);
     }
 
     void RenderTarget::SetCurrent()
@@ -74,24 +73,26 @@ namespace GlEngine
 
     void RenderTarget::Render()
     {
-        auto thisCamera = camera();
-        Frame *thisFrame = nullptr;
-        if (thisCamera != nullptr) thisFrame = camera()->frame();
 
-        if (thisFrame == nullptr || !GetShouldRender()) return;
+        if (!GetShouldRender()) return;
+
+        RenderPipeline* thisPipeline = renderPipeline();
+        Frame* thisFrame = nullptr;
+        
+        if (thisPipeline != nullptr)
+            thisFrame = thisPipeline->frame();
+        if (thisFrame == nullptr)
+            return;
 
         thisFrame->setCurrentRenderTarget(this);
-
         thisFrame->UpdateGraphics();
 
         this->PrePush();
-        for (auto layer = std::numeric_limits<RenderTargetLayer>::min(); layer <= std::numeric_limits<RenderTargetLayer>::max(); layer++)
+        for (auto stageCameraPair : renderPipeline()->renderStages())
         {
-            this->Push(layer);
-            //thisCamera->Push();
-            thisFrame->Render(layer);
-            //thisCamera->Pop();
-            this->Pop(layer);
+            this->Push(stageCameraPair.first, stageCameraPair.second);
+            thisFrame->Render(stageCameraPair.first);
+            this->Pop(stageCameraPair.first, stageCameraPair.second);
         }
         this->PostPop();
 
@@ -106,13 +107,13 @@ namespace GlEngine
     {
         pimpl->PrePush();
     }
-    void RenderTarget::Push(RenderTargetLayer layer)
+    void RenderTarget::Push(RenderStage* stage, ICamera* camera)
     {
-        pimpl->Push(layer, _viewMode, _viewMatrix);
+        pimpl->Push(stage, camera);
     }
-    void RenderTarget::Pop(RenderTargetLayer layer)
+    void RenderTarget::Pop(RenderStage* stage, ICamera* camera)
     {
-        pimpl->Pop(layer);
+        pimpl->Pop(stage, camera);
     }
     void RenderTarget::PostPop()
     {
@@ -124,35 +125,17 @@ namespace GlEngine
         pimpl->Flip();
     }
 
-    RenderTargetViewMode RenderTarget::viewMode()
-    {
-        return _viewMode;
-    }
-    void RenderTarget::SetViewMode(RenderTargetViewMode mode)
-    {
-        _viewMode = mode;
-    }
-
-    Matrix<4, 4> RenderTarget::viewMatrix()
-    {
-        return _viewMatrix;
-    }
-    void RenderTarget::SetViewMatrix(Matrix<4, 4> mat)
-    {
-        _viewMatrix = mat;
-    }
-
     void RenderTarget::AddToGraphicsLoop()
     {
         Engine::GetInstance().GetGraphicsController().addRenderTarget(this);
     }
 
-    ICamera *RenderTarget::camera()
+    ViewPort * RenderTarget::viewPort(RenderStage * stage)
     {
-        return pimpl->camera();
+        return pimpl->viewPort(stage);
     }
-    void RenderTarget::SetCamera(ICamera *camera)
+    void RenderTarget::SetViewPort(RenderStage * stage, ViewPort * viewPort)
     {
-        pimpl->SetCamera(camera);
+        pimpl->SetViewPort(stage, viewPort);
     }
 }

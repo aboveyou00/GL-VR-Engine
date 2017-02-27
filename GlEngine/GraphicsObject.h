@@ -29,15 +29,15 @@ namespace GlEngine
 
         virtual void BuildVao(VaoFactory &vao) = 0;
 
-        void Render(RenderTargetLayer layer);
-        virtual void PreRender(RenderTargetLayer layer);
-        virtual void RenderImpl(RenderTargetLayer layer) = 0;
-        virtual void PostRender(RenderTargetLayer layer);
+        void Render(RenderStage* stage) override;
+        virtual void PreRender(RenderStage* stage);
+        virtual void RenderImpl(RenderStage* stage) = 0;
+        virtual void PostRender(RenderStage* stage);
 
-        void RenderInstanced(RenderTargetLayer layer, unsigned instanceCount);
-        virtual void PreRenderInstanced(RenderTargetLayer layer);
-        virtual void RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount) = 0;
-        virtual void PostRenderInstanced(RenderTargetLayer layer);
+        void RenderInstanced(RenderStage* stage, unsigned instanceCount);
+        virtual void PreRenderInstanced(RenderStage* stage);
+        virtual void RenderInstancedImpl(RenderStage* stage, unsigned instanceCount) = 0;
+        virtual void PostRenderInstanced(RenderStage* stage);
 
         int renderOrder;
 

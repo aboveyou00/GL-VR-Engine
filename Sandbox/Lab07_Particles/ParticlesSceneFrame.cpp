@@ -12,12 +12,14 @@
 #include "../TemplateMaterial.h"
 #include "../TemplateMaterialFactory.h"
 #include "MathUtils.h"
+#include "RenderPipeline.h"
 
 #include "Color.h"
 
 #include <map>
 #include "Property.h"
 #include "ComponentArray.h"
+
 using namespace GlEngine::ShaderFactory;
 extern Property<float> prop_StartTime, prop_LiveTime;
 extern Property<Vector<3>> prop_StartPosition, prop_StartVelocity, prop_Acceleration;
@@ -38,15 +40,14 @@ bool ParticlesSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto cameraTarget = CameraTargetComponent::Create(this, "CameraTarget");
+    GlEngine::CameraComponent* cameraComponent;
+    auto pipeline = CreateDefaultPipeline(cameraComponent);
+    pipeline->SetClearColor({ .4, .4, .4 });
 
-    auto cameraObject = GlEngine::CameraComponent::Create(this, "Camera");
-    cameraObject->transform.position = { 0, -3.5, 7 };
-
-    auto cameraComponent = CreateDefaultCamera();
-    cameraComponent->SetTargetObject(cameraTarget);
-    cameraComponent->SetLock(GlEngine::CameraLock::RELATIVE_POSITION);
-    //cameraComponent->SetClearColor({ .4, .4, .4 });
+    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, -3.5, 7 });
+    
+    auto cameraTarget = new CameraTargetComponent();
+    cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
     auto controlsComponent = new LabControlsComponent();
@@ -88,7 +89,7 @@ bool ParticlesSceneFrame::Initialize()
     );
     auto fountainObj = new GlEngine::GameObject(this, "ParticleFountain");
     fountainObj->AddComponent(fountainGfx);
-    fountainObj->transform.position = { 0, -5, -15 };
+    fountainObj->localTransform()->SetPosition({ 0, -5, -15 });
 
 
 

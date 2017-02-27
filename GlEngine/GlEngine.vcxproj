@@ -179,11 +179,14 @@
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="PropertyResolutionEagerness.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="RenderPipeline.h" />
+    <ClInclude Include="RenderStage.h" />
     <ClInclude Include="RenderTargetViewMode.h" />
     <ClInclude Include="RawShaderFactory.h" />
     <ClInclude Include="ShaderFactoryError.h" />
     <ClInclude Include="PropertySourceFlag.h" />
     <ClInclude Include="PropertyFlag.h" />
+    <ClInclude Include="SimpleRenderPipeline.h" />
     <ClInclude Include="SpotlightSource.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Subroutine.h" />
@@ -391,6 +394,8 @@
     <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RandomUtils.cpp" />
     <ClCompile Include="RawShaderFactory.cpp" />
+    <ClCompile Include="RenderPipeline.cpp" />
+    <ClCompile Include="RenderStage.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="RenderTargetLayer.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
@@ -398,6 +403,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="ShaderProp.cpp" />
+    <ClCompile Include="SimpleRenderPipeline.cpp" />
     <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="SpotlightSource.cpp" />
     <ClCompile Include="Subroutine.cpp" />

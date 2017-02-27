@@ -11,6 +11,7 @@
 #include "CameraComponent.h"
 #include "Frame.h"
 #include "RenderTarget.h"
+#include "RenderPipeline.h"
 
 namespace GlEngine
 {
@@ -145,9 +146,9 @@ namespace GlEngine
                 targets.push_back(target);
                 target->Prepare();
 
-                auto thisCamera = target->camera();
+                auto thisPipeline = target->renderPipeline();
                 Frame *thisFrame = nullptr;
-                if (thisCamera != nullptr) thisFrame = target->camera()->frame();
+                if (thisPipeline != nullptr) thisFrame = thisPipeline->frame();
                 if (thisFrame != nullptr && std::find(frames.begin(), frames.end(), thisFrame) == frames.end())
                 {
                     frames.push_back(thisFrame);

@@ -5,14 +5,13 @@
 #include "OrthoViewPort.h"
 #include <chrono>
 #include "ICamera.h"
+#include "RenderPipeline.h"
 
 namespace GlEngine::Impl
 {
-    RenderTargetImpl::RenderTargetImpl(ICamera *camera)
-        : _camera(camera), shouldRender(true)
+    RenderTargetImpl::RenderTargetImpl(RenderPipeline* pipeline)
+        : _renderPipeline(pipeline), shouldRender(true), viewPorts(std::map<RenderStage*, ViewPort*>())
     {
-        for (int i = 0; i < layerCount; i++)
-            viewPorts[i] = nullptr;
     }
     RenderTargetImpl::~RenderTargetImpl()
     {
@@ -20,39 +19,10 @@ namespace GlEngine::Impl
 
     bool RenderTargetImpl::InitializeAsync()
     {
-        auto current_opaque3d = viewPort(RenderTargetLayer::Layer3dOpaque);
-        auto current_translucent3d = viewPort(RenderTargetLayer::Layer3dTransluscent);
-        if (current_opaque3d == nullptr || current_translucent3d == nullptr)
-        {
-            auto viewport3d = new PerspectiveViewPort();
-            if (current_opaque3d == nullptr) SetViewPort(GlEngine::RenderTargetLayer::Layer3dOpaque, viewport3d);
-            if (current_translucent3d == nullptr) SetViewPort(GlEngine::RenderTargetLayer::Layer3dTransluscent, viewport3d);
-        }
-
-        auto current_2d = viewPort(RenderTargetLayer::Layer2d);
-        if (current_2d == nullptr)
-        {
-            auto viewport2d = new OrthoViewPort();
-            SetViewPort(GlEngine::RenderTargetLayer::Layer2d, viewport2d);
-        }
-
         return true;
     }
     void RenderTargetImpl::ShutdownAsync()
     {
-        for (int i = 0; i < layerCount; i++)
-        {
-            auto vp = viewPorts[i];
-            if (vp != nullptr)
-            {
-                viewPorts[i] = nullptr;
-                for (size_t q = i + 1; q < layerCount; q++)
-                {
-                    if (viewPorts[q] == vp) viewPorts[q] = nullptr;
-                }
-                delete vp;
-            }
-        }
     }
     bool RenderTargetImpl::InitializeGraphics()
     {
@@ -76,56 +46,22 @@ namespace GlEngine::Impl
     }
     void RenderTargetImpl::PrePush()
     {
-        auto thisCamera = camera();
-        auto clearColor = thisCamera != nullptr ? thisCamera->clearColor() : Vector<3> { 0, 0, 0 };
+        auto clearColor = renderPipeline() != nullptr ? renderPipeline()->clearColor() : Vector<3> { 0, 0, 0 };
         glClearColor(clearColor[0], clearColor[1], clearColor[2], 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         checkForGlError();
     }
-    void RenderTargetImpl::Push(RenderTargetLayer layer, RenderTargetViewMode viewMode, Matrix<4, 4> viewMatrix)
+    void RenderTargetImpl::Push(RenderStage* stage, ICamera* camera)
     {
-        glEnable(GL_TEXTURE_2D);
-        checkForGlError();
-        if (layer == RenderTargetLayer::Layer3dOpaque || layer == RenderTargetLayer::Layer3dTransluscent)
-        {
-            glEnable(GL_DEPTH_TEST);
-            checkForGlError();
-            glEnable(GL_CULL_FACE);
-            checkForGlError();
-            glDepthFunc(GL_LEQUAL);
-            checkForGlError();
-        }
-        else if (layer == RenderTargetLayer::Layer2d)
-        {
-            glDisable(GL_DEPTH_TEST);
-            checkForGlError();
-            glDisable(GL_CULL_FACE);
-            checkForGlError();
-            glDepthFunc(GL_NEVER);
-            checkForGlError();
-            MatrixStack::Model.push(Matrix<4, 4>::Identity());
-            MatrixStack::View.push(Matrix<4, 4>::Identity());
-        }
-
-        ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
-        if (viewPort != nullptr) viewPort->Push();
-
-        if (viewMode == RenderTargetViewMode::Relative) MatrixStack::View.mult(viewMatrix);
-        else if (viewMode == RenderTargetViewMode::Absolute) MatrixStack::View.push(viewMatrix);
-        else assert(false);
+        stage->Push();
+        viewPorts[stage]->Push();
+        camera->Push(stage);
     }
-    void RenderTargetImpl::Pop(RenderTargetLayer layer)
+    void RenderTargetImpl::Pop(RenderStage* stage, ICamera* camera)
     {
-        if (layer == RenderTargetLayer::Layer2d)
-        {
-            MatrixStack::Model.pop();
-            MatrixStack::View.pop();
-        }
-
-        ViewPort* viewPort = this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()];
-        if (viewPort != nullptr) viewPort->Pop();
-
-        MatrixStack::View.pop();
+        stage->Pop();
+        viewPorts[stage]->Pop();
+        camera->Pop(stage);
     }
     void RenderTargetImpl::PostPop()
     {
@@ -135,32 +71,22 @@ namespace GlEngine::Impl
     {
     }
 
-    void RenderTargetImpl::SetViewPort(RenderTargetLayer layer, ViewPort *viewPort)
+    RenderPipeline* RenderTargetImpl::renderPipeline()
     {
-        auto idx = (int)layer - (int)std::numeric_limits<RenderTargetLayer>::min();
-        const unsigned count = (int)std::numeric_limits<RenderTargetLayer>::max() + 1 - (int)std::numeric_limits<RenderTargetLayer>::min();
-        if (idx < 0 || idx >= count) return;
-
-        ViewPort* mViewPort = this->viewPorts[idx];
-        if (mViewPort != nullptr)
-            delete mViewPort;
-        this->viewPorts[(int)layer - (int)std::numeric_limits<RenderTargetLayer>::min()] = viewPort;
+        return _renderPipeline;
     }
-    ViewPort *RenderTargetImpl::viewPort(RenderTargetLayer layer)
+    void RenderTargetImpl::SetRenderPipeline(RenderPipeline* pipeline)
     {
-        auto idx = (int)layer - (int)std::numeric_limits<RenderTargetLayer>::min();
-        const unsigned count = (int)std::numeric_limits<RenderTargetLayer>::max() + 1 - (int)std::numeric_limits<RenderTargetLayer>::min();
-        if (idx < 0 || idx >= count) return nullptr;
-
-        return this->viewPorts[idx];
+        _renderPipeline = pipeline;
     }
 
-    ICamera *RenderTargetImpl::camera()
+    ViewPort* RenderTargetImpl::viewPort(RenderStage * stage)
     {
-        return _camera;
+        return viewPorts[stage];
     }
-    void RenderTargetImpl::SetCamera(ICamera *camera)
+
+    void RenderTargetImpl::SetViewPort(RenderStage* stage, ViewPort* viewPort)
     {
-        _camera = camera;
+        viewPorts[stage] = viewPort;
     }
 }

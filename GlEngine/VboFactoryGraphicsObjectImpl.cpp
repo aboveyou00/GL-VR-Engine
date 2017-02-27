@@ -109,44 +109,44 @@ namespace GlEngine::Impl
         _vao = VaObject();
     }
 
-    void VboFactoryGraphicsObjectImpl::PreRender(RenderTargetLayer layer)
+    void VboFactoryGraphicsObjectImpl::PreRender(RenderStage* stage)
     {
         ScopedLock _lock(mutex);
-        GraphicsObject::PreRender(layer);
+        GraphicsObject::PreRender(stage);
         if (this->isReady()) _vao.MakeCurrent();
     }
-    void VboFactoryGraphicsObjectImpl::RenderImpl(RenderTargetLayer layer)
+    void VboFactoryGraphicsObjectImpl::RenderImpl(RenderStage* stage)
     {
         ScopedLock _lock(mutex);
         if (allowFaces)
         {
             for (size_t q = 0; q < graphicsSections.size(); q++)
-                graphicsSections[q]->Render(layer);
+                graphicsSections[q]->Render(stage);
         }
         else
         {
             if (!currentGraphicsSection || !*currentGraphicsSection) return;
-            currentGraphicsSection->RenderPoints(layer, elemIdx);
+            currentGraphicsSection->RenderPoints(stage, elemIdx);
         }
     }
-    void VboFactoryGraphicsObjectImpl::PostRender(RenderTargetLayer layer)
+    void VboFactoryGraphicsObjectImpl::PostRender(RenderStage* stage)
     {
-        GraphicsObject::PostRender(layer);
+        GraphicsObject::PostRender(stage);
     }
 
-    void VboFactoryGraphicsObjectImpl::PreRenderInstanced(RenderTargetLayer layer)
+    void VboFactoryGraphicsObjectImpl::PreRenderInstanced(RenderStage* stage)
     {
-        GraphicsObject::PreRenderInstanced(layer);
+        GraphicsObject::PreRenderInstanced(stage);
     }
-    void VboFactoryGraphicsObjectImpl::RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount)
+    void VboFactoryGraphicsObjectImpl::RenderInstancedImpl(RenderStage* stage, unsigned instanceCount)
     {
         ScopedLock _lock(mutex);
         for (size_t q = 0; q < graphicsSections.size(); q++)
-            graphicsSections[q]->RenderInstanced(layer, instanceCount);
+            graphicsSections[q]->RenderInstanced(stage, instanceCount);
     }
-    void VboFactoryGraphicsObjectImpl::PostRenderInstanced(RenderTargetLayer layer)
+    void VboFactoryGraphicsObjectImpl::PostRenderInstanced(RenderStage* stage)
     {
-        GraphicsObject::PostRenderInstanced(layer);
+        GraphicsObject::PostRenderInstanced(stage);
     }
 
     std::string VboFactoryGraphicsObjectImpl::name()

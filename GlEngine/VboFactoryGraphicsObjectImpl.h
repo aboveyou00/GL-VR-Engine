@@ -37,13 +37,13 @@ namespace GlEngine::Impl
         virtual bool InitializeGraphics() override;
         virtual void ShutdownGraphics() override;
 
-        virtual void PreRender(RenderTargetLayer layer) override;
-        virtual void RenderImpl(RenderTargetLayer layer) override;
-        virtual void PostRender(RenderTargetLayer layer) override;
+        virtual void PreRender(RenderStage* stage) override;
+        virtual void RenderImpl(RenderStage* stage) override;
+        virtual void PostRender(RenderStage* stage) override;
 
-        virtual void PreRenderInstanced(RenderTargetLayer layer) override;
-        virtual void RenderInstancedImpl(RenderTargetLayer layer, unsigned instanceCount) override;
-        virtual void PostRenderInstanced(RenderTargetLayer layer) override;
+        virtual void PreRenderInstanced(RenderStage* stage) override;
+        virtual void RenderInstancedImpl(RenderStage* stage, unsigned instanceCount) override;
+        virtual void PostRenderInstanced(RenderStage* stage) override;
 
         virtual std::string name() override;
 

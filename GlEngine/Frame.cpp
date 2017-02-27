@@ -4,11 +4,12 @@
 #include "Event.h"
 #include "CameraComponent.h"
 #include "RenderTarget.h"
+#include "SimpleRenderPipeline.h"
 
 namespace GlEngine
 {
     Frame::Frame()
-        : _initialized(false), currentCamera(nullptr), _mainCamera(nullptr)
+        : _initialized(false), currentCamera(nullptr), _mainCamera(nullptr), _mainPipeline(nullptr)
     {
     }
     Frame::~Frame()
@@ -67,12 +68,12 @@ namespace GlEngine
             _children[q]->UpdateGraphics();
         }
     }
-    void Frame::Render(RenderTargetLayer layer)
+    void Frame::Render(RenderStage* stage)
     {
         for (size_t q = 0; q < _children.size(); q++)
         {
             if (!_children[q]->active()) continue;
-            _children[q]->Render(layer);
+            _children[q]->Render(stage);
         }
     }
 
@@ -102,61 +103,54 @@ namespace GlEngine
         return nullptr;
     }
 
-    void Frame::Push()
-    {
-        if (_mainCamera == nullptr) return;
-        _mainCamera->Push();
-    }
-    void Frame::Pop()
-    {
-        if (_mainCamera == nullptr) return;
-        _mainCamera->Pop();
-    }
-
-    Vector<3> Frame::clearColor()
-    {
-        if (_mainCamera == nullptr) return ICamera::clearColor();
-        return _mainCamera->clearColor();
-    }
-
-    bool Frame::isReady()
-    {
-        if (_mainCamera == nullptr) return false;
-        return _mainCamera->isReady();
-    }
-
     ICamera *Frame::mainCamera()
     {
         return _mainCamera;
     }
 
-    CameraComponent *Frame::CreateDefaultCamera()
+    RenderPipeline * Frame::mainPipeline()
     {
-        auto cc = new CameraComponent();
-        auto ccgobj = new GameObject(this, "MainCamera");
-        ccgobj->AddComponent(cc);
-        SetMainCamera(cc);
-        return cc;
+        return _mainPipeline;
     }
-    void Frame::SetMainCamera(ICamera *camera)
+
+    std::vector<std::pair<RenderStage*, ICamera*>> Frame::renderStages()
+    {
+        if (_mainPipeline == nullptr)
+            return std::vector<std::pair<RenderStage*, ICamera*>>();
+        return _mainPipeline->renderStages();
+    }
+
+    RenderPipeline* Frame::CreateDefaultPipeline(CameraComponent*& cameraComponent)
+    {
+        cameraComponent = new CameraComponent();
+        auto ccgobj = new GameObject(this, "MainCamera");
+        ccgobj->AddComponent(cameraComponent);
+        SetMainCamera(cameraComponent);
+
+        auto pipeline = new SimpleRenderPipeline(this, { { renderStage_opaque, cameraComponent },{ renderStage_translucent, cameraComponent },{ renderStage_2d, cameraComponent } });
+        SetMainPipeline(pipeline);
+        return pipeline;
+    }
+
+    void Frame::SetMainCamera(ICamera* camera)
     {
         _mainCamera = camera;
+    }
+
+    void Frame::SetMainPipeline(RenderPipeline* pipeline)
+    {
+        _mainPipeline = pipeline;
     }
 
     void Frame::setCurrentRenderTarget(RenderTarget *target)
     {
         currentRenderTarget = target;
-        if (target == nullptr) setCurrentCamera(nullptr);
-        else setCurrentCamera(target->camera());
     }
     void Frame::setCurrentCamera(ICamera *camera)
     {
-        if (currentCamera != nullptr) currentCamera->Pop();
-        else currentCamera = camera;
-        if (currentCamera != nullptr) currentCamera->Push();
+        currentCamera = camera;
     }
-
-    Frame *Frame::frame()
+    Frame * Frame::frame()
     {
         return this;
     }

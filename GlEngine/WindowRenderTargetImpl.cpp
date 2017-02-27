@@ -102,9 +102,9 @@ namespace GlEngine::Impl
             {
                 glViewport(0, 0, this->lastWidth, this->lastHeight);
                 checkForGlError();
-                for (int i = 0; i < layerCount; i++)
-                    if (viewPorts[i] != nullptr)
-                        viewPorts[i]->SetSize(this->lastWidth, this->lastHeight);
+                for (auto viewPortPair : viewPorts)
+                    if (viewPortPair.second != nullptr)
+                        viewPortPair.second->SetSize(this->lastWidth, this->lastHeight);
                 shouldRender = true;
             }
         }

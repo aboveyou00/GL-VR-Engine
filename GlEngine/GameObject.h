@@ -56,7 +56,7 @@ namespace GlEngine
 
         void TickGraphics(float delta);
         void UpdateGraphics();
-        void Render(RenderTargetLayer layer);
+        void Render(RenderStage* stage);
 
         Transform* localTransform();
         GlobalTransform* globalTransform();

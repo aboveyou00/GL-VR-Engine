@@ -36,10 +36,10 @@ namespace GlEngine
         return _name;
     }
 
-    RenderTargetLayer Material::GetRenderTargetLayer()
+    RenderStage* Material::GetRenderStage()
     {
-        if (is2d) return RenderTargetLayer::Layer2d;
-        else if (IsOpaque()) return RenderTargetLayer::Layer3dOpaque;
-        else return RenderTargetLayer::Layer3dTransluscent;
+        if (is2d) return renderStage_2d;
+        else if (IsOpaque()) return renderStage_opaque;
+        else return renderStage_translucent;
     }
 }

@@ -20,8 +20,8 @@ namespace GlEngine
         virtual bool InitializeAsync() override;
         virtual void ShutdownAsync() override;
 
-        void PreRender(RenderTargetLayer layer) override;
-        void PostRender(RenderTargetLayer layer) override;
+        void PreRender(RenderStage* stage) override;
+        void PostRender(RenderStage* stage) override;
 
         ImageAlignment GetAlignment();
         void SetAlignment(ImageAlignment align);

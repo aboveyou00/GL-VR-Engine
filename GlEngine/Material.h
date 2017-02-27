@@ -3,7 +3,7 @@
 #include "IAsyncInitializable.h"
 #include "IPropertyProvider.h"
 #include "TesselationType.h"
-#include "RenderTargetLayer.h"
+#include "RenderStage.h"
 
 namespace GlEngine
 {
@@ -36,7 +36,7 @@ namespace GlEngine
             return is2d;
         }
 
-        virtual RenderTargetLayer GetRenderTargetLayer();
+        virtual RenderStage* GetRenderStage();
 
         virtual TesselationType GetTesselationType() = 0;
 

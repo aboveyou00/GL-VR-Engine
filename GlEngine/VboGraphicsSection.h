@@ -26,10 +26,10 @@ namespace GlEngine
             void AddQuad(Vector<4, uint16_t> indices);
             void Finalize(VboFactory<VboType::UnsignedShort, uint16_t> *face_factory);
 
-            void Render(RenderTargetLayer layer);
-            void RenderInstanced(RenderTargetLayer layer, unsigned instanceCount);
+            void Render(RenderStage* stage);
+            void RenderInstanced(RenderStage* stage, unsigned instanceCount);
 
-            void RenderPoints(RenderTargetLayer layer, unsigned count);
+            void RenderPoints(RenderStage* stage, unsigned count);
 
             inline Material *GetMaterial()
             {

@@ -5,17 +5,19 @@
 #include "ViewPort.h"
 #include "RenderTargetLayer.h"
 #include "RenderTargetViewMode.h"
+#include "RenderStage.h"
 
 namespace GlEngine
 {
     class ICamera;
+    class RenderPipeline;
 
     namespace Impl
     {
         class RenderTargetImpl : public IAsyncInitializable
         {
         public:
-            RenderTargetImpl(ICamera *camera = nullptr);
+            RenderTargetImpl(RenderPipeline* pipeline = nullptr);
             ~RenderTargetImpl();
 
             virtual bool InitializeAsync() override;
@@ -34,24 +36,24 @@ namespace GlEngine
 
             virtual void Prepare();
             virtual void PrePush();
-            virtual void Push(RenderTargetLayer layer, RenderTargetViewMode viewMode, Matrix<4, 4> viewMatrix);
-            virtual void Pop(RenderTargetLayer layer);
+            virtual void Push(RenderStage* stage, ICamera* camera);
+            virtual void Pop(RenderStage* stage, ICamera* camera);
             virtual void PostPop();
 
             virtual void Flip();
 
-            virtual void SetViewPort(RenderTargetLayer layer, ViewPort *viewPort);
-            ViewPort *viewPort(RenderTargetLayer layer);
+            RenderPipeline* renderPipeline();
+            void SetRenderPipeline(RenderPipeline* pipeline);
 
-            static const int layerCount = (int)std::numeric_limits<RenderTargetLayer>::max() - (int)std::numeric_limits<RenderTargetLayer>::min() + 1;
-            ViewPort* viewPorts[layerCount];
+            virtual ViewPort* viewPort(RenderStage* stage);
+            virtual void SetViewPort(RenderStage* stage, ViewPort* viewPort);
 
-            ICamera *camera();
-            void SetCamera(ICamera *camera);
+        protected:
+            std::map<RenderStage*, ViewPort*> viewPorts;
 
         private:
             bool shouldRender;
-            ICamera *_camera;
+            RenderPipeline* _renderPipeline;
         };
     }
 }
