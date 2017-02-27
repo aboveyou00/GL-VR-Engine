@@ -44,7 +44,7 @@ bool ParticlesSceneFrame::Initialize()
     auto pipeline = CreateDefaultPipeline(cameraComponent);
     pipeline->SetClearColor({ .4, .4, .4 });
 
-    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, -3.5, 7 });
+    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
     
     auto cameraTarget = new CameraTargetComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);
@@ -53,10 +53,10 @@ bool ParticlesSceneFrame::Initialize()
     auto controlsComponent = new LabControlsComponent();
     controls->AddComponent(controlsComponent);
 
-    //const unsigned TOTAL_PARTICLES = 10000;
-    //const float PARTICLES_PER_FRAME = 30.f;
-    const unsigned TOTAL_PARTICLES = 1000000;
-    const float PARTICLES_PER_FRAME = 10000.f;
+    const unsigned TOTAL_PARTICLES = 10000;
+    const float PARTICLES_PER_FRAME = 30.f;
+    //const unsigned TOTAL_PARTICLES = 1000000;
+    //const float PARTICLES_PER_FRAME = 10000.f;
 
     auto pointVboFactory = PointVolume<float, float, Vector<3>, Vector<3>, Vector<3>>::Generate(TOTAL_PARTICLES, &prop_StartTime, &prop_LiveTime, &prop_RgbColor, &prop_StartVelocity, &prop_Acceleration, [PARTICLES_PER_FRAME](unsigned idx)
     {

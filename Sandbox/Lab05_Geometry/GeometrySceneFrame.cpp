@@ -114,6 +114,8 @@ bool GeometrySceneFrame::Initialize()
     GlEngine::CameraComponent* cameraComponent;
     auto mainPipeline = CreateDefaultPipeline(cameraComponent);
     mainPipeline->SetClearColor({ .4, .4, .4 });
+
+    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
     
     auto cameraTarget = new CameraTargetComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);

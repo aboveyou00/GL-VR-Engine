@@ -61,7 +61,7 @@ bool SandboxLoop::initLoop()
     if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
 
     if (!_frames.Initialize()) return false;
-    _frames.PushNewFrame<DistortionSceneFrame>();
+    _frames.PushNewFrame<ParticlesSceneFrame>();
 
     return true;
 }
