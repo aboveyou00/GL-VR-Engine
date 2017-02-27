@@ -53,7 +53,12 @@ bool ParticlesSceneFrame::Initialize()
     auto controlsComponent = new LabControlsComponent();
     controls->AddComponent(controlsComponent);
 
-    auto pointVboFactory = PointVolume<float, float, Vector<3>, Vector<3>, Vector<3>>::Generate(10000, &prop_StartTime, &prop_LiveTime, &prop_RgbColor, &prop_StartVelocity, &prop_Acceleration, [](unsigned idx)
+    //const unsigned TOTAL_PARTICLES = 10000;
+    //const float PARTICLES_PER_FRAME = 30.f;
+    const unsigned TOTAL_PARTICLES = 1000000;
+    const float PARTICLES_PER_FRAME = 10000.f;
+
+    auto pointVboFactory = PointVolume<float, float, Vector<3>, Vector<3>, Vector<3>>::Generate(TOTAL_PARTICLES, &prop_StartTime, &prop_LiveTime, &prop_RgbColor, &prop_StartVelocity, &prop_Acceleration, [PARTICLES_PER_FRAME](unsigned idx)
     {
         float theta = GlEngine::Util::random(MAX_THETA * 2) - MAX_THETA;
         float phi = GlEngine::Util::random(2 * GlEngine::Util::PI_f);
@@ -67,7 +72,7 @@ bool ParticlesSceneFrame::Initialize()
 
         //Generate random billboard time offset and billboard speed for each snowflake
         return std::tuple<float, float, Vector<3>, Vector<3>, Vector<3>>(
-            idx / 60.f / 30,
+            idx / 60.f / PARTICLES_PER_FRAME,
             3.f + GlEngine::Util::random(2.f),
             GlEngine::HsvToRgb(GlEngine::Util::random(1.f), 1.f, 1.f),
             v * M,
