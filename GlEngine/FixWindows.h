@@ -43,7 +43,7 @@ const auto RELATIVE = COORDINATE_MODE_RELATIVE;
 #endif
 
 template<char c>
-constexpr inline unsigned VK_LETTER()
+constexpr inline unsigned VK_ALPHANUMERIC()
 {
     static_assert(('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || ('0' <= c && c <= '9'), "Only numbers and letters are allowed");
     return (c >= 'a' && c <= 'z') ? 65 + (c - 'a') : c;

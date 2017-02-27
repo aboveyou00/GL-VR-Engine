@@ -17,15 +17,16 @@ CameraTargetComponent::~CameraTargetComponent()
 void CameraTargetComponent::Tick(float delta)
 {
     Vector<3> translation = { 0, 0, 0 };
-    if (this->keysDown[VK_UP]) translation += { 0, 0, 1 };
-    if (this->keysDown[VK_DOWN]) translation += { 0, 0, -1 };
-    if (this->keysDown[VK_LEFT]) translation += { -1, 0, 0 };
-    if (this->keysDown[VK_RIGHT]) translation += { 1, 0, 0 };
-    if (this->keysDown[VK_LETTER<'l'>()]) translation += { 0, -1, 0 };
-    if (this->keysDown[VK_LETTER<'o'>()]) translation += { 0, 1, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'w'>()]) translation += { 0, 0, -1 };
+    if (this->keysDown[VK_ALPHANUMERIC<'s'>()]) translation += { 0, 0, 1 };
+    if (this->keysDown[VK_ALPHANUMERIC<'a'>()]) translation += { -1, 0, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'d'>()]) translation += { 1, 0, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'q'>()]) translation += { 0, -1, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'e'>()]) translation += { 0, 1, 0 };
+    
     translation *= delta * movementSpeed;
-    if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 4;
-    gameObject()->localTransform()->Translate(translation);
+    if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 5;
+    gameObject()->localTransform()->Translate(gameObject()->localTransform()->orientation().Inverse().Apply(translation));
 }
 
 void CameraTargetComponent::UpdateGraphics()

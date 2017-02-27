@@ -136,10 +136,10 @@ namespace TileRPG
         case VK_RIGHT:
             rightPressed = pressed;
             break;
-        case VK_LETTER<'q'>():
+        case VK_ALPHANUMERIC<'q'>():
             inPressed = pressed;
             break;
-        case VK_LETTER<'a'>():
+        case VK_ALPHANUMERIC<'a'>():
             outPressed = pressed;
             break;
         case VK_SPACE:

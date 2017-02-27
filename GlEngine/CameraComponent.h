@@ -42,7 +42,7 @@ namespace GlEngine
         bool lockAbsolutePosition;
         bool lockAbsoluteOrientation;
 
-        Vector<3> eye, forward, up;
+        Vector<3> eye, forward, up, right;
         Matrix<4, 4> view;
 
         Vector<3> _clearColor;

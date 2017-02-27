@@ -7,11 +7,7 @@
 namespace GlEngine
 {
     CameraComponent::CameraComponent()
-        : GameComponent("Camera"),
-          eye({ 0, 0, 0 }),
-          forward({ 0, 0, 1 }),
-          up({ 0, 1, 0 }),
-          _clearColor({ 0, 0, 0 })
+        : GameComponent("Camera"), _clearColor({ 0, 0, 0 })
     {
     }
     CameraComponent::~CameraComponent()
@@ -54,16 +50,14 @@ namespace GlEngine
 
     void CameraComponent::Push()
     {
-        Vector<3> side, forwardN;
-        //TODO: set the camera position to a global postion, not a local one
-        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->localTransform()->position());
+        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->globalTransform()->position());
 
         eye = gameObject()->localTransform()->position();
-        forwardN = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 0, 1 });
-        side = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 1, 0, 0 });
+        forward = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 0, -1 });
+        right = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 1, 0, 0 });
         up = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 1, 0 });
 
-        view = Matrix<3, 3>::FromCols(side, up, forwardN).ToTransformMatrix();
+        view = Matrix<3, 3>::FromCols(right, up, -forward).ToTransformMatrix();
 
         MatrixStack::View.mult(Mat3T<float>::TranslateMatrix(-eye) * view);
     }
@@ -76,13 +70,4 @@ namespace GlEngine
     {
         return GameComponent::frame();
     }
-
-    //TODO: find a better place to put this
-    //void CameraComponent::SetPosition(Vector<3> pos)
-    //{
-    //    //...
-    //    if (target != nullptr)
-    //        relativePosition = target->position - position;
-    //    //...
-    //}
 }

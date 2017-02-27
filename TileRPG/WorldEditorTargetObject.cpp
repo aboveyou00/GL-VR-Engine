@@ -67,10 +67,10 @@ namespace TileRPG
         case VK_RIGHT:
             translation += { 1, 0, 0 };
             break;
-        case VK_LETTER<'q'>():
+        case VK_ALPHANUMERIC<'q'>():
             translation += { 0, -1, 0 };
             break;
-        case VK_LETTER<'a'>():
+        case VK_ALPHANUMERIC<'a'>():
             translation += { 0, 1, 0 };
             break;
 

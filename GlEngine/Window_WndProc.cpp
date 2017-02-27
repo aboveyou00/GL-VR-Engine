@@ -98,9 +98,6 @@ namespace GlEngine
                 int mouseX = GET_X_LPARAM(lParam), mouseY = GET_Y_LPARAM(lParam);
                 auto mouseRel = Vector<2>(mouseX - lastMousePos.x, mouseY - lastMousePos.y);
 
-                if (mouseRel[0] || mouseRel[1])
-                    Util::Log("%d %d, %d %d, %f %f", lastMousePos.x, lastMousePos.y, mouseX, mouseY, mouseRel[0], mouseRel[1]);
-
                 events.PushEvent(new Events::MouseEvent(Vector<2>(mouseX, mouseY), mouseRel, ctrl, shift, alt, type, btn));
 
                 if (message == WM_MOUSEMOVE && _centerCursor && mouseRel[0] || mouseRel[1])

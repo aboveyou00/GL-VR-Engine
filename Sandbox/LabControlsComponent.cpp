@@ -18,12 +18,12 @@ void LabControlsComponent::Tick(float delta)
 {
     auto translation = Vector<3> { 0, 0, 0 };
 
-    if (this->keysDown[VK_LETTER<'w'>()]) translation += { 0, 0, 1 };
-    if (this->keysDown[VK_LETTER<'s'>()]) translation += { 0, 0, -1 };
-    if (this->keysDown[VK_LETTER<'a'>()]) translation += { -1, 0, 0 };
-    if (this->keysDown[VK_LETTER<'d'>()]) translation += { 1, 0, 0 };
-    if (this->keysDown[VK_LETTER<'q'>()]) translation += { 0, -1, 0 };
-    if (this->keysDown[VK_LETTER<'e'>()]) translation += { 0, 1, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'w'>()]) translation += { 0, 0, 1 };
+    if (this->keysDown[VK_ALPHANUMERIC<'s'>()]) translation += { 0, 0, -1 };
+    if (this->keysDown[VK_ALPHANUMERIC<'a'>()]) translation += { -1, 0, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'d'>()]) translation += { 1, 0, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'q'>()]) translation += { 0, -1, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'e'>()]) translation += { 0, 1, 0 };
     translation *= delta * movementSpeed;
     if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 4;
 
@@ -37,14 +37,14 @@ void LabControlsComponent::HandleEvent(Event &evt)
     {
         if (kbdEvt->type() == KeyboardEventType::KeyTyped)
         {
-            if (kbdEvt->GetVirtualKeyCode() == VK_SPACE || kbdEvt->GetVirtualKeyCode() == VK_LETTER<'P'>())
+            if (kbdEvt->GetVirtualKeyCode() == VK_SPACE || kbdEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'P'>())
             {
                 LabControlsComponent::isPaused = !LabControlsComponent::isPaused;
                 GlEngine::Util::Log(LabControlsComponent::isPaused ? "Pausing" : "Playing");
                 evt.Handle();
             }
 
-            if (kbdEvt->GetVirtualKeyCode() >= VK_LETTER<'0'>() && kbdEvt->GetVirtualKeyCode() < VK_LETTER<'8'>())
+            if (kbdEvt->GetVirtualKeyCode() >= VK_ALPHANUMERIC<'0'>() && kbdEvt->GetVirtualKeyCode() < VK_ALPHANUMERIC<'8'>())
             {
                 auto flags = kbdEvt->GetVirtualKeyCode() - VK_NUMPAD0;
                 LabControlsComponent::rotateX = (flags & 0b001) != 0;
