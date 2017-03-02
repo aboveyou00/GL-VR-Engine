@@ -14,8 +14,8 @@ namespace GlEngine
     class InstancedGraphicsObject : public GraphicsObject
     {
     public:
-        InstancedGraphicsObject(GraphicsObject *gobj, ShaderFactory::Property<TArgs>*... props)
-            : GraphicsObject(false),
+        InstancedGraphicsObject(std::string name, GraphicsObject *gobj, ShaderFactory::Property<TArgs>*... props)
+            : GraphicsObject(name, false),
               gobj(gobj),
               instances(VboFactory<type, TArgs...>::CreateArray(props...)),
               instanceCount(0),
@@ -41,14 +41,14 @@ namespace GlEngine
             assert(!finalized);
             finalized = true;
 
-            if (*gobj)
+            if (gobj != nullptr && gobj->isReady())
             {
                 queued = true;
                 auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
                 resources->QueueInitialize(this);
             }
         }
-        
+
         virtual bool InitializeGraphics() override
         {
             VaoFactory *vao = VaoFactory::Begin();
@@ -58,7 +58,7 @@ namespace GlEngine
             delete instances;
             instances = nullptr;
 
-            return _vao && GraphicsObject::InitializeGraphics();
+            return _vao.isReady() && GraphicsObject::InitializeGraphics();
         }
 
         void BuildVao(VaoFactory &vao) override
@@ -68,26 +68,30 @@ namespace GlEngine
                 gobj->BuildVao(vao);
                 vao.AddInstanced(instances);
             }
-            else if (_vao) vao.Add(_vao);
+            else if (_vao.isReady()) vao.Add(_vao);
         }
 
-        void PreRender(RenderTargetLayer layer) override
+        void PreRender(RenderStage *stage) override
         {
-            GraphicsObject::PreRender(layer);
-            if (*this) _vao.MakeCurrent();
+            GraphicsObject::PreRender(stage);
+            if (this->isReady()) _vao.MakeCurrent();
         }
-        void RenderImpl(RenderTargetLayer layer) override
+        void RenderImpl(RenderStage *stage) override
         {
-            assert(!!*this);
-            gobj->RenderInstanced(layer, instanceCount);
+            assert(this->isReady());
+            gobj->RenderInstanced(stage, instanceCount);
+        }
+        void PostRender(RenderStage *stage) override
+        {
+            GraphicsObject::PostRender(stage);
         }
 
-        void RenderInstancedImpl(RenderTargetLayer, unsigned) override
+        void RenderInstancedImpl(RenderStage*, unsigned) override
         {
             assert(false);
         }
 
-        virtual operator bool() override
+        virtual bool isReady() override
         {
             if (finalized && !queued)
             {
@@ -95,7 +99,7 @@ namespace GlEngine
                 auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
                 resources->QueueInitialize(this);
             }
-            return finalized && _vao && gobj && *gobj;
+            return finalized && _vao.isReady() && gobj != nullptr && gobj->isReady();
         }
 
         virtual std::string name() override

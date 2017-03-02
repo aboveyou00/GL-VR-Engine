@@ -45,6 +45,10 @@ namespace GlEngine::ShaderFactory
     Property<Vector<2>> prop_ScreenDimensions("screen_dimensions");
 #pragma endregion
 
+#pragma region instancing
+    Property<Matrix<4, 4>> prop_InstanceModelMatrix("instance_model_matrix");
+#pragma endregion
+
 #pragma region lighting
     //Should these be vec4 or vec3?
     Property<Vector<3>> prop_LightColor("light_color");

@@ -54,7 +54,13 @@ namespace GlEngine
 
         virtual void PrepareShaderFactory(ShaderFactory::ShaderFactory *factory) override
         {
-            factory->AddPropertySource(new ShaderFactory::VboPropertySource(_verticesFactory->properties()));
+            std::vector<ShaderFactory::ShaderProp*> props;
+            for (size_t q = 0; q < _verticesFactory->properties().size(); q++)
+            {
+                props.push_back(_verticesFactory->properties()[q]);
+            }
+            props.push_back(&ShaderFactory::prop_InstanceModelMatrix);
+            factory->AddPropertySource(new ShaderFactory::VboPropertySource(props));
         }
 
         virtual bool InitializeGraphics() override

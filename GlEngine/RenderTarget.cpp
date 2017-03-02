@@ -73,7 +73,6 @@ namespace GlEngine
 
     void RenderTarget::Render()
     {
-
         if (!GetShouldRender()) return;
 
         RenderPipeline* thisPipeline = renderPipeline();

@@ -138,41 +138,52 @@ namespace GlEngine
 
         void VboGraphicsSection::RenderInstanced(RenderStage* stage, unsigned instanceCount)
         {
-            stage; instanceCount;
-            assert(false);
+            if (!*this) return;
 
-            //if (layer != material->GetRenderTargetLayer())
-            //    return;
+            if (stage != material->GetRenderStage())
+                return;
 
-            //if (!*this) return;
+            _factory->Push();
 
-            //material->Push(true);
+            auto tesselation = material->GetTesselationType();
+            if (tesselation == TesselationType::Disabled)
+            {
+                if (triCount)
+                {
+                    glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                    checkForGlError();
+                }
+                if (quadCount)
+                {
+                    glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset), instanceCount);
+                    checkForGlError();
+                }
+            }
+            else if (tesselation == TesselationType::Triangles)
+            {
+                if (triCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 3);
+                    checkForGlError();
+                    glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                    checkForGlError();
+                }
+                assert(!quadCount);
+            }
+            else if (tesselation == TesselationType::Quads)
+            {
+                if (quadCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 4);
+                    checkForGlError();
+                    glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                    checkForGlError();
+                }
+                assert(!triCount);
+            }
+            else assert(false);
 
-            //auto tesselation = material->GetTesselationType();
-            //if (tesselation == TesselationType::Disabled)
-            //{
-            //    if (triCount) glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
-            //    if (quadCount) glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset), instanceCount);
-            //}
-            //else if (tesselation == TesselationType::Triangles)
-            //{
-            //    if (triCount)
-            //    {
-            //        glPatchParameteri(GL_PATCH_VERTICES, 3);
-            //        glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
-            //    }
-            //}
-            //else if (tesselation == TesselationType::Quads)
-            //{
-            //    if (quadCount)
-            //    {
-            //        glPatchParameteri(GL_PATCH_VERTICES, 4);
-            //        glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
-            //    }
-            //}
-            //else assert(false);
-
-            //material->Pop(true);
+            _factory->Pop();
         }
 
         void VboGraphicsSection::RenderPoints(RenderStage* stage, unsigned count)

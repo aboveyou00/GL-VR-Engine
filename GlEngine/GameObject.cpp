@@ -149,7 +149,7 @@ namespace GlEngine
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
-            if (c->_active) c->Render(stage);
+            if (c->_active && c->isReady()) c->Render(stage);
         }
         for (size_t q = 0; q < _children.size(); q++)
         {

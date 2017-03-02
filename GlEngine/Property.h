@@ -85,7 +85,10 @@ namespace GlEngine
         extern ENGINE_SHARED Property<Vector<2>> prop_MouseClipPosition;
 
         extern ENGINE_SHARED Property<Vector<2>> prop_ScreenDimensions;
+#pragma endregion
 
+#pragma region instancing
+        extern ENGINE_SHARED Property<Matrix<4, 4>> prop_InstanceModelMatrix;
 #pragma endregion
 
 #pragma region lighting
