@@ -71,16 +71,16 @@ namespace GlEngine
                 iss >> s0 >> s1 >> s2;
                 if (!(iss >> s3))
                 {
-                    triangleIndices.push_back(ParseVertex(s0));
-                    triangleIndices.push_back(ParseVertex(s1));
                     triangleIndices.push_back(ParseVertex(s2));
+                    triangleIndices.push_back(ParseVertex(s1));
+                    triangleIndices.push_back(ParseVertex(s0));
                 }
                 else
                 {
-                    quadIndices.push_back(ParseVertex(s0));
-                    quadIndices.push_back(ParseVertex(s1));
-                    quadIndices.push_back(ParseVertex(s2));
                     quadIndices.push_back(ParseVertex(s3));
+                    quadIndices.push_back(ParseVertex(s2));
+                    quadIndices.push_back(ParseVertex(s1));
+                    quadIndices.push_back(ParseVertex(s0));
                 }
             }
         }
