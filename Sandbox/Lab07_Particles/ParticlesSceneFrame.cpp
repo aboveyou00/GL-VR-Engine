@@ -14,6 +14,13 @@
 #include "MathUtils.h"
 #include "RenderPipeline.h"
 
+#include "AmbientLightSource.h"
+#include "../LightSourceObject.h"
+#include "PhongMaterial.h"
+#include "ObjGraphicsObject.h"
+#include "InstancedGraphicsObject.h"
+#include "Property.h"
+
 #include "Color.h"
 
 #include <map>
@@ -21,10 +28,14 @@
 #include "ComponentArray.h"
 
 using namespace GlEngine::ShaderFactory;
+
 extern Property<float> prop_StartTime, prop_LiveTime;
 extern Property<Vector<3>> prop_StartPosition, prop_StartVelocity, prop_Acceleration;
 extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> fountainProps;
 extern ShaderSource fountainSource;
+
+extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> instancedPhongProps;
+extern ShaderSource instancedPhongSource;
 
 const float MAX_THETA = 30deg;
 
@@ -96,9 +107,33 @@ bool ParticlesSceneFrame::Initialize()
     fountainObj->AddComponent(fountainGfx);
     fountainObj->localTransform()->SetPosition({ 0, -5, -15 });
 
+    auto ambient = new GlEngine::AmbientLightSource({ .1, .1, .1 });
+    auto pointLight = PointLightSourceObject::Create(this, "PointLight1");
+    auto lightSource = pointLight->component<PointLightSourceObject>()->lightSource();
+    controlsComponent->SetControllingLight(lightSource);
+    lightSource->SetPosition({ 0, 2.5, -2.5 });
 
+    auto singleAsteroid = new RawGraphicsObject("AsteroidGfx", "Resources/asteroid.obj", &instancedPhongSource, &instancedPhongProps);
+    singleAsteroid->AddPropertyProvider(ambient);
+    singleAsteroid->AddPropertyProvider(lightSource);
+    singleAsteroid->SetMaterial(TemplateMaterial::Factory()
+        ->Attribute(&attr_RgbBaseColor)
+        ->Attribute(&attr_GlPosition)
+        ->Attribute(&attr_Phong)
+        ->ProvideConst(&prop_RgbColor, Vector<3> { .6, .6, 1 })
+        ->ProvideConst(&prop_ReflectionCoefficient, Vector<3> { .8, .8, .8 })
+        ->ProvideConst(&prop_Shininess, 20)
+        ->Create()
+    );
+    auto instancedAsteroids = new GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>("InstancedAsteroids", singleAsteroid, &GlEngine::ShaderFactory::prop_InstanceModelMatrix);
+    auto asteroids = new GlEngine::GameObject(this, "Asteroids");
+    asteroids->AddComponent(instancedAsteroids);
 
-
+    for (size_t q = 0; q < 10; q++)
+        for (size_t w = 0; w < 10; w++)
+            for (size_t e = 0; e < 10; e++)
+                instancedAsteroids->AddInstance(Matrix<4, 4>::TranslateMatrix(Vector<3> { q, w, e } * 3));
+    instancedAsteroids->Finalize();
 
     return true;
 }
