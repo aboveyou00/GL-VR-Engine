@@ -352,7 +352,7 @@ namespace GlEngine
                 //new Snippet("[out:0] = [in:0];", { &prop_SpecularLightComponent }, { &prop_LightColor }, SnippetFlag::Fallback),
                 new Snippet("[out:0] = [in:0] + [in:1] + [in:2];",
                             { &prop_AmbientLightColor, &prop_DiffuseLightComponent, &prop_SpecularLightComponent },
-                            { &prop_LightColor }, 
+                            { &prop_LightColor },
                             PropertySourceFlag::Fallback,
                             { ComponentType::Fragment })
             },

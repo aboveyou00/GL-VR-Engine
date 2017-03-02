@@ -145,7 +145,7 @@ std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> instancedPhongProps = {
     { 5, &prop_ReflectionCoefficient },
     { 6, &prop_SpecularLightColor },
     { 7, &prop_Shininess },
-    { 8, &prop_DiffuseComponentIntensity },
+    { 8, &prop_DiffuseLightColor },
     { 9, &prop_AmbientLightColor },
     { 10, &prop_RgbColor }
 };

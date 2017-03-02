@@ -114,17 +114,14 @@ bool ParticlesSceneFrame::Initialize()
     lightSource->SetPosition({ 0, 2.5, -2.5 });
 
     auto singleAsteroid = new RawGraphicsObject("AsteroidGfx", "Resources/asteroid.obj", &instancedPhongSource, &instancedPhongProps);
-    singleAsteroid->AddPropertyProvider(ambient);
-    singleAsteroid->AddPropertyProvider(lightSource);
     singleAsteroid->SetMaterial(TemplateMaterial::Factory()
-        ->Attribute(&attr_RgbBaseColor)
-        ->Attribute(&attr_GlPosition)
-        ->Attribute(&attr_Phong)
         ->ProvideConst(&prop_RgbColor, Vector<3> { .6, .6, 1 })
         ->ProvideConst(&prop_ReflectionCoefficient, Vector<3> { .8, .8, .8 })
         ->ProvideConst(&prop_Shininess, 20)
         ->Create()
     );
+    singleAsteroid->AddPropertyProvider(ambient);
+    singleAsteroid->AddPropertyProvider(lightSource);
     auto instancedAsteroids = new GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>("InstancedAsteroids", singleAsteroid, &GlEngine::ShaderFactory::prop_InstanceModelMatrix);
     auto asteroids = new GlEngine::GameObject(this, "Asteroids");
     asteroids->AddComponent(instancedAsteroids);

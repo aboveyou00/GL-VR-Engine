@@ -7,7 +7,7 @@ typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 
 LabControlsComponent::LabControlsComponent()
-    : GameComponent("LabControlsComponent"), controllingLight(nullptr), movementSpeed(2.f)
+    : GameComponent("LabControlsComponent"), controllingLight(nullptr), movementSpeed(4.f)
 {
 }
 LabControlsComponent::~LabControlsComponent()
@@ -18,12 +18,12 @@ void LabControlsComponent::Tick(float delta)
 {
     auto translation = Vector<3> { 0, 0, 0 };
 
-    if (this->keysDown[VK_ALPHANUMERIC<'w'>()]) translation += { 0, 0, 1 };
-    if (this->keysDown[VK_ALPHANUMERIC<'s'>()]) translation += { 0, 0, -1 };
-    if (this->keysDown[VK_ALPHANUMERIC<'a'>()]) translation += { -1, 0, 0 };
-    if (this->keysDown[VK_ALPHANUMERIC<'d'>()]) translation += { 1, 0, 0 };
-    if (this->keysDown[VK_ALPHANUMERIC<'q'>()]) translation += { 0, -1, 0 };
-    if (this->keysDown[VK_ALPHANUMERIC<'e'>()]) translation += { 0, 1, 0 };
+    if (this->keysDown[VK_UP]) translation += { 0, 0, 1 };
+    if (this->keysDown[VK_DOWN]) translation += { 0, 0, -1 };
+    if (this->keysDown[VK_LEFT]) translation += { -1, 0, 0 };
+    if (this->keysDown[VK_RIGHT]) translation += { 1, 0, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'l'>()]) translation += { 0, -1, 0 };
+    if (this->keysDown[VK_ALPHANUMERIC<'o'>()]) translation += { 0, 1, 0 };
     translation *= delta * movementSpeed;
     if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 4;
 
