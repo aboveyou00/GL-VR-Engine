@@ -21,6 +21,8 @@
 #include "InstancedGraphicsObject.h"
 #include "Property.h"
 
+#include "PlaneGraphicsObject.h"
+
 #include "Color.h"
 
 #include <map>
@@ -36,6 +38,9 @@ extern ShaderSource fountainSource;
 
 extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> instancedPhongProps;
 extern ShaderSource instancedPhongSource;
+
+extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> wavesProps;
+extern ShaderSource wavesSource;
 
 const float MAX_THETA = 30deg;
 
@@ -140,6 +145,25 @@ bool ParticlesSceneFrame::Initialize()
         }
     }
     instancedAsteroids->Finalize();
+
+    auto wavesGfx = new RawGraphicsObject(
+        "WavesGfx",
+        "Resources/plane50x50.obj",
+        &wavesSource,
+        &wavesProps
+    );
+    wavesGfx->AddPropertyProvider(ambient);
+    wavesGfx->AddPropertyProvider(lightSource);
+    auto planeMat = TemplateMaterial::Factory()
+        ->ProvideConst(&prop_RgbColor, Vector<3> { 1, .2, .2 })
+        ->ProvideConst(&prop_ReflectionCoefficient, Vector<3> { .8, .8, .8 })
+        ->ProvideConst(&prop_Shininess, 50)
+        ->Create();
+    wavesGfx->SetMaterial(planeMat);
+
+    auto wavesObj = new GlEngine::GameObject(this, "Waves");
+    wavesObj->AddComponent(wavesGfx);
+    wavesObj->localTransform()->Translate({ -15, 0, -10 });
 
     return true;
 }

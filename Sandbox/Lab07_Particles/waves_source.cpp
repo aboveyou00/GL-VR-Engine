@@ -1,160 +1,161 @@
 #include "stdafx.h"
+#include <map>
+#include "ComponentArray.h"
+#include "Property.h"
+using namespace GlEngine::ShaderFactory;
 
 std::string wavesVertex = R"raw(
 #version 430 core
 
-layout(location = 0) in vec3 in_vertex_pos;
-layout(location = 1) in vec2 in_uv_coords;
+layout(location = 0) uniform mat4 in_view_matrix;
+layout(location = 1) uniform mat4 in_model_matrix;
+layout(location = 2) uniform mat4 in_projection_matrix;
+layout(location = 11) uniform float in_game_time;
+
+layout(location = 0) in vec3 in_xyz_position;
 layout(location = 2) in vec3 in_normal;
 
-layout(location = 0) out vec3 out_vertex_pos;
-layout(location = 1) out vec3 out_normal;
-layout(location = 2) out vec2 out_uv_coords;
+layout(location = 0) out vec3 out_xyz_position;
+layout(location = 1) out vec4 out_modelview_normal;
 
-//layout(location = 0) uniform mat4 projection_matrix;
-//layout(location = 1) uniform mat4 model_view_matrix;
-//layout(location = 2) uniform vec3 direct_light_direction;
-//layout(location = 3) uniform vec3 direct_light_color;
-//layout(location = 4) uniform vec3 ambient_light_color;
-//layout(location = 5) uniform sampler2D texture_sampler;
-layout(location = 6) uniform float in_game_time;
+void main(void) {
+    mat4 model_view_projection_matrix;
+    mat4 model_matrix;
+    vec3 normal;
+    mat4 projection_matrix;
+    vec4 modelview_normal;
+    mat4 view_matrix;
+    mat4 model_view_matrix;
+    vec3 xyz_position;
+    float game_time;
+    
+/* BEGIN INPUT IDENTITIES */ 
+    view_matrix = in_view_matrix;
+    model_matrix = in_model_matrix;
+    projection_matrix = in_projection_matrix;
+    xyz_position = in_xyz_position;
+    normal = in_normal;
+    game_time = in_game_time;
+/* END INPUT IDENTITIES */
 
-void main(void)
-{
-    out_vertex_pos = in_vertex_pos;
-    out_normal = in_normal;
+    float yy = sin(xyz_position.x - xyz_position.z + game_time * 4);
+    xyz_position = vec3(xyz_position.x, yy, xyz_position.z);
+    float dx = -cos(xyz_position.x - xyz_position.z + game_time * 4);
+    float dz = cos(xyz_position.x - xyz_position.z + game_time * 4);
+    normal = vec3(dx, 1, dz);
 
-    float igt = in_game_time / 3.14159 / 4 / 4;
-    out_uv_coords = vec2(in_uv_coords.x - igt, in_uv_coords.y - igt);
-}
-)raw";
+    model_view_matrix = view_matrix * model_matrix;
+    model_view_projection_matrix = projection_matrix * model_view_matrix;
+    gl_Position = model_view_projection_matrix * vec4(xyz_position, 1);
+    modelview_normal = model_view_matrix * vec4(normal, 0);
 
-std::string wavesTessc = R"raw(
-#version 430 core
+/* BEGIN OUTPUT IDENTITIES */
+    out_xyz_position = in_xyz_position;
+    out_modelview_normal = modelview_normal;
+/* END OUTPUT IDENTITIES */
 
-layout(vertices = 3) out;
-
-layout(location = 0) in vec3 in_vertex_pos[];
-layout(location = 1) in vec3 in_normal[];
-layout(location = 2) in vec2 in_uv_coords[];
-
-layout(location = 0) out vec3 out_vertex_pos[];
-layout(location = 1) out vec3 out_normal[];
-layout(location = 2) out vec2 out_uv_coords[];
-
-//layout(location = 0) uniform mat4 projection_matrix;
-layout(location = 1) uniform mat4 model_view_matrix;
-//layout(location = 2) uniform vec3 direct_light_direction;
-//layout(location = 3) uniform vec3 direct_light_color;
-//layout(location = 4) uniform vec3 ambient_light_color;
-//layout(location = 5) uniform sampler2D texture_sampler;
-//layout(location = 6) uniform float in_game_time;
-
-#define ID gl_InvocationID
-
-void main(void)
-{
-    out_vertex_pos[ID] = in_vertex_pos[ID];
-    out_normal[ID] = in_normal[ID];
-    out_uv_coords[ID] = in_uv_coords[ID];
-
-    if (ID == 0)
-    {
-        vec4 vertex_pos = model_view_matrix * vec4(in_vertex_pos[ID], 1);
-        int tessLevel = int(clamp(3 + (vertex_pos.z * .5 + 3), 1, 6));
-        gl_TessLevelInner[0] = tessLevel;
-        gl_TessLevelOuter[0] = gl_TessLevelOuter[1] = gl_TessLevelOuter[2] = tessLevel;
-    }
-}
-)raw";
-
-std::string wavesTesse = R"raw(
-#version 430 core
-
-layout(triangles, equal_spacing, ccw) in;
-
-layout(location = 0) in vec3 in_vertex_pos[];
-layout(location = 1) in vec3 in_normal[];
-layout(location = 2) in vec2 in_uv_coords[];
-
-layout(location = 0) out vec3 out_light_color;
-layout(location = 1) out vec2 out_uv_coords;
-
-layout(location = 0) uniform mat4 projection_matrix;
-layout(location = 1) uniform mat4 model_view_matrix;
-layout(location = 2) uniform vec3 direct_light_direction;
-layout(location = 3) uniform vec3 direct_light_color;
-layout(location = 4) uniform vec3 ambient_light_color;
-//layout(location = 5) uniform sampler2D texture_sampler;
-layout(location = 6) uniform float in_game_time;
-
-float water_wave(vec2 xz)
-{
-    float xcomp = (xz.x - in_game_time) * 2;
-    float ycomp = (xz.y - in_game_time) * 2;
-    return .1 * sin(xcomp + ycomp);
-}
-vec2 derivative_water_wave(vec2 xz)
-{
-    return vec2(
-        water_wave(vec2(xz.x - .1, xz.y)) - water_wave(vec2(xz.x + .1, xz.y)),
-        water_wave(vec2(xz.x, xz.y - .1)) - water_wave(vec2(xz.x, xz.y + .1))
-    ) * 8;
-}
-
-void main(void)
-{
-    vec3 p0 = gl_TessCoord.x * in_vertex_pos[0];
-    vec3 p1 = gl_TessCoord.y * in_vertex_pos[1];
-    vec3 p2 = gl_TessCoord.z * in_vertex_pos[2];
-    vec3 local_vertex_pos = p0 + p1 + p2;
-    local_vertex_pos.y += water_wave(local_vertex_pos.xz);
-
-    vec3 n0 = gl_TessCoord.x * in_normal[0];
-    vec3 n1 = gl_TessCoord.y * in_normal[1];
-    vec3 n2 = gl_TessCoord.z * in_normal[2];
-    vec3 normal = n0 + n1 + n2;
-    normal.xz += derivative_water_wave(local_vertex_pos.xz);
-    normal = normalize(normal);
-
-    float direct_light_amt = clamp(dot(direct_light_direction, normal), 0.0, 1.0);
-    vec3 direct_light = direct_light_amt * direct_light_color;
-    out_light_color = ambient_light_color + direct_light;
-
-    vec2 uv0 = gl_TessCoord.x * in_uv_coords[0];
-    vec2 uv1 = gl_TessCoord.y * in_uv_coords[1];
-    vec2 uv2 = gl_TessCoord.z * in_uv_coords[2];
-    out_uv_coords = uv0 + uv1 + uv2;
-
-    gl_Position = projection_matrix * model_view_matrix * vec4(local_vertex_pos, 1);
 }
 )raw";
 
 std::string wavesFragment = R"raw(
 #version 430 core
 
-layout(location = 0) in vec3 in_light_color;
-layout(location = 1) in vec2 in_uv_coords;
+layout(location = 0) uniform mat4 in_view_matrix;
+layout(location = 1) uniform mat4 in_model_matrix;
+layout(location = 3) uniform vec3 in_point_light_position;
+layout(location = 4) uniform vec3 in_camera_position;
+layout(location = 5) uniform vec3 in_reflection_coefficient;
+layout(location = 6) uniform vec3 in_specular_light_color;
+layout(location = 7) uniform float in_shininess;
+layout(location = 8) uniform vec3 in_diffuse_light_color;
+layout(location = 9) uniform vec3 in_ambient_light_color;
+layout(location = 10) uniform vec3 in_rgb_color;
+
+layout(location = 0) in vec3 in_xyz_position;
+layout(location = 1) in vec4 in_modelview_normal;
 
 layout(location = 0) out vec4 out_color;
 
-//layout(location = 0) uniform mat4 projection_matrix;
-//layout(location = 1) uniform mat4 model_view_matrix;
-//layout(location = 2) uniform vec3 direct_light_direction;
-//layout(location = 3) uniform vec3 direct_light_color;
-//layout(location = 4) uniform vec3 ambient_light_color;
-layout(location = 5) uniform sampler2D texture_sampler;
-//layout(location = 6) uniform float in_game_time;
+void main(void) {
+    vec3 diffuse_light_color;
+    vec4 color;
+    vec3 light_color;
+    float shininess;
+    vec3 specular_light_color;
+    vec4 base_color;
+    mat4 model_matrix;
+    vec3 ambient_light_color;
+    vec3 point_light_position;
+    vec3 diffuse_light_component;
+    vec3 surface_to_camera;
+    vec4 modelview_normal;
+    vec3 specular_light_component;
+    float diffuse_component_intensity;
+    vec3 rgb_color;
+    vec3 point_light_direction;
+    vec3 reflection_coefficient;
+    vec3 camera_position;
+    mat4 view_matrix;
+    vec3 xyz_position;
+    
+    vec4 temp_00CA5008_0;
+    vec4 temp_00CA5008_1;
+    vec3 temp_00CA4DF8_0;
+    
+/* BEGIN INPUT IDENTITIES */ 
+    xyz_position = in_xyz_position;
+    model_matrix = in_model_matrix;
+    view_matrix = in_view_matrix;
+    point_light_position = in_point_light_position;
+    modelview_normal = in_modelview_normal;
+    camera_position = in_camera_position;
+    reflection_coefficient = in_reflection_coefficient;
+    specular_light_color = in_specular_light_color;
+    shininess = in_shininess;
+    diffuse_light_color = in_diffuse_light_color;
+    ambient_light_color = in_ambient_light_color;
+    rgb_color = in_rgb_color;
+/* END INPUT IDENTITIES */ 
 
-void main(void)
-{
-    vec4 tex_color = texture(texture_sampler, in_uv_coords);
-    vec4 direct_color = tex_color * vec4(in_light_color, 1);
+    temp_00CA5008_0 = view_matrix * model_matrix * vec4(xyz_position, 1);
+    temp_00CA5008_1 = view_matrix * vec4(point_light_position, 1);
+    point_light_direction = normalize(temp_00CA5008_1.xyz - temp_00CA5008_0.xyz);
+    diffuse_component_intensity = dot(point_light_direction, modelview_normal.xyz);
+    surface_to_camera = normalize(vec3(view_matrix * vec4(camera_position, 1) - view_matrix * model_matrix * vec4(xyz_position, 1))); //normalized vector from surface position to camera position
+    if (gl_FrontFacing) temp_00CA4DF8_0 = normalize(reflect(point_light_direction, vec3(modelview_normal))); //light direction reflected across the normal
+    else temp_00CA4DF8_0 = normalize(reflect(point_light_direction, vec3(-modelview_normal)));
+    specular_light_component = reflection_coefficient * specular_light_color * pow(clamp(dot(temp_00CA4DF8_0, -surface_to_camera), 0.0, 1.0), shininess); //specular light calculation
+    if (!gl_FrontFacing) diffuse_component_intensity = -diffuse_component_intensity;
+    diffuse_light_component = reflection_coefficient * diffuse_light_color * clamp(diffuse_component_intensity, 0.0, 1.0);
+    light_color = ambient_light_color + diffuse_light_component + specular_light_component;
+    base_color = vec4(rgb_color, 1);
+    color = vec4(light_color, 1) * base_color;
 
-    const vec4 fog_color = vec4(0.0, 0.0, 0.0, 1.0);
-
-    float dist = gl_FragCoord.z / gl_FragCoord.w;
-    float fog_amt = clamp(sqrt(dist) / 6, 0.0, 1.0);
-    out_color = mix(direct_color, fog_color, fog_amt);
+/* BEGIN OUTPUT IDENTITIES */
+    out_color = color;
+/* END OUTPUT IDENTITIES */
 }
 )raw";
+
+std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> wavesProps = {
+    { 0, &prop_ViewMatrix },
+    { 1, &prop_ModelMatrix },
+    { 2, &prop_ProjectionMatrix },
+    { 3, &prop_PointLightPosition },
+    { 4, &prop_CameraPosition },
+    { 5, &prop_ReflectionCoefficient },
+    { 6, &prop_SpecularLightColor },
+    { 7, &prop_Shininess },
+    { 8, &prop_DiffuseLightColor },
+    { 9, &prop_AmbientLightColor },
+    { 10, &prop_RgbColor },
+    { 11, &prop_GameTime }
+};
+
+ShaderSource wavesSource = {
+    &wavesVertex,
+    nullptr,
+    nullptr,
+    nullptr,
+    &wavesFragment
+};
