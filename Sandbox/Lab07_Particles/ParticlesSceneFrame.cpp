@@ -128,11 +128,20 @@ bool ParticlesSceneFrame::Initialize()
     auto instancedAsteroids = new GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>("InstancedAsteroids", singleAsteroid, &GlEngine::ShaderFactory::prop_InstanceModelMatrix);
     auto asteroids = new GlEngine::GameObject(this, "Asteroids");
     asteroids->AddComponent(instancedAsteroids);
+    asteroids->localTransform()->Translate({ 5, 0, -5 });
 
     for (size_t q = 0; q < 10; q++)
+    {
         for (size_t w = 0; w < 10; w++)
+        {
             for (size_t e = 0; e < 10; e++)
-                instancedAsteroids->AddInstance(Matrix<4, 4>::TranslateMatrix(Vector<3> { q, w, e } * 3));
+            {
+                auto axis = Vector<3> { GlEngine::Util::random(2.f) - 1.f, GlEngine::Util::random(2.f) - 1.f, GlEngine::Util::random(2.f) - 1.f }.Normalized(1);
+                auto rot = Quaternion<>(GlEngine::Util::random(180deg), axis);
+                instancedAsteroids->AddInstance(rot.ToMatrix() * Matrix<4, 4>::TranslateMatrix(Vector<3> { q, w, e } * 3));
+            }
+        }
+    }
     instancedAsteroids->Finalize();
 
     return true;
