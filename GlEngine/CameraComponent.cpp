@@ -34,7 +34,7 @@ namespace GlEngine
 
     void CameraComponent::Push(RenderStage*)
     {
-        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->globalTransform()->position());
+        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->localTransform()->position());
 
         eye = gameObject()->localTransform()->position();
         forward = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 0, -1 });

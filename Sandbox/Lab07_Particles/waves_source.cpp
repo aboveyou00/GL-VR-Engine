@@ -47,13 +47,12 @@ void main(void) {
     model_view_matrix = view_matrix * model_matrix;
     model_view_projection_matrix = projection_matrix * model_view_matrix;
     gl_Position = model_view_projection_matrix * vec4(xyz_position, 1);
-    modelview_normal = model_view_matrix * vec4(normal, 0);
+    modelview_normal = normalize(model_view_matrix * vec4(normal, 0));
 
 /* BEGIN OUTPUT IDENTITIES */
     out_xyz_position = in_xyz_position;
     out_modelview_normal = modelview_normal;
 /* END OUTPUT IDENTITIES */
-
 }
 )raw";
 
