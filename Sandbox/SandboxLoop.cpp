@@ -7,6 +7,7 @@
 #include "Lab05_Geometry/GeometrySceneFrame.h"
 #include "Lab06_Distortion/DistortionSceneFrame.h"
 #include "Lab07_Particles/ParticlesSceneFrame.h"
+#include "Lab08_Slenderman/SlendermanStaticSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -61,7 +62,7 @@ bool SandboxLoop::initLoop()
     if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
 
     if (!_frames.Initialize()) return false;
-    _frames.PushNewFrame<ParticlesSceneFrame>();
+    _frames.PushNewFrame<SlendermanStaticSceneFrame>();
 
     return true;
 }

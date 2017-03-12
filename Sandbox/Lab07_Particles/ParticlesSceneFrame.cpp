@@ -65,7 +65,7 @@ bool ParticlesSceneFrame::Initialize()
     auto cameraTarget = new CameraTargetComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
-    auto controls = new GlEngine::GameObject(this, "Lab5ControlsComponent");
+    auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
     auto controlsComponent = new LabControlsComponent();
     controls->AddComponent(controlsComponent);
 
