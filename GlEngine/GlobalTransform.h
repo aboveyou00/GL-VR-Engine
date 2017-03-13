@@ -41,8 +41,10 @@ namespace GlEngine
         virtual void Scale(float x, float y, float z) override;
         virtual void Scale(Vector<3> amt) override;
 
+        GlobalTransform *parent();
+
     private:
         Transform* transform;
-        GlobalTransform* parent;
+        GlobalTransform* _parent;
     };
 }

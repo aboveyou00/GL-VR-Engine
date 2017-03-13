@@ -4,7 +4,7 @@
 namespace GlEngine
 {
     GlobalTransform::GlobalTransform(Transform* transform, GlobalTransform* parent)
-        : transform(transform), parent(parent)
+        : transform(transform), _parent(parent)
     {
     }
     GlobalTransform::~GlobalTransform()
@@ -15,16 +15,16 @@ namespace GlEngine
     Vector<3> GlobalTransform::position()
     {
         Vector<3> result = _position;
-        if (parent != nullptr)
-            _position *= parent->matrix();
+        if (_parent != nullptr)
+            result *= _parent->matrix();
         return result;
     }
 
     Quaternion<> GlobalTransform::orientation()
     {
         Quaternion<> result = _orientation;
-        if (parent != nullptr)
-            result *= parent->orientation();
+        if (_parent != nullptr)
+            result *= _parent->orientation();
         return result;
     }
 
@@ -37,30 +37,30 @@ namespace GlEngine
     Matrix<4, 4> GlobalTransform::matrix()
     {
         Matrix<4, 4> result = transform->matrix();
-        if (parent != nullptr)
-            result = parent->matrix() * result;
+        if (_parent != nullptr)
+            result = _parent->matrix() * result;
         return result;
     }
 
     Matrix<4, 4> GlobalTransform::inverseMatrix()
     {
         Matrix<4, 4> result = transform->inverseMatrix();
-        if (parent != nullptr)
-            result *= parent->inverseMatrix();
+        if (_parent != nullptr)
+            result *= _parent->inverseMatrix();
         return result;
     }
 
     void GlobalTransform::SetPosition(Vector<3> pos)
     {
-        if (parent != nullptr)
-            pos = parent->inverseMatrix() * pos;
+        if (_parent != nullptr)
+            pos = _parent->inverseMatrix() * pos;
         transform->SetPosition(pos);
     }
 
     void GlobalTransform::SetOrientation(Quaternion<> orientation)
     {
-        if (parent != nullptr)
-            orientation = parent->orientation().Inverse() * orientation;
+        if (_parent != nullptr)
+            orientation = _parent->orientation().Inverse() * orientation;
         transform->SetOrientation(orientation);
     }
     void GlobalTransform::ComposeOrientation(Quaternion<> relative)
@@ -131,5 +131,10 @@ namespace GlEngine
     void GlobalTransform::Scale(Vector<3> amt)
     {
         transform->Scale(amt);
+    }
+
+    GlobalTransform *GlobalTransform::parent()
+    {
+        return _parent;
     }
 }

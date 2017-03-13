@@ -15,6 +15,7 @@ namespace GlEngine
     }
     GameObject::~GameObject()
     {
+        SafeDelete(_globalTransform);
     }
 
     Frame *GameObject::frame() const
@@ -38,6 +39,7 @@ namespace GlEngine
         else collection_remove(_frame->_children, this);
         if (parent != nullptr) parent->_children.push_back(this);
         else _frame->_children.push_back(this);
+        _parent = parent;
     }
     const std::vector<GameObject*> &GameObject::children()
     {
@@ -165,8 +167,12 @@ namespace GlEngine
 
     GlobalTransform* GameObject::globalTransform()
     {
-        if (_globalTransform == nullptr)
-            _globalTransform = new GlobalTransform(&transform, _parent == nullptr ? nullptr : _parent->globalTransform());
+        auto shouldBeParent = (_parent == nullptr ? nullptr : _parent->globalTransform());
+        if (_globalTransform == nullptr || _globalTransform->parent() != shouldBeParent)
+        {
+            SafeDelete(_globalTransform);
+            _globalTransform = new GlobalTransform(&transform, shouldBeParent);
+        }
         return _globalTransform;
     }
 }
