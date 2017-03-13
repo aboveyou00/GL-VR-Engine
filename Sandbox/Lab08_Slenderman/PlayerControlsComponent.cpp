@@ -11,7 +11,7 @@
 #include "IAudioSource.h"
 
 PlayerControlsComponent::PlayerControlsComponent(float movementSpeed, float rotateSpeed)
-    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), music(new GlEngine::AudioSourceComponent("Music")), renderText("Pages: 0 of 8")
+    : AudioListenerComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), music(new GlEngine::AudioSourceComponent("Music")), renderText("Pages: 0 of 8")
 {
     UpdateMusic();
 }
@@ -108,16 +108,20 @@ void PlayerControlsComponent::UpdateMusic()
     case 0:
     case 1:
     default:
-        source = "Audio/slender01.mp3";
+        source = "Audio/slender01.wav";
+        break;
     case 2:
     case 3:
-        source = "Audio/slender02.mp3";
+        source = "Audio/slender02.wav";
+        break;
     case 4:
     case 5:
-        source = "Audio/slender03.mp3";
+        source = "Audio/slender03.wav";
+        break;
     case 6:
     case 7:
-        source = "Audio/slender04.mp3";
+        source = "Audio/slender04.wav";
+        break;
     }
     music->source()->SetSource(source);
     music->source()->Play(true);

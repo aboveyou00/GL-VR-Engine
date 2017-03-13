@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameComponent.h"
+#include "AudioListenerComponent.h"
 #include <map>
 
 namespace GlEngine
@@ -8,7 +8,7 @@ namespace GlEngine
     class AudioSourceComponent;
 }
 
-class PlayerControlsComponent : public GlEngine::GameComponent
+class PlayerControlsComponent : public GlEngine::AudioListenerComponent
 {
 public:
     PlayerControlsComponent(float movementSpeed = 8.f, float rotateSpeed = 0.005f);

@@ -158,6 +158,7 @@
     <ClInclude Include="AmbientLightSource.h" />
     <ClInclude Include="AmbientMaterial.h" />
     <ClInclude Include="Array.h" />
+    <ClInclude Include="AudioListenerComponent.h" />
     <ClInclude Include="AudioSourceComponent.h" />
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="Color.h" />
@@ -335,6 +336,7 @@
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="AudioController.cpp" />
     <ClCompile Include="AudioControllerImpl.cpp" />
+    <ClCompile Include="AudioListenerComponent.cpp" />
     <ClCompile Include="AudioSourceComponent.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
     <ClCompile Include="Color.cpp" />
