@@ -44,16 +44,15 @@ bool SlendermanSceneFrame::Initialize()
 
     cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
-    auto cameraTarget = new PlayerControlsComponent();
+    auto cameraTarget = new PlayerControlsComponent(6.f);
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto flashlightGobj = new GlEngine::GameObject(this, "Flashlight");
     auto flashlightComp = new FlashlightComponent();
     flashlightGobj->AddComponent(flashlightComp);
-
     flashlightGobj->SetParent(cameraComponent->gameObject());
-    auto spotlight = flashlightComp->spotlight();
 
+    auto spotlight = flashlightComp->spotlight();
     auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
     auto fog = new GlEngine::FogSource(10.f, 60.f, { 0.f, 0.f, 0.f, .8f });
 
@@ -69,13 +68,13 @@ bool SlendermanSceneFrame::Initialize()
         ->ProvideConst(&GlEngine::ShaderFactory::prop_Shininess, 5.0)
         ->Create();
 
-    auto cube1 = new GlEngine::GameObject(this, "Ground");
+    auto groundPlane = new GlEngine::GameObject(this, "Ground");
     const float GROUND_SIZE = 1024.f;
-    auto cubeGfx1 = new GlEngine::PlaneGraphicsObject("Plane_Ground", groundMaterial, { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f });
-    cubeGfx1->AddPropertyProvider(ambient);
-    cubeGfx1->AddPropertyProvider(spotlight);
-    cubeGfx1->AddPropertyProvider(fog);
-    cube1->AddComponent(cubeGfx1);
+    auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", groundMaterial, { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
+    groundPlaneGfx->AddPropertyProvider(ambient);
+    groundPlaneGfx->AddPropertyProvider(spotlight);
+    groundPlaneGfx->AddPropertyProvider(fog);
+    groundPlane->AddComponent(groundPlaneGfx);
 
     auto singleTree = new RawGraphicsObject("TreeGfx", "Resources/tree.obj", &instancedPhongFogSource, &instancedPhongFogProps);
     singleTree->SetMaterial(TemplateMaterial::Factory()

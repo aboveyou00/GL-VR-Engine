@@ -24,7 +24,7 @@ void PlayerControlsComponent::Tick(float delta)
     if (this->keysDown[VK_ALPHANUMERIC<'d'>()]) translation += { 1, 0, 0 };
 
     translation *= delta * movementSpeed;
-    if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 5;
+    if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 2;
     auto transform = gameObject()->localTransform();
     transform->Translate(gameObject()->localTransform()->orientation().Inverse().Apply(translation));
     transform->SetPosition({ transform->position()[0], 1, transform->position()[2] });
