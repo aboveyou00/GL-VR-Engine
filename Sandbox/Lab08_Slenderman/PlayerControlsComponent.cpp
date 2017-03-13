@@ -11,9 +11,13 @@
 #include "IAudioSource.h"
 
 PlayerControlsComponent::PlayerControlsComponent(float movementSpeed, float rotateSpeed)
-    : AudioListenerComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), music(new GlEngine::AudioSourceComponent("Music")), renderText("Pages: 0 of 8")
+    : AudioListenerComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
 {
+    music = new GlEngine::AudioSourceComponent("Music");
     UpdateMusic();
+
+    footsteps = new GlEngine::AudioSourceComponent("Footsteps");
+    footsteps->source()->SetSource("Audio/footsteps.wav");
 }
 PlayerControlsComponent::~PlayerControlsComponent()
 {
@@ -28,10 +32,17 @@ void PlayerControlsComponent::Tick(float delta)
     if (this->keysDown[VK_ALPHANUMERIC<'d'>()]) translation += { 1, 0, 0 };
 
     translation *= delta * movementSpeed;
-    if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 2;
+    bool isSprinting = (GetKeyState(VK_SHIFT) & 0b10000000) != 0;
+    if (isSprinting) translation *= 2;
+    
     auto transform = gameObject()->localTransform();
     transform->Translate(gameObject()->localTransform()->orientation().Inverse().Apply(translation));
     transform->SetPosition({ transform->position()[0], 1, transform->position()[2] });
+
+    footsteps->source()->SetSource(isSprinting ? "Audio/footstep-grass-clipped.wav"s : "Audio/footstep-grass.wav");
+    bool playFootsteps = translation.LengthSquared() > .2f * delta;
+    if (playFootsteps && !footsteps->source()->IsPlaying()) footsteps->source()->Play(true);
+    else if (!playFootsteps && footsteps->source()->IsPlaying()) footsteps->source()->SetLoop(false);
 
     age += delta;
 }
@@ -89,7 +100,11 @@ void PlayerControlsComponent::Render(GlEngine::RenderStage *stage)
 void PlayerControlsComponent::GameObjectChanged()
 {
     if (music->gameObject() != nullptr) music->gameObject()->RemoveComponent(music);
-    if (gameObject() != nullptr) gameObject()->AddComponent(music);
+    if (gameObject() != nullptr)
+    {
+        gameObject()->AddComponent(music);
+        gameObject()->AddComponent(footsteps);
+    }
 }
 
 void PlayerControlsComponent::FindPage()
