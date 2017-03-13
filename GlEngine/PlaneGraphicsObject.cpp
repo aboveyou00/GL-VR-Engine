@@ -3,8 +3,8 @@
 
 namespace GlEngine
 {
-    PlaneGraphicsObject::PlaneGraphicsObject(std::string name, Material *mat, Vector<2> size, Vector<2> subdivisions)
-        : VboGraphicsObject(name), _mat(mat), _size(size), _subdivisions(subdivisions)
+    PlaneGraphicsObject::PlaneGraphicsObject(std::string name, Material *mat, Vector<2> size, Vector<2> subdivisions, Vector<2> uvScale)
+        : VboGraphicsObject(name), _mat(mat), _size(size), _subdivisions(subdivisions), _uvScale(uvScale)
     {
     }
     PlaneGraphicsObject::~PlaneGraphicsObject()
@@ -24,8 +24,8 @@ namespace GlEngine
         //Render face Yp
         auto ww = w / _subdivisions[0];
         auto dd = d / _subdivisions[1];
-        auto uvw = 1.f / _subdivisions[0];
-        auto uvd = 1.f / _subdivisions[1];
+        auto uvw = _uvScale[0] / _subdivisions[0];
+        auto uvd = _uvScale[1] / _subdivisions[1];
         for (size_t q = 0; q < _subdivisions[0]; q++)
         {
             auto tx = x + q * ww;
