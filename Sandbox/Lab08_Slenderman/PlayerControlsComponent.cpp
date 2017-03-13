@@ -6,9 +6,10 @@
 #include "MouseEvent.h"
 #include "Matrix.h"
 #include "MathUtils.h"
+#include <sstream>
 
 PlayerControlsComponent::PlayerControlsComponent(float movementSpeed, float rotateSpeed)
-    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0))
+    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
 {
 }
 PlayerControlsComponent::~PlayerControlsComponent()
@@ -28,6 +29,8 @@ void PlayerControlsComponent::Tick(float delta)
     auto transform = gameObject()->localTransform();
     transform->Translate(gameObject()->localTransform()->orientation().Inverse().Apply(translation));
     transform->SetPosition({ transform->position()[0], 1, transform->position()[2] });
+
+    age += delta;
 }
 
 void PlayerControlsComponent::UpdateGraphics()
@@ -60,5 +63,21 @@ void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event & evt)
             if (mouseDelta[1] > 90deg / rotateSpeed) mouseDelta = { mouseDelta[0], 90deg / rotateSpeed };
             //GlEngine::Util::Log("%f, %f", mouseEvt->positionChange()[0], mouseEvt->positionChange()[1]);
         }
+    }
+}
+
+void PlayerControlsComponent::Render(GlEngine::RenderStage *stage)
+{
+    GameComponent::Render(stage);
+    std::string text;
+    if (age < 5000)
+    {
+        text = "Collect all 8 pages"s;
+        //TODO: Render text in center of screen
+    }
+    else
+    {
+        text = renderText;
+        //TODO: Render text at bottom left corner of screen
     }
 }

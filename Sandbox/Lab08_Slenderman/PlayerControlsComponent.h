@@ -14,9 +14,14 @@ public:
 
     virtual void HandleEvent(GlEngine::Events::Event &evt) override;
 
+    virtual void Render(GlEngine::RenderStage *stage) override;
+
 private:
     std::map<unsigned, bool> keysDown;
     Vector<2> mouseDelta;
     float movementSpeed;
     float rotateSpeed;
+
+    std::string renderText;
+    float age;
 };
