@@ -59,8 +59,6 @@ bool SandboxLoop::initLoop()
     auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
     logger->Log(GlEngine::LogType::Info, "Beginning logic thread");
 
-    if (!GlEngine::Engine::GetInstance().GetAudioController().Initialize()) return false;
-
     if (!_frames.Initialize()) return false;
     _frames.PushNewFrame<SlendermanStaticSceneFrame>();
 

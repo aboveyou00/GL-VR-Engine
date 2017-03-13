@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "YseAudioSource.h"
 #include "StringUtils.h"
+#include "LogUtils.h"
 
 void func()
 {
@@ -83,8 +84,13 @@ namespace GlEngine
     {
         if (sound != nullptr)
         {
-            if (!sound->isValid() || !sound->isReady())
+            if (!sound->isValid())
+            {
+                Util::Log(LogType::ErrorC, "Invalid sound! %s", source.c_str());
+                SafeDelete(sound);
                 return;
+            }
+            if (!sound->isReady()) return;
             sound->setPosition(YSE::Vec(pos[0], pos[1], pos[2]));
             //TODO: set the sound velocity
             if (isPlaying)

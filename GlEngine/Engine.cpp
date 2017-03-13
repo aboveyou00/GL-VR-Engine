@@ -39,13 +39,13 @@ namespace GlEngine
             GetWindowManager().Shutdown();
             return false;
         }
-        //if (!GetAudioController().Initialize())
-        //{
-        //    logger.Log(LogType::FatalError, "GlEngine AlController failed to initialize, aborting!");
-        //    GetGraphicsController().Shutdown();
-        //    GetWindowManager().Shutdown();
-        //    return false;
-        //}
+        if (!GetAudioController().Initialize())
+        {
+            logger.Log(LogType::FatalError, "GlEngine AlController failed to initialize, aborting!");
+            GetGraphicsController().Shutdown();
+            GetWindowManager().Shutdown();
+            return false;
+        }
         if (!resources.Initialize())
         {
             logger.Log(LogType::FatalError, "GlEngine ResourceLoader failed to initialize, aborting!");
