@@ -80,8 +80,9 @@ bool SlendermanSceneFrame::Initialize()
     groundPlane->AddComponent(groundPlaneGfx);
 
     auto singleTree = new RawGraphicsObject("TreeGfx", "Resources/tree.obj", &instancedPhongFogSource, &instancedPhongFogProps);
+    auto treeTex = GlEngine::Texture::FromFile("Textures/tree.png"s);
     singleTree->SetMaterial(TemplateMaterial::Factory()
-        ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, grassTex)
+        ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, treeTex)
         ->ProvideConst(&GlEngine::ShaderFactory::prop_ReflectionCoefficient, Vector<3> { 0.9f, 0.9f, 0.9f })
         ->ProvideConst(&GlEngine::ShaderFactory::prop_Shininess, 5.0)
         ->Create()
