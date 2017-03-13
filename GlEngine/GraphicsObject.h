@@ -44,14 +44,9 @@ namespace GlEngine
     protected:
         bool initialized, graphicsInitialized;
 
-        void SetInstanceCount(unsigned count);
-
         std::vector<ShaderFactory::IPropertyProvider*> &providers();
 
     private:
-        bool isInstanced;
-        unsigned instanceCount;
-
         std::vector<ShaderFactory::IPropertyProvider*> _providers;
     };
 }

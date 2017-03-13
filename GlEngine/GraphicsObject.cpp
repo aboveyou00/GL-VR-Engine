@@ -89,11 +89,6 @@ namespace GlEngine
     {
     }
 
-    void GraphicsObject::SetInstanceCount(unsigned count)
-    {
-        instanceCount = count;
-    }
-
     std::vector<ShaderFactory::IPropertyProvider*> &GraphicsObject::providers()
     {
         return _providers;
