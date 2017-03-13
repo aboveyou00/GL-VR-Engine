@@ -23,6 +23,7 @@
 #include "RandomUtils.h"
 
 #include "PageComponent.h"
+#include "SlenderComponent.h"
 
 extern Attribute attr_PhongFog;
 
@@ -110,6 +111,8 @@ bool SlendermanSceneFrame::Initialize()
     PageComponent::Create(this, 5, { -20.f, 0, -80.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
     PageComponent::Create(this, 6, { 20.f,  0, -80.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
     PageComponent::Create(this, 7, { 80.f,  0, -20.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+
+    SlenderComponent::Create(this, cameraTarget->gameObject(), { 5, 0, 5 }, { ambient, spotlight, fog });
 
     return true;
 }

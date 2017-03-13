@@ -156,6 +156,7 @@
     <ClInclude Include="Lab08_Slenderman\FlashlightComponent.h" />
     <ClInclude Include="Lab08_Slenderman\PageComponent.h" />
     <ClInclude Include="Lab08_Slenderman\PlayerControlsComponent.h" />
+    <ClInclude Include="Lab08_Slenderman\SlenderComponent.h" />
     <ClInclude Include="Lab08_Slenderman\SlendermanSceneFrame.h" />
     <ClInclude Include="Lab08_Slenderman\SlendermanStaticSceneFrame.h" />
     <ClInclude Include="PointVolume.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Lab08_Slenderman\instanced_phong_fog_source.cpp" />
     <ClCompile Include="Lab08_Slenderman\PageComponent.cpp" />
     <ClCompile Include="Lab08_Slenderman\PlayerControlsComponent.cpp" />
+    <ClCompile Include="Lab08_Slenderman\SlenderComponent.cpp" />
     <ClCompile Include="Lab08_Slenderman\SlendermanSceneFrame.cpp" />
     <ClCompile Include="Lab08_Slenderman\SlendermanStaticSceneFrame.cpp" />
     <ClCompile Include="Lab08_Slenderman\static_source.cpp" />
