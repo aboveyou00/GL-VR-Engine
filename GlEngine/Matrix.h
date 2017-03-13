@@ -39,31 +39,33 @@ public:
         auto result = Matrix<rows, cols, ElemT>::Identity();
         for (auto q = 0; q < rows - 1; q++)
         {
-            result.values[rows - 1][q] = translateVec[q];
+            result.values[q][rows - 1] = translateVec[q];
         }
         return result;
     }
     static Matrix<3, 3, ElemT> TranslateMatrix(ElemT x, ElemT y)
     {
         static_assert(rows == 3 && cols == 3, "Matrix::TranslateMatrix(ElemT, ElemT) can only be applied to 3*3 matrices");
-        return Matrix<3, 3, ElemT> { 1, 0, 0,
-                              0, 1, 0,
-                              x, y, 1 };
+        return Matrix<3, 3, ElemT> { 1, 0, x,
+                                     0, 1, y,
+                                     0, 0, 1 };
     }
     static Matrix<4, 4, ElemT> TranslateMatrix(ElemT x, ElemT y, ElemT z)
     {
         static_assert(rows == 4 && cols == 4, "Matrix::TranslateMatrix(ElemT, ElemT, ElemT) can only be applied to 4*4 matrices");
-        return Matrix<4, 4, ElemT> { 1, 0, 0, 0,
-                                     0, 1, 0, 0,
-                                     0, 0, 1, 0,
-                                     x, y, z, 1 };
+        return Matrix<4, 4, ElemT> { 1, 0, 0, x,
+                                     0, 1, 0, y,
+                                     0, 0, 1, z,
+                                     0, 0, 0, 1 };
     }
     static Matrix<rows, cols, ElemT> Rotate2dMatrix(ElemT theta)
     {
         static_assert(rows == 3 && cols == 3, "Matrix::RotateMatrix(ElemT) can only be applied to 3*3 matrices");
-        return Matrix<3, 3, ElemT> { cos(theta), -sin(theta), 0,
-                                     sin(theta),  cos(theta), 0,
-                                     0, 0, 1 };
+        auto cost = cos(theta);
+        auto sint = sin(theta);
+        return Matrix<3, 3, ElemT> { cost, -sint, 0,
+                                     sint, cost,  0,
+                                     0,    0,     1 };
     }
     static Matrix<rows, cols, ElemT> ScaleMatrix(Vector<rows - 1, ElemT> scaleVec)
     {
@@ -78,17 +80,17 @@ public:
     static Matrix<3, 3, ElemT> ScaleMatrix(ElemT sx, ElemT sy)
     {
         static_assert(rows == 3 && cols == 3, "Matrix::ScaleMatrix(ElemT, ElemT) can only be applied to 3*3 matrices");
-        return Matrix<3, 3, ElemT> { sx, 0, 0,
-                                     0, sy, 0,
-                                     0, 0, 1 };
+        return Matrix<3, 3, ElemT> { sx, 0,  0,
+                                     0,  sy, 0,
+                                     0,  0,  1 };
     }
     static Matrix<4, 4, ElemT> ScaleMatrix(ElemT sx, ElemT sy, ElemT sz)
     {
         static_assert(rows == 4 && cols == 4, "Matrix::SCaleMatrix(ElemT, ElemT, ElemT) can only be applied to 4*4 matrices");
-        return Matrix<4, 4, ElemT> { sx, 0, 0, 0,
-                                     0, sy, 0, 0,
-                                     0, 0, sz, 0,
-                                     0, 0, 0, 1 };
+        return Matrix<4, 4, ElemT> { sx, 0,  0,  0,
+                                     0,  sy, 0,  0,
+                                     0,  0,  sz, 0,
+                                     0,  0,  0,  1 };
     }
     static Matrix<rows, cols, ElemT> ScaleMatrix(ElemT scale)
     {
@@ -105,6 +107,7 @@ public:
     static Matrix<rows, cols, ElemT> RotationMatrixNormalized(ElemT theta, Vector<rows - 1, ElemT> axis)
     {
         static_assert(rows == 4 && cols == 4, "Matrix::RotationMatrixNormalized(ElemT) can only be applied to 4*4 matrices");
+        //TODO: Fix
         
         auto u = axis[0], v = axis[1], w = axis[3];
         auto u2 = u*u, v2 = v*v, w2 = w*w;
@@ -134,10 +137,12 @@ public:
         /// </summary>
 
         static_assert(rows == 4 && cols == 4, "Matrix::PitchMatrix(ElemT) can only be applied to 4*4 matrices");
-        return Matrix<4, 4, ElemT> { cos(theta), -sin(theta), 0, 0,
-                                     sin(theta), cos(theta),  0, 0,
-                                     0,          0,           1, 0,
-                                     0,          0,           0, 1 };
+        auto cost = cos(theta);
+        auto sint = sin(theta);
+        return Matrix<4, 4, ElemT> { cost, -sint, 0, 0,
+                                     sint, cost,  0, 0,
+                                     0,    0,     1, 0,
+                                     0,    0,     0, 1 };
     }
 
     static Matrix<rows, cols, ElemT> YawMatrix(ElemT theta)
@@ -146,10 +151,12 @@ public:
         /// </summary>
 
         static_assert(rows == 4 && cols == 4, "Matrix::YawMatrix(ElemT) can only be applied to 4*4 matrices");
-        return Matrix<4, 4, ElemT> { cos(theta), 0, -sin(theta), 0,
-                                     0,          1,           0, 0,
-                                     sin(theta), 0,  cos(theta), 0,
-                                     0,          0,           0, 1 };
+        auto cost = cos(theta);
+        auto sint = sin(theta);
+        return Matrix<4, 4, ElemT> { cost,  0, sint, 0,
+                                     0,     1, 0,    0,
+                                     -sint, 0, cost, 0,
+                                     0,     0, 0,    1 };
     }
 
     static Matrix<rows, cols, ElemT> RollMatrix(ElemT theta)
@@ -158,13 +165,15 @@ public:
         /// </summary>
 
         static_assert(rows == 4 && cols == 4, "Matrix::RollMatrix(ElemT) can only be applied to 4*4 matrices");
-        return Matrix<4, 4, ElemT> { 1,          0,           0, 0,
-                                     0, cos(theta), -sin(theta), 0,
-                                     0, sin(theta),  cos(theta), 0,
-                                     0,          0,           0, 1 };
+        auto cost = cos(theta);
+        auto sint = sin(theta);
+        return Matrix<4, 4, ElemT> { 1, 0,    0,     0,
+                                     0, cost, -sint, 0,
+                                     0, sint, cost,  0,
+                                     0, 0,    0,     1 };
     }
 
-    inline static Matrix<rows, cols, ElemT> FromVector(Vector<rows, ElemT> vec)
+    static Matrix<rows, cols, ElemT> FromVector(Vector<rows, ElemT> vec)
     {
         static_assert(cols == 1, "Matrix::FromVector cannot be called for matrices with more than one column");
         Matrix<rows, cols, ElemT> result;
@@ -184,16 +193,13 @@ public:
         return result;
     }
 
-    template <typename = std::enable_if_t<rows == 1 || cols == 1 || rows == cols>>
     Vector<rows, ElemT> AsVector() const
     {
         static_assert(cols == 1 || rows == cols, "Matrix::FromVector cannot be applied for matrices unless they are square or they only have one column");
         ElemT vals[rows];
         for (auto q = 0; q < rows; q++)
         {
-            vals[q] = (rows == 1) ? values[0][q] :
-                      (cols == 1) ? values[q][0] : 
-                                    values[q][q];
+            vals[q] = (cols == 1) ? values[q][0] : values[q][q];
         }
         return Vector<rows, ElemT>(vals);
     }
@@ -428,7 +434,7 @@ public:
     }
 
 private:
-    ElemT values[rows][cols]; //TODO: Find some way to make this private!
+    ElemT values[rows][cols];
 
     //Constructor helpers:
     template <int ridx = 0, int cidx = 0, typename T, typename... Args>
@@ -523,22 +529,9 @@ using Mat2 = Matrix<2, 2, ElemT>;
 
 template <typename ElemT = float>
 using Mat3 = Matrix<3, 3, ElemT>;
-template <typename ElemT = float>
-using Mat2T = Matrix<3, 3, ElemT>;
 
 template <typename ElemT = float>
 using Mat4 = Matrix<4, 4, ElemT>;
-template <typename ElemT = float>
-using Mat3T = Matrix<4, 4, ElemT>;
-
-template <int rows, typename ElemT = float>
-using MatV = Matrix<rows, 1, ElemT>;
-template <typename ElemT = float>
-using Mat2V = Matrix<2, 1, ElemT>;
-template <typename ElemT = float>
-using Mat3V = Matrix<3, 1, ElemT>;
-template <typename ElemT = float>
-using Mat4V = Matrix<4, 1, ElemT>;
 
 template <int dim, typename ElemT = float>
 Matrix<dim, 1, ElemT> MakeMatrix(Vector<dim, ElemT> vec)

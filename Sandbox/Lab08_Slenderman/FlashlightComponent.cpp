@@ -40,9 +40,11 @@ void FlashlightComponent::Tick(float delta)
 {
     GameComponent::Tick(delta);
 
-    Vector<3> relativePos = gameObject()->parent()->localTransform()->orientation().Inverse().Apply(Vector<3>{ 0.2, -0.5, 0.2 });
-    spotlight()->SetPosition(gameObject()->parent()->localTransform()->position() + relativePos);
-    spotlight()->SetDirection(gameObject()->parent()->localTransform()->orientation().Inverse().Apply({ 0, 0, -1 }));
+    //Vector<3> relativePos = gameObject()->parent()->localTransform()->orientation().Inverse().Apply(Vector<3>{ 0.2, -0.5, 0.2 });
+    //spotlight()->SetPosition(gameObject()->parent()->localTransform()->position() + relativePos);
+    //spotlight()->SetDirection(gameObject()->parent()->localTransform()->orientation().Inverse().Apply({ 0, 0, -1 }));
+    spotlight()->SetPosition(gameObject()->globalTransform()->position());
+    spotlight()->SetDirection(gameObject()->globalTransform()->orientation().Apply({ 0, 0, 1 }));
 
     //spotlight()->SetPosition(gameObject()->globalTransform()->position());
     //spotlight()->SetDirection(gameObject()->globalTransform()->orientation().Apply({ 0, 0, -1 }));

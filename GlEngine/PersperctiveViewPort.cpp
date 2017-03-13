@@ -35,7 +35,7 @@ namespace GlEngine
         viewWidth *= fov;
         viewHeight *= fov;
 
-        MatrixStack::Projection.push(Mat3T<float>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
+        MatrixStack::Projection.push(Matrix<4, 4>::Frustum(-viewWidth / 2, viewWidth / 2, -viewHeight / 2, viewHeight / 2, nearVal, farVal));
     }
     void PerspectiveViewPort::Pop()
     {

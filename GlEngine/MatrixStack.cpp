@@ -7,7 +7,7 @@ namespace GlEngine
 {
     MatrixStack::MatrixStack()
     {
-        stack[idx] = Mat3T<float>::Identity();
+        stack[idx] = Matrix<4, 4>::Identity();
     }
     MatrixStack::~MatrixStack()
     {
@@ -17,7 +17,7 @@ namespace GlEngine
             remoteStack = nullptr;
         }
         idx = 0;
-        stack[idx] = Mat3T<float>::Identity();
+        stack[idx] = Matrix<4, 4>::Identity();
     }
 
     static MatrixStack _projection, _model, _view;

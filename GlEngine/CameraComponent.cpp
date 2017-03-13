@@ -43,7 +43,7 @@ namespace GlEngine
 
         view = Matrix<3, 3>::FromCols(right, up, -forward).ToTransformMatrix();
 
-        MatrixStack::View.mult(Mat3T<float>::TranslateMatrix(-eye) * view);
+        MatrixStack::View.mult(Matrix<4, 4>::TranslateMatrix(-eye) * view);
     }
     void CameraComponent::Pop(RenderStage*)
     {
