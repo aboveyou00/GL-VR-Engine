@@ -17,8 +17,8 @@ namespace GlEngine
 
         SetMaterial(_mat);
 
-        static const float x = -_size[0] / 2, y = 0, z = -_size[1] / 2;
-        static const float w = _size[0], h = 0, d = _size[1];
+        const float x = -_size[0] / 2, y = 0, z = -_size[1] / 2;
+        const float w = _size[0], h = 0, d = _size[1];
         int idx0, idx1, idx2, idx3;
 
         //Render face Yp
