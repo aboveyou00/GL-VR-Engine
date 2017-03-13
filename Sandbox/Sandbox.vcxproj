@@ -191,10 +191,11 @@
     <ClCompile Include="Lab05_Geometry\Lab5ControlsComponent.cpp" />
     <ClCompile Include="Lab05_Geometry\wireframe_source.cpp" />
     <ClCompile Include="Lab07_Particles\fountain_source.cpp" />
-    <ClCompile Include="Lab07_Particles\instanced_phong.cpp" />
+    <ClCompile Include="Lab07_Particles\instanced_phong_source.cpp" />
     <ClCompile Include="Lab07_Particles\ParticlesSceneFrame.cpp" />
     <ClCompile Include="Lab07_Particles\waves_source.cpp" />
     <ClCompile Include="Lab08_Slenderman\FlashlightComponent.cpp" />
+    <ClCompile Include="Lab08_Slenderman\instanced_phong_fog_source.cpp" />
     <ClCompile Include="Lab08_Slenderman\SlendermanSceneFrame.cpp" />
     <ClCompile Include="Lab08_Slenderman\SlendermanStaticSceneFrame.cpp" />
     <ClCompile Include="Lab08_Slenderman\static_source.cpp" />

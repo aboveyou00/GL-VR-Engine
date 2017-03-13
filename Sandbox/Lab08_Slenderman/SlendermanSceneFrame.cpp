@@ -17,7 +17,15 @@
 #include "Attribute.h"
 #include "FogSource.h"
 
+#include "RawShaderFactory.h"
+#include "../RawGraphicsObject.h"
+#include "InstancedGraphicsObject.h"
+#include "RandomUtils.h"
+
 extern Attribute attr_PhongFog;
+
+extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> instancedPhongFogProps;
+extern GlEngine::ShaderFactory::ShaderSource instancedPhongFogSource;
 
 SlendermanSceneFrame::SlendermanSceneFrame()
 {
@@ -57,7 +65,6 @@ bool SlendermanSceneFrame::Initialize()
         ->Attribute(&GlEngine::ShaderFactory::attr_Spotlight)
         ->Attribute(&attr_PhongFog)
         ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, grassTex)
-        ->ProvideConst(&GlEngine::ShaderFactory::prop_RgbColor, Vector<3> { 1.0f, 1.0f, 0.2f })
         ->ProvideConst(&GlEngine::ShaderFactory::prop_ReflectionCoefficient, Vector<3> { 0.9f, 0.9f, 0.9f })
         ->ProvideConst(&GlEngine::ShaderFactory::prop_Shininess, 5.0)
         ->Create();
@@ -69,7 +76,30 @@ bool SlendermanSceneFrame::Initialize()
     cubeGfx1->AddPropertyProvider(spotlight);
     cubeGfx1->AddPropertyProvider(fog);
     cube1->AddComponent(cubeGfx1);
-    //cube1->localTransform()->SetPosition({ -GROUND_SIZE / 2, 0, GROUND_SIZE / 2 });
+
+    auto singleTree = new RawGraphicsObject("TreeGfx", "Resources/tree.obj", &instancedPhongFogSource, &instancedPhongFogProps);
+    singleTree->SetMaterial(TemplateMaterial::Factory()
+        ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, grassTex)
+        ->ProvideConst(&GlEngine::ShaderFactory::prop_ReflectionCoefficient, Vector<3> { 0.9f, 0.9f, 0.9f })
+        ->ProvideConst(&GlEngine::ShaderFactory::prop_Shininess, 5.0)
+        ->Create()
+    );
+    singleTree->AddPropertyProvider(ambient);
+    singleTree->AddPropertyProvider(spotlight);
+    singleTree->AddPropertyProvider(fog);
+    auto instancedTrees = new GlEngine::InstancedGraphicsObject<GlEngine::VboType::Float, Matrix<4, 4>>("InstancedTrees", singleTree, &GlEngine::ShaderFactory::prop_InstanceModelMatrix);
+    auto trees = new GlEngine::GameObject(this, "Trees");
+    trees->AddComponent(instancedTrees);
+
+    for (size_t q = 0; q < 10; q++)
+    {
+        for (size_t e = 0; e < 10; e++)
+        {
+            auto rot = Quaternion<>(GlEngine::Util::random(360deg), Vector<3> { 0, 1, 0 });
+            instancedTrees->AddInstance(rot.ToMatrix() * Matrix<4, 4>::TranslateMatrix(Vector<3> { q, 0, e } * -5));
+        }
+    }
+    instancedTrees->Finalize();
 
     return true;
 }
