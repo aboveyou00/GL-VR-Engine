@@ -22,6 +22,8 @@
 #include "InstancedGraphicsObject.h"
 #include "RandomUtils.h"
 
+#include "PageComponent.h"
+
 extern Attribute attr_PhongFog;
 
 extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> instancedPhongFogProps;
@@ -99,6 +101,15 @@ bool SlendermanSceneFrame::Initialize()
         }
     }
     instancedTrees->Finalize();
+
+    PageComponent::Create(this, 0, { 80.f,  0, 20.f  }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+    PageComponent::Create(this, 1, { 20.f,  0, 80.f  }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+    PageComponent::Create(this, 2, { -20.f, 0, 80.f  }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+    PageComponent::Create(this, 3, { -80.f, 0, 20.f  }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+    PageComponent::Create(this, 4, { -80.f, 0, -20.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+    PageComponent::Create(this, 5, { -20.f, 0, -80.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+    PageComponent::Create(this, 6, { 20.f,  0, -80.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
+    PageComponent::Create(this, 7, { 80.f,  0, -20.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
 
     return true;
 }
