@@ -2,7 +2,7 @@
 #include "SlendermanSceneFrame.h"
 #include "CameraComponent.h"
 #include "GameObject.h"
-#include "../CameraTargetComponent.h"
+#include "PlayerControlsComponent.h"
 #include "../LabControlsComponent.h"
 
 #include "AmbientLightSource.h"
@@ -44,7 +44,7 @@ bool SlendermanSceneFrame::Initialize()
 
     cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
-    auto cameraTarget = new CameraTargetComponent();
+    auto cameraTarget = new PlayerControlsComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto flashlightGobj = new GlEngine::GameObject(this, "Flashlight");
