@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "YseAudioSource.h"
+#include "StringUtils.h"
 
 void func()
 {
@@ -9,7 +10,7 @@ void func()
 namespace GlEngine
 {
     YseAudioSource::YseAudioSource()
-        : sound(nullptr), isPlaying(false), soundStarted(false), source(nullptr)
+        : sound(nullptr), isPlaying(false), soundStarted(false), source(""s)
     {
     }
     YseAudioSource::~YseAudioSource()
@@ -22,9 +23,9 @@ namespace GlEngine
         }
     }
 
-    void YseAudioSource::SetSource(const char *const filename)
+    void YseAudioSource::SetSource(std::string filename)
     {
-        if (filename == source || (filename != nullptr && source != nullptr && strcmp(filename, source) == 0)) return;
+        if (filename == source || filename == source) return;
         if (sound != nullptr)
         {
             Stop();
@@ -32,13 +33,13 @@ namespace GlEngine
             sound = nullptr;
         }
         source = filename;
-        if (filename != nullptr)
+        if (!Util::is_empty_or_ws(filename))
         {
             sound = new YSE::sound();
-            sound->create(filename);
+            sound->create(filename.c_str());
         }
     }
-    void YseAudioSource::SetPosition(Vector<3> &position)
+    void YseAudioSource::SetPosition(Vector<3> &&position)
     {
         pos = position;
     }

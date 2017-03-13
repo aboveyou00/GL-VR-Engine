@@ -77,4 +77,8 @@ namespace GlEngine
     void GameComponent::Render(RenderStage*)
     {
     }
+    
+    void GameComponent::GameObjectChanged()
+    {
+    }
 }

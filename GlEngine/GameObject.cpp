@@ -51,6 +51,7 @@ namespace GlEngine
         assert(c->_gameObject == nullptr);
         this->_components.push_back(c);
         c->_gameObject = this;
+        c->GameObjectChanged();
     }
     void GameObject::RemoveComponent(GameComponent *c)
     {

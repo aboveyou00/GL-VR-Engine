@@ -8,8 +8,8 @@ namespace GlEngine
         IAudioSource();
         ~IAudioSource();
 
-        virtual void SetSource(const char *const filename) = 0;
-        virtual void SetPosition(Vector<3> &position) = 0;
+        virtual void SetSource(std::string filename) = 0;
+        virtual void SetPosition(Vector<3> &&position) = 0;
         virtual void SetSpeed(Vector<3> &speed) = 0;
 
         virtual bool Play(bool loop = false) = 0;

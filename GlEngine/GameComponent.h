@@ -48,6 +48,9 @@ namespace GlEngine
         virtual void UpdateGraphics();
         virtual void Render(RenderStage* stage);
 
+    protected:
+        virtual void GameObjectChanged();
+
     private:
         GameObject *_gameObject;
         bool _active;
