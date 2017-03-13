@@ -7,10 +7,13 @@
 #include "Matrix.h"
 #include "MathUtils.h"
 #include <sstream>
+#include "AudioSourceComponent.h"
+#include "IAudioSource.h"
 
 PlayerControlsComponent::PlayerControlsComponent(float movementSpeed, float rotateSpeed)
-    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
+    : GameComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), music(new GlEngine::AudioSourceComponent("Music")), renderText("Pages: 0 of 8")
 {
+    UpdateMusic();
 }
 PlayerControlsComponent::~PlayerControlsComponent()
 {
@@ -47,6 +50,7 @@ void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event & evt)
         if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyPressed)
         {
             this->keysDown[kbEvt->GetVirtualKeyCode()] = true;
+            if (kbEvt->GetVirtualKeyCode() == VK_SPACE) FindPage();
         }
         if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyReleased)
         {
@@ -80,4 +84,41 @@ void PlayerControlsComponent::Render(GlEngine::RenderStage *stage)
         text = renderText;
         //TODO: Render text at bottom left corner of screen
     }
+}
+
+void PlayerControlsComponent::GameObjectChanged()
+{
+    if (music->gameObject() != nullptr) music->gameObject()->RemoveComponent(music);
+    if (gameObject() != nullptr) gameObject()->AddComponent(music);
+}
+
+void PlayerControlsComponent::FindPage()
+{
+    pagesFound++;
+    std::stringstream stream;
+    stream << "Pages: " << pagesFound << " of 8";
+    renderText = stream.str();
+    UpdateMusic();
+}
+void PlayerControlsComponent::UpdateMusic()
+{
+    std::string source = "";
+    switch (pagesFound)
+    {
+    case 0:
+    case 1:
+    default:
+        source = "Audio/slender01.mp3";
+    case 2:
+    case 3:
+        source = "Audio/slender02.mp3";
+    case 4:
+    case 5:
+        source = "Audio/slender03.mp3";
+    case 6:
+    case 7:
+        source = "Audio/slender04.mp3";
+    }
+    music->source()->SetSource(source);
+    music->source()->Play(true);
 }

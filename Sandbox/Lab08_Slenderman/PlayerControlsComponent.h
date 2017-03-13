@@ -3,6 +3,11 @@
 #include "GameComponent.h"
 #include <map>
 
+namespace GlEngine
+{
+    class AudioSourceComponent;
+}
+
 class PlayerControlsComponent : public GlEngine::GameComponent
 {
 public:
@@ -16,12 +21,20 @@ public:
 
     virtual void Render(GlEngine::RenderStage *stage) override;
 
+    virtual void GameObjectChanged() override;
+
+    void FindPage();
+
 private:
     std::map<unsigned, bool> keysDown;
     Vector<2> mouseDelta;
     float movementSpeed;
     float rotateSpeed;
 
+    unsigned pagesFound = 0;
     std::string renderText;
     float age;
+
+    GlEngine::AudioSourceComponent *music, *footsteps;
+    void UpdateMusic();
 };
