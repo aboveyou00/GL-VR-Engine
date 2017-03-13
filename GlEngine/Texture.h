@@ -8,12 +8,12 @@ namespace GlEngine
     class ENGINE_SHARED Texture : public IAsyncInitializable
     {
     public:
-        static Texture *FromFile(const char *const path, TextureFlag flags = TextureFlag::None);
+        static Texture *FromFile(std::string path, TextureFlag flags = TextureFlag::None);
         Texture(unsigned width, unsigned height, TextureFlag flags = TextureFlag::None);
         ~Texture();
 
     private:
-        Texture(const char *const path, TextureFlag flags = TextureFlag::None);
+        Texture(std::string path, TextureFlag flags = TextureFlag::None);
 
     public:
         virtual bool InitializeAsync() override;
@@ -32,7 +32,7 @@ namespace GlEngine
 
         virtual bool isReady() override;
 
-        const char *GetSource();
+        std::string GetSource();
 
         unsigned GetWidth();
         unsigned GetHeight();
@@ -48,7 +48,7 @@ namespace GlEngine
 
     private:
         bool initialized;
-        const char *const path;
+        std::string path;
         unsigned char *image;
         unsigned width, height, gl_index;
         TextureFlag _flags;

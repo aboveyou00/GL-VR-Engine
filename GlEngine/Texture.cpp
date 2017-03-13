@@ -3,6 +3,7 @@
 #include "LodePNG\lodepng.h"
 #include <unordered_map>
 #include <sstream>
+#include "StringUtils.h"
 
 #include "Engine.h"
 #include "ServiceProvider.h"
@@ -31,14 +32,14 @@ static void freePng(unsigned char *&image)
 
 namespace GlEngine
 {
-    Texture *Texture::FromFile(const char *const path, TextureFlag flags)
+    Texture *Texture::FromFile(std::string path, TextureFlag flags)
     {
-        if (path == nullptr || path[0] == '\0') return nullptr;
+        if (Util::is_empty_or_ws(path)) return nullptr;
 
-        auto hashed = ([](const char *str, TextureFlag flags) {
+        auto hashed = ([](std::string str, TextureFlag flags) {
             int h = static_cast<int>(flags);
-            while (*str)
-                h = h << 1 ^ *str++;
+            for (auto chr : str)
+                h = h << 1 ^ chr;
             return h;
         })(path, flags);
 
@@ -50,14 +51,14 @@ namespace GlEngine
         return tex;
     }
 
-    Texture::Texture(const char *const path, TextureFlag flags)
+    Texture::Texture(std::string path, TextureFlag flags)
         : path(path), image(nullptr), gl_tex(0), gl_sampler(0), initialized(false), _flags(flags)
     {
         auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
         resources->QueueInitialize(this);
     }
     Texture::Texture(unsigned width, unsigned height, TextureFlag flags)
-        : path(nullptr), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(true), _flags(flags)
+        : path(""s), width(width), height(height), image(nullptr), gl_tex(0), gl_sampler(0), initialized(true), _flags(flags)
     {
     }
     Texture::~Texture()
@@ -67,8 +68,8 @@ namespace GlEngine
     bool Texture::InitializeAsync()
     {
         if (initialized) return true;
-        if (path == nullptr) return false;
-        return initialized = decodeOneStep(path, image, width, height);
+        if (Util::is_empty_or_ws(path)) return false;
+        return initialized = decodeOneStep(path.c_str(), image, width, height);
     }
     void Texture::ShutdownAsync()
     {
@@ -149,7 +150,7 @@ namespace GlEngine
         return gl_tex != 0;// && gl_sampler != 0;
     }
 
-    const char *Texture::GetSource()
+    std::string Texture::GetSource()
     {
         return path;
     }

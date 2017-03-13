@@ -48,7 +48,7 @@ bool TexturesSceneFrame::Initialize()
     controlsComponent->SetControllingLight(lightSource);
     lightSource->SetPosition({ 0, 2.5, -2.5 });
 
-    auto crateTex = GlEngine::Texture::FromFile("Textures/crate.png");
+    auto crateTex = GlEngine::Texture::FromFile("Textures/crate.png"s);
     auto cube1 = new GlEngine::GameObject(this, "Cube1");
     auto mat1 = new GlEngine::PhongMaterial(crateTex);
     auto cubeGfx1 = new GlEngine::CubeGraphicsObject("Cube1_Gfx", mat1, { 3, 3, 3 });
@@ -58,8 +58,8 @@ bool TexturesSceneFrame::Initialize()
     cube1->localTransform()->SetPosition({ -7.5f, 0, 0 });
     cube1->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
-    auto brickTex = GlEngine::Texture::FromFile("Textures/bricks.png");
-    auto mossOverlayTex = GlEngine::Texture::FromFile("Textures/moss-overlay.png", GlEngine::TextureFlag::Translucent);
+    auto brickTex = GlEngine::Texture::FromFile("Textures/bricks.png"s);
+    auto mossOverlayTex = GlEngine::Texture::FromFile("Textures/moss-overlay.png"s, GlEngine::TextureFlag::Translucent);
     auto cube2 = new GlEngine::GameObject(this, "Cube2");
     auto mat2 = new GlEngine::PhongMaterial(brickTex, mossOverlayTex);
     auto cubeGfx2 = new GlEngine::CubeGraphicsObject("Cube2_Gfx", mat2, { 3, 3, 3 });
@@ -96,7 +96,7 @@ bool TexturesSceneFrame::Initialize()
     cube3->localTransform()->SetPosition({ 2.5f, 0, 0 });
     cube3->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
-    auto leafMaskTex = GlEngine::Texture::FromFile("Textures/leaf-mask.png", GlEngine::TextureFlag::AlphaMap);
+    auto leafMaskTex = GlEngine::Texture::FromFile("Textures/leaf-mask.png"s, GlEngine::TextureFlag::AlphaMap);
     auto cube4 = new GlEngine::GameObject(this, "Cube4");
     auto mat4 = new GlEngine::PhongMaterial(crateTex, leafMaskTex);
     auto cubeGfx4 = new GlEngine::CubeGraphicsObject("Cube4_Gfx", mat4, { 3, 3, 3 });
@@ -106,7 +106,7 @@ bool TexturesSceneFrame::Initialize()
     cube4->localTransform()->SetPosition({ 7.5f, 0, 0 });
     cube4->AddComponent(new FixedRotationComponent({ 0, 45deg, 0 }));
 
-    auto crateNormalMask = GlEngine::Texture::FromFile("Textures/crate-normals.png", GlEngine::TextureFlag::NormalMask);
+    auto crateNormalMask = GlEngine::Texture::FromFile("Textures/crate-normals.png"s, GlEngine::TextureFlag::NormalMask);
     auto plane1 = new GlEngine::GameObject(this, "NormalMapPlane");
     auto planeMat1 = new GlEngine::PhongMaterial(crateTex, crateNormalMask);
     auto planeGfx1 = new GlEngine::PlaneGraphicsObject("Plane1_Gfx", planeMat1, { 16, 16 }, { 1, 1 });

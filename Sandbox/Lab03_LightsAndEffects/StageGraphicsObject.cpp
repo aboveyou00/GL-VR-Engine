@@ -13,8 +13,8 @@ StageGraphicsObject::~StageGraphicsObject()
 
 bool StageGraphicsObject::InitializeAsync()
 {
-    auto tex1 = GlEngine::Texture::FromFile("Textures/grass0.png");
-    auto tex2 = GlEngine::Texture::FromFile("Textures/grass1.png");
+    auto tex1 = GlEngine::Texture::FromFile("Textures/grass0.png"s);
+    auto tex2 = GlEngine::Texture::FromFile("Textures/grass1.png"s);
     if (defaultMaterial)
     {
         auto mat = new PhongFogMaterial(tex1, tex2, { .5f, .5f, .5f }, 6);

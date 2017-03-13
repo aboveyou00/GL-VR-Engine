@@ -46,7 +46,7 @@ const float MAX_THETA = 30deg;
 
 ParticlesSceneFrame::ParticlesSceneFrame()
 {
-    particleTex = GlEngine::Texture::FromFile("Textures/particle.png", GlEngine::TextureFlag::Translucent);
+    particleTex = GlEngine::Texture::FromFile("Textures/particle.png"s, GlEngine::TextureFlag::Translucent);
 }
 ParticlesSceneFrame::~ParticlesSceneFrame()
 {

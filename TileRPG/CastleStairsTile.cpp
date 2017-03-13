@@ -20,7 +20,7 @@ namespace TileRPG
 
     void CastleStairsTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
-        static auto stairs = GlEngine::FbxGraphicsObject::Create("Resources/castle/stairs.fbx");
+        static auto stairs = GlEngine::FbxGraphicsObject::Create("Resources/castle/stairs.fbx"s);
 
         static auto up_vec = Vector<4> { 0, 1, 0, 0 };
         static auto ident = Matrix<4, 4>::Identity();

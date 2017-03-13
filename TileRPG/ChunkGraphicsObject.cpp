@@ -27,7 +27,7 @@ namespace TileRPG
     {
         ScopedLock _lock(mutex);
 
-        auto texture = GlEngine::Texture::FromFile("Textures/dirt.png");
+        auto texture = GlEngine::Texture::FromFile("Textures/dirt.png"s);
         auto mat = new GlEngine::PhongMaterial(texture);
         SetMaterial(mat);
 

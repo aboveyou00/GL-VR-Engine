@@ -31,7 +31,7 @@ namespace GlEngine
             {
                 auto texture = fbxsdk::FbxCast<fbxsdk::FbxTexture>(diffuseProp.GetSrcObject<fbxsdk::FbxTexture>(0));
                 auto fileTexture = (fbxsdk::FbxFileTexture*)texture;
-                auto filename = fileTexture->GetFileName();
+                auto filename = std::string(fileTexture->GetFileName());
 
                 // TODO: get texture instance from filename;
                 TextureFlag flags = TextureFlag::None;
@@ -42,7 +42,7 @@ namespace GlEngine
             else
             {
                 //Default texture
-                auto tex = Texture::FromFile("Textures/dirt.png");
+                auto tex = Texture::FromFile("Textures/dirt.png"s);
                 return new PhongMaterial(tex);
             }
         }

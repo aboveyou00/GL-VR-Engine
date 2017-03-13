@@ -7,8 +7,8 @@ namespace TileRPG
 {
     CompassGraphicsObject::CompassGraphicsObject()
         : GlEngine::CompoundGraphicsObject<2>({
-              GlEngine::TransformedGraphicsObject { GlEngine::Image2dGraphicsObject::Create("Textures/compass_socket.png") },
-              GlEngine::TransformedGraphicsObject { GlEngine::Image2dGraphicsObject::Create("Textures/compass.png") }
+              GlEngine::TransformedGraphicsObject { GlEngine::Image2dGraphicsObject::Create("Textures/compass_socket.png"s) },
+              GlEngine::TransformedGraphicsObject { GlEngine::Image2dGraphicsObject::Create("Textures/compass.png"s) }
           })
     {
         SetRotation(0deg);

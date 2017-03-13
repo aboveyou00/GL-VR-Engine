@@ -77,7 +77,7 @@ bool LightsAndEffectsSceneFrame::Initialize()
         }
     }
 
-    auto grassTex = GlEngine::Texture::FromFile("Textures/grass0.png");
+    auto grassTex = GlEngine::Texture::FromFile("Textures/grass0.png"s);
     auto plane1 = new GlEngine::GameObject(this, "NormalMapPlane");
     auto planeMat = new PhongFogMaterial(grassTex);
     auto planeGfx1 = new GlEngine::PlaneGraphicsObject("Plane1_Gfx", planeMat, { 40, 40 }, { 20, 20 });

@@ -14,7 +14,7 @@ namespace TileRPG
     
     bool WorldEditorTargetGraphicsObject::Initialize()
     {
-        auto texture = GlEngine::Texture::FromFile("Textures/world-edit-select.png", GlEngine::TextureFlag::Translucent);
+        auto texture = GlEngine::Texture::FromFile("Textures/world-edit-select.png"s, GlEngine::TextureFlag::Translucent);
         auto mat = new GlEngine::PhongMaterial(texture);
         SetMaterial(mat);
 

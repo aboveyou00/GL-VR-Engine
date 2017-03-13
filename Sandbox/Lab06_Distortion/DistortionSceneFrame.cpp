@@ -73,7 +73,7 @@ bool DistortionSceneFrame::Initialize()
     //controlsComponent->SetControllingLight(lightSource);
     lightSource->SetPosition({ -15, 2.5, -2.5 });
 
-    auto appleTex = GlEngine::Texture::FromFile("Textures/apple.png");
+    auto appleTex = GlEngine::Texture::FromFile("Textures/apple.png"s);
     auto cube1 = new GlEngine::GameObject(this->renderedFrame, "Cube1");
     auto mat1 = new GlEngine::PhongMaterial(appleTex);
     auto cubeGfx1 = new GlEngine::CubeGraphicsObject("Apple_Gfx", mat1, { 3, 3, 3 });

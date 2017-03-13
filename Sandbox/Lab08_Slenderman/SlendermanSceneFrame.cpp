@@ -56,7 +56,7 @@ bool SlendermanSceneFrame::Initialize()
     auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
     auto fog = new GlEngine::FogSource(10.f, 60.f, { 0.f, 0.f, 0.f, .8f });
 
-    auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png");
+    auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
     auto groundMaterial = TemplateMaterial::Factory()
         ->Attribute(&GlEngine::ShaderFactory::attr_GlPosition)
         ->Attribute(&GlEngine::ShaderFactory::attr_Phong)

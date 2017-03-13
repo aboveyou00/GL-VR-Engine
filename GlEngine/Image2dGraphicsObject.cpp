@@ -28,7 +28,7 @@ namespace GlEngine
         if (ptr == nullptr) ptr = cache[tex] = new Image2dGraphicsObject(name, tex, true);
         return ptr;
     }
-    Image2dGraphicsObject *Image2dGraphicsObject::Create(std::string name, const char *path)
+    Image2dGraphicsObject *Image2dGraphicsObject::Create(std::string name, std::string path)
     {
         auto tex = Texture::FromFile(path);
         return Create(name, tex);

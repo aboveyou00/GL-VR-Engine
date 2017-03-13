@@ -20,7 +20,7 @@ namespace TileRPG
 
     void DirtTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
-        auto texture = GlEngine::Texture::FromFile("Textures/sand.png");
+        auto texture = GlEngine::Texture::FromFile("Textures/sand.png"s);
         auto mat = new GlEngine::PhongMaterial(texture);
         chunkGobj.SetMaterial(mat);
         ITile::AddToChunkGraphicsObject(chunkGobj, x, y, z);

@@ -77,7 +77,7 @@ GeometrySceneFrame::GeometrySceneFrame()
         &billboardGeometry,
         &billboardFragment,
     };
-    snowTex = GlEngine::Texture::FromFile("Textures/snowflake.png", GlEngine::TextureFlag::Translucent);
+    snowTex = GlEngine::Texture::FromFile("Textures/snowflake.png"s, GlEngine::TextureFlag::Translucent);
     snowflakeSize = { 32, 32 };
 
     wireframeSource = {

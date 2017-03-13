@@ -26,7 +26,7 @@ namespace TileRPG
 
     void RockTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
-        auto texture = GlEngine::Texture::FromFile("Textures/rock.png");
+        auto texture = GlEngine::Texture::FromFile("Textures/rock.png"s);
         auto mat = new GlEngine::PhongMaterial(texture);
         chunkGobj.SetMaterial(mat);
         ITile::AddToChunkGraphicsObject(chunkGobj, x, y, z);

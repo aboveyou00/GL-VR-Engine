@@ -25,17 +25,17 @@ namespace TileRPG
 
     void CastleWallTile::AddToChunkGraphicsObject(ChunkGraphicsObject &chunkGobj, int x, int y, int z)
     {
-        static auto none_notop = GlEngine::FbxGraphicsObject::Create("Resources/castle/none_notop.fbx");
-        static auto none_top =   GlEngine::FbxGraphicsObject::Create("Resources/castle/none_top.fbx");
-        static auto a_notop =    GlEngine::FbxGraphicsObject::Create("Resources/castle/a_notop.fbx");
-        static auto a_top =      GlEngine::FbxGraphicsObject::Create("Resources/castle/a_top.fbx");
-        static auto ab_notop =   GlEngine::FbxGraphicsObject::Create("Resources/castle/ab_notop.fbx");
-        static auto ab_top =     GlEngine::FbxGraphicsObject::Create("Resources/castle/ab_top.fbx");
-        static auto ac_notop =   GlEngine::FbxGraphicsObject::Create("Resources/castle/ac_notop.fbx");
-        static auto ac_top =     GlEngine::FbxGraphicsObject::Create("Resources/castle/ac_top.fbx");
-        static auto abc_notop =  GlEngine::FbxGraphicsObject::Create("Resources/castle/abc_notop.fbx");
-        static auto abc_top =    GlEngine::FbxGraphicsObject::Create("Resources/castle/abc_top.fbx");
-        static auto abcd_top =   GlEngine::FbxGraphicsObject::Create("Resources/castle/abcd_top.fbx");
+        static auto none_notop = GlEngine::FbxGraphicsObject::Create("Resources/castle/none_notop.fbx"s);
+        static auto none_top =   GlEngine::FbxGraphicsObject::Create("Resources/castle/none_top.fbx"s);
+        static auto a_notop =    GlEngine::FbxGraphicsObject::Create("Resources/castle/a_notop.fbx"s);
+        static auto a_top =      GlEngine::FbxGraphicsObject::Create("Resources/castle/a_top.fbx"s);
+        static auto ab_notop =   GlEngine::FbxGraphicsObject::Create("Resources/castle/ab_notop.fbx"s);
+        static auto ab_top =     GlEngine::FbxGraphicsObject::Create("Resources/castle/ab_top.fbx"s);
+        static auto ac_notop =   GlEngine::FbxGraphicsObject::Create("Resources/castle/ac_notop.fbx"s);
+        static auto ac_top =     GlEngine::FbxGraphicsObject::Create("Resources/castle/ac_top.fbx"s);
+        static auto abc_notop =  GlEngine::FbxGraphicsObject::Create("Resources/castle/abc_notop.fbx"s);
+        static auto abc_top =    GlEngine::FbxGraphicsObject::Create("Resources/castle/abc_top.fbx"s);
+        static auto abcd_top =   GlEngine::FbxGraphicsObject::Create("Resources/castle/abcd_top.fbx"s);
 
         static auto up_vec = Vector<4> { 0, 1, 0, 0 };
         static auto ident = Matrix<4, 4>::Identity();
