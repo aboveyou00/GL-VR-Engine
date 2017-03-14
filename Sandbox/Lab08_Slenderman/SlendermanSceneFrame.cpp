@@ -58,7 +58,8 @@ bool SlendermanSceneFrame::Initialize()
     flashlightGobj->SetParent(cameraComponent->gameObject());
 
     auto spotlight = flashlightComp->spotlight();
-    auto ambient = new GlEngine::AmbientLightSource({ .05f, .05f, .05f });
+    //auto ambient = new GlEngine::AmbientLightSource({ .05f, .05f, .05f });
+    auto ambient = new GlEngine::AmbientLightSource({ .4f, .4f, .4f });
     auto fog = new GlEngine::FogSource(0.f, 30.f, { 0.f, 0.f, 0.f, 1.f });
 
     auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
