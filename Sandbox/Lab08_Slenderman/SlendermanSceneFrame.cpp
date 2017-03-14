@@ -75,7 +75,7 @@ bool SlendermanSceneFrame::Initialize()
         ->Create();
 
     auto groundPlane = new GlEngine::GameObject(this, "Ground");
-    const float GROUND_SIZE = 32.f;
+    const float GROUND_SIZE = 256.f;
     auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", groundMaterial, { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
     groundPlaneGfx->AddPropertyProvider(ambient);
     groundPlaneGfx->AddPropertyProvider(spotlight);
@@ -115,7 +115,7 @@ bool SlendermanSceneFrame::Initialize()
     PageComponent::Create(this, 6, { 20.f,  0, -80.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
     PageComponent::Create(this, 7, { 80.f,  0, -20.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
 
-    SlenderComponent::Create(this, cameraTarget->gameObject(), { 5, 0, 5 }, { ambient, spotlight, fog });
+    SlenderComponent::Create(this, cameraTarget->gameObject(), { 50, 0, 50 }, { ambient, spotlight, fog });
 
     FenceComponent::Create(this, { ambient, spotlight, fog });
 

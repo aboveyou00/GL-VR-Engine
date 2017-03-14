@@ -39,7 +39,7 @@ private:
     float age;
 
     float &static_amount;
-    void UpdateStatic();
+    void UpdateStatic(float delta);
 
     GlEngine::AudioSourceComponent *music, *footsteps, *panting, *staticsfx;
     void UpdateMusic();

@@ -76,12 +76,12 @@ void PlayerControlsComponent::Tick(float delta)
         if (panting->source()->IsPlaying()) panting->source()->SetLoop(false);
     }
 
-    UpdateStatic();
+    UpdateStatic(delta);
 
     age += delta;
 }
 
-void PlayerControlsComponent::UpdateStatic()
+void PlayerControlsComponent::UpdateStatic(float delta)
 {
     auto frame = gameObject()->frame();
     for (auto gobj : frame->children())
@@ -95,8 +95,8 @@ void PlayerControlsComponent::UpdateStatic()
         float facing = (towardsSlender - gobj->localTransform()->position()).Length();
 
         float target_static = max(1 - distance * (facing + 10.0f) / 400.0f, 0.f);
-
-        static_amount = max(static_amount, target_static);
+        float new_static_amount = max(static_amount, target_static);
+        static_amount += (new_static_amount - static_amount) * delta;
     }
 }
 
