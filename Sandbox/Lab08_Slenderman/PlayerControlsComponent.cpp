@@ -137,14 +137,15 @@ void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event &evt)
             if (mouseEvt->button() == GlEngine::Events::MouseButton::Left)
             {
                 auto page = findPageComponent();
-                if (page != nullptr) FindPage(page);
-            }
-            else if (mouseEvt->button() == GlEngine::Events::MouseButton::Right)
-            {
-                //TODO: Toggle flashlight
+                if (page != nullptr)
+                {
+                    FindPage(page);
+                    mouseEvt->Handle();
+                }
             }
         }
     }
+    if (!evt.IsHandled()) GameComponent::HandleEvent(evt);
 }
 
 void PlayerControlsComponent::Render(GlEngine::RenderStage *stage)
