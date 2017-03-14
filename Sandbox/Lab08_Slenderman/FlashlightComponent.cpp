@@ -4,7 +4,7 @@
 #include "SpotlightSource.h"
 
 FlashlightComponent::FlashlightComponent()
-    : _spotlight(new GlEngine::SpotlightSource({ 0, 0, 0 }, { 1.0, 1.0, 0.9 }, 5.0f, { 0, 0, 0 }, 30deg)), GlEngine::GameComponent("FlashlightComponent")
+    : _spotlight(new GlEngine::SpotlightSource({ 0, 0, 0 }, { 1.0, 1.0, 0.9 }, 5.0f, { 0, 0, 0 }, 20deg)), GlEngine::GameComponent("FlashlightComponent")
 {
 }
 FlashlightComponent::~FlashlightComponent()
