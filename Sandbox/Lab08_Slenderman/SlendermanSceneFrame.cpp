@@ -58,8 +58,7 @@ bool SlendermanSceneFrame::Initialize()
     flashlightGobj->SetParent(cameraComponent->gameObject());
 
     auto spotlight = flashlightComp->spotlight();
-    //auto ambient = new GlEngine::AmbientLightSource({ .05f, .05f, .05f });
-    auto ambient = new GlEngine::AmbientLightSource({ .4f, .4f, .4f });
+    auto ambient = new GlEngine::AmbientLightSource({ .05f, .05f, .05f });
     auto fog = new GlEngine::FogSource(0.f, 30.f, { 0.f, 0.f, 0.f, 1.f });
 
     auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
@@ -75,7 +74,7 @@ bool SlendermanSceneFrame::Initialize()
         ->Create();
 
     auto groundPlane = new GlEngine::GameObject(this, "Ground");
-    const float GROUND_SIZE = 1024.f;
+    const float GROUND_SIZE = 256.f;
     auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", groundMaterial, { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
     groundPlaneGfx->AddPropertyProvider(ambient);
     groundPlaneGfx->AddPropertyProvider(spotlight);
@@ -97,13 +96,12 @@ bool SlendermanSceneFrame::Initialize()
     auto trees = new GlEngine::GameObject(this, "Trees");
     trees->AddComponent(instancedTrees);
 
-    for (size_t q = 0; q < 10; q++)
+    for (size_t q = 0; q < 10000; q++)
     {
-        for (size_t e = 0; e < 10; e++)
-        {
-            auto rot = Quaternion<>(GlEngine::Util::random(360deg), Vector<3> { 0, 1, 0 });
-            instancedTrees->AddInstance(rot.ToMatrix() * Matrix<4, 4>::TranslateMatrix(Vector<3> { q, 0, e } * -5));
-        }
+        auto rot = Quaternion<>(GlEngine::Util::random(360deg), Vector<3> { 0, 1, 0 });
+        auto xx = GlEngine::Util::random(GROUND_SIZE) - (GROUND_SIZE / 2);
+        auto yy = GlEngine::Util::random(GROUND_SIZE) - (GROUND_SIZE / 2);
+        instancedTrees->AddInstance(rot.ToMatrix() * Matrix<4, 4>::TranslateMatrix(Vector<3> { xx, 0, yy } *-5));
     }
     instancedTrees->Finalize();
 
