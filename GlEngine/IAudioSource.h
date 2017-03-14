@@ -18,6 +18,9 @@ namespace GlEngine
 
         virtual bool IsPlaying() = 0;
 
+        virtual float volume() = 0;
+        virtual void SetVolume(float volume) = 0;
+
         virtual void Update() = 0;
         
         void Release();

@@ -38,6 +38,7 @@ namespace GlEngine
         {
             sound = new YSE::sound();
             sound->create(filename.c_str());
+            sound->setVolume(_volume);
         }
     }
     void YseAudioSource::SetPosition(Vector<3> &&position)
@@ -78,6 +79,16 @@ namespace GlEngine
     bool YseAudioSource::IsPlaying()
     {
         return isPlaying;
+    }
+
+    float YseAudioSource::volume()
+    {
+        return _volume;
+    }
+    void YseAudioSource::SetVolume(float volume)
+    {
+        _volume = volume;
+        if (sound != nullptr) sound->setVolume(volume);
     }
 
     void YseAudioSource::Update()
