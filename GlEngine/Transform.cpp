@@ -29,12 +29,12 @@ namespace GlEngine
 
     Matrix<4, 4> Transform::matrix()
     {
-        return Matrix<4, 4>::TranslateMatrix(_position) * _orientation.ToMatrix() * Matrix<4, 4>::ScaleMatrix(_scale);
+        return Matrix<4, 4>::ScaleMatrix(_scale) * _orientation.ToMatrix() * Matrix<4, 4>::TranslateMatrix(_position);
     }
 
     Matrix<4, 4> Transform::inverseMatrix()
     {
-        return Matrix<4, 4>::ScaleMatrix(_scale) * _orientation.ToMatrix() * Matrix<4, 4>::TranslateMatrix(_position);
+        return Matrix<4, 4>::TranslateMatrix(_position) * _orientation.ToMatrix() * Matrix<4, 4>::ScaleMatrix(_scale);
     }
 
     void Transform::SetPosition(float x, float y, float z)

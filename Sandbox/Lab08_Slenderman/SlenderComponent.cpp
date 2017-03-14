@@ -48,3 +48,13 @@ GlEngine::GameObject *SlenderComponent::Create(GlEngine::Frame *frame, GlEngine:
 
     return pageGobj;
 }
+
+void SlenderComponent::Tick(float delta)
+{
+    GameComponent::Tick(delta);
+
+    Vector<3> diff = gameObject()->localTransform()->position() - player->localTransform()->position();
+    float direction = atan2(diff[2], -diff[0]);
+    auto rot = Quaternion<>(-direction - 90deg, { 0, 1, 0 });
+    gameObject()->localTransform()->SetOrientation(rot);
+}

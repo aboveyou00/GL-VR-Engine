@@ -16,6 +16,8 @@ private:
 public:
     static GlEngine::GameObject *Create(GlEngine::Frame *frame, GlEngine::GameObject *player, Vector<3> position, std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers);
 
+    virtual void Tick(float delta) override;
+
 private:
     GlEngine::GameObject *player;
 };
