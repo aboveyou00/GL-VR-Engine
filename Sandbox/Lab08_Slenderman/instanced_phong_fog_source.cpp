@@ -164,7 +164,7 @@ void main(void) {
     if (!gl_FrontFacing) diffuse_component_intensity = -diffuse_component_intensity;
     diffuse_light_component = reflection_coefficient * diffuse_light_color * clamp(diffuse_component_intensity, 0.0, 1.0);
     temp_00794638_0 = dot(-point_light_direction, (view_matrix * vec4(spotlight_direction, 0)).xyz);
-    if (temp_00794638_0 > cos(spotlight_cutoff_angle)) spotlight_spot_factor = pow(temp_00794638_0 * 1.5, spotlight_attenuation);
+    if (temp_00794638_0 > cos(spotlight_cutoff_angle)) spotlight_spot_factor = pow(temp_00794638_0, spotlight_attenuation);
     else spotlight_spot_factor = 0;
     diffuse_light_component = diffuse_light_component * spotlight_spot_factor;
     specular_light_component = specular_light_component * spotlight_spot_factor;

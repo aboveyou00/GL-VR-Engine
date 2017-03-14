@@ -24,6 +24,7 @@
 
 #include "PageComponent.h"
 #include "SlenderComponent.h"
+#include "FenceComponent.h"
 
 extern Attribute attr_PhongFog;
 
@@ -96,11 +97,11 @@ bool SlendermanSceneFrame::Initialize()
     auto trees = new GlEngine::GameObject(this, "Trees");
     trees->AddComponent(instancedTrees);
 
-    for (size_t q = 0; q < 10000; q++)
+    for (size_t q = 0; q < 1000; q++)
     {
         auto rot = Quaternion<>(GlEngine::Util::random(360deg), Vector<3> { 0, 1, 0 });
-        auto xx = GlEngine::Util::random(GROUND_SIZE) - (GROUND_SIZE / 2);
-        auto yy = GlEngine::Util::random(GROUND_SIZE) - (GROUND_SIZE / 2);
+        auto xx = GlEngine::Util::random(GROUND_SIZE / 2) - (GROUND_SIZE / 4);
+        auto yy = GlEngine::Util::random(GROUND_SIZE / 2) - (GROUND_SIZE / 4);
         instancedTrees->AddInstance(rot.ToMatrix() * Matrix<4, 4>::TranslateMatrix(Vector<3> { xx, 0, yy } *-5));
     }
     instancedTrees->Finalize();
@@ -115,6 +116,8 @@ bool SlendermanSceneFrame::Initialize()
     PageComponent::Create(this, 7, { 80.f,  0, -20.f }, GlEngine::Util::random(360deg), { ambient, spotlight, fog });
 
     SlenderComponent::Create(this, cameraTarget->gameObject(), { 5, 0, 5 }, { ambient, spotlight, fog });
+
+    FenceComponent::Create(this, { ambient, spotlight, fog });
 
     return true;
 }
