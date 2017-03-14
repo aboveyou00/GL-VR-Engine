@@ -10,6 +10,7 @@
 #include "AudioSourceComponent.h"
 #include "IAudioSource.h"
 #include "StringUtils.h"
+#include "SlenderComponent.h"
 
 #include "PageComponent.h"
 #include "Frame.h"
@@ -75,7 +76,28 @@ void PlayerControlsComponent::Tick(float delta)
         if (panting->source()->IsPlaying()) panting->source()->SetLoop(false);
     }
 
+    UpdateStatic();
+
     age += delta;
+}
+
+void PlayerControlsComponent::UpdateStatic()
+{
+    auto frame = gameObject()->frame();
+    for (auto gobj : frame->children())
+    {
+        auto slenderComponent = gobj->component<SlenderComponent>();
+        if (slenderComponent == nullptr)
+            continue;
+        
+        float distance = (gobj->localTransform()->position() - gameObject()->localTransform()->position()).Length();
+        auto towardsSlender = gameObject()->localTransform()->position() + gameObject()->localTransform()->orientation().Inverse().Apply(Vector<3>(0, 0, -1) * distance);
+        float facing = (towardsSlender - gobj->localTransform()->position()).Length();
+
+        float target_static = max(1 - distance * (facing + 10.0f) / 400.0f, 0.f);
+
+        static_amount = max(static_amount, target_static);
+    }
 }
 
 void PlayerControlsComponent::UpdateGraphics()

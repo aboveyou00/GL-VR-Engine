@@ -56,7 +56,7 @@ bool SlendermanStaticSceneFrame::Initialize()
 
     GlEngine::CameraComponent* cameraComponent;
     auto mainPipeline = CreateDefaultPipeline(cameraComponent);
-    mainPipeline->SetClearColor({ .1, .2, .3 });
+    mainPipeline->SetClearColor({ .05, .1, .15 });
 
     auto cameraTarget = new CameraTargetComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);

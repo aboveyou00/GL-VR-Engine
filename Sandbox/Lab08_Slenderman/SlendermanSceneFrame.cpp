@@ -45,7 +45,7 @@ bool SlendermanSceneFrame::Initialize()
 
     GlEngine::CameraComponent* cameraComponent;
     auto pipeline = CreateDefaultPipeline(cameraComponent);
-    pipeline->SetClearColor(Vector<3> { 15.f, 15.f, 15.f } / 255.f);
+    pipeline->SetClearColor(Vector<3> { 10.f, 10.f, 12.f } / 255.f);
 
     cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
@@ -59,7 +59,7 @@ bool SlendermanSceneFrame::Initialize()
     flashlightGobj->SetParent(cameraComponent->gameObject());
 
     auto spotlight = flashlightComp->spotlight();
-    auto ambient = new GlEngine::AmbientLightSource({ .05f, .05f, .05f });
+    auto ambient = new GlEngine::AmbientLightSource({ .12f, .12f, .12f });
     auto fog = new GlEngine::FogSource(0.f, 30.f, { 0.f, 0.f, 0.f, 1.f });
 
     auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
@@ -75,7 +75,7 @@ bool SlendermanSceneFrame::Initialize()
         ->Create();
 
     auto groundPlane = new GlEngine::GameObject(this, "Ground");
-    const float GROUND_SIZE = 256.f;
+    const float GROUND_SIZE = 32.f;
     auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", groundMaterial, { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
     groundPlaneGfx->AddPropertyProvider(ambient);
     groundPlaneGfx->AddPropertyProvider(spotlight);
