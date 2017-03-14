@@ -49,32 +49,11 @@ namespace FIG
         template<typename... TArgs>
         void DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text, TArgs... args)
         {
-            GLint m_viewport[4];
-            glGetIntegerv(GL_VIEWPORT, m_viewport);
-
-            float left = (float)m_viewport[0] - x;
-            float top = (float)m_viewport[1] - y;
-            float right = (float)m_viewport[2] - x;
-            float bottom = (float)m_viewport[3] - y;
-            float nearVal = -1.0;
-            float farVal = 1.0;
-
-            float X = 2 / (right - left),
-                Y = 2 / (top - bottom),
-                Z = -2 / (farVal - nearVal),
-                Tx = -(right + left) / (right - left),
-                Ty = -(top + bottom) / (top - bottom),
-                Tz = -(farVal + nearVal) / (farVal - nearVal);
-
-            float transform[16] = {
-                X,  0,  0,  0,
-                0,  Y,  0,  0,
-                0,  0,  Z,  0,
-                Tx, Ty, Tz, 1
-            };
-
-            Draw(transform, colorFg, colorBg, text, args...);
+			char buffer[1024];
+			sprintf_s(buffer, text, args...);
+			DrawDirect(x, y, colorFg, colorBg, text);
         }
+		void DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text);
 
         template<typename... TArgs>
         void Draw(const char * const text, TArgs... args)

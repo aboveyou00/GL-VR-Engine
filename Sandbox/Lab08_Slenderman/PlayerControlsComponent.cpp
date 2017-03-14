@@ -27,8 +27,6 @@ PlayerControlsComponent::PlayerControlsComponent(float *static_amount, float mov
 
     staticsfx = new GlEngine::AudioSourceComponent("Static");
     staticsfx->source()->SetSource("Audio/static.wav");
-
-    //fontRenderer = new FIG::FontRenderer(new FIG::Font("Resources/Ghastly Panic.ttf"), FIG::FontRendererSettings(40));
 }
 PlayerControlsComponent::~PlayerControlsComponent()
 {
