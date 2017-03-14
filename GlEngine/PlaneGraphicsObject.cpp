@@ -36,10 +36,10 @@ namespace GlEngine
                 auto tz = z + e * dd;
                 auto uvz = e * uvd;
 
-                idx0 = AddVertex({ tx,      y + h, tz      }, { uvx,       uvz       }, { 0, 1, 0 });
-                idx1 = AddVertex({ tx + ww, y + h, tz      }, { uvx + uvw, uvz       }, { 0, 1, 0 });
-                idx2 = AddVertex({ tx + ww, y + h, tz + dd }, { uvx + uvw, uvz + uvd }, { 0, 1, 0 });
-                idx3 = AddVertex({ tx,      y + h, tz + dd }, { uvx,       uvz + uvd }, { 0, 1, 0 });
+                idx0 = AddVertex({ tx,      y + h, tz      }, { uvx,       uvz       }, { 0, -1, 0 });
+                idx1 = AddVertex({ tx + ww, y + h, tz      }, { uvx + uvw, uvz       }, { 0, -1, 0 });
+                idx2 = AddVertex({ tx + ww, y + h, tz + dd }, { uvx + uvw, uvz + uvd }, { 0, -1, 0 });
+                idx3 = AddVertex({ tx,      y + h, tz + dd }, { uvx,       uvz + uvd }, { 0, -1, 0 });
 
                 AddTriangle({ idx0, idx1, idx2 });
                 AddTriangle({ idx0, idx2, idx3 });

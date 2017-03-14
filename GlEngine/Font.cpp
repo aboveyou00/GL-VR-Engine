@@ -1,41 +1,41 @@
 #include "stdafx.h"
 #include "Font.h"
+#include <map>
+#include "OpenGl.h"
+#include "FontRenderer.h"
+#include "FontSettings.h"
 
-//#include "freetype-gl\freetype-gl.h"
-#include <fstream>
-
-namespace GlEngine
+namespace FIG
 {
-    Font::Font(const char * const filename, int size)
+    Font::Font(const char * const filename, long faceIndex, FontSettings settings)
+        : filename(filename), faceIndex(faceIndex), settings(settings)
     {
-        filename;
-        this->size = size;
-        //auto atlas = texture_atlas_new(100, 100, 8);
-        //auto font = texture_font_new_from_file(atlas, 16, "font.ttf");
+        LoadFace();
     }
     Font::~Font()
     {
     }
 
-    void Font::Use()
+    FontRenderer* Font::CreateRenderer(FontRendererSettings settings)
     {
+        return new FontRenderer(this, settings);
     }
 
-    //float Font::StringWidth(const char * const str)
-    //{
-    //    str;
-    //    Use();
-    //}
-    //
-    //float Font::StringHeight(const char * const str)
-    //{
-    //    str;
-    //    Use();
-    //}
+    FT_Library Font::CreateLibrary()
+    {
+        FT_Library result;
+        FT_Error error = FT_Init_FreeType(&result);
+        if (error)
+            return nullptr;
+        return result;
+    }
 
-    //void Font::Render(const char * const str)
-    //{
-    //    str;
-    //    Use();
-    //}
+    void Font::LoadFace()
+    {
+        FT_Error error = FT_New_Face(library, filename, faceIndex, &face);
+        if (error)
+            SetError("FT Error (%d) when loading face from font %s, faceIndex %d", error, filename, faceIndex);
+    }
+
+    const FT_Library Font::library = Font::CreateLibrary();
 }

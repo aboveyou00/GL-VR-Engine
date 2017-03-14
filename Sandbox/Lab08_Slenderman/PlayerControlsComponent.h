@@ -2,6 +2,7 @@
 
 #include "AudioListenerComponent.h"
 #include <map>
+#include "FontRenderer.h"
 
 namespace GlEngine
 {
@@ -30,6 +31,8 @@ private:
     Vector<2> mouseDelta;
     float movementSpeed;
     float rotateSpeed;
+
+    FIG::FontRenderer* renderer;
 
     unsigned pagesFound = 0;
     std::string renderText;

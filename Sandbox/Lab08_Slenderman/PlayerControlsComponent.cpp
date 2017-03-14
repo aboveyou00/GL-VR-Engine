@@ -15,7 +15,7 @@
 #include "Frame.h"
 
 PlayerControlsComponent::PlayerControlsComponent(float *static_amount, float movementSpeed, float rotateSpeed)
-    : AudioListenerComponent("CameraTargetComponent"), static_amount(*static_amount), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
+    : AudioListenerComponent("CameraTargetComponent"), static_amount(*static_amount), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8"), renderer(nullptr)
 {
     music = new GlEngine::AudioSourceComponent("Music");
     UpdateMusic();
@@ -82,6 +82,8 @@ void PlayerControlsComponent::UpdateGraphics()
 {
     gameObject()->localTransform()->SetOrientation(Quaternion<>(mouseDelta[1] * rotateSpeed, { 1, 0, 0 }));
     gameObject()->localTransform()->Rotate(mouseDelta[0] * rotateSpeed, { 0, 1, 0 });
+    //if (renderer == nullptr)
+    //    renderer = new FIG::FontRenderer(new FIG::Font("/Windows/Fonts/times.ttf"), FIG::FontRendererSettings(40));
 }
 
 void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event &evt)
@@ -130,7 +132,7 @@ void PlayerControlsComponent::Render(GlEngine::RenderStage *stage)
     if (age < 5000)
     {
         text = "Collect all 8 pages"s;
-        //TODO: Render text in center of screen
+        //renderer->DrawDirect(500, 500, text.c_str());
     }
     else
     {
