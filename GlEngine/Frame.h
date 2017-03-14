@@ -48,13 +48,14 @@ namespace GlEngine
         virtual void FrameUnmasked(FrameStack &machine);
 
         GameObject *findChild(std::string name);
+        std::vector<GameObject*> children();
 
         ICamera *mainCamera();
         RenderPipeline* mainPipeline();
 
         virtual std::vector<std::pair<RenderStage*, ICamera*>> renderStages() override;
 
-        virtual Frame * frame() override;
+        virtual Frame *frame() override;
 
     protected:
         virtual RenderPipeline* CreateDefaultPipeline(CameraComponent*& cameraComponent);

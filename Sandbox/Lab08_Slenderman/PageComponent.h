@@ -1,13 +1,13 @@
 #pragma once
 
-#include "GameComponent.h"
+#include "AudioSourceComponent.h"
 
 namespace GlEngine::ShaderFactory
 {
     class IPropertyProvider;
 }
 
-class PageComponent : public GlEngine::GameComponent
+class PageComponent : public GlEngine::AudioSourceComponent
 {
 private:
     PageComponent(int pageNumber);
@@ -16,7 +16,7 @@ private:
 public:
     static GlEngine::GameObject *Create(GlEngine::Frame *frame, int pageNumber, Vector<3> position, float angle, std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers);
 
-    void FindPage();
+    bool FindPage();
 
 private:
     bool isFound;

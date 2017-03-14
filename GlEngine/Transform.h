@@ -44,6 +44,11 @@ namespace GlEngine
         virtual void Scale(float x, float y, float z);
         virtual void Scale(Vector<3> amt);
 
+        float distanceTo(Transform *other);
+        float distanceToSquared(Transform *other);
+        float distanceTo(Vector<3> other);
+        float distanceToSquared(Vector<3> other);
+
     protected:
         Vector<3> _position;
         Vector<3> _scale;

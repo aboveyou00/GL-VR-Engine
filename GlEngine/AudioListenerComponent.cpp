@@ -14,8 +14,10 @@ namespace GlEngine
     {
     }
 
-    void AudioListenerComponent::Tick(float)
+    void AudioListenerComponent::Tick(float delta)
     {
+        GameComponent::Tick(delta);
+
         auto &audioCtrl = GlEngine::Engine::GetInstance().GetAudioController();
         audioCtrl.SetListenerPosition(gameObject()->globalTransform()->position());
     }

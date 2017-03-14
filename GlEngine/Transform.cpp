@@ -121,4 +121,21 @@ namespace GlEngine
     {
         _scale *= Matrix<4, 4>::ScaleMatrix(amt);
     }
+
+    float Transform::distanceTo(Transform *other)
+    {
+        return distanceTo(other->position());
+    }
+    float Transform::distanceToSquared(Transform *other)
+    {
+        return distanceToSquared(other->position());
+    }
+    float Transform::distanceTo(Vector<3> other)
+    {
+        return sqrt(distanceToSquared(other));
+    }
+    float Transform::distanceToSquared(Vector<3> other)
+    {
+        return (position() - other).LengthSquared();
+    }
 }

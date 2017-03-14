@@ -14,7 +14,7 @@ namespace GlEngine
     // TODO: cache for efficiency
     Vector<3> GlobalTransform::position()
     {
-        Vector<3> result = _position;
+        Vector<3> result = transform->position();
         if (_parent != nullptr)
             result *= _parent->matrix();
         return result;
@@ -22,7 +22,7 @@ namespace GlEngine
 
     Quaternion<> GlobalTransform::orientation()
     {
-        Quaternion<> result = _orientation;
+        Quaternion<> result = transform->orientation();
         if (_parent != nullptr)
             result *= _parent->orientation();
         return result;

@@ -103,6 +103,11 @@ namespace GlEngine
         return nullptr;
     }
 
+    std::vector<GameObject*> Frame::children()
+    {
+        return _children;
+    }
+
     ICamera *Frame::mainCamera()
     {
         return _mainCamera;

@@ -8,11 +8,12 @@
 #include "../TemplateMaterialFactory.h"
 #include "RandomUtils.h"
 #include "MathUtils.h"
+#include "IAudioSource.h"
 
 extern Attribute attr_PhongFog;
 
 PageComponent::PageComponent(int pageNumber)
-    : GlEngine::GameComponent("Page"), pageNumber(pageNumber)
+    : GlEngine::AudioSourceComponent("Page", "Audio/page.wav"s), pageNumber(pageNumber), isFound(false)
 {
 }
 PageComponent::~PageComponent()
@@ -24,7 +25,8 @@ GlEngine::GameObject *PageComponent::Create(GlEngine::Frame *frame, int pageNumb
     auto pageGobj = new GlEngine::GameObject(frame, "Page");
     auto transform = pageGobj->localTransform();
     transform->Translate(position);
-    transform->RotateY(angle);
+    //transform->RotateY(angle);
+    angle;
 
     auto pageComp = new PageComponent(pageNumber);
     pageGobj->AddComponent(pageComp);
@@ -71,9 +73,14 @@ GlEngine::GameObject *PageComponent::Create(GlEngine::Frame *frame, int pageNumb
     return pageGobj;
 }
 
-void PageComponent::FindPage()
+bool PageComponent::FindPage()
 {
-    if (isFound) return;
-    isFound = true;
+    if (isFound) return false;
+
+    source()->Play(false);
     pageGfx->Deactivate();
+    //gameObject()->RemoveComponent(pageGfx);
+    ////TODO: queue shutdown for pageGfx
+    //pageGfx = nullptr;
+    return isFound = true;
 }

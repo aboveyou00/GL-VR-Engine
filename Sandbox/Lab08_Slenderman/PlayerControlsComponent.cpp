@@ -11,6 +11,9 @@
 #include "IAudioSource.h"
 #include "StringUtils.h"
 
+#include "PageComponent.h"
+#include "Frame.h"
+
 PlayerControlsComponent::PlayerControlsComponent(float *static_amount, float movementSpeed, float rotateSpeed)
     : AudioListenerComponent("CameraTargetComponent"), static_amount(*static_amount), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
 {
@@ -30,6 +33,8 @@ PlayerControlsComponent::~PlayerControlsComponent()
 
 void PlayerControlsComponent::Tick(float delta)
 {
+    AudioListenerComponent::Tick(delta);
+
     float static_change = -.075f;
     if (this->keysDown[VK_ALPHANUMERIC<'q'>()]) static_change -= 1;
     if (this->keysDown[VK_ALPHANUMERIC<'e'>()]) static_change += 1;
@@ -87,7 +92,6 @@ void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event &evt)
         if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyPressed)
         {
             this->keysDown[kbEvt->GetVirtualKeyCode()] = true;
-            if (kbEvt->GetVirtualKeyCode() == VK_SPACE) FindPage();
         }
         if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyReleased)
         {
@@ -103,6 +107,18 @@ void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event &evt)
             if (mouseDelta[1] < -90deg / rotateSpeed) mouseDelta = { mouseDelta[0], -90deg / rotateSpeed };
             if (mouseDelta[1] > 90deg / rotateSpeed) mouseDelta = { mouseDelta[0], 90deg / rotateSpeed };
             //GlEngine::Util::Log("%f, %f", mouseEvt->positionChange()[0], mouseEvt->positionChange()[1]);
+        }
+        else if (mouseEvt->type() == GlEngine::Events::MouseEventType::Pressed)
+        {
+            if (mouseEvt->button() == GlEngine::Events::MouseButton::Left)
+            {
+                auto page = findPageComponent();
+                if (page != nullptr) FindPage(page);
+            }
+            else if (mouseEvt->button() == GlEngine::Events::MouseButton::Right)
+            {
+                //TODO: Toggle flashlight
+            }
         }
     }
 }
@@ -135,8 +151,9 @@ void PlayerControlsComponent::GameObjectChanged()
     }
 }
 
-void PlayerControlsComponent::FindPage()
+void PlayerControlsComponent::FindPage(PageComponent *page)
 {
+    if (!page->FindPage()) return;
     pagesFound++;
     std::stringstream stream;
     stream << "Pages: " << pagesFound << " of 8";
@@ -170,4 +187,17 @@ void PlayerControlsComponent::UpdateMusic()
     }
     music->source()->SetSource(source);
     if (!GlEngine::Util::is_empty_or_ws(source)) music->source()->Play(true);
+}
+
+PageComponent *PlayerControlsComponent::findPageComponent()
+{
+    auto frame = gameObject()->frame();
+    for (auto gobj : frame->children())
+    {
+        auto page = gobj->component<PageComponent>();
+        if (page == nullptr) continue;
+        auto dist = gobj->globalTransform()->distanceTo(gameObject()->globalTransform());
+        if (dist < 10) return page;
+    }
+    return nullptr;
 }

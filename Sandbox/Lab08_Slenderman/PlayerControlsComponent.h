@@ -8,6 +8,8 @@ namespace GlEngine
     class AudioSourceComponent;
 }
 
+class PageComponent;
+
 class PlayerControlsComponent : public GlEngine::AudioListenerComponent
 {
 public:
@@ -23,8 +25,6 @@ public:
 
     virtual void GameObjectChanged() override;
 
-    void FindPage();
-
 private:
     std::map<unsigned, bool> keysDown;
     Vector<2> mouseDelta;
@@ -39,4 +39,6 @@ private:
 
     GlEngine::AudioSourceComponent *music, *footsteps, *panting, *staticsfx;
     void UpdateMusic();
+    PageComponent *findPageComponent();
+    void FindPage(PageComponent *page);
 };
