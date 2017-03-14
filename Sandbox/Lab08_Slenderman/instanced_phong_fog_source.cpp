@@ -52,7 +52,7 @@ void main(void) {
     model_view_projection_matrix = projection_matrix * model_view_matrix;
     gl_Position = model_view_projection_matrix * vec4(xyz_position, 1);
     modelview_normal = model_view_matrix * vec4(normal, 0);
-    fog_dist_to_camera = distance(vec3(model_matrix * vec4(xyz_position, 1)), camera_position);
+    fog_dist_to_camera = distance(vec3(model_matrix * instance_model_matrix * vec4(xyz_position, 1)), camera_position);
 
 /* BEGIN OUTPUT IDENTITIES */
     out_uv_coords = uv_coords;
