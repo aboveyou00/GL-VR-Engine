@@ -41,9 +41,9 @@ namespace GlEngine::ShaderFactory
         factory.ProvideProperty(prop_ViewMatrix, MatrixStack::View.head());
         factory.ProvideProperty(prop_ProjectionMatrix, MatrixStack::Projection.head());
 #ifdef _DEBUG
-        auto modelView = MatrixStack::Model.head() * MatrixStack::View.head();
+        auto modelView = MatrixStack::View.head() * MatrixStack::Model.head();
         factory.ProvideProperty(prop_ModelViewMatrix, modelView);
-        factory.ProvideProperty(prop_ModelViewProjectionMatrix, modelView * MatrixStack::Projection.head());
+        factory.ProvideProperty(prop_ModelViewProjectionMatrix, MatrixStack::Projection.head() * modelView);
 #endif
         factory.ProvideProperty(prop_CameraPosition, _cameraPos);
         factory.ProvideProperty(prop_GameTime, GetGameTime());

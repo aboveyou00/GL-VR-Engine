@@ -26,13 +26,13 @@ void CameraTargetComponent::Tick(float delta)
     
     translation *= delta * movementSpeed;
     if ((GetKeyState(VK_SHIFT) & 0b10000000) != 0) translation *= 5;
-    gameObject()->localTransform()->Translate(gameObject()->localTransform()->orientation().Inverse().Apply(translation));
+    gameObject()->localTransform()->Translate(gameObject()->localTransform()->orientation().Apply(translation));
 }
 
 void CameraTargetComponent::UpdateGraphics()
 {
-    gameObject()->localTransform()->SetOrientation(Quaternion<>(mouseDelta[1] * rotateSpeed, { 1, 0, 0 }));
-    gameObject()->localTransform()->Rotate(mouseDelta[0] * rotateSpeed, { 0, 1, 0 });
+	gameObject()->localTransform()->SetOrientation(Quaternion<>(-mouseDelta[0] * rotateSpeed, { 0, 1, 0 }));
+	gameObject()->localTransform()->Rotate(-mouseDelta[1] * rotateSpeed, { 1, 0, 0 });
 }
 
 void CameraTargetComponent::HandleEvent(GlEngine::Events::Event &evt)

@@ -118,7 +118,7 @@ public:
 
         return Matrix<4, 4, ElemT> 
         {
-            u2 + (1 - u2)*cosTheta,               uv * oneMinusCosTheta - w * sinTheta, uw * oneMinusCosTheta + v * sinTheta, 0,
+            u2 + (1 - u2) * cosTheta,             uv * oneMinusCosTheta - w * sinTheta, uw * oneMinusCosTheta + v * sinTheta, 0,
             uv * oneMinusCosTheta + w * sinTheta, v2 + (1 - v2) * cosTheta,             vw * oneMinusCosTheta - u * sinTheta, 0,
             uw * oneMinusCosTheta - v * sinTheta, vw * oneMinusCosTheta + u * sinTheta, w2 + (1 - w2) * cosTheta,             0,
             0,                                    0,                                    0,                                    1
@@ -195,7 +195,7 @@ public:
 
     Vector<rows, ElemT> AsVector() const
     {
-        static_assert(cols == 1 || rows == cols, "Matrix::FromVector cannot be applied for matrices unless they are square or they only have one column");
+        static_assert(cols == 1 || rows == cols, "Matrix::AsVector cannot be applied for matrices unless they are square or they only have one column");
         ElemT vals[rows];
         for (auto q = 0; q < rows; q++)
         {
@@ -540,16 +540,16 @@ Matrix<dim, 1, ElemT> MakeMatrix(Vector<dim, ElemT> vec)
 }
 
 template <int rows, int cols, typename ElemT = float>
-Vector<cols, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<rows, ElemT> &vec)
+Vector<rows, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<cols, ElemT> &vec)
 {
     auto rhs = Matrix<cols, 1, ElemT>(vec);
     return (mat * rhs).AsVector();
 }
 
 template <int rows, int cols, typename ElemT = float>
-Vector<cols - 1, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<rows - 1, ElemT> &vec)
+Vector<rows - 1, ElemT> operator*(const Matrix<rows, cols, ElemT> &mat, const Vector<cols - 1, ElemT> &vec)
 {
-    Matrix<rows, 1, ElemT> rhs(vec);
+    Matrix<cols, 1, ElemT> rhs(vec);
     auto result = mat * rhs;
     return result.AsTranslatedVector();
 }

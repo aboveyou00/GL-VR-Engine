@@ -27,6 +27,8 @@ PlayerControlsComponent::PlayerControlsComponent(float *static_amount, float mov
 
     staticsfx = new GlEngine::AudioSourceComponent("Static");
     staticsfx->source()->SetSource("Audio/static.wav");
+
+    //fontRenderer = new FIG::FontRenderer(new FIG::Font("Resources/Ghastly Panic.ttf"), FIG::FontRendererSettings(40));
 }
 PlayerControlsComponent::~PlayerControlsComponent()
 {
@@ -59,7 +61,7 @@ void PlayerControlsComponent::Tick(float delta)
     if (isSprinting) translation *= 2;
     
     auto transform = gameObject()->localTransform();
-    transform->Translate(gameObject()->localTransform()->orientation().Inverse().Apply(translation));
+	transform->Translate(transform->orientation().Apply(translation));
     transform->SetPosition({ transform->position()[0], 1, transform->position()[2] });
 
     footsteps->source()->SetSource(isSprinting ? "Audio/footstep-grass-clipped.wav"s : "Audio/footstep-grass.wav");
@@ -102,8 +104,10 @@ void PlayerControlsComponent::UpdateStatic(float delta)
 
 void PlayerControlsComponent::UpdateGraphics()
 {
-    gameObject()->localTransform()->SetOrientation(Quaternion<>(mouseDelta[1] * rotateSpeed, { 1, 0, 0 }));
-    gameObject()->localTransform()->Rotate(mouseDelta[0] * rotateSpeed, { 0, 1, 0 });
+    //gameObject()->localTransform()->SetOrientation(Quaternion<>(mouseDelta[1] * rotateSpeed, { 1, 0, 0 }));
+    //gameObject()->localTransform()->Rotate(mouseDelta[0] * rotateSpeed, { 0, 1, 0 });
+    gameObject()->localTransform()->SetOrientation(Quaternion<>(-mouseDelta[0] * rotateSpeed, { 0, 1, 0 }));
+    gameObject()->localTransform()->Rotate(-mouseDelta[1] * rotateSpeed, { 1, 0, 0 });
     //if (renderer == nullptr)
     //    renderer = new FIG::FontRenderer(new FIG::Font("/Windows/Fonts/times.ttf"), FIG::FontRendererSettings(40));
 }
@@ -155,12 +159,14 @@ void PlayerControlsComponent::Render(GlEngine::RenderStage *stage)
     if (age < 5000)
     {
         text = "Collect all 8 pages"s;
+        //TODO: Render text in center of screen
         //renderer->DrawDirect(500, 500, text.c_str());
     }
     else
     {
         text = renderText;
         //TODO: Render text at bottom left corner of screen
+        //renderer->DrawDirect(100, 100, text.c_str());
     }
 }
 

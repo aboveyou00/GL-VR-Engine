@@ -487,7 +487,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<4, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniformMatrix4fv(uniformLocation, 1, false, val.getAddr());
+            glUniformMatrix4fv(uniformLocation, 1, true, val.getAddr());
             checkForGlError();
         }
         constexpr unsigned PropertyType_attribs<Matrix<4, 4>>::glsl_attribute_size()

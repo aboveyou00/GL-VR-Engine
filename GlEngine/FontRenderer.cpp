@@ -8,47 +8,18 @@
 
 namespace FIG
 {
-    FontRenderer::FontRenderer(Font * font, FontRendererSettings settings)
+    FontRenderer::FontRenderer(Font *font, FontRendererSettings settings)
         : font(font), settings(settings)
     {
         if (!CreateGlyphs())
             std::cout << error;
-        if (!CreateShader(fontShaderVertexSource, fontShaderFragmentSource))
+        if (!CreateShader(shaderVertexSource, shaderFragmentSource))
             std::cout << error;
         if (!SetShaderData())
             std::cout << error;
     }
     FontRenderer::~FontRenderer()
     {
-    }
-
-    void FontRenderer::DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text)
-    {
-        int m_viewport[4];
-        glGetIntegerv(GL_VIEWPORT, m_viewport);
-
-        float left = (float)m_viewport[0] - x;
-        float top = (float)m_viewport[1] - y;
-        float right = (float)m_viewport[2] - x;
-        float bottom = (float)m_viewport[3] - y;
-        float nearVal = -1.0;
-        float farVal = 1.0;
-
-        float X = 2 / (right - left),
-            Y = 2 / (top - bottom),
-            Z = -2 / (farVal - nearVal),
-            Tx = -(right + left) / (right - left),
-            Ty = -(top + bottom) / (top - bottom),
-            Tz = -(farVal + nearVal) / (farVal - nearVal);
-
-        float transform[16] = {
-            X,  0,  0,  0,
-            0,  Y,  0,  0,
-            0,  0,  Z,  0,
-            Tx, Ty, Tz, 1
-        };
-
-        Draw(transform, colorFg, colorBg, text);
     }
 
     const float FontRenderer::defaultColorFg[4]{ 1.0, 1.0, 1.0, 1.0 };
@@ -309,7 +280,7 @@ namespace FIG
         return result;
     }
 
-    const char * const fontShaderVertexSource = R"raw(
+    const char * const shaderVertexSource = R"raw(
         #version 430
 
         layout(location = 0) uniform mat4 transform;
@@ -332,7 +303,7 @@ namespace FIG
         }
     )raw";
 
-    const char * const fontShaderFragmentSource = R"raw(
+    const char * const shaderFragmentSource = R"raw(
         #version 430
         layout(location = 4) uniform vec4 fgColor;
         layout(location = 5) uniform vec4 bgColor;

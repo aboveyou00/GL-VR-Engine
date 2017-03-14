@@ -34,16 +34,15 @@ namespace GlEngine
 
     void CameraComponent::Push(RenderStage*)
     {
-        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->localTransform()->position());
+        ShaderFactory::Environment::GetInstance().SetCameraPosition(gameObject()->globalTransform()->position());
 
-        eye = gameObject()->localTransform()->position();
-        forward = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 0, -1 });
-        right = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 1, 0, 0 });
-        up = gameObject()->localTransform()->orientation().Apply(Vector<3>{ 0, 1, 0 });
+        eye = gameObject()->globalTransform()->position();
+        forward = gameObject()->globalTransform()->orientation().Apply(Vector<3>{ 0, 0, -1 });
+        right = gameObject()->globalTransform()->orientation().Apply(Vector<3>{ 1, 0, 0 });
+        up = gameObject()->globalTransform()->orientation().Apply(Vector<3>{ 0, 1, 0 });
 
         view = Matrix<3, 3>::FromCols(right, up, -forward).ToTransformMatrix();
-
-        MatrixStack::View.mult(Matrix<4, 4>::TranslateMatrix(-eye) * view);
+        MatrixStack::View.mult(view * Matrix<4, 4>::TranslateMatrix(-eye));
     }
     void CameraComponent::Pop(RenderStage*)
     {

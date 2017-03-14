@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include "EngineShared.h"
-#include <ft2build.h>
+#include "ft2build.h"
 #include FT_FREETYPE_H
 #include "FontSettings.h"
 #include "FontRendererSettings.h"
