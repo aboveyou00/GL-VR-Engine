@@ -11,14 +11,18 @@
 #include "IAudioSource.h"
 #include "StringUtils.h"
 
-PlayerControlsComponent::PlayerControlsComponent(float movementSpeed, float rotateSpeed)
-    : AudioListenerComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
+PlayerControlsComponent::PlayerControlsComponent(float *static_amount, float movementSpeed, float rotateSpeed)
+    : AudioListenerComponent("CameraTargetComponent"), static_amount(*static_amount), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
 {
     music = new GlEngine::AudioSourceComponent("Music");
     UpdateMusic();
 
     footsteps = new GlEngine::AudioSourceComponent("Footsteps");
-    footsteps->source()->SetSource("Audio/footsteps.wav");
+    panting = new GlEngine::AudioSourceComponent("Panting");
+    footsteps->source()->SetVolume(2.f);
+
+    staticsfx = new GlEngine::AudioSourceComponent("Static");
+    staticsfx->source()->SetSource("Audio/static.wav");
 }
 PlayerControlsComponent::~PlayerControlsComponent()
 {
@@ -26,6 +30,18 @@ PlayerControlsComponent::~PlayerControlsComponent()
 
 void PlayerControlsComponent::Tick(float delta)
 {
+    float static_change = -.075f;
+    if (this->keysDown[VK_ALPHANUMERIC<'q'>()]) static_change -= 1;
+    if (this->keysDown[VK_ALPHANUMERIC<'e'>()]) static_change += 1;
+    static_change *= delta;
+    static_amount = max(0.f, min(1.f, static_amount + static_change));
+    if (static_amount == 0) staticsfx->source()->Stop();
+    else
+    {
+        if (!staticsfx->source()->IsPlaying()) staticsfx->source()->Play(true);
+        staticsfx->source()->SetVolume(static_amount * .5f);
+    }
+
     Vector<3> translation = { 0, 0, 0 };
     if (this->keysDown[VK_ALPHANUMERIC<'w'>()]) translation += { 0, 0, -1 };
     if (this->keysDown[VK_ALPHANUMERIC<'s'>()]) translation += { 0, 0, 1 };
@@ -41,9 +57,18 @@ void PlayerControlsComponent::Tick(float delta)
     transform->SetPosition({ transform->position()[0], 1, transform->position()[2] });
 
     footsteps->source()->SetSource(isSprinting ? "Audio/footstep-grass-clipped.wav"s : "Audio/footstep-grass.wav");
+    panting->source()->SetSource(isSprinting ? "Audio/panting-clipped.wav"s : "Audio/panting.wav"s);
     bool playFootsteps = translation.LengthSquared() > .2f * delta;
-    if (playFootsteps && !footsteps->source()->IsPlaying()) footsteps->source()->Play(true);
-    else if (!playFootsteps && footsteps->source()->IsPlaying()) footsteps->source()->SetLoop(false);
+    if (playFootsteps)
+    {
+        if (!footsteps->source()->IsPlaying()) footsteps->source()->Play(true);
+        if (!panting->source()->IsPlaying()) panting->source()->Play(true);
+    }
+    else if (!playFootsteps)
+    {
+        if (footsteps->source()->IsPlaying()) footsteps->source()->SetLoop(false);
+        if (panting->source()->IsPlaying()) panting->source()->SetLoop(false);
+    }
 
     age += delta;
 }
@@ -105,6 +130,8 @@ void PlayerControlsComponent::GameObjectChanged()
     {
         gameObject()->AddComponent(music);
         gameObject()->AddComponent(footsteps);
+        gameObject()->AddComponent(panting);
+        gameObject()->AddComponent(staticsfx);
     }
 }
 

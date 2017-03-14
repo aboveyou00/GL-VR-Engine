@@ -48,7 +48,7 @@ bool SlendermanSceneFrame::Initialize()
 
     cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
-    auto cameraTarget = new PlayerControlsComponent(6.f);
+    auto cameraTarget = new PlayerControlsComponent(&static_amount, 6.f);
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto flashlightGobj = new GlEngine::GameObject(this, "Flashlight");

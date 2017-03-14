@@ -11,7 +11,7 @@ namespace GlEngine
 class PlayerControlsComponent : public GlEngine::AudioListenerComponent
 {
 public:
-    PlayerControlsComponent(float movementSpeed = 8.f, float rotateSpeed = 0.005f);
+    PlayerControlsComponent(float *static_amount, float movementSpeed = 8.f, float rotateSpeed = 0.005f);
     ~PlayerControlsComponent();
 
     virtual void Tick(float delta) override;
@@ -35,6 +35,8 @@ private:
     std::string renderText;
     float age;
 
-    GlEngine::AudioSourceComponent *music, *footsteps;
+    float &static_amount;
+
+    GlEngine::AudioSourceComponent *music, *footsteps, *panting, *staticsfx;
     void UpdateMusic();
 };
