@@ -32,9 +32,24 @@ layout(location = 3) uniform float static_amount;
 
 layout(location = 0) out vec4 out_color;
 
+float rand(float n) {
+    return fract(sin(n) * 43758.5453123);
+}
+float rand(vec2 n) { 
+    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+}
+float noise(vec2 n) {
+    const vec2 d = vec2(0.0, 1.0);
+    vec2 b = floor(n), f = smoothstep(vec2(0.0), vec2(1.0), fract(n));
+    return mix(mix(rand(b), rand(b + d.yx), f.x), mix(rand(b + d.xy), rand(b + d.yy), f.x), f.y);
+}
+
 void main(void)
 {
-    out_color = texture2D(scene_texture, in_uv_coords);
+    vec4 base_color = texture2D(scene_texture, in_uv_coords);
+    vec2 local_coords = vec2(gl_FragCoord.x + (rand(game_time) * 1000000) / 3, gl_FragCoord.y / 3);
+    float noise_value = noise(local_coords);
+    out_color = mix(base_color, vec4(noise_value, noise_value, noise_value, 1), static_amount);
 }
 )raw";
 

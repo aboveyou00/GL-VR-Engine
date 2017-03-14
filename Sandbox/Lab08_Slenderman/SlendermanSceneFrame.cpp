@@ -31,6 +31,7 @@ extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> instancedPhongFo
 extern GlEngine::ShaderFactory::ShaderSource instancedPhongFogSource;
 
 SlendermanSceneFrame::SlendermanSceneFrame()
+    : static_amount(0)
 {
 }
 SlendermanSceneFrame::~SlendermanSceneFrame()
@@ -43,7 +44,7 @@ bool SlendermanSceneFrame::Initialize()
 
     GlEngine::CameraComponent* cameraComponent;
     auto pipeline = CreateDefaultPipeline(cameraComponent);
-    pipeline->SetClearColor(Vector<3> { 115.f, 92.f, 52.f } / 255.f);
+    pipeline->SetClearColor(Vector<3> { 15.f, 15.f, 15.f } / 255.f);
 
     cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
@@ -51,13 +52,14 @@ bool SlendermanSceneFrame::Initialize()
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
     auto flashlightGobj = new GlEngine::GameObject(this, "Flashlight");
+    flashlightGobj->localTransform()->Translate({ 0, 3, 0 });
     auto flashlightComp = new FlashlightComponent();
     flashlightGobj->AddComponent(flashlightComp);
     flashlightGobj->SetParent(cameraComponent->gameObject());
 
     auto spotlight = flashlightComp->spotlight();
-    auto ambient = new GlEngine::AmbientLightSource({ .25f, .25f, .25f });
-    auto fog = new GlEngine::FogSource(10.f, 60.f, { 0.f, 0.f, 0.f, .8f });
+    auto ambient = new GlEngine::AmbientLightSource({ .05f, .05f, .05f });
+    auto fog = new GlEngine::FogSource(0.f, 30.f, { 0.f, 0.f, 0.f, 1.f });
 
     auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
     auto groundMaterial = TemplateMaterial::Factory()

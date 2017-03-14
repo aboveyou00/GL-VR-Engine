@@ -9,6 +9,7 @@
 #include <sstream>
 #include "AudioSourceComponent.h"
 #include "IAudioSource.h"
+#include "StringUtils.h"
 
 PlayerControlsComponent::PlayerControlsComponent(float movementSpeed, float rotateSpeed)
     : AudioListenerComponent("CameraTargetComponent"), movementSpeed(movementSpeed), rotateSpeed(rotateSpeed), mouseDelta(Vector<2>(0, 0)), renderText("Pages: 0 of 8")
@@ -53,7 +54,7 @@ void PlayerControlsComponent::UpdateGraphics()
     gameObject()->localTransform()->Rotate(mouseDelta[0] * rotateSpeed, { 0, 1, 0 });
 }
 
-void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event & evt)
+void PlayerControlsComponent::HandleEvent(GlEngine::Events::Event &evt)
 {
     auto kbEvt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
     if (kbEvt != nullptr)
@@ -117,27 +118,29 @@ void PlayerControlsComponent::FindPage()
 }
 void PlayerControlsComponent::UpdateMusic()
 {
-    std::string source = "";
+    std::string source;
     switch (pagesFound)
     {
     case 0:
-    case 1:
     default:
+        source = ""s;
+        break;
+    case 1:
+    case 2:
         source = "Audio/slender01.wav";
         break;
-    case 2:
     case 3:
+    case 4:
         source = "Audio/slender02.wav";
         break;
-    case 4:
     case 5:
+    case 6:
         source = "Audio/slender03.wav";
         break;
-    case 6:
     case 7:
         source = "Audio/slender04.wav";
         break;
     }
     music->source()->SetSource(source);
-    music->source()->Play(true);
+    if (!GlEngine::Util::is_empty_or_ws(source)) music->source()->Play(true);
 }
