@@ -96,7 +96,7 @@ void PlayerControlsComponent::UpdateStatic(float delta)
 
         float target_static = max(1 - distance * (facing + 10.0f) / 400.0f, 0.f);
         float new_static_amount = max(static_amount, target_static);
-        static_amount += (new_static_amount - static_amount) * delta;
+        static_amount += (new_static_amount - static_amount) * delta / 2;
     }
 }
 

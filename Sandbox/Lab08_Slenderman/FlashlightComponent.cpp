@@ -49,7 +49,7 @@ void FlashlightComponent::Tick(float delta)
 
     if (_isOn)
     {
-        _power -= delta / 250;
+        _power -= delta / 500;
         _spotlight->SetColor(Vector<3> { 1.f, 1.f, .9f } *_power);
     }
     else

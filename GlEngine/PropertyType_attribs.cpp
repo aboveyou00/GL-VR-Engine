@@ -246,6 +246,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<2>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
+            checkForGlError();
             glUniform2f(uniformLocation, val[0], val[1]);
             checkForGlError();
         }
