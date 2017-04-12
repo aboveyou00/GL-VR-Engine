@@ -12,16 +12,11 @@
 namespace GlEngine
 {
     GraphicsObject::GraphicsObject(std::string name, bool autoinit)
-        : GameComponent(name),
+        : GameComponent(name, autoinit),
           initialized(false),
           graphicsInitialized(false),
           renderOrder(0)
     {
-        if (autoinit)
-        {
-            auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
-            resources->QueueInitialize(this);
-        }
     }
     GraphicsObject::~GraphicsObject()
     {
@@ -30,7 +25,8 @@ namespace GlEngine
     bool GraphicsObject::InitializeAsync()
     {
         if (initialized) return true;
-        return initialized = true;
+        initialized = true;
+        return GameComponent::InitializeAsync();
     }
     void GraphicsObject::ShutdownAsync()
     {

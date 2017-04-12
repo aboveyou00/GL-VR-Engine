@@ -2,11 +2,20 @@
 #include "GameComponent.h"
 #include "GameObject.h"
 
+#include "Engine.h"
+#include "ServiceProvider.h"
+#include "ResourceLoader.h"
+
 namespace GlEngine
 {
-    GameComponent::GameComponent(std::string name)
+    GameComponent::GameComponent(std::string name, bool autoInit)
         : _active(true), _gameObject(nullptr), _name(name)
     {
+        if (autoInit)
+        {
+            auto resources = Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
+            resources->QueueInitialize(this);
+        }
     }
     GameComponent::~GameComponent()
     {

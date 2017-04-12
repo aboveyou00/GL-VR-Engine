@@ -17,7 +17,7 @@ namespace GlEngine
     class ENGINE_SHARED GameComponent : public IAsyncInitializable
     {
     public:
-        GameComponent(std::string name);
+        GameComponent(std::string name, bool autoInit = true);
         ~GameComponent();
 
         friend class GameObject;

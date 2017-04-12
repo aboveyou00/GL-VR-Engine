@@ -39,7 +39,7 @@ namespace GlEngine
     }
     const Matrix<4, 4> &MatrixStack::mult(const Matrix<4, 4> &matrix)
     {
-        return push(matrix * head());
+        return push(head() * matrix);
     }
     const Matrix<4, 4> &MatrixStack::pop()
     {
