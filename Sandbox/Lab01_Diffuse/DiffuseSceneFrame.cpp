@@ -26,6 +26,7 @@ bool DiffuseSceneFrame::Initialize()
 
     auto cameraTarget = new CameraTargetComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);
+    cameraTarget->gameObject()->localTransform()->SetPosition({ 0, 0, -10 });
 
     auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
     controls->AddComponent(new LabControlsComponent());

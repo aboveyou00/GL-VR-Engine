@@ -57,9 +57,9 @@ void PlayerControlsComponent::Tick(float delta)
     translation *= delta * movementSpeed;
     bool isSprinting = (GetKeyState(VK_SHIFT) & 0b10000000) != 0;
     if (isSprinting) translation *= 2;
-    
+
     auto transform = gameObject()->localTransform();
-	transform->Translate(transform->orientation().Apply(translation));
+    transform->Translate(transform->orientation().Apply(translation));
     transform->SetPosition({ transform->position()[0], 1, transform->position()[2] });
 
     footsteps->source()->SetSource(isSprinting ? "Audio/footstep-grass-clipped.wav"s : "Audio/footstep-grass.wav");
