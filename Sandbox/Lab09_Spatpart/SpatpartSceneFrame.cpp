@@ -21,6 +21,8 @@
 #include "InstancedGraphicsObject.h"
 #include "RandomUtils.h"
 
+#include "ObjLoader.h"
+
 SpatpartSceneFrame::SpatpartSceneFrame()
 {
 }
@@ -41,27 +43,28 @@ bool SpatpartSceneFrame::Initialize()
     auto cameraTarget = new FirstPersonControlsComponent(6.f);
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
+    auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
+    auto controlsComponent = new LabControlsComponent();
+    controls->AddComponent(controlsComponent);
+
     auto lightObj = PointLightSourceObject::Create(this, "PointLightSource");
     auto light = lightObj->component<PointLightSourceObject>()->lightSource();
     light->SetPosition({ 0, 10, 0 });
+    controlsComponent->SetControllingLight(light);
     auto ambient = new GlEngine::AmbientLightSource({ .2f, .2f, .2f });
 
     auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
-    auto groundMaterial = TemplateMaterial::Factory()
-        ->Attribute(&GlEngine::ShaderFactory::attr_GlPosition)
-        ->Attribute(&GlEngine::ShaderFactory::attr_Phong)
-        ->Attribute(&GlEngine::ShaderFactory::attr_TextureBaseColor)
-        ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, grassTex)
-        ->ProvideConst(&GlEngine::ShaderFactory::prop_ReflectionCoefficient, Vector<3> { 0.9f, 0.9f, 0.9f })
-        ->ProvideConst(&GlEngine::ShaderFactory::prop_Shininess, 5.0)
-        ->Create();
-
     auto groundPlane = new GlEngine::GameObject(this, "Ground");
     const float GROUND_SIZE = 256.f;
-    auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", groundMaterial, { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
+    auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", new GlEngine::PhongMaterial(grassTex, { .9f, .9f, .9f }, 5.0f), { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
     groundPlaneGfx->AddPropertyProvider(ambient);
     groundPlaneGfx->AddPropertyProvider(light);
     groundPlane->AddComponent(groundPlaneGfx);
+    
+    auto flagGobj = new GlEngine::GameObject(this, "Flag");
+    auto objLoader = new GlEngine::ObjLoader("Resources/flag.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    objLoader->OverrideMaterial(new GlEngine::PhongMaterial({ 1.f, .2f, .2f }, { .9f, .9f, .9f }, 5.0f));
+    flagGobj->AddComponent(objLoader);
 
     return true;
 }
