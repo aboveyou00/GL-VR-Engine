@@ -8,7 +8,7 @@ namespace GlEngine
     class ENGINE_SHARED SpatialPartitions
     {
     public:
-        SpatialPartitions(GameComponent* component);
+        SpatialPartitions();
         ~SpatialPartitions();
 
         virtual void AddMesh(MeshComponent* mesh) = 0;
@@ -16,7 +16,5 @@ namespace GlEngine
         virtual void UpdateMesh(MeshComponent* mesh) = 0;
 
         virtual MeshComponent* RayCast(Ray ray, float* outDistance = nullptr) = 0;
-
-        GameComponent* component;
     };
 }

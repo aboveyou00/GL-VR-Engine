@@ -3,8 +3,4 @@
 
 namespace GlEngine
 {
-    class CubeSpatialPartitions
-    {
-
-    };
 }

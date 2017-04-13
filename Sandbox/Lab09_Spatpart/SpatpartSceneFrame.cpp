@@ -20,6 +20,8 @@
 #include "../RawGraphicsObject.h"
 #include "InstancedGraphicsObject.h"
 #include "RandomUtils.h"
+#include "NullSpatialPartitions.h"
+#include "ObjLoader.h"
 
 #include "ObjLoader.h"
 
@@ -33,8 +35,8 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
+    CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
-    GlEngine::CameraComponent* cameraComponent;
     auto pipeline = CreateDefaultPipeline(cameraComponent);
     pipeline->SetClearColor(Vector<3> { 10.f, 10.f, 12.f } / 255.f);
 
@@ -67,4 +69,12 @@ bool SpatpartSceneFrame::Initialize()
     flagGobj->AddComponent(objLoader);
 
     return true;
+}
+
+void SpatpartSceneFrame::Tick(float dt)
+{
+    Frame::Tick(dt);
+    float distance = 0;
+    auto result = spatialPartitions->RayCast(cameraComponent->centerRay(), &distance);
+    GlEngine::Util::Log("Raycast object: %d, distance: %d", result, distance);
 }

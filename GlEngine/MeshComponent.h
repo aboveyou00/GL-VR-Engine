@@ -21,6 +21,8 @@ namespace GlEngine
 
         bool RayIntersection(Ray ray, float* outDistance = nullptr);
 
+        virtual void GameObjectChanged() override;
+
     private:
         void CalculateNormals();
 

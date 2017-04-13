@@ -351,6 +351,7 @@
     <ClCompile Include="BasicCollisionGroup.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CubeGraphicsObject.cpp" />
+    <ClCompile Include="CubeSpacialPartitions.cpp" />
     <ClCompile Include="CubeSpatialPartitions.cpp" />
     <ClCompile Include="DirectionalLightSource.cpp" />
     <ClCompile Include="DummyPropertySource.cpp" />

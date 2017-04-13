@@ -5,7 +5,7 @@
 
 namespace GlEngine
 {
-    class ENGINE_SHARED NullSpatialPartitions : SpatialPartitions
+    class ENGINE_SHARED NullSpatialPartitions : public SpatialPartitions
     {
     public:
         virtual void AddMesh(MeshComponent* mesh) override;

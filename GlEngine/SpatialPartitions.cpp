@@ -3,8 +3,7 @@
 
 namespace GlEngine
 {
-    SpatialPartitions::SpatialPartitions(GameComponent* component)
-        : component(component)
+    SpatialPartitions::SpatialPartitions()
     {
     }
 

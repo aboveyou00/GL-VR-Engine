@@ -7,7 +7,7 @@ namespace GlEngine
     class ENGINE_SHARED CubeSpatialPartitions : public SpatialPartitions
     {
     public:
-        CubeSpatialPartitions(GameComponent* component);
+        CubeSpatialPartitions();
         ~CubeSpatialPartitions();
 
         virtual void AddMesh(MeshComponent* mesh) override;

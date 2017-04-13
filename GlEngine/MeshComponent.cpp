@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MeshComponent.h"
 #include "MathUtils.h"
+#include "Frame.h"
 
 namespace GlEngine
 {
@@ -21,6 +22,13 @@ namespace GlEngine
 
     MeshComponent::~MeshComponent()
     {
+        auto f = frame();
+        if (f == nullptr)
+            return;
+
+        auto partitions = f->spatialPartitions;
+        if (partitions != nullptr)
+            partitions->RemoveMesh(this);
     }
 
     bool MeshComponent::RayIntersection(Ray ray, float *outDistance)
@@ -29,6 +37,13 @@ namespace GlEngine
             return RayIntersectionInternal(ray);
         else
             return RayIntersectionInternal(ray, outDistance);
+    }
+
+    void MeshComponent::GameObjectChanged()
+    {
+        auto partitions = frame()->spatialPartitions;
+        if (partitions != nullptr)
+            partitions->AddMesh(this);
     }
 
     void MeshComponent::CalculateNormals()

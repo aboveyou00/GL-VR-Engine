@@ -3,8 +3,8 @@
 
 namespace GlEngine
 {
-    CubeSpatialPartitions::CubeSpatialPartitions(GameComponent* component)
-        : SpatialPartitions(component)
+    CubeSpatialPartitions::CubeSpatialPartitions()
+        : SpatialPartitions()
     {
     }
 

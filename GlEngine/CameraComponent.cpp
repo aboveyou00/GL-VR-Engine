@@ -53,4 +53,8 @@ namespace GlEngine
     {
         return GameComponent::frame();
     }
+    Ray CameraComponent::centerRay()
+    {
+        return Ray{ eye, forward };
+    }
 }

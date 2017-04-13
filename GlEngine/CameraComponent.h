@@ -3,6 +3,7 @@
 #include "GameComponent.h"
 #include "ICamera.h"
 #include <map>
+#include "Ray.h"
 
 namespace GlEngine
 {
@@ -27,6 +28,8 @@ namespace GlEngine
         virtual void Pop(RenderStage* stage) override;
 
         virtual Frame* frame() override;
+
+        Ray centerRay();
 
     private:
         Vector<3> eye, forward, up, right;

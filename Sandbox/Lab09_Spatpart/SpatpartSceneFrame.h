@@ -9,4 +9,7 @@ public:
     ~SpatpartSceneFrame();
 
     virtual bool Initialize() override;
+    virtual void Tick(float dt) override;
+
+    GlEngine::CameraComponent* cameraComponent;
 };
