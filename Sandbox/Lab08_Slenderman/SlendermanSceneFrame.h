@@ -1,8 +1,6 @@
-
+#pragma once
 #include "Subroutine.h"
 #include "Frame.h"
-#include "ComponentArray.h"
-#include <map>
 
 class SlendermanStaticSceneFrame;
 

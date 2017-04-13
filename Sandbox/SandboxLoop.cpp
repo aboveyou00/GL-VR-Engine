@@ -8,6 +8,7 @@
 #include "Lab06_Distortion/DistortionSceneFrame.h"
 #include "Lab07_Particles/ParticlesSceneFrame.h"
 #include "Lab08_Slenderman/SlendermanStaticSceneFrame.h"
+#include "Lab09_Spatpart/SpatpartSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -60,7 +61,7 @@ bool SandboxLoop::initLoop()
     logger->Log(GlEngine::LogType::Info, "Beginning logic thread");
 
     if (!_frames.Initialize()) return false;
-    _frames.PushNewFrame<DiffuseSceneFrame>();
+    _frames.PushNewFrame<SpatpartSceneFrame>();
 
     return true;
 }
