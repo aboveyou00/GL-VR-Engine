@@ -2,6 +2,7 @@
 #include "MeshComponent.h"
 #include "MathUtils.h"
 #include "Frame.h"
+#include "GameObject.h"
 
 namespace GlEngine
 {
@@ -63,9 +64,19 @@ namespace GlEngine
 
     bool MeshComponent::RayIntersectionInternal(Ray ray)
     {
+        Vector<3> origin = ray.origin - gameObject()->globalTransform()->position();
+        Vector<3> direction = ray.direction * gameObject()->globalTransform()->orientation().Inverse();
+
         for (auto triangle : triangles)
-            if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], ray.origin, ray.direction))
+            if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction))
                 return true;
+        for (auto quad : quads)
+        {
+            if (triangleRayIntersects(vertices[quad[0]], vertices[quad[1]], vertices[quad[2]], origin, direction))
+                return true;
+            if (triangleRayIntersects(vertices[quad[2]], vertices[quad[3]], vertices[quad[0]], origin, direction))
+                return true;
+        }
         return false;
     }
     
@@ -74,15 +85,35 @@ namespace GlEngine
         float distance;
         bool result = false;
 
+        Vector<3> origin = ray.origin - gameObject()->globalTransform()->position();
+        Vector<3> direction = ray.direction * gameObject()->globalTransform()->orientation().Inverse();
+
         for (auto triangle : triangles)
         {
-            if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], ray.origin, ray.direction, &distance))
+            if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction, &distance))
             {
                 if (!result || *outDistance > distance)
                     *outDistance = distance;
                 result = true;
             }
         }
+
+        for (auto quad : quads)
+        {
+            if (triangleRayIntersects(vertices[quad[0]], vertices[quad[1]], vertices[quad[2]], origin, direction, &distance))
+            {
+                if (!result || *outDistance > distance)
+                    *outDistance = distance;
+                result = true;
+            }
+            if (triangleRayIntersects(vertices[quad[2]], vertices[quad[3]], vertices[quad[0]], origin, direction, &distance))
+            {
+                if (!result || *outDistance > distance)
+                    *outDistance = distance;
+                result = true;
+            }
+        }
+
         return result;
     }
 }

@@ -74,7 +74,7 @@ bool triangleRayIntersects(Vector<3> t1, Vector<3> t2, Vector<3> t3, Vector<3> r
         return false;
 
     auto Q = T.Cross(edge1);
-    float v = rayDirection.Dot(Q);
+    float v = rayDirection.Dot(Q) * invDet;
 
     if (v < 0.f || u + v > 1.f) // no intersection
         return false;

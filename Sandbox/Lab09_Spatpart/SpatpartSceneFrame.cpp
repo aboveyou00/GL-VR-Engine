@@ -94,5 +94,5 @@ void SpatpartSceneFrame::Tick(float dt)
     Frame::Tick(dt);
     float distance = 0;
     auto result = spatialPartitions->RayCast(cameraComponent->centerRay(), &distance);
-    GlEngine::Util::Log("Raycast object: %d, distance: %d", result, distance);
+    GlEngine::Util::Log("Raycast object: %d, distance: %f", result, distance);
 }
