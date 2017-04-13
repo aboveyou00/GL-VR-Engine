@@ -62,11 +62,29 @@ bool SpatpartSceneFrame::Initialize()
     groundPlaneGfx->AddPropertyProvider(ambient);
     groundPlaneGfx->AddPropertyProvider(light);
     groundPlane->AddComponent(groundPlaneGfx);
-    
+
     auto flagGobj = new GlEngine::GameObject(this, "Flag");
     auto objLoader = new GlEngine::ObjLoader("Resources/flag.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
     objLoader->OverrideMaterial(new GlEngine::PhongMaterial({ 1.f, .2f, .2f }, { .9f, .9f, .9f }, 5.0f));
     flagGobj->AddComponent(objLoader);
+
+    GlEngine::GameObject *wallGobj;
+    GlEngine::ObjLoader *wallObjLoader;
+
+    wallGobj = new GlEngine::GameObject(this, "HexWall1");
+    wallObjLoader = new GlEngine::ObjLoader("Resources/hex-wall-window.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    wallObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .2f, .4f, .8f }, { .9f, .9f, .9f }, 5.0f));
+    wallGobj->AddComponent(wallObjLoader);
+
+    wallGobj = new GlEngine::GameObject(this, "HexWall2");
+    wallObjLoader = new GlEngine::ObjLoader("Resources/hex-wall-2.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    wallObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .8f, .2f, .4f }, { .9f, .9f, .9f }, 5.0f));
+    wallGobj->AddComponent(wallObjLoader);
+
+    wallGobj = new GlEngine::GameObject(this, "HexWall3");
+    wallObjLoader = new GlEngine::ObjLoader("Resources/hex-wall-3.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    wallObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .4f, .8f, .2f }, { .9f, .9f, .9f }, 5.0f));
+    wallGobj->AddComponent(wallObjLoader);
 
     return true;
 }
