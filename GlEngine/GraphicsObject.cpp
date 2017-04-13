@@ -8,6 +8,8 @@
 #include "ServiceProvider.h"
 #include "ILogger.h"
 #include "ResourceLoader.h"
+#include "GameObject.h"
+#include "Frame.h"
 
 namespace GlEngine
 {

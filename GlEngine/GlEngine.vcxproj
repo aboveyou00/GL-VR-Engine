@@ -164,6 +164,7 @@
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CubeGraphicsObject.h" />
+    <ClInclude Include="CubeSpatialPartitions.h" />
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="DirectionalLightSource.h" />
     <ClInclude Include="DummyPropertySource.h" />
@@ -179,12 +180,15 @@
     <ClInclude Include="IInitializable.h" />
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="MatrixTransform.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="NullSpatialPartitions.h" />
     <ClInclude Include="PerformanceLevel.h" />
     <ClInclude Include="PlaneGraphicsObject.h" />
     <ClInclude Include="PointLightInfo.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="PropertyResolutionEagerness.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderPipeline.h" />
     <ClInclude Include="RenderStage.h" />
     <ClInclude Include="RenderTargetViewMode.h" />
@@ -193,6 +197,7 @@
     <ClInclude Include="PropertySourceFlag.h" />
     <ClInclude Include="PropertyFlag.h" />
     <ClInclude Include="SimpleRenderPipeline.h" />
+    <ClInclude Include="SpatialPartitions.h" />
     <ClInclude Include="SpotlightSource.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Subroutine.h" />
@@ -345,6 +350,7 @@
     <ClCompile Include="BasicCollisionGroup.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CubeGraphicsObject.cpp" />
+    <ClCompile Include="CubeSpatialPartitions.cpp" />
     <ClCompile Include="DirectionalLightSource.cpp" />
     <ClCompile Include="DummyPropertySource.cpp" />
     <ClCompile Include="FogSource.cpp" />
@@ -356,6 +362,8 @@
     <ClCompile Include="IAsyncInitializable.cpp" />
     <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="MatrixTransform.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="NullSpatialPartitions.cpp" />
     <ClCompile Include="OpenGl.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />
@@ -416,6 +424,7 @@
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="SimpleRenderPipeline.cpp" />
     <ClCompile Include="Snippet.cpp" />
+    <ClCompile Include="SpatialPartitions.cpp" />
     <ClCompile Include="SpotlightSource.cpp" />
     <ClCompile Include="Subroutine.cpp" />
     <ClCompile Include="Task.cpp" />

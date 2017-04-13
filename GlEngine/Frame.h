@@ -5,6 +5,7 @@
 #include "RenderTargetLayer.h"
 #include <unordered_map>
 #include "RenderPipeline.h"
+#include "SpatialPartitions.h"
 
 namespace GlEngine::Events
 {
@@ -56,6 +57,17 @@ namespace GlEngine
         virtual std::vector<std::pair<RenderStage*, ICamera*>> renderStages() override;
 
         virtual Frame *frame() override;
+
+        SpatialPartitions* spatialPartitions;
+        
+        template<class SpatialPartitionsClass, typename... TArgs>
+        virtual void CreateSpatialPartitions(TArgs... args)
+        {
+            static_assert(std::is_base_of<SpatialPartitions, SpatialPartitionsClass>::value, "The SpatialPartitionsClass template argument must inherit from SpatialPartitions");
+            if (spatialPartitions != nullptr)
+                delete spatialPartitions;
+            spatialPartitions = new SpatialPartitionsClass(args...);
+        }
 
     protected:
         virtual RenderPipeline* CreateDefaultPipeline(CameraComponent*& cameraComponent);

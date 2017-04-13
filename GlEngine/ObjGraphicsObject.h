@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VboGraphicsObject.h"
+#include "Mesh.h"
 
 namespace GlEngine
 {
@@ -18,7 +19,11 @@ namespace GlEngine
 
         virtual bool InitializeAsync() override;
 
+        virtual int AddVertex(Vector<3> position, Vector<2> texCoord, Vector<3> normal) override;
+        virtual void AddTriangle(Vector<3, uint_16t> vertices) override;
+
     private:
         std::string filename;
+        Mesh* mesh;
     };
 }

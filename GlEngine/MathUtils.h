@@ -29,3 +29,5 @@ ENGINE_SHARED float operator "" deg(long double angle);
 ENGINE_SHARED double operator "" rad_d(long double angle);
 ENGINE_SHARED double operator "" deg_d(unsigned long long angle);
 ENGINE_SHARED double operator "" deg_d(long double angle);
+
+ENGINE_SHARED bool triangleRayIntersects(Vector<3> t1, Vector<3> t2, Vector<3> t3, Vector<3> rayOrigin, Vector<3> rayDirection, float* outDistance = nullptr);

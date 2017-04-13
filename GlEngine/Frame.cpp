@@ -9,11 +9,13 @@
 namespace GlEngine
 {
     Frame::Frame()
-        : _initialized(false), currentCamera(nullptr), _mainCamera(nullptr), _mainPipeline(nullptr)
+        : _initialized(false), currentCamera(nullptr), _mainCamera(nullptr), _mainPipeline(nullptr), spatialPartitions(nullptr)
     {
     }
     Frame::~Frame()
     {
+        if (spatialPartitions != nullptr)
+            delete spatialPartitions;
     }
 
     std::string Frame::name()
