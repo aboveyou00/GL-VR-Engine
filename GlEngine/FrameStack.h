@@ -46,13 +46,15 @@ namespace GlEngine
 
         virtual std::vector<std::pair<RenderStage*, ICamera*>> renderStages() override;
 
+        virtual Vector<3> clearColor() override;
+        virtual void SetClearColor(Vector<3> color) override;
+
+        virtual Frame *frame() override;
+
     private:
         static const int MAX_FRAME_STACK_SIZE = 32;
         Frame *_frameStack[MAX_FRAME_STACK_SIZE];
         int stackIdx = 0;
         bool initialized = false;
-
-        // Inherited via RenderPipeline
-        virtual Frame * frame() override;
     };
 }

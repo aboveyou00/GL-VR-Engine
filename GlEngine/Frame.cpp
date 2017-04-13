@@ -14,8 +14,7 @@ namespace GlEngine
     }
     Frame::~Frame()
     {
-        if (spatialPartitions != nullptr)
-            delete spatialPartitions;
+        SafeDelete(spatialPartitions);
     }
 
     std::string Frame::name()
@@ -122,9 +121,18 @@ namespace GlEngine
 
     std::vector<std::pair<RenderStage*, ICamera*>> Frame::renderStages()
     {
-        if (_mainPipeline == nullptr)
-            return std::vector<std::pair<RenderStage*, ICamera*>>();
+        if (_mainPipeline == nullptr) return { };
         return _mainPipeline->renderStages();
+    }
+
+    Vector<3> Frame::clearColor()
+    {
+        if (_mainPipeline == nullptr) return { 0, 0, 0 };
+        return _mainPipeline->clearColor();
+    }
+    void Frame::SetClearColor(Vector<3> color)
+    {
+        assert(false);
     }
 
     RenderPipeline* Frame::CreateDefaultPipeline(CameraComponent*& cameraComponent)

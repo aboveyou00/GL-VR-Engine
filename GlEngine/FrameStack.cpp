@@ -67,11 +67,21 @@ namespace GlEngine
     }
     std::vector<std::pair<RenderStage*, ICamera*>> FrameStack::renderStages()
     {
-        if (CurrentFrame() == nullptr) return std::vector<std::pair<RenderStage*, ICamera*>>();
+        if (CurrentFrame() == nullptr) return { };
         return CurrentFrame()->renderStages();
     }
 
-    Frame * FrameStack::frame()
+    Vector<3> FrameStack::clearColor()
+    {
+        if (CurrentFrame() == nullptr) return { 0, 0, 0 };
+        return CurrentFrame()->clearColor();
+    }
+    void FrameStack::SetClearColor(Vector<3> color)
+    {
+        assert(false);
+    }
+
+    Frame *FrameStack::frame()
     {
         return CurrentFrame();
     }

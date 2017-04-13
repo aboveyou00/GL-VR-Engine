@@ -20,8 +20,6 @@
 #include "../RawGraphicsObject.h"
 #include "InstancedGraphicsObject.h"
 #include "RandomUtils.h"
-#include "NullSpatialPartitions.h"
-#include "ObjLoader.h"
 
 #include "ObjLoader.h"
 
@@ -35,10 +33,10 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
+    GlEngine::CameraComponent* cameraComponent;
     auto pipeline = CreateDefaultPipeline(cameraComponent);
-    pipeline->SetClearColor(Vector<3> { 10.f, 10.f, 12.f } / 255.f);
+    pipeline->SetClearColor(Vector<3> { 0, .1f, .5f });
 
     cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
@@ -88,7 +86,6 @@ bool SpatpartSceneFrame::Initialize()
 
     return true;
 }
-
 void SpatpartSceneFrame::Tick(float dt)
 {
     Frame::Tick(dt);

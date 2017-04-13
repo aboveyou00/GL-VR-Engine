@@ -56,6 +56,9 @@ namespace GlEngine
 
         virtual std::vector<std::pair<RenderStage*, ICamera*>> renderStages() override;
 
+        virtual Vector<3> clearColor() override;
+        virtual void SetClearColor(Vector<3> color) override;
+
         virtual Frame *frame() override;
 
         SpatialPartitions* spatialPartitions;
