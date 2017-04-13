@@ -11,5 +11,6 @@ public:
     virtual bool Initialize() override;
     virtual void Tick(float dt) override;
 
+    GlEngine::GameObject *flagGobj;
     GlEngine::CameraComponent* cameraComponent;
 };

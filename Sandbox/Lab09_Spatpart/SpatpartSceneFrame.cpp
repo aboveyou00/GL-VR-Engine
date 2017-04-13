@@ -20,10 +20,14 @@
 #include "../RawGraphicsObject.h"
 #include "InstancedGraphicsObject.h"
 #include "RandomUtils.h"
-
+#include "NullSpatialPartitions.h"
 #include "ObjLoader.h"
 
+const Vector<3> RAYCAST_HIT_COLOR = { 0, 1, 0 };
+const Vector<3> RAYCAST_MISS_COLOR = { 1, 0, 0 };
+
 SpatpartSceneFrame::SpatpartSceneFrame()
+    : cameraComponent(nullptr), flagGobj(nullptr)
 {
 }
 SpatpartSceneFrame::~SpatpartSceneFrame()
@@ -33,8 +37,8 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
+    CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
-    GlEngine::CameraComponent* cameraComponent;
     auto pipeline = CreateDefaultPipeline(cameraComponent);
     pipeline->SetClearColor(Vector<3> { 0, .1f, .5f });
 
@@ -61,7 +65,7 @@ bool SpatpartSceneFrame::Initialize()
     groundPlaneGfx->AddPropertyProvider(light);
     groundPlane->AddComponent(groundPlaneGfx);
 
-    auto flagGobj = new GlEngine::GameObject(this, "Flag");
+    flagGobj = new GlEngine::GameObject(this, "Flag");
     auto objLoader = new GlEngine::ObjLoader("Resources/flag.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
     objLoader->OverrideMaterial(new GlEngine::PhongMaterial({ 1.f, .2f, .2f }, { .9f, .9f, .9f }, 5.0f));
     flagGobj->AddComponent(objLoader);
@@ -91,5 +95,7 @@ void SpatpartSceneFrame::Tick(float dt)
     Frame::Tick(dt);
     float distance = 0;
     auto result = spatialPartitions->RayCast(cameraComponent->centerRay(), &distance);
-    GlEngine::Util::Log("Raycast object: %d, distance: %f", result, distance);
+    bool hitFlag = result != nullptr && result->gameObject() == flagGobj;
+    this->mainPipeline()->SetClearColor(hitFlag ? RAYCAST_HIT_COLOR : RAYCAST_MISS_COLOR);
+    //GlEngine::Util::Log("Raycast object: %d, distance: %f", result, distance);
 }
