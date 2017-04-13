@@ -30,6 +30,7 @@ namespace GlEngine
         virtual Frame* frame() override;
 
         Ray centerRay();
+        Ray rayToPoint(Vector<3> point);
 
     private:
         Vector<3> eye, forward, up, right;

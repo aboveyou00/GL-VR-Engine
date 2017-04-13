@@ -55,6 +55,10 @@ namespace GlEngine
     }
     Ray CameraComponent::centerRay()
     {
-        return Ray{ eye, forward };
+        return Ray { eye, forward };
+    }
+    Ray CameraComponent::rayToPoint(Vector<3> point)
+    {
+        return Ray { eye, (point - eye).Normalized() };
     }
 }

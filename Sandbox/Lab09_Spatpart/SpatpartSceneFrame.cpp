@@ -93,9 +93,14 @@ bool SpatpartSceneFrame::Initialize()
 void SpatpartSceneFrame::Tick(float dt)
 {
     Frame::Tick(dt);
+    bool hitFlag = false;
     float distance = 0;
-    auto result = spatialPartitions->RayCast(cameraComponent->centerRay(), &distance);
-    bool hitFlag = result != nullptr && result->gameObject() == flagGobj;
+
+    for (size_t q = 0; q < TEST_POINT_COUNT && !hitFlag; q++)
+    {
+        auto result = spatialPartitions->RayCast(cameraComponent->rayToPoint(testPoints[q]), &distance);
+        hitFlag = result != nullptr && result->gameObject() == flagGobj;
+    }
     this->mainPipeline()->SetClearColor(hitFlag ? RAYCAST_HIT_COLOR : RAYCAST_MISS_COLOR);
     //GlEngine::Util::Log("Raycast object: %d, distance: %f", result, distance);
 }
