@@ -10,7 +10,7 @@
 
 namespace GlEngine
 {
-    class ENGINE_SHARED ObjLoader
+    class ENGINE_SHARED ObjLoader : GameComponent
     {
     private:
         ObjLoader();

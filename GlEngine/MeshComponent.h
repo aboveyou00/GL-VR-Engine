@@ -1,14 +1,15 @@
 #pragma once
 
 #include "Ray.h"
+#include "GameComponent.h"
 
 namespace GlEngine
 {
-    class ENGINE_SHARED Mesh
+    class ENGINE_SHARED MeshComponent : public GameComponent
     {
     public:
-        Mesh(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles);
-        ~Mesh();
+        MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles);
+        ~MeshComponent();
 
         std::vector<Vector<3>> vertices;
         std::vector<Vector<3, unsigned>> triangles;

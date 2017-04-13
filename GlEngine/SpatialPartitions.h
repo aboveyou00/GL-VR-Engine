@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mesh.h"
+#include "MeshComponent.h"
 #include "GameComponent.h"
 
 namespace GlEngine
@@ -11,11 +11,11 @@ namespace GlEngine
         SpatialPartitions(GameComponent* component);
         ~SpatialPartitions();
 
-        virtual void AddMesh(Mesh* mesh) = 0;
-        virtual void RemoveMesh(Mesh* mesh) = 0;
-        virtual void UpdateMesh(Mesh* mesh) = 0;
+        virtual void AddMesh(MeshComponent* mesh) = 0;
+        virtual void RemoveMesh(MeshComponent* mesh) = 0;
+        virtual void UpdateMesh(MeshComponent* mesh) = 0;
 
-        virtual Mesh* RayCast(Ray ray, float* outDistance = nullptr) = 0;
+        virtual MeshComponent* RayCast(Ray ray, float* outDistance = nullptr) = 0;
 
         GameComponent* component;
     };

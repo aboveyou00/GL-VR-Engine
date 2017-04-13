@@ -61,7 +61,7 @@ namespace GlEngine
         SpatialPartitions* spatialPartitions;
         
         template<class SpatialPartitionsClass, typename... TArgs>
-        virtual void CreateSpatialPartitions(TArgs... args)
+        void CreateSpatialPartitions(TArgs... args)
         {
             static_assert(std::is_base_of<SpatialPartitions, SpatialPartitionsClass>::value, "The SpatialPartitionsClass template argument must inherit from SpatialPartitions");
             if (spatialPartitions != nullptr)

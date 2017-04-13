@@ -12,18 +12,22 @@ namespace GlEngine
     {
     }
 
-    void CubeSpatialPartitions::AddMesh(Mesh* mesh)
+    void CubeSpatialPartitions::AddMesh(MeshComponent* mesh)
     {
+        mesh;
     }
-    void CubeSpatialPartitions::RemoveMesh(Mesh* mesh)
+    void CubeSpatialPartitions::RemoveMesh(MeshComponent* mesh)
     {
+        mesh;
     }
-    void CubeSpatialPartitions::UpdateMesh(Mesh* mesh)
+    void CubeSpatialPartitions::UpdateMesh(MeshComponent* mesh)
     {
+        mesh;
     }
 
-    Mesh* CubeSpatialPartitions::RayCast(Ray ray, float* outDistance)
+    MeshComponent* CubeSpatialPartitions::RayCast(Ray ray, float* outDistance)
     {
+        ray; outDistance;
         return nullptr;
     }
 }

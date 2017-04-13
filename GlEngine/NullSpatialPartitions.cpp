@@ -3,27 +3,27 @@
 
 namespace GlEngine
 {
-    void NullSpatialPartitions::AddMesh(Mesh* mesh)
+    void NullSpatialPartitions::AddMesh(MeshComponent* mesh)
     {
         meshes.insert(mesh);
     }
 
-    void NullSpatialPartitions::RemoveMesh(Mesh* mesh)
+    void NullSpatialPartitions::RemoveMesh(MeshComponent* mesh)
     {
         meshes.erase(mesh);
     }
 
-    void NullSpatialPartitions::UpdateMesh(Mesh*)
+    void NullSpatialPartitions::UpdateMesh(MeshComponent*)
     {
     }
 
-    Mesh* NullSpatialPartitions::RayCast(Ray ray, float* outDistance)
+    MeshComponent* NullSpatialPartitions::RayCast(Ray ray, float* outDistance)
     {
-        Mesh* result = nullptr;
-        float resultDistance;
+        MeshComponent* result = nullptr;
+        float resultDistance = 0;
         float distance;
 
-        for (Mesh* mesh : meshes)
+        for (MeshComponent* mesh : meshes)
         {
             if (mesh->RayIntersection(ray, &distance))
             {

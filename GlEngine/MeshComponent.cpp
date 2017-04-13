@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "Mesh.h"
+#include "MeshComponent.h"
 #include "MathUtils.h"
 
 namespace GlEngine
 {
-    Mesh::Mesh(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles)
-        : vertices(vertices), triangles(triangles)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles)
+        : GameComponent("Mesh"), vertices(vertices), triangles(triangles)
     {
     }
 
-    Mesh::~Mesh()
+    MeshComponent::~MeshComponent()
     {
     }
 
-    bool Mesh::RayIntersection(Ray ray, float *outDistance)
+    bool MeshComponent::RayIntersection(Ray ray, float *outDistance)
     {
         if (outDistance == nullptr)
             return RayIntersectionInternal(ray);
@@ -21,7 +21,7 @@ namespace GlEngine
             return RayIntersectionInternal(ray, outDistance);
     }
 
-    void Mesh::CalculateNormals()
+    void MeshComponent::CalculateNormals()
     {
         if (normals.size() != 0)
             return;
@@ -36,7 +36,7 @@ namespace GlEngine
         }
     }
 
-    bool Mesh::RayIntersectionInternal(Ray ray)
+    bool MeshComponent::RayIntersectionInternal(Ray ray)
     {
         for (auto triangle : triangles)
             if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], ray.origin, ray.direction))
@@ -44,7 +44,7 @@ namespace GlEngine
         return false;
     }
     
-    bool Mesh::RayIntersectionInternal(Ray ray, float* outDistance)
+    bool MeshComponent::RayIntersectionInternal(Ray ray, float* outDistance)
     {
         float distance;
         bool result = false;
@@ -54,7 +54,7 @@ namespace GlEngine
             if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], ray.origin, ray.direction, &distance))
             {
                 if (!result || *outDistance > distance)
-                    *outDistance == distance;
+                    *outDistance = distance;
                 result = true;
             }
         }

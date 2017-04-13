@@ -10,6 +10,7 @@
 namespace GlEngine
 {
     ObjLoader::ObjLoader()
+        : GameComponent("ObjLoader")
     {
     }
     ObjLoader::~ObjLoader()
