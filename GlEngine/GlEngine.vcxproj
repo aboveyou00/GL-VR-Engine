@@ -181,6 +181,7 @@
     <ClInclude Include="IPropertyProvider.h" />
     <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="MeshComponent.h" />
+    <ClInclude Include="MeshMaterialGraphicsObject.h" />
     <ClInclude Include="NullSpatialPartitions.h" />
     <ClInclude Include="PerformanceLevel.h" />
     <ClInclude Include="PlaneGraphicsObject.h" />
@@ -363,6 +364,7 @@
     <ClCompile Include="ICamera.cpp" />
     <ClCompile Include="MatrixTransform.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="MeshMaterialGraphicsObject.cpp" />
     <ClCompile Include="NullSpatialPartitions.cpp" />
     <ClCompile Include="OpenGl.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />

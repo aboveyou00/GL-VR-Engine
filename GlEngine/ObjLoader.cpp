@@ -6,40 +6,145 @@
 #include "StringUtils.h"
 #include "ObjGraphicsObject.h"
 #include "VboFactory.h"
+#include "GameObject.h"
+#include "MeshMaterialGraphicsObject.h"
 
 namespace GlEngine
 {
-    ObjLoader::ObjLoader()
-        : GameComponent("ObjLoader")
+    ObjLoader::ObjLoader(std::string filename, std::vector<ShaderFactory::IPropertyProvider*> providers, ObjLoaderFlag flags)
+        : GameComponent("ObjLoader"), providers(providers), _flags(flags), _filename(filename), stream(nullptr), _mesh(nullptr), _material(nullptr), _graphicsObject(nullptr)
+    {
+    }
+    ObjLoader::ObjLoader(std::istream& in)
+        : GameComponent("ObjLoader"), _filename(""), stream(&in)
     {
     }
     ObjLoader::~ObjLoader()
     {
     }
 
-    bool ObjLoader::Load(std::string filename, ObjGraphicsObject *out)
+    std::string ObjLoader::filename()
     {
-        //TODO: cache mesh data
-        std::ifstream in;
-        in.open(filename);
-        if (!in)
-            return false;
-        if (!Load(in, out))
-            return false;
-        in.close();
-        return true;
-    }
-    bool ObjLoader::Load(std::istream &in, ObjGraphicsObject *out)
-    {
-        ObjLoader loader;
-        return loader._Load(in, out);
+        return _filename;
     }
 
-    bool ObjLoader::_Load(std::istream &in, ObjGraphicsObject *out)
+    bool ObjLoader::LoadMesh()
+    {
+        if (_mesh) return true;
+
+        //TODO: cache mesh
+
+        if (stream == nullptr)
+        {
+            std::ifstream in;
+            in.open(filename());
+            if (!in)
+                return false;
+            stream = &in;
+            if (!_LoadMesh())
+                return false;
+            in.close();
+            return true;
+        }
+        else
+        {
+            return !_LoadMesh();
+        }
+    }
+
+    MeshComponent * ObjLoader::mesh()
+    {
+        return _mesh;
+    }
+
+    Material * ObjLoader::material()
+    {
+        return _material;
+    }
+
+    GraphicsObject * ObjLoader::graphicsObject()
+    {
+        return _graphicsObject;
+    }
+
+    ObjLoaderFlag ObjLoader::flags()
+    {
+        return _flags;
+    }
+
+    void ObjLoader::SetFlags(ObjLoaderFlag flags)
+    {
+        _flags = flags;
+        // TODO: requeue if necessary? prevent changing flags after load?
+    }
+
+    void ObjLoader::OverrideMesh(MeshComponent* mesh)
+    {
+        _mesh = mesh;
+    }
+
+    void ObjLoader::OverrideMaterial(Material* material)
+    {
+        _material = material;
+    }
+
+    bool ObjLoader::InitializeAsync()
+    {
+        if ((unsigned)_flags & (unsigned)ObjLoaderFlag::Graphics)
+        {
+            return LoadGraphics();
+        }
+        if ((unsigned)_flags & (unsigned)ObjLoaderFlag::Mesh && !LoadMesh())
+        {
+            return false;
+        }
+        //if ((unsigned)_flags & (unsigned)ObjLoaderFlag::Material && !LoadMaterial())
+        //{
+        //    return false;
+        //}
+        return true;
+    }
+
+    bool ObjLoader::LoadGraphics()
+    {
+        if (_graphicsObject) return true;
+
+        if (!LoadMesh())
+            return false;
+        //if (!LoadMaterial())
+        //    return false;
+        assert(_material);
+
+        _graphicsObject = new MeshMaterialGraphicsObject(_mesh, _material);
+        for (auto provider : providers)
+            _graphicsObject->AddPropertyProvider(provider);
+        gameObject()->AddComponent(_graphicsObject);
+        return true;
+    }
+
+    //bool ObjLoader::Load(std::string filename, ObjGraphicsObject *out)
+    //{
+    //    //TODO: cache mesh data
+    //    std::ifstream in;
+    //    in.open(filename);
+    //    if (!in)
+    //        return false;
+    //    if (!Load(in, out))
+    //        return false;
+    //    in.close();
+    //    return true;
+    //}
+    //bool ObjLoader::Load(std::istream &in, ObjGraphicsObject *out)
+    //{
+    //    ObjLoader loader;
+    //    return loader._Load(in, out);
+    //}
+
+    bool ObjLoader::_LoadMesh()
     {
         assert(this_thread_type() == ThreadType::ResourceLoader);
         std::string line;
-        while (std::getline(in, line))
+        while (std::getline(*stream, line))
         {
             std::istringstream iss(line);
 
@@ -72,41 +177,48 @@ namespace GlEngine
                 iss >> s0 >> s1 >> s2;
                 if (!(iss >> s3))
                 {
-                    triangleIndices.push_back(ParseVertex(s2));
-                    triangleIndices.push_back(ParseVertex(s1));
-                    triangleIndices.push_back(ParseVertex(s0));
+                    triangleIndices.push_back({
+                        ParseVertex(s0),
+                        ParseVertex(s1),
+                        ParseVertex(s2)
+                    });
                 }
                 else
                 {
-                    quadIndices.push_back(ParseVertex(s3));
-                    quadIndices.push_back(ParseVertex(s2));
-                    quadIndices.push_back(ParseVertex(s1));
-                    quadIndices.push_back(ParseVertex(s0));
+                    quadIndices.push_back({
+                        ParseVertex(s0),
+                        ParseVertex(s1),
+                        ParseVertex(s2),
+                        ParseVertex(s3)
+                    });
                 }
             }
         }
-        return CreateFromData(out);
+        return CreateMeshFromData();
     }
 
-    bool ObjLoader::CreateFromData(ObjGraphicsObject *out)
+    bool ObjLoader::CreateMeshFromData()
     {
-        for (auto vertex : glVertices)
-        {
-            Vector<3> position; Vector<2> texCoord; Vector<3> normal;
-            std::tie(position, texCoord, normal) = vertex;
-            out->AddVertex(position, texCoord, normal);
-        }
+        _mesh = new MeshComponent(glPositions, triangleIndices, quadIndices, glTexCoords, glNormals);
+        gameObject()->AddComponent(_mesh);
 
-        //TODO: dynamically choose VboType based on size
-        for (unsigned i = 0; i < triangleIndices.size(); i += 3)
-        {
-            out->AddTriangle({ triangleIndices[i + 2], triangleIndices[i + 1], triangleIndices[i] });
-        }
-        for (unsigned i = 0; i < quadIndices.size(); i += 4)
-        {
-            out->AddTriangle({ quadIndices[i + 2], quadIndices[i + 1], quadIndices[i] });
-            out->AddTriangle({ quadIndices[i], quadIndices[i + 3], quadIndices[i + 2] });
-        }
+        //for (auto vertex : glVertices)
+        //{
+        //    Vector<3> position; Vector<2> texCoord; Vector<3> normal;
+        //    std::tie(position, texCoord, normal) = vertex;
+        //    out->AddVertex(position, texCoord, normal);
+        //}
+
+        ////TODO: dynamically choose VboType based on size
+        //for (unsigned i = 0; i < triangleIndices.size(); i += 3)
+        //{
+        //    out->AddTriangle({ triangleIndices[i + 2], triangleIndices[i + 1], triangleIndices[i] });
+        //}
+        //for (unsigned i = 0; i < quadIndices.size(); i += 4)
+        //{
+        //    out->AddTriangle({ quadIndices[i + 2], quadIndices[i + 1], quadIndices[i] });
+        //    out->AddTriangle({ quadIndices[i], quadIndices[i + 3], quadIndices[i + 2] });
+        //}
 
         return true;
     }
@@ -160,22 +272,19 @@ namespace GlEngine
                 current += faceString[i];
         }
 
-        return FindOrAddGlVertex(position, texCoord, normal);
+        glPositions.push_back(position);
+        glTexCoords.push_back(texCoord);
+        glNormals.push_back(normal);
+        return glPositions.size() - 1;
+
+        //return FindOrAddGlVertex(position, texCoord, normal);
     }
 
-    int ObjLoader::FindOrAddGlVertex(Vector<3> vertex, Vector<2> texCoord, Vector<3> normal)
-    {
-        std::tuple<Vector<3>, Vector<2>, Vector<3>> glVertex(vertex, texCoord, normal);
-        
-        //auto index = std::find(glVertices.begin(), glVertices.end(), glVertex);
-        //if (index == glVertices.end())
-        //{
-            glVertices.push_back(glVertex);
-            return glVertices.size() - 1;
-        //}
-        //else 
-        //{
-        //    return index - glVertices.begin();
-        //}
-    }
+    //int ObjLoader::FindOrAddGlVertex(Vector<3> vertex, Vector<2> texCoord, Vector<3> normal)
+    //{
+    //    std::tuple<Vector<3>, Vector<2>, Vector<3>> glVertex(vertex, texCoord, normal);
+    //    
+    //    glVertices.push_back(glVertex);
+    //    return glVertices.size() - 1;
+    //}
 }

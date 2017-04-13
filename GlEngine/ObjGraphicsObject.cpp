@@ -35,10 +35,10 @@ namespace GlEngine
         return ptr;
     }
 
-    bool ObjGraphicsObject::InitializeAsync()
-    {
-        if (!GlEngine::ObjLoader::Load(filename, this))
-            return false;
-        return VboGraphicsObject::InitializeAsync();
-    }
+    //bool ObjGraphicsObject::InitializeAsync()
+    //{
+    //    if (!GlEngine::ObjLoader::Load(filename, this))
+    //        return false;
+    //    return VboGraphicsObject::InitializeAsync();
+    //}
 }

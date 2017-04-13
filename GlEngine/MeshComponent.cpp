@@ -4,8 +4,18 @@
 
 namespace GlEngine
 {
-    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles)
-        : GameComponent("Mesh"), vertices(vertices), triangles(triangles)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals)
+        : MeshComponent(vertices, triangles, {}, texCoords, normals)
+    {
+    }
+
+    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<4, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals)
+        : MeshComponent(vertices, {}, quads, texCoords, normals)
+    {
+    }
+
+    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<4, unsigned>> quads, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals)
+        : GameComponent("Mesh"), vertices(vertices), triangles(triangles), quads(quads), texCoords(texCoords), normals(normals)
     {
     }
 

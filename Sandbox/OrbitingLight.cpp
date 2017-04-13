@@ -7,6 +7,7 @@
 #include "AmbientLightSource.h"
 #include "PointLightSource.h"
 #include "LabControlsComponent.h"
+#include "ObjLoader.h"
 
 static Vector<3> randomRotateAxis();
 
@@ -51,8 +52,13 @@ GlEngine::GameObject *OrbitingLight::Create(GlEngine::Frame *frame, std::string 
         _providers.push_back(providers[q]);
     }
     _providers.push_back(lightSource);
-    auto objObj = GlEngine::ObjGraphicsObject::Create(name, modelPath.c_str(), mat, _providers);
+
+    auto objObj = new GlEngine::ObjLoader(modelPath.c_str(), _providers, GlEngine::ObjLoaderFlag::Graphics);
+    objObj->OverrideMaterial(mat);
     gobj->AddComponent(objObj);
+    
+    //auto objObj = GlEngine::ObjGraphicsObject::Create(name, modelPath.c_str(), mat, _providers);
+    //gobj->AddComponent(objObj);
 
     auto pivot = new GlEngine::GameObject(frame, "Pivot");
     pivot->SetParent(gobj);
