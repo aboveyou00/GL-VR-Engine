@@ -12,7 +12,11 @@
 namespace GlEngine
 {
     ObjLoader::ObjLoader(std::string filename, std::vector<ShaderFactory::IPropertyProvider*> providers, ObjLoaderFlag flags)
-        : GameComponent("ObjLoader"), providers(providers), _flags(flags), _filename(filename), stream(nullptr), _mesh(nullptr), _material(nullptr), _graphicsObject(nullptr)
+        : ObjLoader(filename, providers, [](Material*) { return nullptr; }, flags)
+    {
+    }
+    ObjLoader::ObjLoader(std::string filename, std::vector<ShaderFactory::IPropertyProvider*> providers, CreateFactoryFn createFactory, ObjLoaderFlag flags)
+        : GameComponent("ObjLoader"), providers(providers), _flags(flags), _filename(filename), stream(nullptr), _mesh(nullptr), _material(nullptr), _graphicsObject(nullptr), _createFactory(createFactory)
     {
     }
     ObjLoader::ObjLoader(std::istream& in)
@@ -115,7 +119,7 @@ namespace GlEngine
         //    return false;
         assert(_material);
 
-        _graphicsObject = new MeshMaterialGraphicsObject(_mesh, _material);
+        _graphicsObject = new MeshMaterialGraphicsObject(_mesh, _material, _createFactory);
         for (auto provider : providers)
             _graphicsObject->AddPropertyProvider(provider);
         gameObject()->AddComponent(_graphicsObject);

@@ -27,6 +27,9 @@
 #include "../LightSourceObject.h"
 #include "../FixedRotationComponent.h"
 
+#include "ObjLoader.h"
+#include "RawShaderFactory.h"
+
 extern GlEngine::ShaderFactory::Property<float> prop_StaticAmount;
 extern std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> staticProps;
 extern GlEngine::ShaderFactory::ShaderSource staticSource;
@@ -61,20 +64,20 @@ bool SlendermanStaticSceneFrame::Initialize()
     auto cameraTarget = new CameraTargetComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
-    auto clipPlaneGfx = new RawGraphicsObject(
-        "ClipPlaneGfx",
+    auto clipPlaneObjLoader = new GlEngine::ObjLoader(
         "Resources/clip_plane.obj",
-        &staticSource,
-        &staticProps
+        {},
+        [](GlEngine::Material*) { return new GlEngine::ShaderFactory::RawShaderFactory(&staticSource, &staticProps); },
+        GlEngine::ObjLoaderFlag::Graphics
     );
-    clipPlaneGfx->SetMaterial(TemplateMaterial::Factory()
+    clipPlaneObjLoader->OverrideMaterial(TemplateMaterial::Factory()
         ->Name("StaticMaterial")
         ->ProvideConst(&GlEngine::ShaderFactory::prop_Texture, sceneTex)
         ->Provide(&prop_StaticAmount, this->renderedFrame->static_amount)
         ->Create()
     );
     auto clipPlane = new GlEngine::GameObject(this, "ClipPlane");
-    clipPlane->AddComponent(clipPlaneGfx);
+    clipPlane->AddComponent(clipPlaneObjLoader);
 
     return true;
 }

@@ -23,6 +23,7 @@ namespace GlEngine
     {
     public:
         ObjLoader(std::string filename, std::vector<ShaderFactory::IPropertyProvider*> providers, ObjLoaderFlag flags = ObjLoaderFlag::None);
+        ObjLoader(std::string filename, std::vector<ShaderFactory::IPropertyProvider*> providers, CreateFactoryFn factory, ObjLoaderFlag flags = ObjLoaderFlag::None);
         ObjLoader(std::istream& in);
         ~ObjLoader();
 
@@ -48,6 +49,8 @@ namespace GlEngine
 
     private:
         std::vector<ShaderFactory::IPropertyProvider*> providers;
+
+        CreateFactoryFn _createFactory;
 
         ObjLoaderFlag _flags;
         MeshComponent* _mesh;

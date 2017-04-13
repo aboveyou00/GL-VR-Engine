@@ -25,17 +25,6 @@ GlEngine::GameObject *FlashlightComponent::Create(GlEngine::Frame *frame)
     return gobj;
 }
 
-bool FlashlightComponent::InitializeAsync()
-{
-    if (!GameComponent::InitializeAsync()) return false;
-
-    return false;
-}
-void FlashlightComponent::ShutdownAsync()
-{
-    GameComponent::ShutdownAsync();
-}
-
 void FlashlightComponent::Tick(float delta)
 {
     GameComponent::Tick(delta);

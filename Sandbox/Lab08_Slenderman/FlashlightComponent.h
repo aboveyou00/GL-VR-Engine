@@ -17,9 +17,6 @@ public:
 
     static GlEngine::GameObject *Create(GlEngine::Frame *frame);
 
-    virtual bool InitializeAsync() override;
-    virtual void ShutdownAsync() override;
-
     virtual void Tick(float delta) override;
 
     virtual void HandleEvent(GlEngine::Events::Event &evt) override;

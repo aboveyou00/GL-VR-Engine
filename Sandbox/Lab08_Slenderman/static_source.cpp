@@ -26,9 +26,8 @@ std::string staticFragment = R"raw(
 layout(location = 0) in vec2 in_uv_coords;
 
 layout(location = 0) uniform float game_time;
-layout(location = 1) uniform vec2 screen_dimensions;
-layout(location = 2) uniform sampler2D scene_texture;
-layout(location = 3) uniform float static_amount;
+layout(location = 1) uniform sampler2D scene_texture;
+layout(location = 2) uniform float static_amount;
 
 layout(location = 0) out vec4 out_color;
 
@@ -55,9 +54,8 @@ void main(void)
 
 std::map<unsigned, GlEngine::ShaderFactory::ShaderProp*> staticProps = {
     { 0, &GlEngine::ShaderFactory::prop_GameTime },
-    { 1, &GlEngine::ShaderFactory::prop_ScreenDimensions },
-    { 2, &GlEngine::ShaderFactory::prop_Texture },
-    { 3, &prop_StaticAmount }
+    { 1, &GlEngine::ShaderFactory::prop_Texture },
+    { 2, &prop_StaticAmount }
 };
 
 GlEngine::ShaderFactory::ShaderSource staticSource = {
