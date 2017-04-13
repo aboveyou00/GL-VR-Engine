@@ -33,7 +33,7 @@ bool TexturesSceneFrame::Initialize()
     GlEngine::CameraComponent* cameraComponent;
     auto mainPipeline = CreateDefaultPipeline(cameraComponent);
     mainPipeline->SetClearColor({ .3, .1, .1 });
-    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, -3.5, 7 });
+    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
     auto cameraTarget = new CameraTargetComponent();
     cameraComponent->gameObject()->AddComponent(cameraTarget);

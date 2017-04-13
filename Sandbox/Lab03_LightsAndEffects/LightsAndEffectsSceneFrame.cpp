@@ -50,7 +50,9 @@ bool LightsAndEffectsSceneFrame::Initialize()
 
     GlEngine::CameraComponent* cameraComponent;
     CreateDefaultPipeline(cameraComponent);
-    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, -3.5, 7 });
+    auto cameraTarget = new CameraTargetComponent();
+    cameraComponent->gameObject()->AddComponent(cameraTarget);
+    cameraComponent->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
 
     auto controls = new GlEngine::GameObject(this, "Lab3ControlsComponent");
     auto controlsComponent = new Lab3ControlsComponent();
