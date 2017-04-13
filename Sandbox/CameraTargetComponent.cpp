@@ -31,8 +31,8 @@ void CameraTargetComponent::Tick(float delta)
 
 void CameraTargetComponent::UpdateGraphics()
 {
-	gameObject()->localTransform()->SetOrientation(Quaternion<>(-mouseDelta[0] * rotateSpeed, { 0, 1, 0 }));
-	gameObject()->localTransform()->Rotate(-mouseDelta[1] * rotateSpeed, { 1, 0, 0 });
+    gameObject()->localTransform()->SetOrientation(Quaternion<>(-mouseDelta[0] * rotateSpeed, { 0, 1, 0 }));
+    gameObject()->localTransform()->Rotate(-mouseDelta[1] * rotateSpeed, { 1, 0, 0 });
 }
 
 void CameraTargetComponent::HandleEvent(GlEngine::Events::Event &evt)

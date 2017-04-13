@@ -27,7 +27,7 @@ const Vector<3> RAYCAST_HIT_COLOR = { 0, 1, 0 };
 const Vector<3> RAYCAST_MISS_COLOR = { 1, 0, 0 };
 
 SpatpartSceneFrame::SpatpartSceneFrame()
-    : cameraComponent(nullptr), flagGobj(nullptr)
+    : cameraComponent(nullptr), flagGobj(nullptr), renderText("Spatial Partitioning: [2, 1]; 12 elements in cell"), renderer(nullptr)
 {
 }
 SpatpartSceneFrame::~SpatpartSceneFrame()
@@ -103,4 +103,19 @@ void SpatpartSceneFrame::Tick(float dt)
     }
     this->mainPipeline()->SetClearColor(hitFlag ? RAYCAST_HIT_COLOR : RAYCAST_MISS_COLOR);
     //GlEngine::Util::Log("Raycast object: %d, distance: %f", result, distance);
+}
+
+void SpatpartSceneFrame::UpdateGraphics()
+{
+    Frame::UpdateGraphics();
+    if (renderer != nullptr) return;
+    renderer = new FIG::FontRenderer(new FIG::Font("/Windows/Fonts/times.ttf"), FIG::FontRendererSettings(12));
+}
+
+void SpatpartSceneFrame::Render(GlEngine::RenderStage *stage)
+{
+    Frame::Render(stage);
+    if (stage != GlEngine::renderStage_2d) return;
+
+    renderer->DrawDirect(10, 62, renderText.c_str());
 }

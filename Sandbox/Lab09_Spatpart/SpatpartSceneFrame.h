@@ -1,6 +1,7 @@
 #pragma once
-#include "Subroutine.h"
+
 #include "Frame.h"
+#include "FontRenderer.h"
 
 class SpatpartSceneFrame : public GlEngine::Frame
 {
@@ -10,6 +11,9 @@ public:
 
     virtual bool Initialize() override;
     virtual void Tick(float dt) override;
+
+    virtual void UpdateGraphics() override;
+    virtual void Render(GlEngine::RenderStage *stage);
 
     GlEngine::GameObject *flagGobj;
     GlEngine::CameraComponent* cameraComponent;
@@ -23,4 +27,7 @@ private:
         { 0, 3, 0 },
         { 1.8f, 2.714f, 0.076f }
     };
+
+    FIG::FontRenderer* renderer;
+    std::string renderText;
 };
