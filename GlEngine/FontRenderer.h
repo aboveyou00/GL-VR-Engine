@@ -49,11 +49,11 @@ namespace FIG
         template<typename... TArgs>
         void DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text, TArgs... args)
         {
-			char buffer[1024];
-			sprintf_s(buffer, text, args...);
-			DrawDirect(x, y, colorFg, colorBg, text);
+            char buffer[1024];
+            sprintf_s(buffer, text, args...);
+            DrawDirect(x, y, colorFg, colorBg, text);
         }
-		void DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text);
+        void DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text);
 
         template<typename... TArgs>
         void Draw(const char * const text, TArgs... args)

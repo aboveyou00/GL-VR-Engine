@@ -22,40 +22,49 @@ namespace FIG
     {
     }
 
-	void FontRenderer::DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text)
-	{
-		int m_viewport[4];
-		glGetIntegerv(GL_VIEWPORT, m_viewport);
+    void FontRenderer::DrawDirect(int x, int y, const float(&colorFg)[4], const float(&colorBg)[4], const char * const text)
+    {
+        int m_viewport[4];
+        glGetIntegerv(GL_VIEWPORT, m_viewport);
+        checkForGlError();
 
-		float left = (float)m_viewport[0] - x;
-		float top = (float)m_viewport[1] - y;
-		float right = (float)m_viewport[2] - x;
-		float bottom = (float)m_viewport[3] - y;
-		float nearVal = -1.0;
-		float farVal = 1.0;
+        float left = (float)m_viewport[0] - x;
+        float top = (float)m_viewport[1] - y;
+        float right = (float)m_viewport[2] - x;
+        float bottom = (float)m_viewport[3] - y;
+        float nearVal = -1.0;
+        float farVal = 1.0;
 
-		float X = 2 / (right - left),
-			Y = 2 / (top - bottom),
-			Z = -2 / (farVal - nearVal),
-			Tx = -(right + left) / (right - left),
-			Ty = -(top + bottom) / (top - bottom),
-			Tz = -(farVal + nearVal) / (farVal - nearVal);
+        float X = 2 / (right - left),
+            Y = 2 / (top - bottom),
+            Z = -2 / (farVal - nearVal),
+            Tx = -(right + left) / (right - left),
+            Ty = -(top + bottom) / (top - bottom),
+            Tz = -(farVal + nearVal) / (farVal - nearVal);
 
-		float transform[16] = {
-			X,  0,  0,  0,
-			0,  Y,  0,  0,
-			0,  0,  Z,  0,
-			Tx, Ty, Tz, 1
-		};
+        float transform[16] = {
+            X,  0,  0,  0,
+            0,  Y,  0,  0,
+            0,  0,  Z,  0,
+            Tx, Ty, Tz, 1
+        };
 
-		Draw(transform, colorFg, colorBg, text);
-	}
+        Draw(transform, colorFg, colorBg, text);
+    }
 
     const float FontRenderer::defaultColorFg[4]{ 1.0, 1.0, 1.0, 1.0 };
     const float FontRenderer::defaultColorBg[4]{ 0.0, 0.0, 0.0, 0.0 };
 
     void FontRenderer::Draw(const float(&transform)[16], const float(&colorFg)[4], const float(&colorBg)[4], const char * const text)
     {
+        glBindVertexArray(0u);
+        checkForGlError();
+
+        glEnable(GL_BLEND);
+        checkForGlError();
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        checkForGlError();
+
         size_t length = strlen(text);
         if (length == 0)
             return;
@@ -64,10 +73,13 @@ namespace FIG
         GetCharacterPositions(text, length, points);
 
         glUseProgram(shader);
+        checkForGlError();
         glBindBuffer(GL_ARRAY_BUFFER, rawPositionsVbo);
+        checkForGlError();
 
         SetRenderData(transform, colorFg, colorBg, text, length, points);
         glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, length);
+        checkForGlError();
     }
 
     BoundingBox FontRenderer::Bounds(const char * const text)
@@ -96,12 +108,18 @@ namespace FIG
     bool FontRenderer::CreateGlyphs()
     {
         glGenTextures(1, &texture);
+        checkForGlError();
         glBindTexture(GL_TEXTURE_3D, texture);
+        checkForGlError();
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        checkForGlError();
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        checkForGlError();
 
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, settings.filterMode);
+        checkForGlError();
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, settings.filterMode);
+        checkForGlError();
 
         FT_F26Dot6 f266_fontsize = (long)(settings.fontSize * 64.f + 0.5f);
         FT_Set_Char_Size(font->face, f266_fontsize, f266_fontsize, 96, 96);
@@ -123,6 +141,7 @@ namespace FIG
         }
 
         glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, charWidth, charHeight, 256, 0, GL_RED, GL_UNSIGNED_BYTE, bitmapData);
+        checkForGlError();
 
         return true;
     }
@@ -197,46 +216,62 @@ namespace FIG
         GLint compiled;
 
         unsigned vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        checkForGlError();
         glShaderSource(vertexShader, 1, &vertexSource, nullptr);
+        checkForGlError();
         glCompileShader(vertexShader);
+        checkForGlError();
 
         glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &compiled);
+        checkForGlError();
         if (!compiled)
         {
             GLsizei length;
             char* buff = new char[errorLength];
             glGetShaderInfoLog(vertexShader, errorLength, &length, buff);
+            checkForGlError();
             SetError("Could not compile vertex shader:\n%s", buff);
             return false;
         }
 
         unsigned fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        checkForGlError();
         glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
+        checkForGlError();
         glCompileShader(fragmentShader);
+        checkForGlError();
 
         glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &compiled);
+        checkForGlError();
         if (!compiled)
         {
             GLsizei length;
             char* buff = new char[errorLength];
             glGetShaderInfoLog(fragmentShader, errorLength, &length, buff);
+            checkForGlError();
             SetError("Could not compile fragment shader:\n%s", buff);
             return false;
         }
 
         shader = glCreateProgram();
+        checkForGlError();
         glAttachShader(shader, vertexShader);
+        checkForGlError();
         glAttachShader(shader, fragmentShader);
+        checkForGlError();
 
         glLinkProgram(shader);
+        checkForGlError();
 
         int linked;
         glGetProgramiv(shader, GL_LINK_STATUS, &linked);
+        checkForGlError();
         if (!linked)
         {
             GLsizei length;
             char* buff = new char[errorLength];
             glGetProgramInfoLog(shader, errorLength, &length, buff);
+            checkForGlError();
             SetError("Could not link program:\n%s", buff);
             return false;
         }
@@ -247,11 +282,15 @@ namespace FIG
     bool FontRenderer::SetShaderData()
     {
         glUseProgram(shader);
+        checkForGlError();
 
         glGenBuffers(1, &charactersVbo);
+        checkForGlError();
         glGenBuffers(1, &positionsVbo);
+        checkForGlError();
 
         glGenBuffers(1, &rawPositionsVbo);
+        checkForGlError();
         float rawPositions[8] = {
             0.f, 0.f,
             1.f, 0.f,
@@ -259,11 +298,16 @@ namespace FIG
             1.f, 1.f
         };
         glBindBuffer(GL_ARRAY_BUFFER, rawPositionsVbo);
+        checkForGlError();
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8, rawPositions, GL_STATIC_DRAW);
+        checkForGlError();
         glEnableVertexAttribArray(0);
+        checkForGlError();
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        checkForGlError();
 
         glUniform2f(glGetUniformLocation(shader, "charSize"), (float)charWidth, (float)charHeight);
+        checkForGlError();
 
         float sizes[512];
         for (unsigned chr = 0; chr < 256; chr++)
@@ -272,6 +316,7 @@ namespace FIG
             sizes[2 * chr + 1] = (float)metrics[chr].height / 64;
         }
         glUniform2fv(glGetUniformLocation(shader, "sizes"), 256, sizes);
+        checkForGlError();
 
         return true;
     }
@@ -279,26 +324,43 @@ namespace FIG
     void FontRenderer::SetRenderData(const float(&transform)[16], const float(&colorFg)[4], const float(&colorBg)[4], const char * const text, unsigned length, float* positions)
     {
         glUniformMatrix4fv(glGetUniformLocation(shader, "transform"), 1, GL_FALSE, transform);
+        checkForGlError();
         glUniform4fv(glGetUniformLocation(shader, "fgColor"), 1, colorFg);
+        checkForGlError();
         glUniform4fv(glGetUniformLocation(shader, "bgColor"), 1, colorBg);
+        checkForGlError();
         
         glUniform1ui(glGetUniformLocation(shader, "length"), length);
+        checkForGlError();
              
         glBindBuffer(GL_ARRAY_BUFFER, charactersVbo);
+        checkForGlError();
         glBufferData(GL_ARRAY_BUFFER, sizeof(char) * length, text, GL_DYNAMIC_DRAW);
+        checkForGlError();
         glEnableVertexAttribArray(1);
+        checkForGlError();
         glVertexAttribIPointer(1, 1, GL_UNSIGNED_BYTE, 0, (void*)0);
+        checkForGlError();
         glVertexAttribDivisor(1, 1);
+        checkForGlError();
         
         glBindBuffer(GL_ARRAY_BUFFER, positionsVbo);
+        checkForGlError();
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * length * 2, positions, GL_DYNAMIC_DRAW);
+        checkForGlError();
         glEnableVertexAttribArray(2);
+        checkForGlError();
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        checkForGlError();
         glVertexAttribDivisor(2, 1);
+        checkForGlError();
         
         glActiveTexture(GL_TEXTURE0);
+        checkForGlError();
         glBindTexture(GL_TEXTURE_3D, texture);
+        checkForGlError();
         glUniform1i(glGetUniformLocation(shader, "tex"), 0);
+        checkForGlError();
     }
 
     unsigned FontRenderer::nextPowerOfTwo(unsigned n)
