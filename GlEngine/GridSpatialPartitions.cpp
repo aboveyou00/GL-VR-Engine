@@ -261,11 +261,28 @@ namespace GlEngine
             Util::floor_int(position[1] / partitionSize[1]), 
             Util::floor_int(position[2] / partitionSize[2])
         };
-        auto meshSet = partitions[key];
-        size_t size = meshSet == nullptr ? 0 : meshSet->size();
+        auto currentMeshes = partitions[key];
+        size_t currentBucketSize = currentMeshes == nullptr ? 0 : currentMeshes->size();
+        
+        unsigned maxBucketSize = 0;
+        unsigned totalBucketSize = 0;
+        auto bucketCount = 0;
+        for (auto meshes : partitions)
+        {
+            if (meshes.second == nullptr)
+                continue;
+
+            bucketCount++;
+            size_t bucketSize = meshes.second->size();
+            maxBucketSize = max(maxBucketSize, bucketSize);
+            totalBucketSize += bucketSize;
+        }
+        float averageBucketSize = (float)totalBucketSize / bucketCount;
 
         char* result = new char[256];
-        sprintf_s(result, 256, "current bucket {%d, %d, %d} contains %d meshes", key[0], key[1], key[2], size);
+        sprintf_s(result, 256, "current bucket {%d, %d, %d} contains %d meshes\n%d buckets with average of %.3f meshes and max of %d meshes", 
+            key[0], key[1], key[2], currentBucketSize, bucketCount, averageBucketSize, maxBucketSize);
+
         return std::string(result);
     }
 #endif // _DEBUG
