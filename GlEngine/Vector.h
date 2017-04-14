@@ -265,4 +265,18 @@ private:
     }
 };
 
+namespace std
+{
+    template<unsigned dimension, typename ElemT> struct hash<Vector<dimension, ElemT>>
+    {
+        size_t operator()(const Vector<dimension, ElemT>& val) const
+        {
+            size_t result = dimension;
+            for (size_t i = 0; i < dimension; i++)
+                result = ((result << 7) & (result >> (sizeof(size_t) * 8 - 7))) + hash<ElemT>()(val[i]);
+            return result;
+        }
+    };
+}
+
 #endif //ndef VECTOR_H

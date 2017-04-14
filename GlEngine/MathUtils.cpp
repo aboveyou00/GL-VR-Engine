@@ -22,6 +22,11 @@ namespace GlEngine
         {
             return deg * PI / 180;
         }
+
+        int roundInt(double val)
+        {
+            return val < 0 ? (int)(val - 0.5) : (int)(val + 0.5);
+        }
     }
 }
 

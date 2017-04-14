@@ -13,11 +13,11 @@ namespace GlEngine
         ENGINE_SHARED constexpr double degToRad_d(const double deg);
         ENGINE_SHARED inline int floor_int(double flt)
         {
-            return (int)flt - (flt < 0);
+            return flt > 0 ? (int)(floor(flt)) : (int)(-ceil(-flt));
         }
         ENGINE_SHARED inline int ceil_int(double flt)
         {
-            return -(floor_int(-flt));
+            return flt > 0 ? (int)(ceil(flt)) : (int)(-floor(-flt));
         }
     }
 }

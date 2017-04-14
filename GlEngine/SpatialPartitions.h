@@ -1,7 +1,6 @@
 #pragma once
 
 #include "MeshComponent.h"
-#include "GameComponent.h"
 
 namespace GlEngine
 {

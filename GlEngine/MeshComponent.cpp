@@ -19,6 +19,7 @@ namespace GlEngine
     MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<4, unsigned>> quads, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals)
         : GameComponent("Mesh"), vertices(vertices), triangles(triangles), quads(quads), texCoords(texCoords), normals(normals)
     {
+        CalculateBounds();
     }
 
     MeshComponent::~MeshComponent()
@@ -45,6 +46,17 @@ namespace GlEngine
         auto partitions = frame()->spatialPartitions;
         if (partitions != nullptr)
             partitions->AddMesh(this);
+    }
+
+    void MeshComponent::CalculateBounds()
+    {
+        float dist_sqr = 0;
+        for (auto position : vertices)
+            dist_sqr = max(dist_sqr, position.LengthSquared());
+        
+        float dist = sqrt(dist_sqr);
+        leftBound = topBound = backBound = -dist;
+        rightBound = bottomBound = frontBound = dist;
     }
 
     void MeshComponent::CalculateNormals()

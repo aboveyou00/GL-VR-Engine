@@ -19,13 +19,15 @@ namespace GlEngine
         std::vector<Vector<3>> normals;
         std::vector<Vector<2>> texCoords;
 
+        float leftBound, rightBound, topBound, bottomBound, frontBound, backBound;
+
         bool RayIntersection(Ray ray, float* outDistance = nullptr);
 
         virtual void GameObjectChanged() override;
-
-    private:
+        void CalculateBounds();
         void CalculateNormals();
 
+    private:
         bool RayIntersectionInternal(Ray ray);
         bool RayIntersectionInternal(Ray ray, float* outDistance);
     };

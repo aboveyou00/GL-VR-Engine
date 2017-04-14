@@ -21,6 +21,7 @@
 #include "InstancedGraphicsObject.h"
 #include "RandomUtils.h"
 #include "NullSpatialPartitions.h"
+#include "CubeSpatialPartitions.h"
 #include "ObjLoader.h"
 
 const Vector<3> RAYCAST_HIT_COLOR = { 0, 1, 0 };
@@ -37,7 +38,7 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
+    CreateSpatialPartitions<GlEngine::CubeSpatialPartitions>(Vector<3>{3, 3, 3});
 
     auto pipeline = CreateDefaultPipeline(cameraComponent);
     pipeline->SetClearColor(Vector<3> { 0, .1f, .5f });
