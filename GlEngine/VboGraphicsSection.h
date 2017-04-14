@@ -22,6 +22,7 @@ namespace GlEngine
             VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers, ShaderFactory::ShaderFactory* factory = nullptr);
             ~VboGraphicsSection();
 
+            void AddLine(Vector<2, uint16_t> indices);
             void AddTriangle(Vector<3, uint16_t> indices);
             void AddQuad(Vector<4, uint16_t> indices);
             void Finalize(VboFactory<VboType::UnsignedShort, uint16_t> *face_factory);
@@ -44,9 +45,10 @@ namespace GlEngine
         private:
             bool finalized;
             Material *material;
+            std::vector<Vector<2, uint16_t>> *lines;
             std::vector<Vector<3, uint16_t>> *tris;
             std::vector<Vector<4, uint16_t>> *quads;
-            int triCount, quadCount, triOffset, quadOffset;
+            int lineCount, triCount, quadCount, lineOffset, triOffset, quadOffset;
 
             ShaderFactory::ShaderFactory *_factory;
         };

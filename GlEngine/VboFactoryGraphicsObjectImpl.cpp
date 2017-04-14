@@ -53,6 +53,10 @@ namespace GlEngine::Impl
         graphicsSections.push_back(currentGraphicsSection);
     }
 
+    void VboFactoryGraphicsObjectImpl::AddLine(unsigned idx0, unsigned idx1)
+    {
+        AddLine({ idx0, idx1 });
+    }
     void VboFactoryGraphicsObjectImpl::AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2)
     {
         AddTriangle({ idx0, idx1, idx2 });
@@ -60,6 +64,16 @@ namespace GlEngine::Impl
     void VboFactoryGraphicsObjectImpl::AddQuad(unsigned idx0, unsigned idx1, unsigned idx2, unsigned idx3)
     {
         AddQuad({ idx0, idx1, idx2, idx3 });
+    }
+    void VboFactoryGraphicsObjectImpl::AddLine(Vector<2, uint16_t> indices)
+    {
+        ScopedLock _lock(mutex);
+        assert(!finalized);
+        assert(allowFaces);
+        assert(currentGraphicsSection != nullptr);
+        for (size_t q = 0; q < 2; q++)
+            assert(indices[q] < elemIdx);
+        currentGraphicsSection->AddLine(indices);
     }
     void VboFactoryGraphicsObjectImpl::AddTriangle(Vector<3, uint16_t> indices)
     {

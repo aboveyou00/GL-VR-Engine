@@ -179,6 +179,8 @@
     <ClInclude Include="GlobalTransform.h" />
     <ClInclude Include="IInitializable.h" />
     <ClInclude Include="IPropertyProvider.h" />
+    <ClInclude Include="LineSegmentGraphicsObject.h" />
+    <ClInclude Include="LineSegmentMaterial.h" />
     <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="MeshMaterialGraphicsObject.h" />
@@ -362,6 +364,8 @@
     <ClCompile Include="GlobalTransform.cpp" />
     <ClCompile Include="IAsyncInitializable.cpp" />
     <ClCompile Include="ICamera.cpp" />
+    <ClCompile Include="LineSegmentGraphicsObject.cpp" />
+    <ClCompile Include="LineSegmentMaterial.cpp" />
     <ClCompile Include="MatrixTransform.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MeshMaterialGraphicsObject.cpp" />

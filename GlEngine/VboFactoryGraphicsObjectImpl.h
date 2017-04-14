@@ -27,8 +27,10 @@ namespace GlEngine::Impl
         void SetMaterial(Material *material);
         virtual void PrepareShaderFactory(ShaderFactory::ShaderFactory *factory) = 0;
 
+        void AddLine(unsigned idx0, unsigned idx1);
         void AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2);
         void AddQuad(unsigned idx0, unsigned idx1, unsigned idx2, unsigned idx3);
+        void AddLine(Vector<2, uint16_t> indices);
         void AddTriangle(Vector<3, uint16_t> indices);
         void AddQuad(Vector<4, uint16_t> indices);
 

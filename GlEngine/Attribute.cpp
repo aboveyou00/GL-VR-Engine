@@ -138,7 +138,8 @@ namespace GlEngine
                              { &prop_Texture, &prop_Texture2, &prop_UV },
                              { &prop_BaseColor },
                              PropertySourceFlag::None,
-                             { ComponentType::Fragment }))->WithTemps<Vector<4>>()
+                             { ComponentType::Fragment })
+                )->WithTemps<Vector<4>>()
             },
             {
             }
@@ -150,7 +151,8 @@ namespace GlEngine
                              { &prop_Texture, &prop_UV, &prop_AlphaMapTexture },
                              { &prop_BaseColor },
                              PropertySourceFlag::None,
-                             { ComponentType::Fragment }))->WithTemps<float>()
+                             { ComponentType::Fragment })
+                )->WithTemps<float>()
             },
             {
             }
@@ -200,19 +202,19 @@ namespace GlEngine
             "attr_SpecularLightDirectional"s,
             {
                 new Snippet("[out:0] = normalize(vec3([in:2] * vec4([in:0], 1) - [in:2] * [in:1] * vec4([in:3], 1))); //normalized vector from surface position to camera position",
-                { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },
-                { &prop_SurfaceToCamera },
-                PropertySourceFlag::None,
-                { ComponentType::Fragment }),
+                            { &prop_CameraPosition, &prop_ModelMatrix, &prop_ViewMatrix, &prop_Position },
+                            { &prop_SurfaceToCamera },
+                            PropertySourceFlag::None,
+                            { ComponentType::Fragment }),
 
                 (new Snippet("if (gl_FrontFacing) [temp:0] = normalize(reflect([in:2], vec3([in:3]))); //light direction reflected across the normal\n"s +
-                "else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));\n"s +
-                    "[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation"s,
-                    { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_DirectionalLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
-                    { &prop_SpecularLightComponent },
-                    PropertySourceFlag::None,
-                    { ComponentType::Fragment })
-                    )->WithTemps<Vector<3>>()
+                             "else [temp:0] = normalize(reflect([in:2], vec3(-[in:3])));\n"s +
+                             "[out:0] = [in:0] * [in:1] * pow(clamp(dot([temp:0], -[in:4]), 0.0, 1.0), [in:5]); //specular light calculation"s,
+                             { &prop_ReflectionCoefficient, &prop_SpecularLightColor, &prop_DirectionalLightDirection, &prop_ModelViewNormal, &prop_SurfaceToCamera, &prop_Shininess },
+                             { &prop_SpecularLightComponent },
+                             PropertySourceFlag::None,
+                             { ComponentType::Fragment })
+                )->WithTemps<Vector<3>>()
             },
             {
             },
@@ -265,10 +267,10 @@ namespace GlEngine
             "attr_DiffuseLightDirectional"s,
             {
                 new Snippet("if (!gl_FrontFacing) [out:0] = -[in:2];\n[out:1] = [in:0] * [in:1] * clamp([in:2], 0.0, 1.0);",
-                { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseComponentIntensity },
-                { &prop_DiffuseComponentIntensity, &prop_DiffuseLightComponent },
-                PropertySourceFlag::None,
-                { ComponentType::Fragment }),
+                            { &prop_ReflectionCoefficient, &prop_DiffuseLightColor, &prop_DiffuseComponentIntensity },
+                            { &prop_DiffuseComponentIntensity, &prop_DiffuseLightComponent },
+                            PropertySourceFlag::None,
+                            { ComponentType::Fragment }),
             },
             {
             },
@@ -466,6 +468,20 @@ namespace GlEngine
                             { &prop_RgbaColor }, 
                             PropertySourceFlag::Fallback,
                             { ComponentType::Fragment })
+            },
+            {
+            },
+            { }
+        );
+
+        Attribute attr_LineSegments = Attribute(
+            "attr_LineSegmengs"s,
+            {
+                new Snippet("[out:0] = vec3(1, 1, 1);",
+                            { },
+                            { &prop_LightColor },
+                            PropertySourceFlag::None,
+                            { ComponentType::Vertex, ComponentType::Fragment })
             },
             {
             },

@@ -12,6 +12,7 @@ namespace GlEngine
     {
         VboGraphicsSection::VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers, ShaderFactory::ShaderFactory* factory)
             : material(material),
+              lines(new std::vector<Vector<2, uint16_t>>()),
               tris(new std::vector<Vector<3, uint16_t>>()),
               quads(new std::vector<Vector<4, uint16_t>>()),
               _factory(factory == nullptr ? new ShaderFactory::ShaderFactory() : factory),
@@ -21,10 +22,16 @@ namespace GlEngine
         }
         VboGraphicsSection::~VboGraphicsSection()
         {
+            SafeDelete(lines);
             SafeDelete(tris);
             SafeDelete(quads);
         }
 
+        void VboGraphicsSection::AddLine(Vector<2, uint16_t> indices)
+        {
+            assert(!finalized);
+            lines->push_back(indices);
+        }
         void VboGraphicsSection::AddTriangle(Vector<3, uint16_t> indices)
         {
             assert(!finalized);
@@ -40,16 +47,30 @@ namespace GlEngine
             assert(!finalized);
 
             finalized = true;
+            lineCount = lines->size();
             triCount = tris->size();
             quadCount = quads->size();
 
             if (face_factory == nullptr)
             {
+                assert(lineCount == 0);
                 assert(triCount == 0);
                 assert(quadCount == 0);
             }
             else
             {
+                if (lineCount > 0)
+                {
+                    auto vec = lines->at(0);
+                    lineOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
+                    face_factory->AddVertex(vec[1]);
+                    for (int q = 1; q < lineCount; q++)
+                    {
+                        vec = lines->at(q);
+                        face_factory->AddVertex(vec[0]);
+                        face_factory->AddVertex(vec[1]);
+                    }
+                }
                 if (triCount > 0)
                 {
                     auto vec = tris->at(0);
@@ -82,6 +103,7 @@ namespace GlEngine
                 }
             }
 
+            SafeDelete(lines);
             SafeDelete(tris);
             SafeDelete(quads);
         }
@@ -98,6 +120,11 @@ namespace GlEngine
             auto tesselation = material->GetTesselationType();
             if (tesselation == TesselationType::Disabled)
             {
+                if (lineCount)
+                {
+                    glDrawElements(GL_LINES, lineCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset));
+                    checkForGlError();
+                }
                 if (triCount)
                 {
                     glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
@@ -109,6 +136,18 @@ namespace GlEngine
                     checkForGlError();
                 }
             }
+            else if (tesselation == TesselationType::Lines)
+            {
+                if (triCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 2);
+                    checkForGlError();
+                    glDrawElements(GL_PATCHES, lineCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset));
+                    checkForGlError();
+                }
+                assert(!triCount);
+                assert(!quadCount);
+            }
             else if (tesselation == TesselationType::Triangles)
             {
                 if (triCount)
@@ -118,6 +157,7 @@ namespace GlEngine
                     glDrawElements(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
                     checkForGlError();
                 }
+                assert(!triCount);
                 assert(!quadCount);
             }
             else if (tesselation == TesselationType::Quads)
@@ -129,6 +169,7 @@ namespace GlEngine
                     glDrawElements(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
                     checkForGlError();
                 }
+                assert(!lineCount);
                 assert(!triCount);
             }
             else assert(false);
@@ -148,6 +189,11 @@ namespace GlEngine
             auto tesselation = material->GetTesselationType();
             if (tesselation == TesselationType::Disabled)
             {
+                if (lineCount)
+                {
+                    glDrawElementsInstanced(GL_LINES, triCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset), instanceCount);
+                    checkForGlError();
+                }
                 if (triCount)
                 {
                     glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
@@ -159,6 +205,18 @@ namespace GlEngine
                     checkForGlError();
                 }
             }
+            else if (tesselation == TesselationType::Lines)
+            {
+                if (triCount)
+                {
+                    glPatchParameteri(GL_PATCH_VERTICES, 2);
+                    checkForGlError();
+                    glDrawElementsInstanced(GL_PATCHES, lineCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset), instanceCount);
+                    checkForGlError();
+                }
+                assert(!triCount);
+                assert(!quadCount);
+            }
             else if (tesselation == TesselationType::Triangles)
             {
                 if (triCount)
@@ -168,6 +226,7 @@ namespace GlEngine
                     glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
                     checkForGlError();
                 }
+                assert(!lineCount);
                 assert(!quadCount);
             }
             else if (tesselation == TesselationType::Quads)
@@ -179,6 +238,7 @@ namespace GlEngine
                     glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
                     checkForGlError();
                 }
+                assert(!lineCount);
                 assert(!triCount);
             }
             else assert(false);

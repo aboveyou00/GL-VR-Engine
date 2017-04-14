@@ -73,6 +73,7 @@ namespace GlEngine
 
         extern ENGINE_SHARED Attribute attr_LightingFallbacks;
 
+        extern ENGINE_SHARED Attribute attr_LineSegments;
 #pragma endregion
     }
 }
