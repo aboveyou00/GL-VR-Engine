@@ -27,6 +27,7 @@ private:
         { 0, 3, 0 },
         { 1.8f, 2.714f, 0.076f }
     };
+    GlEngine::GameObject* raytraceDebugObjects[TEST_POINT_COUNT] = { nullptr, nullptr, nullptr, nullptr, nullptr };
 
     FIG::FontRenderer* renderer;
     std::string renderText;

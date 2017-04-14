@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Lab09_Spatpart\CrosshairGraphicsObject.h" />
     <ClInclude Include="FixedRotationComponent.h" />
     <ClInclude Include="Lab03_LightsAndEffects\PhongFogMaterial.h" />
     <ClInclude Include="Lab02_Features\DiscardPhongMaterial.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Lab06_Distortion\DistortionSceneFrame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Lab09_Spatpart\CrosshairGraphicsObject.cpp" />
     <ClCompile Include="FixedRotationComponent.cpp" />
     <ClCompile Include="Lab05_Geometry\explode_source.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\PhongFogMaterial.cpp" />

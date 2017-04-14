@@ -24,6 +24,8 @@
 #include "GridSpatialPartitions.h"
 #include "ObjLoader.h"
 
+#include "CrosshairGraphicsObject.h"
+
 const Vector<3> RAYCAST_HIT_COLOR = { 0, 1, 0 };
 const Vector<3> RAYCAST_MISS_COLOR = { 1, 0, 0 };
 
@@ -59,13 +61,13 @@ bool SpatpartSceneFrame::Initialize()
     controlsComponent->SetControllingLight(light);
     auto ambient = new GlEngine::AmbientLightSource({ .2f, .2f, .2f });
 
-    auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
-    auto groundPlane = new GlEngine::GameObject(this, "Ground");
-    const float GROUND_SIZE = 256.f;
-    auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", new GlEngine::PhongMaterial(grassTex, { .9f, .9f, .9f }, 5.0f), { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
-    groundPlaneGfx->AddPropertyProvider(ambient);
-    groundPlaneGfx->AddPropertyProvider(light);
-    groundPlane->AddComponent(groundPlaneGfx);
+    //auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
+    //auto groundPlane = new GlEngine::GameObject(this, "Ground");
+    //const float GROUND_SIZE = 256.f;
+    //auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", new GlEngine::PhongMaterial(grassTex, { .9f, .9f, .9f }, 5.0f), { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
+    //groundPlaneGfx->AddPropertyProvider(ambient);
+    //groundPlaneGfx->AddPropertyProvider(light);
+    //groundPlane->AddComponent(groundPlaneGfx);
 
     flagGobj = new GlEngine::GameObject(this, "Flag");
     auto objLoader = new GlEngine::ObjLoader("Resources/flag.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
@@ -90,6 +92,14 @@ bool SpatpartSceneFrame::Initialize()
     wallObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .4f, .8f, .2f }, { .9f, .9f, .9f }, 5.0f));
     wallGobj->AddComponent(wallObjLoader);
 
+    for (size_t q = 0; q < TEST_POINT_COUNT; q++)
+    {
+        auto testPtObj = new GlEngine::GameObject(this, "RaytraceTestPoint");
+        testPtObj->AddComponent(new CrosshairGraphicsObject(.2f, Vector<3> { 0, 0, 1.f }));
+        testPtObj->Deactivate();
+        raytraceDebugObjects[q] = testPtObj;
+    }
+
     return true;
 }
 void SpatpartSceneFrame::Tick(float dt)
@@ -98,10 +108,17 @@ void SpatpartSceneFrame::Tick(float dt)
     bool hitFlag = false;
     float distance = 0;
 
-    for (size_t q = 0; q < TEST_POINT_COUNT && !hitFlag; q++)
+    for (size_t q = 0; q < TEST_POINT_COUNT; q++)
     {
-        auto result = spatialPartitions->RayCast(cameraComponent->rayToPoint(testPoints[q]), &distance);
-        hitFlag = result != nullptr && result->gameObject() == flagGobj;
+        auto ray = cameraComponent->rayToPoint(testPoints[q]);
+        auto result = spatialPartitions->RayCast(ray, &distance);
+        if (result != nullptr)
+        {
+            raytraceDebugObjects[q]->Activate();
+            raytraceDebugObjects[q]->localTransform()->SetPosition(ray.origin + distance * ray.direction);
+        }
+        else raytraceDebugObjects[q]->Deactivate();
+        hitFlag = hitFlag || (result != nullptr && result->gameObject() == flagGobj);
     }
     this->mainPipeline()->SetClearColor(hitFlag ? RAYCAST_HIT_COLOR : RAYCAST_MISS_COLOR);
     //GlEngine::Util::Log("Raycast object: %d, distance: %f", result, distance);
