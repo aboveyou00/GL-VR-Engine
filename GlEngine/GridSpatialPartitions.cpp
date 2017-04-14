@@ -1,21 +1,21 @@
 #include "stdafx.h"
-#include "CubeSpatialPartitions.h"
+#include "GridSpatialPartitions.h"
 #include "GameObject.h"
 #include "MathUtils.h"
 #include "ScopedLock.h"
 
 namespace GlEngine
 {
-    CubeSpatialPartitions::CubeSpatialPartitions(Vector<3> partitionSize)
+    GridSpatialPartitions::GridSpatialPartitions(Vector<3> partitionSize)
         : SpatialPartitions(), partitionSize(partitionSize), xMin(0), xMax(0), yMin(0), yMax(0), zMin(0), zMax(0)
     {
     }
 
-    CubeSpatialPartitions::~CubeSpatialPartitions()
+    GridSpatialPartitions::~GridSpatialPartitions()
     {
     }
 
-    void CubeSpatialPartitions::AddMesh(MeshComponent* mesh)
+    void GridSpatialPartitions::AddMesh(MeshComponent* mesh)
     {
         auto pos = mesh->gameObject()->globalTransform()->position();
         int left   = Util::floor_int((pos[0] + mesh->leftBound)   / partitionSize[0]);
@@ -32,7 +32,7 @@ namespace GlEngine
                 for (int z = back; z <= front; z++)
                     AddMeshToPartition(x, y, z, mesh);
     }
-    void CubeSpatialPartitions::RemoveMesh(MeshComponent* mesh)
+    void GridSpatialPartitions::RemoveMesh(MeshComponent* mesh)
     {
         auto pos = mesh->gameObject()->globalTransform()->position();
         int left   = Util::floor_int((pos[0] + mesh->leftBound)   / partitionSize[0]);
@@ -49,7 +49,7 @@ namespace GlEngine
                 for (int z = back; z <= front; z++)
                     RemoveMeshFromPartition(x, y, z, mesh);
     }
-    void CubeSpatialPartitions::UpdateMesh(MeshComponent* mesh)
+    void GridSpatialPartitions::UpdateMesh(MeshComponent* mesh)
     {
         auto oldMeshBounds = meshBounds[mesh];
         int oldLeft   = oldMeshBounds[0];
@@ -66,6 +66,8 @@ namespace GlEngine
         int bottom = Util::floor_int((pos[0] + mesh->bottomBound) / partitionSize[1]);
         int back = Util::floor_int((pos[0] + mesh->backBound) / partitionSize[2]);
         int front = Util::floor_int((pos[0] + mesh->frontBound) / partitionSize[2]);
+
+        meshBounds[mesh] = Vector<6, int>(left, right, top, bottom, back, front);
 
         for (int x = left; x <= right; x++)
         {
@@ -94,7 +96,44 @@ namespace GlEngine
         }
     }
 
-    MeshComponent* CubeSpatialPartitions::RayCast(Ray ray, float* outDistance)
+    void GridSpatialPartitions::AddStaticMesh(MeshComponent* mesh)
+    {
+        auto pos = mesh->gameObject()->globalTransform()->position();
+        int left = Util::floor_int((pos[0] + mesh->leftBound) / partitionSize[0]);
+        int right = Util::floor_int((pos[0] + mesh->rightBound) / partitionSize[0]);
+        int top = Util::floor_int((pos[0] + mesh->topBound) / partitionSize[1]);
+        int bottom = Util::floor_int((pos[0] + mesh->bottomBound) / partitionSize[1]);
+        int back = Util::floor_int((pos[0] + mesh->backBound) / partitionSize[2]);
+        int front = Util::floor_int((pos[0] + mesh->frontBound) / partitionSize[2]);
+
+        for (int x = left; x <= right; x++)
+        {
+            for (int y = top; y <= bottom; y++)
+            {
+                for (int z = back; z <= front; z++)
+                {
+                    for (auto triangle : mesh->allTriangles)
+                    {
+                        auto transform = mesh->gameObject()->globalTransform()->matrix();
+                        auto p0 = transform * mesh->vertices[triangle[0]];
+                        auto p1 = transform * mesh->vertices[triangle[1]];
+                        auto p2 = transform * mesh->vertices[triangle[2]];
+
+                        if (Util::triangleAABBIntersection(
+                            p0, p1, p2,
+                            {x * partitionSize[0], y * partitionSize[1], z * partitionSize[2]},
+                            partitionSize))
+                        {
+                            AddMeshToPartition(x, y, z, mesh);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    MeshComponent* GridSpatialPartitions::RayCast(Ray ray, float* outDistance)
     {
         if (ray.direction == Vector<3>{0, 0, 0})
             return nullptr;
@@ -157,7 +196,7 @@ namespace GlEngine
         return result;
     }
 
-    void CubeSpatialPartitions::AddMeshToPartition(int x, int y, int z, MeshComponent* mesh)
+    void GridSpatialPartitions::AddMeshToPartition(int x, int y, int z, MeshComponent* mesh)
     {
         ScopedLock _lock(partitionsLock);
 
@@ -171,7 +210,7 @@ namespace GlEngine
         zMin = min(zMin, z); zMax = max(zMax, z);
     }
 
-    void CubeSpatialPartitions::RemoveMeshFromPartition(int x, int y, int z, MeshComponent * mesh)
+    void GridSpatialPartitions::RemoveMeshFromPartition(int x, int y, int z, MeshComponent * mesh)
     {
         ScopedLock _lock(partitionsLock);
 
@@ -179,7 +218,7 @@ namespace GlEngine
         partitions[key]->erase(mesh);
     }
     
-    MeshComponent* CubeSpatialPartitions::RayCastPartition(int x, int y, int z, Ray ray, float * outDistance)
+    MeshComponent* GridSpatialPartitions::RayCastPartition(int x, int y, int z, Ray ray, float * outDistance)
     {
         ScopedLock _lock(partitionsLock);
 
@@ -213,7 +252,7 @@ namespace GlEngine
     }
 
 #ifdef _DEBUG
-    std::string CubeSpatialPartitions::debugString(Vector<3> position)
+    std::string GridSpatialPartitions::debugString(Vector<3> position)
     {
         ScopedLock _lock(partitionsLock);
 

@@ -9,15 +9,17 @@ namespace GlEngine
 {
     typedef std::unordered_map<Vector<3, int>, std::unordered_set<MeshComponent*>*> PartitionsMap;
 
-    class ENGINE_SHARED CubeSpatialPartitions : public SpatialPartitions
+    class ENGINE_SHARED GridSpatialPartitions : public SpatialPartitions
     {
     public:
-        CubeSpatialPartitions(Vector<3> partitionSize);
-        ~CubeSpatialPartitions();
+        GridSpatialPartitions(Vector<3> partitionSize);
+        ~GridSpatialPartitions();
 
         virtual void AddMesh(MeshComponent* mesh) override;
         virtual void RemoveMesh(MeshComponent* mesh) override;
         virtual void UpdateMesh(MeshComponent* mesh) override;
+
+        virtual void AddStaticMesh(MeshComponent* mesh) override;
 
         virtual MeshComponent* RayCast(Ray ray, float* outDistance = nullptr) override;
 

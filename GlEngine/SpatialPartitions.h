@@ -14,6 +14,9 @@ namespace GlEngine
         virtual void RemoveMesh(MeshComponent* mesh) = 0;
         virtual void UpdateMesh(MeshComponent* mesh) = 0;
 
+        virtual void AddStaticMesh(MeshComponent* mesh);
+        virtual void RemoveStaticMesh(MeshComponent* mesh);
+
         virtual MeshComponent* RayCast(Ray ray, float* outDistance = nullptr) = 0;
 
 #ifdef _DEBUG

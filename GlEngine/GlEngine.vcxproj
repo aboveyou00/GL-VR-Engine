@@ -164,7 +164,7 @@
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CubeGraphicsObject.h" />
-    <ClInclude Include="CubeSpatialPartitions.h" />
+    <ClInclude Include="GridSpatialPartitions.h" />
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="DirectionalLightSource.h" />
     <ClInclude Include="DummyPropertySource.h" />
@@ -351,8 +351,7 @@
     <ClCompile Include="BasicCollisionGroup.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CubeGraphicsObject.cpp" />
-    <ClCompile Include="CubeSpacialPartitions.cpp" />
-    <ClCompile Include="CubeSpatialPartitions.cpp" />
+    <ClCompile Include="GridSpatialPartitions.cpp" />
     <ClCompile Include="DirectionalLightSource.cpp" />
     <ClCompile Include="DummyPropertySource.cpp" />
     <ClCompile Include="FogSource.cpp" />

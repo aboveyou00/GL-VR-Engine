@@ -11,6 +11,16 @@ namespace GlEngine
     {
     }
 
+    void SpatialPartitions::AddStaticMesh(MeshComponent * mesh)
+    {
+        AddMesh(mesh);
+    }
+
+    void SpatialPartitions::RemoveStaticMesh(MeshComponent * mesh)
+    {
+        RemoveMesh(mesh);
+    }
+
 #ifdef _DEBUG
     std::string SpatialPartitions::debugString(Vector<3>)
     {

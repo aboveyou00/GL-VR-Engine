@@ -6,20 +6,26 @@
 
 namespace GlEngine
 {
-    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals)
-        : MeshComponent(vertices, triangles, {}, texCoords, normals)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals, bool isStatic)
+        : MeshComponent(vertices, triangles, {}, texCoords, normals, isStatic)
     {
     }
 
-    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<4, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals)
-        : MeshComponent(vertices, {}, quads, texCoords, normals)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<4, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals, bool isStatic)
+        : MeshComponent(vertices, {}, quads, texCoords, normals, isStatic)
     {
     }
 
-    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<4, unsigned>> quads, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals)
-        : GameComponent("Mesh"), vertices(vertices), triangles(triangles), quads(quads), texCoords(texCoords), normals(normals)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<4, unsigned>> quads, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals, bool isStatic)
+        : GameComponent("Mesh"), vertices(vertices), triangles(triangles), quads(quads), texCoords(texCoords), normals(normals), isStatic(isStatic)
     {
         CalculateBounds();
+        allTriangles.insert(allTriangles.begin(), triangles.begin(), triangles.end());
+        for (auto quad : quads)
+        {
+            allTriangles.push_back(Vector<3, unsigned>{quad[0], quad[1], quad[2]});
+            allTriangles.push_back(Vector<3, unsigned>{quad[2], quad[3], quad[0]});
+        }
     }
 
     MeshComponent::~MeshComponent()
@@ -45,7 +51,12 @@ namespace GlEngine
     {
         auto partitions = frame()->spatialPartitions;
         if (partitions != nullptr)
-            partitions->AddMesh(this);
+        {
+            if (isStatic)
+                partitions->AddStaticMesh(this);
+            else
+                partitions->AddMesh(this);
+        }
     }
 
     void MeshComponent::CalculateBounds()
@@ -79,16 +90,9 @@ namespace GlEngine
         Vector<3> origin = ray.origin - gameObject()->globalTransform()->position();
         Vector<3> direction = ray.direction * gameObject()->globalTransform()->orientation().Inverse();
 
-        for (auto triangle : triangles)
-            if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction))
+        for (auto triangle : allTriangles)
+            if (Util::triangleRayIntersection(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction))
                 return true;
-        for (auto quad : quads)
-        {
-            if (triangleRayIntersects(vertices[quad[0]], vertices[quad[1]], vertices[quad[2]], origin, direction))
-                return true;
-            if (triangleRayIntersects(vertices[quad[2]], vertices[quad[3]], vertices[quad[0]], origin, direction))
-                return true;
-        }
         return false;
     }
     
@@ -100,25 +104,9 @@ namespace GlEngine
         Vector<3> origin = ray.origin - gameObject()->globalTransform()->position();
         Vector<3> direction = ray.direction * gameObject()->globalTransform()->orientation().Inverse();
 
-        for (auto triangle : triangles)
+        for (auto triangle : allTriangles)
         {
-            if (triangleRayIntersects(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction, &distance))
-            {
-                if (!result || *outDistance > distance)
-                    *outDistance = distance;
-                result = true;
-            }
-        }
-
-        for (auto quad : quads)
-        {
-            if (triangleRayIntersects(vertices[quad[0]], vertices[quad[1]], vertices[quad[2]], origin, direction, &distance))
-            {
-                if (!result || *outDistance > distance)
-                    *outDistance = distance;
-                result = true;
-            }
-            if (triangleRayIntersects(vertices[quad[2]], vertices[quad[3]], vertices[quad[0]], origin, direction, &distance))
+            if (Util::triangleRayIntersection(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction, &distance))
             {
                 if (!result || *outDistance > distance)
                     *outDistance = distance;
