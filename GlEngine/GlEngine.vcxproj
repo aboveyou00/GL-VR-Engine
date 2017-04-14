@@ -175,6 +175,7 @@
     <ClInclude Include="FontRendererSettings.h" />
     <ClInclude Include="FontSettings.h" />
     <ClInclude Include="GameComponent.h" />
+    <ClInclude Include="IBoundingBox.h" />
     <ClInclude Include="ICamera.h" />
     <ClInclude Include="GlobalTransform.h" />
     <ClInclude Include="IInitializable.h" />
@@ -184,7 +185,9 @@
     <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="MeshMaterialGraphicsObject.h" />
+    <ClInclude Include="MeshTriangle.h" />
     <ClInclude Include="NullSpatialPartitions.h" />
+    <ClInclude Include="OctreeSpatialPartitions.h" />
     <ClInclude Include="PerformanceLevel.h" />
     <ClInclude Include="PlaneGraphicsObject.h" />
     <ClInclude Include="PointLightInfo.h" />
@@ -369,7 +372,10 @@
     <ClCompile Include="MatrixTransform.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MeshMaterialGraphicsObject.cpp" />
+    <ClCompile Include="MeshTriangle.cpp" />
     <ClCompile Include="NullSpatialPartitions.cpp" />
+    <ClCompile Include="Octree.cpp" />
+    <ClCompile Include="OctreeSpatialPartitions.cpp" />
     <ClCompile Include="OpenGl.cpp" />
     <ClCompile Include="PhongMaterial.cpp" />
     <ClCompile Include="Body.cpp" />

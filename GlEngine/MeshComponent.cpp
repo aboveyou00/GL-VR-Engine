@@ -70,8 +70,8 @@ namespace GlEngine
             dist_sqr = max(dist_sqr, position.LengthSquared());
         
         float dist = sqrt(dist_sqr);
-        leftBound = topBound = backBound = -dist;
-        rightBound = bottomBound = frontBound = dist;
+        _minX = _minY = _minZ = -dist;
+        _maxX = _maxY = _maxZ = dist;
     }
 
     void MeshComponent::CalculateNormals()

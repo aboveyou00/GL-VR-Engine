@@ -18,12 +18,12 @@ namespace GlEngine
     void GridSpatialPartitions::AddMesh(MeshComponent* mesh)
     {
         auto pos = mesh->gameObject()->globalTransform()->position();
-        int left   = Util::floor_int((pos[0] + mesh->leftBound)   / partitionSize[0]);
-        int right  = Util::floor_int((pos[0] + mesh->rightBound)  / partitionSize[0]);
-        int top    = Util::floor_int((pos[0] + mesh->topBound)    / partitionSize[1]);
-        int bottom = Util::floor_int((pos[0] + mesh->bottomBound) / partitionSize[1]);
-        int back   = Util::floor_int((pos[0] + mesh->backBound)   / partitionSize[2]);
-        int front  = Util::floor_int((pos[0] + mesh->frontBound)  / partitionSize[2]);
+        int left   = Util::floor_int((pos[0] + mesh->minX()) / partitionSize[0]);
+        int right  = Util::floor_int((pos[0] + mesh->maxX()) / partitionSize[0]);
+        int top    = Util::floor_int((pos[0] + mesh->minY()) / partitionSize[1]);
+        int bottom = Util::floor_int((pos[0] + mesh->maxY()) / partitionSize[1]);
+        int back   = Util::floor_int((pos[0] + mesh->minZ()) / partitionSize[2]);
+        int front  = Util::floor_int((pos[0] + mesh->maxZ()) / partitionSize[2]);
 
         meshBounds[mesh] = Vector<6, int>(left, right, top, bottom, back, front);
 
@@ -35,12 +35,12 @@ namespace GlEngine
     void GridSpatialPartitions::RemoveMesh(MeshComponent* mesh)
     {
         auto pos = mesh->gameObject()->globalTransform()->position();
-        int left   = Util::floor_int((pos[0] + mesh->leftBound)   / partitionSize[0]);
-        int right  = Util::floor_int((pos[0] + mesh->rightBound)  / partitionSize[0]);
-        int top    = Util::floor_int((pos[0] + mesh->topBound)    / partitionSize[1]);
-        int bottom = Util::floor_int((pos[0] + mesh->bottomBound) / partitionSize[1]);
-        int back   = Util::floor_int((pos[0] + mesh->backBound)   / partitionSize[2]);
-        int front  = Util::floor_int((pos[0] + mesh->frontBound)  / partitionSize[2]);
+        int left   = Util::floor_int((pos[0] + mesh->minX()) / partitionSize[0]);
+        int right  = Util::floor_int((pos[0] + mesh->maxX()) / partitionSize[0]);
+        int top    = Util::floor_int((pos[0] + mesh->minY()) / partitionSize[1]);
+        int bottom = Util::floor_int((pos[0] + mesh->maxY()) / partitionSize[1]);
+        int back   = Util::floor_int((pos[0] + mesh->minZ()) / partitionSize[2]);
+        int front  = Util::floor_int((pos[0] + mesh->maxZ()) / partitionSize[2]);
 
         meshBounds.erase(mesh);
 
@@ -60,20 +60,20 @@ namespace GlEngine
         int oldFront  = oldMeshBounds[5];
 
         auto pos = mesh->gameObject()->globalTransform()->position();
-        int left = Util::floor_int((pos[0] + mesh->leftBound) / partitionSize[0]);
-        int right = Util::floor_int((pos[0] + mesh->rightBound) / partitionSize[0]);
-        int top = Util::floor_int((pos[0] + mesh->topBound) / partitionSize[1]);
-        int bottom = Util::floor_int((pos[0] + mesh->bottomBound) / partitionSize[1]);
-        int back = Util::floor_int((pos[0] + mesh->backBound) / partitionSize[2]);
-        int front = Util::floor_int((pos[0] + mesh->frontBound) / partitionSize[2]);
+        int minX = Util::floor_int((pos[0] + mesh->minX()) / partitionSize[0]);
+        int maxX = Util::floor_int((pos[0] + mesh->maxX()) / partitionSize[0]);
+        int minY = Util::floor_int((pos[0] + mesh->minY()) / partitionSize[1]);
+        int maxY = Util::floor_int((pos[0] + mesh->maxY()) / partitionSize[1]);
+        int minZ = Util::floor_int((pos[0] + mesh->minZ()) / partitionSize[2]);
+        int maxZ = Util::floor_int((pos[0] + mesh->maxZ()) / partitionSize[2]);
 
-        meshBounds[mesh] = Vector<6, int>(left, right, top, bottom, back, front);
+        meshBounds[mesh] = Vector<6, int>(minX, maxX, minY, maxY, minZ, maxZ);
 
-        for (int x = left; x <= right; x++)
+        for (int x = minX; x <= maxX; x++)
         {
-            for (int y = top; y <= bottom; y++)
+            for (int y = minY; y <= maxY; y++)
             {
-                for (int z = back; z <= front; z++)
+                for (int z = minZ; z <= maxZ; z++)
                 {
                     if (oldLeft <= x && x <= oldRight && oldTop <= y && y <= oldBottom && oldBack <= z && z <= oldFront)
                         continue;
@@ -88,7 +88,7 @@ namespace GlEngine
             {
                 for (int z = oldBack; z <= oldFront; z++)
                 {
-                    if (left <= x && x <= right && top <= y && y <= bottom && back <= z && z <= front)
+                    if (minX <= x && x <= maxX && minY <= y && y <= maxY && minZ <= z && z <= maxZ)
                         continue;
                     RemoveMeshFromPartition(x, y, z, mesh);
                 }
@@ -99,18 +99,18 @@ namespace GlEngine
     void GridSpatialPartitions::AddStaticMesh(MeshComponent* mesh)
     {
         auto pos = mesh->gameObject()->globalTransform()->position();
-        int left = Util::floor_int((pos[0] + mesh->leftBound) / partitionSize[0]);
-        int right = Util::floor_int((pos[0] + mesh->rightBound) / partitionSize[0]);
-        int top = Util::floor_int((pos[0] + mesh->topBound) / partitionSize[1]);
-        int bottom = Util::floor_int((pos[0] + mesh->bottomBound) / partitionSize[1]);
-        int back = Util::floor_int((pos[0] + mesh->backBound) / partitionSize[2]);
-        int front = Util::floor_int((pos[0] + mesh->frontBound) / partitionSize[2]);
+        int minX = Util::floor_int((pos[0] + mesh->minX()) / partitionSize[0]);
+        int maxX = Util::floor_int((pos[0] + mesh->maxX()) / partitionSize[0]);
+        int minY = Util::floor_int((pos[0] + mesh->minY()) / partitionSize[1]);
+        int maxY = Util::floor_int((pos[0] + mesh->maxY()) / partitionSize[1]);
+        int minZ = Util::floor_int((pos[0] + mesh->minZ()) / partitionSize[2]);
+        int maxZ = Util::floor_int((pos[0] + mesh->maxZ()) / partitionSize[2]);
 
-        for (int x = left; x <= right; x++)
+        for (int x = minX; x <= maxX; x++)
         {
-            for (int y = top; y <= bottom; y++)
+            for (int y = minY; y <= maxY; y++)
             {
-                for (int z = back; z <= front; z++)
+                for (int z = minZ; z <= maxZ; z++)
                 {
                     for (auto triangle : *mesh->allTriangles)
                     {
