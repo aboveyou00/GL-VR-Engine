@@ -28,7 +28,7 @@ const Vector<3> RAYCAST_HIT_COLOR = { 0, 1, 0 };
 const Vector<3> RAYCAST_MISS_COLOR = { 1, 0, 0 };
 
 SpatpartSceneFrame::SpatpartSceneFrame()
-    : cameraComponent(nullptr), flagGobj(nullptr), renderText("Spatial Partitioning: [2, 1]; 12 elements in cell"), renderer(nullptr)
+    : cameraComponent(nullptr), flagGobj(nullptr), renderer(nullptr)
 {
 }
 SpatpartSceneFrame::~SpatpartSceneFrame()
@@ -39,6 +39,7 @@ bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
     CreateSpatialPartitions<GlEngine::CubeSpatialPartitions>(Vector<3>{3, 3, 3});
+    //CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
     auto pipeline = CreateDefaultPipeline(cameraComponent);
     pipeline->SetClearColor(Vector<3> { 0, .1f, .5f });
@@ -110,13 +111,13 @@ void SpatpartSceneFrame::UpdateGraphics()
 {
     Frame::UpdateGraphics();
     if (renderer != nullptr) return;
-    renderer = new FIG::FontRenderer(new FIG::Font("/Windows/Fonts/times.ttf"), FIG::FontRendererSettings(12));
+    renderer = new FIG::FontRenderer(new FIG::Font("/Windows/Fonts/consola.ttf"), FIG::FontRendererSettings(12));
 }
 
 void SpatpartSceneFrame::Render(GlEngine::RenderStage *stage)
 {
     Frame::Render(stage);
     if (stage != GlEngine::renderStage_2d) return;
-
+    renderText = spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
     renderer->DrawDirect(10, 62, renderText.c_str());
 }

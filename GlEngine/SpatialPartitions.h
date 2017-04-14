@@ -15,5 +15,9 @@ namespace GlEngine
         virtual void UpdateMesh(MeshComponent* mesh) = 0;
 
         virtual MeshComponent* RayCast(Ray ray, float* outDistance = nullptr) = 0;
+
+#ifdef _DEBUG
+        virtual std::string debugString(Vector<3> position);
+#endif // _DEBUG
     };
 }

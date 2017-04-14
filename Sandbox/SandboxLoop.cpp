@@ -61,7 +61,7 @@ bool SandboxLoop::initLoop()
     logger->Log(GlEngine::LogType::Info, "Beginning logic thread");
 
     if (!_frames.Initialize()) return false;
-    _frames.PushNewFrame<SlendermanStaticSceneFrame>();
+    _frames.PushNewFrame<SpatpartSceneFrame>();
 
     return true;
 }

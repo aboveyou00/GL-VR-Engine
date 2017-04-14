@@ -7,7 +7,7 @@
 
 namespace GlEngine
 {
-    typedef std::unordered_map<Vector<3>, std::unordered_set<MeshComponent*>*> PartitionsMap;
+    typedef std::unordered_map<Vector<3, int>, std::unordered_set<MeshComponent*>*> PartitionsMap;
 
     class ENGINE_SHARED CubeSpatialPartitions : public SpatialPartitions
     {
@@ -20,6 +20,10 @@ namespace GlEngine
         virtual void UpdateMesh(MeshComponent* mesh) override;
 
         virtual MeshComponent* RayCast(Ray ray, float* outDistance = nullptr) override;
+
+#ifdef _DEBUG
+        virtual std::string debugString(Vector<3> position) override;
+#endif // _DEBUG
 
     private:
         Vector<3> partitionSize;

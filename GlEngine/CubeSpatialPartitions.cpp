@@ -116,14 +116,22 @@ namespace GlEngine
         xNext = abs(xNext); yNext = abs(yNext); zNext = abs(zNext);
         xStep = abs(xStep); yStep = abs(yStep); zStep = abs(zStep);
 
+        MeshComponent* result = nullptr;
+        float distance = 0, currentDistance;
+
         while (
             ((ray.direction[0] < 0 && x >= xMin) || (ray.direction[0] >= 0 && x <= xMax)) &&
             ((ray.direction[1] < 0 && y >= yMin) || (ray.direction[1] >= 0 && y <= yMax)) &&
             ((ray.direction[2] < 0 && z >= zMin) || (ray.direction[2] >= 0 && z <= zMax)) )
         {
-            MeshComponent* result = RayCastPartition(x, y, z, ray, outDistance);
-            if (result)
-                return result;
+            MeshComponent* currentResult = RayCastPartition(x, y, z, ray, &currentDistance);
+            if (currentResult && (result == nullptr || currentDistance < distance))
+            {
+                result = currentResult;
+                distance = currentDistance;
+                if (currentDistance < xNext && currentDistance < yNext && currentDistance < zNext)
+                    break;
+            }
 
             if (xNext < yNext)
             {
@@ -143,14 +151,17 @@ namespace GlEngine
             z += (ray.direction[2] > 0 ? 1 : -1);
             zNext += zStep;
         }
-        return nullptr;
+
+        if (result && outDistance)
+            *outDistance = distance;
+        return result;
     }
 
     void CubeSpatialPartitions::AddMeshToPartition(int x, int y, int z, MeshComponent* mesh)
     {
         ScopedLock _lock(partitionsLock);
 
-        Vector<3> key = { x, y, z };
+        Vector<3, int> key = { x, y, z };
         if (!partitions.count(key) || partitions[key] == nullptr)
             partitions[key] = new std::unordered_set<MeshComponent*>();
         partitions[key]->insert(mesh);
@@ -164,7 +175,7 @@ namespace GlEngine
     {
         ScopedLock _lock(partitionsLock);
 
-        Vector<3> key = { x, y, z };
+        Vector<3, int> key = { x, y, z };
         partitions[key]->erase(mesh);
     }
     
@@ -176,7 +187,7 @@ namespace GlEngine
         float resultDistance = 0;
         float distance;
 
-        auto meshSet = partitions[{ x, y, z }];
+        auto meshSet = partitions[Vector<3, int>{ x, y, z }];
         if (meshSet == nullptr)
             return nullptr;
 
@@ -200,5 +211,24 @@ namespace GlEngine
             *outDistance = resultDistance;
         return result;
     }
+
+#ifdef _DEBUG
+    std::string CubeSpatialPartitions::debugString(Vector<3> position)
+    {
+        ScopedLock _lock(partitionsLock);
+
+        Vector<3, int> key = {
+            Util::floor_int(position[0] / partitionSize[0]), 
+            Util::floor_int(position[1] / partitionSize[1]), 
+            Util::floor_int(position[2] / partitionSize[2])
+        };
+        auto meshSet = partitions[key];
+        size_t size = meshSet == nullptr ? 0 : meshSet->size();
+
+        char* result = new char[256];
+        sprintf_s(result, 256, "current bucket {%d, %d, %d} contains %d meshes", key[0], key[1], key[2], size);
+        return std::string(result);
+    }
+#endif // _DEBUG
 }
 
