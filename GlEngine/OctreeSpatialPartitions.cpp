@@ -50,23 +50,28 @@ namespace GlEngine
     MeshComponent* OctreeSpatialPartitions::RayCast(Ray ray, float* outDistance)
     {
         Octree* currentLeaf = &octree;
-        while (!currentLeaf->isLeaf())
-        {
-            currentLeaf = currentLeaf->child(ray.origin[0] > currentLeaf->centerX(), ray.origin[1] > currentLeaf->centerY(), ray.origin[2] > currentLeaf->centerZ());
-        }
-
-        float xDist = (ray.direction[0] < 0 ? currentLeaf->minX() : currentLeaf->maxX()) - ray.origin[0];
-        float yDist = (ray.direction[1] < 0 ? currentLeaf->minY() : currentLeaf->maxY()) - ray.origin[1];
-        float zDist = (ray.direction[2] < 0 ? currentLeaf->minZ() : currentLeaf->maxZ()) - ray.origin[2];
-
-        float xNext = xDist / ray.direction[0];
-        float yNext = yDist / ray.direction[1];
-        float zNext = zDist / ray.direction[2];
-
         float dist = 0;
+        Vector<3> point = ray.origin;
 
         while (true)
         {
+            if (currentLeaf == nullptr)
+                break;
+
+            point = ray.origin + ray.direction * dist;
+            while (!currentLeaf->isLeaf())
+            {
+                currentLeaf = currentLeaf->child(point[0] > currentLeaf->centerX(), point[1] > currentLeaf->centerY(), point[2] > currentLeaf->centerZ());
+            }
+
+            float xDist = (ray.direction[0] < 0 ? currentLeaf->minX() : currentLeaf->maxX()) - point[0];
+            float yDist = (ray.direction[1] < 0 ? currentLeaf->minY() : currentLeaf->maxY()) - point[1];
+            float zDist = (ray.direction[2] < 0 ? currentLeaf->minZ() : currentLeaf->maxZ()) - point[2];
+
+            float xNext = dist + xDist / ray.direction[0];
+            float yNext = dist + yDist / ray.direction[1];
+            float zNext = dist + zDist / ray.direction[2];
+
             MeshComponent* result = RayCastPartition(currentLeaf, ray, outDistance);
             if (result != nullptr)
                 return result;
@@ -77,36 +82,17 @@ namespace GlEngine
                 {
                     dist = xNext;
                     currentLeaf = currentLeaf->neighborX(ray.direction[0] > 0);
-                    goto calcNext;
+                    continue;
                 }
             }
             else if (yNext < zNext)
             {
                 dist = yNext;
                 currentLeaf = currentLeaf->neighborY(ray.direction[1] > 0);
-                goto calcNext;
+                continue;
             }
             dist = zNext;
             currentLeaf = currentLeaf->neighborZ(ray.direction[2] > 0);
-
-        calcNext:;
-
-            if (currentLeaf == nullptr)
-                break;
-
-            auto point = ray.origin + ray.direction * dist;
-            while (!currentLeaf->isLeaf())
-            {
-                currentLeaf = currentLeaf->child(point[0] > currentLeaf->centerX(), point[1] > currentLeaf->centerY(), point[2] > currentLeaf->centerZ());
-            }
-
-            xDist = (ray.direction[0] < 0 ? currentLeaf->minX() : currentLeaf->maxX()) - point[0];
-            yDist = (ray.direction[1] < 0 ? currentLeaf->minY() : currentLeaf->maxY()) - point[1];
-            zDist = (ray.direction[2] < 0 ? currentLeaf->minZ() : currentLeaf->maxZ()) - point[2];
-
-            xNext = dist + xDist / ray.direction[0];
-            yNext = dist + yDist / ray.direction[1];
-            zNext = dist + zDist / ray.direction[2];
         }
         
         return nullptr;
