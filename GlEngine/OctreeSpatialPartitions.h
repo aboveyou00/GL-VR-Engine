@@ -32,6 +32,8 @@ namespace GlEngine
     private:
         Octree octree;
 
+        MeshComponent* RayCastPartition(Octree* leaf, Ray ray, float* outDistance);
+
         Vector<3> _rootSize;
         Vector<3> _rootOffset;
         unsigned _maxDepth;

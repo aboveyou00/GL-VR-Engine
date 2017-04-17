@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MeshTriangle.h"
 #include "GameObject.h"
+#include "MathUtils.h"
 
 namespace GlEngine
 {
@@ -9,9 +10,9 @@ namespace GlEngine
     {
         auto transform = mesh->gameObject()->globalTransform()->matrix();
 
-        auto p0 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][0]];
-        auto p1 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][1]];
-        auto p2 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][2]];
+        p0 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][0]];
+        p1 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][1]];
+        p2 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][2]];
 
         _minX = min(p0[0], min(p1[0], p2[0]));
         _maxX = max(p0[0], max(p1[0], p2[0]));
@@ -23,5 +24,10 @@ namespace GlEngine
 
     MeshTriangle::~MeshTriangle()
     {
+    }
+
+    bool MeshTriangle::RayIntersection(Ray ray, float* outDistance)
+    {
+        return Util::triangleRayIntersection(p0, p1, p2, ray.origin, ray.direction, outDistance);
     }
 }

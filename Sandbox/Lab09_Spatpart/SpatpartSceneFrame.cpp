@@ -41,8 +41,8 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    //CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 5, 10);
-    CreateSpatialPartitions<GlEngine::GridSpatialPartitions>(Vector<3>{5, 5, 5});
+    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 5, 10);
+    //CreateSpatialPartitions<GlEngine::GridSpatialPartitions>(Vector<3>{5, 5, 5});
     //CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
     auto pipeline = CreateDefaultPipeline(cameraComponent);

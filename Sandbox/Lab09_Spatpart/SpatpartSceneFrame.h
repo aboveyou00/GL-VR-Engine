@@ -21,9 +21,9 @@ public:
 private:
     static const unsigned TEST_POINT_COUNT = 1;
     Vector<3> testPoints[TEST_POINT_COUNT] = {
-        { 1.637f, 1.742f, 0.076f },
+        //{ 1.637f, 1.742f, 0.076f },
         //{ 0.100f, 1.900f, 0.000f },
-        //{ 0.891f, 2.298f, 0.076f },
+        { 0.891f, 2.298f, 0.076f },
         //{ 0.100f, 2.900f, 0.000f },
         //{ 1.700f, 2.614f, 0.076f }
     };

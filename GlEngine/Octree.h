@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_set>
-#include "IBoundingBox.h"
+#include "MeshTriangle.h"
 
 namespace GlEngine
 {
@@ -13,12 +13,13 @@ namespace GlEngine
 
         inline bool isLeaf() { return _isLeaf; }
         inline Octree* parent() { return _parent; }
+        inline int parentIndex() { return _parentIndex; }
 
         Octree* child(bool x, bool y, bool z);
         Octree* child(int idx);
 
-        void Add(IBoundingBox* element);
-        void Remove(IBoundingBox* element);
+        void Add(MeshTriangle* element);
+        void Remove(MeshTriangle* element);
 
         virtual inline float minX() override { return _minX; }
         virtual inline float maxX() override { return _maxX; }
@@ -31,7 +32,12 @@ namespace GlEngine
         virtual inline float centerY() { return _centerY; }
         virtual inline float centerZ() { return _centerZ; }
 
-        Octree* neighbor(int dx, int dy, int dz);
+        Octree* neighborX(bool pos);
+        Octree* neighborY(bool pos);
+        Octree* neighborZ(bool pos);
+            
+        std::unordered_set<MeshTriangle*> elements;
+        std::recursive_timed_mutex elementsLock;
 
 #ifdef _DEBUG
         std::string debugString(int indent = 0);
@@ -39,17 +45,20 @@ namespace GlEngine
 
     private:
         bool _isLeaf;
-        std::unordered_set<IBoundingBox*> elements;
+        
         Octree* _parent;
+        int _parentIndex;
+
         Octree* children[8]; // xyz xyZ xYz xYZ Xyz XyZ XYz XYZ
 
-        std::recursive_timed_mutex elementsLock;
 
-        Octree* GetOrCreateChild(int idx);
+        Octree* neighborDim(bool pos, int dim);
+
+        void CreateChild(int idx);
         
-        void AddToSelf(IBoundingBox* element);
-        void AddToChildren(IBoundingBox* element);
-        void AddToChild(int idx, IBoundingBox* element);
+        void AddToSelf(MeshTriangle* element);
+        void AddToChildren(MeshTriangle* element);
+        void AddToChild(int idx, MeshTriangle* element);
         void Split();
 
         float _minX, _maxX, _minY, _maxY, _minZ, _maxZ;
