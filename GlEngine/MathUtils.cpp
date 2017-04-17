@@ -67,7 +67,8 @@ bool planeBoxOverlap(Vector<3> normal, Vector<3> vert, Vector<3> maxbox)
     if(min>rad || max<-rad) return 0;
 
 /*======================== Z-tests ========================*/
-#define AXISTEST_Z12(a, b, fa, fb) \
+
+#define AXISTEST_Z12(a, b, fa, fb) \
     p1 = a*v1[0] - b*v1[1]; \
     p2 = a*v2[0] - b*v2[1]; \
         if(p2<p1) {min=p2; max=p1;} else {min=p1; max=p2;} \
@@ -154,7 +155,8 @@ bool triBoxOverlap(Vector<3> t1, Vector<3> t2, Vector<3> t3, Vector<3> boxcenter
     // -NJMP- (line removed here)
     if (!planeBoxOverlap(normal, v0, boxhalfsize)) return false;    // -NJMP-
 
-    return true;   /* box and triangle overlaps */}
+    return true;   /* box and triangle overlaps */
+}
 
 #undef FINDMINMAX
 #undef AXISTEST_X01

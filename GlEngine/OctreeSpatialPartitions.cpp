@@ -36,7 +36,7 @@ namespace GlEngine
 
     void OctreeSpatialPartitions::AddStaticMesh(MeshComponent* mesh)
     {
-        for (size_t i = 0; i < mesh->allTriangles.size(); i++)
+        for (size_t i = 0; i < mesh->allTriangles->size(); i++)
             octree.Add(new MeshTriangle(mesh, i));
     }
 

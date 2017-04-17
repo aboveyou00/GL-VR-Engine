@@ -9,9 +9,9 @@ namespace GlEngine
     {
         auto transform = mesh->gameObject()->globalTransform()->matrix();
 
-        auto p0 = transform * mesh->vertices[mesh->allTriangles[index][0]];
-        auto p1 = transform * mesh->vertices[mesh->allTriangles[index][1]];
-        auto p2 = transform * mesh->vertices[mesh->allTriangles[index][2]];
+        auto p0 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][0]];
+        auto p1 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][1]];
+        auto p2 = transform * (*mesh->vertices)[(*mesh->allTriangles)[index][2]];
 
         _minX = min(p0[0], min(p1[0], p2[0]));
         _maxX = max(p0[0], max(p1[0], p2[0]));

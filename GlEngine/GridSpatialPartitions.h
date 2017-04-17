@@ -42,5 +42,7 @@ namespace GlEngine
         int xMin, xMax, yMin, yMax, zMin, zMax;
 
         std::unordered_set<MeshComponent*> raycastChecked;
+
+        static std::string computeRaycastSource;
     };
 }
