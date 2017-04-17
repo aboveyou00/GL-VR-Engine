@@ -12,6 +12,7 @@ namespace GlEngine
         ~Octree();
 
         inline bool isLeaf() { return _isLeaf; }
+        inline Octree* parent() { return _parent; }
 
         Octree* child(bool x, bool y, bool z);
         Octree* child(int idx);
@@ -26,6 +27,12 @@ namespace GlEngine
         virtual inline float minZ() override { return _minZ; }
         virtual inline float maxZ() override { return _maxZ; }
 
+        virtual inline float centerX() { return _centerX; }
+        virtual inline float centerY() { return _centerY; }
+        virtual inline float centerZ() { return _centerZ; }
+
+        Octree* neighbor(int dx, int dy, int dz);
+
 #ifdef _DEBUG
         std::string debugString(int indent = 0);
 #endif
@@ -33,6 +40,7 @@ namespace GlEngine
     private:
         bool _isLeaf;
         std::unordered_set<IBoundingBox*> elements;
+        Octree* _parent;
         Octree* children[8]; // xyz xyZ xYz xYZ Xyz XyZ XYz XYZ
 
         std::recursive_timed_mutex elementsLock;
@@ -45,7 +53,7 @@ namespace GlEngine
         void Split();
 
         float _minX, _maxX, _minY, _maxY, _minZ, _maxZ;
-        float centerX, centerY, centerZ;
+        float _centerX, _centerY, _centerZ;
         unsigned maxDepth;
         unsigned leafCapacity;
     };

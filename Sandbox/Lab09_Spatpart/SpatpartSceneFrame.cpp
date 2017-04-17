@@ -140,7 +140,6 @@ void SpatpartSceneFrame::Tick(float dt)
         hitFlag = hitFlag || (result != nullptr && result->gameObject() == flagGobj);
     }
     this->mainPipeline()->SetClearColor(hitFlag ? RAYCAST_HIT_COLOR : RAYCAST_MISS_COLOR);
-    //GlEngine::Util::Log("Raycast object: %d, distance: %f", result, distance);
 }
 
 void SpatpartSceneFrame::UpdateGraphics()

@@ -24,6 +24,7 @@ namespace GlEngine
         virtual MeshComponent* RayCast(Ray ray, float* outDistance = nullptr) override;
 
 #ifdef _DEBUG
+        size_t meshesChecked;
         virtual std::string debugString(Vector<3> position) override;
 #endif // _DEBUG
 

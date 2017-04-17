@@ -138,6 +138,10 @@ namespace GlEngine
         if (ray.direction == Vector<3>{0, 0, 0})
             return nullptr;
 
+#if _DEBUG
+        meshesChecked = 0;
+#endif
+
         raycastChecked.clear();
 
         int x = Util::floor_int(ray.origin[0] / partitionSize[0]);
@@ -236,6 +240,10 @@ namespace GlEngine
                 continue;
             raycastChecked.insert(mesh);
 
+#if _DEBUG
+            meshesChecked++;
+#endif
+
             if (mesh->RayIntersection(ray, &distance))
             {
                 if (result == nullptr || distance < resultDistance)
@@ -280,8 +288,8 @@ namespace GlEngine
         float averageBucketSize = (float)totalBucketSize / bucketCount;
 
         char* result = new char[256];
-        sprintf_s(result, 256, "current bucket {%d, %d, %d} contains %d meshes\n%d buckets with average of %.3f meshes and max of %d meshes", 
-            key[0], key[1], key[2], currentBucketSize, bucketCount, averageBucketSize, maxBucketSize);
+        sprintf_s(result, 256, "current bucket {%d, %d, %d} contains %d meshes\n%d buckets with average of %.3f meshes and max of %d meshes\nlast raytrace checked %d meshes", 
+            key[0], key[1], key[2], currentBucketSize, bucketCount, averageBucketSize, maxBucketSize, meshesChecked);
 
         return std::string(result);
     }

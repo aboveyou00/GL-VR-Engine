@@ -6,7 +6,7 @@ namespace GlEngine
 {
     Octree::Octree(float minX, float maxX, float minY, float maxY, float minZ, float maxZ, unsigned maxDepth, unsigned leafCapacity)
         : _minX(minX), _maxX(maxX), _minY(minY), _maxY(maxY), _minZ(minZ), _maxZ(maxZ),
-        centerX((minX + maxX) / 2), centerY((minY + maxY) / 2), centerZ((minZ + maxZ) / 2),
+        _centerX((minX + maxX) / 2), _centerY((minY + maxY) / 2), _centerZ((minZ + maxZ) / 2),
         maxDepth(maxDepth), leafCapacity(leafCapacity), _isLeaf(true)
     {
         for (int i = 0; i < 8; i++)
@@ -60,12 +60,12 @@ namespace GlEngine
 
     void Octree::AddToChildren(IBoundingBox* element)
     {
-        bool x_lower = element->minX() < this->centerX;
-        bool x_higher = element->maxX() > this->centerX;
-        bool y_lower = element->minY() < this->centerY;
-        bool y_higher = element->maxY() > this->centerY;
-        bool z_lower = element->minZ() < this->centerZ;
-        bool z_higher = element->maxZ() > this->centerZ;
+        bool x_lower = element->minX() < this->centerX();
+        bool x_higher = element->maxX() > this->centerX();
+        bool y_lower = element->minY() < this->centerY();
+        bool y_higher = element->maxY() > this->centerY();
+        bool z_lower = element->minZ() < this->centerZ();
+        bool z_higher = element->maxZ() > this->centerZ();
 
         if (x_lower)
         {
@@ -118,6 +118,11 @@ namespace GlEngine
     }
 
 #ifdef _DEBUG
+    Octree * Octree::neighbor(int dx, int dy, int dz)
+    {
+        dx; dy; dz;
+        return nullptr;
+    }
     std::string Octree::debugString(int indent)
     {
         std::string indentStr(indent * 4, ' ');
@@ -127,7 +132,7 @@ namespace GlEngine
             for (size_t i = 0; i < 8; i++)
             {
                 std::string innerStr = children[i] == nullptr ? indentStr + "    EMPTY\n"s : children[i]->debugString(indent + 1);
-                std::string childStr = indentStr + "  {"s + ((i & 4) ? "1"s : "0"s) + ", "s + ((i & 2) ? "1"s : "0"s) + ", "s + ((i & 1) ? "1"s : "0"s) + "}\n"s + innerStr;
+                std::string childStr = indentStr + "  {"s + ((i & 4) ? "1"s : "0"s) + ", "s + ((i & 2) ? "1"s : "0"s) + ", "s + ((i & 1) ? "1"s : "0"s) + "} "s + innerStr;
                 childrenStr += childStr;
             }
         }
@@ -151,11 +156,11 @@ namespace GlEngine
             if ((idx & 4) == 0)
             {
                 newMinX = _minX;
-                newMaxX = centerX;
+                newMaxX = _centerX;
             }
             else
             {
-                newMinX = centerX;
+                newMinX = _centerX;
                 newMaxX = _maxX;
             }
 
@@ -163,11 +168,11 @@ namespace GlEngine
             if ((idx & 2) == 0)
             {
                 newMinY = _minY;
-                newMaxY = centerY;
+                newMaxY = _centerY;
             }
             else
             {
-                newMinY = centerY;
+                newMinY = _centerY;
                 newMaxY = _maxY;
             }
 
@@ -175,19 +180,18 @@ namespace GlEngine
             if ((idx & 1) == 0)
             {
                 newMinZ = _minZ;
-                newMaxZ = centerZ;
+                newMaxZ = _centerZ;
             }
             else
             {
-                newMinZ = centerZ;
+                newMinZ = _centerZ;
                 newMaxZ = _maxZ;
             }
 
             children[idx] = new Octree(newMinX, newMaxX, newMinY, newMaxY, newMinZ, newMaxZ, maxDepth - 1, leafCapacity);
+            children[idx]->_parent = this;
         }
         
         return children[idx];
     }
-
 }
-

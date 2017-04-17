@@ -47,7 +47,16 @@ namespace GlEngine
 
     MeshComponent* OctreeSpatialPartitions::RayCast(Ray ray, float* outDistance)
     {
-        ray, outDistance;
+        Octree* currentLeaf = &octree;
+        while (!currentLeaf->isLeaf())
+        {
+            Octree* child = currentLeaf->child(ray.origin[0] > currentLeaf->centerX(), ray.origin[1] > currentLeaf->centerY(), ray.origin[2] > currentLeaf->centerZ());
+            if (child == nullptr)
+                break;
+            currentLeaf = child;
+        }
+
+        outDistance;
         return nullptr;
     }
 
