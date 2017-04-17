@@ -41,7 +41,7 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 5, 20);
+    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 7, 20);
     //CreateSpatialPartitions<GlEngine::GridSpatialPartitions>(Vector<3>{5, 5, 5});
     //CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
@@ -100,6 +100,12 @@ bool SpatpartSceneFrame::Initialize()
     dragonObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .9f, .3f, .5f }, { .9f, .9f, .9f }, 5.0f));
     dragonGobj->AddComponent(dragonObjLoader);
 
+    auto dargonGobj = new GlEngine::GameObject(this, "Dargon");
+    dargonGobj->globalTransform()->SetPosition({ -5, 0, -5 });
+    auto dargonObjLoader = new GlEngine::ObjLoader("Resources/dargon.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    dargonObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .3, .2, .2 }, { .9f, .9f, .9f }, 5.0f));
+    dargonGobj->AddComponent(dargonObjLoader);
+
     for (size_t q = 0; q < TEST_POINT_COUNT; q++)
     {
         auto testPtObj = new GlEngine::GameObject(this, "RaytraceTestPoint");
@@ -153,7 +159,7 @@ void SpatpartSceneFrame::Render(GlEngine::RenderStage *stage)
 {
     Frame::Render(stage);
     if (stage != GlEngine::renderStage_2d) return;
-    renderText = //"[Disabled]";
-                 spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
+    renderText = "[Disabled]";
+                 //spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
     renderer->DrawDirect(10, 62, renderText.c_str());
 }
