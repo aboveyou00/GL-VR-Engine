@@ -6,7 +6,7 @@
 
 namespace GlEngine::Impl
 {
-    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(std::string name, bool allowFaces, unsigned elemIdx, VaObject vao, CreateFactoryFn createFactory)
+    VboFactoryGraphicsObjectImpl::VboFactoryGraphicsObjectImpl(std::string name, bool allowFaces, array_index_t elemIdx, VaObject vao, CreateFactoryFn createFactory)
         : GraphicsObject(name, true),
           allowFaces(allowFaces),
           _vao(vao),
@@ -53,19 +53,19 @@ namespace GlEngine::Impl
         graphicsSections.push_back(currentGraphicsSection);
     }
 
-    void VboFactoryGraphicsObjectImpl::AddLine(unsigned idx0, unsigned idx1)
+    void VboFactoryGraphicsObjectImpl::AddLine(array_index_t idx0, array_index_t idx1)
     {
         AddLine({ idx0, idx1 });
     }
-    void VboFactoryGraphicsObjectImpl::AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2)
+    void VboFactoryGraphicsObjectImpl::AddTriangle(array_index_t idx0, array_index_t idx1, array_index_t idx2)
     {
         AddTriangle({ idx0, idx1, idx2 });
     }
-    void VboFactoryGraphicsObjectImpl::AddQuad(unsigned idx0, unsigned idx1, unsigned idx2, unsigned idx3)
+    void VboFactoryGraphicsObjectImpl::AddQuad(array_index_t idx0, array_index_t idx1, array_index_t idx2, array_index_t idx3)
     {
         AddQuad({ idx0, idx1, idx2, idx3 });
     }
-    void VboFactoryGraphicsObjectImpl::AddLine(Vector<2, uint16_t> indices)
+    void VboFactoryGraphicsObjectImpl::AddLine(Vector<2, array_index_t> indices)
     {
         ScopedLock _lock(mutex);
         assert(!finalized);
@@ -75,7 +75,7 @@ namespace GlEngine::Impl
             assert(indices[q] < elemIdx);
         currentGraphicsSection->AddLine(indices);
     }
-    void VboFactoryGraphicsObjectImpl::AddTriangle(Vector<3, uint16_t> indices)
+    void VboFactoryGraphicsObjectImpl::AddTriangle(Vector<3, array_index_t> indices)
     {
         ScopedLock _lock(mutex);
         assert(!finalized);
@@ -85,7 +85,7 @@ namespace GlEngine::Impl
             assert(indices[q] < elemIdx);
         currentGraphicsSection->AddTriangle(indices);
     }
-    void VboFactoryGraphicsObjectImpl::AddQuad(Vector<4, uint16_t> indices)
+    void VboFactoryGraphicsObjectImpl::AddQuad(Vector<4, array_index_t> indices)
     {
         ScopedLock _lock(mutex);
         assert(!finalized);

@@ -3,6 +3,7 @@
 #include "GraphicsObject.h"
 #include "VaObject.h"
 #include "RenderTargetLayer.h"
+#include "vbo_element_t.h"
 
 namespace GlEngine
 {
@@ -18,7 +19,7 @@ namespace GlEngine::Impl
     class ENGINE_SHARED VboFactoryGraphicsObjectImpl : public GraphicsObject
     {
     public:
-        VboFactoryGraphicsObjectImpl(std::string name, bool allowFaces, unsigned elemIdx, VaObject vao, CreateFactoryFn createFactory = [](Material*) { return nullptr; });
+        VboFactoryGraphicsObjectImpl(std::string name, bool allowFaces, array_index_t elemIdx, VaObject vao, CreateFactoryFn createFactory = [](Material*) { return nullptr; });
         ~VboFactoryGraphicsObjectImpl();
 
         virtual void AddPropertyProvider(ShaderFactory::IPropertyProvider *provider) override;
@@ -27,12 +28,12 @@ namespace GlEngine::Impl
         void SetMaterial(Material *material);
         virtual void PrepareShaderFactory(ShaderFactory::ShaderFactory *factory) = 0;
 
-        void AddLine(unsigned idx0, unsigned idx1);
-        void AddTriangle(unsigned idx0, unsigned idx1, unsigned idx2);
-        void AddQuad(unsigned idx0, unsigned idx1, unsigned idx2, unsigned idx3);
-        void AddLine(Vector<2, uint16_t> indices);
-        void AddTriangle(Vector<3, uint16_t> indices);
-        void AddQuad(Vector<4, uint16_t> indices);
+        void AddLine(array_index_t idx0, array_index_t idx1);
+        void AddTriangle(array_index_t idx0, array_index_t idx1, array_index_t idx2);
+        void AddQuad(array_index_t idx0, array_index_t idx1, array_index_t idx2, array_index_t idx3);
+        void AddLine(Vector<2, array_index_t> indices);
+        void AddTriangle(Vector<3, array_index_t> indices);
+        void AddQuad(Vector<4, array_index_t> indices);
 
         virtual bool InitializeAsync() override;
         virtual void ShutdownAsync() override;
@@ -60,6 +61,6 @@ namespace GlEngine::Impl
         std::vector<VboGraphicsSection*> graphicsSections;
         VboGraphicsSection *currentGraphicsSection;
         CreateFactoryFn createFactory;
-        int elemIdx;
+        array_index_t elemIdx;
     };
 }

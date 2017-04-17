@@ -12,9 +12,9 @@ namespace GlEngine
     {
         VboGraphicsSection::VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers, ShaderFactory::ShaderFactory* factory)
             : material(material),
-              lines(new std::vector<Vector<2, uint16_t>>()),
-              tris(new std::vector<Vector<3, uint16_t>>()),
-              quads(new std::vector<Vector<4, uint16_t>>()),
+              lines(new std::vector<Vector<2, array_index_t>>()),
+              tris(new std::vector<Vector<3, array_index_t>>()),
+              quads(new std::vector<Vector<4, array_index_t>>()),
               _factory(factory == nullptr ? new ShaderFactory::ShaderFactory() : factory),
               finalized(false)
         {
@@ -27,22 +27,22 @@ namespace GlEngine
             SafeDelete(quads);
         }
 
-        void VboGraphicsSection::AddLine(Vector<2, uint16_t> indices)
+        void VboGraphicsSection::AddLine(Vector<2, array_index_t> indices)
         {
             assert(!finalized);
             lines->push_back(indices);
         }
-        void VboGraphicsSection::AddTriangle(Vector<3, uint16_t> indices)
+        void VboGraphicsSection::AddTriangle(Vector<3, array_index_t> indices)
         {
             assert(!finalized);
             tris->push_back(indices);
         }
-        void VboGraphicsSection::AddQuad(Vector<4, uint16_t> indices)
+        void VboGraphicsSection::AddQuad(Vector<4, array_index_t> indices)
         {
             assert(!finalized);
             quads->push_back(indices);
         }
-        void VboGraphicsSection::Finalize(VboFactory<VboType::UnsignedShort, uint16_t>* face_factory)
+        void VboGraphicsSection::Finalize(VboFactory<ElementVboFactoryVboType, array_index_t>* face_factory)
         {
             assert(!finalized);
 
@@ -62,7 +62,7 @@ namespace GlEngine
                 if (lineCount > 0)
                 {
                     auto vec = lines->at(0);
-                    lineOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
+                    lineOffset = sizeof(array_index_t) * face_factory->AddVertex(vec[0]);
                     face_factory->AddVertex(vec[1]);
                     for (int q = 1; q < lineCount; q++)
                     {
@@ -74,7 +74,7 @@ namespace GlEngine
                 if (triCount > 0)
                 {
                     auto vec = tris->at(0);
-                    triOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
+                    triOffset = sizeof(array_index_t) * face_factory->AddVertex(vec[0]);
                     face_factory->AddVertex(vec[1]);
                     face_factory->AddVertex(vec[2]);
                     for (int q = 1; q < triCount; q++)
@@ -88,7 +88,7 @@ namespace GlEngine
                 if (quadCount > 0)
                 {
                     auto vec = quads->at(0);
-                    quadOffset = sizeof(uint16_t) * face_factory->AddVertex(vec[0]);
+                    quadOffset = sizeof(array_index_t) * face_factory->AddVertex(vec[0]);
                     face_factory->AddVertex(vec[1]);
                     face_factory->AddVertex(vec[2]);
                     face_factory->AddVertex(vec[3]);
@@ -122,17 +122,17 @@ namespace GlEngine
             {
                 if (lineCount)
                 {
-                    glDrawElements(GL_LINES, lineCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset));
+                    glDrawElements(GL_LINES, lineCount * 2, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(lineOffset));
                     checkForGlError();
                 }
                 if (triCount)
                 {
-                    glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    glDrawElements(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(triOffset));
                     checkForGlError();
                 }
                 if (quadCount)
                 {
-                    glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset));
+                    glDrawElements(GL_QUADS, quadCount * 4, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(quadOffset));
                     checkForGlError();
                 }
             }
@@ -142,7 +142,7 @@ namespace GlEngine
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 2);
                     checkForGlError();
-                    glDrawElements(GL_PATCHES, lineCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset));
+                    glDrawElements(GL_PATCHES, lineCount * 2, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(lineOffset));
                     checkForGlError();
                 }
                 assert(!triCount);
@@ -154,7 +154,7 @@ namespace GlEngine
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 3);
                     checkForGlError();
-                    glDrawElements(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    glDrawElements(GL_PATCHES, triCount * 3, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(triOffset));
                     checkForGlError();
                 }
                 assert(!triCount);
@@ -166,7 +166,7 @@ namespace GlEngine
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 4);
                     checkForGlError();
-                    glDrawElements(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset));
+                    glDrawElements(GL_PATCHES, quadCount * 4, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(triOffset));
                     checkForGlError();
                 }
                 assert(!lineCount);
@@ -191,17 +191,17 @@ namespace GlEngine
             {
                 if (lineCount)
                 {
-                    glDrawElementsInstanced(GL_LINES, triCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset), instanceCount);
+                    glDrawElementsInstanced(GL_LINES, triCount * 2, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(lineOffset), instanceCount);
                     checkForGlError();
                 }
                 if (triCount)
                 {
-                    glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                    glDrawElementsInstanced(GL_TRIANGLES, triCount * 3, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(triOffset), instanceCount);
                     checkForGlError();
                 }
                 if (quadCount)
                 {
-                    glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(quadOffset), instanceCount);
+                    glDrawElementsInstanced(GL_QUADS, quadCount * 4, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(quadOffset), instanceCount);
                     checkForGlError();
                 }
             }
@@ -211,7 +211,7 @@ namespace GlEngine
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 2);
                     checkForGlError();
-                    glDrawElementsInstanced(GL_PATCHES, lineCount * 2, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(lineOffset), instanceCount);
+                    glDrawElementsInstanced(GL_PATCHES, lineCount * 2, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(lineOffset), instanceCount);
                     checkForGlError();
                 }
                 assert(!triCount);
@@ -223,7 +223,7 @@ namespace GlEngine
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 3);
                     checkForGlError();
-                    glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                    glDrawElementsInstanced(GL_PATCHES, triCount * 3, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(triOffset), instanceCount);
                     checkForGlError();
                 }
                 assert(!lineCount);
@@ -235,7 +235,7 @@ namespace GlEngine
                 {
                     glPatchParameteri(GL_PATCH_VERTICES, 4);
                     checkForGlError();
-                    glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(VboType::UnsignedShort), BUFFER_OFFSET(triOffset), instanceCount);
+                    glDrawElementsInstanced(GL_PATCHES, quadCount * 4, static_cast<GLenum>(ElementVboFactoryVboType), BUFFER_OFFSET(triOffset), instanceCount);
                     checkForGlError();
                 }
                 assert(!lineCount);

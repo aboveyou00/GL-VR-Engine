@@ -1,11 +1,10 @@
 #pragma once
 
 #include "GraphicsObject.h"
+#include "vbo_element_t.h"
 
 namespace GlEngine
 {
-    template <VboType type, typename... TArgs>
-    class VboFactory;
     class Material;
     
     namespace ShaderFactory
@@ -22,10 +21,10 @@ namespace GlEngine
             VboGraphicsSection(Material *material, std::vector<ShaderFactory::IPropertyProvider*> &providers, ShaderFactory::ShaderFactory* factory = nullptr);
             ~VboGraphicsSection();
 
-            void AddLine(Vector<2, uint16_t> indices);
-            void AddTriangle(Vector<3, uint16_t> indices);
-            void AddQuad(Vector<4, uint16_t> indices);
-            void Finalize(VboFactory<VboType::UnsignedShort, uint16_t> *face_factory);
+            void AddLine(Vector<2, array_index_t> indices);
+            void AddTriangle(Vector<3, array_index_t> indices);
+            void AddQuad(Vector<4, array_index_t> indices);
+            void Finalize(VboFactory<ElementVboFactoryVboType, array_index_t> *face_factory);
 
             void Render(RenderStage* stage);
             void RenderInstanced(RenderStage* stage, unsigned instanceCount);
@@ -45,9 +44,9 @@ namespace GlEngine
         private:
             bool finalized;
             Material *material;
-            std::vector<Vector<2, uint16_t>> *lines;
-            std::vector<Vector<3, uint16_t>> *tris;
-            std::vector<Vector<4, uint16_t>> *quads;
+            std::vector<Vector<2, array_index_t>> *lines;
+            std::vector<Vector<3, array_index_t>> *tris;
+            std::vector<Vector<4, array_index_t>> *quads;
             int lineCount, triCount, quadCount, lineOffset, triOffset, quadOffset;
 
             ShaderFactory::ShaderFactory *_factory;
