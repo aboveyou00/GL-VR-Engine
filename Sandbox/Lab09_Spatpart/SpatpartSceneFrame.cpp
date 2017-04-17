@@ -153,6 +153,7 @@ void SpatpartSceneFrame::Render(GlEngine::RenderStage *stage)
 {
     Frame::Render(stage);
     if (stage != GlEngine::renderStage_2d) return;
-    renderText = "[Disabled]";//spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
+    renderText = //"[Disabled]";
+                 spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
     renderer->DrawDirect(10, 62, renderText.c_str());
 }
