@@ -3,6 +3,8 @@
 #include "Frame.h"
 #include "FontRenderer.h"
 
+class Lab9ControlsComponent;
+
 class SpatpartSceneFrame : public GlEngine::Frame
 {
 public:
@@ -29,6 +31,7 @@ private:
     };
     GlEngine::GameObject* raytraceDebugObjects[TEST_POINT_COUNT] = { nullptr, nullptr, nullptr, nullptr, nullptr };
 
+    Lab9ControlsComponent *controls;
     FIG::FontRenderer* renderer;
     std::string renderText;
 };

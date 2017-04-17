@@ -3,7 +3,7 @@
 #include "CameraComponent.h"
 #include "GameObject.h"
 #include "FirstPersonControlsComponent.h"
-#include "../LabControlsComponent.h"
+#include "Lab9ControlsComponent.h"
 
 #include "AmbientLightSource.h"
 #include "../LightSourceObject.h"
@@ -31,7 +31,7 @@ const Vector<3> RAYCAST_HIT_COLOR = { 0, 1, 0 };
 const Vector<3> RAYCAST_MISS_COLOR = { 1, 0, 0 };
 
 SpatpartSceneFrame::SpatpartSceneFrame()
-    : cameraComponent(nullptr), flagGobj(nullptr), renderer(nullptr)
+    : cameraComponent(nullptr), flagGobj(nullptr), renderer(nullptr), controls(nullptr)
 {
 }
 SpatpartSceneFrame::~SpatpartSceneFrame()
@@ -53,14 +53,14 @@ bool SpatpartSceneFrame::Initialize()
     auto cameraTarget = new FirstPersonControlsComponent(6.f);
     cameraComponent->gameObject()->AddComponent(cameraTarget);
 
-    auto controls = new GlEngine::GameObject(this, "LabControlsComponent");
-    auto controlsComponent = new LabControlsComponent();
-    controls->AddComponent(controlsComponent);
+    auto controlsGobj = new GlEngine::GameObject(this, "LabControlsComponent");
+    controls = new Lab9ControlsComponent();
+    controlsGobj->AddComponent(controls);
 
     auto lightObj = PointLightSourceObject::Create(this, "PointLightSource");
     auto light = lightObj->component<PointLightSourceObject>()->lightSource();
     light->SetPosition({ 0, 10, 0 });
-    controlsComponent->SetControllingLight(light);
+    controls->SetControllingLight(light);
     auto ambient = new GlEngine::AmbientLightSource({ .2f, .2f, .2f });
 
     auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
@@ -133,19 +133,29 @@ void SpatpartSceneFrame::Tick(float dt)
     bool hitFlag = false;
     float distance = 0;
 
-    for (size_t q = 0; q < TEST_POINT_COUNT; q++)
+    if (controls->rayTracingEnabled)
     {
-        auto ray = cameraComponent->rayToPoint(testPoints[q]);
-        auto result = spatialPartitions->RayCast(ray, &distance);
-        if (result != nullptr)
+        for (size_t q = 0; q < TEST_POINT_COUNT; q++)
         {
-            raytraceDebugObjects[q]->Activate();
-            raytraceDebugObjects[q]->localTransform()->SetPosition(ray.origin + distance * ray.direction);
+            auto ray = cameraComponent->rayToPoint(testPoints[q]);
+            auto result = spatialPartitions->RayCast(ray, &distance);
+            if (result != nullptr)
+            {
+                raytraceDebugObjects[q]->Activate();
+                raytraceDebugObjects[q]->localTransform()->SetPosition(ray.origin + distance * ray.direction);
+            }
+            else raytraceDebugObjects[q]->Deactivate();
+            hitFlag = hitFlag || (result != nullptr && result->gameObject() == flagGobj);
         }
-        else raytraceDebugObjects[q]->Deactivate();
-        hitFlag = hitFlag || (result != nullptr && result->gameObject() == flagGobj);
+        this->mainPipeline()->SetClearColor(hitFlag ? RAYCAST_HIT_COLOR : RAYCAST_MISS_COLOR);
     }
-    this->mainPipeline()->SetClearColor(hitFlag ? RAYCAST_HIT_COLOR : RAYCAST_MISS_COLOR);
+    else
+    {
+        for (size_t q = 0; q < TEST_POINT_COUNT; q++)
+        {
+            raytraceDebugObjects[q]->Deactivate();
+        }
+    }
 }
 
 void SpatpartSceneFrame::UpdateGraphics()
@@ -159,7 +169,6 @@ void SpatpartSceneFrame::Render(GlEngine::RenderStage *stage)
 {
     Frame::Render(stage);
     if (stage != GlEngine::renderStage_2d) return;
-    renderText = "[Disabled]";
-                 //spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
+    renderText = controls->displayDebugString ? spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position()) : "[Disabled]";
     renderer->DrawDirect(10, 62, renderText.c_str());
 }

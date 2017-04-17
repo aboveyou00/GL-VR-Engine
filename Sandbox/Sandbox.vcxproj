@@ -163,6 +163,7 @@
     <ClInclude Include="Lab08_Slenderman\SlendermanStaticSceneFrame.h" />
     <ClInclude Include="Lab09_Spatpart\FirstPersonControlsComponent.h" />
     <ClInclude Include="Lab09_Spatpart\SpatpartSceneFrame.h" />
+    <ClInclude Include="Lab09_Spatpart\Lab9ControlsComponent.h" />
     <ClInclude Include="PointVolume.h" />
     <ClInclude Include="Lab07_Particles\ParticlesSceneFrame.h" />
     <ClInclude Include="LabControlsComponent.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="Lab08_Slenderman\static_source.cpp" />
     <ClCompile Include="Lab09_Spatpart\FirstPersonControlsComponent.cpp" />
     <ClCompile Include="Lab09_Spatpart\SpatpartSceneFrame.cpp" />
+    <ClCompile Include="Lab09_Spatpart\Lab9ControlsComponent.cpp" />
     <ClCompile Include="LabControlsComponent.cpp" />
     <ClCompile Include="WidgetObject.cpp" />
     <ClCompile Include="OrbitingLight.cpp" />
