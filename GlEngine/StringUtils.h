@@ -32,8 +32,8 @@ namespace GlEngine
         std::string formatted(const char * const format, TArgs... args)
         {
             int buffsize = strlen(format) * 2;
-            if (buffsize < 256)
-                buffsize = 256;
+            if (buffsize < 1024)
+                buffsize = 1024;
             while (true)
             {
                 char * buffer = new char[buffsize];

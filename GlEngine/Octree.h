@@ -40,7 +40,9 @@ namespace GlEngine
         std::recursive_timed_mutex elementsLock;
 
 #ifdef _DEBUG
-        std::string debugString(int indent = 0);
+        std::string debugString();
+        int* depthLeafCounts();
+        std::vector<int> leafSizes();
 #endif
 
     private:
@@ -50,7 +52,6 @@ namespace GlEngine
         int _parentIndex;
 
         Octree* children[8]; // xyz xyZ xYz xYZ Xyz XyZ XYz XYZ
-
 
         Octree* neighborDim(bool pos, int dim);
 

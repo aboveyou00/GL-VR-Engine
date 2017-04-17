@@ -152,6 +152,7 @@ namespace GlEngine
         for (size_t q = 0; q < _components.size(); q++)
         {
             auto c = _components[q];
+            // Mysterious race condition.... c is 0xDDDDDDDD
             if (c->_active && c->isReady()) c->Render(stage);
         }
         for (size_t q = 0; q < _children.size(); q++)

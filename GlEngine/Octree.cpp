@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Octree.h"
 #include "ScopedLock.h"
+#include "StringUtils.h"
 
 namespace GlEngine
 {
@@ -134,27 +135,72 @@ namespace GlEngine
     }
 
 #ifdef _DEBUG
-    std::string Octree::debugString(int indent)
+    std::string Octree::debugString()
     {
-        std::string indentStr(indent * 4, ' ');
-        std::string childrenStr;
-        if (!_isLeaf && false)
+        int* depths = depthLeafCounts();
+        auto sizes = leafSizes();
+
+        std::string depthString = "";
+        for (size_t i = 0; i < maxDepth; i++)
         {
-            for (size_t i = 0; i < 8; i++)
-            {
-                std::string innerStr = children[i] == nullptr ? indentStr + "    EMPTY\n"s : children[i]->debugString(indent + 1);
-                std::string childStr = indentStr + "  {"s + ((i & 4) ? "1"s : "0"s) + ", "s + ((i & 2) ? "1"s : "0"s) + ", "s + ((i & 1) ? "1"s : "0"s) + "} "s + innerStr;
-                childrenStr += childStr;
-            }
+            depthString += Util::formatted("%d buckets %d levels deep; ", depths[i], i);
         }
 
-        char* result = new char[65536];
-        sprintf_s(result, 65536, "%soctree (x: %.3f - %.3f, y: %.3f - %.3f, z: %.3f - %.3f, maxDepth: %ud, leafCapacity: %ud)\n%s",
-            indentStr.c_str(), _minX, _maxX, _minY, _maxY, _minZ, _maxZ, maxDepth, leafCapacity, childrenStr.c_str());
-        std::string resultStr =std::string(result).substr(0, 4096);
-        delete[] result;
-        return resultStr;
+        int totalSize = 0;
+        int maxSize = 0;
+        for (int size : sizes)
+        {
+            totalSize += size;
+            maxSize = max(maxSize, size);
+        }
+        double avgSize = (double)totalSize / sizes.size();
+
+        return Util::formatted("octree (x: %.3f - %.3f, y: %.3f - %.3f, z: %.3f - %.3f, maxDepth: %ud, leafCapacity: %ud)\n%s\nAvg tris in bucket: %.3f; Max tris in bucket: %d",
+                               _minX, _maxX, _minY, _maxY, _minZ, _maxZ, maxDepth, leafCapacity, depthString.c_str(), avgSize, maxSize);
     }
+
+    int* Octree::depthLeafCounts()
+    {
+        ScopedLock _lock(elementsLock);
+
+        int* result = new int[256];
+        for (int i = 0; i < 256; i++)
+            result[i] = 0;
+
+        if (!_isLeaf)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                int* childResult = child(i)->depthLeafCounts();
+                for (int j = 1; j < 256; j++)
+                    result[j] += childResult[j - 1];
+                delete[] childResult;
+            }
+        }
+        result[0] += 1;
+        return result;
+    }
+
+    std::vector<int> Octree::leafSizes()
+    {
+        ScopedLock _lock(elementsLock);
+
+        std::vector<int> result;
+        if (_isLeaf)
+        {
+            result.push_back(elements.size());
+        }
+        else
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                auto childResult = child(i)->leafSizes();
+                result.insert(result.begin(), childResult.begin(), childResult.end());
+            }
+        }
+        return result;
+    }
+
 #endif
 
     Octree * Octree::neighborDim(bool pos, int dim)

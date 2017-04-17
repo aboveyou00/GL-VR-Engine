@@ -41,7 +41,7 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 5, 10);
+    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 5, 20);
     //CreateSpatialPartitions<GlEngine::GridSpatialPartitions>(Vector<3>{5, 5, 5});
     //CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
@@ -153,6 +153,6 @@ void SpatpartSceneFrame::Render(GlEngine::RenderStage *stage)
 {
     Frame::Render(stage);
     if (stage != GlEngine::renderStage_2d) return;
-    renderText = spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
+    renderText = "[Disabled]";//spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position());
     renderer->DrawDirect(10, 62, renderText.c_str());
 }
