@@ -18,6 +18,12 @@ namespace GlEngine
     ObjLoader::ObjLoader(std::string filename, std::vector<ShaderFactory::IPropertyProvider*> providers, CreateFactoryFn createFactory, ObjLoaderFlag flags)
         : GameComponent("ObjLoader"), providers(providers), _flags(flags), _filename(filename), stream(nullptr), _mesh(nullptr), _material(nullptr), _graphicsObject(nullptr), _createFactory(createFactory)
     {
+        glPositions = new std::vector<Vector<3>>();
+        glNormals = new std::vector<Vector<3>>();
+        glTexCoords = new std::vector<Vector<2>>();
+
+        triangleIndices = new std::vector<Vector<3, unsigned>>();
+        quadIndices = new std::vector<Vector<4, unsigned>>();
     }
     ObjLoader::ObjLoader(std::istream& in)
         : GameComponent("ObjLoader"), _filename(""), stream(&in)
@@ -45,10 +51,9 @@ namespace GlEngine
             if (!in)
                 return false;
             stream = &in;
-            if (!_LoadMesh())
-                return false;
+            auto worked = _LoadMesh();
             in.close();
-            return true;
+            return worked;
         }
         else
         {
@@ -181,7 +186,7 @@ namespace GlEngine
                 iss >> s0 >> s1 >> s2;
                 if (!(iss >> s3))
                 {
-                    triangleIndices.push_back({
+                    triangleIndices->push_back({
                         ParseVertex(s0),
                         ParseVertex(s1),
                         ParseVertex(s2)
@@ -189,7 +194,7 @@ namespace GlEngine
                 }
                 else
                 {
-                    quadIndices.push_back({
+                    quadIndices->push_back({
                         ParseVertex(s0),
                         ParseVertex(s1),
                         ParseVertex(s2),
@@ -276,10 +281,10 @@ namespace GlEngine
                 current += faceString[i];
         }
 
-        glPositions.push_back(position);
-        glTexCoords.push_back(texCoord);
-        glNormals.push_back(normal);
-        return glPositions.size() - 1;
+        glPositions->push_back(position);
+        glTexCoords->push_back(texCoord);
+        glNormals->push_back(normal);
+        return glPositions->size() - 1;
 
         //return FindOrAddGlVertex(position, texCoord, normal);
     }

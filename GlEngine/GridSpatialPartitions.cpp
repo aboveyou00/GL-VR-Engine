@@ -112,12 +112,12 @@ namespace GlEngine
             {
                 for (int z = back; z <= front; z++)
                 {
-                    for (auto triangle : mesh->allTriangles)
+                    for (auto triangle : *mesh->allTriangles)
                     {
                         auto transform = mesh->gameObject()->globalTransform()->matrix();
-                        auto p0 = transform * mesh->vertices[triangle[0]];
-                        auto p1 = transform * mesh->vertices[triangle[1]];
-                        auto p2 = transform * mesh->vertices[triangle[2]];
+                        auto p0 = transform * (*mesh->vertices)[triangle[0]];
+                        auto p1 = transform * (*mesh->vertices)[triangle[1]];
+                        auto p2 = transform * (*mesh->vertices)[triangle[2]];
 
                         if (Util::triangleAABBIntersection(
                             p0, p1, p2,

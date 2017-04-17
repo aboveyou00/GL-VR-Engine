@@ -26,15 +26,15 @@ namespace GlEngine
         assert(_mesh != nullptr);
         SetMaterial(material());
 
-        for (size_t i = 0; i < _mesh->vertices.size(); i++)
+        for (size_t i = 0; i < _mesh->vertices->size(); i++)
         {
-            AddVertex(_mesh->vertices[i], _mesh->texCoords[i], _mesh->normals[i]);
+            AddVertex((*_mesh->vertices)[i], (*_mesh->texCoords)[i], (*_mesh->normals)[i]);
         }
-        for (Vector<3, unsigned> triangle : _mesh->triangles)
+        for (Vector<3, unsigned> triangle : *_mesh->triangles)
         {
             AddTriangle(triangle[0], triangle[1], triangle[2]);
         }
-        for (Vector<4, unsigned> quad : _mesh->quads)
+        for (Vector<4, unsigned> quad : *_mesh->quads)
         {
             AddQuad(quad[0], quad[1], quad[2], quad[3]);
         }

@@ -6,25 +6,29 @@
 
 namespace GlEngine
 {
-    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals, bool isStatic)
-        : MeshComponent(vertices, triangles, {}, texCoords, normals, isStatic)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<3, unsigned>> *triangles, std::vector<Vector<2>> *texCoords, std::vector<Vector<3>> *normals, bool isStatic)
+        : MeshComponent(vertices, triangles, nullptr, texCoords, normals, isStatic)
     {
     }
 
-    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<4, unsigned>> triangles, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals, bool isStatic)
-        : MeshComponent(vertices, {}, quads, texCoords, normals, isStatic)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<4, unsigned>> *quads, std::vector<Vector<2>> *texCoords, std::vector<Vector<3>> *normals, bool isStatic)
+        : MeshComponent(vertices, nullptr, quads, texCoords, normals, isStatic)
     {
     }
 
-    MeshComponent::MeshComponent(std::vector<Vector<3>> vertices, std::vector<Vector<3, unsigned>> triangles, std::vector<Vector<4, unsigned>> quads, std::vector<Vector<2>> texCoords, std::vector<Vector<3>> normals, bool isStatic)
-        : GameComponent("Mesh"), vertices(vertices), triangles(triangles), quads(quads), texCoords(texCoords), normals(normals), isStatic(isStatic)
+    MeshComponent::MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<3, unsigned>> *triangles, std::vector<Vector<4, unsigned>> *quads, std::vector<Vector<2>> *texCoords, std::vector<Vector<3>> *normals, bool isStatic)
+        : GameComponent("Mesh"), vertices(vertices), triangles(triangles), quads(quads), texCoords(texCoords), normals(normals), isStatic(isStatic), allTriangles(new std::vector<Vector<3, unsigned>>())
     {
         CalculateBounds();
-        allTriangles.insert(allTriangles.begin(), triangles.begin(), triangles.end());
-        for (auto quad : quads)
-        {
-            allTriangles.push_back(Vector<3, unsigned>{quad[0], quad[1], quad[2]});
-            allTriangles.push_back(Vector<3, unsigned>{quad[2], quad[3], quad[0]});
+        if (triangles != nullptr) {
+            allTriangles->insert(allTriangles->begin(), triangles->begin(), triangles->end());
+        }
+        if (quads != nullptr) {
+            for (auto quad : *quads)
+            {
+                allTriangles->push_back(Vector<3, unsigned>{quad[0], quad[1], quad[2]});
+                allTriangles->push_back(Vector<3, unsigned>{quad[2], quad[3], quad[0]});
+            }
         }
     }
 
@@ -62,7 +66,7 @@ namespace GlEngine
     void MeshComponent::CalculateBounds()
     {
         float dist_sqr = 0;
-        for (auto position : vertices)
+        for (auto position : *vertices)
             dist_sqr = max(dist_sqr, position.LengthSquared());
         
         float dist = sqrt(dist_sqr);
@@ -72,16 +76,17 @@ namespace GlEngine
 
     void MeshComponent::CalculateNormals()
     {
-        if (normals.size() != 0)
+        if (normals->size() != 0)
             return;
 
-        for (Vector<3, unsigned> triangle : triangles)
+        assert(triangles != nullptr); //TODO: Why is this not allTriangles?
+        for (Vector<3, unsigned> triangle : *triangles)
         {
-            Vector<3> point0 = vertices[triangle[0]];
-            Vector<3> point1 = vertices[triangle[1]];
-            Vector<3> point2 = vertices[triangle[2]];
+            Vector<3> point0 = (*vertices)[triangle[0]];
+            Vector<3> point1 = (*vertices)[triangle[1]];
+            Vector<3> point2 = (*vertices)[triangle[2]];
 
-            normals.push_back((point1 - point0).Cross(point2 - point0).Normalized());
+            normals->push_back((point1 - point0).Cross(point2 - point0).Normalized());
         }
     }
 
@@ -90,8 +95,8 @@ namespace GlEngine
         Vector<3> origin = ray.origin - gameObject()->globalTransform()->position();
         Vector<3> direction = ray.direction * gameObject()->globalTransform()->orientation().Inverse();
 
-        for (auto triangle : allTriangles)
-            if (Util::triangleRayIntersection(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction))
+        for (auto triangle : *allTriangles)
+            if (Util::triangleRayIntersection((*vertices)[triangle[0]], (*vertices)[triangle[1]], (*vertices)[triangle[2]], origin, direction))
                 return true;
         return false;
     }
@@ -104,9 +109,9 @@ namespace GlEngine
         Vector<3> origin = ray.origin - gameObject()->globalTransform()->position();
         Vector<3> direction = ray.direction * gameObject()->globalTransform()->orientation().Inverse();
 
-        for (auto triangle : allTriangles)
+        for (auto triangle : *allTriangles)
         {
-            if (Util::triangleRayIntersection(vertices[triangle[0]], vertices[triangle[1]], vertices[triangle[2]], origin, direction, &distance))
+            if (Util::triangleRayIntersection((*vertices)[triangle[0]], (*vertices)[triangle[1]], (*vertices)[triangle[2]], origin, direction, &distance))
             {
                 if (!result || *outDistance > distance)
                     *outDistance = distance;

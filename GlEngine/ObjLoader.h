@@ -65,12 +65,12 @@ namespace GlEngine
         std::vector<Vector<2>> texCoords;
         
         //std::vector<std::tuple<Vector<3>, Vector<2>, Vector<3>>> glVertices;
-        std::vector<Vector<3>> glPositions;
-        std::vector<Vector<3>> glNormals;
-        std::vector<Vector<2>> glTexCoords;
+        std::vector<Vector<3>> *glPositions;
+        std::vector<Vector<3>> *glNormals;
+        std::vector<Vector<2>> *glTexCoords;
 
-        std::vector<Vector<3, unsigned>> triangleIndices;
-        std::vector<Vector<4, unsigned>> quadIndices;
+        std::vector<Vector<3, unsigned>> *triangleIndices;
+        std::vector<Vector<4, unsigned>> *quadIndices;
 
         bool _LoadMesh();
         int ParseVertex(std::string faceString);

@@ -40,7 +40,7 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    CreateSpatialPartitions<GlEngine::GridSpatialPartitions>(Vector<3>{3, 3, 3});
+    CreateSpatialPartitions<GlEngine::GridSpatialPartitions>(Vector<3>{5, 5, 5});
     //CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
     auto pipeline = CreateDefaultPipeline(cameraComponent);
@@ -61,13 +61,13 @@ bool SpatpartSceneFrame::Initialize()
     controlsComponent->SetControllingLight(light);
     auto ambient = new GlEngine::AmbientLightSource({ .2f, .2f, .2f });
 
-    //auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
-    //auto groundPlane = new GlEngine::GameObject(this, "Ground");
-    //const float GROUND_SIZE = 256.f;
-    //auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", new GlEngine::PhongMaterial(grassTex, { .9f, .9f, .9f }, 5.0f), { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
-    //groundPlaneGfx->AddPropertyProvider(ambient);
-    //groundPlaneGfx->AddPropertyProvider(light);
-    //groundPlane->AddComponent(groundPlaneGfx);
+    auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
+    auto groundPlane = new GlEngine::GameObject(this, "Ground");
+    const float GROUND_SIZE = 256.f;
+    auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", new GlEngine::PhongMaterial(grassTex, { .9f, .9f, .9f }, 5.0f), { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
+    groundPlaneGfx->AddPropertyProvider(ambient);
+    groundPlaneGfx->AddPropertyProvider(light);
+    groundPlane->AddComponent(groundPlaneGfx);
 
     flagGobj = new GlEngine::GameObject(this, "Flag");
     auto objLoader = new GlEngine::ObjLoader("Resources/flag.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
@@ -92,12 +92,29 @@ bool SpatpartSceneFrame::Initialize()
     wallObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .4f, .8f, .2f }, { .9f, .9f, .9f }, 5.0f));
     wallGobj->AddComponent(wallObjLoader);
 
+    auto dragonGobj = new GlEngine::GameObject(this, "Dragon");
+    dragonGobj->globalTransform()->SetPosition({ 5, 0, 5 });
+    auto dragonObjLoader = new GlEngine::ObjLoader("Resources/dragon.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    dragonObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .9f, .3f, .5f }, { .9f, .9f, .9f }, 5.0f));
+    dragonGobj->AddComponent(dragonObjLoader);
+
     for (size_t q = 0; q < TEST_POINT_COUNT; q++)
     {
         auto testPtObj = new GlEngine::GameObject(this, "RaytraceTestPoint");
         testPtObj->AddComponent(new CrosshairGraphicsObject(.2f, Vector<3> { 0, 0, 1.f }));
         testPtObj->Deactivate();
         raytraceDebugObjects[q] = testPtObj;
+    }
+
+    auto treeMat = new GlEngine::PhongMaterial({ .0f, .6f, .0f }, { .9f, .9f, .9f }, 5.0f);
+    for (int q = -2; q <= 2; q++) {
+        for (int w = -2; w <= 2; w++) {
+            auto treeGobj = new GlEngine::GameObject(this, "Tree"s);
+            auto treeObjLoader = new GlEngine::ObjLoader("Resources/tree.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+            treeGobj->globalTransform()->SetPosition({ (q * 10) + 2, 0, (w * 10) + 2 });
+            treeObjLoader->OverrideMaterial(treeMat);
+            treeGobj->AddComponent(treeObjLoader);
+        }
     }
 
     return true;
