@@ -21,6 +21,10 @@ namespace GlEngine
 
 #ifdef _DEBUG
         virtual std::string debugString(Vector<3> position);
+#else
+        std::string debugString(Vector<3> position);
 #endif // _DEBUG
+
+
     };
 }

@@ -2,8 +2,14 @@
 #include "OctreeSpatialPartitions.h"
 #include "MeshTriangle.h"
 
+#pragma warning( push )
+#pragma warning( disable : 4127)
+
 namespace GlEngine
 {
+    const bool OctreeSpatialPartitions::filterDuplicates = false;
+    const bool OctreeSpatialPartitions::aggressiveShortCircuit = false;
+
     OctreeSpatialPartitions::OctreeSpatialPartitions(Vector<3> rootSize, Vector<3> rootOffset, unsigned maxDepth, unsigned leafCapacity)
         : _rootSize(rootSize), _rootOffset(rootOffset), _maxDepth(maxDepth), _leafCapacity(leafCapacity), 
         octree(rootOffset[0] - rootSize[0] / 2, rootOffset[0] + rootSize[0] / 2, 
@@ -49,9 +55,17 @@ namespace GlEngine
 
     MeshComponent* OctreeSpatialPartitions::RayCast(Ray ray, float* outDistance)
     {
+        ScopedLock _lock(octree.elementsLock);
+
+        if (filterDuplicates)
+            lastRaycastBucket = nullptr;
+        
         Octree* currentLeaf = &octree;
         float dist = 0;
         Vector<3> point = ray.origin;
+
+        MeshComponent* result = nullptr;
+        float distance = 0;
 
         while (true)
         {
@@ -72,9 +86,30 @@ namespace GlEngine
             float yNext = dist + yDist / ray.direction[1];
             float zNext = dist + zDist / ray.direction[2];
 
-            MeshComponent* result = RayCastPartition(currentLeaf, ray, outDistance);
-            if (result != nullptr)
-                return result;
+            float currentDistance;
+            MeshComponent* currentResult = RayCastPartition(currentLeaf, ray, &currentDistance);
+            if (currentResult != nullptr)
+            {
+                if (aggressiveShortCircuit)
+                {
+                    result = currentResult;
+                    distance = currentDistance;
+                    break;
+                }
+                else
+                {
+                    if (result == nullptr || currentDistance < distance)
+                    {
+                        result = currentResult;
+                        distance = currentDistance;
+                    }
+                }
+            }
+
+            if (!aggressiveShortCircuit && result != nullptr && distance < xNext && distance < yNext && distance < zNext)
+            {
+                break;
+            }
 
             if (xNext < yNext)
             {
@@ -95,7 +130,9 @@ namespace GlEngine
             currentLeaf = currentLeaf->neighborZ(ray.direction[2] > 0);
         }
         
-        return nullptr;
+        if (result != nullptr)
+            *outDistance = distance;
+        return result;
     }
 
     Vector<3> OctreeSpatialPartitions::rootSize()
@@ -138,6 +175,9 @@ namespace GlEngine
 
         for (MeshTriangle* tri : leaf->elements)
         {
+                if (filterDuplicates && lastRaycastBucket != nullptr && lastRaycastBucket->elements.count(tri))
+                    continue;
+
             if (tri->RayIntersection(ray, &distance))
             {
                 if (result == nullptr || distance < resultDistance)
@@ -147,9 +187,14 @@ namespace GlEngine
                 }
             }
         }
+        
+        if (filterDuplicates)
+            lastRaycastBucket = leaf;
 
         if (outDistance != nullptr)
             *outDistance = resultDistance;
         return result;
     }
 }
+
+#pragma warning( pop ) // 

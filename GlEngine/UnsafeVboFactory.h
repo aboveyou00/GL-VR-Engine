@@ -130,6 +130,7 @@ namespace GlEngine
 
         void Allocate(unsigned vertexCount)
         {
+            vertexCount;
             assert(vertexCount == 0);
         }
 

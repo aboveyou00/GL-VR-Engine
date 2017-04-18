@@ -32,6 +32,10 @@ namespace GlEngine
     private:
         Octree octree;
 
+        static const bool filterDuplicates;
+        static const bool aggressiveShortCircuit;
+
+        Octree* lastRaycastBucket;
         MeshComponent* RayCastPartition(Octree* leaf, Ray ray, float* outDistance);
 
         Vector<3> _rootSize;

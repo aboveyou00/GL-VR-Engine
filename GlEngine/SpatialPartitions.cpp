@@ -26,5 +26,10 @@ namespace GlEngine
     {
         return "[No debug info provided from SpatialPartitions class]";
     }
+#else
+    std::string SpatialPartitions::debugString(Vector<3>)
+    {
+        return "[Spatial partitioning debug information disabled in release build]";
+    }
 #endif // _DEBUG
 }

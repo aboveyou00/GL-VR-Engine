@@ -106,7 +106,7 @@ namespace GlEngine
             }
         }
 
-        auto layerCount = mesh->GetLayerCount();
+        auto layerCount = mesh->GetLayerCount(); layerCount;
         assert(layerCount == 1);
         auto layer = mesh->GetLayer(0);
         auto layerMaterials = layer->GetMaterials();

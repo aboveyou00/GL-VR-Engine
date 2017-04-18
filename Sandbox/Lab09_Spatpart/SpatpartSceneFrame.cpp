@@ -42,7 +42,7 @@ SpatpartSceneFrame::~SpatpartSceneFrame()
 bool SpatpartSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 7, 20);
+    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 11, 20);
     //CreateSpatialPartitions<GlEngine::GridSpatialPartitions>(Vector<3>{5, 5, 5});
     //CreateSpatialPartitions<GlEngine::NullSpatialPartitions>();
 
@@ -133,6 +133,8 @@ void SpatpartSceneFrame::Tick(float dt)
     Frame::Tick(dt);
     bool hitFlag = false;
     float distance = 0;
+
+    if (controls == nullptr) return;
 
     if (controls->rayTracingEnabled)
     {

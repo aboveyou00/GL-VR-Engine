@@ -44,6 +44,7 @@ namespace GlEngine
         }
         int AddVertex(TArgs... args, bool checkCache)
         {
+            checkCache;
             assert(!checkCache);
             //if (checkCache)
             //{

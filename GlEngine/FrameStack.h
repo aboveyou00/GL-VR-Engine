@@ -37,7 +37,11 @@ namespace GlEngine
             _frameStack[++stackIdx] = t;
             if (stackIdx != 0) _frameStack[stackIdx - 1]->FrameMasked(*this);
             t->FramePushed(*this);
-            if (initialized) assert(t->Initialize());
+            if (initialized)
+            {
+                bool result = t->Initialize();
+                assert(result);
+            }
         }
         void PopFrame();
         Frame *CurrentFrame();
