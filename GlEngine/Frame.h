@@ -73,9 +73,12 @@ namespace GlEngine
         }
 
     protected:
+        virtual RenderPipeline* CreateDefaultPipeline();
         virtual RenderPipeline* CreateDefaultPipeline(CameraComponent*& cameraComponent);
         void SetMainCamera(ICamera *camera);
         void SetMainPipeline(RenderPipeline* pipeline);
+
+        RenderTarget *currentRenderTarget;
 
     private:
         std::vector<GameObject*> _children;
@@ -84,7 +87,6 @@ namespace GlEngine
         void setCurrentRenderTarget(RenderTarget *target);
         void setCurrentCamera(ICamera *camera);
 
-        RenderTarget *currentRenderTarget;
         ICamera *currentCamera, *_mainCamera;
         RenderPipeline* _mainPipeline;
     };

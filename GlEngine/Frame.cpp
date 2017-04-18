@@ -114,14 +114,14 @@ namespace GlEngine
         return _mainCamera;
     }
 
-    RenderPipeline * Frame::mainPipeline()
+    RenderPipeline *Frame::mainPipeline()
     {
         return _mainPipeline;
     }
 
     std::vector<std::pair<RenderStage*, ICamera*>> Frame::renderStages()
     {
-        if (_mainPipeline == nullptr) return { };
+        if (_mainPipeline == nullptr) CreateDefaultPipeline();
         return _mainPipeline->renderStages();
     }
 
@@ -135,6 +135,11 @@ namespace GlEngine
         assert(false);
     }
 
+    RenderPipeline* Frame::CreateDefaultPipeline()
+    {
+        CameraComponent *camera;
+        return CreateDefaultPipeline(camera);
+    }
     RenderPipeline* Frame::CreateDefaultPipeline(CameraComponent*& cameraComponent)
     {
         cameraComponent = new CameraComponent();
