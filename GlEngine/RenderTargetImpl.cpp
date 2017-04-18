@@ -55,13 +55,13 @@ namespace GlEngine::Impl
     {
         stage->Push();
         viewPorts[stage]->Push();
-        camera->Push(stage);
+        if (camera != nullptr) camera->Push(stage);
     }
     void RenderTargetImpl::Pop(RenderStage* stage, ICamera* camera)
     {
         stage->Pop();
         viewPorts[stage]->Pop();
-        camera->Pop(stage);
+        if (camera != nullptr) camera->Pop(stage);
     }
     void RenderTargetImpl::PostPop()
     {
