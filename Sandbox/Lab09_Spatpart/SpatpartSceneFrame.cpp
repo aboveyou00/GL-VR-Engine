@@ -26,12 +26,13 @@
 #include "ObjLoader.h"
 
 #include "CrosshairGraphicsObject.h"
+#include "StringUtils.h"
 
 const Vector<3> RAYCAST_HIT_COLOR = { 0, 1, 0 };
 const Vector<3> RAYCAST_MISS_COLOR = { 1, 0, 0 };
 
 SpatpartSceneFrame::SpatpartSceneFrame()
-    : cameraComponent(nullptr), flagGobj(nullptr), renderer(nullptr), controls(nullptr)
+    : cameraComponent(nullptr), flagGobj(nullptr), renderer(nullptr), controls(nullptr), dts_idx(0)
 {
 }
 SpatpartSceneFrame::~SpatpartSceneFrame()
@@ -156,6 +157,9 @@ void SpatpartSceneFrame::Tick(float dt)
             raytraceDebugObjects[q]->Deactivate();
         }
     }
+
+    dts[dts_idx] = dt;
+    dts_idx = (dts_idx + 1) % 32;
 }
 
 void SpatpartSceneFrame::UpdateGraphics()
@@ -171,4 +175,13 @@ void SpatpartSceneFrame::Render(GlEngine::RenderStage *stage)
     if (stage != GlEngine::renderStage_2d) return;
     renderText = controls->displayDebugString ? spatialPartitions->debugString(cameraComponent->gameObject()->globalTransform()->position()) : "[Disabled]";
     renderer->DrawDirect(10, 62, renderText.c_str());
+
+    float total = 0;
+    for (size_t i = 0; i < 32; i++)
+        total += dts[i];
+    float avg_dt = total / 32;
+    float fps = 1 / avg_dt;
+
+    float color[4] = { 1.0, 0.4f, 0.4f, 1.0 };
+    renderer->DrawDirect(10, 20, color, GlEngine::Util::formatted("FPS: %.4f", fps).c_str());
 }

@@ -33,7 +33,7 @@ namespace GlEngine
 
         void AddAttrib(unsigned attrib, unsigned start, unsigned size)
         {
-            assert(attribIdx <= attribCount);
+            assert(attribIdx < attribCount);
 
             attribs[attribIdx].name = attrib;
             attribs[attribIdx].start = start;

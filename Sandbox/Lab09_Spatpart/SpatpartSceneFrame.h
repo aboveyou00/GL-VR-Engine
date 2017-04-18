@@ -34,4 +34,7 @@ private:
     Lab9ControlsComponent *controls;
     FIG::FontRenderer* renderer;
     std::string renderText;
+
+    float dts[32];
+    size_t dts_idx;
 };
