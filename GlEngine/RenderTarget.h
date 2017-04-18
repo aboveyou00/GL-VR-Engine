@@ -42,6 +42,7 @@ namespace GlEngine
         virtual bool GetShouldRender();
 
         virtual void Render();
+        virtual void Render(RenderPipeline *pipeline);
 
         virtual void Prepare();
         virtual void PrePush();

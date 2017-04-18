@@ -73,21 +73,21 @@ namespace GlEngine
 
     void RenderTarget::Render()
     {
+        Render(renderPipeline());
+    }
+    void RenderTarget::Render(RenderPipeline *pipeline)
+    {
         if (!GetShouldRender()) return;
 
-        RenderPipeline* thisPipeline = renderPipeline();
         Frame* thisFrame = nullptr;
-        
-        if (thisPipeline != nullptr)
-            thisFrame = thisPipeline->frame();
-        if (thisFrame == nullptr)
-            return;
+        if (pipeline != nullptr) thisFrame = pipeline->frame();
+        if (thisFrame == nullptr) return;
 
         thisFrame->setCurrentRenderTarget(this);
         thisFrame->UpdateGraphics();
 
         this->PrePush();
-        for (auto stageCameraPair : renderPipeline()->renderStages())
+        for (auto stageCameraPair : pipeline->renderStages())
         {
             this->Push(stageCameraPair.first, stageCameraPair.second);
             thisFrame->Render(stageCameraPair.first);
