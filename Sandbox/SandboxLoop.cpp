@@ -9,6 +9,7 @@
 #include "Lab07_Particles/ParticlesSceneFrame.h"
 #include "Lab08_Slenderman/SlendermanStaticSceneFrame.h"
 #include "Lab09_Spatpart/SpatpartSceneFrame.h"
+#include "Terminal/TerminalSceneFrame.h"
 
 #include "Engine.h"
 #include "Event.h"
@@ -62,6 +63,7 @@ bool SandboxLoop::initLoop()
 
     if (!_frames.Initialize()) return false;
     _frames.PushNewFrame<SpatpartSceneFrame>();
+    _frames.PushNewFrame<TerminalSceneFrame>(_frames.CurrentFrame());
 
     return true;
 }

@@ -8,7 +8,7 @@
 class SandboxLoop : public GlEngine::GameLoop, public GlEngine::IInitializable
 {
 public:
-    SandboxLoop(unsigned targetFPS = 0u);
+    SandboxLoop(unsigned targetFPS = 200u);
     ~SandboxLoop();
 
     virtual bool Initialize() override;
