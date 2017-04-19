@@ -165,6 +165,7 @@
     <ClInclude Include="AudioSourceComponent.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BoxCollision.h" />
+    <ClInclude Include="CharEvent.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CubeGraphicsObject.h" />
     <ClInclude Include="GridSpatialPartitions.h" />
@@ -358,6 +359,7 @@
     <ClCompile Include="AudioListenerComponent.cpp" />
     <ClCompile Include="AudioSourceComponent.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
+    <ClCompile Include="CharEvent.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CubeGraphicsObject.cpp" />
     <ClCompile Include="GridSpatialPartitions.cpp" />

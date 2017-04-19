@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "Engine.h"
+#include "CharEvent.h"
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
 #include "Environment.h"
+#include "LogUtils.h"
 
 namespace GlEngine
 {
@@ -50,6 +52,11 @@ namespace GlEngine
                 // TODO events.PushEvents(new Events::SizeEvent(...));
             }
             dropNext = true;
+            goto default_wnd_proc;
+
+        case WM_CHAR:
+            //Util::Log(LogType::Console, "WM_CHAR: %d", wParam);
+            events.PushEvent(new Events::CharEvent((char)wParam, lParam & 0xFF, (lParam >> 16) & 0xF, !!(lParam & 0x1000)));
             goto default_wnd_proc;
 
         case WM_KEYDOWN:
