@@ -59,8 +59,11 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
 
     if (showTerminal)
     {
-        auto old = currentLine;
-        auto oldCursor = cursorPos;
+        //auto old = currentLine;
+        //auto oldCursor = cursorPos;
+        bool resetSelection = false;
+        bool resetBlink = false;
+
         auto kbdevt = dynamic_cast<KeyboardEvent*>(&evt);
         if (kbdevt != nullptr && kbdevt->type() == KeyboardEventType::KeyTyped)
         {
@@ -76,25 +79,31 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 lines->push_back(currentLine);
                 currentLine = "";
                 cursorPos = 0;
+                resetSelection = true;
                 break;
             case VK_DELETE:
                 if (cursorPos < currentLine.length() && cursorPos == selectionStartPos) selectionStartPos = cursorPos + 1;
                 deleteSelection();
+                resetBlink = true;
                 break;
 
             case VK_HOME:
                 cursorPos = 0;
+                resetSelection = true;
                 break;
             case VK_END:
                 cursorPos = currentLine.length();
+                resetSelection = true;
                 break;
             case VK_RIGHT:
                 if (kbdevt->isControlPressed()) cursorPos = GlEngine::Util::findEndOfWord(currentLine, cursorPos);
-                else if (cursorPos < currentLine.length()) cursorPos++;
+                else cursorPos++;
+                resetSelection = true;
                 break;
             case VK_LEFT:
                 if (kbdevt->isControlPressed()) cursorPos = GlEngine::Util::findBeginningOfWord(currentLine, cursorPos);
-                else if (cursorPos > 0) cursorPos--;
+                else cursorPos--;
+                resetSelection = true;
                 break;
 
             case VK_ALPHANUMERIC<'X'>():
@@ -109,6 +118,7 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                     setClipboardContents(getSelection());
                     deleteSelection();
                 }
+                resetBlink = true;
                 break;
             case VK_ALPHANUMERIC<'C'>():
                 if (selectionStartPos == cursorPos) setClipboardContents(currentLine);
@@ -116,10 +126,21 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 break;
             case VK_ALPHANUMERIC<'V'>():
                 if (kbdevt->isControlPressed()) deleteSelection(getClipboardContents());
+                resetBlink = true;
+                break;
+
+            case VK_ALPHANUMERIC<'A'>():
+                selectionStartPos = 0;
+                cursorPos = currentLine.length();
+                //oldCursor = cursorPos; //To prevent the selection being reset because shift isn't pressed
                 break;
             }
 
-            if (oldCursor != cursorPos && !kbdevt->isShiftPressed()) selectionStartPos = cursorPos;
+            //Failsafe
+            if (cursorPos < 0 || cursorPos > 2000000) cursorPos = 0;
+            else if (cursorPos > currentLine.length()) cursorPos = currentLine.length();
+
+            if (resetSelection && !kbdevt->isShiftPressed()) selectionStartPos = cursorPos;
         }
         else if (charevt != nullptr)
         {
@@ -129,6 +150,7 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
             case '\x08': //Backspace
                 if (cursorPos > 0 && cursorPos == selectionStartPos) selectionStartPos = cursorPos - 1;
                 deleteSelection();
+                resetBlink = true;
                 break;
 
             case '\t': //Tab
@@ -137,10 +159,11 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
 
             default:
                 deleteSelection(std::string(1, chr));
+                resetBlink = true;
             }
         }
         evt.Handle();
-        if (oldCursor != cursorPos || old != currentLine) cursorBlinkDelta = 0;
+        if (resetSelection || resetBlink) cursorBlinkDelta = 0;
     }
     else
     {
