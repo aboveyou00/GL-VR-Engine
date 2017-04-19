@@ -16,8 +16,8 @@ typedef GlEngine::Events::CharEvent CharEvent;
 const std::string STR_PROMPT = "> "s;
 const std::string STR_CURSOR = "|"s;
 
-TerminalSceneFrame::TerminalSceneFrame(Frame *wrapFrame)
-    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0), renderer(nullptr), cursorBlinkDelta(0.f)
+TerminalSceneFrame::TerminalSceneFrame(Frame *wrapFrame, GlEngine::ScriptEvaluator* evaluator)
+    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0), renderer(nullptr), cursorBlinkDelta(0.f), selectionStartPos(0), evaluator(evaluator)
 {
     lines->push_back("Hello, World!"s);
     lines->push_back("I like chocolate milk!"s);
@@ -68,6 +68,8 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
         if (kbdevt != nullptr && kbdevt->type() == KeyboardEventType::KeyTyped)
         {
             auto vk_code = kbdevt->GetVirtualKeyCode();
+            std::string line;
+
             switch (vk_code)
             {
             case VK_UP:
@@ -76,10 +78,12 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 break;
 
             case VK_RETURN:
+                line = currentLine;
                 lines->push_back(currentLine);
                 currentLine = "";
                 cursorPos = 0;
                 resetSelection = true;
+                Execute(line);
                 break;
             case VK_DELETE:
                 if (cursorPos < currentLine.length() && cursorPos == selectionStartPos) selectionStartPos = cursorPos + 1;
@@ -107,32 +111,46 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 break;
 
             case VK_ALPHANUMERIC<'X'>():
-                if (selectionStartPos == cursorPos)
+                if (kbdevt->isControlPressed())
                 {
-                    setClipboardContents(currentLine);
-                    currentLine = ""s;
-                    selectionStartPos = cursorPos = 0;
+                    if (selectionStartPos == cursorPos)
+                    {
+                        setClipboardContents(currentLine);
+                        currentLine = ""s;
+                        selectionStartPos = cursorPos = 0;
+                    }
+                    else
+                    {
+                        setClipboardContents(getSelection());
+                        deleteSelection();
+                    }
+                    resetBlink = true;
                 }
-                else
-                {
-                    setClipboardContents(getSelection());
-                    deleteSelection();
-                }
-                resetBlink = true;
                 break;
+            
             case VK_ALPHANUMERIC<'C'>():
-                if (selectionStartPos == cursorPos) setClipboardContents(currentLine);
-                else setClipboardContents(getSelection());
+                if (kbdevt->isControlPressed())
+                {
+                    if (selectionStartPos == cursorPos) setClipboardContents(currentLine);
+                    else setClipboardContents(getSelection());
+                }
                 break;
+            
             case VK_ALPHANUMERIC<'V'>():
-                if (kbdevt->isControlPressed()) deleteSelection(getClipboardContents());
-                resetBlink = true;
+                if (kbdevt->isControlPressed())
+                {
+                    if (kbdevt->isControlPressed()) deleteSelection(getClipboardContents());
+                    resetBlink = true;
+                }
                 break;
 
             case VK_ALPHANUMERIC<'A'>():
-                selectionStartPos = 0;
-                cursorPos = currentLine.length();
-                //oldCursor = cursorPos; //To prevent the selection being reset because shift isn't pressed
+                if (kbdevt->isControlPressed())
+                {
+                    selectionStartPos = 0;
+                    cursorPos = currentLine.length();
+                    //oldCursor = cursorPos; //To prevent the selection being reset because shift isn't pressed
+                }
                 break;
             }
 
@@ -276,4 +294,13 @@ void TerminalSceneFrame::setClipboardContents(std::string contents)
         CloseClipboard();
         GlobalFree(hg);
     }
+}
+
+void TerminalSceneFrame::Execute(std::string line)
+{
+    if (evaluator == nullptr)
+        return;
+
+    std::string result = evaluator->EvaluateSingle(line);
+    lines->push_back(result);
 }

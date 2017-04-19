@@ -3,6 +3,7 @@
 #include "Frame.h"
 #include "FrameStack.h"
 #include "Event.h"
+#include "ScriptEvaluator.h"
 
 namespace FIG
 {
@@ -12,7 +13,7 @@ namespace FIG
 class TerminalSceneFrame : public GlEngine::Frame
 {
 public:
-    TerminalSceneFrame(Frame *wrapFrame);
+    TerminalSceneFrame(Frame *wrapFrame, GlEngine::ScriptEvaluator* evaluator = nullptr);
     ~TerminalSceneFrame();
 
     virtual bool Initialize() override;
@@ -26,6 +27,13 @@ public:
     virtual void Render(GlEngine::RenderStage* stage);
 
     virtual Vector<3> clearColor() override;
+
+    template<typename EvaluatorT>
+    void CreateEvaluator()
+    {
+        static_assert(std::is_base_of<GlEngine::ScriptEvaluator, EvaluatorT>::value, "EvaluatorT not derived from ScriptEvaluator");
+        evaluator = new EvaluatorT(wrappedFrame);
+    }
 
 private:
     Frame *wrappedFrame;
@@ -43,4 +51,7 @@ private:
 
     std::string getClipboardContents();
     void setClipboardContents(std::string contents);
+
+    GlEngine::ScriptEvaluator* evaluator;
+    void Execute(std::string line);
 };

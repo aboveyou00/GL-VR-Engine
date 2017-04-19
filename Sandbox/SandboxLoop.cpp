@@ -18,6 +18,7 @@
 #include "ILogger.h"
 
 #include "Threading.h"
+#include "PythonEvaluator.h"
 
 SandboxLoop::SandboxLoop(unsigned targetFPS)
     : GlEngine::GameLoop(
@@ -62,8 +63,10 @@ bool SandboxLoop::initLoop()
     logger->Log(GlEngine::LogType::Info, "Beginning logic thread");
 
     if (!_frames.Initialize()) return false;
-    _frames.PushNewFrame<SpatpartSceneFrame>();
-    _frames.PushNewFrame<TerminalSceneFrame>(_frames.CurrentFrame());
+
+    _frames.PushNewFrame<DiffuseSceneFrame>();
+    auto pyEvaluator = new GlEngine::PythonEvaluator(_frames.CurrentFrame());
+    _frames.PushNewFrame<TerminalSceneFrame>(_frames.CurrentFrame(), pyEvaluator);
 
     return true;
 }
