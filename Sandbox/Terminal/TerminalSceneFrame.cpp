@@ -16,8 +16,8 @@ typedef GlEngine::Events::CharEvent CharEvent;
 const std::string STR_PROMPT = "> "s;
 const std::string STR_CURSOR = "|"s;
 
-TerminalSceneFrame::TerminalSceneFrame(Frame *wrapFrame, GlEngine::ScriptEvaluator* evaluator)
-    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0), renderer(nullptr), cursorBlinkDelta(0.f), selectionStartPos(0), evaluator(evaluator)
+TerminalSceneFrame::TerminalSceneFrame(Frame *wrapFrame)
+    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0), renderer(nullptr), cursorBlinkDelta(0.f), selectionStartPos(0), evaluator(nullptr)
 {
     lines->push_back("Hello, World!"s);
     lines->push_back("I like chocolate milk!"s);
@@ -149,7 +149,6 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 {
                     selectionStartPos = 0;
                     cursorPos = currentLine.length();
-                    //oldCursor = cursorPos; //To prevent the selection being reset because shift isn't pressed
                 }
                 break;
             }

@@ -29,7 +29,7 @@ namespace GlEngine
         void Tick(float delta);
 
         template <typename T, typename... TArgs>
-        void PushNewFrame(TArgs... args)
+        T *PushNewFrame(TArgs... args)
         {
             T *t = new T(args...);
             //TODO: Log helpful error messages, don't crash program
@@ -42,6 +42,7 @@ namespace GlEngine
                 bool result = t->Initialize();
                 assert(result);
             }
+            return t;
         }
         void PopFrame();
         Frame *CurrentFrame();

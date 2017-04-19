@@ -65,8 +65,8 @@ bool SandboxLoop::initLoop()
     if (!_frames.Initialize()) return false;
 
     _frames.PushNewFrame<DiffuseSceneFrame>();
-    auto pyEvaluator = new GlEngine::PythonEvaluator(_frames.CurrentFrame());
-    _frames.PushNewFrame<TerminalSceneFrame>(_frames.CurrentFrame(), pyEvaluator);
+    auto terminal = _frames.PushNewFrame<TerminalSceneFrame>(_frames.CurrentFrame());
+    terminal->CreateEvaluator<GlEngine::PythonEvaluator>();
 
     return true;
 }

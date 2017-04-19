@@ -13,7 +13,7 @@ namespace FIG
 class TerminalSceneFrame : public GlEngine::Frame
 {
 public:
-    TerminalSceneFrame(Frame *wrapFrame, GlEngine::ScriptEvaluator* evaluator = nullptr);
+    TerminalSceneFrame(Frame *wrapFrame);
     ~TerminalSceneFrame();
 
     virtual bool Initialize() override;
