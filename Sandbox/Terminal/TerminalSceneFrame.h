@@ -4,6 +4,11 @@
 #include "FrameStack.h"
 #include "Event.h"
 
+namespace FIG
+{
+    class FontRenderer;
+}
+
 class TerminalSceneFrame : public GlEngine::Frame
 {
 public:
@@ -25,4 +30,10 @@ public:
 private:
     Frame *wrappedFrame;
     bool showTerminal, pauseWhenVisible;
+
+    std::vector<std::string> *lines;
+    std::string currentLine;
+    unsigned cursorPos;
+
+    FIG::FontRenderer* renderer;
 };
