@@ -22,6 +22,6 @@ void checkForGlError()
         }
         stream << ": " << glewGetErrorString(err);
         GlEngine::Util::Log(GlEngine::LogType::ErrorC, "An OpenGL error was produced: %s", stream.str().c_str());
-        //assert(false);
+        assert(false);
     }
 }

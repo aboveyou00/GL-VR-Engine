@@ -99,6 +99,8 @@ namespace FIG
 
         BoundingBox Bounds(const char * const text);
 
+        float lineHeight() const;
+
     private:
         Font* font;
 

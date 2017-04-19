@@ -105,6 +105,11 @@ namespace FIG
         return BoundingBox{minX, maxX, minY, maxY};
     }
 
+    float FontRenderer::lineHeight() const
+    {
+        return font->face->size->metrics.height / 64.f;
+    }
+
     bool FontRenderer::CreateGlyphs()
     {
         glGenTextures(1, &texture);
@@ -177,7 +182,7 @@ namespace FIG
         metrics[charCode].horiBearingY = font->face->glyph->metrics.horiBearingY;
         metrics[charCode].width = font->face->glyph->metrics.width;
         metrics[charCode].height = font->face->glyph->metrics.height;
-                
+
         return true;
     }
     

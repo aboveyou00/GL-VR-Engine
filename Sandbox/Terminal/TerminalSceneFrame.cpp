@@ -6,13 +6,16 @@
 #include "RenderStage.h"
 #include "RenderTarget.h"
 #include "FontRenderer.h"
+#include "ViewPort.h"
 
 typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 typedef GlEngine::Events::CharEvent CharEvent;
 
+const std::string STR_PROMPT = "> "s;
+
 TerminalSceneFrame::TerminalSceneFrame(Frame *wrapFrame)
-    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0)
+    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0), renderer(nullptr)
 {
     lines->push_back("Hello, World!"s);
     lines->push_back("I like chocolate milk!"s);
@@ -132,13 +135,25 @@ void TerminalSceneFrame::UpdateGraphics()
 void TerminalSceneFrame::Render(GlEngine::RenderStage *stage)
 {
     if (stage == GlEngine::renderStage_opaque) this->currentRenderTarget->Render(wrappedFrame);
-    if (showTerminal)
+    if (showTerminal && renderer != nullptr)
     {
         Frame::Render(stage);
-        auto renderText = "> " + currentLine;
+        auto lineHeight = renderer->lineHeight();
+        auto bottom = this->currentRenderTarget->viewPort(stage)->height() - lineHeight;
+        auto left = 8;
+
         Vector<4> color = { 0, 0, 0, 1 };
-        Vector<4> bgColor = { 1, 1, 1, 1 };
-        renderer->DrawDirect(10, 200, color.getAddr(), renderText.c_str());
+        auto renderText = STR_PROMPT + currentLine;
+        renderer->DrawDirect(left, (int)floor(bottom), color.getAddr(), renderText.c_str());
+        bottom -= lineHeight * 1.5f;
+
+        for (int q = lines->size() - 1; q >= 0; q--)
+        {
+            renderText = lines->at(q);
+            renderer->DrawDirect(left, (int)floor(bottom), color.getAddr(), renderText.c_str());
+            bottom -= lineHeight;
+            if (bottom < 0) break;
+        }
     }
 }
 
