@@ -136,7 +136,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk.lib;python3.lib;python36.lib;freetype27.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk-md.lib;python3.lib;python36.lib;freetype27.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\lib\release;\Python36\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
