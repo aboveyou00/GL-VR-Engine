@@ -7,15 +7,17 @@
 #include "RenderTarget.h"
 #include "FontRenderer.h"
 #include "ViewPort.h"
+#include "StringUtils.h"
 
 typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 typedef GlEngine::Events::CharEvent CharEvent;
 
 const std::string STR_PROMPT = "> "s;
+const std::string STR_CURSOR = "|"s;
 
 TerminalSceneFrame::TerminalSceneFrame(Frame *wrapFrame)
-    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0), renderer(nullptr)
+    : wrappedFrame(wrapFrame), showTerminal(false), pauseWhenVisible(true), lines(new std::vector<std::string>()), currentLine(""s), cursorPos(0), renderer(nullptr), cursorBlinkDelta(0.f)
 {
     lines->push_back("Hello, World!"s);
     lines->push_back("I like chocolate milk!"s);
@@ -58,6 +60,7 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
     if (showTerminal)
     {
         auto old = currentLine;
+        auto oldCursor = cursorPos;
         auto kbdevt = dynamic_cast<KeyboardEvent*>(&evt);
         if (kbdevt != nullptr && kbdevt->type() == KeyboardEventType::KeyTyped)
         {
@@ -87,10 +90,12 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 cursorPos = currentLine.length();
                 break;
             case VK_RIGHT:
-                cursorPos = min(currentLine.length(), cursorPos + 1);
+                if (kbdevt->isControlPressed()) cursorPos = GlEngine::Util::findEndOfWord(currentLine, cursorPos);
+                else if (cursorPos < currentLine.length()) cursorPos++;
                 break;
             case VK_LEFT:
-                cursorPos = max(0u, cursorPos - 1);
+                if (kbdevt->isControlPressed()) cursorPos = GlEngine::Util::findBeginningOfWord(currentLine, cursorPos);
+                else if (cursorPos > 0) cursorPos--;
                 break;
             }
         }
@@ -113,6 +118,7 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
             }
         }
         evt.Handle();
+        if (oldCursor != cursorPos || old != currentLine) cursorBlinkDelta = 0;
     }
     else
     {
@@ -124,6 +130,7 @@ void TerminalSceneFrame::TickGraphics(float delta)
 {
     wrappedFrame->TickGraphics(delta);
     Frame::TickGraphics(delta);
+    cursorBlinkDelta = fmod(cursorBlinkDelta + delta, 1.f);
 }
 void TerminalSceneFrame::UpdateGraphics()
 {
@@ -145,6 +152,13 @@ void TerminalSceneFrame::Render(GlEngine::RenderStage *stage)
         Vector<4> color = { 0, 0, 0, 1 };
         auto renderText = STR_PROMPT + currentLine;
         renderer->DrawDirect(left, (int)floor(bottom), color.getAddr(), renderText.c_str());
+        if (cursorBlinkDelta < .5f)
+        {
+            auto beforeCursorWidth = renderer->Bounds(renderText.substr(0, cursorPos + STR_PROMPT.size()).c_str()).width();
+            beforeCursorWidth -= renderer->Bounds(STR_CURSOR.c_str()).width() / 2.f;
+            renderer->DrawDirect((int)(left + beforeCursorWidth), (int)floor(bottom), color.getAddr(), STR_CURSOR.c_str());
+        }
+
         bottom -= lineHeight * 1.5f;
 
         for (int q = lines->size() - 1; q >= 0; q--)

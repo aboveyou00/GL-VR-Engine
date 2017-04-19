@@ -14,7 +14,17 @@ namespace GlEngine
 
         inline bool isNumeric(char c) noexcept
         {
-            return ('0' <= c && c <= '9' || c == '-' || c == '+' || c == '.');
+            return ('0' <= c && c <= '9');
+        }
+
+        inline bool isLetter(char c) noexcept
+        {
+            return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
+        }
+
+        inline bool isAlphanumeric(char c) noexcept
+        {
+            return isNumeric(c) || isLetter(c);
         }
 
         void eatWhitespace(std::istream& in) noexcept
@@ -135,6 +145,38 @@ namespace GlEngine
             char result[32];
             sprintf_s(result, "%f", value);
             return std::string(result);
+        }
+
+        static int charClass(char chr)
+        {
+            return     isWhitespace(chr) ? 0 :
+                     isAlphanumeric(chr) ? 1 :
+              chr == '\n' || chr == '\r' ? 2 :
+                                           3;
+        }
+        ENGINE_SHARED unsigned findEndOfWord(std::string text, unsigned currentPos) noexcept
+        {
+            auto previousClass = 0;
+            while (currentPos < text.size())
+            {
+                auto currentClass = charClass(text.at(currentPos));
+                if (previousClass != currentClass && previousClass != 0) break;
+                previousClass = currentClass;
+                currentPos++;
+            }
+            return currentPos;
+        }
+        ENGINE_SHARED unsigned findBeginningOfWord(std::string text, unsigned currentPos) noexcept
+        {
+            auto previousClass = 0;
+            while (currentPos > 0)
+            {
+                auto currentClass = charClass(text.at(currentPos - 1));
+                if (previousClass != currentClass && previousClass != 0) break;
+                previousClass = currentClass;
+                currentPos--;
+            }
+            return currentPos;
         }
 
         bool is_empty(const char *const str) noexcept

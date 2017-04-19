@@ -34,6 +34,7 @@ private:
     std::vector<std::string> *lines;
     std::string currentLine;
     unsigned cursorPos;
+    float cursorBlinkDelta;
 
     FIG::FontRenderer* renderer;
 };

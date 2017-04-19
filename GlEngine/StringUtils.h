@@ -8,6 +8,8 @@ namespace GlEngine
     {
         ENGINE_SHARED bool isWhitespace(char c) noexcept;
         ENGINE_SHARED bool isNumeric(char c) noexcept;
+        ENGINE_SHARED bool isLetter(char c) noexcept;
+        ENGINE_SHARED bool isAlphanumeric(char c) noexcept;
         ENGINE_SHARED void eatWhitespace(std::istream& in) noexcept;
         ENGINE_SHARED const char * const eatWhitespace(const char * const str) noexcept;
 
@@ -19,6 +21,9 @@ namespace GlEngine
 
         ENGINE_SHARED std::string itos(int value);
         ENGINE_SHARED std::string ftos(float value);
+
+        ENGINE_SHARED unsigned findEndOfWord(std::string text, unsigned currentPos) noexcept;
+        ENGINE_SHARED unsigned findBeginningOfWord(std::string text, unsigned currentPos) noexcept;
 
         template <typename T>
         std::string addressString(T *ptr)
