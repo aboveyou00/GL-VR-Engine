@@ -33,8 +33,10 @@ private:
 
     std::vector<std::string> *lines;
     std::string currentLine;
-    unsigned cursorPos;
+    unsigned cursorPos, selectionStartPos;
     float cursorBlinkDelta;
 
     FIG::FontRenderer* renderer;
+
+    void deleteSelection(std::string replace = ""s);
 };

@@ -69,18 +69,17 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
             {
             case VK_UP:
             case VK_DOWN:
-                //Ignore
+                //Ignore, for now
                 break;
 
-            case VK_SHIFT:
-                break;
             case VK_RETURN:
                 lines->push_back(currentLine);
                 currentLine = "";
                 cursorPos = 0;
                 break;
             case VK_DELETE:
-                if (cursorPos < currentLine.length()) currentLine = currentLine.substr(0, cursorPos) + currentLine.substr(cursorPos + 1);
+                if (cursorPos < currentLine.length() && cursorPos == selectionStartPos) selectionStartPos = cursorPos + 1;
+                deleteSelection();
                 break;
 
             case VK_HOME:
@@ -98,6 +97,8 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 else if (cursorPos > 0) cursorPos--;
                 break;
             }
+
+            if (oldCursor != cursorPos && !kbdevt->isShiftPressed()) selectionStartPos = cursorPos;
         }
         else if (charevt != nullptr)
         {
@@ -105,16 +106,16 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
             switch (chr)
             {
             case '\x08': //Backspace
-                if (cursorPos > 0)
-                {
-                    currentLine = currentLine.substr(0, cursorPos - 1) + currentLine.substr(cursorPos);
-                    cursorPos--;
-                }
+                if (cursorPos > 0 && cursorPos == selectionStartPos) selectionStartPos = cursorPos - 1;
+                deleteSelection();
+                break;
+
+            case '\t': //Tab
+                //Ignore, for now
                 break;
 
             default:
-                currentLine = currentLine.substr(0, cursorPos) + std::string(1, chr) + currentLine.substr(cursorPos);
-                cursorPos++;
+                deleteSelection(std::string(1, chr));
             }
         }
         evt.Handle();
@@ -150,8 +151,23 @@ void TerminalSceneFrame::Render(GlEngine::RenderStage *stage)
         auto left = 8;
 
         Vector<4> color = { 0, 0, 0, 1 };
+        Vector<4> bgColor = { 0, 0, 0, 0 };
+        Vector<4> selectionBgColor = { .4f, .4f, 1.f, .8f };
         auto renderText = STR_PROMPT + currentLine;
-        renderer->DrawDirect(left, (int)floor(bottom), color.getAddr(), renderText.c_str());
+        if (selectionStartPos != cursorPos)
+        {
+            auto p1 = renderText.substr(0, min(cursorPos, selectionStartPos) + STR_PROMPT.length());
+            renderer->DrawDirect(left, (int)floor(bottom), color.getAddr(), bgColor.getAddr(), p1.c_str());
+            auto nextLeft = left + renderer->Bounds(p1.c_str()).width();
+
+            auto p2 = renderText.substr(min(cursorPos, selectionStartPos) + STR_PROMPT.length(), (unsigned)abs((int)cursorPos - (int)selectionStartPos));
+            renderer->DrawDirect((int)nextLeft, (int)floor(bottom), color.getAddr(), selectionBgColor.getAddr(), p2.c_str());
+            nextLeft += renderer->Bounds(p2.c_str()).width();
+
+            auto p3 = renderText.substr(max(cursorPos, selectionStartPos) + STR_PROMPT.length());
+            renderer->DrawDirect((int)nextLeft, (int)floor(bottom), color.getAddr(), bgColor.getAddr(), p3.c_str());
+        }
+        else renderer->DrawDirect(left, (int)floor(bottom), color.getAddr(), bgColor.getAddr(), renderText.c_str());
         if (cursorBlinkDelta < .5f)
         {
             auto beforeCursorWidth = renderer->Bounds(renderText.substr(0, cursorPos + STR_PROMPT.size()).c_str()).width();
@@ -174,4 +190,10 @@ void TerminalSceneFrame::Render(GlEngine::RenderStage *stage)
 Vector<3> TerminalSceneFrame::clearColor()
 {
     return wrappedFrame->clearColor();
+}
+
+void TerminalSceneFrame::deleteSelection(std::string replace)
+{
+    currentLine = currentLine.substr(0, min(cursorPos, selectionStartPos)) + replace + currentLine.substr(max(cursorPos, selectionStartPos));
+    selectionStartPos = cursorPos = min(selectionStartPos, cursorPos) + replace.length();
 }
