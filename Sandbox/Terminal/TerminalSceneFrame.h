@@ -39,4 +39,8 @@ private:
     FIG::FontRenderer* renderer;
 
     void deleteSelection(std::string replace = ""s);
+    std::string getSelection();
+
+    std::string getClipboardContents();
+    void setClipboardContents(std::string contents);
 };

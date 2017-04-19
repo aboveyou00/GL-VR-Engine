@@ -96,6 +96,27 @@ void TerminalSceneFrame::HandleEvent(GlEngine::Events::Event &evt)
                 if (kbdevt->isControlPressed()) cursorPos = GlEngine::Util::findBeginningOfWord(currentLine, cursorPos);
                 else if (cursorPos > 0) cursorPos--;
                 break;
+
+            case VK_ALPHANUMERIC<'X'>():
+                if (selectionStartPos == cursorPos)
+                {
+                    setClipboardContents(currentLine);
+                    currentLine = ""s;
+                    selectionStartPos = cursorPos = 0;
+                }
+                else
+                {
+                    setClipboardContents(getSelection());
+                    deleteSelection();
+                }
+                break;
+            case VK_ALPHANUMERIC<'C'>():
+                if (selectionStartPos == cursorPos) setClipboardContents(currentLine);
+                else setClipboardContents(getSelection());
+                break;
+            case VK_ALPHANUMERIC<'V'>():
+                if (kbdevt->isControlPressed()) deleteSelection(getClipboardContents());
+                break;
             }
 
             if (oldCursor != cursorPos && !kbdevt->isShiftPressed()) selectionStartPos = cursorPos;
@@ -160,7 +181,7 @@ void TerminalSceneFrame::Render(GlEngine::RenderStage *stage)
             renderer->DrawDirect(left, (int)floor(bottom), color.getAddr(), bgColor.getAddr(), p1.c_str());
             auto nextLeft = left + renderer->Bounds(p1.c_str()).width();
 
-            auto p2 = renderText.substr(min(cursorPos, selectionStartPos) + STR_PROMPT.length(), (unsigned)abs((int)cursorPos - (int)selectionStartPos));
+            auto p2 = getSelection();
             renderer->DrawDirect((int)nextLeft, (int)floor(bottom), color.getAddr(), selectionBgColor.getAddr(), p2.c_str());
             nextLeft += renderer->Bounds(p2.c_str()).width();
 
@@ -196,4 +217,40 @@ void TerminalSceneFrame::deleteSelection(std::string replace)
 {
     currentLine = currentLine.substr(0, min(cursorPos, selectionStartPos)) + replace + currentLine.substr(max(cursorPos, selectionStartPos));
     selectionStartPos = cursorPos = min(selectionStartPos, cursorPos) + replace.length();
+}
+std::string TerminalSceneFrame::getSelection()
+{
+    return currentLine.substr(min(cursorPos, selectionStartPos), (unsigned)abs((int)cursorPos - (int)selectionStartPos));
+}
+
+static std::string clipboardContents = ""s;
+std::string TerminalSceneFrame::getClipboardContents()
+{
+    std::string text;
+    if (OpenClipboard(NULL))
+    {
+        HANDLE clip;
+        clip = GetClipboardData(CF_TEXT);
+        text = (LPSTR)GlobalLock(clip);
+        GlobalUnlock(clip);
+        CloseClipboard();
+    }
+    return text;
+}
+void TerminalSceneFrame::setClipboardContents(std::string contents)
+{
+    if (OpenClipboard(NULL))
+    {
+        EmptyClipboard();
+        HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, contents.size() + 1);
+        if (!hg) {
+            CloseClipboard();
+            return;
+        }
+        memcpy(GlobalLock(hg), contents.c_str(), contents.size() + 1);
+        GlobalUnlock(hg);
+        SetClipboardData(CF_TEXT, hg);
+        CloseClipboard();
+        GlobalFree(hg);
+    }
 }
