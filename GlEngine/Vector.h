@@ -240,7 +240,7 @@ public:
         return values[idx];
     }
 
-    inline const ElemT *getAddr() const
+    inline const ElemT (&getAddr() const)[dimension]
     {
         return values;
     }
