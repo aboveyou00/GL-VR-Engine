@@ -95,17 +95,17 @@ bool SpatpartSceneFrame::Initialize()
     wallObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .4f, .8f, .2f }, { .9f, .9f, .9f }, 5.0f));
     wallGobj->AddComponent(wallObjLoader);
 
-    auto dragonGobj = new GlEngine::GameObject(this, "Dragon");
-    dragonGobj->globalTransform()->SetPosition({ 5, 0, 5 });
-    auto dragonObjLoader = new GlEngine::ObjLoader("Resources/dragon.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
-    dragonObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .9f, .3f, .5f }, { .9f, .9f, .9f }, 5.0f));
-    dragonGobj->AddComponent(dragonObjLoader);
+    //auto dragonGobj = new GlEngine::GameObject(this, "Dragon");
+    //dragonGobj->globalTransform()->SetPosition({ 5, 0, 5 });
+    //auto dragonObjLoader = new GlEngine::ObjLoader("Resources/dragon.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    //dragonObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .9f, .3f, .5f }, { .9f, .9f, .9f }, 5.0f));
+    //dragonGobj->AddComponent(dragonObjLoader);
 
-    auto dargonGobj = new GlEngine::GameObject(this, "Dargon");
-    dargonGobj->globalTransform()->SetPosition({ -5, 0, -5 });
-    auto dargonObjLoader = new GlEngine::ObjLoader("Resources/dargon.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
-    dargonObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .3, .2, .2 }, { .9f, .9f, .9f }, 5.0f));
-    dargonGobj->AddComponent(dargonObjLoader);
+    //auto dargonGobj = new GlEngine::GameObject(this, "Dargon");
+    //dargonGobj->globalTransform()->SetPosition({ -5, 0, -5 });
+    //auto dargonObjLoader = new GlEngine::ObjLoader("Resources/dargon.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    //dargonObjLoader->OverrideMaterial(new GlEngine::PhongMaterial({ .3, .2, .2 }, { .9f, .9f, .9f }, 5.0f));
+    //dargonGobj->AddComponent(dargonObjLoader);
 
     for (size_t q = 0; q < TEST_POINT_COUNT; q++)
     {

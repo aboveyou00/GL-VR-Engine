@@ -7,6 +7,8 @@
 #include "../LightSourceObject.h"
 #include "../LabControlsComponent.h"
 
+#include "PythonEvaluator.h"
+
 typedef GlEngine::PointLightSource PointLightSource;
 
 DiffuseSceneFrame::DiffuseSceneFrame()
@@ -45,6 +47,9 @@ bool DiffuseSceneFrame::Initialize()
     auto pointLight3 = lightSource3->component<PointLightSourceObject>()->lightSource();
     auto torus3 = OrbitingLight::Create(this, "Torus3", { 1, 1, 1 }, { .75f, .75f, .75f }, pointLight3, { 0, 1, 0 });
     torus3->localTransform()->SetPosition({ 5, 0, -5 });
+
+    auto evaluator = GlEngine::PythonEvaluator(this);
+    evaluator.EvaluateSingle("3 + 4");
 
     return true;
 }

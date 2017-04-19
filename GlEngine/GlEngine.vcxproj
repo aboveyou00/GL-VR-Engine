@@ -92,14 +92,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\fbx-sdk\include;$(SolutionDir)GlEngine\Middleware\yse\include;$(SolutionDir)GlEngine\Middleware\glew\include;$(SolutionDir)GlEngine\Middleware\freetype2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\include;\Python36\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest /IGNORE:4630,4506 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk-md.lib;freetype27d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32;$(SolutionDir)GlEngine\Middleware\fbx-sdk\lib\vs2015\x86\debug;$(SolutionDir)GlEngine\Middleware\yse\lib;$(SolutionDir)GlEngine\Middleware\freetype2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk-md.lib;python3.lib;python36.lib;freetype27d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\lib\debug;\Python36\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,7 +127,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\fbx-sdk\include;$(SolutionDir)GlEngine\Middleware\yse\include;$(SolutionDir)GlEngine\Middleware\glew\include;$(SolutionDir)GlEngine\Middleware\freetype2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GlEngine\Middleware\include;\Python36\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/std:c++latest</AdditionalOptions>
     </ClCompile>
@@ -136,8 +136,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk-md.lib;freetype27.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\glew\lib\Release\Win32;$(SolutionDir)GlEngine\Middleware\fbx-sdk\lib\vs2015\x86\release;$(SolutionDir)GlEngine\Middleware\yse\lib;$(SolutionDir)GlEngine\Middleware\freetype2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGl32.lib;glu32.lib;glew32.lib;libyse32.lib;libfbxsdk.lib;python3.lib;python36.lib;freetype27.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)GlEngine\Middleware\lib\release;\Python36\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -196,12 +196,14 @@
     <ClInclude Include="PointLightInfo.h" />
     <ClInclude Include="PointLightSource.h" />
     <ClInclude Include="PropertyResolutionEagerness.h" />
+    <ClInclude Include="PythonEvaluator.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderPipeline.h" />
     <ClInclude Include="RenderStage.h" />
     <ClInclude Include="RenderTargetViewMode.h" />
     <ClInclude Include="RawShaderFactory.h" />
+    <ClInclude Include="ScriptEvaluator.h" />
     <ClInclude Include="ShaderFactoryError.h" />
     <ClInclude Include="PropertySourceFlag.h" />
     <ClInclude Include="PropertyFlag.h" />
@@ -427,6 +429,7 @@
     <ClCompile Include="PropertyProvider.cpp" />
     <ClCompile Include="PropertySource.cpp" />
     <ClCompile Include="PropertyType_attribs.cpp" />
+    <ClCompile Include="PythonEvaluator.cpp" />
     <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RandomUtils.cpp" />
     <ClCompile Include="RawShaderFactory.cpp" />
@@ -437,6 +440,7 @@
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ScriptEvaluator.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="ShaderProp.cpp" />
     <ClCompile Include="SimpleRenderPipeline.cpp" />
