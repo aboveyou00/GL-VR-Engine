@@ -55,8 +55,12 @@ namespace GlEngine
             goto default_wnd_proc;
 
         case WM_CHAR:
-            //Util::Log(LogType::Console, "WM_CHAR: %d", wParam);
-            events.PushEvent(new Events::CharEvent((char)wParam, lParam & 0xFF, (lParam >> 16) & 0xF, !!(lParam & 0x1000)));
+            ctrl = (GetKeyState(VK_CONTROL) & 0b10000000) != 0;
+            if (!ctrl) //Don't send a message if ctrl was pressed
+            {
+                auto chrEvt = new Events::CharEvent((char)wParam, lParam & 0xFF, (lParam >> 16) & 0xF, !!(lParam & 0x1000));
+                events.PushEvent(chrEvt);
+            }
             goto default_wnd_proc;
 
         case WM_KEYDOWN:
