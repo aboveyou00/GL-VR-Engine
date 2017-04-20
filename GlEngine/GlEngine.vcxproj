@@ -200,6 +200,8 @@
     <ClInclude Include="PropertyResolutionEagerness.h" />
     <ClInclude Include="PythonEvaluator.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="QuickLaunch.h" />
+    <ClInclude Include="QuickLaunchLoop.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RenderPipeline.h" />
     <ClInclude Include="RenderStage.h" />
@@ -433,6 +435,8 @@
     <ClCompile Include="PropertySource.cpp" />
     <ClCompile Include="PropertyType_attribs.cpp" />
     <ClCompile Include="PythonEvaluator.cpp" />
+    <ClCompile Include="QuickLaunch.cpp" />
+    <ClCompile Include="QuickLaunchLoop.cpp" />
     <ClCompile Include="RawComponent.cpp" />
     <ClCompile Include="RandomUtils.cpp" />
     <ClCompile Include="RawShaderFactory.cpp" />

@@ -43,6 +43,19 @@ namespace GlEngine
         if (stackIdx != -1) _frameStack[stackIdx]->Tick(delta);
     }
 
+    void FrameStack::PushFrame(Frame *frame)
+    {
+        //TODO: Log helpful error messages, don't crash program
+        assert(stackIdx < MAX_FRAME_STACK_SIZE - 1);
+        _frameStack[++stackIdx] = frame;
+        if (stackIdx != 0) _frameStack[stackIdx - 1]->FrameMasked(*this);
+        frame->FramePushed(*this);
+        if (initialized)
+        {
+            bool result = frame->Initialize();
+            assert(result);
+        }
+    }
     void FrameStack::PopFrame()
     {
         //TODO: Log helpful error messages, don't crash program

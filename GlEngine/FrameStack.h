@@ -32,18 +32,10 @@ namespace GlEngine
         T *PushNewFrame(TArgs... args)
         {
             T *t = new T(args...);
-            //TODO: Log helpful error messages, don't crash program
-            assert(stackIdx < MAX_FRAME_STACK_SIZE - 1);
-            _frameStack[++stackIdx] = t;
-            if (stackIdx != 0) _frameStack[stackIdx - 1]->FrameMasked(*this);
-            t->FramePushed(*this);
-            if (initialized)
-            {
-                bool result = t->Initialize();
-                assert(result);
-            }
+            PushFrame(t);
             return t;
         }
+        void PushFrame(Frame *frame);
         void PopFrame();
         Frame *CurrentFrame();
 

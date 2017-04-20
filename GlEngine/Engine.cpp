@@ -108,6 +108,20 @@ namespace GlEngine
         }
     }
 
+    int Engine::QuickLaunchFrame(std::string name, std::string logFile, std::string configFile, unsigned frameRate, Frame * frame)
+    {
+        this_thread_name() = "main";
+        this_thread_type() = ThreadType::WndProc;
+
+        QuickLaunch quickLaunch(name, logFile, configFile, frameRate);
+        quickLaunch.SetInitialFrame(frame);
+        if (!quickLaunch.Initialize()) return -1;
+
+        quickLaunch.MessageLoop();
+        quickLaunch.Shutdown();
+        return 0;
+    }
+
     void createDefaultServices(ServiceProvider &serviceProvider)
     {
         auto logger = serviceProvider.GetService<ILogger>();

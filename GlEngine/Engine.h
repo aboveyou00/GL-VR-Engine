@@ -4,6 +4,7 @@
 #include "EventQueue.h"
 #include "ServiceProvider.h"
 #include "Window.h"
+#include "QuickLaunch.h"
 
 #define THIS_ENGINE (GlEngine::Engine::GetInstance())
 
@@ -47,6 +48,14 @@ namespace GlEngine
         virtual std::string name() override;
 
         void MessageLoop();
+
+        template <typename T, typename... TArgs>
+        int QuickLaunchFrame(std::string name, std::string logFile, std::string configFile, unsigned frameRate, TArgs... args)
+        {
+            auto t = new T(args...);
+            return QuickLaunchFrame(name, logFile, configFile, frameRate, t);
+        }
+        int QuickLaunchFrame(std::string name, std::string logFile, std::string configFile, unsigned frameRate, Frame *frame);
 
     private:
         Events::EventQueue _events;
