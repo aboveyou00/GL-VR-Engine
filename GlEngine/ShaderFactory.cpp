@@ -144,7 +144,7 @@ namespace GlEngine
             }
 
             unsigned texIdx = 0;
-            auto blend = false;
+            auto blend = !this->material()->IsOpaque();
             for (auto &it : _textures)
             {
                 if (!it.second->IsOpaque()) blend = true;
