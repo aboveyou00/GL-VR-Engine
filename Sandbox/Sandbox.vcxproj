@@ -177,8 +177,6 @@
     <ClInclude Include="Lab02_Features\FeaturesSceneFrame.h" />
     <ClInclude Include="Lab03_LightsAndEffects\MultiPhongMaterial.h" />
     <ClInclude Include="RawGraphicsObject.h" />
-    <ClInclude Include="Sandbox.h" />
-    <ClInclude Include="SandboxLoop.h" />
     <ClInclude Include="Lab01_Diffuse\DiffuseSceneFrame.h" />
     <ClInclude Include="Lab03_LightsAndEffects\StageGraphicsObject.h" />
     <ClInclude Include="stdafx.h" />
@@ -230,8 +228,6 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\MultiPhongMaterial.cpp" />
     <ClCompile Include="RawGraphicsObject.cpp" />
-    <ClCompile Include="Sandbox.cpp" />
-    <ClCompile Include="SandboxLoop.cpp" />
     <ClCompile Include="Lab01_Diffuse\DiffuseSceneFrame.cpp" />
     <ClCompile Include="CameraTargetComponent.cpp" />
     <ClCompile Include="Lab03_LightsAndEffects\Tree.cpp" />
@@ -242,7 +238,7 @@
     <ClCompile Include="Lab06_Distortion\distort_source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="sandbox.config">
+    <None Include="sandbox.cfg">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
