@@ -16,8 +16,6 @@
 #include "AudioController.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
-
-#include "Threading.h"
 #include "PythonEvaluator.h"
 
 SandboxLoop::SandboxLoop(unsigned targetFPS)

@@ -11,7 +11,7 @@ namespace GlEngine
     class IConfigProvider;
 }
 
-class Sandbox : GlEngine::IInitializable
+class Sandbox : public GlEngine::IInitializable
 {
 public:
     Sandbox();
