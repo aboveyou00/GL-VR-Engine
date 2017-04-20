@@ -9,6 +9,9 @@
 #include "ViewPort.h"
 #include "StringUtils.h"
 
+#include "ClipPlaneGraphicsObject.h"
+#include "GameObject.h"
+
 typedef GlEngine::Events::KeyboardEvent KeyboardEvent;
 typedef GlEngine::Events::KeyboardEventType KeyboardEventType;
 typedef GlEngine::Events::CharEvent CharEvent;
@@ -30,9 +33,12 @@ bool TerminalSceneFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
 
-    auto pipeline = new GlEngine::SimpleRenderPipeline(this, { { GlEngine::renderStage_opaque, nullptr } });
-    SetMainPipeline(pipeline);
+    CreateDefaultPipeline();
 
+    auto clipPlane = new GlEngine::GameObject(this, "ClipPlane"s);
+    auto clipPlaneGobj = new ClipPlaneGraphicsObject("ClipPlaneGfx"s, Vector<4> { 0.f, 0.f, 0.f, 0.5f });
+    clipPlane->AddComponent(clipPlaneGobj);
+    
     return true;
 }
 
@@ -207,11 +213,13 @@ void TerminalSceneFrame::Render(GlEngine::RenderStage *stage)
     if (showTerminal && renderer != nullptr)
     {
         Frame::Render(stage);
+        if (stage != GlEngine::renderStage_opaque) return;
+
         auto lineHeight = renderer->lineHeight();
         auto bottom = this->currentRenderTarget->viewPort(stage)->height() - lineHeight;
         auto left = 8;
 
-        Vector<4> color = { 0, 0, 0, 1 };
+        Vector<4> color = { 1.f, 1.f, 1.f, 1.f };
         Vector<4> bgColor = { 0, 0, 0, 0 };
         Vector<4> selectionBgColor = { .4f, .4f, 1.f, .8f };
         auto renderText = STR_PROMPT + currentLine;
