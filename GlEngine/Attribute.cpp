@@ -75,6 +75,19 @@ namespace GlEngine
             {
             }
         );
+        
+        Attribute attr_GlClipPosition = Attribute(
+            "attr_GlClipPosition"s,
+            {
+                new Snippet("[out:0] = vec4([in:0], 1);",
+                            { &prop_Position }, 
+                            { &prop_GlPosition }, 
+                            PropertySourceFlag::None, 
+                            { ComponentType::Vertex }),
+            },
+            {
+            }
+        );
 
         Attribute attr_ModelViewNormal = Attribute(
             "attr_ModelViewNormal"s,
