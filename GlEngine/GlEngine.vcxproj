@@ -166,6 +166,8 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="BoxCollision.h" />
     <ClInclude Include="CharEvent.h" />
+    <ClInclude Include="ClipPlaneGraphicsObject.h" />
+    <ClInclude Include="ClipPlaneMaterial.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CubeGraphicsObject.h" />
     <ClInclude Include="GridSpatialPartitions.h" />
@@ -220,6 +222,7 @@
     <ClInclude Include="TaskState.h" />
     <ClInclude Include="TaskType.h" />
     <ClInclude Include="TemplateUtils.h" />
+    <ClInclude Include="TerminalSceneFrame.h" />
     <ClInclude Include="TextureFlag.h" />
     <ClInclude Include="ThreadType.h" />
     <ClInclude Include="TileBoxBody.h" />
@@ -365,6 +368,8 @@
     <ClCompile Include="AudioSourceComponent.cpp" />
     <ClCompile Include="BasicCollisionGroup.cpp" />
     <ClCompile Include="CharEvent.cpp" />
+    <ClCompile Include="ClipPlaneGraphicsObject.cpp" />
+    <ClCompile Include="ClipPlaneMaterial.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CubeGraphicsObject.cpp" />
     <ClCompile Include="GridSpatialPartitions.cpp" />
@@ -460,6 +465,7 @@
     </ClCompile>
     <ClCompile Include="Subroutine.cpp" />
     <ClCompile Include="Task.cpp" />
+    <ClCompile Include="TerminalSceneFrame.cpp" />
     <ClCompile Include="TileBoxBody.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Texture.cpp" />

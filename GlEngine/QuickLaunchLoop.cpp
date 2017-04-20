@@ -2,12 +2,14 @@
 #include "QuickLaunchLoop.h"
 #include "FrameStack.h"
 
+#include "TerminalSceneFrame.h"
+#include "PythonEvaluator.h"
+
 #include "Engine.h"
 #include "Event.h"
 #include "AudioController.h"
 #include "ServiceProvider.h"
 #include "ILogger.h"
-//#include "PythonEvaluator.h"
 
 namespace GlEngine
 {
@@ -63,8 +65,8 @@ namespace GlEngine
         if (!_frames->Initialize()) return false;
 
         _frames->PushFrame(_initialFrame);
-        //auto terminal = _frames->PushNewFrame<TerminalSceneFrame>(_frames.CurrentFrame());
-        //terminal->CreateEvaluator<GlEngine::PythonEvaluator>();
+        auto terminal = _frames->PushNewFrame<TerminalSceneFrame>(_frames->CurrentFrame());
+        terminal->CreateEvaluator<PythonEvaluator>();
 
         return true;
     }
