@@ -8,6 +8,7 @@
 #include "AmbientLightSource.h"
 #include "Texture.h"
 #include "PlaneGraphicsObject.h"
+#include "ObjLoader.h"
 
 WorldEditorFrame::WorldEditorFrame()
 {
@@ -19,7 +20,7 @@ WorldEditorFrame::~WorldEditorFrame()
 bool WorldEditorFrame::Initialize()
 {
     if (!Frame::Initialize()) return false;
-    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 11, 20);
+    CreateSpatialPartitions<GlEngine::OctreeSpatialPartitions>(Vector<3>{20, 20, 20}, Vector<3>{0, 0, 0}, 6, 20);
 
     GlEngine::CameraComponent *camera;
     auto pipeline = CreateDefaultPipeline(camera);
@@ -35,13 +36,9 @@ bool WorldEditorFrame::Initialize()
     //controls->SetControllingLight(light);
     auto ambient = new GlEngine::AmbientLightSource({ .2f, .2f, .2f });
 
-    auto grassTex = GlEngine::Texture::FromFile("Textures/grass1.png"s);
-    auto groundPlane = new GlEngine::GameObject(this, "Ground");
-    const float GROUND_SIZE = 256.f;
-    auto groundPlaneGfx = new GlEngine::PlaneGraphicsObject("Plane_Ground", new GlEngine::PhongMaterial(grassTex, { .9f, .9f, .9f }, 5.0f), { GROUND_SIZE, GROUND_SIZE }, { 30.f, 30.f }, { 20, 20 });
-    groundPlaneGfx->AddPropertyProvider(ambient);
-    groundPlaneGfx->AddPropertyProvider(light);
-    groundPlane->AddComponent(groundPlaneGfx);
+    auto danHide = new GlEngine::GameObject(this, "Daniel's Hideout");
+    auto danHideGfx = new GlEngine::ObjLoader("Resources/dan_hide/AIWorld.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    danHide->AddComponent(danHideGfx);
 
     return true;
 }
