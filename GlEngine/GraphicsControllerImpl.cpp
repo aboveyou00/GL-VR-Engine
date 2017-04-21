@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "GraphicsControllerImpl.h"
 #include "Matrix.h"
-#include "OpenGl.h"
-#include "WindowsUtils.h"
 #include "LogUtils.h"
 #include "Engine.h"
 #include "WindowManager.h"
 #include "ResourceLoader.h"
+
+#include "Engine.h"
+#include "GraphicsAdapter.h"
 
 #include "CameraComponent.h"
 #include "Frame.h"
@@ -84,30 +85,6 @@ namespace GlEngine
 
         void GraphicsControllerImpl::MakeDefaultContext()
         {
-            _hglrc = wglCreateContext(_hdc);
-            if (_hglrc == nullptr)
-            {
-                Util::Log(LogType::ErrorC, "wglCreateContext failed: %s", Util::GetLastErrorAsString());
-            }
-
-            wglMakeCurrent(_hdc, _hglrc);
-        }
-
-        bool GraphicsControllerImpl::LoadGlewExtensions()
-        {
-            glewExperimental = TRUE;
-            GLenum err = glewInit();
-            if (err != GLEW_OK)
-            {
-                Util::Log(LogType::ErrorC, "Error in glewInit: %s", glewGetErrorString(err));
-                return false;
-            }
-            checkForGlError();
-
-            //TODO: Load any glew extensions
-            //glewGetExtension();
-
-            return true;
         }
 
         std::string GraphicsControllerImpl::name()
@@ -120,12 +97,9 @@ namespace GlEngine
             this_thread_name() = "graphics";
             this_thread_type() = ThreadType::Graphics;
 
-            MakeDefaultContext();
-            if (!LoadGlewExtensions()) return false;
-            //wglMakeCurrent(nullptr, nullptr);
+            THIS_ENGINE.graphicsAdapter().MakeDefaultContext(_hdc);
 
-            auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-            logger->Log(GlEngine::LogType::Info, "Beginning OpenGL graphics thread");
+            Util::Log(GlEngine::LogType::Info, "Beginning graphics thread");
 
             return true;
         }
@@ -176,8 +150,7 @@ namespace GlEngine
             auto &resources = *Engine::GetInstance().GetServiceProvider().GetService<ResourceLoader>();
             resources.ShutdownGraphics();
 
-            auto logger = GlEngine::Engine::GetInstance().GetServiceProvider().GetService<GlEngine::ILogger>();
-            logger->Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");
+            Util::Log(GlEngine::LogType::Info, "Terminating OpenGL graphics thread");
         }
     }
 }

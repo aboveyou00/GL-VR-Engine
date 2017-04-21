@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FontRendererSettings.h"
-#include "OpenGl.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 

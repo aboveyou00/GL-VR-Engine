@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UnsafeVboFactory.h"
 #include "VbObjectAttribList.h"
-#include "OpenGl.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 #include "VaoFactory.h"
 
 namespace GlEngine

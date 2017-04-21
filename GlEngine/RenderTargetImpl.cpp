@@ -7,6 +7,8 @@
 #include "ICamera.h"
 #include "RenderPipeline.h"
 
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
+
 namespace GlEngine::Impl
 {
     RenderTargetImpl::RenderTargetImpl(RenderPipeline* pipeline)

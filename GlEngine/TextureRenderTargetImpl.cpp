@@ -2,6 +2,7 @@
 #include "TextureRenderTargetImpl.h"
 #include "TextureFlag.h"
 #include "LogUtils.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 
 namespace GlEngine::Impl
 {

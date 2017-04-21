@@ -2,6 +2,7 @@
 #include "WindowRenderTargetImpl.h"
 #include "Window.h"
 #include "MatrixStack.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 
 namespace GlEngine::Impl
 {

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "FontRenderer.h"
 
-#include "OpenGl.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 #include <assert.h>
 #include <iostream>
 #include FT_GLYPH_H

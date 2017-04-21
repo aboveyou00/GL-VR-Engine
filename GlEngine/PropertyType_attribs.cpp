@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "PropertyType_attribs.h"
-
 #include "StringUtils.h"
-
-#include "OpenGl.h"
 #include "Texture.h"
+#include "Engine.h"
+#include "GraphicsAdapter.h"
 
 namespace GlEngine
 {
@@ -42,8 +41,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<bool>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform1i(uniformLocation, val);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<int>::glsl_name()
@@ -56,8 +54,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<int>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform1i(uniformLocation, val);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<unsigned>::glsl_name()
@@ -70,8 +67,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<unsigned>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform1ui(uniformLocation, val);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<float>::glsl_name()
@@ -84,8 +80,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<float>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform1f(uniformLocation, val);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<double>::glsl_name()
@@ -98,8 +93,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<double>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform1d(uniformLocation, val);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 #pragma endregion
 
@@ -114,8 +108,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<2, bool>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<3, bool>>::glsl_name()
@@ -128,8 +121,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<3, bool>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<4, bool>>::glsl_name()
@@ -142,8 +134,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<4, bool>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 #pragma endregion
 
@@ -158,8 +149,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<2, int>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform2i(uniformLocation, val[0], val[1]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<3, int>>::glsl_name()
@@ -172,8 +162,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<3, int>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform3i(uniformLocation, val[0], val[1], val[2]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<4, int>>::glsl_name()
@@ -186,8 +175,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<4, int>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform4i(uniformLocation, val[0], val[1], val[2], val[3]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 #pragma endregion
 
@@ -202,8 +190,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<2, unsigned>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform2ui(uniformLocation, val[0], val[1]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<3, unsigned>>::glsl_name()
@@ -216,8 +203,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<3, unsigned>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform3ui(uniformLocation, val[0], val[1], val[2]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<4, unsigned>>::glsl_name()
@@ -230,8 +216,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<4, unsigned>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform4ui(uniformLocation, val[0], val[1], val[2], val[3]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 #pragma endregion
 
@@ -246,8 +231,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<2>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform2f(uniformLocation, val[0], val[1]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<3>>::glsl_name()
@@ -260,8 +244,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<3>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform3f(uniformLocation, val[0], val[1], val[2]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<4>>::glsl_name()
@@ -274,8 +257,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<4>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform4f(uniformLocation, val[0], val[1], val[2], val[3]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 #pragma endregion
 
@@ -290,8 +272,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<2, double>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform2d(uniformLocation, val[0], val[1]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
 
         std::string PropertyType_attribs<Vector<3, double>>::glsl_name()
@@ -304,8 +285,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<3, double>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform3d(uniformLocation, val[0], val[1], val[2]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Vector<3, double>>::glsl_attribute_size()
         {
@@ -322,8 +302,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Vector<4, double>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniform4d(uniformLocation, val[0], val[1], val[2], val[3]);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Vector<4, double>>::glsl_attribute_size()
         {
@@ -342,8 +321,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<2, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniformMatrix2fv(uniformLocation, 1, false, val.getAddr());
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<2, 2>>::glsl_attribute_size()
         {
@@ -360,8 +338,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<2, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<2, 3>>::glsl_attribute_size()
         {
@@ -378,8 +355,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<2, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<2, 4>>::glsl_attribute_size()
         {
@@ -396,8 +372,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<3, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<3, 2>>::glsl_attribute_size()
         {
@@ -414,8 +389,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<3, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniformMatrix3fv(uniformLocation, 1, false, val.getAddr());
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<3, 3>>::glsl_attribute_size()
         {
@@ -432,8 +406,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<3, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<3, 4>>::glsl_attribute_size()
         {
@@ -450,8 +423,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<4, 2>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<4, 2>>::glsl_attribute_size()
         {
@@ -468,8 +440,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<4, 3>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            uniformLocation; val;
-            assert(false);
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<4, 3>>::glsl_attribute_size()
         {
@@ -486,8 +457,7 @@ namespace GlEngine
         }
         void PropertyType_attribs<Matrix<4, 4>>::set_glsl_uniform(unsigned uniformLocation, const T &val)
         {
-            glUniformMatrix4fv(uniformLocation, 1, true, val.getAddr());
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, val);
         }
         constexpr unsigned PropertyType_attribs<Matrix<4, 4>>::glsl_attribute_size()
         {
@@ -503,8 +473,8 @@ namespace GlEngine
         void PropertyType_attribs<Texture*>::set_glsl_uniform(unsigned uniformLocation, const T &value)
         {
             assert(value->isReady());
-            glUniform1i(uniformLocation, value->glslTextureLocation());
-            checkForGlError();
+            auto tex_loc = value->glslTextureLocation();
+            THIS_ENGINE.graphicsAdapter().SetUniform(uniformLocation, tex_loc);
         }
         constexpr PropertyFlag PropertyType_attribs<Texture*>::default_property_flags()
         {
@@ -519,8 +489,7 @@ namespace GlEngine
         {
             uniformLocation; //TODO: What gives? Where do I use this?
             unsigned sr_loc = value->glslSubroutineLocation();
-            glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &sr_loc);
-            checkForGlError();
+            THIS_ENGINE.graphicsAdapter().SetSubroutineUniform(sr_loc);
         }
         constexpr PropertyFlag PropertyType_attribs<Subroutine*>::default_property_flags()
         {

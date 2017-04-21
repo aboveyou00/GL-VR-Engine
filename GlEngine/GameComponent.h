@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IAsyncInitializable.h"
-#include "RenderTargetLayer.h"
 
 namespace GlEngine::Events
 {

@@ -6,8 +6,6 @@
 #include "Property.h"
 #include "Attribute.h"
 
-#include "OpenGl.h"
-
 namespace GlEngine
 {
     DiffuseMaterial::DiffuseMaterial(Vector<3> color, Vector<3> reflectionCoef)

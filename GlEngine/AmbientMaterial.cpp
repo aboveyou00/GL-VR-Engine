@@ -7,7 +7,6 @@
 #include "Attribute.h"
 
 #include "Texture.h"
-#include "OpenGl.h"
 
 namespace GlEngine
 {

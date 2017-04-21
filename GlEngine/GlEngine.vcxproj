@@ -170,6 +170,7 @@
     <ClInclude Include="ClipPlaneMaterial.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="CubeGraphicsObject.h" />
+    <ClInclude Include="GraphicsAdapter.h" />
     <ClInclude Include="GridSpatialPartitions.h" />
     <ClInclude Include="DiffuseMaterial.h" />
     <ClInclude Include="DirectionalLightSource.h" />
@@ -261,7 +262,6 @@
     <ClInclude Include="PropertyType_attribs.h" />
     <ClInclude Include="RawComponent.h" />
     <ClInclude Include="RandomUtils.h" />
-    <ClInclude Include="RenderTargetLayer.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ShaderFactory.h" />
     <ClInclude Include="ShaderProp.h" />
@@ -311,7 +311,6 @@
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Octree.h" />
-    <ClInclude Include="OpenGl.h" />
     <ClInclude Include="PathUtils.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="RigidBody.h" />
@@ -372,6 +371,7 @@
     <ClCompile Include="ClipPlaneMaterial.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="CubeGraphicsObject.cpp" />
+    <ClCompile Include="GraphicsAdapter.cpp" />
     <ClCompile Include="GridSpatialPartitions.cpp" />
     <ClCompile Include="DirectionalLightSource.cpp" />
     <ClCompile Include="DummyPropertySource.cpp" />
@@ -448,7 +448,6 @@
     <ClCompile Include="RenderPipeline.cpp" />
     <ClCompile Include="RenderStage.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="RenderTargetLayer.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -460,8 +459,8 @@
     <ClCompile Include="SpatialPartitions.cpp" />
     <ClCompile Include="SpotlightSource.cpp" />
     <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Subroutine.cpp" />
     <ClCompile Include="Task.cpp" />
@@ -501,7 +500,10 @@
     <ClCompile Include="ServiceProvider.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Threading.cpp" />
-    <ClCompile Include="StringUtils.cpp" />
+    <ClCompile Include="StringUtils.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="TimeUtils.cpp" />
     <ClCompile Include="UnsafeVboFactory_CompileVbo.cpp" />
     <ClCompile Include="VbObjectAttrib.cpp" />

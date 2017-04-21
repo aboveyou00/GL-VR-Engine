@@ -2,7 +2,6 @@
 
 #include "GraphicsObject.h"
 #include "ShaderFactory.h"
-#include "RenderTargetLayer.h"
 #include "VBOFactory.h"
 #include "VboFactoryGraphicsObject.h"
 

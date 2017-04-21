@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Font.h"
 #include <map>
-#include "OpenGl.h"
 #include "FontRenderer.h"
 #include "FontSettings.h"
 

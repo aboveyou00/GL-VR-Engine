@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Shader.h"
-#include "OpenGl.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 #include <fstream>
 #include <unordered_map>
 

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "MatrixStack.h"
 
-#include "OpenGl.h"
-
 namespace GlEngine
 {
     MatrixStack::MatrixStack()

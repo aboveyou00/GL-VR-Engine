@@ -8,6 +8,7 @@ namespace GlEngine
     class IConfigProvider;
     class QuickLaunchLoop;
     class Frame;
+    class GraphicsAdapter;
 
     class QuickLaunch : public GlEngine::IInitializable
     {
@@ -30,6 +31,7 @@ namespace GlEngine
     private:
         std::string _name, _logName, _configName;
         QuickLaunchLoop *_loop;
+        GraphicsAdapter *_gfxAdapter;
 
         GlEngine::ILogger *logger = nullptr;
         GlEngine::IConfigProvider *config = nullptr;

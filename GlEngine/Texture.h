@@ -41,7 +41,7 @@ namespace GlEngine
         void Pop();
 
         unsigned glslTextureId();
-        unsigned glslTextureLocation();
+        int glslTextureLocation();
 
     protected:
         unsigned gl_tex, gl_sampler;
@@ -50,7 +50,8 @@ namespace GlEngine
         bool initialized;
         std::string path;
         unsigned char *image;
-        unsigned width, height, gl_index;
+        unsigned width, height;
+        int gl_index;
         TextureFlag _flags;
     };
 }

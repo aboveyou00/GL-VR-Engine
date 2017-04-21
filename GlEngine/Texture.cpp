@@ -10,7 +10,7 @@
 #include "ILogger.h"
 #include "ResourceLoader.h"
 
-#include "OpenGl.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 
 static bool decodeOneStep(const char *filename, unsigned char *&image, unsigned &width, unsigned &height)
 {
@@ -186,7 +186,7 @@ namespace GlEngine
     {
         return gl_tex;
     }
-    unsigned Texture::glslTextureLocation()
+    int Texture::glslTextureLocation()
     {
         return gl_index;
     }

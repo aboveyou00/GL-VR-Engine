@@ -4,7 +4,7 @@
 #include "ShaderFactory.h"
 #include "VboFactory.h"
 #include "Material.h"
-#include "OpenGl.h"
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 
 namespace GlEngine
 {

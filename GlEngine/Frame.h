@@ -2,7 +2,6 @@
 
 #include "IInitializable.h"
 #include "ICamera.h"
-#include "RenderTargetLayer.h"
 #include <unordered_map>
 #include "RenderPipeline.h"
 #include "SpatialPartitions.h"

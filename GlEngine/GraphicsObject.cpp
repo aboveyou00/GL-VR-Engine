@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "GraphicsObject.h"
 
-#include "OpenGl.h"
 #include "VBOFactory.h"
 
 #include "Engine.h"

@@ -12,12 +12,14 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Environment.h"
-#include "OpenGl.h"
 
 #include "Engine.h"
+#include "GraphicsAdapter.h"
 #include "ResourceLoader.h"
 #include "Attribute.h"
 #include <sstream>
+
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 
 namespace GlEngine
 {
@@ -131,8 +133,11 @@ namespace GlEngine
             ScopedLock lock(_mux);
             assert(this->isReady());
 
-            glDisable(GL_CULL_FACE); //TODO: remove this! This is temporary!
-            checkForGlError();
+            auto &gfxAdapter = THIS_ENGINE.graphicsAdapter();
+            gfxAdapter.ForkCapabilities();
+
+            //TODO: remove this! This is temporary!
+            gfxAdapter.SetCapability(GraphicsCap::CullFace, false);
 
             _shader->Push();
             _textures.clear();
@@ -151,10 +156,9 @@ namespace GlEngine
                 it.second->Push(texIdx++);
                 PropertyType_attribs<Texture*>::set_glsl_uniform(it.first, it.second);
             }
+            gfxAdapter.SetCapability(GraphicsCap::Blend, blend);
             if (blend)
             {
-                glEnable(GL_BLEND);
-                checkForGlError();
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 checkForGlError();
             }
@@ -174,10 +178,9 @@ namespace GlEngine
         {
             ScopedLock lock(_mux);
 
-            glEnable(GL_CULL_FACE);
-            checkForGlError();
-            glDisable(GL_BLEND);
-            checkForGlError();
+            auto &gfxAdapter = THIS_ENGINE.graphicsAdapter();
+            gfxAdapter.PopCapabilities();
+
             for (auto &it : _textures)
                 it.second->Pop();
 

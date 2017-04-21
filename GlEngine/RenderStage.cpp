@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "RenderStage.h"
-#include "OpenGl.h"
+#include "Engine.h"
+#include "GraphicsAdapter.h"
+
+#include "../OpenGlGraphicsAdapter/OpenGl.h"
 
 namespace GlEngine
 {
@@ -17,34 +20,49 @@ namespace GlEngine
     
     RenderStage* renderStage_opaque = new RenderStage("opaque",
         []() {
-            glEnable(GL_DEPTH_TEST);
-            checkForGlError();
-            glEnable(GL_CULL_FACE);
-            checkForGlError();
+            auto &graphicsAdapter = THIS_ENGINE.graphicsAdapter();
+            graphicsAdapter.ForkCapabilities();
+            graphicsAdapter.SetCapability(GraphicsCap::DepthTest, true);
+            graphicsAdapter.SetCapability(GraphicsCap::CullFace, true);
+
             glDepthFunc(GL_LEQUAL);
             checkForGlError();
+        },
+        []() {
+            auto &graphicsAdapter = THIS_ENGINE.graphicsAdapter();
+            graphicsAdapter.PopCapabilities();
         }
     );
     
     RenderStage* renderStage_translucent = new RenderStage("translucent",
         []() {
-            glEnable(GL_DEPTH_TEST);
-            checkForGlError();
-            glEnable(GL_CULL_FACE);
-            checkForGlError();
+            auto &graphicsAdapter = THIS_ENGINE.graphicsAdapter();
+            graphicsAdapter.ForkCapabilities();
+            graphicsAdapter.SetCapability(GraphicsCap::DepthTest, true);
+            graphicsAdapter.SetCapability(GraphicsCap::CullFace, true);
+
             glDepthFunc(GL_LEQUAL);
             checkForGlError();
+        },
+        []() {
+            auto &graphicsAdapter = THIS_ENGINE.graphicsAdapter();
+            graphicsAdapter.PopCapabilities();
         }
     );
 
     RenderStage* renderStage_2d = new RenderStage("2d", 
         []() {
-            glDisable(GL_DEPTH_TEST);
-            checkForGlError();
-            glDisable(GL_CULL_FACE);
-            checkForGlError();
+            auto &graphicsAdapter = THIS_ENGINE.graphicsAdapter();
+            graphicsAdapter.ForkCapabilities();
+            graphicsAdapter.SetCapability(GraphicsCap::DepthTest, false);
+            graphicsAdapter.SetCapability(GraphicsCap::CullFace, false);
+
             glDepthFunc(GL_NEVER);
             checkForGlError();
+        },
+        []() {
+            auto &graphicsAdapter = THIS_ENGINE.graphicsAdapter();
+            graphicsAdapter.PopCapabilities();
         }
     );
 }

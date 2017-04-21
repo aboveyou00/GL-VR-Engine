@@ -2,7 +2,6 @@
 
 #include "GraphicsObject.h"
 #include "VaObject.h"
-#include "RenderTargetLayer.h"
 #include "vbo_element_t.h"
 
 namespace GlEngine

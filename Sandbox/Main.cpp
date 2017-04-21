@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Engine.h"
+#include "../OpenGlGraphicsAdapter/OpenGlGraphicsAdapter.h"
 
 #include "Lab01_Diffuse/DiffuseSceneFrame.h"
 #include "Lab02_Features/FeaturesSceneFrame.h"
@@ -14,6 +15,9 @@
 
 int main(int, char**)
 {
+    auto openGlAdapter = GlEngine::Adapters::OpenGlGraphicsAdapter::Instance();
+    THIS_ENGINE.SetGraphicsAdapter(openGlAdapter);
+
     return THIS_ENGINE.QuickLaunchFrame<SpatpartSceneFrame>(
         "Sandbox"s,     //Name of game
         "sandbox.log"s, //Name of log file

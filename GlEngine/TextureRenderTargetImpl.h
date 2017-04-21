@@ -32,6 +32,6 @@ namespace GlEngine::Impl
 
     protected:
         Texture *texture;
-        GLuint frameBuffer, depthRenderBuffer;
+        unsigned frameBuffer, depthRenderBuffer;
     };
 }

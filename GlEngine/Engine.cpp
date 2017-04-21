@@ -122,6 +122,15 @@ namespace GlEngine
         return 0;
     }
 
+    void Engine::SetGraphicsAdapter(GraphicsAdapter *gfxAdapter)
+    {
+        _gfxAdapter = gfxAdapter;
+    }
+    GraphicsAdapter &Engine::graphicsAdapter()
+    {
+        return *_gfxAdapter;
+    }
+
     void createDefaultServices(ServiceProvider &serviceProvider)
     {
         auto logger = serviceProvider.GetService<ILogger>();

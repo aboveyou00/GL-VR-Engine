@@ -1,6 +1,5 @@
 #pragma once
 
-#include "RenderTargetLayer.h"
 #include "IPropertyProvider.h"
 #include "GameComponent.h"
 

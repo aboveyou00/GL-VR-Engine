@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "VboGraphicsObject.h"
-
-#include "OpenGl.h"
 #include "VboFactory.h"
 
 namespace GlEngine

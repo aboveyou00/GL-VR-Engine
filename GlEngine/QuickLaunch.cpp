@@ -17,7 +17,7 @@
 namespace GlEngine
 {
     QuickLaunch::QuickLaunch(std::string name, std::string logName, std::string configName, unsigned frameRate)
-        : _name(name), _logName(logName), _configName(configName), _loop(new QuickLaunchLoop(frameRate))
+        : _name(name), _logName(logName), _configName(configName), _loop(new QuickLaunchLoop(frameRate)), _gfxAdapter(nullptr)
     {
     }
     QuickLaunch::~QuickLaunch()

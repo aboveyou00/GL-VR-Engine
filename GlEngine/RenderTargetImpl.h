@@ -1,9 +1,7 @@
 #pragma once
 
 #include "IInitializable.h"
-#include "OpenGl.h"
 #include "ViewPort.h"
-#include "RenderTargetLayer.h"
 #include "RenderTargetViewMode.h"
 #include "RenderStage.h"
 

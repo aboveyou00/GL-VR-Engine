@@ -11,6 +11,7 @@
 namespace GlEngine
 {
     class WindowManager;
+    class GraphicsAdapter;
     class GraphicsController;
     class AudioController;
 
@@ -57,8 +58,12 @@ namespace GlEngine
         }
         int QuickLaunchFrame(std::string name, std::string logFile, std::string configFile, unsigned frameRate, Frame *frame);
 
+        void SetGraphicsAdapter(GraphicsAdapter *_gfxAdapter);
+        GraphicsAdapter &graphicsAdapter();
+
     private:
         Events::EventQueue _events;
         ServiceProvider _services;
+        GraphicsAdapter *_gfxAdapter;
     };
 }

@@ -6,4 +6,4 @@
 
 #define BUFFER_OFFSET(expr) ((char*)NULL + (expr)) 
 
-void checkForGlError();
+void ENGINE_SHARED checkForGlError();
