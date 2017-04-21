@@ -24,19 +24,27 @@ namespace GlEngine
     bool MeshMaterialGraphicsObject::InitializeAsync()
     {
         assert(_mesh != nullptr);
-        SetMaterial(material());
 
         for (size_t i = 0; i < _mesh->vertices->size(); i++)
         {
             AddVertex((*_mesh->vertices)[i], (*_mesh->texCoords)[i], (*_mesh->normals)[i]);
         }
-        for (Vector<3, unsigned> triangle : *_mesh->triangles)
+        for (auto it = _mesh->_faces->begin(); it != _mesh->_faces->end(); it++)
         {
-            AddTriangle(triangle[0], triangle[1], triangle[2]);
-        }
-        for (Vector<4, unsigned> quad : *_mesh->quads)
-        {
-            AddQuad(quad[0], quad[1], quad[2], quad[3]);
+            Material *mat;
+            MeshFaces *faces;
+            std::tie(mat, faces) = *it;
+            if (mat == nullptr) mat = material();
+            SetMaterial(mat);
+
+            for (Vector<3, unsigned> triangle : *faces->triangleIndices)
+            {
+                AddTriangle(triangle[0], triangle[1], triangle[2]);
+            }
+            for (Vector<4, unsigned> quad : *faces->quadIndices)
+            {
+                AddQuad(quad[0], quad[1], quad[2], quad[3]);
+            }
         }
 
         return VboGraphicsObject::InitializeAsync();

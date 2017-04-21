@@ -6,32 +6,12 @@
 
 namespace GlEngine
 {
-    MeshComponent::MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<3, unsigned>> *triangles, std::vector<Vector<2>> *texCoords, std::vector<Vector<3>> *normals, bool isStatic)
-        : MeshComponent(vertices, triangles, nullptr, texCoords, normals, isStatic)
-    {
-    }
-
-    MeshComponent::MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<4, unsigned>> *quads, std::vector<Vector<2>> *texCoords, std::vector<Vector<3>> *normals, bool isStatic)
-        : MeshComponent(vertices, nullptr, quads, texCoords, normals, isStatic)
-    {
-    }
-
-    MeshComponent::MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<3, unsigned>> *triangles, std::vector<Vector<4, unsigned>> *quads, std::vector<Vector<2>> *texCoords, std::vector<Vector<3>> *normals, bool isStatic)
-        : GameComponent("Mesh"), vertices(vertices), triangles(triangles), quads(quads), texCoords(texCoords), normals(normals), isStatic(isStatic), allTriangles(new std::vector<Vector<3, unsigned>>())
+    MeshComponent::MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<2>> *texCoords, std::vector<Vector<3>> *normals, MtlFacesMap *faces, bool isStatic)
+        : GameComponent("Mesh"), vertices(vertices), texCoords(texCoords), normals(normals), _faces(faces), isStatic(isStatic), allTriangles(new std::vector<Vector<3, unsigned>>())
     {
         CalculateBounds();
-        if (triangles != nullptr) {
-            allTriangles->insert(allTriangles->begin(), triangles->begin(), triangles->end());
-        }
-        if (quads != nullptr) {
-            for (auto quad : *quads)
-            {
-                allTriangles->push_back(Vector<3, unsigned>{quad[0], quad[1], quad[2]});
-                allTriangles->push_back(Vector<3, unsigned>{quad[2], quad[3], quad[0]});
-            }
-        }
+        AddAllTriangles();
     }
-
     MeshComponent::~MeshComponent()
     {
         auto f = frame();
@@ -79,14 +59,34 @@ namespace GlEngine
         if (normals->size() != 0)
             return;
 
-        assert(triangles != nullptr); //TODO: Why is this not allTriangles?
-        for (Vector<3, unsigned> triangle : *triangles)
+        assert(allTriangles != nullptr);
+        for (Vector<3, unsigned> triangle : *allTriangles)
         {
             Vector<3> point0 = (*vertices)[triangle[0]];
             Vector<3> point1 = (*vertices)[triangle[1]];
             Vector<3> point2 = (*vertices)[triangle[2]];
 
             normals->push_back((point1 - point0).Cross(point2 - point0).Normalized());
+        }
+    }
+
+    void MeshComponent::AddAllTriangles()
+    {
+        if (_faces == nullptr) return;
+        for (auto it = _faces->begin(); it != _faces->end(); it++)
+        {
+            auto triangles = it->second->triangleIndices;
+            if (triangles != nullptr) {
+                allTriangles->insert(allTriangles->begin(), triangles->begin(), triangles->end());
+            }
+            auto quads = it->second->quadIndices;
+            if (quads != nullptr) {
+                for (auto quad : *quads)
+                {
+                    allTriangles->push_back(Vector<3, unsigned>{quad[0], quad[1], quad[2]});
+                    allTriangles->push_back(Vector<3, unsigned>{quad[2], quad[3], quad[0]});
+                }
+            }
         }
     }
 

@@ -3,25 +3,23 @@
 #include "Ray.h"
 #include "GameComponent.h"
 #include "IBoundingBox.h"
+#include "MeshFaces.h"
 
 namespace GlEngine
 {
     class ENGINE_SHARED MeshComponent : public GameComponent, public IBoundingBox
     {
     public:
-        MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<3, unsigned>> *triangles, std::vector<Vector<2>> *texCoords = {}, std::vector<Vector<3>> *normals = {}, bool isStatic = true);
-        MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<4, unsigned>> *quads, std::vector<Vector<2>> *texCoords = {}, std::vector<Vector<3>> *normals = {}, bool isStatic = true);
-        MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<3, unsigned>> *triangles, std::vector<Vector<4, unsigned>> *quads, std::vector<Vector<2>> *texCoords = {}, std::vector<Vector<3>> *normals = {}, bool isStatic = true);
+        MeshComponent(std::vector<Vector<3>> *vertices, std::vector<Vector<2>> *texCoords = {}, std::vector<Vector<3>> *normals = {}, MtlFacesMap *faces = nullptr, bool isStatic = true);
         ~MeshComponent();
 
         std::vector<Vector<3>> *vertices;
-        std::vector<Vector<3, unsigned>> *triangles;
-        std::vector<Vector<4, unsigned>> *quads;
+        std::vector<Vector<3>> *normals;
+        std::vector<Vector<2>> *texCoords;
         
         std::vector<Vector<3, unsigned>> *allTriangles;
 
-        std::vector<Vector<3>> *normals;
-        std::vector<Vector<2>> *texCoords;
+        MtlFacesMap *_faces;
 
         bool isStatic;
 
@@ -39,6 +37,8 @@ namespace GlEngine
         void CalculateNormals();
 
     private:
+        void AddAllTriangles();
+
         bool RayIntersectionInternal(Ray ray);
         bool RayIntersectionInternal(Ray ray, float* outDistance);
 
