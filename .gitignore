@@ -260,3 +260,9 @@ TileRPG/Audio
 TileRPG/Textures
 TileRPG/Resources
 TileRPG/world
+TileRPG/generated_shader/
+
+WorldEditor/Audio
+WorldEditor/Textures
+WorldEditor/Resources
+WorldEditor/generated_shader/
