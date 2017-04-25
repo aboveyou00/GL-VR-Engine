@@ -29,6 +29,7 @@ bool EditorControllerComponent::InitializeAsync()
     if (!GameComponent::InitializeAsync()) return false;
 
     if (!ExecuteFile("save-data.scene"s)) return false;
+    _selected = false;
 
     return true;
 }
@@ -93,6 +94,10 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
                 auto path = std::string(config->GetValue(("Editor.objPath."s + GlEngine::Util::itos(idx)).c_str()));
                 createObject(path);
             }
+            else if (kbEvt->GetVirtualKeyCode() == VK_DELETE && _selected != nullptr)
+            {
+                deleteObject(_selected);
+            }
             if (_selected != nullptr && (rotateAmt != 0 || translateAmt.LengthSquared() != 0))
             {
                 auto mesh = _selected->gameObject()->component<GlEngine::MeshComponent>();
@@ -131,7 +136,7 @@ bool EditorControllerComponent::ExecuteFile(std::string path)
 {
     std::ifstream in;
     in.open(path);
-    if (!in) return false;
+    if (!in) return true; //Could not find file; ignore. We'll save it out when we're done
     auto worked = ExecuteStream(in);
     in.close();
     return worked;
@@ -212,6 +217,12 @@ WorldEditorObject *EditorControllerComponent::createObject(std::string &path)
     gobj->globalTransform()->SetPosition(gameObject()->globalTransform()->position());
     gobj->globalTransform()->SetOrientation(gameObject()->globalTransform()->orientation());
     return weo;
+}
+void EditorControllerComponent::deleteObject(WorldEditorObject *obj)
+{
+    obj->gameObject()->Deactivate();
+    collection_remove(_objects, obj);
+    if (_selected == obj) _selected = nullptr;
 }
 
 void EditorControllerComponent::SaveFile(std::string path)

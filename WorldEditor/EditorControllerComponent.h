@@ -35,4 +35,5 @@ private:
 
     WorldEditorObject *_selected;
     WorldEditorObject *createObject(std::string &path);
+    void deleteObject(WorldEditorObject *obj);
 };
