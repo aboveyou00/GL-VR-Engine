@@ -36,7 +36,7 @@ bool WorldEditorFrame::Initialize()
     auto cameraTarget = new CameraTargetComponent();
     camera->gameObject()->AddComponent(cameraTarget);
     camera->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
-    auto ecc = new EditorControllerComponent({ ambient, light });
+    auto ecc = new EditorControllerComponent({ ambient, light }, true);
     camera->gameObject()->AddComponent(ecc);
 
     return true;

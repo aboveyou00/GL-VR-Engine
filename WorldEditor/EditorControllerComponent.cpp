@@ -16,8 +16,8 @@
 #include "ServiceProvider.h"
 #include "IConfigProvider.h"
 
-EditorControllerComponent::EditorControllerComponent(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers)
-    : GlEngine::GameComponent("EditorControllerComponent"), _providers(providers)
+EditorControllerComponent::EditorControllerComponent(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing)
+    : GlEngine::GameComponent("EditorControllerComponent"), _providers(providers), editing(editing)
 {
 }
 EditorControllerComponent::~EditorControllerComponent()
@@ -35,11 +35,13 @@ bool EditorControllerComponent::InitializeAsync()
 }
 void EditorControllerComponent::ShutdownAsync()
 {
-    SaveFile("save-data.scene"s);
+    if (editing) SaveFile("save-data.scene"s);
 }
 
 void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
 {
+    if (evt.IsHandled() || !editing) return;
+
     auto kbEvt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
     if (kbEvt != nullptr)
     {
@@ -109,7 +111,7 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
             }
             if (_selected != nullptr && (rotateAmt != 0 || translateAmt.LengthSquared() != 0 || scaleAmt != 1))
             {
-                auto mesh = _selected->gameObject()->component<GlEngine::MeshComponent>();
+                //auto mesh = _selected->gameObject()->component<GlEngine::MeshComponent>();
                 //frame()->spatialPartitions->RemoveStaticMesh(mesh);
                 _selected->gameObject()->globalTransform()->RotateY(rotateAmt);
                 _selected->gameObject()->globalTransform()->Scale(scaleAmt);
@@ -180,8 +182,7 @@ bool EditorControllerComponent::ExecuteCommand(std::string &command, std::string
             return false;
         }
         std::string path = line.substr(4);
-        auto weo = createObject(path);
-        //TODO: set initial position and orientation
+        createObject(path);
     }
     else if (_selected == nullptr)
     {

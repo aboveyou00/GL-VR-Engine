@@ -10,7 +10,7 @@ class WorldEditorObject;
 
 class EditorControllerComponent : public GlEngine::GameComponent {
 public:
-    EditorControllerComponent(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers);
+    EditorControllerComponent(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing);
     ~EditorControllerComponent();
 
     virtual bool InitializeAsync() override;
@@ -28,7 +28,7 @@ public:
 
 private:
     std::map<unsigned, bool> keysDown;
-    Vector<2> mouseDelta;
+    bool editing;
 
     std::vector<GlEngine::ShaderFactory::IPropertyProvider*> _providers;
     std::vector<WorldEditorObject*> _objects;
