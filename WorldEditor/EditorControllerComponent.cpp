@@ -9,6 +9,8 @@
 
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
+#include "CameraComponent.h"
+#include "Frame.h"
 
 EditorControllerComponent::EditorControllerComponent(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers)
     : GlEngine::GameComponent("EditorControllerComponent"), _providers(providers)
@@ -80,10 +82,13 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
             {
                 translateAmt += { 0, -1, 0 };
             }
-            if (_selected != nullptr)
+            if (_selected != nullptr && (rotateAmt != 0 || translateAmt.LengthSquared() != 0))
             {
-                if (rotateAmt != 0) _selected->gameObject()->globalTransform()->RotateY(rotateAmt);
-                if (translateAmt.LengthSquared() != 0) _selected->gameObject()->globalTransform()->Translate(translateAmt);
+                auto mesh = _selected->gameObject()->component<GlEngine::MeshComponent>();
+                //frame()->spatialPartitions->RemoveStaticMesh(mesh);
+                _selected->gameObject()->globalTransform()->RotateY(rotateAmt);
+                _selected->gameObject()->globalTransform()->Translate(translateAmt);
+                //frame()->spatialPartitions->AddStaticMesh(mesh);
             }
             kbEvt->Handle();
         }
@@ -95,18 +100,16 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
         {
             if (mouseEvt->button() == GlEngine::Events::MouseButton::Left)
             {
-                //TODO: raycast to select object
-                //auto ray = cameraComponent->rayToPoint(testPoints[q]);
-                //auto result = spatialPartitions->RayCast(ray, &distance);
-                //if (result != nullptr)
-                //{
-                //    raytraceDebugObjects[q]->Activate();
-                //    raytraceDebugObjects[q]->localTransform()->SetPosition(ray.origin + distance * ray.direction);
-                //}
-                //else raytraceDebugObjects[q]->Deactivate();
-                //hitFlag = hitFlag || (result != nullptr && result->gameObject() == flagGobj);
-
-                //mouseEvt->Handle();
+                auto camera = gameObject()->component<GlEngine::CameraComponent>();
+                float distance;
+                auto result = frame()->spatialPartitions->RayCast(camera->centerRay(), &distance);
+                if (result != nullptr)
+                {
+                    auto gobj = result->gameObject();
+                    auto weo = gobj == nullptr ? nullptr : gobj->component<WorldEditorObject>();
+                    if (weo != nullptr) _selected = weo;
+                }
+                mouseEvt->Handle();
             }
         }
     }

@@ -2,21 +2,21 @@
 
 obj Resources/flag.obj
 default_mat 1 0 0 0.5 0.5 0.5 10
-pos 0 0 0
+pos -5 0 2
 orient 0 0 1 0
 
 obj Resources/tree.obj
 default_mat 1 0 0 0.5 0.5 0.5 10
-pos 0 0 -3
+pos -6 0 -2
 orient 0 0 1 0
 
 obj Resources/tree.obj
 default_mat 1 0 0 0.5 0.5 0.5 10
-pos 3 0 3
-orient 0 0 1 0
+pos -1 0 4
+orient 0.809017 0 0.587785 0
 
 obj Resources/tree.obj
 default_mat 1 0 0 0.5 0.5 0.5 10
-pos -7 0 10
+pos -5 0 8
 orient 0 0 1 0
 
