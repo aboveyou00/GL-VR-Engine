@@ -9,7 +9,7 @@
 namespace GlEngine
 {
     DiffuseMaterial::DiffuseMaterial(Vector<3> color, Vector<3> reflectionCoef)
-        : Material("DiffuseMaterial"), color(color), reflectionCoef(reflectionCoef)
+        : Material("DiffuseMaterial"), color(color), _reflectionCoef(reflectionCoef)
     {
     }
     DiffuseMaterial::~DiffuseMaterial()
@@ -19,7 +19,7 @@ namespace GlEngine
     void DiffuseMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
         factory.ProvideProperty(ShaderFactory::prop_RgbColor, color);
-        factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
+        factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, _reflectionCoef);
     }
 
     bool DiffuseMaterial::IsOpaque()

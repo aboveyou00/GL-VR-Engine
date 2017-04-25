@@ -9,15 +9,15 @@
 namespace GlEngine
 {
     PhongMaterial::PhongMaterial(Vector<3> color, Vector<3> reflectionCoef, float shininess)
-        : Material("PhongMaterial"), texture(nullptr), texture2(nullptr), color(color), reflectionCoef(reflectionCoef), shininess(shininess)
+        : Material("PhongMaterial"), texture(nullptr), texture2(nullptr), _color(color), _reflectionCoef(reflectionCoef), _shininess(shininess)
     {
     }
     PhongMaterial::PhongMaterial(Texture *texture, Vector<3> reflectionCoef, float shininess)
-        : Material("PhongMaterial"), texture(texture), texture2(nullptr), reflectionCoef(reflectionCoef), shininess(shininess)
+        : Material("PhongMaterial"), texture(texture), texture2(nullptr), _reflectionCoef(reflectionCoef), _shininess(shininess)
     {
     }
     PhongMaterial::PhongMaterial(Texture *texture, Texture *texture2, Vector<3> reflectionCoef, float shininess)
-        : Material("PhongMaterial"), texture(texture), texture2(texture2), reflectionCoef(reflectionCoef), shininess(shininess)
+        : Material("PhongMaterial"), texture(texture), texture2(texture2), _reflectionCoef(reflectionCoef), _shininess(shininess)
     {
     }
     PhongMaterial::~PhongMaterial()
@@ -26,7 +26,7 @@ namespace GlEngine
 
     void PhongMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
-        if (texture == nullptr) factory.ProvideProperty(ShaderFactory::prop_RgbColor, color);
+        if (texture == nullptr) factory.ProvideProperty(ShaderFactory::prop_RgbColor, _color);
         else
         {
             factory.ProvideProperty(ShaderFactory::prop_Texture, texture);
@@ -37,8 +37,8 @@ namespace GlEngine
                 else factory.ProvideProperty(ShaderFactory::prop_Texture2, texture2);
             }
         }
-        factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, reflectionCoef);
-        factory.ProvideProperty(ShaderFactory::prop_Shininess, shininess);
+        factory.ProvideProperty(ShaderFactory::prop_ReflectionCoefficient, _reflectionCoef);
+        factory.ProvideProperty(ShaderFactory::prop_Shininess, _shininess);
     }
 
     bool PhongMaterial::IsOpaque()
@@ -102,5 +102,31 @@ namespace GlEngine
     {
         if (texture == nullptr) return true;
         return texture->isReady() && (texture2 == nullptr || texture2->isReady());
+    }
+
+    const Vector<3> &PhongMaterial::color() const noexcept
+    {
+        return _color;
+    }
+    const Vector<3> &PhongMaterial::reflectionCoef() const noexcept
+    {
+        return _reflectionCoef;
+    }
+    const float PhongMaterial::shininess() const noexcept
+    {
+        return _shininess;
+    }
+
+    void PhongMaterial::SetColor(Vector<3> color) noexcept
+    {
+        _color = color;
+    }
+    void PhongMaterial::SetReflectionCoef(Vector<3> coef) noexcept
+    {
+        _reflectionCoef = coef;
+    }
+    void PhongMaterial::SetShininess(float shininess) noexcept
+    {
+        _shininess = shininess;
     }
 }

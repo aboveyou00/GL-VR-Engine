@@ -9,6 +9,7 @@
 #include "Texture.h"
 #include "PlaneGraphicsObject.h"
 #include "ObjLoader.h"
+#include "EditorControllerComponent.h"
 
 WorldEditorFrame::WorldEditorFrame()
 {
@@ -36,9 +37,13 @@ bool WorldEditorFrame::Initialize()
     //controls->SetControllingLight(light);
     auto ambient = new GlEngine::AmbientLightSource({ .2f, .2f, .2f });
 
-    auto danHide = new GlEngine::GameObject(this, "Daniel's Hideout");
-    auto danHideGfx = new GlEngine::ObjLoader("Resources/dan_hide/AIWorld.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
-    danHide->AddComponent(danHideGfx);
+    auto eccGobj = new GlEngine::GameObject(this, "EditorController");
+    auto ecc = new EditorControllerComponent({ ambient, light });
+    eccGobj->AddComponent(ecc);
+    
+    //auto danHide = new GlEngine::GameObject(this, "Daniel's Hideout");
+    //auto danHideGfx = new GlEngine::ObjLoader("Resources/dan_hide/AIWorld.obj", { ambient, light }, GlEngine::ObjLoaderFlag::Graphics);
+    //danHide->AddComponent(danHideGfx);
 
     return true;
 }

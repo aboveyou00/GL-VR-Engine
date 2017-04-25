@@ -25,6 +25,6 @@ namespace GlEngine
 
     private:
         Vector<3> color;
-        Vector<3> reflectionCoef;
+        Vector<3> _reflectionCoef;
     };
 }

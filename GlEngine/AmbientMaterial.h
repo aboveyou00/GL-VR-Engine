@@ -23,7 +23,7 @@ namespace GlEngine
         virtual bool isReady() override;
 
     private:
-        Vector<3> color, reflectionCoef;
+        Vector<3> _color, _reflectionCoef;
         Texture *texture;
     };
 }

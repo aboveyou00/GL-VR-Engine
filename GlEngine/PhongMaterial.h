@@ -25,9 +25,17 @@ namespace GlEngine
 
         virtual bool isReady() override;
 
+        const Vector<3> &color() const noexcept;
+        const Vector<3> &reflectionCoef() const noexcept;
+        const float shininess() const noexcept;
+
+        void SetColor(Vector<3> color) noexcept;
+        void SetReflectionCoef(Vector<3> coef) noexcept;
+        void SetShininess(float shininess) noexcept;
+
     private:
         Texture *texture, *texture2;
-        Vector<3> color, reflectionCoef;
-        float shininess;
+        Vector<3> _color, _reflectionCoef;
+        float _shininess;
     };
 }

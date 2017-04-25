@@ -11,7 +11,7 @@
 namespace GlEngine
 {
     AmbientMaterial::AmbientMaterial(Vector<3> color)
-        : Material("AmbientMaterial"), texture(nullptr), color(color)
+        : Material("AmbientMaterial"), texture(nullptr), _color(color)
     {
     }
     AmbientMaterial::AmbientMaterial(Texture *texture)
@@ -25,7 +25,7 @@ namespace GlEngine
     void AmbientMaterial::Push(ShaderFactory::ShaderFactory &factory)
     {
         if (texture != nullptr) factory.ProvideProperty(ShaderFactory::prop_Texture, texture);
-        else factory.ProvideProperty(ShaderFactory::prop_RgbColor, color);
+        else factory.ProvideProperty(ShaderFactory::prop_RgbColor, _color);
     }
 
     bool AmbientMaterial::IsOpaque()

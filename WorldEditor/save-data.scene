@@ -1,0 +1,8 @@
+
+
+#Daniel's hideout
+
+obj Resources/dan_hide/AIWorld.obj
+#default_mat phong 0 .5 .5 .3 .3 .3 10
+pos 0 0 0
+orient 0 0 1 0
