@@ -54,6 +54,7 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
         if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyTyped)
         {
             float rotateAmt = 0;
+            float scaleAmt = 1;
             Vector<3> translateAmt = { };
             if (kbEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'R'>())
             {
@@ -62,6 +63,14 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
             else if (kbEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'T'>())
             {
                 rotateAmt += .1f * GlEngine::Util::PI_f;
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_OEM_PLUS)
+            {
+                scaleAmt *= 1 / .9f;
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_OEM_MINUS)
+            {
+                scaleAmt *= .9f;
             }
             else if (kbEvt->GetVirtualKeyCode() == VK_UP)
             {
@@ -98,11 +107,12 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
             {
                 deleteObject(_selected);
             }
-            if (_selected != nullptr && (rotateAmt != 0 || translateAmt.LengthSquared() != 0))
+            if (_selected != nullptr && (rotateAmt != 0 || translateAmt.LengthSquared() != 0 || scaleAmt != 1))
             {
                 auto mesh = _selected->gameObject()->component<GlEngine::MeshComponent>();
                 //frame()->spatialPartitions->RemoveStaticMesh(mesh);
                 _selected->gameObject()->globalTransform()->RotateY(rotateAmt);
+                _selected->gameObject()->globalTransform()->Scale(scaleAmt);
                 _selected->gameObject()->globalTransform()->Translate(translateAmt);
                 //frame()->spatialPartitions->AddStaticMesh(mesh);
             }
@@ -191,13 +201,19 @@ bool EditorControllerComponent::ExecuteCommand(std::string &command, std::string
     {
         float x, y, z;
         stream >> x >> y >> z;
-        _selected->gameObject()->localTransform()->SetPosition({ x, y, z });
+        _selected->gameObject()->globalTransform()->SetPosition({ x, y, z });
+    }
+    else if (command == "scale")
+    {
+        float xs, ys, zs;
+        stream >> xs >> ys >> zs;
+        _selected->gameObject()->globalTransform()->SetScale({ xs, ys, zs });
     }
     else if (command == "orient")
     {
         float real, i, j, k;
         stream >> real >> i >> j >> k;
-        _selected->gameObject()->localTransform()->SetOrientation({ real, i, j, k });
+        _selected->gameObject()->globalTransform()->SetOrientation({ real, i, j, k });
     }
     else
     {
@@ -252,6 +268,8 @@ void EditorControllerComponent::SaveStream(std::ostream &stream)
         auto transform = (*it)->gameObject()->globalTransform();
         auto pos = transform->position();
         stream << "pos " << pos[0] << " " << pos[1] << " " << pos[2] << std::endl;
+        auto scale = transform->scale();
+        stream << "scale " << scale[0] << " " << scale[1] << " " << scale[2] << std::endl;
         auto orient = transform->orientation();
         stream << "orient " << orient.real() << " " << orient.i() << " " << orient.j() << " " << orient.k() << std::endl;
 
