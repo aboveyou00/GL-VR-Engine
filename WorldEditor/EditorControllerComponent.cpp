@@ -6,11 +6,15 @@
 #include "ObjLoader.h"
 #include "PhongMaterial.h"
 #include "MathUtils.h"
+#include "StringUtils.h"
 
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
 #include "CameraComponent.h"
 #include "Frame.h"
+#include "Engine.h"
+#include "ServiceProvider.h"
+#include "IConfigProvider.h"
 
 EditorControllerComponent::EditorControllerComponent(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers)
     : GlEngine::GameComponent("EditorControllerComponent"), _providers(providers)
@@ -81,6 +85,13 @@ void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
             else if (kbEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'O'>())
             {
                 translateAmt += { 0, -1, 0 };
+            }
+            else if (kbEvt->GetVirtualKeyCode() >= VK_ALPHANUMERIC<'0'>() && kbEvt->GetVirtualKeyCode() <= VK_ALPHANUMERIC<'9'>())
+            {
+                auto idx = kbEvt->GetVirtualKeyCode() - VK_ALPHANUMERIC<'0'>();
+                auto config = THIS_ENGINE.GetServiceProvider().GetService<GlEngine::IConfigProvider>();
+                auto path = std::string(config->GetValue(("Editor.objPath."s + GlEngine::Util::itos(idx)).c_str()));
+                createObject(path);
             }
             if (_selected != nullptr && (rotateAmt != 0 || translateAmt.LengthSquared() != 0))
             {
