@@ -10,6 +10,7 @@
 #include "PlaneGraphicsObject.h"
 #include "ObjLoader.h"
 #include "EditorControllerComponent.h"
+#include "GridGraphicsObject.h"
 
 WorldEditorFrame::WorldEditorFrame()
 {
@@ -38,6 +39,9 @@ bool WorldEditorFrame::Initialize()
     camera->gameObject()->localTransform()->SetPosition({ 0, 3.5, 7 });
     auto ecc = new EditorControllerComponent({ ambient, light }, true);
     camera->gameObject()->AddComponent(ecc);
+
+    auto gridGameObject = new GlEngine::GameObject(this, "Grid");
+    gridGameObject->AddComponent(new GridGraphicsObject({ 0, 0, 1, 1 }, { 0, 0, 0 }, { 1, 1 }, { 20, 20 }));
 
     return true;
 }
