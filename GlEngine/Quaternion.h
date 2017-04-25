@@ -3,7 +3,7 @@
 #include "Vector.h"
 
 template<typename ElemT = float>
-class ENGINE_SHARED Quaternion
+class Quaternion
 {
 public:
     Quaternion(ElemT real, ElemT i, ElemT j, ElemT k)
