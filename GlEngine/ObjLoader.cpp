@@ -180,7 +180,7 @@ namespace GlEngine
 
             std::string first;
             iss >> first;
-            if (first.length() > 0 && first[0] == '#')
+            if (first.length() == 0 || first[0] == '#')
             {
                 //This is a comment. Ignore
             }
