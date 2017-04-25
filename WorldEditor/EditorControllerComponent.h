@@ -14,11 +14,15 @@ public:
     ~EditorControllerComponent();
 
     virtual bool InitializeAsync() override;
+    virtual void ShutdownAsync() override;
 
     virtual void HandleEvent(GlEngine::Events::Event &evt) override;
 
     bool ExecuteFile(std::string path);
     bool ExecuteStream(std::istream &stream);
+
+    void SaveFile(std::string path);
+    void SaveStream(std::ostream &stream);
 
     bool ExecuteCommand(std::string &command, std::string &line, std::istringstream &stream);
 

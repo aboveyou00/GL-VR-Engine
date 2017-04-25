@@ -3,6 +3,7 @@
 #include <sstream>
 #include "GameObject.h"
 #include "WorldEditorObject.h"
+#include "ObjLoader.h"
 #include "PhongMaterial.h"
 #include "MathUtils.h"
 
@@ -24,6 +25,10 @@ bool EditorControllerComponent::InitializeAsync()
     if (!ExecuteFile("save-data.scene"s)) return false;
 
     return true;
+}
+void EditorControllerComponent::ShutdownAsync()
+{
+    SaveFile("save-data.scene"s);
 }
 
 void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
@@ -193,4 +198,38 @@ WorldEditorObject *EditorControllerComponent::createObject(std::string &path)
     gobj->globalTransform()->SetPosition(gameObject()->globalTransform()->position());
     gobj->globalTransform()->SetOrientation(gameObject()->globalTransform()->orientation());
     return weo;
+}
+
+void EditorControllerComponent::SaveFile(std::string path)
+{
+    std::ofstream out;
+    out.open(path);
+    if (!out) return;
+    SaveStream(out);
+    out.close();
+}
+void EditorControllerComponent::SaveStream(std::ostream &stream)
+{
+    stream << std::endl;
+    stream << std::endl;
+
+    for (auto it = _objects.begin(); it != _objects.end(); it++)
+    {
+        auto &obj = (*it)->objLoader();
+        stream << "obj " << obj.filename() << std::endl;
+
+        auto &mat = (*it)->mat();
+        auto color = mat.color();
+        auto coef = mat.reflectionCoef();
+        auto shininess = mat.shininess();
+        stream << "default_mat " << color[0] << " " << color[1] << " " << color[2] << " " << coef[0] << " " << coef[1] << " " << coef[2] << " " << shininess << std::endl;
+
+        auto transform = (*it)->gameObject()->globalTransform();
+        auto pos = transform->position();
+        stream << "pos " << pos[0] << " " << pos[1] << " " << pos[2] << std::endl;
+        auto orient = transform->orientation();
+        stream << "orient " << orient.real() << " " << orient.i() << " " << orient.j() << " " << orient.k() << std::endl;
+
+        stream << std::endl;
+    }
 }
