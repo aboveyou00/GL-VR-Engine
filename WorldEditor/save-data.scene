@@ -1,21 +1,17 @@
 
 
 obj Resources/flag.obj
-#default_mat phong 1 0 0 .3 .3 .3 10
 pos 0 0 0
 orient 0 0 1 0
 
 obj Resources/tree.obj
-#default_mat phong 0 .8 .2 .3 .3 .3 10
 pos 0 0 -3
 orient 0 0 1 0
 
 obj Resources/tree.obj
-#default_mat phong 0 .6 .3 .8 .8 .8 10
 pos 3 0 3
-#orient 97 1 1 1
+orient 0 0 1 0
 
 obj Resources/tree.obj
-#default_mat phong .2 .6 .8 .5 .5 .5 10
 pos -3 0 3
-#orient -285 1 -1 -1
+orient 0 0 1 0

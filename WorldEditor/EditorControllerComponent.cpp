@@ -4,6 +4,10 @@
 #include "GameObject.h"
 #include "WorldEditorObject.h"
 #include "PhongMaterial.h"
+#include "MathUtils.h"
+
+#include "KeyboardEvent.h"
+#include "MouseEvent.h"
 
 EditorControllerComponent::EditorControllerComponent(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers)
     : GlEngine::GameComponent("EditorControllerComponent"), _providers(providers)
@@ -21,6 +25,89 @@ bool EditorControllerComponent::InitializeAsync()
 
     return true;
 }
+
+void EditorControllerComponent::HandleEvent(GlEngine::Events::Event &evt)
+{
+    auto kbEvt = dynamic_cast<GlEngine::Events::KeyboardEvent*>(&evt);
+    if (kbEvt != nullptr)
+    {
+        if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyPressed)
+        {
+            this->keysDown[kbEvt->GetVirtualKeyCode()] = true;
+        }
+        if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyReleased)
+        {
+            this->keysDown[kbEvt->GetVirtualKeyCode()] = false;
+        }
+        if (kbEvt->type() == GlEngine::Events::KeyboardEventType::KeyTyped)
+        {
+            float rotateAmt = 0;
+            Vector<3> translateAmt = { };
+            if (kbEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'R'>())
+            {
+                rotateAmt -= .1f * GlEngine::Util::PI_f;
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'T'>())
+            {
+                rotateAmt += .1f * GlEngine::Util::PI_f;
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_UP)
+            {
+                translateAmt += { 0, 0, 1 };
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_DOWN)
+            {
+                translateAmt += { 0, 0, -1 };
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_LEFT)
+            {
+                translateAmt += { -1, 0, 0 };
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_RIGHT)
+            {
+                translateAmt += { 1, 0, 0 };
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'L'>())
+            {
+                translateAmt += { 0, 1, 0 };
+            }
+            else if (kbEvt->GetVirtualKeyCode() == VK_ALPHANUMERIC<'O'>())
+            {
+                translateAmt += { 0, -1, 0 };
+            }
+            if (_selected != nullptr)
+            {
+                if (rotateAmt != 0) _selected->gameObject()->globalTransform()->RotateY(rotateAmt);
+                if (translateAmt.LengthSquared() != 0) _selected->gameObject()->globalTransform()->Translate(translateAmt);
+            }
+            kbEvt->Handle();
+        }
+    }
+    auto mouseEvt = dynamic_cast<GlEngine::Events::MouseEvent*>(&evt);
+    if (mouseEvt != nullptr)
+    {
+        if (mouseEvt->type() == GlEngine::Events::MouseEventType::Pressed)
+        {
+            if (mouseEvt->button() == GlEngine::Events::MouseButton::Left)
+            {
+                //TODO: raycast to select object
+                //auto ray = cameraComponent->rayToPoint(testPoints[q]);
+                //auto result = spatialPartitions->RayCast(ray, &distance);
+                //if (result != nullptr)
+                //{
+                //    raytraceDebugObjects[q]->Activate();
+                //    raytraceDebugObjects[q]->localTransform()->SetPosition(ray.origin + distance * ray.direction);
+                //}
+                //else raytraceDebugObjects[q]->Deactivate();
+                //hitFlag = hitFlag || (result != nullptr && result->gameObject() == flagGobj);
+
+                //mouseEvt->Handle();
+            }
+        }
+    }
+    if (!evt.IsHandled()) GameComponent::HandleEvent(evt);
+}
+
 bool EditorControllerComponent::ExecuteFile(std::string path)
 {
     std::ifstream in;
@@ -103,5 +190,7 @@ WorldEditorObject *EditorControllerComponent::createObject(std::string &path)
     gobj->AddComponent(weo);
     this->_selected = weo;
     this->_objects.push_back(weo);
+    gobj->globalTransform()->SetPosition(gameObject()->globalTransform()->position());
+    gobj->globalTransform()->SetOrientation(gameObject()->globalTransform()->orientation());
     return weo;
 }
