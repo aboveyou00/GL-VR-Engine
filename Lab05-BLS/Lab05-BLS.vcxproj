@@ -147,6 +147,8 @@
     <ClInclude Include="EditorControllerComponent.h" />
     <ClInclude Include="GridGraphicsObject.h" />
     <ClInclude Include="LightSourceObject.h" />
+    <ClInclude Include="PathingNodeObject.h" />
+    <ClInclude Include="PathingNodesController.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WidgetObject.h" />
     <ClInclude Include="Lab05Frame.h" />
@@ -157,11 +159,14 @@
     <ClCompile Include="EditorControllerComponent.cpp" />
     <ClCompile Include="GridGraphicsObject.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PathingNodeObject.cpp" />
+    <ClCompile Include="PathingNodesController.cpp" />
     <ClCompile Include="WidgetObject.cpp" />
     <ClCompile Include="Lab05Frame.cpp" />
     <ClCompile Include="WorldEditorObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ai-pathing.nodemap" />
     <None Include="save-data.scene" />
     <None Include="world-editor.cfg" />
   </ItemGroup>

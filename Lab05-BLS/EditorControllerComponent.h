@@ -2,7 +2,8 @@
 
 #include "GameComponent.h"
 
-namespace GlEngine::ShaderFactory {
+namespace GlEngine::ShaderFactory
+{
     class IPropertyProvider;
 }
 

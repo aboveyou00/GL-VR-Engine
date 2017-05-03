@@ -10,7 +10,9 @@
 #include "PlaneGraphicsObject.h"
 #include "ObjLoader.h"
 #include "EditorControllerComponent.h"
+#include "PathingNodesController.h"
 #include "GridGraphicsObject.h"
+#include "PathingNodesController.h"
 
 Lab05Frame::Lab05Frame()
 {
@@ -42,6 +44,10 @@ bool Lab05Frame::Initialize()
 
     auto gridGameObject = new GlEngine::GameObject(this, "Grid");
     gridGameObject->AddComponent(new GridGraphicsObject({ 0, 0, 1, 1 }, { 0, 0, 0 }, { 1, 1 }, { 20, 20 }));
+
+    auto pathingNodesObj = new GlEngine::GameObject(this, "PathingNodesObject");
+    auto pathingNodes = new PathingNodesController({ ambient, light }, true, camera);
+    pathingNodesObj->AddComponent(pathingNodes);
 
     return true;
 }
