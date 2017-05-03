@@ -267,3 +267,9 @@ WorldEditor/Textures
 WorldEditor/Resources
 WorldEditor/generated_shader/
 WorldEditor/save-data.scene
+
+Lab05-BLS/Audio
+Lab05-BLS/Textures
+Lab05-BLS/Resources
+Lab05-BLS/generated_shader/
+Lab05-BLS/save-data.scene
