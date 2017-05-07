@@ -52,8 +52,10 @@ private:
     PathingNodeObject *createObject(unsigned idx, Vector<3> pos);
     void connectObjects(unsigned idx1, unsigned idx2);
     void disconnectObjects(unsigned idx1, unsigned idx2);
-    void autoconnectObject(unsigned idx1);
+    void autoconnectObject(unsigned idx1, bool update = false);
     void deleteObject(PathingNodeObject *obj);
+
+    void queueUpdate();
 
     NodeSelectionGraphicsObject *_currentSelection, *_hoverSelection;
 };

@@ -31,8 +31,13 @@ inline void SafeDelete(T *&ptr)
 }
 
 template <typename IterT, typename ElemT>
-void collection_remove(IterT &collection, ElemT &item)
+bool collection_remove(IterT &collection, ElemT &item)
 {
     auto idx = std::find(collection.begin(), collection.end(), item);
-    if (idx != collection.end()) collection.erase(idx);
+    if (idx != collection.end())
+    {
+        collection.erase(idx);
+        return true;
+    }
+    return false;
 }

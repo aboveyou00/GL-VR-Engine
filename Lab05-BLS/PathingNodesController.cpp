@@ -157,9 +157,10 @@ void PathingNodesController::HandleEvent(GlEngine::Events::Event &evt)
                 }
                 else if (mouseEvt->button() == GlEngine::Events::MouseButton::Right)
                 {
-                    if (pno != nullptr)
+                    if (_selected != nullptr && _selected != pno && pno != nullptr)
                     {
-                        //...
+                        if (!collection_remove(_selected->connections(), pno)) _selected->connections().push_back(pno);
+                        queueUpdate();
                     }
                 }
             }
@@ -254,7 +255,7 @@ PathingNodeObject *PathingNodesController::createObject(Vector<3> pos)
     PathingNodeMap::iterator it;
     while (_objects.find(idx) != _objects.end()) idx++;
     auto pno = createObject(idx, pos);
-    autoconnectObject(idx);
+    autoconnectObject(idx, true);
     return pno;
 }
 PathingNodeObject *PathingNodesController::createObject(unsigned idx, Vector<3> pos)
@@ -270,12 +271,42 @@ PathingNodeObject *PathingNodesController::createObject(unsigned idx, Vector<3> 
 
     return pno;
 }
-void PathingNodesController::autoconnectObject(unsigned idx1)
+void PathingNodesController::autoconnectObject(unsigned idx1, bool update)
 {
-    auto pno1 = _objects.find(idx1);
-    assert(pno1 != _objects.end());
+    auto pnoIt = _objects.find(idx1);
+    assert(pnoIt != _objects.end());
+    auto pno = pnoIt->second;
+    auto radius = 1.f;
 
-    //...
+    bool addedConnections = false;
+
+    for (auto it = _objects.begin(); it != _objects.end(); it++)
+    {
+        auto checkPno = it->second;
+        if (checkPno == pno) continue;
+        auto center = pno->gameObject()->globalTransform()->position() + Vector<3> { 0, 1.2f, 0 };
+        auto forwardUnnormalized = checkPno->gameObject()->globalTransform()->position() - center;
+        auto dist = forwardUnnormalized.Length();
+        auto forward = forwardUnnormalized.Normalized();
+        auto up = Vector<3> { 0, 1, 0 };
+        auto side = forward.Cross(up);
+
+        float distance;
+        GlEngine::MeshComponent *result;
+
+        result = frame()->spatialPartitions->RayCast({ center + side * radius, forward }, &distance);
+        if (result && distance < dist - 1.f) continue;
+        result = frame()->spatialPartitions->RayCast({ center - side * radius, forward }, &distance);
+        if (result && distance < dist - 1.f) continue;
+        result = frame()->spatialPartitions->RayCast({ center, forward }, &distance);
+        if (result && distance < dist - 1.f) continue;
+
+        addedConnections = true;
+        pno->connections().push_back(checkPno);
+        checkPno->connections().push_back(pno);
+    }
+
+    if (addedConnections && update) queueUpdate();
 }
 void PathingNodesController::connectObjects(unsigned idx1, unsigned idx2)
 {
@@ -304,6 +335,11 @@ void PathingNodesController::deleteObject(PathingNodeObject *obj)
         collection_remove(it->second->connections(), obj);
     }
     if (_selected == obj) _selected = nullptr;
+}
+
+void PathingNodesController::queueUpdate()
+{
+    //TODO
 }
 
 void PathingNodesController::SaveFile(std::string path)
