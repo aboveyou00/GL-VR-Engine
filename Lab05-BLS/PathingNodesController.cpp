@@ -17,7 +17,7 @@
 #include "IConfigProvider.h"
 
 PathingNodesController::PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing, GlEngine::CameraComponent *camera)
-    : GlEngine::GameComponent("EditorControllerComponent"), editing(editing), _providers(providers), _camera(camera)
+    : GlEngine::GameComponent("EditorControllerComponent"), editing(editing), _providers(providers), _camera(camera), _selected(nullptr), _currentSelection(nullptr), _hoverSelection(nullptr)
 {
     assert(!editing || camera != nullptr);
 }
@@ -37,6 +37,49 @@ bool PathingNodesController::InitializeAsync()
 void PathingNodesController::ShutdownAsync()
 {
     if (editing) SaveFile("ai-pathing.nodemap"s);
+}
+
+void PathingNodesController::Tick(float delta)
+{
+    GlEngine::GameComponent::Tick(delta);
+
+    float distance;
+    auto ray = _camera->centerRay();
+    auto result = frame()->spatialPartitions->RayCast(ray, &distance);
+    PathingNodeObject *pno = nullptr;
+    if (result != nullptr)
+    {
+        auto gobj = result->gameObject();
+        pno = gobj == nullptr ? nullptr : gobj->component<PathingNodeObject>();
+    }
+
+    if (_currentSelection != nullptr)
+    {
+        if (_selected != nullptr)
+        {
+            _currentSelection->gameObject()->SetParent(_selected->gameObject());
+            _currentSelection->Activate();
+        }
+        else _currentSelection->Deactivate();
+
+        if (pno != _selected || pno == nullptr)
+        {
+            if (pno != nullptr)
+            {
+                _hoverSelection->gameObject()->SetParent(pno->gameObject());
+                _hoverSelection->gameObject()->localTransform()->SetPosition({ 0, 0, 0 });
+                _hoverSelection->Activate();
+            }
+            else if (result != nullptr)
+            {
+                _hoverSelection->gameObject()->SetParent(nullptr);
+                _hoverSelection->gameObject()->globalTransform()->SetPosition(ray.origin + (ray.direction * distance));
+                _hoverSelection->Activate();
+            }
+            else _hoverSelection->Deactivate();
+        }
+        else _hoverSelection->Deactivate();
+    }
 }
 
 void PathingNodesController::HandleEvent(GlEngine::Events::Event &evt)
@@ -192,6 +235,17 @@ bool PathingNodesController::ExecuteCommand(std::string &command, std::string &l
         return false;
     }
     return true;
+}
+
+void PathingNodesController::GameObjectChanged()
+{
+    if (gameObject() != nullptr && (_currentSelection == nullptr))
+    {
+        _currentSelection = new NodeSelectionGraphicsObject({ 1, 0, 0, 1 });
+        _hoverSelection = new NodeSelectionGraphicsObject({ 1, .5f, .5f, .5f });
+        (new GlEngine::GameObject(frame(), "CurrentNodeSelectionObject"))->AddComponent(_currentSelection);
+        (new GlEngine::GameObject(frame(), "HoverNodeSelectionObject"))->AddComponent(_hoverSelection);
+    }
 }
 
 PathingNodeObject *PathingNodesController::createObject(Vector<3> pos)

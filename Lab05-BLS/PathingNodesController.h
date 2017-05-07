@@ -2,6 +2,7 @@
 
 #include "GameComponent.h"
 #include <unordered_map>
+#include "NodeSelectionGraphicsObject.h"
 
 class PathingNodeObject;
 namespace GlEngine
@@ -24,6 +25,8 @@ public:
     virtual bool InitializeAsync() override;
     virtual void ShutdownAsync() override;
 
+    virtual void Tick(float delta) override;
+
     virtual void HandleEvent(GlEngine::Events::Event &evt) override;
 
     bool ExecuteFile(std::string path);
@@ -33,6 +36,8 @@ public:
     void SaveStream(std::ostream &stream);
 
     bool ExecuteCommand(std::string &command, std::string &line, std::istringstream &stream);
+
+    virtual void GameObjectChanged() override;
 
 private:
     std::map<unsigned, bool> keysDown;
@@ -49,4 +54,6 @@ private:
     void disconnectObjects(unsigned idx1, unsigned idx2);
     void autoconnectObject(unsigned idx1);
     void deleteObject(PathingNodeObject *obj);
+
+    NodeSelectionGraphicsObject *_currentSelection, *_hoverSelection;
 };
