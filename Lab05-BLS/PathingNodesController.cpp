@@ -17,7 +17,14 @@
 #include "IConfigProvider.h"
 
 PathingNodesController::PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing, GlEngine::CameraComponent *camera)
-    : GlEngine::GameComponent("EditorControllerComponent"), editing(editing), _providers(providers), _camera(camera), _selected(nullptr), _currentSelection(nullptr), _hoverSelection(nullptr)
+    : GlEngine::LineSegmentGraphicsObject("EditorControllerComponent", [](GlEngine::Material*) { return nullptr; }),
+      editing(editing),
+      _providers(providers),
+      _camera(camera),
+      _selected(nullptr),
+      _currentSelection(nullptr),
+      _hoverSelection(nullptr),
+      hasReadFile(false)
 {
     assert(!editing || camera != nullptr);
 }
@@ -27,10 +34,43 @@ PathingNodesController::~PathingNodesController()
 
 bool PathingNodesController::InitializeAsync()
 {
-    if (!GlEngine::GameComponent::InitializeAsync()) return false;
+    if (!GlEngine::LineSegmentGraphicsObject::InitializeAsync()) return false;
 
-    if (!ExecuteFile("ai-pathing.nodemap"s)) return false;
-    _selected = false;
+    if (!hasReadFile)
+    {
+        hasReadFile = true;
+        if (!ExecuteFile("ai-pathing.nodemap"s)) return false;
+        _selected = false;
+    }
+
+    if (editing)
+    {
+        auto renderOffset = Vector<3>{ 0, 0.2f, 0 };
+        float radius = 1.f;
+
+        for (auto itFirst = _objects.begin(); itFirst != _objects.end(); itFirst++)
+        {
+            auto pno = itFirst->second;
+            for (auto itSecond = pno->connections().begin(); itSecond != pno->connections().end(); itSecond++)
+            {
+                auto checkPno = *itSecond;
+
+                auto center = pno->gameObject()->globalTransform()->position() + renderOffset;
+                auto otherCenter = checkPno->gameObject()->globalTransform()->position() + renderOffset;
+                auto forwardUnnormalized = otherCenter - center;
+                auto dist = forwardUnnormalized.Length();
+                auto forward = forwardUnnormalized.Normalized();
+                auto up = Vector<3>{ 0, 1, 0 };
+                auto side = forward.Cross(up);
+
+                unsigned idx0, idx1;
+
+                idx0 = AddVertex(center + (side * radius), Vector<4> { 1, 0, 0, 1 });
+                idx1 = AddVertex(otherCenter + (side * radius), Vector<4> { 1, 1, 0, 1 });
+                AddLine(idx0, idx1);
+            }
+        }
+    }
 
     return true;
 }
@@ -41,7 +81,7 @@ void PathingNodesController::ShutdownAsync()
 
 void PathingNodesController::Tick(float delta)
 {
-    GlEngine::GameComponent::Tick(delta);
+    GlEngine::LineSegmentGraphicsObject::Tick(delta);
 
     float distance;
     auto ray = _camera->centerRay();
@@ -167,7 +207,7 @@ void PathingNodesController::HandleEvent(GlEngine::Events::Event &evt)
             mouseEvt->Handle();
         }
     }
-    if (!evt.IsHandled()) GameComponent::HandleEvent(evt);
+    if (!evt.IsHandled()) LineSegmentGraphicsObject::HandleEvent(evt);
 }
 
 bool PathingNodesController::ExecuteFile(std::string path)
@@ -279,13 +319,16 @@ void PathingNodesController::autoconnectObject(unsigned idx1, bool update)
     auto radius = 1.f;
 
     bool addedConnections = false;
+    auto autoconnectOffset = Vector<3> { 0, 1.2f, 0 };
 
     for (auto it = _objects.begin(); it != _objects.end(); it++)
     {
         auto checkPno = it->second;
         if (checkPno == pno) continue;
-        auto center = pno->gameObject()->globalTransform()->position() + Vector<3> { 0, 1.2f, 0 };
-        auto forwardUnnormalized = checkPno->gameObject()->globalTransform()->position() - center;
+
+        auto center = pno->gameObject()->globalTransform()->position() + autoconnectOffset;
+        auto otherCenter = checkPno->gameObject()->globalTransform()->position() + autoconnectOffset;
+        auto forwardUnnormalized = otherCenter - center;
         auto dist = forwardUnnormalized.Length();
         auto forward = forwardUnnormalized.Normalized();
         auto up = Vector<3> { 0, 1, 0 };
