@@ -7,6 +7,7 @@
 #include "PhongMaterial.h"
 #include "MathUtils.h"
 #include "StringUtils.h"
+#include "PathingNodesGraphicsObject.h"
 
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
@@ -17,14 +18,14 @@
 #include "IConfigProvider.h"
 
 PathingNodesController::PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing, GlEngine::CameraComponent *camera)
-    : GlEngine::LineSegmentGraphicsObject("EditorControllerComponent", [](GlEngine::Material*) { return nullptr; }),
+    : GlEngine::GameComponent("EditorControllerComponent"),
       editing(editing),
       _providers(providers),
       _camera(camera),
       _selected(nullptr),
       _currentSelection(nullptr),
       _hoverSelection(nullptr),
-      hasReadFile(false)
+      _currentGfx(nullptr)
 {
     assert(!editing || camera != nullptr);
 }
@@ -34,43 +35,11 @@ PathingNodesController::~PathingNodesController()
 
 bool PathingNodesController::InitializeAsync()
 {
-    if (!GlEngine::LineSegmentGraphicsObject::InitializeAsync()) return false;
+    if (!GlEngine::GameComponent::InitializeAsync()) return false;
 
-    if (!hasReadFile)
-    {
-        hasReadFile = true;
-        if (!ExecuteFile("ai-pathing.nodemap"s)) return false;
-        _selected = false;
-    }
-
-    if (editing)
-    {
-        auto renderOffset = Vector<3>{ 0, 0.2f, 0 };
-        float radius = 1.f;
-
-        for (auto itFirst = _objects.begin(); itFirst != _objects.end(); itFirst++)
-        {
-            auto pno = itFirst->second;
-            for (auto itSecond = pno->connections().begin(); itSecond != pno->connections().end(); itSecond++)
-            {
-                auto checkPno = *itSecond;
-
-                auto center = pno->gameObject()->globalTransform()->position() + renderOffset;
-                auto otherCenter = checkPno->gameObject()->globalTransform()->position() + renderOffset;
-                auto forwardUnnormalized = otherCenter - center;
-                auto dist = forwardUnnormalized.Length();
-                auto forward = forwardUnnormalized.Normalized();
-                auto up = Vector<3>{ 0, 1, 0 };
-                auto side = forward.Cross(up);
-
-                unsigned idx0, idx1;
-
-                idx0 = AddVertex(center + (side * radius), Vector<4> { 1, 0, 0, 1 });
-                idx1 = AddVertex(otherCenter + (side * radius), Vector<4> { 1, 1, 0, 1 });
-                AddLine(idx0, idx1);
-            }
-        }
-    }
+    if (!ExecuteFile("ai-pathing.nodemap"s)) return false;
+    _selected = false;
+    queueUpdate();
 
     return true;
 }
@@ -81,7 +50,7 @@ void PathingNodesController::ShutdownAsync()
 
 void PathingNodesController::Tick(float delta)
 {
-    GlEngine::LineSegmentGraphicsObject::Tick(delta);
+    GlEngine::GameComponent::Tick(delta);
 
     float distance;
     auto ray = _camera->centerRay();
@@ -91,6 +60,14 @@ void PathingNodesController::Tick(float delta)
     {
         auto gobj = result->gameObject();
         pno = gobj == nullptr ? nullptr : gobj->component<PathingNodeObject>();
+    }
+
+    if (isUpdateQueued)
+    {
+        isUpdateQueued = false;
+        if (_currentGfx != nullptr) _currentGfx->Deactivate();
+        _currentGfx = new PathingNodesGraphicsObject(_objects);
+        gameObject()->AddComponent(_currentGfx);
     }
 
     if (_currentSelection != nullptr)
@@ -167,6 +144,7 @@ void PathingNodesController::HandleEvent(GlEngine::Events::Event &evt)
             else if (kbEvt->GetVirtualKeyCode() == VK_DELETE && _selected != nullptr)
             {
                 deleteObject(_selected);
+                queueUpdate();
             }
             if (_selected != nullptr && translateAmt.LengthSquared() != 0)
             {
@@ -174,6 +152,7 @@ void PathingNodesController::HandleEvent(GlEngine::Events::Event &evt)
                 //frame()->spatialPartitions->RemoveStaticMesh(mesh);
                 _selected->gameObject()->globalTransform()->Translate(translateAmt);
                 //frame()->spatialPartitions->AddStaticMesh(mesh);
+                queueUpdate();
             }
             kbEvt->Handle();
         }
@@ -207,7 +186,7 @@ void PathingNodesController::HandleEvent(GlEngine::Events::Event &evt)
             mouseEvt->Handle();
         }
     }
-    if (!evt.IsHandled()) LineSegmentGraphicsObject::HandleEvent(evt);
+    if (!evt.IsHandled()) GameComponent::HandleEvent(evt);
 }
 
 bool PathingNodesController::ExecuteFile(std::string path)
@@ -382,7 +361,7 @@ void PathingNodesController::deleteObject(PathingNodeObject *obj)
 
 void PathingNodesController::queueUpdate()
 {
-    //TODO
+    if (editing) isUpdateQueued = true;
 }
 
 void PathingNodesController::SaveFile(std::string path)

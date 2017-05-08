@@ -3,9 +3,9 @@
 #include "GameComponent.h"
 #include <unordered_map>
 #include "NodeSelectionGraphicsObject.h"
-#include "LineSegmentGraphicsObject.h"
 
 class PathingNodeObject;
+class PathingNodesGraphicsObject;
 namespace GlEngine
 {
     class CameraComponent;
@@ -17,7 +17,7 @@ namespace GlEngine::ShaderFactory
 
 typedef std::unordered_map<unsigned, PathingNodeObject*> PathingNodeMap;
 
-class PathingNodesController: public GlEngine::LineSegmentGraphicsObject
+class PathingNodesController: public GlEngine::GameComponent
 {
 public:
     PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing = false, GlEngine::CameraComponent *camera = nullptr);
@@ -42,7 +42,7 @@ public:
 
 private:
     std::map<unsigned, bool> keysDown;
-    bool editing, hasReadFile;
+    bool editing, isUpdateQueued;
 
     std::vector<GlEngine::ShaderFactory::IPropertyProvider*> _providers;
     PathingNodeMap _objects;
@@ -59,4 +59,5 @@ private:
     void queueUpdate();
 
     NodeSelectionGraphicsObject *_currentSelection, *_hoverSelection;
+    PathingNodesGraphicsObject *_currentGfx;
 };
