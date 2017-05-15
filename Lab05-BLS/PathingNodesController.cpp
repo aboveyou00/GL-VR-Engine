@@ -8,6 +8,8 @@
 #include "MathUtils.h"
 #include "StringUtils.h"
 #include "PathingNodesGraphicsObject.h"
+#include "AStarFollower.h"
+#include "RandomUtils.h"
 
 #include "KeyboardEvent.h"
 #include "MouseEvent.h"
@@ -17,7 +19,7 @@
 #include "ServiceProvider.h"
 #include "IConfigProvider.h"
 
-PathingNodesController::PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing, GlEngine::CameraComponent *camera)
+PathingNodesController::PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing, GlEngine::CameraComponent *camera, bool addFollower)
     : GlEngine::GameComponent("EditorControllerComponent"),
       editing(editing),
       _providers(providers),
@@ -25,9 +27,12 @@ PathingNodesController::PathingNodesController(std::vector<GlEngine::ShaderFacto
       _selected(nullptr),
       _currentSelection(nullptr),
       _hoverSelection(nullptr),
-      _currentGfx(nullptr)
+      _currentGfx(nullptr),
+      _addFollower(addFollower)
 {
     assert(!editing || camera != nullptr);
+    auto config = THIS_ENGINE.GetServiceProvider().GetService<GlEngine::IConfigProvider>();
+    _radius = config->GetValueWithDefault("Nodes.radius", 1.f);
 }
 PathingNodesController::~PathingNodesController()
 {
@@ -66,7 +71,7 @@ void PathingNodesController::Tick(float delta)
     {
         isUpdateQueued = false;
         if (_currentGfx != nullptr) _currentGfx->Deactivate();
-        _currentGfx = new PathingNodesGraphicsObject(_objects);
+        _currentGfx = new PathingNodesGraphicsObject(_objects, _radius);
         gameObject()->AddComponent(_currentGfx);
     }
 
@@ -85,12 +90,14 @@ void PathingNodesController::Tick(float delta)
             {
                 _hoverSelection->gameObject()->SetParent(pno->gameObject());
                 _hoverSelection->gameObject()->localTransform()->SetPosition({ 0, 0, 0 });
+                _hoverSelection->gameObject()->localTransform()->SetScale(1, 1, 1);
                 _hoverSelection->Activate();
             }
             else if (result != nullptr)
             {
                 _hoverSelection->gameObject()->SetParent(nullptr);
                 _hoverSelection->gameObject()->globalTransform()->SetPosition(ray.origin + (ray.direction * distance));
+                _hoverSelection->gameObject()->localTransform()->SetScale(_radius, _radius, _radius);
                 _hoverSelection->Activate();
             }
             else _hoverSelection->Deactivate();
@@ -173,6 +180,11 @@ void PathingNodesController::HandleEvent(GlEngine::Events::Event &evt)
                 {
                     if (pno != nullptr) _selected = pno;
                     else createObject(ray.origin + (ray.direction * distance));
+                }
+                else if (mouseEvt->button() == GlEngine::Events::MouseButton::Middle && follower != nullptr)
+                {
+                    if (pno != nullptr) follower->PathfindTo(pno);
+                    else if (_selected != nullptr) follower->PathfindTo(_selected);
                 }
                 else if (mouseEvt->button() == GlEngine::Events::MouseButton::Right)
                 {
@@ -259,13 +271,34 @@ bool PathingNodesController::ExecuteCommand(std::string &command, std::string &l
 
 void PathingNodesController::GameObjectChanged()
 {
-    if (gameObject() != nullptr && (_currentSelection == nullptr))
+    if (gameObject() != nullptr)
     {
-        _currentSelection = new NodeSelectionGraphicsObject({ 1, 0, 0, 1 });
-        _hoverSelection = new NodeSelectionGraphicsObject({ 1, .5f, .5f, .5f });
-        (new GlEngine::GameObject(frame(), "CurrentNodeSelectionObject"))->AddComponent(_currentSelection);
-        (new GlEngine::GameObject(frame(), "HoverNodeSelectionObject"))->AddComponent(_hoverSelection);
+        if (_currentSelection == nullptr)
+        {
+            _currentSelection = new NodeSelectionGraphicsObject({ 1, 0, 0, 1 });
+            _hoverSelection = new NodeSelectionGraphicsObject({ 1, .5f, .5f, .5f });
+            (new GlEngine::GameObject(frame(), "CurrentNodeSelectionObject"))->AddComponent(_currentSelection);
+            (new GlEngine::GameObject(frame(), "HoverNodeSelectionObject"))->AddComponent(_hoverSelection);
+        }
+        if (_addFollower)
+        {
+            _addFollower = false;
+            follower = new AStarFollower(this, _providers);
+            auto gobj = new GlEngine::GameObject(frame(), "AStarFollowerObject");
+            gobj->AddComponent(follower);
+            gobj->globalTransform()->Translate({ GlEngine::Util::random(16) - 8, GlEngine::Util::random(16) - 8, GlEngine::Util::random(8) });
+            gobj->globalTransform()->SetScale(Vector<3> { _radius, _radius, _radius } * 3);
+        }
     }
+}
+
+const PathingNodeMap &PathingNodesController::nodes() const
+{
+    return _objects;
+}
+const float PathingNodesController::radius() const
+{
+    return _radius;
 }
 
 PathingNodeObject *PathingNodesController::createObject(Vector<3> pos)
@@ -287,6 +320,7 @@ PathingNodeObject *PathingNodesController::createObject(unsigned idx, Vector<3> 
     this->_selected = pno;
     this->_objects[idx] = pno;
     gobj->globalTransform()->SetPosition(pos);
+    gobj->globalTransform()->SetScale(_radius, _radius, _radius);
 
     return pno;
 }
@@ -295,10 +329,9 @@ void PathingNodesController::autoconnectObject(unsigned idx1, bool update)
     auto pnoIt = _objects.find(idx1);
     assert(pnoIt != _objects.end());
     auto pno = pnoIt->second;
-    auto radius = 1.f;
 
     bool addedConnections = false;
-    auto autoconnectOffset = Vector<3> { 0, 1.2f, 0 };
+    auto autoconnectOffset = Vector<3> { 0, _radius * .2f, 0 };
 
     for (auto it = _objects.begin(); it != _objects.end(); it++)
     {
@@ -316,9 +349,9 @@ void PathingNodesController::autoconnectObject(unsigned idx1, bool update)
         float distance;
         GlEngine::MeshComponent *result;
 
-        result = frame()->spatialPartitions->RayCast({ center + side * radius, forward }, &distance);
+        result = frame()->spatialPartitions->RayCast({ center + side * _radius, forward }, &distance);
         if (result && distance < dist - 1.f) continue;
-        result = frame()->spatialPartitions->RayCast({ center - side * radius, forward }, &distance);
+        result = frame()->spatialPartitions->RayCast({ center - side * _radius, forward }, &distance);
         if (result && distance < dist - 1.f) continue;
         result = frame()->spatialPartitions->RayCast({ center, forward }, &distance);
         if (result && distance < dist - 1.f) continue;

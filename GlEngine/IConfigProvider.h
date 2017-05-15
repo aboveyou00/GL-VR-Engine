@@ -68,7 +68,8 @@ namespace GlEngine
         T GetValue(const char *const key)
         {
             T value;
-            assert(GetValue(key, value));
+            auto worked = GetValue(key, value);
+            if (!worked) throw std::invalid_argument("The requested key does not exist: "s + key);
             return value;
         }
 

@@ -41,3 +41,11 @@ bool collection_remove(IterT &collection, ElemT &item)
     }
     return false;
 }
+
+template <typename TKey, typename TVal>
+TVal get_with_default(std::map<TKey, TVal> &map, TKey key, TVal default)
+{
+    auto it = map.find(key);
+    if (it == map.end()) return default;
+    else return it->second;
+}

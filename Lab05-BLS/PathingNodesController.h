@@ -6,6 +6,7 @@
 
 class PathingNodeObject;
 class PathingNodesGraphicsObject;
+class AStarFollower;
 namespace GlEngine
 {
     class CameraComponent;
@@ -20,7 +21,7 @@ typedef std::unordered_map<unsigned, PathingNodeObject*> PathingNodeMap;
 class PathingNodesController: public GlEngine::GameComponent
 {
 public:
-    PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing = false, GlEngine::CameraComponent *camera = nullptr);
+    PathingNodesController(std::vector<GlEngine::ShaderFactory::IPropertyProvider*> providers, bool editing = false, GlEngine::CameraComponent *camera = nullptr, bool addFollower = true);
     ~PathingNodesController();
 
     virtual bool InitializeAsync() override;
@@ -40,6 +41,9 @@ public:
 
     virtual void GameObjectChanged() override;
 
+    const PathingNodeMap &nodes() const;
+    const float radius() const;
+
 private:
     std::map<unsigned, bool> keysDown;
     bool editing, isUpdateQueued;
@@ -48,6 +52,7 @@ private:
     PathingNodeMap _objects;
     GlEngine::CameraComponent *_camera;
 
+    float _radius;
     PathingNodeObject *_selected;
     PathingNodeObject *createObject(Vector<3> pos);
     PathingNodeObject *createObject(unsigned idx, Vector<3> pos);
@@ -60,4 +65,7 @@ private:
 
     NodeSelectionGraphicsObject *_currentSelection, *_hoverSelection;
     PathingNodesGraphicsObject *_currentGfx;
+
+    bool _addFollower;
+    AStarFollower *follower;
 };
